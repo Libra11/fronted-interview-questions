@@ -100,6 +100,7 @@ body {
 .markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5, .markdown-body h6 { scroll-margin-top: 90px; }
 .markdown-body pre.code-block { background: #0b1024; padding: 12px 14px; border-radius: 12px; overflow: auto; border: 1px solid rgba(255,255,255,.06); }
 .markdown-body code { background: rgba(255,255,255,.07); padding: 2px 4px; border-radius: 6px; }
+.markdown-body .inline-code { background: rgba(255,255,255,.10); padding: 2px 6px; border-radius: 6px; display: inline-block; }
 .markdown-body blockquote { margin: 10px 0; padding: 8px 12px; border-left: 3px solid var(--brand); background: rgba(124,92,255,.06); border-radius: 6px; }
 .markdown-body ul, .markdown-body ol { padding-left: 22px; }
 

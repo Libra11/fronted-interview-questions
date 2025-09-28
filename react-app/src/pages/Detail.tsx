@@ -184,9 +184,18 @@ export default function Detail({ slug }: { slug: string }) {
               remarkPlugins={[remarkGfm]}
               rehypePlugins={[rehypeRaw]}
               components={{
-                code: ({ inline, className, children, ...props }) => {
-                  if (inline) return <code className={className} {...props}>{children}</code>
-                  return <CodeBlock className={className} children={children} />
+                pre: (props: any) => {
+                  const child = React.Children.toArray(props.children)[0] as any
+                  const className: string = child?.props?.className || ''
+                  const lang = (className || '').replace(/^language-/, '')
+                  const childText = mdNodeText(child?.props?.children)
+                  const isOneLine = childText && !/\n/.test(childText)
+                  const isShort = (childText || '').length <= 60
+                  const noLang = !lang
+                  if (isOneLine && isShort && noLang) {
+                    return <code className="inline-code">{childText}</code>
+                  }
+                  return <CodeBlock className={className} children={childText} />
                 },
                 h1: ({ children }) => <Heading level={1}>{children}</Heading>,
                 h2: ({ children }) => <Heading level={2}>{children}</Heading>,
