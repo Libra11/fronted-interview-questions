@@ -365,7 +365,7 @@ async function main() {
     await fsp.writeFile(path.join(REACT_PUBLIC_DIR, page), html, 'utf-8');
     // write markdown body for React to render with react-markdown
     const mdSlugPath = path.join(REACT_PUBLIC_DIR, 'md', `${slug}.md`);
-    const mdContent = `# ${meta.title || path.basename(file, '.md')}\n\n${meta.body || ''}`;
+    const mdContent = `${meta.body || ''}`;
     await fsp.writeFile(mdSlugPath, mdContent, 'utf-8');
 
     items.push({

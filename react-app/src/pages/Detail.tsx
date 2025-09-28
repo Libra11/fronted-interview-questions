@@ -35,6 +35,7 @@ export default function Detail({ slug }: { slug: string }) {
   }, [slug])
 
   const subtitle = useMemo(() => [category, ...(labels||[])].filter(Boolean).join(' · '), [category, labels])
+  const mdRender = useMemo(() => md.replace(/^\s*#\s+.+\n+/, ''), [md])
 
   // build toc from markdown (strip code fences, then collect headings)
   const toc = useMemo(() => {
@@ -140,9 +141,10 @@ export default function Detail({ slug }: { slug: string }) {
   }
 
   async function copyMarkdown() {
-    if (!md) return
+    const text = mdRender || md
+    if (!text) return
     try {
-      await copyText(md)
+      await copyText(text)
       setCopiedMd(true)
       setTimeout(() => setCopiedMd(false), 1200)
     } catch {}
@@ -153,11 +155,13 @@ export default function Detail({ slug }: { slug: string }) {
       <div className="article-head">
         <a className="back" href="#/">← 返回列表</a>
         <h1>{title}</h1>
-        {subtitle ? <div className="subtitle">{subtitle}</div> : null}
-        <div className="article-tools">
-          <button className="btn ghost" disabled={!md} onClick={copyMarkdown}>
-            {copiedMd ? '已复制 Markdown' : '复制 Markdown'}
-          </button>
+        <div className="article-subline">
+          <div className="subtitle">{subtitle}</div>
+          <div className="article-tools">
+            <button className="btn ghost" disabled={!md} onClick={copyMarkdown}>
+              {copiedMd ? '已复制 Markdown' : '复制 Markdown'}
+            </button>
+          </div>
         </div>
       </div>
       {err ? (
@@ -205,7 +209,7 @@ export default function Detail({ slug }: { slug: string }) {
                 h6: ({ children }) => <Heading level={6}>{children}</Heading>,
               }}
             >
-              {md}
+              {mdRender}
             </ReactMarkdown>
           </article>
         </>
