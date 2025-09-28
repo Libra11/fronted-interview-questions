@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[性能] 常见性能指标获取方式？【热度: 954】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：web性能指标获取&lt;/p&gt;&lt;h3&gt;常见性能指标获取方式&lt;/h3&gt;&lt;p&gt;相关性能指标问题， 可以看这个文章：&lt;a href=&quot;https://github.com/pro-collection/interview-question/i" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[性能] 常见性能指标获取方式？【热度: 954】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：web性能指标获取&lt;/p&gt;&lt;h3&gt;常见性能指标获取方式&lt;/h3&gt;&lt;p&gt;相关性能指标问题， 可以看这个文章：&lt;a href=&quot;https://github.com/pro-collection/interview-question/issues/515&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://github.com" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/516" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[性能] 常见性能指标获取方式？【热度: 954】</h1>
+      <div class="subtitle">工程化 · 工程化 · 美团</div>
+      <div class="meta">创建：2023-08-20T11:21:57Z · 更新：2023-08-20T11:22:19Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：web性能指标获取</p><h3>常见性能指标获取方式</h3><p>相关性能指标问题， 可以看这个文章：<a href="https://github.com/pro-collection/interview-question/issues/515" target="_blank" rel="noopener">https://github.com/pro-collection/interview-question/issues/515</a></p><p><strong>指标所反映的用户体验</strong></p><p>下表概述了我们的性能指标如何对应到我们的问题之上：</p><p><strong>开始了吗？</strong></p><ul><li>首次绘制、首次内容绘制 First Paint (FP) / First Contentful Paint (FCP)</li></ul><p><strong>有用吗？</strong></p><ul><li>首次有效绘制、主要元素时间点 First Meaningful Paint (FMP) / Hero Element Timing</li></ul><p><strong>能用吗？</strong></p><ul><li>可交互时间点 Time to Interactive (TTI)</li></ul><p><strong>好用吗？</strong></p><ul><li>慢会话 Long Tasks (从技术上来讲应该是：没有慢会话)</li></ul><h4>页面何时开始渲染 - FP & FCP</h4><p>这两个指标，我们可以通过 performance.getEntry、performance.getEntriesByName、performanceObserver 来获取。</p><pre class="code-block"><code class="language-ts">performance.getEntries().filter(item =&gt; item.name === &#39;first-paint&#39;)[0];  // 获取 FP 时间
+
+performance.getEntries().filter(item =&gt; item.name === &#39;first-contentful-paint&#39;)[0];  // 获取 FCP 时间
+
+performance.getEntriesByName(&#39;first-paint&#39;); // 获取 FP 时间
+
+performance.getEntriesByName(&#39;first-contentful-paint&#39;);  // 获取 FCP 时间
+
+// 也可以通过 performanceObserver 的方式获取
+var observer = new PerformanceObserver(function(list, obj) {
+    var entries = list.getEntries();
+    entries.forEach(item =&gt; {
+        if (item.name === &#39;first-paint&#39;) {
+            ...
+        }
+        if (item.name === &#39;first-contentful-paint&#39;) {
+            ...
+        }
+    })
+});
+observer.observe({type: &#39;paint&#39;});
+</code></pre><h4>页面何时渲染主要内容 - FMP & SI & LCP</h4><p><code>FMP</code>, 是一个已经废弃的性能指标。在实践过程中，由于 FMP 对页面加载的微小差异过于敏感，经常会出现结果不一致的情况。此外，该指标的定义依赖于特定于浏览器的实现细节，这意味着它不能标准化，也不能在所有 Web 浏览器中实现。目前，官方并没有提供有效的获取 FMP 的接口，因此性能分析的时候不再使用这个指标。</p><p><code>SI</code> 和 FMP 一样，官方也没有提供有效的获取接口，只能通过 lighthouse 面板来查看，不作为 Sentry 等工具做性能分析的指标。</p><p><code>LCP</code>，和 FMP 类似，但只聚焦页面首次加载时最大元素的绘制时间点，计算相对简单一些。通过 performanceObserver 这个接口，我们可以获取到 LCP 指标数据。</p><pre class="code-block"><code class="language-ts">new PerformanceObserver((entryList) =&gt; {
+    for (const entry of entryList.getEntries()) {
+        console.log(&#39;LCP candidate:&#39;, entry.startTime, entry);
+    }
+}).observe({type: &#39;largest-contentful-paint&#39;, buffered: true});
+</code></pre><h4>何时可以交互 - TTI & TBT</h4><p><code>TTI</code>, <code>time to ineractive</code>, 可交互时间， <code>lighthouse</code> 面板中的六大指标之一, 用于测量页面从开始加载到主要资源完成渲染，并能够快速、可靠地响应用户输入所需的时间, 值越小约好。</p><p>官方资料: <a href="https://web.dev/i18n/zh/tti/" target="_blank" rel="noopener">TTI</a> 。</p><p>和 FMP、SI 一样，<code>官方并没有提供获取 TTI 的有效接口</code>，只能通过 lighthouse 面板来查看。</p><p><strong>计算方式人如下</strong>:</p><ol><li>先进行 First Contentful Paint 首次内容绘制；</li></ol><ol><li>沿时间轴正向搜索时长至少为 5 秒的安静窗口，其中，安静窗口的定义为：没有长任务且不超过 2 个正在处理的网络请求;</li></ol><ol><li>沿时间轴反向搜索安静窗口之前的最后一个长任务，如果没有找到长任务，则在 FCP 步骤停止执行。</li></ol><ol><li>TTI 是安静窗口之前最后一个长任务的结束时间（如果没有找到长任务，则与 FCP 值相同）。</li></ol><p>理解计算过程如下图：</p><p><img width="1045" alt="image" src="https://github.com/pro-collection/interview-question/assets/22188674/7f26aa08-6360-4d4c-9aaf-d945690cd9d1"></p><p>TTI 表示的是完全可交互的时间， 每个 web 系统， 对 TTI 时间定义可能并不一定相同， 上面只是提供一个计算较为通用的 TTI 的一个方式。</p><h4>交互是否有延迟 - FID & MPFID & Long Task</h4><p><code>FID 和 MPFID</code> 可用来衡量用户首次交互延迟的情况，<code>Long Task</code> 用来衡量用户在使用应用的过程中遇到的延迟、阻塞情况。</p><p><strong><code>FID</code></strong>，<code>first input delay</code>, 首次输入延迟，测量从用户第一次与页面交互（例如当他们单击链接、点按按钮或使用由 JavaScript 驱动的自定义控件）直到浏览器对交互作出响应，并实际能够开始处理事件处理程序所经过的时间。官方资料: FID。</p><p>FID 指标的值越小约好。通过 performanceObserver，我们可以获取到 FID 指标数据。</p><pre class="code-block"><code class="language-ts">new PerformanceObserver((entryList) =&gt; {
+  for (const entry of entryList.getEntries()) {
+    const delay = entry.processingStart - entry.startTime;
+    console.log(&#39;FID candidate:&#39;, delay, entry);
+  }
+}).observe({type: &#39;first-input&#39;, buffered: true});
+</code></pre><p><strong><code>MPFID</code></strong>, <code>Max Potential First Input Delay</code>，最大潜在首次输入延迟，用于测量用户可能遇到的最坏情况的首次输入延迟。和 FMP 一样，这个指标已经被废弃不再使用。</p><p><strong><code>Long Task</code></strong>，衡量用户在使用过程中遇到的交互延迟、阻塞情况。这个指标，可以告诉我们哪些任务执行耗费了 50ms 或更多时间。</p><pre class="code-block"><code class="language-ts">new PerformanceObserver(function(list) {
+    var perfEntries = list.getEntries();
+    for (var i = 0; i &lt; perfEntries.length; i++) {
+        ...
+    }
+}).observe({ type: &#39;longtask&#39;});
+</code></pre><h4>页面视觉是否有稳定 - CLS</h4><p><strong><code>CLS</code></strong>, <code>Cumulative Layout Shift</code>, 累积布局偏移，用于测量整个页面生命周期内发生的所有意外布局偏移中最大一连串的布局偏移情况。官方资料: CLS。</p><p>CLS, 值越小，表示页面视觉越稳定。通过 performanceObserver，我们可以获取到 CLS 指标数据。</p><pre class="code-block"><code class="language-ts">new PerformanceObserver(function(list) {
+    var perfEntries = list.getEntries();
+    for (var i = 0; i &lt; perfEntries.length; i++) {
+        ...
+    }
+}).observe({type: &#39;layout-shift&#39;, buffered: true});
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

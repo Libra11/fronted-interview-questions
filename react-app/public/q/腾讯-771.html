@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何做  commit lint【热度: 425】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：commit 规范&lt;/p&gt;&lt;p&gt;Commit lint 是一种实践，用于在代码库中规范化提交信息的格式。这种做法通常有助于团队成员理解代码库的历史记录，以及自动化生成变更日志。下面是实施 Commit lint 的一些基本步骤：&lt;/" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何做  commit lint【热度: 425】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：commit 规范&lt;/p&gt;&lt;p&gt;Commit lint 是一种实践，用于在代码库中规范化提交信息的格式。这种做法通常有助于团队成员理解代码库的历史记录，以及自动化生成变更日志。下面是实施 Commit lint 的一些基本步骤：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;选择 Commit 信息规范：&lt;/strong&gt; 首先，你需要选择一个提交信息的规范" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/771" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何做  commit lint【热度: 425】</h1>
+      <div class="subtitle">腾讯 · 工程化 · 腾讯</div>
+      <div class="meta">创建：2024-05-26T03:20:47Z · 更新：2024-05-26T03:20:48Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：commit 规范</p><p>Commit lint 是一种实践，用于在代码库中规范化提交信息的格式。这种做法通常有助于团队成员理解代码库的历史记录，以及自动化生成变更日志。下面是实施 Commit lint 的一些基本步骤：</p><ol><li><strong>选择 Commit 信息规范：</strong> 首先，你需要选择一个提交信息的规范，最常见的是<a href="https://www.conventionalcommits.org/" target="_blank" rel="noopener">Conventional Commits</a>，它具有明确的结构和规则。</li></ol><ol><li><strong>配置 Linter 工具：</strong> <a href="https://commitlint.js.org/#/" target="_blank" rel="noopener">commitlint</a> 是一个流行的工具，用于检查提交信息是否符合规定的格式。安装 commitlint，通常是作为项目的开发依赖。</li></ol><p>```bash</p><p>npm install --save-dev @commitlint/{config-conventional,cli}</p><p>```</p><ol><li><strong>设置 commitlint 配置：</strong> 在你的项目根目录下创建一个名为 <code>commitlint.config.js</code> 的文件，并且导入你选择的规范：</li></ol><p>```javascript</p><p>module.exports = { extends: ["@commitlint/config-conventional"] };</p><p>```</p><ol><li><strong>安装钩子（Hook）管理工具：</strong> <a href="https://typicode.github.io/husky/#/" target="_blank" rel="noopener">Husky</a> 是一个钩子管理工具，它可以助你轻松的在 Git 挂钩中添加脚本（例如，在 commit 之前检查提交信息格式）。</li></ol><p>```bash</p><p>npm install husky --save-dev</p><p>```</p><ol><li><strong>配置 Husky 来使用 commitlint</strong>:</li></ol><ul><li>初始化 husky：</li></ul><p>```bash</p><p>npx husky install</p><p>```</p><ul><li>添加 <code>commit-msg</code> 钩子来使用 commitlint。执行非交互式的命令配置钩子脚本：</li></ul><p>```bash</p><p>npx husky add .husky/commit-msg 'npx --no-install commitlint --edit "$1"'</p><p>```</p><p>这行代码会在<code>.husky/commit-msg</code>文件中创建一个钩子，并且在你试图创建提交时，会调用 commitlint 来检查你的提交信息。</p><ol><li><strong>提交代码：</strong> 当你提交代码时，Husky 会触发 <code>commit-msg</code> 钩子调用 commitlint 检查提交信息。如果信息不符合规范，提交将被拒绝，并显示错误信息。</li></ol><ol><li><strong>配置 CI/CD 流水线：</strong> 为了确保规范被强制执行，可以在 CI/CD 流水线中添加一步来执行 commitlint。这样，如果提交的信息不符合规范，构建将会失败。</li></ol></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

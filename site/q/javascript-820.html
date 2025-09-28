@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>手写瀑布流布局【热度: 551】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：瀑布流布局&lt;/p&gt;&lt;blockquote&gt;作者备注， 此文章属于转载&lt;/blockquote&gt;&lt;blockquote&gt;原文作者：有机后脑 &lt;/blockquote&gt;&lt;blockquote&gt;链接：https://juejin.cn/p" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="手写瀑布流布局【热度: 551】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：瀑布流布局&lt;/p&gt;&lt;blockquote&gt;作者备注， 此文章属于转载&lt;/blockquote&gt;&lt;blockquote&gt;原文作者：有机后脑 &lt;/blockquote&gt;&lt;blockquote&gt;链接：https://juejin.cn/post/7360534173718167579 &lt;/blockquote&gt;&lt;blockquote&gt;来源：稀土掘金 &lt;/b" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/820" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>手写瀑布流布局【热度: 551】</h1>
+      <div class="subtitle">JavaScript · JavaScript · 阿里巴巴</div>
+      <div class="meta">创建：2024-08-17T10:35:05Z · 更新：2024-08-17T10:35:05Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：瀑布流布局</p><blockquote>作者备注， 此文章属于转载</blockquote><blockquote>原文作者：有机后脑  </blockquote><blockquote>链接：https://juejin.cn/post/7360534173718167579  </blockquote><blockquote>来源：稀土掘金  </blockquote><blockquote>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</blockquote><hr /><h3>瀑布流布局</h3><p>当前主流的一些软件当中我们常常可以看见这样的一种布局,该布局可以将大小不一的图片完整的显示在页面上，并且在杂乱的布局中保持着一定的美感。（如下图:）</p><p><img alt="Screenshot_2024-04-23-23-12-35-519_com.jingdong.a.jpg" src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c4e450f7ba984760833bb58e9ff2f5ce~tplv-k3u1fbpfcp-jj-mark:3024:0:0:0:q75.awebp#?w=1440&amp;h=3200&amp;s=1715452&amp;e=jpg&amp;b=f7efed" /></p><p><img alt="image.png" src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fd2338600ce942ab8f0347d1bf8efbed~tplv-k3u1fbpfcp-jj-mark:3024:0:0:0:q75.awebp#?w=1860&amp;h=890&amp;s=1332320&amp;e=png&amp;b=f8f4f3" /></p><h3>HTML 与 CSS 部分</h3><ol><li>div#container 作为所有图片的容器</li><li>div.box 作为每个图片的容器</li><li>div.box-img 包裹 img 标签</li><li>img 负责显示图片</li><li>多个 div.box 排列图片</li><li>重复上述结构,排列了多行图片</li><li>主容器使用相对定位占据文档流中的位置而其子标签 box 使用浮动式布局</li></ol><pre class="code-block"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot; /&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+    &lt;style&gt;
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      #container {
+        position: relative;
+      }
+
+      .box {
+        float: left;
+        padding: 5px;
+      }
+
+      .box-img {
+        width: 150px;
+        padding: 5px;
+        border: 1px solid #dd9f9f;
+      }
+
+      img {
+        width: 100%;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+
+  &lt;body&gt;
+    &lt;div id=&quot;container&quot;&gt;
+      &lt;div class=&quot;box&quot;&gt;
+        &lt;div class=&quot;box-img&quot;&gt;
+          &lt;img src=&quot;./img/1.webp&quot; alt=&quot;&quot; /&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      ......省略了19个box
+    &lt;/div&gt;
+    &lt;script src=&quot;index.js&quot;&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>此时的页面:</p><p><img alt="image.png" src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4948c01e92814e9583a34ea2ce4bbd42~tplv-k3u1fbpfcp-jj-mark:3024:0:0:0:q75.awebp#?w=1928&amp;h=1040&amp;s=1053345&amp;e=png&amp;b=ffffff" /></p><h3>JavaScript 部分</h3><h3>实现原理：</h3><p>1.使用一个父容器 container 包裹子容器 box</p><p>2.图片容器 box-img 包裹在容器 box 中，用来展示</p><p>3.通过 js 获取父容器的 DOM 结构，再获取其子元素图片容器 box</p><p>4.将其按照瀑布流的规则使用绝对定位放置</p><p>5.获取屏幕大小计算该屏幕最多能放下几张图片，将前 n 张图片放在第一行</p><p>6.使用一个 heightArr 高度数组,在放置的时候记录每一列图片的高度,后面的图片放置在高度最低的那一列</p><h3>图解:</h3><p><img alt="image.png" src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d2e0b52959ea49df9cb63ab2a5aa9bd2~tplv-k3u1fbpfcp-jj-mark:3024:0:0:0:q75.awebp#?w=905&amp;h=636&amp;s=34819&amp;e=png&amp;b=ffffff" /></p><h3>js 代码实现:</h3><pre class="code-block"><code class="language-javascript">//获取用户屏幕宽度，决定一行几张图
+//操作下一张图，放到上一行最矮的列下
+imgLocation(&quot;container&quot;, &quot;box&quot;);
+
+function imgLocation(parent, content) {
+  var cparent = document.getElementById(parent);
+  var ccontent = getChildElement(cparent, content); //document.querySelectorAll(&#39;#container .box&#39;)
+  // console.log(ccontent)
+  var imgWidth = ccontent[0].offsetWidth;
+  var num = Math.floor(document.documentElement.clientWidth / imgWidth);
+  cparent.style.width = `${imgWidth * num}px`;
+  //要操作的是哪张，每一列的高度
+
+  var BoxHeightArr = [];
+  for (var i = 0; i &lt; ccontent.length; i++) {
+    if (i &lt; num) {
+      //记录第一行
+      BoxHeightArr[i] = ccontent[i].offsetHeight;
+    } else {
+      //开始操作，找到最矮的高度及列数
+      minHeight = Math.min.apply(null, BoxHeightArr);
+      var minIndex = BoxHeightArr.indexOf(minHeight);
+
+      //摆放图片位置
+      ccontent[i].style.position = &quot;absolute&quot;;
+      ccontent[i].style.top = minHeight + &quot;px&quot;;
+      ccontent[i].style.left = ccontent[minIndex].offsetLeft + &quot;px&quot;;
+      //更新这一列图片高度
+      BoxHeightArr[minIndex] = BoxHeightArr[minIndex] + ccontent[i].offsetHeight;
+    }
+  }
+  console.log(BoxHeightArr);
+}
+
+function getChildElement(parent, child) {
+  //获取parent中所有child
+  var childArr = [];
+  var allChild = parent.getElementsByTagName(&quot;*&quot;);
+  //找出所有box
+  for (var i = 0; i &lt; allChild.length; i++) {
+    if (allChild[i].className == child) {
+      childArr.push(allChild[i]);
+    }
+  }
+  return childArr;
+}
+</code></pre><h3>最终效果:</h3><p><img alt="image.png" src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/19e9ec489a484120b12c43fe87b532e7~tplv-k3u1fbpfcp-jj-mark:3024:0:0:0:q75.awebp#?w=1920&amp;h=911&amp;s=1021235&amp;e=png&amp;b=fefcfc" /></p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

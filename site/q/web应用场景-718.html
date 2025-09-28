@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>介绍一下 requestIdleCallback api【热度: 290】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：requestIdleCallback api、requestIdleCallback 使用场景&lt;/p&gt;&lt;p&gt;&lt;code&gt;requestIdleCallback&lt;/code&gt; 是一个 Web API，它允许开发者请求浏览器在主线程空" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="介绍一下 requestIdleCallback api【热度: 290】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：requestIdleCallback api、requestIdleCallback 使用场景&lt;/p&gt;&lt;p&gt;&lt;code&gt;requestIdleCallback&lt;/code&gt; 是一个 Web API，它允许开发者请求浏览器在主线程空闲时执行一些低优先级的后台任务，这对于执行如分析、整理状态和数据等不紧急的任务是理想的。这种方法可以提高用户的响应性和页" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/718" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>介绍一下 requestIdleCallback api【热度: 290】</h1>
+      <div class="subtitle">web应用场景 · web应用场景 · 阿里巴巴</div>
+      <div class="meta">创建：2024-04-20T06:14:10Z · 更新：2024-04-20T06:36:22Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：requestIdleCallback api、requestIdleCallback 使用场景</p><p><code>requestIdleCallback</code> 是一个 Web API，它允许开发者请求浏览器在主线程空闲时执行一些低优先级的后台任务，这对于执行如分析、整理状态和数据等不紧急的任务是理想的。这种方法可以提高用户的响应性和页面的整体性能。</p><p>以下是 <code>requestIdleCallback</code> API 的一些关键特点：</p><h3>何时使用 requestIdleCallback</h3><p><code>requestIdleCallback</code> 特别适合那些不直接关联用户交互及响应的任务，这些任务可以延后执行而不会明显影响用户体验。例如：</p><ul><li>清理工作：如标记的 DOM 节点删除、数据的本地存储同步等。</li><li>非关键的解析：如解析大量数据。</li><li>状态更新：如发送不紧急的状态变更。</li></ul><h3>如何使用 requestIdleCallback</h3><p>使用 <code>requestIdleCallback</code>，你需要传递一个回调函数给它，此函数会在浏览器的空闲时间调用。你可以指定一个超时参数，它定义了浏览器在“空闲期”最多可以花费的时间来执行你的回调。</p><pre class="code-block"><code class="language-javascript">requestIdleCallback(myNonCriticalFunction, { timeout: 5000 });
+</code></pre><ul><li><strong>myNonCriticalFunction</strong>: 这是你想要浏览器在空闲时间执行的函数。</li><li><strong>timeout</strong>: 一个可选的参数，表示回调执行时间的上限（以毫秒为单位）。如果超时，浏览器可能在下次空闲机会进行执行。</li></ul><h3>回调函数参数</h3><p>你的回调函数会接收到一个 <code>IdleDeadline</code> 对象作为参数，通常命名为 <code>deadline</code>。这个对象包含两个属性：</p><ul><li><strong>didTimeout</strong> - 一个布尔值，如果超时已经被触发为 <code>true</code>。</li><li><strong>timeRemaining</strong> - 返回当前空闲阶段剩余时间的函数，单位是毫秒。</li></ul><pre class="code-block"><code class="language-javascript">function myNonCriticalFunction(deadline) {
+  while ((deadline.timeRemaining() &gt; 0 || deadline.didTimeout) &amp;&amp; someCondition()) {
+    // 执行工作直到时间用完或下次更新不是必要的
+  }
+
+  // 如果还有未完成的工作，可以请求下一次空闲周期
+  if (someCondition()) {
+    requestIdleCallback(myNonCriticalFunction);
+  }
+}
+</code></pre><h3>注意事项</h3><ul><li><code>requestIdleCallback</code> 不保证你的回调会在一个特定的时刻被调用，它只在浏览器需要的时候调用。</li><li>执行低优先级任务时，不应该太过频繁或执行时间太长，以免影响页面性能。</li><li>这个 API 为了最大化性能优化，会强制性地结束你的任务，在不迟于指定的超时时长执行结束。</li></ul><h3>Cross-Browser Compatibility (跨浏览器兼容性)</h3><p>你可能需要 polyfills（垫片库）来确保 <code>requestIdleCallback</code> 的兼容性，因为它并不是在所有浏览器中都有原生支持。</p><p>使用 <code>requestIdleCallback</code>，开发者可以更好地利用浏览器的空闲序列来执行不紧急的任务，同时保持用户交互的流畅度。</p><h3>参考文档</h3><ul><li>https://developer.mozilla.org/zh-CN/docs/Web/API/Background_Tasks_API</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

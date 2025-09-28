@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>extends 条件类型定义【热度: 297】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：extends 类型继承、extends 条件类型定义&lt;/p&gt;&lt;p&gt;在 TypeScript 中，&lt;code&gt;extends&lt;/code&gt; 关键字不仅仅用于类之间的继承关系，还可以用于条件类型的定义。&lt;/p&gt;&lt;p&gt;条件类型是一种在类" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="extends 条件类型定义【热度: 297】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：extends 类型继承、extends 条件类型定义&lt;/p&gt;&lt;p&gt;在 TypeScript 中，&lt;code&gt;extends&lt;/code&gt; 关键字不仅仅用于类之间的继承关系，还可以用于条件类型的定义。&lt;/p&gt;&lt;p&gt;条件类型是一种在类型系统中根据条件进行推断的方式。通过使用 &lt;code&gt;extends&lt;/code&gt; 关键字，可以根据给定的条件选择不同的" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/509" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>extends 条件类型定义【热度: 297】</h1>
+      <div class="subtitle">TypeScript · TypeScript</div>
+      <div class="meta">创建：2023-08-03T15:42:33Z · 更新：2023-08-03T15:42:34Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：extends 类型继承、extends 条件类型定义</p><p>在 TypeScript 中，<code>extends</code> 关键字不仅仅用于类之间的继承关系，还可以用于条件类型的定义。</p><p>条件类型是一种在类型系统中根据条件进行推断的方式。通过使用 <code>extends</code> 关键字，可以根据给定的条件选择不同的类型。</p><p>以下是一个使用 <code>extends</code> 条件语句定义条件类型的示例：</p><pre class="code-block"><code class="language-typescript">type TypeName&lt;T&gt; =
+  T extends string ? &quot;string&quot; :
+    T extends number ? &quot;number&quot; :
+      T extends boolean ? &quot;boolean&quot; :
+        &quot;unknown&quot;;
+
+let type1: TypeName&lt;string&gt;;  // 类型为 &quot;string&quot;
+let type2: TypeName&lt;number&gt;;  // 类型为 &quot;number&quot;
+let type3: TypeName&lt;boolean&gt;; // 类型为 &quot;boolean&quot;
+let type4: TypeName&lt;object&gt;;  // 类型为 &quot;unknown&quot;
+</code></pre><p>在上面的例子中，我们定义了一个条件类型 <code>TypeName</code>，它根据给定的泛型类型 <code>T</code> 来选择不同的类型。如果 <code>T</code> 是 <code>string</code> 类型，那么返回值类型为 <code>&quot;string&quot;</code>；如果 <code>T</code> 是 <code>number</code></p><p>类型，那么返回值类型为 <code>&quot;number&quot;</code>；如果 <code>T</code> 是 <code>boolean</code> 类型，那么返回值类型为 <code>&quot;boolean&quot;</code>；否则返回值类型为 <code>&quot;unknown&quot;</code>。</p><p>通过上述定义，我们可以根据不同的类型获取它们的类型名称。例如，<code>type1</code> 的类型为 <code>&quot;string&quot;</code>，<code>type2</code> 的类型为 <code>&quot;number&quot;</code>，依此类推。</p><p>注意，条件类型的定义中可以使用嵌套的 <code>extends</code> 关键字，以支持更复杂的条件判断。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>前端模块化的演进过程【热度: 798】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：前端模块化演进&lt;/p&gt;&lt;h3&gt;1 函数作为块&lt;/h3&gt;&lt;p&gt;最开始的时候，是以函数为块来编程，因为函数有自己的作用域，相对比较独立&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-j" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="前端模块化的演进过程【热度: 798】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：前端模块化演进&lt;/p&gt;&lt;h3&gt;1 函数作为块&lt;/h3&gt;&lt;p&gt;最开始的时候，是以函数为块来编程，因为函数有自己的作用域，相对比较独立&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;function add(a,b){ // ... } function add1(a,b,c){ // ... " />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/522" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>前端模块化的演进过程【热度: 798】</h1>
+      <div class="subtitle">京东 · 工程化 · 京东</div>
+      <div class="meta">创建：2023-08-20T15:03:38Z · 更新：2023-08-20T15:04:19Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：前端模块化演进</p><h3>1 函数作为块</h3><p>最开始的时候，是以函数为块来编程，因为函数有自己的作用域，相对比较独立</p><pre class="code-block"><code class="language-js">function add(a,b){ 
+  // ...
+}
+function add1(a,b,c){
+  // ...
+}
+</code></pre><p>这种形式中，add和add1都是定义在全局作用域中的，会造成很多问题：</p><ol><li>污染全局作用域，容易造成命名冲突</li><li>定义在全局作用域，数据不安全</li></ol><h3>2 namespace模式</h3><p>使用对象作为独立块编程</p><pre class="code-block"><code class="language-js">var myModule={
+  a:1,
+  b:2,
+  add:function(m,n){...}
+}
+</code></pre><p>优点：减少了全局变量，有效解决了命名冲突</p><p>缺点：</p><ol><li>没有私有变量，使用起来很繁琐</li><li>数据不安全，模块外面可以随意修改内部的数据</li></ol><h3>3 IIFE模式</h3><p><strong>使用立即执行函数来创建块，可以形成独立的作用域，外面无法访问，借助window对象来向外暴露接口</strong></p><pre class="code-block"><code class="language-js">(function($){
+  var a=1;
+  var b=2;
+  function add(m,n){
+    ...
+  }
+  $(&#39;#id&#39;).addClass(&#39;.hehe&#39;);
+  window.myModule={
+    a:a,
+    b:b,
+    add:add
+  }
+})()
+</code></pre><p>优点：</p><ol><li>减少了全局变量，解决了命名冲突</li><li>创建了独立的作用域，外部无法轻易修改内部数据</li></ol><p>缺点：</p><p><strong>如果多个模块分布在多个js文件中，那么在html文件中就需要引入多个js文件</strong></p><ol><li>会增加多个http请求，增加首屏的时候，降低用户体验</li><li><strong>模块之间的引用关系很不明显，难以维护</strong></li></ol><h3>4 CommonJS</h3><p>最开始出现的模块化方案是在node.js中实现的。node中的模块化方案是根据CommonJS规范实现的。</p><p><strong>CommonJS规定每个文件就是一个模块，以同步的方式引入其他模块</strong></p><pre class="code-block"><code class="language-js">//a.js
+function add(m,n){
+  return m+n;
+}
+module.exports={add:add}
+
+
+//b.js
+const {add} = require(&#39;./a.js&#39;);
+console.log(add(1,2)); // 3
+</code></pre><p>这种方式是node端独有的，浏览器端如果想要使用，需要使用 <strong>Browserify</strong> 工具来解析。</p><h3>5 AMD和Require.js</h3><p>CommonJS模块之前是同步引入的，这在服务端是没有什么问题的，因为<strong>文件都是保存在硬盘中，读取文件的速度是非常快的，同步加载带来的阻塞基本可以忽略不计。</strong></p><p>但是如果在浏览器中使用CommonJS的话，因为<strong>js文件是存在服务端需要请求获取，所以同步的方式加载会极大的阻塞页面</strong>，显然是不可取的。</p><p>于是诞生了AMD（Asynchronous Module Definition）规范，<strong>一种异步加载的模块方案，使用回调函数来实现</strong>。require.js实现了AMD的规范。</p><pre class="code-block"><code class="language-js">//定义没有依赖的模块
+//a.js
+define(function(){
+  function add(m,n){
+    return m+n;
+  }
+  return {add:add}
+})
+
+//定义有依赖的模块
+//b.js
+define([&#39;a&#39;], function(a){
+  const sum = a.add(1,2);
+  return {sum:sum}
+})
+
+//引用模块
+require([&#39;b&#39;],function(b){
+  console.log(b.sum); //3
+})
+</code></pre><p>由上面代码分析Require.js的特点</p><ol><li>依赖模块的代码都是放在回调函数中，等待模块都加载完成才执行这个回调函数，执行顺序可以保证</li><li><strong>内部加载其他模块的时候，使用的是动态添加script标签的方式来实现动态加载</strong></li><li>内部需要缓存模块暴露出来的接口，避免多次执行</li></ol><p><strong>AMD推崇的是依赖前置，提前执行。</strong></p><p>从上面代码可以看出，<strong>在声明一个模块的时候，会在第一时间就将其依赖模块的内部代码执行完毕。而不是在真正使用的地方再去执行。</strong>因此会带来一些资源浪费</p><pre class="code-block"><code class="language-js">define([&#39;a&#39;,&#39;b&#39;],function(a,b){
+  let sum = a.add(1,2);
+  if(false){
+    sum = b.add(1,2); //b模块是没有被使用的，应该是不需要执行模块内部代码的
+  }
+  return sum;
+})
+</code></pre><h3>6 CMD和Sea.js</h3><p>由于require.js自身的一些问题存在，所以后来在国内（玉伯）诞生了CMD（Common Module Definition）和Sea.js。</p><p>CMD结合了CommonJS和AMD的特点，也是一种<strong>异步</strong>模块的方案，<strong>提倡就近依赖，延迟执行。</strong></p><p><strong>需要用到某个模块的时候，才用require引入，模块内部的代码也是在被引入的时候才会执行，声明的时候并没有执行。</strong></p><p>语法设计上比较像CommonJS</p><pre class="code-block"><code class="language-js">//定义模块 math.js
+define(function(require,exports,module){
+  var a = require(&#39;./a.js&#39;); // 引入模块
+  function add(m,n){
+    return m+n;
+  }
+  module.exports={
+    add:add
+  }
+});
+
+//加载模块
+seajs.use([&#39;math.js&#39;],function(math){
+  var sum = math.add(1,2);
+})
+</code></pre><p>看上面的代码可能会有疑问，模块是异步加载的，但是使用的时候require是同步使用的，没有回调函数，如何能够保证执行的顺序呢？这就不得不提sea.js中的静态依赖分析机制了。</p><h4>6.1 Sea.js中的静态依赖分析机制</h4><p>Sea.js中<strong>模块加载的入口方法是use()方法，执行这个方法会开始加载所有的依赖模块</strong>。然后sea.js中是就近依赖的，它是如何获取依赖模块的呢？</p><p><strong>在define的方法中，如果传入的参数factory是一个函数，内部会执行函数的toString方法，转化成字符串，然后通过正则表达式分析字符串，获取require方法中的参数，通过路径分析去加载依赖的模块</strong>。以此链式分析下去，边分析边加载模块，等待所有的依赖都加载完成之后，才开始调用use的回调函数，正式执行模块内代码。</p><p>所以在require方法执行之前，对应的模块已经加载完成了，所以可以直接传入参数，执行模块函数体。</p><h4>6.2 Sea.js的特点</h4><ol><li><strong>就近依赖，延时执行</strong></li><li>内部拥有静态依赖分析机制，保证require之前，模块已经加载完毕，但是函数还没有执行</li><li>也是一种异步的模块化方案</li><li>内部也有缓存机制，缓存模块暴露的接口</li><li>内部加载模块的时候，和require.js一样，也是通过<strong>动态增加script标签</strong>来完成的</li></ol><h3>7 ES Module</h3><p>ES6开始，在语法标准上实现了模块化功能。简称ES Module</p><p><strong>ES Module是一种静态依赖的模块化方案，模块与模块之间的依赖关系是在编译期完成连接的。</strong></p><p><strong>前面所说的三种方案都是动态模块化方案，依赖模块都是动态引入的，而且模块都是一个对象。而ES Module中，模块不是一个对象，模块与模块之间也不是动态引入的，而且编译期间静态引入的，所以无法实现条件加载</strong></p><pre class="code-block"><code class="language-js">//a.js
+function add(m,n){
+  return m+n;
+}
+export {add};
+
+// b.js
+import {add} from &#39;./a.js&#39;;
+console.log(add(1,2)); //3
+</code></pre><p><strong>参考文档</strong></p><ul><li><a href="https://github.com/careyke/frontend_knowledge_structure/blob/master/javascript/module/question01_module.md" target="_blank" rel="noopener">https://github.com/careyke/frontend_knowledge_structure/blob/master/javascript/module/question01_module.md</a></li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

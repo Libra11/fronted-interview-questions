@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>map 和 weakMap 的区别 ? - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;Map 和 WeakMap 都是 JavaScript 中的键值对数据结构，它们的主要区别在于其键的存储方式和内存管理。&lt;/p&gt;&lt;p&gt;Map 对象中的键可以是任何类型的值，包括基本类型和引用类型，而 WeakMap 对象中的键必须是对象。在 Map 中，如果一个键不再被引用" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="map 和 weakMap 的区别 ?" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;Map 和 WeakMap 都是 JavaScript 中的键值对数据结构，它们的主要区别在于其键的存储方式和内存管理。&lt;/p&gt;&lt;p&gt;Map 对象中的键可以是任何类型的值，包括基本类型和引用类型，而 WeakMap 对象中的键必须是对象。在 Map 中，如果一个键不再被引用，它仍然会被 Map 对象保留，因为 Map 对象对其进行了强引用。这会导致内存泄漏的问题。而 WeakMap 对象只会" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/102" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>map 和 weakMap 的区别 ?</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-14T15:25:06Z · 更新：2023-09-09T06:21:43Z</div>
+    </div>
+    <article class="content markdown-body"><p>Map 和 WeakMap 都是 JavaScript 中的键值对数据结构，它们的主要区别在于其键的存储方式和内存管理。</p><p>Map 对象中的键可以是任何类型的值，包括基本类型和引用类型，而 WeakMap 对象中的键必须是对象。在 Map 中，如果一个键不再被引用，它仍然会被 Map 对象保留，因为 Map 对象对其进行了强引用。这会导致内存泄漏的问题。而 WeakMap 对象只会对其键进行弱引用，也就是说，如果一个键不再被引用，它会被垃圾回收器回收，因此不会导致内存泄漏的问题。</p><p>此外，WeakMap 没有 Map 中的一些方法，比如 size、keys、values 和 forEach 等方法，因为 WeakMap 的键不是强引用，所以无法确定其大小。</p><p>下表列出了 Map 和 WeakMap 的区别：</p><p>|              | Map                                                      | WeakMap                                                  |</p><p>|--------------|----------------------------------------------------------|---------------------------------------------------------|</p><p>| 键的类型       | 可以使用任意类型的值作为键（包括基本类型和对象）                      | 只能使用对象作为键                                       |</p><p>| 引用关系       | 强引用键和值，不会因为键的引用被释放而自动回收值                      | 弱引用键，当键的引用被释放时，对应的键值对会被自动回收           |</p><p>| 迭代顺序       | 迭代顺序与元素插入顺序一致                                    | 无法保证迭代顺序，因为键的引用可能被垃圾回收影响                |</p><p>| 键值对数量限制   | 无限制                                                    | 无法获得 WeakMap 的尺寸，也无法遍历 WeakMap 的键值对数量       |</p><p>| 性能和内存占用   | 性能较好，适用于大量数据和频繁读写操作的场景                    | 性能较差，内存占用较高，适用于需要弱引用特性的场景               |</p><p>| 使用场景       | 适用于需要持久存储数据或需要对键值对进行频繁操作的场景             | 适用于需要临时存储数据且希望在键的引用被释放后自动回收对应的值的场景 |</p><p>需要注意的是，WeakMap 中的键是弱引用，这意味着当键的引用被释放后，键值对会被自动回收。这在需要临时存储数据且希望在键的引用被释放后自动清理数据的场景中非常有用，例如缓存或私密数据的存储。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

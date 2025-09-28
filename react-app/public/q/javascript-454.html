@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>原型链的终点是什么？【热度: 1,325】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：原型链的终点&lt;/p&gt;&lt;p&gt;在JavaScript中，原型链的终点是 &lt;code&gt;null&lt;/code&gt;。当访问一个对象的属性或方法时，如果当前对象没有该属性或方法，JavaScript引擎会沿着原型链向上查找，直到找到该属性或方法或" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="原型链的终点是什么？【热度: 1,325】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：原型链的终点&lt;/p&gt;&lt;p&gt;在JavaScript中，原型链的终点是 &lt;code&gt;null&lt;/code&gt;。当访问一个对象的属性或方法时，如果当前对象没有该属性或方法，JavaScript引擎会沿着原型链向上查找，直到找到该属性或方法或者到达原型链的终点 &lt;code&gt;null&lt;/code&gt;。&lt;/p&gt;&lt;p&gt;每个对象都有一个原型（&lt;code&gt;prototyp" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/454" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>原型链的终点是什么？【热度: 1,325】</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-06-13T15:42:53Z · 更新：2023-06-13T15:42:54Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：原型链的终点</p><p>在JavaScript中，原型链的终点是 <code>null</code>。当访问一个对象的属性或方法时，如果当前对象没有该属性或方法，JavaScript引擎会沿着原型链向上查找，直到找到该属性或方法或者到达原型链的终点 <code>null</code>。</p><p>每个对象都有一个原型（<code>prototype</code>）属性，指向它的原型对象。原型对象也是一个对象，也有自己的原型，形成了原型链。原型链是由一系列对象的连接构成的，每个对象都有一个指向其原型的引用，通过这个引用可以沿着原型链向上查找属性和方法。</p><p>原型链的终点是 <code>null</code>，即最顶层的原型对象没有原型，它的 <code>[[Prototype]]</code> 指向 <code>null</code>。当查找属性或方法时，如果一直沿着原型链找到最顶层的原型对象仍然没有找到，则返回 <code>undefined</code>。</p><p>示例：</p><pre class="code-block"><code class="language-javascript">const obj = {};
+console.log(obj.toString()); // obj 没有定义 toString 方法，通过原型链找到 Object.prototype 上的 toString 方法
+
+const arr = [];
+console.log(arr.join()); // arr 没有定义 join 方法，通过原型链找到 Array.prototype 上的 join 方法
+
+const str = &#39;Hello&#39;;
+console.log(str.toUpperCase()); // str 没有定义 toUpperCase 方法，通过原型链找到 String.prototype 上的 toUpperCase 方法
+
+const num = 42;
+console.log(num.toFixed(2)); // num 没有定义 toFixed 方法，通过原型链找到 Number.prototype 上的 toFixed 方法
+
+console.log(Object.prototype.__proto__); // 最顶层的原型对象 Object.prototype 的原型是 null
+</code></pre><p>因此，原型链的终点是 <code>null</code>，表示在原型链的最顶层无法再继续向上查找。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

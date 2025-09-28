@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Husky 和 lint-staged 有什么区别？【热度: 387】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：Husky 和 lint-staged、git hooks&lt;/p&gt;&lt;p&gt;Husky 和 lint-staged 都是与 Git 钩子 (hooks) 配合使用的 Node.js 库，但它们的用途和工作方式有所不同：&lt;/p&gt;&lt;ol&gt;&lt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Husky 和 lint-staged 有什么区别？【热度: 387】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：Husky 和 lint-staged、git hooks&lt;/p&gt;&lt;p&gt;Husky 和 lint-staged 都是与 Git 钩子 (hooks) 配合使用的 Node.js 库，但它们的用途和工作方式有所不同：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;Husky&lt;/strong&gt;：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;Husky 是一个 Git 钩子" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/709" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>Husky 和 lint-staged 有什么区别？【热度: 387】</h1>
+      <div class="subtitle">百度 · 工程化 · 百度</div>
+      <div class="meta">创建：2024-04-20T02:00:00Z · 更新：2024-04-20T02:00:00Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：Husky 和 lint-staged、git hooks</p><p>Husky 和 lint-staged 都是与 Git 钩子 (hooks) 配合使用的 Node.js 库，但它们的用途和工作方式有所不同：</p><ol><li><strong>Husky</strong>：</li></ol><ul><li>Husky 是一个 Git 钩子管理器，它允许你触发自定义脚本在 git 事件发生时运行，如 <code>pre-commit</code>, <code>pre-push</code>, <code>post-merge</code> 等。</li><li>它的主要目的是自动化你的版本控制工作流程，例如在提交 (commit) 前运行代码检查、格式化代码或执行测试，以确保代码库的质量和一致性。</li></ul><ol><li><strong>lint-staged</strong>：</li></ol><ul><li>lint-staged 是一个运行在 Husky 钩子之上的工具，它专门用于对暂存区 (staged) 文件的检查。</li><li>当你运行 <code>git commit</code> 并且 Husky 触发 <code>pre-commit</code> 钩子时，lint-staged 会检查你即将提交的代码（即 <code>git add</code> 后的文件列表），并运行你配置好的检查脚本，如代码格式化程序、linter 或其他工具。</li><li>它的目的是确保在提交之前，只有没有检查错误的代码会被提交。</li></ul><p>简而言之，Husky 是一个可以触发多种钩子事件的工具，而 lint-staged 是一种专门用于检查 Git 暂存区文件的工具。它们通常是配合使用的，因为 lint-staged 需要通过 Husky 来触发钩子。在你初始化项目并配置 CI/CD 流程时，通常会同时用到它们。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

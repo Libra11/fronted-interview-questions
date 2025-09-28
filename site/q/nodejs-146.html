@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>nodejs 进程间如何通信? - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;在 Node.js 中，进程间通信（IPC）可以通过以下几种方式进行：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;使用子进程模块：可以使用 Node.js 的子进程模块（child\_process）来创建子进程，并使用进程间通信机制（如进程间管道）来实现通信。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;l" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="nodejs 进程间如何通信?" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;在 Node.js 中，进程间通信（IPC）可以通过以下几种方式进行：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;使用子进程模块：可以使用 Node.js 的子进程模块（child\_process）来创建子进程，并使用进程间通信机制（如进程间管道）来实现通信。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li&gt;使用共享内存：Node.js 中的共享内存模块（sharedArrayBuffer）可以在多个进程间共享内存，从而实" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/146" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>nodejs 进程间如何通信?</h1>
+      <div class="subtitle">Nodejs · Nodejs</div>
+      <div class="meta">创建：2023-03-23T16:51:57Z · 更新：2023-03-23T16:51:58Z</div>
+    </div>
+    <article class="content markdown-body"><p>在 Node.js 中，进程间通信（IPC）可以通过以下几种方式进行：</p><ol><li>使用子进程模块：可以使用 Node.js 的子进程模块（child\_process）来创建子进程，并使用进程间通信机制（如进程间管道）来实现通信。</li></ol><ol><li>使用共享内存：Node.js 中的共享内存模块（sharedArrayBuffer）可以在多个进程间共享内存，从而实现进程间通信。</li></ol><ol><li>使用进程间消息传递：Node.js 提供了一个内置的进程间通信机制，可以使用 process.send() 方法在不同的进程之间发送消息。</li></ol><ol><li>使用进程间的 TCP 通信：可以使用 Node.js 的 net 模块建立 TCP 服务器和客户端，从而在不同的进程之间进行通信。</li></ol><p>需要注意的是，不同的进程之间通信可能会导致一些并发问题，例如竞态条件和死锁。因此，在设计进程间通信方案时，需要仔细考虑并发问题，并采取相应的措施来保证并发安全。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

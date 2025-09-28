@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何统计长任务时间、长任务执行次数【热度: 489】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：长任务统计&lt;/p&gt;&lt;p&gt;在 JavaScript 中，可以使用 Performance API 中的 PerformanceObserver 来监视和统计长任务（Long Task）。长任务是指那些执行时间超过 50 毫秒的任务，这" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何统计长任务时间、长任务执行次数【热度: 489】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：长任务统计&lt;/p&gt;&lt;p&gt;在 JavaScript 中，可以使用 Performance API 中的 PerformanceObserver 来监视和统计长任务（Long Task）。长任务是指那些执行时间超过 50 毫秒的任务，这些任务可能会阻塞主线程，影响页面的交互性和流畅性。&lt;/p&gt;&lt;h3&gt;使用 PerformanceObserver 监听长任" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/757" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何统计长任务时间、长任务执行次数【热度: 489】</h1>
+      <div class="subtitle">web应用场景 · web应用场景 · TOP100互联网</div>
+      <div class="meta">创建：2024-05-22T16:15:48Z · 更新：2024-05-22T16:15:48Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：长任务统计</p><p>在 JavaScript 中，可以使用 Performance API 中的 PerformanceObserver 来监视和统计长任务（Long Task）。长任务是指那些执行时间超过 50 毫秒的任务，这些任务可能会阻塞主线程，影响页面的交互性和流畅性。</p><h3>使用 PerformanceObserver 监听长任务</h3><pre class="code-block"><code class="language-javascript">// 创建一个性能观察者实例来订阅长任务
+let observer = new PerformanceObserver((list) =&gt; {
+  for (const entry of list.getEntries()) {
+    console.log(&quot;Long Task detected:&quot;);
+    console.log(`Task Start Time: ${entry.startTime}, Duration: ${entry.duration}`);
+  }
+});
+
+// 开始观察长任务
+observer.observe({ entryTypes: [&quot;longtask&quot;] });
+
+// 启动长任务统计数据的变量
+let longTaskCount = 0;
+let totalLongTaskTime = 0;
+
+// 更新之前的性能观察者实例，以增加统计逻辑
+observer = new PerformanceObserver((list) =&gt; {
+  list.getEntries().forEach((entry) =&gt; {
+    longTaskCount++; // 统计长任务次数
+    totalLongTaskTime += entry.duration; // 累加长任务总耗时
+    // 可以在这里添加其他逻辑，比如记录长任务发生的具体时间等
+  });
+});
+
+// 再次开始观察长任务
+observer.observe({ entryTypes: [&quot;longtask&quot;] });
+</code></pre><p>在上面的代码中，我们创建了一个<code>PerformanceObserver</code>对象来订阅长任务。每当检测到长任务时，它会向回调函数传递一个包含长任务性能条目的列表。在这个回调中，我们可以统计长任务的次数和总耗时。</p><p>注意：<code>PerformanceObserver</code>需要在支持该 API 的浏览器中运行。截至到我所知道的信息（2023 年 4 月的知识截点），所有现代浏览器都支持这一 API，但在使用前你应该检查用户的浏览器是否支持这个特性。</p><p>以下是如何在实际使用中停止观察和获取当前的统计数据：</p><pre class="code-block"><code class="language-javascript">// 停止观察能力
+observer.disconnect();
+
+// 统计数据输出
+console.log(`Total number of long tasks: ${longTaskCount}`);
+console.log(`Total duration of all long tasks: ${totalLongTaskTime}ms`);
+</code></pre><p>使用这种方法，你可以监控应用程序中的性能问题，并根据长任务的发生频率和持续时间进行优化。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

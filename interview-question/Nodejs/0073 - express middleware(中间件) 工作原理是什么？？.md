@@ -1,0 +1,63 @@
+# express middleware(中间件) 工作原理是什么？？
+
+- Issue: #73
+- State: open
+- Labels: Nodejs
+- Author: yanlele
+- URL: https://github.com/pro-collection/interview-question/issues/73
+- Created: 2023-03-11T08:28:39Z
+- Updated: 2023-03-19T13:33:14Z
+
+## Body
+
+## express middleware 工作原理是什么？
+
+Express middleware 的工作原理是通过拦截 HTTP 请求，对请求进行处理，然后将请求传递给下一个中间件或应用程序的路由处理。在 Express 中，中间件可以是一个或多个函数，每个函数都可以对请求进行操作或响应，从而实现对请求的处理和过滤。
+
+当 Express 应用程序接收到一个 HTTP 请求时，请求将首先被传递给第一个注册的中间件函数。这个中间件函数可以对请求进行操作，例如修改请求的头信息、检查请求是否包含有效的身份验证令牌等等。当这个中间件函数完成操作后，它可以选择将请求传递给下一个中间件函数，或者直接将响应返回给客户端。
+
+如果中间件函数选择将请求传递给下一个中间件函数，它可以调用 next() 函数来将控制权传递给下一个中间件。这个过程可以一直持续到所有中间件函数都被执行完毕，最后将请求传递给应用程序的路由处理函数。
+
+通过使用中间件，开发人员可以将应用程序的功能模块化，从而实现更好的代码组织和可维护性。同时，中间件还可以实现各种功能，例如身份验证、日志记录、错误处理等等，从而为应用程序提供更丰富的功能和更好的用户体验。
+
+## 它的设计模式是啥？写一个简单的示例呢
+
+Express middleware 的设计模式是基于责任链模式。在责任链模式中，每个对象都有机会处理请求，并将其传递给下一个对象，直到请求被完全处理为止。在 Express 中，每个中间件函数都有机会对请求进行处理，并可以选择将请求传递给下一个中间件函数或应用程序的路由处理函数。
+
+以下是一个简单的示例，演示如何使用 Express middleware 实现身份验证：
+
+```javascript
+const express = require('express');
+const app = express();
+
+// 定义一个中间件函数，用于验证用户身份
+function authenticate(req, res, next) {
+  const token = req.headers.authorization;
+  if (token === 'secret-token') {
+    // 如果令牌有效，则将控制权传递给下一个中间件函数
+    next();
+  } else {
+    // 否则，返回 401 错误
+    res.status(401).send('Unauthorized');
+  }
+}
+
+// 注册中间件函数，用于验证用户身份
+app.use(authenticate);
+
+// 定义一个路由处理函数，用于返回受保护的资源
+app.get('/protected', (req, res) => {
+  res.send('Protected resource');
+});
+
+// 启动应用程序
+app.listen(3000, () => {
+  console.log('Server is running on port 3000');
+});
+```
+
+在上面的示例中，我们定义了一个名为 authenticate 的中间件函数，它用于验证用户的身份。在这个函数中，我们检查请求头中是否包含有效的身份验证令牌。如果令牌有效，则将控制权传递给下一个中间件函数或路由处理函数。否则，返回 401 错误。
+
+然后，我们通过调用 app.use() 方法来注册这个中间件函数，以便在每个请求中都进行身份验证。最后，我们定义一个名为 /protected 的路由处理函数，它表示受保护的资源。只有在身份验证通过后，才能访问这个路由处理函数。
+
+通过这个简单的示例，我们可以看到如何使用 Express middleware 实现基本的身份验证功能。中间件函数充当责任链中的一个环节，通过对请求进行处理和过滤，为应用程序提供更好的安全性和用户体验。

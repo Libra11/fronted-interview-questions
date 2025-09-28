@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Proxy 和 Reflect 了解多少？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h2&gt;Proxy&lt;/h2&gt;&lt;h3&gt;基本概念&lt;/h3&gt;&lt;p&gt;Proxy(代理) 是 ES6 中新增的一个特性。Proxy 让我们能够以简洁易懂的方式控制外部对对象的访问。其功能非常类似于设计模式中的代理模式。&lt;/p&gt;&lt;p&gt;使用 Proxy 的好处是：对象只需关注于核心逻辑，一些非" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Proxy 和 Reflect 了解多少？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h2&gt;Proxy&lt;/h2&gt;&lt;h3&gt;基本概念&lt;/h3&gt;&lt;p&gt;Proxy(代理) 是 ES6 中新增的一个特性。Proxy 让我们能够以简洁易懂的方式控制外部对对象的访问。其功能非常类似于设计模式中的代理模式。&lt;/p&gt;&lt;p&gt;使用 Proxy 的好处是：对象只需关注于核心逻辑，一些非核心的逻辑 （如：读取或设置对象的某些属性前记录日志；设置对象的某些属性值前，需要验证；某些属性的访问控制等）可以让 P" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/8" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>Proxy 和 Reflect 了解多少？</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-06T15:19:36Z · 更新：2023-03-06T15:19:37Z</div>
+    </div>
+    <article class="content markdown-body"><h2>Proxy</h2><h3>基本概念</h3><p>Proxy(代理) 是 ES6 中新增的一个特性。Proxy 让我们能够以简洁易懂的方式控制外部对对象的访问。其功能非常类似于设计模式中的代理模式。</p><p>使用 Proxy 的好处是：对象只需关注于核心逻辑，一些非核心的逻辑 （如：读取或设置对象的某些属性前记录日志；设置对象的某些属性值前，需要验证；某些属性的访问控制等）可以让 Proxy 来做。 从而达到关注点分离，降级对象复杂度的目的。</p><h3>api 有哪些？</h3><p><code>var p = new Proxy(target, handler);</code></p><p>其中，target 为被代理对象。handler 是一个对象，其声明了代理 target 的一些操作。p 是代理后的对象。当外界每次对 p 进行操作时，就会执行 handler 对象上的一些方法。</p><p>handler 能代理的一些常用的方法如下：</p><ul><li>handler.getPrototypeOf(): Object.getPrototypeOf 方法的捕捉器。</li></ul><ul><li>handler.setPrototypeOf(): Object.setPrototypeOf 方法的捕捉器。</li></ul><ul><li>handler.isExtensible(): Object.isExtensible 方法的捕捉器。</li></ul><ul><li>handler.preventExtensions(): Object.preventExtensions 方法的捕捉器。</li></ul><ul><li>handler.getOwnPropertyDescriptor(): Object.getOwnPropertyDescriptor 方法的捕捉器。</li></ul><ul><li>handler.defineProperty(): Object.defineProperty 方法的捕捉器。</li></ul><ul><li>handler.has(): in 操作符的捕捉器。</li></ul><ul><li>handler.get(): 属性读取操作的捕捉器。</li></ul><ul><li>handler.set(): 属性设置操作的捕捉器。</li></ul><ul><li>handler.deleteProperty(): delete 操作符的捕捉器。</li></ul><ul><li>handler.ownKeys(): Object.getOwnPropertyNames 方法和 Object.getOwnPropertySymbols 方法的捕捉器。</li></ul><ul><li>handler.apply(): 函数调用操作的捕捉器。</li></ul><ul><li>handler.construct(): new 操作符的捕捉器。</li></ul><p>...</p><h3>基础使用</h3><pre class="code-block"><code class="language-javascript">var target = {
+   name: &#39;obj&#39;
+ };
+ var logHandler = {
+   get: function(target, key) {
+     console.log(`${key} 被读取`);
+     return target[key];
+   },
+   set: function(target, key, value) {
+     console.log(`${key} 被设置为 ${value}`);
+     target[key] = value;
+   }
+ };
+var targetWithLog = new Proxy(target, logHandler);
+targetWithLog.name;             // 控制台输出：name 被读取
+targetWithLog.name = &#39;others&#39;;  // 控制台输出：name 被设置为 others
+console.log(target.name);       // 控制台输出: others
+</code></pre><h3>使用示例 - 实现虚拟属性</h3><pre class="code-block"><code class="language-javascript">var person = {
+  fisrsName: &#39;张&#39;,
+  lastName: &#39;小白&#39;
+};
+var proxyedPerson = new Proxy(person, {
+  get: function (target, key) {
+    if(key === &#39;fullName&#39;){
+      return [target.fisrsName, target.lastName].join(&#39; &#39;);
+    }
+    return target[key];
+  },
+  set: function (target, key, value) {
+    if(key === &#39;fullName&#39;){
+      var fullNameInfo = value.split(&#39; &#39;);
+      target.fisrsName = fullNameInfo[0];
+      target.lastName = fullNameInfo[1];
+    } else {
+      target[key] = value;
+    }
+  }
+});
+
+console.log(&#39;姓:%s, 名:%s, 全名: %s&#39;, proxyedPerson.fisrsName, proxyedPerson.lastName, proxyedPerson.fullName);// 姓:张, 名:小白, 全名: 张 小白
+proxyedPerson.fullName = &#39;李 小露&#39;;
+console.log(&#39;姓:%s, 名:%s, 全名: %s&#39;, proxyedPerson.fisrsName, proxyedPerson.lastName, proxyedPerson.fullName);// 姓:李, 名:小露, 全名: 李 小露
+</code></pre><h3>使用示例 - 实现私有变量</h3><p>下面的 demo 实现了真正的私有变量。代理中把以 _ 开头的变量都认为是私有的。</p><pre class="code-block"><code class="language-javascript">var api = {
+  _secret: &#39;xxxx&#39;,
+  _otherSec: &#39;bbb&#39;,
+  ver: &#39;v0.0.1&#39;
+};
+
+api = new Proxy(api, {
+  get: function(target, key) {
+    // 以 _ 下划线开头的都认为是 私有的
+    if (key.startsWith(&#39;_&#39;)) {
+      console.log(&#39;私有变量不能被访问&#39;);
+      return false;
+    }
+    return target[key];
+  },
+  set: function(target, key, value) {
+    if (key.startsWith(&#39;_&#39;)) {
+      console.log(&#39;私有变量不能被修改&#39;);
+      return false;
+    }
+    target[key] = value;
+  },
+  has: function(target, key) {
+    return key.startsWith(&#39;_&#39;) ? false : (key in target);
+  }
+});
+
+api._secret; // 私有变量不能被访问
+console.log(api.ver); // v0.0.1
+api._otherSec = 3; // 私有变量不能被修改
+console.log(&#39;_secret&#39; in api); //false
+console.log(&#39;ver&#39; in api); //true
+</code></pre><h3>使用示例 - 抽离校验模块</h3><pre class="code-block"><code class="language-javascript">function Animal() {
+  return createValidator(this, animalValidator);
+}
+var animalValidator = {
+  name: function(name) {
+    // 动物的名字必须是字符串类型的
+    return typeof name === &#39;string&#39;;
+  }
+};
+
+function createValidator(target, validator) {
+  return new Proxy(target, {
+    set: function(target, key, value) {
+      if (validator[key]) {
+        // 符合验证条件
+        if (validator[key](value)) {
+          target[key] = value;
+        } else {
+          throw Error(`Cannot set ${key} to ${value}. Invalid.`);
+        }
+      } else {
+        target[key] = value
+      }
+    }
+  });
+}
+
+var dog = new Animal();
+dog.name = &#39;dog&#39;;
+console.log(dog.name);
+dog.name = 123; // Uncaught Error: Cannot set name to 123. Invalid.
+</code></pre><h2>Reflect</h2><h3>概念</h3><p>Reflect 是一个内置的对象，它提供拦截 JavaScript 操作的方法。<strong>这些方法与 <code>proxy handler</code> 的方法相同</strong>。Reflect 不是一个函数对象，因此它是不可构造的。</p><p>与大多数全局对象不同 Reflect 并非一个构造函数，所以不能通过 new 运算符对其进行调用，或者将 Reflect 对象作为一个函数来调用。<strong>Reflect 的所有属性和方法都是静态的</strong>（就像 Math 对象）。</p><h3>api 有哪些？</h3><ul><li>Reflect.apply(target, thisArgument, argumentsList): 对一个函数进行调用操作，同时可以传入一个数组作为调用参数。和 Function.prototype.apply() 功能类似。</li><li>举例</li></ul><p>```javascript</p><p>const ages = [11, 33, 12, 54, 18, 96];</p><p>// 旧写法</p><p>const youngest = Math.min.apply(Math, ages);</p><p>const oldest = Math.max.apply(Math, ages);</p><p>const type = Object.prototype.toString.call(youngest);</p><p>// 新写法</p><p>const youngest = Reflect.apply(Math.min, Math, ages);</p><p>const oldest = Reflect.apply(Math.max, Math, ages);</p><p>const type = Reflect.apply(Object.prototype.toString, youngest, []);</p><p>```</p><ul><li>Reflect.construct(target, argumentsList[, newTarget]): 对构造函数进行 new 操作，相当于执行 new target(...args)。</li><li>Reflect.construct方法等同于new target(...args)，这提供了一种不使用new，来调用构造函数的方法。</li></ul><p>```javascript</p><p>function Greeting(name) {</p><p>this.name = name;</p><p>}</p><p>// new 的写法</p><p>const instance = new Greeting('张三');</p><p>// Reflect.construct 的写法</p><p>const instance = Reflect.construct(Greeting, ['张三']);</p><p>```</p><ul><li>Reflect.defineProperty(target, propertyKey, attributes): 和 Object.defineProperty() 类似。如果设置成功就会返回 true</li></ul><ul><li>Reflect.deleteProperty(target, propertyKey): 作为函数的delete操作符，相当于执行 delete target[name]。该方法返回一个布尔值。</li><li>Reflect.deleteProperty方法等同于delete obj[name]，用于删除对象属性。</li></ul><p>```javascript</p><p>const myObj = { foo: 'bar' };</p><p>// 旧写法</p><p>delete myObj.foo;</p><p>// 新写法</p><p>Reflect.deleteProperty(myObj, 'foo');</p><p>```</p><p>该方法返回一个布尔值。如果删除成功或删除的属性不存在，则返回true，如果删除失败，删除的属性依然还在，则返回false。</p><ul><li>Reflect.get(target, propertyKey[, receiver]): 获取对象身上某个属性的值，类似于 target[name]。</li><li>Reflect.get方法查找并返回target的name属性，如果没有，则返回undefined。</li></ul><p>```javascript</p><p>var myObject = {</p><p>foo: 1,</p><p>bar: 2,</p><p>get baz() {</p><p>return this.foo + this.bar;</p><p>},</p><p>}</p><p>Reflect.get(myObject, 'foo') // 1</p><p>Reflect.get(myObject, 'bar') // 2</p><p>Reflect.get(myObject, 'baz') // 3</p><p>```</p><ul><li>读取函数的this绑定的receiver</li></ul><p>```js</p><p>var myObject = {</p><p>foo: 1,</p><p>bar: 2,</p><p>get baz() {</p><p>return this.foo + this.bar;</p><p>},</p><p>};</p><p>var myReceiverObject = {</p><p>foo: 4,</p><p>bar: 4,</p><p>};</p><p>Reflect.get(myObject, 'baz', myReceiverObject) // 8</p><p>```</p><ul><li>如果第一个参数不是对象，则Reflect.get则会报错。</li></ul><ul><li>Reflect.getOwnPropertyDescriptor(target, propertyKey): 类似于 Object.getOwnPropertyDescriptor()。如果对象中存在该属性，则返回对应的属性描述符，否则返回 undefined。</li></ul><ul><li>Reflect.getPrototypeOf(target): 类似于 Object.getPrototypeOf()。</li></ul><ul><li>Reflect.has(target, propertyKey): 判断一个对象是否存在某个属性，和 in 运算符 的功能完全相同。</li><li>Reflect.has对应 name in obj 里面的in操作</li></ul><p>```javascript</p><p>var myObject = {</p><p>foo: 1,</p><p>};</p><p>// 旧写法</p><p>'foo' in myObject // true</p><p>// 新写法</p><p>Reflect.has(myObject, 'foo') // true</p><p>```</p><p>如果第一个参数不是对象，Reflect.has和in都会报错。</p><ul><li>Reflect.isExtensible(target): 类似于 Object.isExtensible().</li></ul><ul><li>Reflect.ownKeys(target): 返回一个包含所有自身属性（不包含继承属性）的数组。(类似于 Object.keys(), 但不会受enumerable 影响).</li></ul><ul><li>Reflect.preventExtensions(target): 类似于 Object.preventExtensions()。返回一个Boolean。</li></ul><ul><li>Reflect.set(target, propertyKey, value[, receiver]): 将值分配给属性的函数。返回一个Boolean，如果更新成功，则返回true。</li><li>Reflect.set方法设置target对象的name属性等于value。</li></ul><p>```javascript</p><p>var myObject = {</p><p>foo: 1,</p><p>set bar(value) {</p><p>return this.foo = value;</p><p>},</p><p>}</p><p>myObject.foo // 1</p><p>Reflect.set(myObject, 'foo', 2);</p><p>myObject.foo // 2</p><p>Reflect.set(myObject, 'bar', 3)</p><p>myObject.foo // 3</p><p>```</p><ul><li>如果name属性设置的赋值函数，则赋值函数的this绑定receiver。</li></ul><p>```javascript</p><p>var myObject = {</p><p>foo: 4,</p><p>set bar(value) {</p><p>return this.foo = value;</p><p>},</p><p>};</p><p>var myReceiverObject = {</p><p>foo: 0,</p><p>};</p><p>Reflect.set(myObject, 'bar', 1, myReceiverObject);</p><p>myObject.foo // 4</p><p>myReceiverObject.foo // 1</p><p>```</p><ul><li>Reflect.setPrototypeOf(target, prototype): 设置对象原型的函数。返回一个 Boolean，如果更新成功，则返回 true。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

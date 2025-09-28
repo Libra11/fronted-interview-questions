@@ -1,0 +1,21 @@
+{
+  "name": "clawer_interview_questions",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:site": "node scripts/build.js",
+    "preview": "node scripts/preview.js || node -e \"require('http').createServer((req,res)=>{const fs=require('fs');const path=require('path');const p=path.join('site',decodeURIComponent(req.url.split('?')[0]||'/'));const f=fs.existsSync(p)&&fs.statSync(p).isDirectory()?path.join(p,'index.html'):p;fs.readFile(f,(e,b)=>{if(e){res.writeHead(404);res.end('Not Found');}else{res.writeHead(200);res.end(b);}});}).listen(5173,()=>console.log('Preview http://localhost:5173'))\"",
+    "react:dev": "npm run dev --prefix react-app",
+    "react:build": "npm run build --prefix react-app",
+    "react:preview": "npm run preview --prefix react-app"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@octokit/rest": "^22.0.0"
+  }
+}

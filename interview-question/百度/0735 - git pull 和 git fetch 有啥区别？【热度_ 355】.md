@@ -1,0 +1,39 @@
+# git pull 和 git fetch 有啥区别？【热度: 355】
+
+- Issue: #735
+- State: open
+- Labels: web应用场景, 百度
+- Author: yanlele
+- URL: https://github.com/pro-collection/interview-question/issues/735
+- Created: 2024-05-05T14:49:06Z
+- Updated: 2024-05-05T14:49:06Z
+
+## Body
+
+**关键词**：git pull 和 git fetch
+
+`git pull` 和 `git fetch` 是 Git 版本控制系统中的两个基本命令，它们都用于从远程仓库更新本地仓库的信息，但执行的具体操作不同。
+
+### git fetch
+
+- `git fetch` 下载远程仓库最新的内容到你的本地仓库，但它并不自动合并或修改你当前的工作。它取回了远程仓库的所有分支和标签（tags）。
+- 运行 `git fetch` 后，你可以在需要时手动执行合并操作（使用 `git merge`）或者重新基于远程仓库的内容进行修改。
+
+- `fetch` 只是将远程变更下载到本地的远程分支跟踪副本中，例如 `origin/master`。
+
+### git pull
+
+- `git pull` 实际上是 `git fetch` 操作之后紧跟一个 `git merge` 操作，它会自动拉取远程仓库的新变更，并尝试合并到当前所在的本地分支中。
+
+- 当你使用 `git pull`，Git 会尝试自动合并变更。这可能会引起冲突（conflicts），当然冲突需要手动解决。
+
+- `git pull` 等价于执行了 `git fetch` 和 `git merge FETCH_HEAD` 的组合。
+
+### 使用场景
+
+- 当你仅仅想要查看远程仓库的变动而不立即合并到你的工作，可以使用 `git fetch`。
+
+- 而当你想要立即获取远程的最新变动并快速合并到你的工作中，则可以使用 `git pull`。
+
+**总之，`git pull` 是一个更加「激进」的命令，因为它自动将远程变更合并到你的当前分支，而 `git fetch` 更加「谨慎」，它只下载变更到本地，不做任何合并操作。**
+

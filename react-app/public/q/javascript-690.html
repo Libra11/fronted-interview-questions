@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ES6 中的 Map 对象该如何遍历【热度: 411】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h3&gt;Map 遍历&lt;/h3&gt;&lt;p&gt;在 JavaScript 中，&lt;code&gt;Map&lt;/code&gt;对象当然可以被遍历。&lt;code&gt;Map&lt;/code&gt; 对象持有键值对，任何值(对象或者原始值) 都可以作为一个键或一个值。你可以使用 &lt;code&gt;Map&lt;/code&gt; 对象的几种方法" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="ES6 中的 Map 对象该如何遍历【热度: 411】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h3&gt;Map 遍历&lt;/h3&gt;&lt;p&gt;在 JavaScript 中，&lt;code&gt;Map&lt;/code&gt;对象当然可以被遍历。&lt;code&gt;Map&lt;/code&gt; 对象持有键值对，任何值(对象或者原始值) 都可以作为一个键或一个值。你可以使用 &lt;code&gt;Map&lt;/code&gt; 对象的几种方法遍历其中的键值对。&lt;/p&gt;&lt;p&gt;以下是几种遍历 Map 对象的方法：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;使用 &lt;co" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/690" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>ES6 中的 Map 对象该如何遍历【热度: 411】</h1>
+      <div class="subtitle">JavaScript · JavaScript · TOP100互联网</div>
+      <div class="meta">创建：2024-04-13T12:39:22Z · 更新：2024-04-13T12:39:22Z</div>
+    </div>
+    <article class="content markdown-body"><h3>Map 遍历</h3><p>在 JavaScript 中，<code>Map</code>对象当然可以被遍历。<code>Map</code> 对象持有键值对，任何值(对象或者原始值) 都可以作为一个键或一个值。你可以使用 <code>Map</code> 对象的几种方法遍历其中的键值对。</p><p>以下是几种遍历 Map 对象的方法：</p><ol><li><strong>使用 <code>forEach()</code> 方法</strong>：</li></ol><p><code>Map</code> 对象有一个 <code>forEach</code> 方法，你可以像遍历数组一样使用它来遍历 <code>Map</code>。<code>forEach</code> 方法会按照插入顺序遍历 Map 对象。</p><pre class="code-block"><code class="language-javascript">let myMap = new Map();
+myMap.set(&quot;a&quot;, &quot;alpha&quot;);
+myMap.set(&quot;b&quot;, &quot;beta&quot;);
+myMap.set(&quot;g&quot;, &quot;gamma&quot;);
+
+myMap.forEach((value, key) =&gt; {
+  console.log(key + &quot; = &quot; + value);
+});
+</code></pre><ol><li><strong>使用 <code>for...of</code> 循环</strong>：</li></ol><p>你可以使用 <code>for...of</code> 循环来遍历 <code>Map</code> 对象的键值对(<code>entries</code>)，键(<code>keys</code>)或值(<code>values</code>)。</p><ul><li>遍历 <code>Map</code> 的键值对:</li></ul><pre class="code-block"><code class="language-javascript">for (let [key, value] of myMap) {
+  console.log(key + &quot; = &quot; + value);
+}
+</code></pre><ul><li>遍历 <code>Map</code> 的键:</li></ul><pre class="code-block"><code class="language-javascript">for (let key of myMap.keys()) {
+  console.log(key);
+}
+</code></pre><ul><li>遍历 <code>Map</code> 的值:</li></ul><pre class="code-block"><code class="language-javascript">for (let value of myMap.values()) {
+  console.log(value);
+}
+</code></pre><ol><li><strong>使用扩展运算符</strong>：</li></ol><p>你还可以使用扩展运算符来将 <code>Map</code> 对象的键值对、键或值转换为数组。</p><ul><li>键值对数组:</li></ul><pre class="code-block"><code class="language-javascript">let keyValueArray = [...myMap];
+console.log(keyValueArray);
+</code></pre><ul><li>键数组:</li></ul><pre class="code-block"><code class="language-javascript">let keysArray = [...myMap.keys()];
+console.log(keysArray);
+</code></pre><ul><li>值数组:</li></ul><pre class="code-block"><code class="language-javascript">let valuesArray = [...myMap.values()];
+console.log(valuesArray);
+</code></pre><p>每种方法的使用取决于你的具体需求。通常，<code>for...of</code> 和 <code>forEach()</code> 会用得更多，因为它们可以直接操作键和值。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

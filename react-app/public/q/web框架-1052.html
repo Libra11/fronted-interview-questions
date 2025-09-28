@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] 如何将一个层级非常深的子组件的某一个方法， 抛出给上层组件使用【热度: 465】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：调用子组件方法&lt;/p&gt;&lt;p&gt;在 React 中，可以通过以下几种方式将一个层级非常深的子组件的某一个方法抛出给上层组件使用：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、使用回调函数传递&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;在父组件中定义一" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] 如何将一个层级非常深的子组件的某一个方法， 抛出给上层组件使用【热度: 465】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：调用子组件方法&lt;/p&gt;&lt;p&gt;在 React 中，可以通过以下几种方式将一个层级非常深的子组件的某一个方法抛出给上层组件使用：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、使用回调函数传递&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;在父组件中定义一个回调函数，并将其作为属性传递给子组件的父级组件，依次向下传递，直到目标子组件。&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;例如：&lt;/p&gt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1052" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] 如何将一个层级非常深的子组件的某一个方法， 抛出给上层组件使用【热度: 465】</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2024-11-06T15:51:21Z · 更新：2025-02-25T08:49:06Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：调用子组件方法</p><p>在 React 中，可以通过以下几种方式将一个层级非常深的子组件的某一个方法抛出给上层组件使用：</p><p><strong>一、使用回调函数传递</strong></p><ol><li>在父组件中定义一个回调函数，并将其作为属性传递给子组件的父级组件，依次向下传递，直到目标子组件。</li></ol><p>例如：</p><p>```jsx</p><p>function ParentComponent() {</p><p>const handleDeepMethod = () => {</p><p>console.log("调用了深层子组件的方法");</p><p>};</p><p>return <ChildComponent onDeepMethod={handleDeepMethod} />;</p><p>}</p><p>function ChildComponent({ onDeepMethod }) {</p><p>return <GrandChildComponent onDeepMethod={onDeepMethod} />;</p><p>}</p><p>function GrandChildComponent({ onDeepMethod }) {</p><p>const deepMethod = () => {</p><p>console.log("深层子组件的方法被执行");</p><p>onDeepMethod();</p><p>};</p><p>return <button onClick={deepMethod}>触发深层方法</button>;</p><p>}</p><p>```</p><ol><li>在深层子组件中，当特定条件触发时，调用这个通过层层传递下来的回调函数，从而让父组件执行相应的操作。</li></ol><p><strong>二、使用 React 的 Context API</strong></p><ol><li>创建一个 Context：</li></ol><p>```jsx</p><p>const DeepMethodContext = React.createContext();</p><p>```</p><ol><li>在父组件中提供值：</li></ol><p>```jsx</p><p>function ParentComponent() {</p><p>const handleDeepMethod = () => {</p><p>console.log("调用了深层子组件的方法");</p><p>};</p><p>return (</p><p><DeepMethodContext.Provider value={handleDeepMethod}></p><p><ChildComponent /></p><p></DeepMethodContext.Provider></p><p>);</p><p>}</p><p>```</p><ol><li>在深层子组件中获取 Context 值并调用：</li></ol><p>```jsx</p><p>function GrandChildComponent() {</p><p>const handleDeepMethod = React.useContext(DeepMethodContext);</p><p>const deepMethod = () => {</p><p>console.log("深层子组件的方法被执行");</p><p>handleDeepMethod();</p><p>};</p><p>return <button onClick={deepMethod}>触发深层方法</button>;</p><p>}</p><p>```</p><p><strong>三、使用 Custom Events</strong></p><p>还有一种方法是使用自定义事件（Custom Events）。</p><ol><li>在深层子组件中创建并派发自定义事件：</li></ol><p>```jsx</p><p>function GrandChildComponent() {</p><p>const deepMethod = () => {</p><p>console.log("深层子组件的方法被执行");</p><p>const event = new CustomEvent("deepMethodTriggered", { detail: {} });</p><p>window.dispatchEvent(event);</p><p>};</p><p>return <button onClick={deepMethod}>触发深层方法</button>;</p><p>}</p><p>```</p><ol><li>在父组件中监听这个自定义事件：</li></ol><p>```jsx</p><p>function ParentComponent() {</p><p>const handleDeepMethod = () => {</p><p>console.log("调用了深层子组件的方法");</p><p>};</p><p>useEffect(() => {</p><p>window.addEventListener("deepMethodTriggered", handleDeepMethod);</p><p>return () => {</p><p>window.removeEventListener("deepMethodTriggered", handleDeepMethod);</p><p>};</p><p>}, []);</p><p>return <ChildComponent />;</p><p>}</p><p>```</p><h2>Comments / Answers</h2><hr /><p><strong>Carloin</strong> at 2025-02-25T08:49:03Z</p><p><strong>四. 使用useImperativeHandle</strong></p><ol><li>使用 ref 和 forwardRef</li></ol><ul><li>通过 ref 可以获取子组件的实例，并直接调用其方法。</li><li>使用 forwardRef 将 在上层组件定义的 ref 传递给深层子组件。</li></ul><pre class="code-block"><code class="language-js">import React, { useRef, forwardRef, useImperativeHandle } from &#39;react&#39;;
+
+// 深层子组件
+const DeepChild = forwardRef((props, ref) =&gt; {
+  useImperativeHandle(ref, () =&gt; ({
+    deepMethod: () =&gt; {
+      console.log(&#39;Deep method called&#39;);
+    }
+  }));
+
+  return &lt;div&gt;Deep Child&lt;/div&gt;;
+});
+
+// 中间组件
+const MiddleComponent = forwardRef((ref) =&gt; {
+  return &lt;DeepChild ref={ref} /&gt;;
+});
+
+// 上层组件
+const ParentComponent = () =&gt; {
+  const deepChildRef = useRef(null);
+
+  const handleClick = () =&gt; {
+    if (deepChildRef.current) {
+      deepChildRef.current.deepMethod();
+    }
+  };
+
+  return (
+    &lt;div&gt;
+      &lt;button onClick={handleClick}&gt;Call Deep Method&lt;/button&gt;
+      &lt;MiddleComponent ref={deepChildRef}  /&gt;
+    &lt;/div&gt;
+  );
+};
+
+export default ParentComponent;
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Webpack 与 Vite 在产物结果上有何区别【热度: 420】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：Webpack 与 Vite 产物差异&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;模块格式和加载方式&lt;/strong&gt;&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Webpack&lt;/strong&gt;：&lt;/li&gt;&lt;li&gt;在产物中，We" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Webpack 与 Vite 在产物结果上有何区别【热度: 420】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：Webpack 与 Vite 产物差异&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;模块格式和加载方式&lt;/strong&gt;&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Webpack&lt;/strong&gt;：&lt;/li&gt;&lt;li&gt;在产物中，Webpack 通常会将多个模块打包成一个或多个 bundle 文件。这些 bundle 文件的格式可以是多种形式，如 Co" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1071" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>Webpack 与 Vite 在产物结果上有何区别【热度: 420】</h1>
+      <div class="subtitle">工程化 · 工程化</div>
+      <div class="meta">创建：2024-11-23T03:02:02Z · 更新：2024-11-23T03:02:03Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：Webpack 与 Vite 产物差异</p><ol><li><strong>模块格式和加载方式</strong></li></ol><ul><li><strong>Webpack</strong>：</li><li>在产物中，Webpack 通常会将多个模块打包成一个或多个 bundle 文件。这些 bundle 文件的格式可以是多种形式，如 CommonJS（在 Node.js 环境下常用）或者 IIFE（立即调用函数表达式，用于浏览器环境）。对于浏览器环境，Webpack 会将所有的 JavaScript 模块打包成一个或几个大的文件，并且通过自定义的加载逻辑来加载模块。例如，在一个简单的 Webpack 打包后的 JavaScript 文件中，可能会看到类似<code>__webpack_require__</code>这样的函数来实现模块的加载和解析。</li><li>这种打包方式会把所有的模块依赖关系都内建在 bundle 文件中，使得浏览器在加载时只需要加载一个或几个文件即可。但如果应用规模较大，bundle 文件可能会变得非常大，导致首次加载时间过长。为了解决这个问题，Webpack 也支持代码分割（Code Splitting），通过动态<code>import</code>等方式将代码分割成多个较小的块，在需要的时候再加载。</li><li><strong>Vite</strong>：</li><li>Vite 在产物中更倾向于保留原生 ES 模块（ESM）的格式。在开发阶段，Vite 利用浏览器对 ES 模块的原生支持来加载模块，而在生产阶段，它也会尽量保持这种格式。这意味着浏览器可以利用原生的<code>&lt;script type=&quot;module&quot;&gt;</code>标签来加载模块，并且可以根据模块的依赖关系自动地加载相关的模块。</li><li>不过，Vite 也会对一些非 ESM 格式的依赖进行预构建，将它们转换为 ESM 格式。在最终的产物中，这些经过转换的依赖也会以符合 ES 模块规范的形式出现，使得整个应用在浏览器中的加载和运行更加高效。</li></ul><ol><li><strong>代码优化程度</strong></li></ol><ul><li><strong>Webpack</strong>：</li><li>有一套成熟的代码优化机制。在生产构建过程中，Webpack 可以通过 Tree - Shaking（摇树优化）技术去除没有被使用的代码。例如，如果一个 JavaScript 库中有很多模块，但在应用中只使用了其中一部分，Webpack 可以在打包时将未使用的模块代码移除，从而减小打包文件的体积。</li><li>还可以进行代码压缩和混淆。通过插件（如 TerserPlugin）可以对 JavaScript 代码进行压缩，去除空格、缩短变量名等操作，进一步减小文件大小。同时，Webpack 还支持对 CSS 等其他资源进行优化，如压缩 CSS 文件、提取 CSS 到单独的文件等操作。</li><li><strong>Vite</strong>：</li><li>同样也会进行代码优化。Vite 在生产构建时也会进行代码压缩和 Tree - Shaking。它利用 Esbuild 等工具来快速地进行这些优化操作。Esbuild 是一个高性能的 JavaScript 打包工具，能够在短时间内完成代码的压缩和优化。</li><li>由于 Vite 在开发阶段已经对模块进行了一定的处理（如将非 ESM 模块转换为 ESM），在生产阶段的优化过程相对更加高效。而且 Vite 的优化策略也在不断发展和完善，以提供与 Webpack 相当甚至更好的优化效果。</li></ul><ol><li><strong>文件结构和大小分布</strong></li></ol><ul><li><strong>Webpack</strong>：</li><li>生成的文件结构可能相对复杂。尤其是在进行了代码分割之后，会产生多个 bundle 文件，这些文件可能包括主入口文件、异步加载的模块文件、CSS 文件（如果通过插件提取到单独的文件）等。文件大小分布可能不均匀，主入口文件可能会比较大，包含了大部分的核心模块和公共模块，而异步加载的模块文件大小则根据具体的功能模块而不同。</li><li>对于大型项目，Webpack 可能会生成较大的 bundle 文件，即使经过优化，由于其打包的特性，文件大小仍然可能是一个需要关注的问题。需要通过合理的代码分割和懒加载策略来优化文件大小和加载顺序，以提高应用的性能。</li><li><strong>Vite</strong>：</li><li>文件结构相对简单。因为 Vite 更倾向于以 ES 模块的方式组织代码，在产物中，每个模块基本上都以独立的文件形式存在（或者是经过预构建后的模块组），并且可以根据需要自动加载。文件大小分布相对均匀，每个模块文件大小根据其自身的功能和代码量而定。</li><li>这种文件结构使得浏览器可以根据实际需要加载模块，避免了一次性加载大量不必要的代码。不过，在一些情况下，如果没有合理地管理模块，可能会导致过多的小文件，增加了浏览器的请求次数，需要在模块组织和文件合并等方面进行平衡。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

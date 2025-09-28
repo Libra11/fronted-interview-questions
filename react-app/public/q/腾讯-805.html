@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>babel-runtime 作用是啥【热度: 200】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：babel-runtime 作用&lt;/p&gt;&lt;p&gt;&lt;code&gt;babel-runtime&lt;/code&gt; 是一个包含 &lt;code&gt;babel&lt;/code&gt; 模块化运行时助手的库。&lt;/p&gt;&lt;p&gt;在使用 &lt;code&gt;babel&lt;/code&gt; " />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="babel-runtime 作用是啥【热度: 200】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：babel-runtime 作用&lt;/p&gt;&lt;p&gt;&lt;code&gt;babel-runtime&lt;/code&gt; 是一个包含 &lt;code&gt;babel&lt;/code&gt; 模块化运行时助手的库。&lt;/p&gt;&lt;p&gt;在使用 &lt;code&gt;babel&lt;/code&gt; 进行代码转换时，有时会注入一些在多个文件中相同且可能被重复使用的代码。例如，使用类转换（无松散模式）时，每个包含类的文件" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/805" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>babel-runtime 作用是啥【热度: 200】</h1>
+      <div class="subtitle">腾讯 · 工程化 · 腾讯</div>
+      <div class="meta">创建：2024-07-21T02:25:24Z · 更新：2024-07-21T02:25:25Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：babel-runtime 作用</p><p><code>babel-runtime</code> 是一个包含 <code>babel</code> 模块化运行时助手的库。</p><p>在使用 <code>babel</code> 进行代码转换时，有时会注入一些在多个文件中相同且可能被重复使用的代码。例如，使用类转换（无松散模式）时，每个包含类的文件都会重复出现类似 <code>_classcallcheck</code> 这样的函数。</p><p><code>babel-runtime</code> 的主要作用就是将这些可能被重用的代码抽取成单独的模块，以避免在每个文件中重复出现相同的代码。它通过模块导入的方式引入这些功能，从而避免了对全局作用域的修改或污染。</p><p>具体来说，<code>babel-runtime</code> 包含了诸如 <code>core-js</code>（提供 JavaScript 内置库的垫片，如 <code>array</code>、<code>json</code>、<code>math</code>、<code>promise</code>、<code>symbol</code> 等）、<code>regenerator-runtime</code>（实现了 <code>generator/yield</code>、<code>async/await</code>）以及一些语法转换的辅助函数（如 <code>es5</code> 与 <code>es6</code> 的继承转换等）。</p><p>使用 <code>babel-runtime</code> 通常需要配合 <code>babel-plugin-transform-runtime</code> 插件一起使用。<code>babel-plugin-transform-runtime</code> 插件会进行一些处理，例如自动导入 <code>babel-runtime/core-js</code>，并将全局静态方法、全局内置对象映射到对应的模块；将内联的工具函数移除，改成通过 <code>babel-runtime/helpers</code> 模块进行导入；如果使用了 <code>async/generator</code> 函数，则自动导入 <code>babel-runtime/regenerator</code> 模块等。</p><p>这样，在代码中如果需要使用特定的功能，只需从 <code>babel-runtime</code> 相应的模块中导入即可，而不是直接使用全局的对象或函数。</p><p>例如，如果代码中使用了 <code>promise</code>，可以这样导入：</p><pre class="code-block"><code class="language-javascript">import promise from &quot;babel-runtime/core-js/promise&quot;;
+</code></pre><p>总的来说，<code>babel-runtime</code> 更像是一种按需加载的实现方式，适用于开发库、工具等场景，可避免对全局作用域的污染，同时减少重复代码。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

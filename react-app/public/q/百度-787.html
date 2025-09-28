@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>flex：1 代表什么【热度: 400】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：flex 布局相关属性问题&lt;/p&gt;&lt;p&gt;在 CSS 的弹性盒模型（Flexbox）中，&lt;code&gt;flex: 1&lt;/code&gt;表示子项（flex 子项）的伸缩性。&lt;/p&gt;&lt;p&gt;具体来说，&lt;code&gt;flex: 1&lt;/code&gt;是&lt;c" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="flex：1 代表什么【热度: 400】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：flex 布局相关属性问题&lt;/p&gt;&lt;p&gt;在 CSS 的弹性盒模型（Flexbox）中，&lt;code&gt;flex: 1&lt;/code&gt;表示子项（flex 子项）的伸缩性。&lt;/p&gt;&lt;p&gt;具体来说，&lt;code&gt;flex: 1&lt;/code&gt;是&lt;code&gt;flex-grow&lt;/code&gt;、&lt;code&gt;flex-shrink&lt;/code&gt;和&lt;code&gt;flex-bas" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/787" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>flex：1 代表什么【热度: 400】</h1>
+      <div class="subtitle">百度 · CSS · 百度</div>
+      <div class="meta">创建：2024-07-12T12:27:11Z · 更新：2024-07-12T12:27:11Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：flex 布局相关属性问题</p><p>在 CSS 的弹性盒模型（Flexbox）中，<code>flex: 1</code>表示子项（flex 子项）的伸缩性。</p><p>具体来说，<code>flex: 1</code>是<code>flex-grow</code>、<code>flex-shrink</code>和<code>flex-basis</code>三个属性的简写。其默认值等同于<code>flex: 1 1 0%</code>，分别代表以下含义：</p><ul><li><code>flex-grow: 1</code>：定义项目的放大比例为 1。这意味着当弹性容器有剩余空间时，该子项将按照比例伸展以填充剩余空间。如果存在多个<code>flex-grow: 1</code>的子项，它们将等分剩余空间。</li><li><code>flex-shrink: 1</code>：定义项目的缩小比例为 1。即如果空间不足，该项目将缩小。</li><li><code>flex-basis: 0%</code>：在分配多余空间之前，计算项目是否有多余空间，这里的<code>0%</code>表示不考虑项目本身的大小。</li></ul><p><code>flex: 1</code>经常用于自适应布局。例如，将父容器的<code>display</code>设置为<code>flex</code>，侧边栏大小固定后，将内容区设置为<code>flex: 1</code>，内容区则会自动放大占满剩余空间。</p><p>以下是一个简单的示例代码，展示了<code>flex: 1</code>的效果：</p><pre class="code-block"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;style&gt;
+      .container {
+        display: flex;
+        width: 300px;
+        height: 200px;
+        background-color: lightblue;
+      }
+
+      .item1 {
+        background-color: lightcoral;
+        flex: 1;
+      }
+
+      .item2 {
+        background-color: lightgreen;
+        flex: 1;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+
+  &lt;body&gt;
+    &lt;div class=&quot;container&quot;&gt;
+      &lt;div class=&quot;item1&quot;&gt;item1&lt;/div&gt;
+      &lt;div class=&quot;item2&quot;&gt;item2&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>在上述代码中，<code>.container</code>是一个 flex 容器，它包含两个子元素<code>.item1</code>和<code>.item2</code>，并且都将<code>flex</code>属性设置为<code>1</code>。当调整<code>.container</code>的宽度时，<code>.item1</code>和<code>.item2</code>会等比例地增大或缩小，以占满剩余空间。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>事件循环原理? - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;通过一道题进入浏览器事件循环原理：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-arcade&quot;&gt;console.log(&amp;#39;script start&amp;#39;) setTimeout(function () { c" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="事件循环原理?" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;通过一道题进入浏览器事件循环原理：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-arcade&quot;&gt;console.log(&amp;#39;script start&amp;#39;) setTimeout(function () { console.log(&amp;#39;setTimeout&amp;#39;) }, 0); Promise.resolve().th" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/142" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>事件循环原理?</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-23T15:48:30Z · 更新：2023-03-23T15:50:30Z</div>
+    </div>
+    <article class="content markdown-body"><p>通过一道题进入浏览器事件循环原理：</p><pre class="code-block"><code class="language-arcade">console.log(&#39;script start&#39;)
+setTimeout(function () {
+  console.log(&#39;setTimeout&#39;)
+}, 0);
+Promise.resolve().then(function () {
+  console.log(&#39;promise1&#39;)
+}).then(function () {
+  console.log(&#39;promise2&#39;)
+})
+console.log(&#39;script end&#39;)
+</code></pre><p>可以先试一下，手写出执行结果，然后看完这篇文章以后，在运行一下这段代码，看结果和预期是否一样</p><h3>单线程</h3><h4>定义</h4><p>单线程意味着所有的任务需要排队，前一个任务结束，才能够执行后一个任务。如果前一个任务耗时很长，后面一个任务不得不一直等着。</p><h4>原因</h4><p><code>javascript</code>的单线程，与它的用途有关。作为浏览器脚本语言，<code>javascript</code>的主要用途是与用户互动，以及操作<code>DOM</code>。这决定了它只能是单线程，否则会带来很复杂的同步问题。比如，假定<code>javascript</code>同时有两个线程，一个在添加<code>DOM</code>节点，另外一个是删除<code>DOM</code>节点，那浏览器应该应该以哪个为准，如果在增加一个线程进行管理多个线程，虽然解决了问题，但是增加了复杂度，为什么不使用单线程呢，执行有个先后顺序，某个时间只执行单个事件。</p><p>为了利用多核<code>CPU</code>的计算能力，<code>HTML5</code>提出<code>Web Worker</code>标准，运行<code>javascript</code>创建多个线程，但是子线程完全受主线程控制，且不得操作<code>DOM</code>。所以，这个标准并没有改变<code>javascript</code>单线程的本质</p><h3>浏览器中的<code>Event Loop</code></h3><p>事件循环这个名字来源于它往往这么实现:</p><pre class="code-block"><code class="language-cpp">while(queue.waitForMessage()) {
+    queue.processNextMessage();
+}
+</code></pre><p>这个模型的优势在于它必须处理完一个消息(run to completion),才会处理下一个消息,使程序可追溯性更强。不像C语言可能随时从一个线程切换到另一个线程。但是缺点也在于此,若同步代码阻塞则会影响用户交互</p><h4><code>macroTask</code>和<code>microTask</code></h4><p>宏队列，<code>macroTask</code>也叫<code>tasks</code>。包含同步任务，和一些异步任务的回调会依次进入<code>macro task queue</code>中，<code>macroTask</code>包含:</p><ul><li>script代码块</li><li>setTimeout</li><li>requestAnimationFrame</li><li>I/O</li><li>UI rendering</li></ul><p>微队列, <code>microtask</code>，也叫<code>jobs</code>。另外一些异步任务的回调会依次进入<code>micro task queue</code>，等待后续被调用，这些异步任务包含:</p><ul><li>Promise.then</li><li>MutationObserver</li></ul><p>下面是<code>Event Loop</code>的示意图</p><p><img alt="" src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/10/24/16dfca86d30dc6d0~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp" /></p><p>一段<code>javascript</code>执行的具体流程就是如下：</p><ol><li>首先执行宏队列中取出第一个，一段<code>script</code>就是相当于一个<code>macrotask</code>,所以他先会执行同步代码，当遇到例如<code>setTimeout</code>的时候，就会把这个异步任务推送到宏队列队尾中。</li><li>当前<code>macrotask</code>执行完成以后，就会从微队列中取出位于头部的异步任务进行执行，然后微队列中任务的长度减一。</li><li>然后继续从微队列中取出任务，直到整个队列中没有任务。如果在执行微队列任务的过程中，又产生了<code>microtask</code>，那么会加入整个队列的队尾，也会在当前的周期中执行</li><li>当微队列的任务为空了，那么就需要执行下一个<code>macrotask</code>，执行完成以后再执行微队列，以此反复。</li></ol><p>总结下来就是不断从<code>task</code>队列中按顺序取<code>task</code>执行，每执行完一个<code>task</code>都会检查<code>microtask</code>是否为空，不让过不为空就执行队列中的所有<code>microtask</code>。然后在取下一个<code>task</code>以此循环</p><h4>调用栈和任务队列</h4><p>调用栈是一个栈结构，函数调用会形成一个栈帧。栈帧：调用栈中每个实体被称为栈帧，帧中包含了当前执行函数的参数和局部变量等上下文信息，函数执行完成后，它的执行上下文会从栈中弹出。 下面是调用栈和任务队列的关系:</p><p><img alt="" src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/10/25/16e01c44735fee30~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp" /></p><p>分析文章开头的题目，可以通过在题目前面添加<code>debugger</code>，结合<code>chrome</code>的<code>call stack</code>进行分析:</p><p><img alt="" src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/10/25/16e01cbeaa6b1c05~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp" /></p><p>(这里不知道怎么画动图，在晚上找的一张图，小伙伴们有好的工具，求分享); 下面借助三个数组来分析一下这段代码的执行流程，<code>call stack</code>表示调用栈，<code>macroTasks</code>表示宏队列，<code>microTasks</code>表示微队列：</p><ol><li>首先代码执行之前都是三个队列都是空的:</li></ol><pre class="code-block"><code class="language-apache">callStack: []
+macroTasks: [main]
+microTasks: []
+</code></pre><p>在前面提到，整个代码块就相当于一个<code>macroTask</code>，所以首先向<code>callStack</code>中压入<code>main()</code>，<code>main</code>相当于整个代码块</p><ol><li>执行<code>main</code>，输出同步代码结果:</li></ol><pre class="code-block"><code class="language-apache">callStack: [main]
+macroTasks: []
+microTasks: []
+</code></pre><p>在遇到<code>setTimeout</code>和<code>promise</code>的时候会向<code>macroTasks</code>与<code>microTasks</code>中分别推入</p><ol><li>此时的三个队列分别是:</li></ol><pre class="code-block"><code class="language-apache">callStack: [main]
+macroTasks: [setTimeout]
+microTasks: [promise]
+</code></pre><p>当这段代码执行完成以后，会输出:</p><pre class="code-block"><code class="language-applescript">script start
+script end
+</code></pre><ol><li>当<code>main</code>执行完成以后，会取<code>microTasks</code>中的任务，放入<code>callStack</code>中，此时的三个队列为:</li></ol><pre class="code-block"><code class="language-apache">callStack: [promise]
+macroTasks: [setTimeout]
+microTask: []
+</code></pre><p>当这个<code>promise</code>执行完成后会输出</p><pre class="code-block"><code>promise1
+</code></pre><p>后面又有一个<code>then</code>，在前面提到如果还有<code>microtask</code>就在微队列队尾中加入这个任务，并且在当前<code>tick</code>执行。所以紧接着输出<code>promise2</code></p><ol><li>当前的<code>tick</code>也就完成了，最后在从<code>macroTasks</code>取出<code>task</code>，此时三个队列的状态如下：</li></ol><pre class="code-block"><code class="language-apache">callStack: [setTimeout]
+macroTasks: []
+microTask: []
+</code></pre><p>最后输出的结果就是<code>setTimeout</code>。</p><p>所谓的事件循环就是从两个队列中不断取出事件，然后执行，反复循环就是事件循环。经过上面的示例，理解起来是不是比较简单</p><h2>Comments / Answers</h2><hr /><p><strong>yanlele</strong> at 2023-03-23T15:50:30Z</p><p>参考文档： https://juejin.cn/post/6844903983287549965</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

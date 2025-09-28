@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>有哪些场景的 http header - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;常见的 HTTP Header 在请求头（Request Header）和响应头（Response Header）中有许多不同的字段，它们具有各自的作用。下面是一些常见的 HTTP Header 字段及其作用的简要说明：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Request Head" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="有哪些场景的 http header" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;常见的 HTTP Header 在请求头（Request Header）和响应头（Response Header）中有许多不同的字段，它们具有各自的作用。下面是一些常见的 HTTP Header 字段及其作用的简要说明：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Request Header：&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;Host&lt;/strong&gt;：指定目标服务器的域名或 IP" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/398" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>有哪些场景的 http header</h1>
+      <div class="subtitle">阿里巴巴 · 网络 · 阿里巴巴</div>
+      <div class="meta">创建：2023-06-02T15:48:14Z · 更新：2023-06-02T15:48:15Z</div>
+    </div>
+    <article class="content markdown-body"><p>常见的 HTTP Header 在请求头（Request Header）和响应头（Response Header）中有许多不同的字段，它们具有各自的作用。下面是一些常见的 HTTP Header 字段及其作用的简要说明：</p><p><strong>Request Header：</strong></p><ol><li><strong>Host</strong>：指定目标服务器的域名或 IP 地址。</li><li><strong>User-Agent</strong>：发送请求的用户代理（通常是浏览器标识）。</li><li><strong>Accept</strong>：指定客户端可以接受的内容类型。</li><li><strong>Content-Type</strong>：指定请求体的媒体类型。</li><li><strong>Authorization</strong>：提供身份验证凭据，用于访问受保护的资源。</li><li><strong>Cookie</strong>：包含在上一次响应中设置的服务器的 Cookie。</li><li><strong>Referer</strong>：指定当前请求的来源页面 URL。</li></ol><p><strong>Response Header：</strong></p><ol><li><strong>Content-Type</strong>：指定响应体的媒体类型。</li><li><strong>Content-Length</strong>：指定响应体的长度（以字节为单位）。</li><li><strong>Cache-Control</strong>：指定缓存策略，如缓存的有效期、是否可以缓存等。</li><li><strong>Set-Cookie</strong>：在客户端设置 Cookie。</li><li><strong>Location</strong>：指定重定向的目标 URL。</li><li><strong>Access-Control-Allow-Origin</strong>：指定允许跨域请求的来源（CORS）。</li><li><strong>ETag</strong>：指定实体标签，用于缓存验证。</li></ol><p>这只是一小部分常见的 HTTP Header 字段，实际上还有很多其他的字段可以在请求头和响应头中使用，每个字段都有特定的作用和用途。这些头部字段能够提供额外的信息、控制请求和响应的行为，以及实现各种功能，如身份验证、缓存控制、安全性等。</p><p><strong><code>Content-Type</code> 作用是啥，有哪些属性</strong></p><p>Content-Type 是 HTTP 头部字段之一，用于指示请求或响应中实体（如消息体、文件等）的媒体类型。</p><p>Content-Type 的值通常由媒体类型和字符集组成，使用 MIME（Multipurpose Internet Mail Extensions）类型标识。以下是一些常见的 Content-Type 值及其用途：</p><ol><li><strong>text/plain</strong>：纯文本类型，没有指定字符集，默认使用 ASCII 编码。</li><li><strong>text/html</strong>：HTML 文档类型，用于表示网页内容。</li><li><strong>text/css</strong>：CSS 文件类型，用于表示样式表。</li><li><strong>application/json</strong>：JSON 数据类型，用于表示结构化数据。</li><li><strong>application/xml</strong>：XML 数据类型，用于表示可扩展标记语言数据。</li><li><strong>application/octet-stream</strong>：二进制流数据类型，用于表示任意二进制数据。</li><li><strong>multipart/form-data</strong>：用于在 HTML 表单中上传文件时，将表单数据和文件一起提交。</li><li><strong>image/jpeg</strong>、<strong>image/png</strong>、<strong>image/gif</strong>：用于表示不同格式的图像文件。</li></ol><p>这只是一小部分常见的 Content-Type 值，实际上还有很多其他类型，每种类型都有其特定的用途和格式。根据实际需求，选择适当的 Content-Type 值可以确保请求和响应中的实体以正确的格式进行解析和处理。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

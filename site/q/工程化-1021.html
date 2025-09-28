@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何定制化开发一个 eslint 插件， 功能是实现提示检验某一个项目里面的字符串error【热度: 10】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：eslint 插件编写&lt;/p&gt;&lt;p&gt;以下是一个可以检测特定字符串并支持参数传递的 ESLint 插件开发步骤：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、创建插件项目&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;创建一个新的目录来存放插件项目，例" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何定制化开发一个 eslint 插件， 功能是实现提示检验某一个项目里面的字符串error【热度: 10】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：eslint 插件编写&lt;/p&gt;&lt;p&gt;以下是一个可以检测特定字符串并支持参数传递的 ESLint 插件开发步骤：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、创建插件项目&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;创建一个新的目录来存放插件项目，例如&lt;code&gt;eslint-plugin-custom-string-check&lt;/code&gt;。&lt;/li&gt;&lt;li&gt;在该目" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1021" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何定制化开发一个 eslint 插件， 功能是实现提示检验某一个项目里面的字符串error【热度: 10】</h1>
+      <div class="subtitle">工程化 · 工程化</div>
+      <div class="meta">创建：2024-10-26T06:41:50Z · 更新：2024-10-26T06:41:50Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：eslint 插件编写</p><p>以下是一个可以检测特定字符串并支持参数传递的 ESLint 插件开发步骤：</p><p><strong>一、创建插件项目</strong></p><ol><li>创建一个新的目录来存放插件项目，例如<code>eslint-plugin-custom-string-check</code>。</li><li>在该目录下，运行<code>npm init</code>初始化一个 npm 项目。</li></ol><p><strong>二、插件结构</strong></p><ol><li>在项目目录下创建一个<code>index.js</code>文件作为插件的入口文件。</li></ol><ol><li>定义插件对象：</li></ol><pre class="code-block"><code class="language-javascript">module.exports = {
+  rules: {},
+};
+</code></pre><p><strong>三、实现规则</strong></p><ol><li>定义规则函数，接收一个参数<code>options</code>，这个参数可以包含你要检测的字符串。</li></ol><pre class="code-block"><code class="language-javascript">module.exports = {
+  rules: {
+    &quot;check-custom-string&quot;: (context, options) =&gt; {
+      return {
+        Program(node) {
+          const sourceCode = context.getSourceCode();
+          const text = sourceCode.getText();
+          const targetString = options &amp;&amp; options.stringToCheck ? options.stringToCheck : null;
+          if (targetString &amp;&amp; text.includes(targetString)) {
+            context.report({
+              node,
+              message: `Found custom string &quot;${targetString}&quot;.`,
+            });
+          }
+        },
+      };
+    },
+  },
+};
+</code></pre><p><strong>四、测试插件</strong></p><ol><li>在项目目录下创建一个<code>tests</code>目录。</li><li>在<code>tests</code>目录下创建一个测试文件，例如<code>test.js</code>。</li></ol><pre class="code-block"><code class="language-javascript">const ruleTester = require(&quot;eslint&quot;).RuleTester;
+const rule = require(&quot;../index&quot;).rules[&quot;check-custom-string&quot;];
+
+const ruleTester = new RuleTester();
+ruleTester.run(&quot;check-custom-string&quot;, rule, {
+  valid: [
+    {
+      code: &#39;const message = &quot;This is a test.&quot;;&#39;,
+      options: { stringToCheck: &quot;errorMessage&quot; },
+    },
+  ],
+  invalid: [
+    {
+      code: &#39;const errorMessage = &quot;This is an error.&quot;;&#39;,
+      options: { stringToCheck: &quot;errorMessage&quot; },
+      errors: [
+        {
+          message: &#39;Found custom string &quot;errorMessage&quot;.&#39;,
+        },
+      ],
+    },
+  ],
+});
+</code></pre><p><strong>五、使用插件</strong></p><ol><li>在你的项目中安装这个插件：</li></ol><pre class="code-block"><code class="language-bash">npm install /path/to/your/plugin/eslint-plugin-custom-string-check --save-dev
+</code></pre><ol><li>在项目的<code>.eslintrc</code>文件中配置插件：</li></ol><pre class="code-block"><code class="language-json">{
+  &quot;plugins&quot;: [&quot;custom-string-check&quot;],
+  &quot;rules&quot;: {
+    &quot;custom-string-check/check-custom-string&quot;: [&quot;error&quot;, { &quot;stringToCheck&quot;: &quot;yourTargetString&quot; }]
+  }
+}
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

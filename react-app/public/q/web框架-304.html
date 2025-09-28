@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] ref 是如何拿到函数组件的实例【热度: 881】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h3&gt;使用&lt;code&gt;forwordRef&lt;/code&gt;&lt;/h3&gt;&lt;p&gt;将&lt;code&gt;input&lt;/code&gt;单独封装成一个组件&lt;code&gt;TextInput&lt;/code&gt;。&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-js" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] ref 是如何拿到函数组件的实例【热度: 881】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h3&gt;使用&lt;code&gt;forwordRef&lt;/code&gt;&lt;/h3&gt;&lt;p&gt;将&lt;code&gt;input&lt;/code&gt;单独封装成一个组件&lt;code&gt;TextInput&lt;/code&gt;。&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-jsx&quot;&gt;const TextInput = React.forwardRef((props,ref) =&amp;gt; { re" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/304" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] ref 是如何拿到函数组件的实例【热度: 881】</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2023-04-23T14:07:56Z · 更新：2023-04-23T14:17:50Z</div>
+    </div>
+    <article class="content markdown-body"><h3>使用<code>forwordRef</code></h3><p>将<code>input</code>单独封装成一个组件<code>TextInput</code>。</p><pre class="code-block"><code class="language-jsx">const TextInput =  React.forwardRef((props,ref) =&gt; {
+  return &lt;input ref={ref}&gt;&lt;/input&gt;
+})
+
+</code></pre><p>用<code>TextInputWithFocusButton</code>调用它</p><pre class="code-block"><code class="language-jsx">function TextInputWithFocusButton() {
+  // 关键代码
+  const inputEl = useRef(null);
+  const onButtonClick = () =&gt; {
+    // 关键代码，`current` 指向已挂载到 DOM 上的文本输入元素
+    inputEl.current.focus();
+  };
+  return (
+    &lt;&gt;
+      // 关键代码
+      &lt;TextInput ref={inputEl}&gt;&lt;/TextInput&gt;
+      &lt;button onClick={onButtonClick}&gt;Focus the input&lt;/button&gt;
+    &lt;/&gt;
+  );
+}
+
+</code></pre><h3>useImperativeHandle</h3><p>有时候，我们可能<strong>不想将整个子组件暴露给父组件</strong>，而只是暴露出父组件需要的值或者方法，这样可以让代码更加明确。而<code>useImperativeHandle</code> Api就是帮助我们做这件事的。</p><pre class="code-block"><code class="language-jsx">const TextInput =  forwardRef((props,ref) =&gt; {
+  const inputRef = useRef();
+  // 关键代码
+  useImperativeHandle(ref, () =&gt; ({
+    focus: () =&gt; {
+      inputRef.current.focus();
+    }
+  }));
+  return &lt;input ref={inputRef} /&gt;
+})
+
+
+function TextInputWithFocusButton() {
+  // 关键代码
+  const inputEl = useRef(null);
+  const onButtonClick = () =&gt; {
+    // 关键代码，`current` 指向已挂载到 DOM 上的文本输入元素
+    inputEl.current.focus();
+  };
+  return (
+    &lt;&gt;
+      // 关键代码
+      &lt;TextInput ref={inputEl}&gt;&lt;/TextInput&gt;
+      &lt;button onClick={onButtonClick}&gt;
+          Focus the input
+      &lt;/button&gt;
+    &lt;/&gt;
+  );
+}
+
+
+</code></pre><p>也可以使用<code>current.focus()</code>来做<code>input</code>聚焦。</p><blockquote>这里要注意的是，子组件<code>TextInput</code>中的<code>useRef</code>对象，只是用来获取<code>input</code>元素的，大家不要和父组件的<code>useRef</code>混淆了。</blockquote></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

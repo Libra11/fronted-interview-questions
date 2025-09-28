@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Webpack] 如何打包运行时 chunk ， 且在项目工程中， 如何去加载这个运行时 chunk ?【热度: 421】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;Webpack打包运行时chunk的方式可以通过optimization.runtimeChunk选项来配置。下面是一个示例的配置：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;module.ex" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Webpack] 如何打包运行时 chunk ， 且在项目工程中， 如何去加载这个运行时 chunk ?【热度: 421】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;Webpack打包运行时chunk的方式可以通过optimization.runtimeChunk选项来配置。下面是一个示例的配置：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;module.exports = { // ... optimization: { runtimeChunk: &amp;#39;single&amp;#" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/610" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Webpack] 如何打包运行时 chunk ， 且在项目工程中， 如何去加载这个运行时 chunk ?【热度: 421】</h1>
+      <div class="subtitle">工程化 · 工程化 · 阿里巴巴</div>
+      <div class="meta">创建：2023-10-31T16:17:40Z · 更新：2023-11-01T14:57:35Z</div>
+    </div>
+    <article class="content markdown-body"><p>Webpack打包运行时chunk的方式可以通过optimization.runtimeChunk选项来配置。下面是一个示例的配置：</p><pre class="code-block"><code class="language-javascript">module.exports = {
+  // ...
+  optimization: {
+    runtimeChunk: &#39;single&#39;,
+  },
+};
+</code></pre><p>上述配置中，通过设置optimization.runtimeChunk为'single'，将会把所有的webpack运行时代码打包为一个单独的chunk。</p><p>在项目工程中加载运行时chunk有两种方式：</p><ol><li>通过script标签加载：可以使用HtmlWebpackPlugin插件来自动将运行时chunk添加到 HTML 文件中。在webpack配置文件中添加以下配置：</li></ol><pre class="code-block"><code class="language-javascript">const HtmlWebpackPlugin = require(&#39;html-webpack-plugin&#39;);
+
+module.exports = {
+  // ...
+  plugins: [
+    new HtmlWebpackPlugin({
+      // ...
+      chunks: [&#39;runtime&#39;, &#39;app&#39;],
+    }),
+  ],
+};
+</code></pre><p>上述配置中，chunks选项指定了要加载的chunk，包括运行时chunk（'runtime'）和其他的业务代码chunk（'app'）。最终生成的HTML文件会自动引入这些chunk。</p><ol><li>通过import语句动态加载：可以使用动态导入的方式来加载运行时chunk。在需要加载运行时chunk的地方，使用以下代码：</li></ol><pre class="code-block"><code class="language-javascript">import(/* webpackChunkName: &quot;runtime&quot; */ &#39;./path/to/runtime&#39;).then((runtime) =&gt; {
+  // 运行时chunk加载完成后的逻辑
+});
+</code></pre><p>上述代码中，通过import()函数动态加载运行时chunk，通过webpackChunkName注释指定要加载的chunk名称（这里是'runtime'）。加载完成后，可以进行相关逻辑处理。</p><p>总结：Webpack可以通过optimization.runtimeChunk选项配置打包运行时chunk，可以通过script标签加载或者使用动态导入的方式来加载运行时chunk。</p><p><strong>追问</strong></p><blockquote>如果只想把某几个文件打包成运行时加载， 该如何处理呢？</blockquote><p>如果你想将某几个文件打包成运行时加载，可以使用Webpack的<code>entry</code>配置和<code>import()</code>语法来实现。</p><p>首先，在Webpack的配置文件中，将这几个文件指定为单独的<code>entry</code>点。例如：</p><pre class="code-block"><code class="language-javascript">module.exports = {
+  // ...
+  entry: {
+    main: &#39;./src/main.js&#39;,
+    runtime: &#39;./src/runtime.js&#39;,
+  },
+};
+</code></pre><p>上述配置中，<code>main.js</code>是业务代码的入口文件，<code>runtime.js</code>是你想要打包成运行时加载的文件。</p><p>然后，在你的业务代码中，通过<code>import()</code>动态导入这些文件。例如：</p><pre class="code-block"><code class="language-javascript">function loadRuntime() {
+  return import(&#39;./runtime.js&#39;);
+}
+
+// 使用动态导入的方式加载运行时文件
+loadRuntime().then(runtime =&gt; {
+  // 运行时文件加载完成后的逻辑
+});
+</code></pre><p>使用<code>import()</code>会返回一个<code>Promise</code>，可以通过<code>.then()</code>来处理文件加载完成后的逻辑。</p><p>最后，使用Webpack进行打包时，会根据配置的<code>entry</code>点和<code>import()</code>语法自动将这几个文件打包成运行时加载的模块。运行时模块会在需要时动态加载并执行。</p><p>注意：在使用<code>import()</code>动态导入文件时，需要确保你的环境支持<code>Promise</code>和动态导入语法。</p><p><strong>作为上面回复的补充</strong></p><p>除了 <code>entry</code> 的方式可以处理自己申明的 runtime 文件以外， 还可以直接在 <code>import(&#39;xx&#39;)</code> 的时候申明；</p><p>例如：</p><pre class="code-block"><code class="language-js">import(/* webpackChunkName: &quot;runtime&quot; */ &#39;./path/to/runtime&#39;).then((runtime) =&gt; {
+  // 运行时chunk加载完成后的逻辑
+});
+</code></pre><p>上面的方式， 可以在也可以达到同样的效果， 只是在 <code>import</code> 的时候申明runtime文件名称而已</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

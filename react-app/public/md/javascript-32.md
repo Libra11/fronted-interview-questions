@@ -1,0 +1,85 @@
+# 解释一下 原型、构造函、实例、原型链 之间的关系？
+
+# 创建对象有哪几种方式？
+
+```js
+// 面向字面量
+var o1={name:'01'};
+var o11=new Object({name:'o11'});
+
+// 使用显示的构造函数：
+var M=function(){this.name='02'};
+var o2=new M();
+
+// 通过Object.create()创建
+var P={name:'o3'};
+var o3=Object.create(P)
+```
+
+# 解释一下 原型、构造函、实例、原型链 之间的关系？
+![01_01](https://user-images.githubusercontent.com/22188674/221917767-022a2d09-3539-4e54-a462-34299be8eb0b.png)
+
+## 1、基础           
+构造函数可以通过new来生成一个实例、构造函数也是函数；                
+函数都有一个prototype属性，这个就是原型对象；         
+原型对象可以通过构造器constructor来指向它的构造函数；             
+实例的__proto__属性，指向的是其构造函数的原型对象；                          
+
+
+**原型链**：从一个实例对象，向上找构造这个实例相关联的对象，相关联的对象又向上找，找到创造它的一个实例对象，
+一直到Object.prototype截止。原型链是通过prototype和__proto__向上找的。构造函数通过prototype创建了很多方法，
+被其所有实例所公用，存放在原型对象上；                      
+
+例子：
+```javascript
+var M=function(name){this.name=name};
+var o3=new M('o3');
+```
+
+当我们需要扩展实例的时候，我们可以对构造函数添加方法，但是这样会创建每一个实例都拷贝一份它自己的添加的方法，
+占用内存，而且也没有必要，这个时候就可以新添加的方法写进原型里面去，添加到原型链中去，
+在实例的原型链中我们可以在原型对象上找到添加的方法；
+
+```javascript
+var M=function(name){this.name=name};
+var o3=new M('o3');
+M.prototype.say=function(){
+Console.log('say hi');
+};
+var o5=new M('o5');
+```
+
+通过这种方式o3和o5都有say方法；原型链的优势是原型对象的方法是被所有实例共有的；
+
+当访问一个实例方法的时候，首先在实例本身找这个方法，如果没有找到就会到其构建函数的原型对象去找，如果还是没有找到，
+那么它会继续通过原型链在原型对象的更上一级查找，一直到object.prototype;
+
+一定要记住只有函数才有proptotype,对象是没有的；
+
+只有实例对象又__proto__ , 因为函数也是对象，所以函数也有__proto__ , 但是和实例对象的__proto__是有区别的，函数的__proto__是function这个对象的构造实例；
+
+
+## 2、instanceof 原理
+
+实例对象上面有一个__proto__ ，这个是引用的它构造函数的原型对象；
+
+instanceof是用来判断实例是不是由某个构造函数实例化出来的对象，其原理是判断实例对象是否指向构造函数的原型；
+只要是在原型链上的函数，都会被instanceof看做是实例对象的一个构造函数，所以都会返回true;
+
+```
+m1.__proto__===m1.prototype;返回true
+m1.prototype.__proto===Object.prototype;返回true
+
+o3.__proto__.constructor===Object;//返回false
+所以我们判断一个实例对象的构造函数，用constructor;
+```
+
+## 3、new 运算符		
+后面跟着的是一个构造函数
+
+一个新对象被创建。它继承自 foo.prototype->                            
+构造函数foo会被执行，执行的时候，相应的传参会被传入，同时上下文（this）会被指定为这个新实例。	new foo等同于new foo(),只能在不传递任何参数的情况->                     
+如果构造函数返回了一个‘对象’，那么这个对象会取代整个new 出来的结果。如果构造函数没有返回值，	那么new出来的结果为步骤1创建的对象
+
+## 4、Object.create()
+创建的实例对象是指向的对象原型，实例对象本身是不具备创建对象的属性和方法的，是通过原型链来链接的。

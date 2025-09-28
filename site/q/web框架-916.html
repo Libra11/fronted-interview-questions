@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Vue] vue3 里面 `&lt;script setup&gt;` 作用是啥【热度: 210】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：&lt;code&gt;&amp;lt;script setup&amp;gt;&lt;/code&gt; 作用&lt;/p&gt;&lt;p&gt;在 Vue 3 中，&lt;code&gt;&amp;lt;script setup&amp;gt;&lt;/code&gt; 是一种新的组件编写方式，旨在使组件的编写更为简洁明了。它是" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Vue] vue3 里面 `&lt;script setup&gt;` 作用是啥【热度: 210】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：&lt;code&gt;&amp;lt;script setup&amp;gt;&lt;/code&gt; 作用&lt;/p&gt;&lt;p&gt;在 Vue 3 中，&lt;code&gt;&amp;lt;script setup&amp;gt;&lt;/code&gt; 是一种新的组件编写方式，旨在使组件的编写更为简洁明了。它是 Composition API 的一个语法糖，提供了一种更为简洁和易用的方式来定义组件。使用 &lt;code&gt;&amp;lt;sc" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/916" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Vue] vue3 里面 `&lt;script setup&gt;` 作用是啥【热度: 210】</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2024-09-17T13:31:24Z · 更新：2024-09-17T13:31:24Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：<code>&lt;script setup&gt;</code> 作用</p><p>在 Vue 3 中，<code>&lt;script setup&gt;</code> 是一种新的组件编写方式，旨在使组件的编写更为简洁明了。它是 Composition API 的一个语法糖，提供了一种更为简洁和易用的方式来定义组件。使用 <code>&lt;script setup&gt;</code> 可以带来几个主要好处：</p><h3>1. 更简洁的代码</h3><p>通过 <code>&lt;script setup&gt;</code>，你可以直接在 <code>&lt;script&gt;</code> 标签内使用 Composition API（如 <code>ref</code>, <code>reactive</code>, <code>computed</code>, <code>watch</code>, 等），而无需明确地定义 <code>setup()</code> 函数。这减少了引导性的样板代码，使得组件的逻辑更加紧凑和易读。</p><h3>2. 更好的类型推断</h3><p>对于使用 TypeScript 的项目，<code>&lt;script setup&gt;</code> 提供了更好的类型推断支持。在 <code>&lt;script setup&gt;</code> 中声明的变量和函数会自动被视为组件的一部分，使得类型推断更为直接和准确。</p><h3>3. 易于使用 Composition API 特性</h3><p>使用 <code>&lt;script setup&gt;</code>，所有顶级的绑定（如变量、函数等）都自动认为是组件的一部分，并且可以在模板中直接使用，无需返回对象。</p><h3>4. 简化 Props 和 Emits 定义</h3><p><code>&lt;script setup&gt;</code> 提供了特殊的编译时 <code>defineProps</code> 和 <code>defineEmits</code> 函数，允许你以更声明式的方式定义组件的 props 和 emits，同时也提供了类型推断的好处。</p><h3>示例</h3><p>为了展示 <code>&lt;script setup&gt;</code> 如何使 Vue 3 组件代码更加简洁，让我们对比传统的 Composition API 用法和使用 <code>&lt;script setup&gt;</code> 语法的用法。</p><p><strong>使用传统 Composition API 的组件</strong></p><pre class="code-block"><code class="language-html">&lt;template&gt;
+  &lt;button @click=&quot;increment&quot;&gt;{{ count }}&lt;/button&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+  import { ref, defineComponent } from &quot;vue&quot;;
+
+  export default defineComponent({
+    setup() {
+      const count = ref(0);
+
+      function increment() {
+        count.value++;
+      }
+
+      return { count, increment };
+    },
+  });
+&lt;/script&gt;
+</code></pre><p>在这个例子中，我们首先需要从 <code>vue</code> 导入 <code>ref</code> 和 <code>defineComponent</code>。然后，我们通过 <code>defineComponent</code> 函数定义组件，并在 <code>setup</code> 函数中定义响应式状态和函数，最后返回这些响应式状态和函数以在模板中使用它们。</p><p><strong>使用 <code>&lt;script setup&gt;</code> 的组件</strong></p><pre class="code-block"><code class="language-html">&lt;template&gt;
+  &lt;button @click=&quot;increment&quot;&gt;{{ count }}&lt;/button&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+  import { ref } from &quot;vue&quot;;
+
+  const count = ref(0);
+
+  function increment() {
+    count.value++;
+  }
+&lt;/script&gt;
+</code></pre><p>当使用 <code>&lt;script setup&gt;</code> 时，我们不需要使用 <code>defineComponent</code> 来定义组件或在 <code>setup</code> 函数中返回响应式状态和方法。相反，我们可以直接定义响应式状态和函数，这些都会自动被视为组件的一部分，并且可以在模板中直接使用。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

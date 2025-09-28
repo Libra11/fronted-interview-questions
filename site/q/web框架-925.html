@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Vue] 介绍一下 Provide【热度: 633】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：vue3 Provide&lt;/p&gt;&lt;p&gt;Vue 3 中的 &lt;code&gt;provide&lt;/code&gt; 和 &lt;code&gt;inject&lt;/code&gt; 功能提供了一种方法，允许祖先组件将数据“提供”给它的所有后代组件，无论后代组件位于组件树的" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Vue] 介绍一下 Provide【热度: 633】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：vue3 Provide&lt;/p&gt;&lt;p&gt;Vue 3 中的 &lt;code&gt;provide&lt;/code&gt; 和 &lt;code&gt;inject&lt;/code&gt; 功能提供了一种方法，允许祖先组件将数据“提供”给它的所有后代组件，无论后代组件位于组件树的何处，而不必通过所有的组件层层传递属性（props）。这对于深层嵌套的组件或跨多个组件共享状态特别有用。&lt;/p&gt;&lt;h3&gt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/925" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Vue] 介绍一下 Provide【热度: 633】</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2024-09-22T04:57:41Z · 更新：2024-09-22T04:57:42Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：vue3 Provide</p><p>Vue 3 中的 <code>provide</code> 和 <code>inject</code> 功能提供了一种方法，允许祖先组件将数据“提供”给它的所有后代组件，无论后代组件位于组件树的何处，而不必通过所有的组件层层传递属性（props）。这对于深层嵌套的组件或跨多个组件共享状态特别有用。</p><h3>基本用法</h3><h4>在祖先组件中提供数据</h4><p>你可以在任何组件中使用 <code>provide</code> 选项来提供数据。<code>provide</code> 选项应该是一个对象或返回对象的函数，其中的每个属性都可以被子组件注入。从 Vue 3 开始，<code>provide</code> 和 <code>inject</code> 绑定现在是响应式的。</p><p>在 Vue 3 中，建议在 <code>setup()</code> 函数中使用 <code>provide</code> 函数，因为 <code>setup</code> 是组合式 API 的入口点。</p><pre class="code-block"><code class="language-javascript">import { provide } from &quot;vue&quot;;
+
+export default {
+  setup() {
+    // 提供 &#39;theme&#39; 数据
+    provide(&quot;theme&quot;, &quot;dark&quot;);
+  },
+};
+</code></pre><h4>在后代组件中注入数据</h4><p>后代组件可以使用 <code>inject</code> 选项来接收数据。<code>inject</code> 选项应该是一个字符串数组，列出需要注入的属性名。</p><pre class="code-block"><code class="language-javascript">import { inject } from &quot;vue&quot;;
+
+export default {
+  setup() {
+    const theme = inject(&quot;theme&quot;);
+    return { theme };
+  },
+};
+</code></pre><h3>案例</h3><p>假设你正在开发一个应用，该应用有一个主题切换功能，你可以在顶层组件中提供当前主题，而所有子组件都可以注入这个主题信息，而不必通过层层传递。</p><h3>响应式提供</h3><p>如果要提供的数据是响应式的，并且希望后代组件能够响应数据的变化，你需要使用 Vue 的响应式系统函数，例如 <code>reactive</code> 或 <code>ref</code>。</p><pre class="code-block"><code class="language-javascript">import { provide, reactive } from &quot;vue&quot;;
+
+export default {
+  setup() {
+    const theme = reactive({ color: &quot;dark&quot; });
+    provide(&quot;theme&quot;, theme);
+  },
+};
+</code></pre><p>后代组件同样可以如上所示通过 <code>inject</code> 获取这个响应式的数据。</p><h3>注意事项</h3><ul><li><code>provide</code> 和 <code>inject</code> 提供的依赖关系不是可靠的，并且不应该在业务逻辑中频繁使用，以避免复杂的跨组件通讯导致应用难以维护。它通常被用于开发可复用的插件或高阶组件。</li><li>使用这两个选项时，注入的数据在后代组件中并不是响应式的，除非使用了 Vue 的响应式系统（如 <code>reactive</code>、<code>ref</code>）来提供这些数据。</li><li>如果 <code>inject</code> 未找到提供的键，则它默认返回 <code>undefined</code>。你可以通过提供第二个参数作为默认值来改变这一行为。</li></ul><p>总的来说，<code>provide</code> 和 <code>inject</code> 是 Vue 3 中解决跨多个组件共享状态问题的一个非常有用的功能，尤其适用于开发高阶组件或插件时使用。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

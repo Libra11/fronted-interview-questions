@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[webpack] optimize 配置中， 分割代码配置 splitChunks 怎么使用【热度: 546】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：webpack 分割代码&lt;/p&gt;&lt;p&gt;在 webpack 中，&lt;code&gt;splitChunks&lt;/code&gt;选项是&lt;code&gt;optimization&lt;/code&gt;对象的一个属性，可以用来定义如何分割代码块。默认情况下，webpa" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[webpack] optimize 配置中， 分割代码配置 splitChunks 怎么使用【热度: 546】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：webpack 分割代码&lt;/p&gt;&lt;p&gt;在 webpack 中，&lt;code&gt;splitChunks&lt;/code&gt;选项是&lt;code&gt;optimization&lt;/code&gt;对象的一个属性，可以用来定义如何分割代码块。默认情况下，webpack 会将所有来自&lt;code&gt;node_modules&lt;/code&gt;的模块分割到一个叫做&lt;code&gt;vendors&lt;/c" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/750" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[webpack] optimize 配置中， 分割代码配置 splitChunks 怎么使用【热度: 546】</h1>
+      <div class="subtitle">工程化 · 工程化 · TOP100互联网</div>
+      <div class="meta">创建：2024-05-10T15:39:25Z · 更新：2024-05-10T15:39:25Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：webpack 分割代码</p><p>在 webpack 中，<code>splitChunks</code>选项是<code>optimization</code>对象的一个属性，可以用来定义如何分割代码块。默认情况下，webpack 会将所有来自<code>node_modules</code>的模块分割到一个叫做<code>vendors</code>的 chunk 中，并且将共享或来自异步请求的模块分割成不同的 chunks。通过配置<code>splitChunks</code>选项，你可以控制这些行为，创建更细致的代码分割策略。以下是如何使用<code>splitChunks</code>来优化你的 bundle。</p><h3>基本配置</h3><pre class="code-block"><code class="language-javascript">module.exports = {
+  //...
+  optimization: {
+    splitChunks: {
+      chunks: &quot;all&quot;, // 分割所有类型的chunks：初始和动态加载的chunk
+    },
+  },
+};
+</code></pre><p>在这个配置中，<code>chunks: &#39;all&#39;</code>指示 webpack 对同步和异步引入的模块都进行分割。webpack 会根据内部的一些默认标准（如模块大小、请求的 chunks 数目等）来决定是否分割一个模块。</p><h3>基础属性配置</h3><p>下面的表格详细描述了 <code>splitChunks</code> 配置选项及其作用：</p><p>| 配置选项                         | 类型                            | 默认值         | 说明                                                                                         |</p><p>| -------------------------------- | ------------------------------- | -------------- | -------------------------------------------------------------------------------------------- |</p><p>| <code>chunks</code>                         | <code>&#39;all&#39;</code>, <code>&#39;async&#39;</code>, <code>&#39;initial&#39;</code> | <code>&#39;async&#39;</code>      | 设置优化哪些类型的 chunk。                                                                   |</p><p>| <code>minSize</code>                        | Number                          | <code>20000</code> (20kb) | 生成 chunk 的最小体积（以字节为单位）。                                                      |</p><p>| <code>maxSize</code>                        | Number                          | <code>0</code>            | 尝试将 chunk 分割成不大于指定体积的块。此选项正在实验中，并可能在将来的 webpack 版本中更改。 |</p><p>| <code>minChunks</code>                      | Number                          | <code>1</code>            | 模块被分享到的最少 chunk 数。                                                                |</p><p>| <code>maxAsyncRequests</code>               | Number                          | <code>5</code>            | 按需加载时的最大并行请求数。                                                                 |</p><p>| <code>maxInitialRequests</code>             | Number                          | <code>3</code>            | 一个入口点的最大并行请求数。                                                                 |</p><p>| <code>automaticNameDelimiter</code>         | String                          | <code>&#39;~&#39;</code>          | 用于生成名称的分隔符。                                                                       |</p><p>| <code>name</code>                           | Boolean or String or Function   | <code>true</code>         | 分割块的名称。                                                                               |</p><p>| <code>cacheGroups</code>                    | Object                          | -              | 一个对象，它定义了对于.cacheGroups 的子选项，用来控制缓存组聚合和生成的 chunks。             |</p><p>| <code>cacheGroups.test</code>               | RegExp or Function              | -              | 控制哪些模块被这个缓存组捕捉。                                                               |</p><p>| <code>cacheGroups.priority</code>           | Number                          | <code>0</code>            | 缓存组点击时的优先级，数值越大，优先级越高。                                                 |</p><p>| <code>cacheGroups.reuseExistingChunk</code> | Boolean                         | <code>true</code>         | 如果当前块包含已从主 bundle 分割的模块，则重用它。                                           |</p><p>| <code>cacheGroups.filename</code>           | String or Function              | -              | 允许为生成的 chunk 自定义文件名。                                                            |</p><p>以下是针对上述表格中提及的某些属性的进一步说明：</p><ul><li><code>chunks</code>选项指定是对哪些 chunks 应用这些优化措施。它可以是三个值之一：'all'会影响所有的 chunks，这使得在异步和非异步 chunks 之间共享模块成为可能；'async' 仅仅影响被异步加载的 chunks；'initial' 仅影响初始加载的 chunks。</li></ul><ul><li><code>minSize</code>和<code>maxSize</code>用于控制 webpack 试图以多大的 chunk 为目标。<code>minSize</code>可以避免 chunks 过小，而<code>maxSize</code>可以帮助进一步分割大的 chunks。</li></ul><ul><li><code>cacheGroups</code>是配置高度定制化的代码分割策略的地方。默认情况下 webpack 会将来自 <code>node_modules</code> 文件夹的代码分割到一个叫做 <code>vendors</code>的 chunk 中，另外 webpack 会将重复引入的代码分割到一个叫做 <code>default</code> 的 chunk 中。在这里可以覆盖这些默认设置，或是增加新的缓存组。</li></ul><p>使用实例：</p><pre class="code-block"><code class="language-javascript">module.exports = {
+  // ...
+  optimization: {
+    splitChunks: {
+      chunks: &quot;all&quot;,
+      minSize: 30000, // 最小 30kb
+      maxSize: 0, // 默认无上限
+      minChunks: 1,
+      maxAsyncRequests: 5,
+      maxInitialRequests: 3,
+      automaticNameDelimiter: &quot;~&quot;,
+      name: true,
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10,
+          name(module) {
+            const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+            return `vendor.${packageName.replace(&quot;@&quot;, &quot;&quot;)}`;
+          },
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true,
+        },
+      },
+    },
+  },
+};
+</code></pre><h3>高级配置 - 缓存组</h3><p>缓存组（cacheGroups）能让你对分割出来的 chunks 进一步细分和控制。</p><pre class="code-block"><code class="language-javascript">module.exports = {
+  //...
+  optimization: {
+    splitChunks: {
+      chunks: &quot;all&quot;,
+      maxInitialRequests: Infinity, // 允许在一个入口处无限多的并行请求
+      minSize: 0, // 生成chunk的最小体积（以字节为单位）
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/, // 正则表达式，用于测试模块路径，匹配node_modules目录下的模块
+          name(module) {
+            // 得到模块名，可能是node_modules包名称的一部分
+            const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+            return `npm.${packageName.replace(&quot;@&quot;, &quot;&quot;)}`; // 创建chunk名
+          },
+        },
+      },
+    },
+  },
+};
+</code></pre><p>这个配置创建了一个缓存组<code>vendor</code>，它会将所有从<code>node_modules</code>目录导入的模块分割到不同的 chunk 中，并为每个包创建一个以<code>npm</code>开头的 chunk 名。例如，如果你的应用依赖于<code>lodash</code>和<code>react</code>，应用中就会有<code>npm.lodash</code>和<code>npm.react</code>两个额外的 chunks。</p><h3>动态导入</h3><p>当你使用像<code>import()</code>这样的动态导入语法时，<code>splitChunks</code>插件会自动进行代码分割。</p><pre class="code-block"><code class="language-javascript">function getComponent() {
+  // 当我们调用 import() 时，webpack 会对 lodash 进行代码分割
+  return import(&quot;lodash&quot;).then(({ default: _ }) =&gt; {
+    const element = document.createElement(&quot;div&quot;);
+    element.innerHTML = _.join([&quot;Hello&quot;, &quot;webpack&quot;], &quot; &quot;);
+    return element;
+  });
+}
+
+getComponent().then((component) =&gt; {
+  document.body.appendChild(component);
+});
+</code></pre><p>在这个例子中，<code>lodash</code>会被分成一个单独的 chunk。当<code>getComponent</code>函数执行并调用<code>import()</code>时，<code>lodash</code>库会作为一个单独的异步 chunk 加载进来。</p><p>通过<code>splitChunks</code>的适当配置，我们可以大幅度减小初始加载所需的时间，并确保用户只下载当前真正需要的代码，这样就可以加快应用程序的交互速度。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

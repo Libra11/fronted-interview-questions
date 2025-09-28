@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>axios 如何注销拦截器【热度: 140】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：axios 拦截器&lt;/p&gt;&lt;blockquote&gt;作者备注&lt;/blockquote&gt;&lt;blockquote&gt;&lt;/blockquote&gt;&lt;blockquote&gt;这个问题稍微有点儿偏冷门， 需要阅读过 axios 官网才能正确作答， 考" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="axios 如何注销拦截器【热度: 140】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：axios 拦截器&lt;/p&gt;&lt;blockquote&gt;作者备注&lt;/blockquote&gt;&lt;blockquote&gt;&lt;/blockquote&gt;&lt;blockquote&gt;这个问题稍微有点儿偏冷门， 需要阅读过 axios 官网才能正确作答， 考察的是同学自驱型学习能力&lt;/blockquote&gt;&lt;p&gt;在 Axios 中，可以使用以下方法注销拦截器：&lt;/p&gt;&lt;p&gt;&lt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/949" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>axios 如何注销拦截器【热度: 140】</h1>
+      <div class="subtitle">网络 · 网络 · web应用场景</div>
+      <div class="meta">创建：2024-09-28T02:45:49Z · 更新：2024-09-28T02:45:50Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：axios 拦截器</p><blockquote>作者备注</blockquote><blockquote></blockquote><blockquote>这个问题稍微有点儿偏冷门， 需要阅读过 axios 官网才能正确作答， 考察的是同学自驱型学习能力</blockquote><p>在 Axios 中，可以使用以下方法注销拦截器：</p><p><strong>一、为拦截器分配一个引用</strong></p><ol><li>创建拦截器时保存引用：</li></ol><ul><li>当创建一个 Axios 请求或响应拦截器时，可以将其分配给一个变量，以便后续可以引用并注销它。</li></ul><p>```javascript</p><p>const requestInterceptor = axios.interceptors.request.use((config) => {</p><p>// 请求拦截器逻辑</p><p>return config;</p><p>});</p><p>const responseInterceptor = axios.interceptors.response.use((response) => {</p><p>// 响应拦截器逻辑</p><p>return response;</p><p>});</p><p>```</p><p><strong>二、使用<code>Eject</code>方法注销拦截器</strong></p><ol><li>注销单个拦截器：</li></ol><ul><li>使用拦截器的引用和<code>axios.interceptors.request.eject()</code>或<code>axios.interceptors.response.eject()</code>方法来注销特定的拦截器。</li></ul><p>```javascript</p><p>axios.interceptors.request.eject(requestInterceptor);</p><p>axios.interceptors.response.eject(responseInterceptor);</p><p>```</p><ol><li>注销所有拦截器：</li></ol><ul><li>如果需要注销所有的请求或响应拦截器，可以使用<code>axios.interceptors.request.clear()</code>或<code>axios.interceptors.response.clear()</code>方法。</li></ul><p>```javascript</p><p>axios.interceptors.request.clear();</p><p>axios.interceptors.response.clear();</p><p>```</p><p>以下是一个完整的示例：</p><pre class="code-block"><code class="language-javascript">import axios from &quot;axios&quot;;
+
+const requestInterceptor = axios.interceptors.request.use((config) =&gt; {
+  // 请求拦截器逻辑
+  return config;
+});
+
+const responseInterceptor = axios.interceptors.response.use((response) =&gt; {
+  // 响应拦截器逻辑
+  return response;
+});
+
+// 注销特定拦截器
+axios.interceptors.request.eject(requestInterceptor);
+axios.interceptors.response.eject(responseInterceptor);
+
+// 或者注销所有拦截器
+// axios.interceptors.request.clear();
+// axios.interceptors.response.clear();
+</code></pre><p>通过这些方法，可以在需要的时候注销特定的拦截器或所有拦截器，以灵活地管理 Axios 的拦截器。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

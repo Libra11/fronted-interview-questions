@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Vue] vue 全局注册组件很方便，为何不都是用全局注册【热度: 592】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;Vue 的全局注册组件确实提供了便利，特别是在组件需要跨多个视图或组件重复使用时。但是，如果全部或大量使用全局注册，也会带来一些缺点或问题。下面列举了几个不推荐全面使用全局注册组件的原因：&lt;/p&gt;&lt;h3&gt;1. &lt;strong&gt;应用启动性能&lt;/strong&gt;&lt;/h3&gt;&lt;p&gt;全" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Vue] vue 全局注册组件很方便，为何不都是用全局注册【热度: 592】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;Vue 的全局注册组件确实提供了便利，特别是在组件需要跨多个视图或组件重复使用时。但是，如果全部或大量使用全局注册，也会带来一些缺点或问题。下面列举了几个不推荐全面使用全局注册组件的原因：&lt;/p&gt;&lt;h3&gt;1. &lt;strong&gt;应用启动性能&lt;/strong&gt;&lt;/h3&gt;&lt;p&gt;全局注册的组件会在应用启动时全部加载和注册，这对于小至中等规模的应用可能不是问题。但对于大型或超大型的应用，过多的全局注册" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/917" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Vue] vue 全局注册组件很方便，为何不都是用全局注册【热度: 592】</h1>
+      <div class="subtitle">web框架 · web框架 · TOP100互联网</div>
+      <div class="meta">创建：2024-09-17T13:32:45Z · 更新：2024-09-17T13:34:25Z</div>
+    </div>
+    <article class="content markdown-body"><p>Vue 的全局注册组件确实提供了便利，特别是在组件需要跨多个视图或组件重复使用时。但是，如果全部或大量使用全局注册，也会带来一些缺点或问题。下面列举了几个不推荐全面使用全局注册组件的原因：</p><h3>1. <strong>应用启动性能</strong></h3><p>全局注册的组件会在应用启动时全部加载和注册，这对于小至中等规模的应用可能不是问题。但对于大型或超大型的应用，过多的全局注册会增加应用的启动时间和初始加载时间，对性能造成影响。</p><h3>2. <strong>代码分割和懒加载</strong></h3><p>如果使用全局注册，就很难对组件进行代码分割和懒加载，这意味着即使用户当前不需要该组件，它们仍然会被加载。相反，局部注册组件可以结合 Vue 的动态组件和 Webpack 的代码分割特性，按需加载组件，减少首屏加载时间。</p><h3>3. <strong>命名空间问题</strong></h3><p>全局注册所有组件可能会导致组件命名冲突。在大型项目中，维护一个不冲突的全局命名空间会变得非常困难。局部注册可以在组件内解决名称冲突，更加灵活。</p><h3>4. <strong>项目可维护性</strong></h3><p>使用全局注册，开发者可能难以追踪某个组件的使用情况，因为它可以在任何地方被引用。相比之下，局部注册组件会在使用它的组件文件中明显显示出来，这使得项目结构更清晰，便于团队成员理解和维护。</p><h3>5. <strong>树摇（Tree Shaking）</strong></h3><p>对于基于模块的工具链（如Webpack），局部注册的组件更容易被优化，因为未使用的组件可以在构建阶段被摇掉（Tree Shaking），减少最终的包大小。而全局注册的组件则更难被摇掉，因为构建工具很难确定它们是否在某处被使用。</p><h3>6. <strong>组件复用性</strong></h3><p>虽然全局注册的组件更易于在任何地方重用，但其实使用局部注册也可以通过将组件导入到需要的组件中来重用组件，同时还能享受前面提到的好处。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HTTPS 中的 SSL/TLS 是什么？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h3&gt;什么是 SSL/TLS&lt;/h3&gt;&lt;h4&gt;认识 SSL/TLS&lt;/h4&gt;&lt;p&gt;&lt;code&gt;TLS(Transport Layer Security)&lt;/code&gt; 是 &lt;code&gt;SSL(Secure Socket Layer)&lt;/code&gt; 的后续版本，它们是用于在互联网" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="HTTPS 中的 SSL/TLS 是什么？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h3&gt;什么是 SSL/TLS&lt;/h3&gt;&lt;h4&gt;认识 SSL/TLS&lt;/h4&gt;&lt;p&gt;&lt;code&gt;TLS(Transport Layer Security)&lt;/code&gt; 是 &lt;code&gt;SSL(Secure Socket Layer)&lt;/code&gt; 的后续版本，它们是用于在互联网两台计算机之间用于&lt;code&gt;身份验证&lt;/code&gt;和&lt;code&gt;加密&lt;/code&gt;的一种协议。&lt;/p&gt;&lt;blockqu" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/149" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>HTTPS 中的 SSL/TLS 是什么？</h1>
+      <div class="subtitle">网络 · 网络</div>
+      <div class="meta">创建：2023-03-26T05:52:25Z · 更新：2023-03-26T05:52:26Z</div>
+    </div>
+    <article class="content markdown-body"><h3>什么是 SSL/TLS</h3><h4>认识 SSL/TLS</h4><p><code>TLS(Transport Layer Security)</code> 是 <code>SSL(Secure Socket Layer)</code> 的后续版本，它们是用于在互联网两台计算机之间用于<code>身份验证</code>和<code>加密</code>的一种协议。</p><blockquote>注意：在互联网中，很多名称都可以进行互换。</blockquote><p>我们都知道一些在线业务（比如在线支付）最重要的一个步骤是创建一个值得信赖的交易环境，能够让客户安心的进行交易，SSL/TLS 就保证了这一点，SSL/TLS 通过将称为 <code>X.509</code> 证书的数字文档将网站和公司的实体信息绑定到<code>加密密钥</code>来进行工作。每一个<code>密钥对(key pairs)</code> 都有一个 <code>私有密钥(private key)</code> 和 <code>公有密钥(public key)</code>，私有密钥是独有的，一般位于服务器上，用于解密由公共密钥加密过的信息；公有密钥是公有的，与服务器进行交互的每个人都可以持有公有密钥，用公钥加密的信息只能由私有密钥来解密。</p><blockquote>什么是 <code>X.509</code>：X.509 是<code>公开密钥</code>证书的标准格式，这个文档将加密密钥与（个人或组织）进行安全的关联。</blockquote><blockquote></blockquote><blockquote>X.509 主要应用如下</blockquote><blockquote></blockquote><blockquote>* SSL/TLS 和 HTTPS 用于经过身份验证和加密的 Web 浏览</blockquote><blockquote>* 通过 <a href="https://link.juejin.cn?target=https%3A%2F%2Fwww.ssl.com%2Farticle%2Fsending-secure-email-with-s-mime%2F %22https://www.ssl.com/article/sending-secure-email-with-s-mime/%22" target="_blank" rel="noopener">S/MIME</a> 协议签名和加密的电子邮件</blockquote><blockquote>* 代码签名：它指的是使用数字证书对软件应用程序进行签名以安全分发和安装的过程。</blockquote><blockquote>></blockquote><blockquote>></blockquote><blockquote>通过使用由知名公共证书颁发机构（例如SSL.com）颁发的证书对软件进行数字签名，开发人员可以向最终用户保证他们希望安装的软件是由已知且受信任的开发人员发布；并且签名后未被篡改或损害。</blockquote><blockquote></blockquote><blockquote>* 还可用于文档签名</blockquote><blockquote>* 还可用于客户端认证</blockquote><blockquote>* 政府签发的电子身份证（详见 <a href="https://link.juejin.cn?target=https%3A%2F%2Fwww.ssl.com%2Farticle%2Fpki-and-digital-certificates-for-government%2F%25EF%25BC%2589 %22https://www.ssl.com/article/pki-and-digital-certificates-for-government/%EF%BC%89%22" target="_blank" rel="noopener">www.ssl.com/article/pki…</a></blockquote><blockquote></blockquote><blockquote>我们后面还会讨论。</blockquote><h4>HTTPS 的内核是 HTTP</h4><p>HTTPS 并不是一项新的应用层协议，只是 HTTP 通信接口部分由 SSL 和 TLS 替代而已。通常情况下，HTTP 会先直接和 TCP 进行通信。在使用 SSL 的 HTTPS 后，则会先演变为和 SSL 进行通信，然后再由 SSL 和 TCP 进行通信。也就是说，<strong>HTTPS 就是身披了一层 SSL 的 HTTP</strong>。（我都喜欢把骚粉留在最后。。。）</p><p>SSL 是一个独立的协议，不只有 HTTP 可以使用，其他应用层协议也可以使用，比如 <code>SMTP(电子邮件协议)</code>、<code>Telnet(远程登录协议)</code> 等都可以使用。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

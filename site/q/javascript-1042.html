@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Reflect.get() 和直接通过对象 [.] 访问获取属性， 有何区别【热度: 225】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：Reflect 函数&lt;/p&gt;&lt;p&gt;&lt;code&gt;Reflect.get()&lt;/code&gt;和直接通过对象&lt;code&gt;[.]&lt;/code&gt;访问获取属性有以下一些区别：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、返回值&lt;/strong&gt;&lt;/p&gt;&lt;ol" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Reflect.get() 和直接通过对象 [.] 访问获取属性， 有何区别【热度: 225】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：Reflect 函数&lt;/p&gt;&lt;p&gt;&lt;code&gt;Reflect.get()&lt;/code&gt;和直接通过对象&lt;code&gt;[.]&lt;/code&gt;访问获取属性有以下一些区别：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、返回值&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;code&gt;Reflect.get()&lt;/code&gt;：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;如果属性不存在，返回" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1042" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>Reflect.get() 和直接通过对象 [.] 访问获取属性， 有何区别【热度: 225】</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2024-10-29T23:48:09Z · 更新：2025-05-13T13:49:47Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：Reflect 函数</p><p><code>Reflect.get()</code>和直接通过对象<code>[.]</code>访问获取属性有以下一些区别：</p><p><strong>一、返回值</strong></p><ol><li><code>Reflect.get()</code>：</li></ol><ul><li>如果属性不存在，返回<code>undefined</code>。</li><li>例如：</li></ul><p>```javascript</p><p>const obj = {};</p><p>const value = Reflect.get(obj, "property");</p><p>console.log(value); // undefined</p><p>```</p><ol><li>对象直接访问：</li></ol><ul><li>如果属性不存在，在非严格模式下返回<code>undefined</code>；在严格模式下，会抛出一个<code>ReferenceError</code>错误。</li><li>例如：</li></ul><p>```javascript</p><p>const obj = {};</p><p>// 非严格模式下</p><p>console.log(obj.property); // undefined</p><p>// 严格模式下</p><p>("use strict");</p><p>console.log(obj.property); // ReferenceError: property is not defined</p><p>```</p><p><strong>二、可接受的参数和功能扩展</strong></p><ol><li><code>Reflect.get()</code>：</li></ol><ul><li>可以接受第三个参数<code>receiver</code>，用于指定属性访问的上下文对象，这在某些情况下非常有用，比如在使用代理时可以控制属性访问的行为。</li><li>例如：</li></ul><p>```javascript</p><p>const obj = { name: "John" };</p><p>const proxy = new Proxy(obj, {});</p><p>console.log(Reflect.get(proxy, "name", { name: "Jane" })); // 'Jane'</p><p>```</p><ol><li>对象直接访问：</li></ol><ul><li>没有类似的参数来指定上下文对象。</li></ul><p><strong>三、与代理的交互</strong></p><ol><li><code>Reflect.get()</code>：</li></ol><ul><li>与代理对象配合使用时，会触发代理对象上定义的相应拦截方法，使得可以对属性访问进行更精细的控制。</li><li>例如：</li></ul><p>```javascript</p><p>const obj = { name: "John" };</p><p>const handler = {</p><p>get(target, property, receiver) {</p><p>if (property === "name") {</p><p>return "Modified Name";</p><p>}</p><p>return Reflect.get(target, property, receiver);</p><p>},</p><p>};</p><p>const proxy = new Proxy(obj, handler);</p><p>console.log(proxy.name); // 'Modified Name'</p><p>```</p><ol><li>对象直接访问：</li></ol><ul><li>当通过直接访问属性的方式访问代理对象时，不一定会触发代理对象上的拦截方法，具体行为取决于代理的实现和配置。</li></ul><p><strong>四、一致性和规范性</strong></p><ol><li><code>Reflect.get()</code>：</li></ol><ul><li>作为一种更规范的方法，它与其他<code>Reflect</code>方法一起提供了一种统一的方式来进行对象操作，有助于提高代码的可读性和可维护性。</li></ul><ol><li>对象直接访问：</li></ol><ul><li>虽然直接访问属性的方式更加简洁，但在一些复杂的场景下可能会导致不一致的行为，并且不太容易与其他高级特性（如代理）进行良好的集成。</li></ul><h2>Comments / Answers</h2><hr /><p><strong>chunfenghuayu1</strong> at 2025-05-13T13:49:47Z</p><p><code>Reflect.get()</code>使用的例子不符合预期</p><pre class="code-block"><code>const obj = {
+        _name: &#39;John&#39;,
+        get name() {
+          return this._name
+        },
+        set name(value) {
+          this._name = value
+        },
+      }
+const proxy = new Proxy(obj, {})
+console.log(proxy.name) // &#39;John&#39;
+console.log(Reflect.get(proxy, &#39;name&#39;, { _name: &#39;Jane&#39; })) // &#39;Jane&#39;
+console.log(proxy.name) // &#39;John&#39;
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

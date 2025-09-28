@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] 高阶组件理解多少？【热度: 655】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：什么是React高阶组件、React高阶组件满足的条件、React高阶组件使用场景&lt;/p&gt;&lt;p&gt;&lt;strong&gt;什么是高阶组件&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;React高阶组件（Higher-Order Component，HOC）" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] 高阶组件理解多少？【热度: 655】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：什么是React高阶组件、React高阶组件满足的条件、React高阶组件使用场景&lt;/p&gt;&lt;p&gt;&lt;strong&gt;什么是高阶组件&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;React高阶组件（Higher-Order Component，HOC）是一种用于复用组件逻辑的设计模式。它本质上是一个函数，接受一个组件作为参数，并返回一个新的增强过的组件。&lt;/p&gt;&lt;p&gt;通" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/583" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] 高阶组件理解多少？【热度: 655】</h1>
+      <div class="subtitle">web框架 · web框架 · 腾讯</div>
+      <div class="meta">创建：2023-10-01T14:17:34Z · 更新：2023-10-01T14:17:48Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：什么是React高阶组件、React高阶组件满足的条件、React高阶组件使用场景</p><p><strong>什么是高阶组件</strong></p><p>React高阶组件（Higher-Order Component，HOC）是一种用于复用组件逻辑的设计模式。它本质上是一个函数，接受一个组件作为参数，并返回一个新的增强过的组件。</p><p>通过使用高阶组件，我们可以将一些通用的功能逻辑抽象出来，并将其应用到多个组件中，从而避免代码重复和逻辑分散的问题。</p><p><strong>React高阶组件需要满足以下条件</strong>：</p><ol><li>接受一个组件作为参数：高阶组件函数应该接受一个组件作为参数，并返回一个新的增强过的组件。</li></ol><ol><li>返回一个新的组件：高阶组件函数应该在内部创建一个新的组件，并将其返回作为结果。这个新组件可以是一个类组件或函数组件。</li></ol><ol><li>传递props：高阶组件应该将传递给它的props传递给原始组件，可以通过使用展开运算符或手动传递props进行传递。</li></ol><ol><li>可以修改props：高阶组件可以对传递给原始组件的props进行处理、转换或增加额外的props。</li></ol><ol><li>可以访问组件生命周期方法和状态：高阶组件可以在新组件中访问组件的生命周期方法和状态，并根据需要执行逻辑。</li></ol><p><strong>使用场景</strong></p><p>React高阶组件有以下几个常见的使用场景：</p><ol><li>代码复用：当多个组件之间有相同的逻辑和功能时，可以将这些逻辑和功能抽象成一个高阶组件，并在多个组件中使用该高阶组件进行代码复用。</li></ol><pre class="code-block"><code class="language-jsx">const withLogging = (WrappedComponent) =&gt; {
+  return (props) =&gt; {
+    useEffect(() =&gt; {
+      console.log(&#39;Component is mounted&#39;);
+    }, []);
+
+    return &lt;WrappedComponent {...props} /&gt;;
+  }
+}
+
+const MyComponent = withLogging(MyOriginalComponent);
+</code></pre><ol><li>条件渲染：高阶组件可以根据一些条件来决定是否渲染原始组件或其他组件。这对于实现权限控制、用户认证等场景非常有用。</li></ol><pre class="code-block"><code class="language-jsx">const withAuthorization = (WrappedComponent) =&gt; {
+  return (props) =&gt; {
+    if (props.isAuthenticated) {
+      return &lt;WrappedComponent {...props} /&gt;;
+    } else {
+      return &lt;div&gt;Unauthorized&lt;/div&gt;;
+    }
+  }
+}
+
+const MyComponent = withAuthorization(MyOriginalComponent);
+</code></pre><ol><li>Props 改变：高阶组件可以监听原始组件的props的变化，并在变化时执行一些逻辑。这对于实现数据的深拷贝、数据的格式化等场景非常有用。</li></ol><pre class="code-block"><code class="language-jsx">const withDeepCopy = (WrappedComponent) =&gt; {
+  return (props) =&gt; {
+    const prevPropsRef = useRef(props);
+
+    useEffect(() =&gt; {
+      if (prevPropsRef.current.data !== props.data) {
+        const copiedData = JSON.parse(JSON.stringify(props.data));
+        // Do something with copiedData...
+      }
+
+      prevPropsRef.current = props;
+    }, [props.data]);
+
+    return &lt;WrappedComponent {...props} /&gt;;
+  }
+}
+
+const MyComponent = withDeepCopy(MyOriginalComponent);
+</code></pre><ol><li>功能增强：高阶组件可以对原始组件的功能进行增强，例如增加表单校验、日志记录、性能优化等。</li></ol><pre class="code-block"><code class="language-jsx">const withFormValidation = (WrappedComponent) =&gt; {
+  return (props) =&gt; {
+    const [isValid, setValid] = useState(false);
+
+    const validateForm = () =&gt; {
+      // Perform form validation logic...
+      setValid(true);
+    }
+
+    return (
+      &lt;div&gt;
+        &lt;WrappedComponent {...props} /&gt;
+        {isValid ? &lt;div&gt;Form is valid&lt;/div&gt; : &lt;div&gt;Form is invalid&lt;/div&gt;}
+      &lt;/div&gt;
+    );
+  }
+}
+
+const MyComponent = withFormValidation(MyOriginalComponent);
+</code></pre><ol><li>渲染劫持：高阶组件可以在原始组件渲染之前或之后执行一些逻辑，例如在渲染之前进行数据加载，或在渲染之后进行动画效果的添加等。</li></ol><pre class="code-block"><code class="language-jsx">const withDataFetching = (WrappedComponent) =&gt; {
+  return (props) =&gt; {
+    const [data, setData] = useState(null);
+
+    useEffect(() =&gt; {
+      // Fetch data...
+      axios.get(&#39;/api/data&#39;)
+        .then(response =&gt; {
+          setData(response.data);
+        })
+        .catch(error =&gt; {
+          console.error(&#39;Error fetching data:&#39;, error);
+        });
+    }, []);
+
+    if (data === null) {
+      return &lt;div&gt;Loading...&lt;/div&gt;;
+    } else {
+      return &lt;WrappedComponent data={data} {...props} /&gt;;
+    }
+  }
+}
+
+const MyComponent = withDataFetching(MyOriginalComponent);
+</code></pre><p>总的来说，React高阶组件提供了一种灵活的方式来对组件进行组合和功能增强，可以在不修改原始组件的情况下对其进行扩展和定制。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

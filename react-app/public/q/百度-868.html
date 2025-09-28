@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>flex 布局中，有哪些常用的属性，分别作用是啥【热度: 300】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：flex 属性&lt;/p&gt;&lt;p&gt;Flex 布局（即 Flexible Box 布局）提供了一种更有效的方式来布置、对齐和分布容器内项目的空间，即使它们的大小是未知或者动态变化的。以下是 Flex 布局中一些常用属性及其作用的简介：&lt;/p" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="flex 布局中，有哪些常用的属性，分别作用是啥【热度: 300】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：flex 属性&lt;/p&gt;&lt;p&gt;Flex 布局（即 Flexible Box 布局）提供了一种更有效的方式来布置、对齐和分布容器内项目的空间，即使它们的大小是未知或者动态变化的。以下是 Flex 布局中一些常用属性及其作用的简介：&lt;/p&gt;&lt;h3&gt;容器属性（应用于 flex 容器）&lt;/h3&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;&lt;code&gt;display&lt;/co" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/868" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>flex 布局中，有哪些常用的属性，分别作用是啥【热度: 300】</h1>
+      <div class="subtitle">百度 · CSS · 百度</div>
+      <div class="meta">创建：2024-08-31T02:59:01Z · 更新：2024-08-31T02:59:01Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：flex 属性</p><p>Flex 布局（即 Flexible Box 布局）提供了一种更有效的方式来布置、对齐和分布容器内项目的空间，即使它们的大小是未知或者动态变化的。以下是 Flex 布局中一些常用属性及其作用的简介：</p><h3>容器属性（应用于 flex 容器）</h3><ol><li><strong><code>display</code></strong>：</li></ol><ul><li>设置为<code>flex</code>或<code>inline-flex</code>以启用 flex 布局。</li><li><code>flex</code>使容器成为块级元素；</li><li><code>inline-flex</code>使容器成为行内元素。</li></ul><ol><li><strong><code>flex-direction</code></strong>：</li></ol><ul><li>确定主轴的方向（即项目的排列方向）。</li><li>可选值包括<code>row</code>（默认，水平方向）、<code>row-reverse</code>（水平方向，反向）、<code>column</code>（垂直方向）、<code>column-reverse</code>（垂直方向，反向）。</li></ul><ol><li><strong><code>flex-wrap</code></strong>：</li></ol><ul><li>控制容器是单行还是多行，以及如何换行。</li><li>可选值包括<code>nowrap</code>（默认，不换行）、<code>wrap</code>（换行，第一行在上方）、<code>wrap-reverse</code>（换行，第一行在下方）。</li></ul><ol><li><strong><code>flex-flow</code></strong>：</li></ol><ul><li>是<code>flex-direction</code>和<code>flex-wrap</code>两个属性的简写形式。</li><li>默认值为<code>row nowrap</code>。</li></ul><ol><li><strong><code>justify-content</code></strong>：</li></ol><ul><li>定义了项目在主轴上的对齐方式。</li><li>可选值包括<code>flex-start</code>（默认，起点对齐）、<code>flex-end</code>（终点对齐）、<code>center</code>（居中对齐）、<code>space-between</code>（两端对齐，项目之间的间隔相等）、<code>space-around</code>（每个项目两侧的间隔相等）、<code>space-evenly</code>（所有项目之间及周围的空间完全相等）。</li></ul><ol><li><strong><code>align-items</code></strong>：</li></ol><ul><li>定义项目在交叉轴上如何对齐。</li><li>可选值包括<code>flex-start</code>（交叉轴的起点对齐）、<code>flex-end</code>（交叉轴的终点对齐）、<code>center</code>（交叉轴的中点对齐）、<code>baseline</code>（项目的第一行文字的基线对齐）、<code>stretch</code>（默认，如果项目未设置高度或设为 auto，将占满整个容器的高度）。</li></ul><ol><li><strong><code>align-content</code></strong>：</li></ol><ul><li>定义了多根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用。</li><li>可选值和<code>justify-content</code>类似，包括：<code>flex-start</code>、<code>flex-end</code>、<code>center</code>、<code>space-between</code>、<code>space-around</code>、<code>stretch</code>（默认值）。</li></ul><h3>项目属性（应用于 flex 项目）</h3><ol><li><strong><code>order</code></strong>：</li></ol><ul><li>定义项目的排列顺序。数值越小，排列越靠前，默认为 0。</li></ul><ol><li><strong><code>flex-grow</code></strong>：</li></ol><ul><li>定义项目的放大比例，默认为 0，即如果存在剩余空间，也不放大。</li></ul><ol><li><strong><code>flex-shrink</code></strong>：</li></ol><ul><li>定义项目的缩小比例，默认为 1，即如果空间不足，该项目将缩小。</li></ul><ol><li><strong><code>flex-basis</code></strong>：</li></ol><ul><li>设置或检索弹性盒伸缩基准值，默认值为<code>auto</code>，即项目本来的大小。</li></ul><ol><li><strong><code>flex</code></strong>：</li></ol><ul><li>是<code>flex-grow</code>、<code>flex-shrink</code> 和 <code>flex-basis</code>的简写，默认值为<code>0 1 auto</code>。后两个属性可选。</li></ul><ol><li><strong><code>align-self</code></strong>：</li></ol><ul><li>允许单个项目有与其他项目不一样的对齐方式，可覆盖<code>align-items</code>属性。</li><li>默认值为<code>auto</code>，表示继承父元素的<code>align-items</code>属性，如果没有父元素，则等同于<code>stretch</code>。</li><li>可选的值除了<code>auto</code>，还有<code>flex-start</code>、<code>flex-end</code>、<code>center</code>、<code>baseline</code>和<code>stretch</code>。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

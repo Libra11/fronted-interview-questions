@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何判断dom元素是否在可视区域【热度: 846】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：元素是否在可视区域&lt;/p&gt;&lt;p&gt;判断 DOM 元素是否在可视区域可以使用以下方法：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;getBoundingClientRect() 方法&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;该方法返回元素的大小及其相对于视口的位置，包括 " />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何判断dom元素是否在可视区域【热度: 846】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：元素是否在可视区域&lt;/p&gt;&lt;p&gt;判断 DOM 元素是否在可视区域可以使用以下方法：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;getBoundingClientRect() 方法&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;该方法返回元素的大小及其相对于视口的位置，包括 top、right、bottom、left 四个属性。我们可以根据这四个属性来判断元素是否在可视区域内。&lt;/p&gt;&lt;pre" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/458" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何判断dom元素是否在可视区域【热度: 846】</h1>
+      <div class="subtitle">百度 · web应用场景 · 百度</div>
+      <div class="meta">创建：2023-06-13T16:07:11Z · 更新：2023-06-13T16:07:12Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：元素是否在可视区域</p><p>判断 DOM 元素是否在可视区域可以使用以下方法：</p><ol><li>getBoundingClientRect() 方法</li></ol><p>该方法返回元素的大小及其相对于视口的位置，包括 top、right、bottom、left 四个属性。我们可以根据这四个属性来判断元素是否在可视区域内。</p><pre class="code-block"><code class="language-javascript">function isInViewport(element) {
+  const rect = element.getBoundingClientRect();
+  return (
+    rect.top &gt;= 0 &amp;&amp;
+    rect.left &gt;= 0 &amp;&amp;
+    rect.bottom &lt;= (window.innerHeight || document.documentElement.clientHeight) &amp;&amp;
+    rect.right &lt;= (window.innerWidth || document.documentElement.clientWidth)
+  );
+}
+
+// Example usage
+const element = document.getElementById(&#39;my-element&#39;);
+if (isInViewport(element)) {
+  console.log(&#39;Element is in viewport&#39;);
+} else {
+  console.log(&#39;Element is not in viewport&#39;);
+}
+</code></pre><ol><li>IntersectionObserver API</li></ol><p>该 API 可以观察元素与其祖先元素或视口交叉的情况，并且可以设置回调函数，当元素的可见性发生变化时会调用该回调函数。</p><pre class="code-block"><code class="language-javascript">function callback(entries, observer) {
+  entries.forEach(entry =&gt; {
+    if (entry.isIntersecting) {
+      console.log(&#39;Element is in viewport&#39;);
+    } else {
+      console.log(&#39;Element is not in viewport&#39;);
+    }
+  });
+}
+
+const observer = new IntersectionObserver(callback);
+
+const element = document.getElementById(&#39;my-element&#39;);
+observer.observe(element);
+</code></pre><p>使用 IntersectionObserver API 的优点是可以减少不必要的计算和事件监听，提高了性能。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

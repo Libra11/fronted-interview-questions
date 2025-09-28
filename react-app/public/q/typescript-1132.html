@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ts 里面 infer 是什么关键词， 怎么用【热度: 975】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：ts infer&lt;/p&gt;&lt;p&gt;在 TypeScript 中，&lt;code&gt;infer&lt;/code&gt; 是一个用于&lt;strong&gt;类型推断&lt;/strong&gt;的关键字，通常与条件类型（&lt;code&gt;Conditional types&lt;/cod" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="ts 里面 infer 是什么关键词， 怎么用【热度: 975】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：ts infer&lt;/p&gt;&lt;p&gt;在 TypeScript 中，&lt;code&gt;infer&lt;/code&gt; 是一个用于&lt;strong&gt;类型推断&lt;/strong&gt;的关键字，通常与条件类型（&lt;code&gt;Conditional types&lt;/code&gt;）配合使用，用于&lt;strong&gt;从泛型类型中提取或推断出某个具体类型&lt;/strong&gt;。它的核心作用是“让 Type" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1132" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>ts 里面 infer 是什么关键词， 怎么用【热度: 975】</h1>
+      <div class="subtitle">TypeScript · TypeScript · 美团</div>
+      <div class="meta">创建：2025-08-31T10:25:37Z · 更新：2025-08-31T10:25:37Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：ts infer</p><p>在 TypeScript 中，<code>infer</code> 是一个用于<strong>类型推断</strong>的关键字，通常与条件类型（<code>Conditional types</code>）配合使用，用于<strong>从泛型类型中提取或推断出某个具体类型</strong>。它的核心作用是“让 TypeScript 自动推导出我们需要的类型”，而无需需手动指定。</p><h3>基本语法与作用</h3><p><code>infer</code> 只能在条件类型的 <code>extends</code> 子句中使用，语法格式如下：</p><pre class="code-block"><code class="language-typescript">type 类型名&lt;T&gt; = T extends 某个类型&lt;infer 待推断类型&gt; ? 待推断类型 : 其他类型;
+</code></pre><ul><li><code>infer X</code> 表示“声明一个需要推断的类型变量 <code>X</code>”</li><li>TypeScript 会自动分析 <code>T</code> 的结构，推导出 <code>X</code> 的具体类型</li></ul><h3>典型使用场景</h3><h4>1. 提取函数的返回值类型</h4><p>最常见的场景之一：从函数类型中提取其返回值类型。</p><pre class="code-block"><code class="language-typescript">// 定义一个条件类型，提取函数的返回值类型
+type ReturnType&lt;T&gt; = T extends (...args: any[]) =&gt; infer R ? R : never;
+
+// 使用示例
+function getUser() {
+  return { name: &quot;张三&quot;, age: 20 };
+}
+
+// 推断 getUser 函数的返回值类型
+type User = ReturnType&lt;typeof getUser&gt;;
+// User 的类型为 { name: string; age: number }
+</code></pre><ul><li><code>T extends (...args: any[]) =&gt; infer R</code> 表示：如果 <code>T</code> 是一个函数，就推断其返回值类型为 <code>R</code></li><li>最终 <code>User</code> 被推断为函数 <code>getUser</code> 的返回值类型</li></ul><h4>2. 提取函数的参数类型</h4><p>类似地，可以提取函数的参数类型（单个参数或参数列表）。</p><pre class="code-block"><code class="language-typescript">// 提取单个参数类型
+type ParamType&lt;T&gt; = T extends (param: infer P) =&gt; any ? P : never;
+
+// 提取参数列表类型（返回元组）
+type ParamsType&lt;T&gt; = T extends (...args: infer P) =&gt; any ? P : never;
+
+// 使用示例
+function sum(a: number, b: string): boolean {
+  return a + Number(b) &gt; 10;
+}
+
+type SumParam = ParamType&lt;typeof sum&gt;; // 错误！因为函数有多个参数，这里会返回 never
+type SumParams = ParamsType&lt;typeof sum&gt;; // [number, string]（参数列表组成的元组）
+type SumReturn = ReturnType&lt;typeof sum&gt;; // boolean（返回值类型）
+</code></pre><h4>3. 提取数组的元素类型</h4><p>从数组类型中推断出元素的类型。</p><pre class="code-block"><code class="language-typescript">// 提取数组元素类型
+type ArrayItem&lt;T&gt; = T extends Array&lt;infer Item&gt; ? Item : T;
+
+// 使用示例
+type NumberItem = ArrayItem&lt;number[]&gt;; // number
+type StringItem = ArrayItem&lt;string[]&gt;; // string
+type UserItem = ArrayItem&lt;{ name: string }[]&gt;; // { name: string }
+type Primitive = ArrayItem&lt;boolean&gt;; // boolean（非数组类型则返回自身）
+</code></pre><h4>4. 提取 Promise 的 resolve 类型</h4><p>从 <code>Promise</code> 类型中推断出其最终解析（resolve）的类型。</p><pre class="code-block"><code class="language-typescript">// 提取 Promise 解析的类型
+type PromiseResolve&lt;T&gt; = T extends Promise&lt;infer R&gt; ? R : T;
+
+// 使用示例
+type Resolve1 = PromiseResolve&lt;Promise&lt;string&gt;&gt;; // string
+type Resolve2 = PromiseResolve&lt;Promise&lt;{ id: number }&gt;&gt;; // { id: number }
+type Resolve3 = PromiseResolve&lt;number&gt;; // number（非 Promise 类型则返回自身）
+</code></pre><h4>5. 嵌套推断（复杂结构）</h4><p><code>infer</code> 支持多层嵌套推断，可用于复杂类型结构的提取。</p><pre class="code-block"><code class="language-typescript">// 从 { data: T } 结构中提取 T
+type ExtractData&lt;T&gt; = T extends { data: infer D } ? D : T;
+
+// 嵌套推断：从 Promise&lt;{ data: T }&gt; 中提取 T
+type ExtractPromiseData&lt;T&gt; = T extends Promise&lt;{ data: infer D }&gt; ? D : T;
+
+// 使用示例
+type Data1 = ExtractData&lt;{ data: { name: string } }&gt;; // { name: string }
+type Data2 = ExtractPromiseData&lt;Promise&lt;{ data: number[] }&gt;&gt;; // number[]
+</code></pre><h3>注意事项</h3><ol><li><strong>只能在条件类型中使用</strong>：<code>infer</code> 不能单独使用，必须放在 <code>T extends ...</code> 的子句中。</li><li><strong>推断的不确定性</strong>：如果 TypeScript 无法明确推断类型（如多种可能的匹配），会返回 <code>never</code> 或联合类型。</li></ol><p>```typescript</p><p>type Ambiguous<T> = T extends (a: infer A, b: infer A) => any ? A : never;</p><p>type Test = Ambiguous<(x: number, y: string) => void>; // number | string（联合类型）</p><p>```</p><ol><li><strong>与内置工具类型的关系</strong>：TypeScript 内置的很多工具类型（如 <code>ReturnType</code>、<code>Parameters</code>）都是基于 <code>infer</code> 实现的，例如：</li></ol><p>```typescript</p><p>// TypeScript 内置的 Parameters 实现</p><p>type Parameters<T extends (...args: any) => any> = T extends (...args: infer P) => any ? P : never;</p><p>```</p><h3>总结</h3><p><code>infer</code> 是 TypeScript 类型系统中用于<strong>自动推断类型</strong>的强大工具，核心价值在于：</p><ul><li>从复杂类型（如函数、数组、Promise 等）中“提取”我们需要的具体类型</li><li>减少手动编写重复类型的工作量，提升类型定义的灵活性和可维护性</li></ul><p>它最常见的应用场景包括提取函数参数/返回值、数组元素、Promise 解析值等，是编写高级类型工具的基础。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

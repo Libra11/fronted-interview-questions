@@ -1,0 +1,56 @@
+# 前端单页应用 History 路由模式， 需要如何配置 nginx？
+
+- Issue: #187
+- State: open
+- Labels: 工程化
+- Author: yanlele
+- URL: https://github.com/pro-collection/interview-question/issues/187
+- Created: 2023-03-26T09:30:59Z
+- Updated: 2023-04-03T01:27:28Z
+
+## Body
+
+前端单页应用使用 History 路由模式，需要将路由的控制交给前端，而不是后端处理，因此需要配置 nginx 让其将所有请求都指向 index.html 页面，让前端来处理路由。
+
+具体配置可以参考以下 nginx 配置：
+
+```bash
+bashCopy codeserver {
+    listen       80;
+    server_name  example.com; # 域名或 IP 地址
+
+    location / {
+        root   /path/to/your/app; # 项目根目录
+        index  index.html;
+        try_files $uri $uri/ /index.html; # 将所有请求都指向 index.html 页面
+    }
+}
+```
+
+以上配置中，`try_files` 指令会尝试将请求映射到对应的文件，如果找不到，则会将请求转发到 `/index.html` 页面，由前端来处理路由。同时，`root` 指令需要指向前端应用的根目录。
+
+## Comments / Answers
+
+---
+
+**HSQCoollaughing** at 2023-04-03T01:27:28Z
+
+配置 Nginx 需要使用 `try_files` 指令来处理前端路由。
+
+例如，如果你的单页应用路由模式为 `history`，并且你的前端应用部署在 `/app` 路径下，你可以使用以下 Nginx 配置：
+
+```
+server {
+    listen 80;
+    server_name example.com;
+    root /var/www;
+
+    location /app {
+        try_files $uri $uri/ /app/index.html;
+    }
+}
+```
+
+这个配置告诉 Nginx，如果请求的 URI 匹配 `/app`，则尝试查找对应的文件，如果找不到则返回 `/app/index.html`。
+
+这样配置后，Nginx 将会把所有 `/app` 路径下的请求都转发到前端应用的 `index.html`，由前端应用来处理路由。

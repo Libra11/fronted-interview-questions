@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>react-router 里的 `&lt;Link&gt;` 标签和 `&lt;a&gt;` 标签有什么区别 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;从最终渲染的 DOM 来看，这两者都是链接，都是 &lt;code&gt;&amp;lt;a&amp;gt;&lt;/code&gt; 标签，区别是：&lt;/p&gt;&lt;p&gt;&lt;code&gt;&amp;lt;Link&amp;gt;&lt;/code&gt; 是 react-router 里实现路由跳转的链接，一般配合 &lt;code&gt;&amp;lt;Route&amp;gt" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="react-router 里的 `&lt;Link&gt;` 标签和 `&lt;a&gt;` 标签有什么区别" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;从最终渲染的 DOM 来看，这两者都是链接，都是 &lt;code&gt;&amp;lt;a&amp;gt;&lt;/code&gt; 标签，区别是：&lt;/p&gt;&lt;p&gt;&lt;code&gt;&amp;lt;Link&amp;gt;&lt;/code&gt; 是 react-router 里实现路由跳转的链接，一般配合 &lt;code&gt;&amp;lt;Route&amp;gt;&lt;/code&gt; 使用，react-router 接管了其默认的链接跳转行为，区别于传统的页面跳转，&lt;code&gt;&amp;lt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/265" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>react-router 里的 `&lt;Link&gt;` 标签和 `&lt;a&gt;` 标签有什么区别</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-04-08T15:47:26Z · 更新：2023-04-08T15:47:27Z</div>
+    </div>
+    <article class="content markdown-body"><p>从最终渲染的 DOM 来看，这两者都是链接，都是 <code>&lt;a&gt;</code> 标签，区别是：</p><p><code>&lt;Link&gt;</code> 是 react-router 里实现路由跳转的链接，一般配合 <code>&lt;Route&gt;</code> 使用，react-router 接管了其默认的链接跳转行为，区别于传统的页面跳转，<code>&lt;Link&gt;</code></p><p>的“跳转”行为只会触发相匹配的 <code>&lt;Route&gt;</code> 对应的页面内容更新，而不会刷新整个页面。</p><p>而 <code>&lt;a&gt;</code> 标签就是普通的超链接了，用于从当前页面跳转到 href 指向的另一个页面（非锚点情况）</p><p><strong>源码层面</strong></p><p>先看Link点击事件handleClick部分源码</p><pre class="code-block"><code class="language-js">if (_this.props.onClick) _this.props.onClick(event);
+
+if (!event.defaultPrevented &amp;&amp; // onClick prevented default
+  event.button === 0 &amp;&amp; // ignore everything but left clicks
+  !_this.props.target &amp;&amp; // let browser handle &quot;target=_blank&quot; etc.
+  !isModifiedEvent(event) // ignore clicks with modifier keys
+) {
+  event.preventDefault();
+
+  var history = _this.context.router.history;
+  var _this$props = _this.props,
+    replace = _this$props.replace,
+    to = _this$props.to;
+
+
+  if (replace) {
+    history.replace(to);
+  } else {
+    history.push(to);
+  }
+}
+</code></pre><p>Link做了3件事情：</p><ol><li>有onclick那就执行onclick</li><li>click的时候阻止a标签默认事件（这样子点击<code>&lt;a href=&quot;/abc&quot;&gt;123&lt;/a&gt;</code>就不会跳转和刷新页面）</li><li>再取得跳转href（即是to），用history（前端路由两种方式之一，history & hash）跳转，此时只是链接变了，并没有刷新页面</li></ol></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

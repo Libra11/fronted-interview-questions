@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[webpack] 构建流程是怎么样的？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;code&gt;webpack&lt;/code&gt; 的运行流程是一个串行的过程，它的工作流程就是将各个插件串联起来&lt;/p&gt;&lt;p&gt;在运行过程中会广播事件，插件只需要监听它所关心的事件，就能加入到这条&lt;code&gt;webpack&lt;/code&gt;机制中，去改变&lt;code&gt;webpack&lt;/co" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[webpack] 构建流程是怎么样的？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;code&gt;webpack&lt;/code&gt; 的运行流程是一个串行的过程，它的工作流程就是将各个插件串联起来&lt;/p&gt;&lt;p&gt;在运行过程中会广播事件，插件只需要监听它所关心的事件，就能加入到这条&lt;code&gt;webpack&lt;/code&gt;机制中，去改变&lt;code&gt;webpack&lt;/code&gt;的运作，使得整个系统扩展性良好&lt;/p&gt;&lt;p&gt;从启动到结束会依次执行以下三大步骤：&lt;/p&gt;&lt;ul&gt;&lt;li&gt;初始化流程" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/283" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[webpack] 构建流程是怎么样的？</h1>
+      <div class="subtitle">工程化 · 工程化</div>
+      <div class="meta">创建：2023-04-12T14:25:39Z · 更新：2023-05-31T14:45:00Z</div>
+    </div>
+    <article class="content markdown-body"><p><code>webpack</code> 的运行流程是一个串行的过程，它的工作流程就是将各个插件串联起来</p><p>在运行过程中会广播事件，插件只需要监听它所关心的事件，就能加入到这条<code>webpack</code>机制中，去改变<code>webpack</code>的运作，使得整个系统扩展性良好</p><p>从启动到结束会依次执行以下三大步骤：</p><ul><li>初始化流程：从配置文件和 <code>Shell</code> 语句中读取与合并参数，并初始化需要使用的插件和配置插件等执行环境所需要的参数</li><li>编译构建流程：从 Entry 发出，针对每个 Module 串行调用对应的 Loader 去翻译文件内容，再找到该 Module 依赖的 Module，递归地进行编译处理</li><li>输出流程：对编译后的 Module 组合成 Chunk，把 Chunk 转换成文件，输出到文件系统</li></ul><h3>初始化流程</h3><p>从配置文件和 <code>Shell</code> 语句中读取与合并参数，得出最终的参数</p><p>配置文件默认下为<code>webpack.config.js</code>，也或者通过命令的形式指定配置文件，主要作用是用于激活<code>webpack</code>的加载项和插件</p><p><code>webpack</code> 将 <code>webpack.config.js</code> 中的各个配置项拷贝到 <code>options</code> 对象中，并加载用户配置的 <code>plugins</code></p><p>完成上述步骤之后，则开始初始化<code>Compiler</code>编译对象，该对象掌控者<code>webpack</code>声明周期，不执行具体的任务，只是进行一些调度工作</p><pre class="code-block"><code class="language-js">class Compiler extends Tapable {
+    constructor(context) {
+        super();
+        this.hooks = {
+            beforeCompile: new AsyncSeriesHook([&quot;params&quot;]),
+            compile: new SyncHook([&quot;params&quot;]),
+            afterCompile: new AsyncSeriesHook([&quot;compilation&quot;]),
+            make: new AsyncParallelHook([&quot;compilation&quot;]),
+            entryOption: new SyncBailHook([&quot;context&quot;, &quot;entry&quot;])
+            // 定义了很多不同类型的钩子
+        };
+        // ...
+    }
+}
+
+function webpack(options) {
+  var compiler = new Compiler();
+  ...// 检查options,若watch字段为true,则开启watch线程
+  return compiler;
+}
+...
+
+</code></pre><p><code>Compiler</code> 对象继承自 <code>Tapable</code>，初始化时定义了很多钩子函数</p><h3>编译构建流程</h3><p>根据配置中的 <code>entry</code> 找出所有的入口文件</p><pre class="code-block"><code class="language-js">module.exports = {
+  entry: &#39;./src/file.js&#39;
+}
+
+</code></pre><p>初始化完成后会调用<code>Compiler</code>的<code>run</code>来真正启动<code>webpack</code>编译构建流程，主要流程如下：</p><ul><li><code>compile</code> 开始编译</li><li><code>make</code> 从入口点分析模块及其依赖的模块，创建这些模块对象</li><li><code>build-module</code> 构建模块</li><li><code>seal</code> 封装构建结果</li><li><code>emit</code> 把各个chunk输出到结果文件</li></ul><h4>compile 编译</h4><p>执行了<code>run</code>方法后，首先会触发<code>compile</code>，主要是构建一个<code>Compilation</code>对象</p><p>该对象是编译阶段的主要执行者，主要会依次下述流程：执行模块创建、依赖收集、分块、打包等主要任务的对象</p><h4>make 编译模块</h4><p>当完成了上述的<code>compilation</code>对象后，就开始从<code>Entry</code>入口文件开始读取，主要执行<code>_addModuleChain()</code>函数，如下：</p><pre class="code-block"><code class="language-js">_addModuleChain(context, dependency, onModule, callback) {
+   ...
+   // 根据依赖查找对应的工厂函数
+   const Dep = /** @type {DepConstructor} */ (dependency.constructor);
+   const moduleFactory = this.dependencyFactories.get(Dep);
+
+   // 调用工厂函数NormalModuleFactory的create来生成一个空的NormalModule对象
+   moduleFactory.create({
+       dependencies: [dependency]
+       ...
+   }, (err, module) =&gt; {
+       ...
+       const afterBuild = () =&gt; {
+        this.processModuleDependencies(module, err =&gt; {
+         if (err) return callback(err);
+         callback(null, module);
+           });
+    };
+
+       this.buildModule(module, false, null, null, err =&gt; {
+           ...
+           afterBuild();
+       })
+   })
+}
+
+</code></pre><p>过程如下：</p><p><code>_addModuleChain</code>中接收参数<code>dependency</code>传入的入口依赖，使用对应的工厂函数<code>NormalModuleFactory.create</code>方法生成一个空的<code>module</code>对象</p><p>回调中会把此<code>module</code>存入<code>compilation.modules</code>对象和<code>dependencies.module</code>对象中，由于是入口文件，也会存入<code>compilation.entries</code>中</p><p>随后执行<code>buildModule</code>进入真正的构建模块<code>module</code>内容的过程</p><h4>build module 完成模块编译</h4><p>这里主要调用配置的<code>loaders</code>，将我们的模块转成标准的<code>JS</code>模块</p><p>在用<code>Loader</code> 对一个模块转换完后，使用 <code>acorn</code> 解析转换后的内容，输出对应的抽象语法树（<code>AST</code>），以方便 <code>Webpack</code>后面对代码的分析</p><p>从配置的入口模块开始，分析其 <code>AST</code>，当遇到<code>require</code>等导入其它模块语句时，便将其加入到依赖的模块列表，同时对新找出的依赖模块递归分析，最终搞清所有模块的依赖关系</p><h3>输出流程</h3><h4>seal 输出资源</h4><p><code>seal</code>方法主要是要生成<code>chunks</code>，对<code>chunks</code>进行一系列的优化操作，并生成要输出的代码</p><p><code>webpack</code> 中的 <code>chunk</code> ，可以理解为配置在 <code>entry</code> 中的模块，或者是动态引入的模块</p><p>根据入口和模块之间的依赖关系，组装成一个个包含多个模块的 <code>Chunk</code>，再把每个 <code>Chunk</code> 转换成一个单独的文件加入到输出列表</p><h4>emit 输出完成</h4><p>在确定好输出内容后，根据配置确定输出的路径和文件名</p><pre class="code-block"><code class="language-js">output: {
+    path: path.resolve(__dirname, &#39;build&#39;),
+        filename: &#39;[name].js&#39;
+}
+
+</code></pre><p>在 <code>Compiler</code> 开始生成文件前，钩子 <code>emit</code> 会被执行，这是我们修改最终文件的最后一个机会</p><p>从而<code>webpack</code>整个打包过程则结束了</p><h3>小结</h3><p><img alt="" src="https://foruda.gitee.com/images/1681308948652266689/0b4f6e27_7819612.png" /></p><h2>Comments / Answers</h2><hr /><p><strong>yanlele</strong> at 2023-05-31T14:45:00Z</p><p>补充：</p><p><img alt="image" src="https://github.com/pro-collection/interview-question/assets/22188674/f39bc169-cb23-455f-bd1d-b022d2413a8b" /></p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

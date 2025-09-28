@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>git 仓库迁移应该怎么操作【热度: 160】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：git 仓库迁移&lt;/p&gt;&lt;p&gt;如果你想迁移仓库并保留原始仓库的所有提交历史、分支和标签，你可以使用以下步骤：&lt;/p&gt;&lt;h3&gt;方法一：使用 &lt;code&gt;git clone&lt;/code&gt; 和 &lt;code&gt;git push&lt;/code&gt;&lt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="git 仓库迁移应该怎么操作【热度: 160】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：git 仓库迁移&lt;/p&gt;&lt;p&gt;如果你想迁移仓库并保留原始仓库的所有提交历史、分支和标签，你可以使用以下步骤：&lt;/p&gt;&lt;h3&gt;方法一：使用 &lt;code&gt;git clone&lt;/code&gt; 和 &lt;code&gt;git push&lt;/code&gt;&lt;/h3&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;在仓库 B 中创建新的仓库。&lt;/strong&gt;&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/666" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>git 仓库迁移应该怎么操作【热度: 160】</h1>
+      <div class="subtitle">web应用场景 · web应用场景 · 小米</div>
+      <div class="meta">创建：2024-01-12T15:55:20Z · 更新：2024-01-12T15:55:21Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：git 仓库迁移</p><p>如果你想迁移仓库并保留原始仓库的所有提交历史、分支和标签，你可以使用以下步骤：</p><h3>方法一：使用 <code>git clone</code> 和 <code>git push</code></h3><ol><li><strong>在仓库 B 中创建新的仓库。</strong></li></ol><ol><li><strong>在本地克隆仓库 A：</strong></li></ol><pre class="code-block"><code class="language-bash">git clone --mirror &lt;仓库 A URL&gt;
+cd &lt;仓库 A 目录&gt;
+</code></pre><p>使用 <code>--mirror</code> 选项克隆仓库会保留所有分支、标签和提交历史。</p><ol><li><strong>修改远程仓库地址为仓库 B：</strong></li></ol><pre class="code-block"><code class="language-bash">git remote set-url --push origin &lt;仓库 B URL&gt;
+</code></pre><ol><li><strong>推送到仓库 B：</strong></li></ol><pre class="code-block"><code class="language-bash">git push --mirror
+</code></pre><h3>方法二：使用 <code>git bundle</code></h3><ol><li><strong>在仓库 A 中创建 bundle 文件：</strong></li></ol><pre class="code-block"><code class="language-bash">git bundle create repoA.bundle --all
+</code></pre><ol><li><strong>将 <code>repoA.bundle</code> 文件传输到仓库 B 所在位置。</strong></li></ol><ol><li><strong>在仓库 B 中克隆：</strong></li></ol><pre class="code-block"><code class="language-bash">git clone repoA.bundle &lt;仓库 B 目录&gt;
+</code></pre><p>这两种方法都会保留所有分支、标签和提交历史。选择哪种方法取决于你的具体需求和迁移环境。</p><p><strong>注意：</strong></p><ul><li>使用 <code>--mirror</code> 或 <code>--all</code> 选项在 <code>git clone</code> 或 <code>git bundle</code> 中时，会将所有的分支和标签复制到目标仓库。</li><li>在执行之前，请确保仓库 B 是空的或者是一个你可以覆盖的目标仓库，因为这些操作会覆盖目标仓库的内容。</li><li>如果仓库 A 中包含子模块，你可能需要额外处理子模块的迁移。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

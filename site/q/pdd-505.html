@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] 如何给 children 添加额外的属性【热度: 527】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：cloneElement、children 添加额外属性&lt;/p&gt;&lt;p&gt;在 React 中，可以使用&lt;code&gt; React.cloneElement()&lt;/code&gt; 方法来给 children 添加额外的属性。&lt;/p&gt;&lt;p&gt;&lt;co" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] 如何给 children 添加额外的属性【热度: 527】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：cloneElement、children 添加额外属性&lt;/p&gt;&lt;p&gt;在 React 中，可以使用&lt;code&gt; React.cloneElement()&lt;/code&gt; 方法来给 children 添加额外的属性。&lt;/p&gt;&lt;p&gt;&lt;code&gt;React.cloneElement(element, props, ...children)&lt;/code&gt;&lt;/p" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/505" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] 如何给 children 添加额外的属性【热度: 527】</h1>
+      <div class="subtitle">PDD · web框架 · PDD</div>
+      <div class="meta">创建：2023-08-02T15:54:21Z · 更新：2023-08-02T15:54:45Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：cloneElement、children 添加额外属性</p><p>在 React 中，可以使用<code> React.cloneElement()</code> 方法来给 children 添加额外的属性。</p><p><code>React.cloneElement(element, props, ...children)</code></p><p>其中，element 是需要克隆的 React 元素，props 是要添加的属性，children 是要传递给克隆元素的子元素。</p><p>以下是一个示例：</p><pre class="code-block"><code class="language-jsx">import React from &quot;react&quot;;
+
+function ParentComponent() {
+  return (
+    &lt;div&gt;
+      {React.Children.map(children, (child) =&gt;
+        React.cloneElement(child, { additionalProp: &quot;value&quot; })
+      )}
+    &lt;/div&gt;
+  );
+}
+
+function ChildComponent(props) {
+  return &lt;div&gt;{props.additionalProp}&lt;/div&gt;;
+}
+
+function App() {
+  return (
+    &lt;ParentComponent&gt;
+      &lt;ChildComponent /&gt;
+      &lt;ChildComponent /&gt;
+    &lt;/ParentComponent&gt;
+  );
+}
+
+export default App;
+</code></pre><p>在上面的示例中，ParentComponent 是一个父组件，它接收了一些 children，并使用 React.Children.map() 方法遍历每个 child，然后使用 React.cloneElement() 方法给每个 child 添加了一个名为 additionalProp 的属性。</p><p>ChildComponent 是一个子组件，它通过 props.additionalProp 获取到了父组件传递的 additionalProp 属性值。</p><p>这样，通过 React.cloneElement() 方法，我们可以给 children 添加额外的属性。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,58 @@
+# 水平居中的方案有哪些， 简单手写一下？
+
+## 水平居中的方案
+
+1、要实现行内元素（<span>、<a>等）的水平居中：text-align:center;
+
+2、要实现块状元素（display:block）的水平居中: margin:0 auto;
+
+3、多个水平排列的块状元素的水平居中:
+```
+#container{
+    text-align:center;
+}
+#center{
+    display:inline-block;
+}
+```
+
+4、flexbox
+```
+#container {
+    display: flex;
+}
+#container {
+    display: inline-flex;
+}
+```
+
+5、一直宽度水平居中:绝对定位与负边距实现。
+```
+#container{
+    position:relative;
+}
+
+#center{
+    width:100px;
+    height:100px;
+    position:absolute;
+    top:50%;
+    left:50%;
+    margin:-50px 0 0 -50px;
+}
+```
+
+6、绝对定位与margin：
+```
+#container{
+    position:relative;
+}
+#center{
+    position:absolute;
+    margin:auto;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+}
+```

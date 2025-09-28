@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>统计全站每一个静态资源加载耗时， 该如何做【热度: 564】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：统计资源加载耗时、PerformanceObserver PerformanceResourceTiming api 使用&lt;/p&gt;&lt;p&gt;要统计全站每一个静态资源（如图片、JS 脚本、CSS 样式表等）的加载耗时，你可以借助浏览器的 " />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="统计全站每一个静态资源加载耗时， 该如何做【热度: 564】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：统计资源加载耗时、PerformanceObserver PerformanceResourceTiming api 使用&lt;/p&gt;&lt;p&gt;要统计全站每一个静态资源（如图片、JS 脚本、CSS 样式表等）的加载耗时，你可以借助浏览器的 Performance API，特别是利用 &lt;code&gt;PerformanceResourceTiming&lt;/code&gt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/864" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>统计全站每一个静态资源加载耗时， 该如何做【热度: 564】</h1>
+      <div class="subtitle">阿里巴巴 · web应用场景 · 阿里巴巴</div>
+      <div class="meta">创建：2024-08-31T02:33:27Z · 更新：2024-08-31T02:33:28Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：统计资源加载耗时、PerformanceObserver PerformanceResourceTiming api 使用</p><p>要统计全站每一个静态资源（如图片、JS 脚本、CSS 样式表等）的加载耗时，你可以借助浏览器的 Performance API，特别是利用 <code>PerformanceResourceTiming</code> 接口来获取资源加载的详细时间信息。以下是一个基本的步骤指导和示例代码，展示如何实现这一功能：</p><h3>步骤</h3><ol><li><strong>使用 <code>PerformanceObserver</code>：</strong> 创建一个 <code>PerformanceObserver</code> 实例来监听资源加载事件，能够实时收集性能数据，而且对性能影响较小。</li></ol><ol><li><strong>过滤静态资源类型：</strong> 通过检查 <code>initiatorType</code> 属性，筛选出静态资源（例如 <code>img</code>、<code>script</code>、<code>css</code> 等）的加载事件。</li></ol><ol><li><strong>计算和展示耗时：</strong> 对每个静态资源的加载耗时进行计算并展示。资源的耗时可以通过 <code>duration</code> 属性直接获取。</li></ol><h3>示例代码</h3><p>以下是一个简单的 JavaScript 代码示例，展示了如何使用 <code>PerformanceObserver</code> 来统计全站静态资源的加载耗时：</p><pre class="code-block"><code class="language-javascript">// 创建性能观察者实例来监听资源加载事件
+const observer = new PerformanceObserver((list) =&gt; {
+  const entries = list.getEntries();
+  for (const entry of entries) {
+    // 过滤静态资源类型
+    if ([&quot;img&quot;, &quot;script&quot;, &quot;css&quot;, &quot;link&quot;].includes(entry.initiatorType)) {
+      console.log(`资源 ${entry.name} 类型 ${entry.initiatorType} 耗时：${entry.duration.toFixed(2)} 毫秒`);
+    }
+  }
+});
+
+// 开始观察 Resource Timing 类型的性能条目
+observer.observe({ entryTypes: [&quot;resource&quot;] });
+</code></pre><h3>注意事项</h3><ul><li><strong>性能数据的准确性：</strong> 确保性能数据的准确性和实时性，你应该在页面加载的早期就开始监听资源加载事件，例如在 <code>&lt;head&gt;</code> 标签中就引入或嵌入这段脚本。</li><li><strong>跨域资源的时间信息：</strong> 如果你需要获取跨域资源的详细时间信息（如第三方字体或脚本），那么这些资源的服务器需要在响应头中包含 <code>Timing-Allow-Origin</code> 头。</li><li><strong>大量数据的处理：</strong> 如果页面包含大量静态资源，考虑如何存储、传输和分析这些数据，避免对性能和用户体验造成影响。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如果我期望，页面加载和解析完成之后出发事件， 我该怎么做【热度: 299】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：DOMContentLoaded 和 onload 事件&lt;/p&gt;&lt;p&gt;如果期望在页面加载和解析完成之后触发事件，可以通过以下几种方式实现：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、使用&lt;code&gt;DOMContentLoaded&lt;/code" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如果我期望，页面加载和解析完成之后出发事件， 我该怎么做【热度: 299】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：DOMContentLoaded 和 onload 事件&lt;/p&gt;&lt;p&gt;如果期望在页面加载和解析完成之后触发事件，可以通过以下几种方式实现：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、使用&lt;code&gt;DOMContentLoaded&lt;/code&gt;事件&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;传统方式：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;使用&lt;code&gt;addEv" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1002" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如果我期望，页面加载和解析完成之后出发事件， 我该怎么做【热度: 299】</h1>
+      <div class="subtitle">web应用场景 · web应用场景</div>
+      <div class="meta">创建：2024-10-18T13:58:30Z · 更新：2024-10-18T13:58:30Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：DOMContentLoaded 和 onload 事件</p><p>如果期望在页面加载和解析完成之后触发事件，可以通过以下几种方式实现：</p><p><strong>一、使用<code>DOMContentLoaded</code>事件</strong></p><ol><li>传统方式：</li></ol><ul><li>使用<code>addEventListener</code>方法来监听<code>DOMContentLoaded</code>事件。当页面的 DOM 结构加载和解析完成后，该事件会被触发。</li></ul><p>```javascript</p><p>document.addEventListener("DOMContentLoaded", function () {</p><p>// 这里的代码会在页面 DOM 加载和解析完成后执行</p><p>console.log("DOM 加载和解析完成");</p><p>});</p><p>```</p><ul><li>在这个回调函数中，可以执行任何需要在 DOM 准备好后执行的操作，如获取 DOM 元素、设置事件监听器等。</li></ul><ol><li>现代方式（异步函数）：</li></ol><ul><li>在支持 ES6 及以上版本的环境中，可以使用异步函数和<code>await</code>来等待<code>DOMContentLoaded</code>事件。这种方式使代码更加简洁和易读。</li></ul><p>```javascript</p><p>async function onDOMLoaded() {</p><p>await new Promise((resolve) => {</p><p>if (document.readyState === "loading") {</p><p>document.addEventListener("DOMContentLoaded", resolve);</p><p>} else {</p><p>resolve();</p><p>}</p><p>});</p><p>// 这里的代码会在页面 DOM 加载和解析完成后执行</p><p>console.log("DOM 加载和解析完成");</p><p>}</p><p>onDOMLoaded();</p><p>```</p><ul><li>这种方式使用了异步函数和 Promise，确保在<code>DOMContentLoaded</code>事件触发后才执行后续的代码。</li></ul><p><strong>二、使用<code>jQuery</code>（如果项目中使用了 jQuery）</strong></p><ol><li><code>$(document).ready()</code>方法：</li></ol><ul><li>jQuery 提供了<code>$(document).ready()</code>方法，它在 DOM 加载和解析完成后执行。这个方法与原生的<code>DOMContentLoaded</code>事件类似，但在不同的浏览器中有更好的兼容性。</li></ul><p>```javascript</p><p>$(document).ready(function () {</p><p>// 这里的代码会在页面 DOM 加载和解析完成后执行</p><p>console.log("DOM 加载和解析完成（使用 jQuery）");</p><p>});</p><p>```</p><ul><li>在这个回调函数中，可以使用 jQuery 的选择器和方法来操作 DOM 元素。</li></ul><p><strong>三、使用<code>load</code>事件（但不推荐作为首选）</strong></p><ol><li><code>window.onload</code>方法：</li></ol><ul><li><code>window.onload</code>事件在整个页面（包括所有的资源如图片、样式表等）完全加载后触发。虽然它也能确保页面加载完成后执行代码，但通常比<code>DOMContentLoaded</code>事件触发得更晚。</li></ul><p>```javascript</p><p>window.onload = function () {</p><p>// 这里的代码会在页面完全加载后执行</p><p>console.log("页面完全加载完成");</p><p>};</p><p>```</p><ul><li>如果只需要在 DOM 加载和解析完成后执行代码，使用<code>DOMContentLoaded</code>事件会更快，因为它不需要等待所有资源的加载。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

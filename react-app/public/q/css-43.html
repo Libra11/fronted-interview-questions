@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>未知高度和宽度元素的水平垂直居中的方案有哪些， 简单手写一下？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h2&gt;未知高度和宽度元素的水平垂直居中&lt;/h2&gt;&lt;p&gt;1、当要被居中的元素是inline或者inline-block元素&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code&gt; #container{ display:table-cell; text-align:c" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="未知高度和宽度元素的水平垂直居中的方案有哪些， 简单手写一下？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h2&gt;未知高度和宽度元素的水平垂直居中&lt;/h2&gt;&lt;p&gt;1、当要被居中的元素是inline或者inline-block元素&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code&gt; #container{ display:table-cell; text-align:center; vertical-align:middle; } center{ } &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;2、" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/43" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>未知高度和宽度元素的水平垂直居中的方案有哪些， 简单手写一下？</h1>
+      <div class="subtitle">CSS · CSS</div>
+      <div class="meta">创建：2023-03-09T15:17:13Z · 更新：2023-03-09T15:17:14Z</div>
+    </div>
+    <article class="content markdown-body"><h2>未知高度和宽度元素的水平垂直居中</h2><p>1、当要被居中的元素是inline或者inline-block元素</p><pre class="code-block"><code> #container{
+    display:table-cell;
+    text-align:center;
+    vertical-align:middle;
+}
+
+#center{
+
+}
+</code></pre><p>2、利用Css3的transform，可以轻松的在未知元素的高宽的情况下实现元素的垂直居中。</p><pre class="code-block"><code>#container{
+    position:relative;
+}
+#center{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+</code></pre><p>3、flex</p><pre class="code-block"><code>#container{
+    display:flex;
+    justify-content:center;
+    align-items: center;
+}
+
+#center{
+
+}
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

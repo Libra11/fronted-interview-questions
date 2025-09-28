@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Object.is() 与比较操作符 “===”、“==” 有什么区别【热度: 1,425】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：Object.is()、js 相等比较&lt;/p&gt;&lt;p&gt;&lt;code&gt;Object.is()&lt;/code&gt; 方法和比较操作符 &quot;===&quot;、&quot;==&quot; 用于比较两个值的相等性，但它们在比较方式和行为上有一些区别。&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;co" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Object.is() 与比较操作符 “===”、“==” 有什么区别【热度: 1,425】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：Object.is()、js 相等比较&lt;/p&gt;&lt;p&gt;&lt;code&gt;Object.is()&lt;/code&gt; 方法和比较操作符 &quot;===&quot;、&quot;==&quot; 用于比较两个值的相等性，但它们在比较方式和行为上有一些区别。&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;code&gt;Object.is()&lt;/code&gt; 方法是严格相等比较，而 &quot;===&quot; 操作符也是严格相等比较，但 &quot;==&quot; 操" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/434" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>Object.is() 与比较操作符 “===”、“==” 有什么区别【热度: 1,425】</h1>
+      <div class="subtitle">京东 · JavaScript · 京东</div>
+      <div class="meta">创建：2023-06-08T15:26:20Z · 更新：2023-06-08T15:26:50Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：Object.is()、js 相等比较</p><p><code>Object.is()</code> 方法和比较操作符 "==="、"==" 用于比较两个值的相等性，但它们在比较方式和行为上有一些区别。</p><ol><li><code>Object.is()</code> 方法是严格相等比较，而 "===" 操作符也是严格相等比较，但 "==" 操作符是相等比较。</li></ol><ul><li>严格相等比较（<code>===</code>）要求比较的两个值在类型和值上完全相同才会返回 <code>true</code>。</li><li>相等比较（<code>==</code>）会进行类型转换，将两个值转换为相同类型后再进行比较。</li></ul><ol><li><code>Object.is()</code> 方法对于一些特殊的值比较更准确：</li></ol><ul><li>对于 NaN 和 NaN 的比较，<code>Object.is(NaN, NaN)</code> 返回 <code>true</code>，而 <code>NaN === NaN</code> 返回 <code>false</code>。</li><li>对于 +0 和 -0 的比较，<code>Object.is(+0, -0)</code> 返回 <code>false</code>，而 <code>+0 === -0</code> 返回 <code>true</code>。</li></ul><p>下面是一些示例：</p><pre class="code-block"><code class="language-javascript">console.log(Object.is(1, 1));  // true
+console.log(Object.is(&#39;foo&#39;, &#39;foo&#39;));  // true
+console.log(Object.is(true, true));  // true
+
+console.log(Object.is(null, null));  // true
+console.log(Object.is(undefined, undefined));  // true
+
+console.log(Object.is(NaN, NaN));  // true
+console.log(NaN === NaN);  // false
+
+console.log(Object.is(+0, -0));  // false
+console.log(+0 === -0);  // true
+
+console.log(Object.is({}, {}));  // false
+console.log({} === {});  // false
+</code></pre><p><code>Object.is()</code> 方法更精确地比较两个值的相等性，尤其是在处理一些特殊的值时，而 "===" 操作符和 "==" 操作符则具有不同的类型转换行为和比较规则。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

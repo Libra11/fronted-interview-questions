@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>fetch 与 ajax 的区别是什么 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;以下是 Fetch API 与传统的 Ajax（XMLHttpRequest）在几个方面的对比：&lt;/p&gt;&lt;p&gt;| 维度 | Fetch API | Ajax (XMLHttpRequest) |&lt;/p&gt;&lt;p&gt;| ------------ | ----------------" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="fetch 与 ajax 的区别是什么" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;以下是 Fetch API 与传统的 Ajax（XMLHttpRequest）在几个方面的对比：&lt;/p&gt;&lt;p&gt;| 维度 | Fetch API | Ajax (XMLHttpRequest) |&lt;/p&gt;&lt;p&gt;| ------------ | -------------------------------------------------------------- | -----------" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/403" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>fetch 与 ajax 的区别是什么</h1>
+      <div class="subtitle">网络 · 网络</div>
+      <div class="meta">创建：2023-06-02T16:17:40Z · 更新：2023-06-02T16:17:41Z</div>
+    </div>
+    <article class="content markdown-body"><p>以下是 Fetch API 与传统的 Ajax（XMLHttpRequest）在几个方面的对比：</p><p>| 维度         | Fetch API                                                      | Ajax (XMLHttpRequest)                                        |</p><p>| ------------ | -------------------------------------------------------------- | ------------------------------------------------------------ |</p><p>| API          | 提供了更现代化的 API，使用 <code>fetch()</code> 方法进行请求                 | 使用 <code>XMLHttpRequest</code> 对象进行请求                           |</p><p>| 语法         | 基于 Promise，使用链式调用方式进行请求和处理响应                   | 使用回调函数方式处理请求和响应                               |</p><p>| 跨域支持     | 默认情况下，不发送跨域请求，可以使用 CORS 进行跨域请求           | 可以发送跨域请求，但受到同源策略的限制                       |</p><p>| 请求类型     | 支持多种请求类型，如 GET、POST、PUT、DELETE 等                   | 支持多种请求类型，如 GET、POST、PUT、DELETE 等               |</p><p>| 请求头       | 使用 <code>Headers</code> 对象设置请求头                                   | 使用 <code>setRequestHeader()</code> 方法设置请求头                    |</p><p>| 请求体       | 可以直接使用 <code>FormData</code>、<code>Blob</code>、<code>URLSearchParams</code> 等作为请求体  | 可以使用字符串或 <code>FormData</code> 对象作为请求体                    |</p><p>| 取消请求     | 支持使用 <code>AbortController</code> 和 <code>AbortSignal</code> 取消请求             | 需要手动处理取消请求，如终止 <code>XMLHttpRequest</code> 对象            |</p><p>| 进度事件     | 提供了更方便的进度事件处理方式，如 <code>upload</code> 和 <code>download</code> 事件 | 提供了 <code>progress</code> 事件用于跟踪请求和下载进度                   |</p><p>| 错误处理     | 在请求返回时，只在网络错误或请求被中止时才会抛出异常             | 可以根据响应状态码或其他条件来处理错误                       |</p><p>| JSON 处理    | 提供了 <code>json()</code> 方法用于解析 JSON 数据                           | 需要手动解析返回的 JSON 数据                                 |</p><p>| 文件上传/下载 | 支持直接上传和下载文件，支持 <code>Blob</code> 对象                         | 支持通过 <code>FormData</code> 和 <code>responseType</code> 实现文件上传和下载       |</p><p>| 浏览器兼容性 | 部分功能在旧版本浏览器中不支持，需要使用 polyfill 进行兼容性处理  | 在大多数现代浏览器中都支持                                   |</p><p>需要注意的是，Fetch API 是基于 Promise 的，而 Ajax 是基于回调函数的。Fetch API 提供了更现代化、更简洁的语法，并支持更多的功能，如跨域请求、取消请求、进度事件等。然而，由于 Fetch API 是较新的标准，不同浏览器的兼容性可能会有所差异，需要使用 polyfill 或考虑兼容性处理。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ES6 中的 Set 对象该如何遍历【热度: 410】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h3&gt;Set 遍历&lt;/h3&gt;&lt;p&gt;在 JavaScript 中，&lt;code&gt;Set&lt;/code&gt; 对象表示值的集合，在这个集合中每个值只出现一次。&lt;code&gt;Set&lt;/code&gt; 对象是可迭代的，因此你可以使用多种方法来遍历它：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;for.." />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="ES6 中的 Set 对象该如何遍历【热度: 410】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h3&gt;Set 遍历&lt;/h3&gt;&lt;p&gt;在 JavaScript 中，&lt;code&gt;Set&lt;/code&gt; 对象表示值的集合，在这个集合中每个值只出现一次。&lt;code&gt;Set&lt;/code&gt; 对象是可迭代的，因此你可以使用多种方法来遍历它：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;for...of 循环&lt;/strong&gt;:&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;可以使用 &lt;code&gt;for...of&lt;/code&gt; 循环来遍" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/689" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>ES6 中的 Set 对象该如何遍历【热度: 410】</h1>
+      <div class="subtitle">TOP100互联网 · JavaScript · TOP100互联网</div>
+      <div class="meta">创建：2024-04-13T12:37:40Z · 更新：2024-04-13T12:37:40Z</div>
+    </div>
+    <article class="content markdown-body"><h3>Set 遍历</h3><p>在 JavaScript 中，<code>Set</code> 对象表示值的集合，在这个集合中每个值只出现一次。<code>Set</code> 对象是可迭代的，因此你可以使用多种方法来遍历它：</p><ol><li><strong>for...of 循环</strong>:</li></ol><p>可以使用 <code>for...of</code> 循环来遍历 <code>Set</code>。</p><pre class="code-block"><code class="language-javascript">let mySet = new Set([1, 2, 3, 4, 5]);
+
+for (let value of mySet) {
+  console.log(value); // 输出: 1, 2, 3, 4, 5
+}
+</code></pre><ol><li><strong>forEach 方法</strong>:</li></ol><p><code>Set</code> 对象有一个 <code>forEach</code> 方法，就像 <code>Array</code> 一样。你可以提供一个回调函数，该函数将对 <code>Set</code> 中的每个元素执行。</p><pre class="code-block"><code class="language-javascript">mySet.forEach((value) =&gt; {
+  console.log(value); // 输出: 1, 2, 3, 4, 5
+});
+</code></pre><ol><li><strong>扩展运算符 (...)</strong>:</li></ol><p>扩展运算符可以将 <code>Set</code> 对象转换为数组。</p><pre class="code-block"><code class="language-javascript">let array = [...mySet];
+// 现在可以使用数组的遍历方法
+for (let i = 0; i &lt; array.length; i++) {
+  console.log(array[i]); // 输出: 1, 2, 3, 4, 5
+}
+</code></pre><ol><li><strong>Array.from 方法</strong>:</li></ol><p><code>Array.from</code> 方法可以将 <code>Set</code> 对象转化为数组。</p><pre class="code-block"><code class="language-javascript">let array = Array.from(mySet);
+// 现在可以使用数组的遍历方法
+array.forEach((value) =&gt; {
+  console.log(value); // 输出: 1, 2, 3, 4, 5
+});
+</code></pre><ol><li><strong>keys(), values(), entries() 方法</strong>:</li></ol><p>尽管 <code>Set</code> 对象没有键名只有键值，<code>keys()</code> 和 <code>values()</code> 方法的行为事实上是一样的，它们都会返回一个新的可迭代对象。<code>entries()</code> 方法也存在于 <code>Set</code> 上，但由于 <code>Set</code> 没有键名，它返回的迭代器将会为每个值提供一个[value, value]形式的数组。</p><pre class="code-block"><code class="language-javascript">for (let value of mySet.keys()) {
+  console.log(value); // 输出: 1, 2, 3, 4, 5
+}
+
+for (let value of mySet.values()) {
+  console.log(value); // 输出: 1, 2, 3, 4, 5
+}
+
+for (let entry of mySet.entries()) {
+  console.log(entry); // 输出: [1, 1], [2, 2], [3, 3], [4, 4], [5, 5]
+}
+</code></pre><p>使用哪种方法取决于你的个人喜好和具体的场景。但最常用的可能是 <code>for...of</code> 循环和 <code>forEach</code> 方法。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

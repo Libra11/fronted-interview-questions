@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>水平居中的方案有哪些， 简单手写一下？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h2&gt;水平居中的方案&lt;/h2&gt;&lt;p&gt;1、要实现行内元素（&lt;span&gt;、&lt;a&gt;等）的水平居中：text-align:center;&lt;/p&gt;&lt;p&gt;2、要实现块状元素（display:block）的水平居中: margin:0 auto;&lt;/p&gt;&lt;p&gt;3、多个水平排列的块状元素的水平" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="水平居中的方案有哪些， 简单手写一下？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h2&gt;水平居中的方案&lt;/h2&gt;&lt;p&gt;1、要实现行内元素（&lt;span&gt;、&lt;a&gt;等）的水平居中：text-align:center;&lt;/p&gt;&lt;p&gt;2、要实现块状元素（display:block）的水平居中: margin:0 auto;&lt;/p&gt;&lt;p&gt;3、多个水平排列的块状元素的水平居中:&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code&gt;#container{ text-align:" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/42" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>水平居中的方案有哪些， 简单手写一下？</h1>
+      <div class="subtitle">CSS · CSS</div>
+      <div class="meta">创建：2023-03-09T15:16:09Z · 更新：2023-03-09T15:16:09Z</div>
+    </div>
+    <article class="content markdown-body"><h2>水平居中的方案</h2><p>1、要实现行内元素（<span>、<a>等）的水平居中：text-align:center;</p><p>2、要实现块状元素（display:block）的水平居中: margin:0 auto;</p><p>3、多个水平排列的块状元素的水平居中:</p><pre class="code-block"><code>#container{
+    text-align:center;
+}
+#center{
+    display:inline-block;
+}
+</code></pre><p>4、flexbox</p><pre class="code-block"><code>#container {
+    display: flex;
+}
+#container {
+    display: inline-flex;
+}
+</code></pre><p>5、一直宽度水平居中:绝对定位与负边距实现。</p><pre class="code-block"><code>#container{
+    position:relative;
+}
+
+#center{
+    width:100px;
+    height:100px;
+    position:absolute;
+    top:50%;
+    left:50%;
+    margin:-50px 0 0 -50px;
+}
+</code></pre><p>6、绝对定位与margin：</p><pre class="code-block"><code>#container{
+    position:relative;
+}
+#center{
+    position:absolute;
+    margin:auto;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+}
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

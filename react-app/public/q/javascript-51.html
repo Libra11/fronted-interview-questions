@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>手写防抖函数 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h1&gt;实现函数防抖&lt;/h1&gt;&lt;p&gt;参考文档：&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://blog.csdn.net/beijiyang999/article/details/79832604&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://b" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="手写防抖函数" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h1&gt;实现函数防抖&lt;/h1&gt;&lt;p&gt;参考文档：&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://blog.csdn.net/beijiyang999/article/details/79832604&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://blog.csdn.net/beijiyang999/article/details/79832604&lt;/a&gt;&lt;/p&gt;&lt;h" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/51" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>手写防抖函数</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-09T16:11:06Z · 更新：2023-03-09T16:11:07Z</div>
+    </div>
+    <article class="content markdown-body"><h1>实现函数防抖</h1><p>参考文档：</p><p><a href="https://blog.csdn.net/beijiyang999/article/details/79832604" target="_blank" rel="noopener">https://blog.csdn.net/beijiyang999/article/details/79832604</a></p><h2>函数防抖是什么</h2><p>函数防抖是指对于在事件被触发n秒后再执行的回调，如果在这n秒内又重新被触发，则重新开始计时，是常见的优化，适用于</p><ul><li>表单组件输入内容验证</li><li>防止多次点击导致表单多次提交</li></ul><p>等情况，防止函数过于频繁的不必要的调用。</p><h2>代码实现</h2><h3>思路</h3><p>用 setTimeout 实现计时，配合 clearTimeout 实现“重新开始计时”。</p><p>即只要触发，就会清除上一个计时器，又注册新的一个计时器。直到停止触发 wait 时间后，才会执行回调函数。</p><p>不断触发事件，就会不断重复这个过程，达到防止目标函数过于频繁的调用的目的。</p><h3>初步实现</h3><pre class="code-block"><code class="language-javascript">function debounce(func, wait) {
+    let timer;
+    return function() {
+        clearTimeout(timer);
+        timer = setTimeout(func, wait);         // 返回计时器 ID 
+    }
+}
+container.onmousemove = debounce(doSomething, 1000);
+</code></pre><h3>注解：关于闭包</h3><p>每当事件被触发，执行的都是那个被返回的闭包函数。</p><p>因为闭包带来的其作用域链中引用的上层函数变量声明周期延长的效果，</p><p>debounce 函数的 settimeout计时器 ID timeout 变量可以在debounce 函数执行结束后依然留存在内存中，供闭包使用。</p><h3>优化：修复</h3><p>相比于未防抖时的</p><pre class="code-block"><code class="language-javascript">container.onmousemove = doSomething 
+</code></pre><p>防抖优化后，指向 HTMLDivElement 的从 doSomething 函数的 this 变成了闭包匿名函数的 this ，前者变成了指向全局变量。</p><p>同理，doSomething 函数参数也接收不到 MouseEvent 事件了。</p><h3>修复代码</h3><pre class="code-block"><code class="language-javascript">function debounce(func, wait) {
+    let timeout
+    return function () {
+        let context = this //传给目标函数
+        clearTimeout(timeout)
+        timeout = setTimeout(
+            ()=&gt;{func.apply(context, arguments)} //修复
+        , wait)
+    }
+}
+</code></pre><h2>优化：立即执行</h2><p>相比于 一个周期内最后一次触发后，等待一定时间再执行目标函数；</p><p>我们有时候希望能实现 在一个周期内第一次触发，就立即执行一次，然后一定时间段内都不能再执行目标函数。</p><p>这样，在限制函数频繁执行的同时，可以减少用户等待反馈的时间，提升用户体验。</p><h3>代码</h3><p>在原来基础上，添加一个是否立即执行的功能</p><pre class="code-block"><code class="language-javascript">function debounce(func, wait, immediate) {
+    let time
+    let debounced = function() {
+        let context = this
+        if(time) clearTimeout(time)
+
+        if(immediate) {
+            let callNow = !time
+            if(callNow) func.apply(context, arguments)
+            time = setTimeout(
+                ()=&gt;{time = null} //见注解
+            , wait)
+        } else {
+            time = setTimeout(
+                ()=&gt;{func.apply(context, arguments)}
+            , wait) 
+        }
+    }
+    return debounced
+}
+</code></pre><p>把保存计时器 ID 的 time 值设置为 null 有两个作用:</p><ul><li>作为开关变量，表明一个周期结束。使得 callNow 为 true，目标函数可以在新的周期里被触发时被执行</li><li>timeout 作为闭包引用的上层函数的变量，是不会自动回收的。手动将其设置为 null ，让它脱离执行环境，一边垃圾收集器下次运行是将其回收。</li></ul><h2>优化：取消立即执行</h2><p>添加一个取消立即执行的功能。</p><p>函数也是对象，也可以为其添加属性。</p><p>为了添加 “取消立即执行”功能，为 debounced 函数添加了个 cancel 属性，属性值是一个函数</p><pre class="code-block"><code class="language-javascript">debounced.cancel = function() {
+        clearTimeout(time)
+        time = null
+ }
+</code></pre><p>示意：</p><pre class="code-block"><code class="language-javascript">var setSomething = debounce(doSomething, 1000, true)
+container.onmousemove = setSomething
+document.getElementById(&quot;button&quot;).addEventListener(&#39;click&#39;, function(){
+    setSomething.cancel()
+})
+</code></pre><h2>完整代码</h2><pre class="code-block"><code class="language-javascript">function debounce(func, wait, immediate) {
+    let time;
+    let debounced = function() {
+        let context = this;
+        if(time) clearTimeout(time);
+
+        if(immediate) {
+            let callNow = !time;
+            if(callNow) func.apply(context, arguments);
+            time = setTimeout(
+                ()=&gt;{time = null} //见注解
+            , wait)
+        } else {
+            time = setTimeout(
+                ()=&gt;{func.apply(context, arguments)}
+            , wait) 
+        }
+    };
+
+    debounced.cancel = function() {
+        clearTimeout(time);
+        time = null
+    };
+    return debounced
+}
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

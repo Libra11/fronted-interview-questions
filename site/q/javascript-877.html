@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[] == ! [] 为什么返回 true【热度: 100】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：js 隐式转换&lt;/p&gt;&lt;p&gt;这个问题涉及到 JavaScript 中的类型转换和比较操作的规则。&lt;/p&gt;&lt;p&gt;在 JavaScript 中，&lt;code&gt;[] == ![]&lt;/code&gt;的比较过程如下：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;str" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[] == ! [] 为什么返回 true【热度: 100】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：js 隐式转换&lt;/p&gt;&lt;p&gt;这个问题涉及到 JavaScript 中的类型转换和比较操作的规则。&lt;/p&gt;&lt;p&gt;在 JavaScript 中，&lt;code&gt;[] == ![]&lt;/code&gt;的比较过程如下：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;![]的计算&lt;/strong&gt;&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;&lt;code&gt;!&lt;/code&gt;是逻辑非操作符，它会首先将右" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/877" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[] == ! [] 为什么返回 true【热度: 100】</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2024-09-15T07:00:04Z · 更新：2024-09-15T07:09:38Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：js 隐式转换</p><p>这个问题涉及到 JavaScript 中的类型转换和比较操作的规则。</p><p>在 JavaScript 中，<code>[] == ![]</code>的比较过程如下：</p><ol><li><strong>![]的计算</strong></li></ol><p><code>!</code>是逻辑非操作符，它会首先将右侧的操作数转换为布尔值，然后反转该布尔值。对于空数组<code>[]</code>，在 JavaScript 中，所有对象（包括数组）在布尔上下文中都被认为是<code>true</code>。因此，<code>![]</code>首先将<code>[]</code>转换为<code>true</code>，然后取反，变成<code>false</code>。</p><ol><li><strong>比较<code>[]</code>与<code>false</code></strong></li></ol><p>根据 ECMAScript 规范，在进行抽象等值比较（<code>==</code>）时，如果比较的两个操作数类型不同，JavaScript 会尝试将它们转换成一个共同的可比较类型。在本例中，一边是对象（空数组<code>[]</code>），另一边是布尔值<code>false</code>。</p><p>规则是，如果有布尔值参与比较，先将布尔值转换为数值再进行比较。布尔值<code>false</code>转换为数值<code>0</code>。</p><ol><li><strong>比较<code>[]</code>与<code>0</code></strong></li></ol><p>现在比较的是对象（空数组<code>[]</code>）与数字（<code>0</code>）。根据规范，当比较对象与数字时，对象会先尝试转换为原始值（通过调用它的<code>valueOf</code>和（或）<code>toString</code>方法），用于比较。</p><p>对于空数组<code>[]</code>，<code>[].toString()</code>结果是<code>&quot;&quot;</code>（空字符串）。</p><ol><li><strong>比较<code>&quot;&quot;</code>与<code>0</code></strong></li></ol><p>最后的比较是在空字符串（<code>&quot;&quot;</code>）与数字<code>0</code>之间进行。在这个阶段，字符串会被转换为数字，空字符串转换为数字时结果是<code>0</code>。</p><p>因此，最终比较的是<code>0 == 0</code>，这显然是<code>true</code>。</p><p>因此，<code>[] == ![]</code>返回<code>true</code>的原因是，在 JavaScript 中将操作数从对象到布尔值，再到字符串，最后到数字的一系列隐式类型转换导致的。这也展示了 JavaScript 中类型强制转换规则的复杂性和<code>==</code>运算符可能带来的意外行为。这就是为什么很多 JavaScript 编程风格指南推荐使用<code>===</code>（严格等于运算符），因为它不会进行类型转换，可以避免这种类型的意外结果。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

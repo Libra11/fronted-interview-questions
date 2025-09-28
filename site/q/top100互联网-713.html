@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[css] 如何设置渐变色？【热度: 746】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：设置渐变色&lt;/p&gt;&lt;p&gt;在 CSS 中，设置渐变色可以使用&lt;code&gt;background&lt;/code&gt;属性和相应的渐变函数。CSS 提供两种类型的渐变：线性渐变（&lt;code&gt;linear-gradient&lt;/code&gt;）和径向渐变" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[css] 如何设置渐变色？【热度: 746】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：设置渐变色&lt;/p&gt;&lt;p&gt;在 CSS 中，设置渐变色可以使用&lt;code&gt;background&lt;/code&gt;属性和相应的渐变函数。CSS 提供两种类型的渐变：线性渐变（&lt;code&gt;linear-gradient&lt;/code&gt;）和径向渐变（&lt;code&gt;radial-gradient&lt;/code&gt;）。以下是如何分别设置这两种渐变色的示例。&lt;/p&gt;&lt;h3&gt;线性" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/713" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[css] 如何设置渐变色？【热度: 746】</h1>
+      <div class="subtitle">TOP100互联网 · CSS · TOP100互联网</div>
+      <div class="meta">创建：2024-04-20T05:00:01Z · 更新：2024-04-20T05:00:02Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：设置渐变色</p><p>在 CSS 中，设置渐变色可以使用<code>background</code>属性和相应的渐变函数。CSS 提供两种类型的渐变：线性渐变（<code>linear-gradient</code>）和径向渐变（<code>radial-gradient</code>）。以下是如何分别设置这两种渐变色的示例。</p><h3>线性渐变（Linear Gradient）</h3><p>线性渐变是从一个点到另一个点的颜色过渡。它可以通过以下方式设置：</p><pre class="code-block"><code class="language-css">.element {
+  background: linear-gradient(direction, color-stop1, color-stop2, ...);
+}
+</code></pre><ul><li><code>direction</code>：定义渐变的方向，可以是角度（如<code>45deg</code>）或预定义的关键词（如<code>to bottom</code>, <code>to top</code>, <code>to right</code>, <code>to left</code>）。</li><li><code>color-stop1</code>，<code>color-stop2</code>，...：渐变中颜色停止点，至少需要两个。</li></ul><p><strong>示例</strong>：</p><pre class="code-block"><code class="language-css">.box {
+  width: 200px;
+  height: 200px;
+  background: linear-gradient(to right, blue, red);
+}
+</code></pre><p>这个例子创建了一个从蓝色到红色的水平渐变。</p><h3>径向渐变（Radial Gradient）</h3><p>径向渐变是从一个中心点向外的颜色过渡。它可以通过以下方式设置：</p><pre class="code-block"><code class="language-css">.element {
+  background: radial-gradient(shape size, color-stop1, color-stop2, ...);
+}
+</code></pre><ul><li><code>shape</code>：定义渐变的形状，可以是<code>circle</code>或<code>ellipse</code>。</li><li><code>size</code>：定义渐变的大小，可以是<code>closest-corner</code>, <code>farthest-corner</code>, <code>closest-side</code>, <code>farthest-side</code>，或者具体的长度值。</li><li><code>color-stop1</code>，<code>color-stop2</code>，...：同样表示渐变中的颜色停止点。</li></ul><p><strong>示例</strong>：</p><pre class="code-block"><code class="language-css">.circle {
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, white, yellow, red);
+}
+</code></pre><p>这个例子创建了一个圆形的径向渐变，从白色到黄色再到红色。</p><h3>重复渐变（Repeating Gradients）</h3><p>另外，CSS 中的渐变还可以设置为重复渐变，只需在渐变函数后面添加关键词<code>repeating</code>：</p><pre class="code-block"><code class="language-css">.gradient {
+  background: repeating-linear-gradient(to bottom, blue, white 20px, white 40px);
+}
+</code></pre><p>这个例子创建了一个向下的线性渐变，颜色从蓝色开始，在 20px 处变化为白色，并在 40px 处结束，然后重复该模式。</p><p><strong>注意</strong>：各种渐变效果在不同的浏览器中可能需要添加特定的浏览器前缀</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

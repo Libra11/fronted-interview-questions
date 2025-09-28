@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] 在 redux 中如何写一个记录状态变更的日志插件【热度: 52】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：redux 插件&lt;/p&gt;&lt;p&gt;在 Redux 中，可以编写一个日志插件来记录状态的变更。以下是实现的步骤：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;创建日志插件函数：&lt;/li&gt;&lt;/ol&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code cl" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] 在 redux 中如何写一个记录状态变更的日志插件【热度: 52】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：redux 插件&lt;/p&gt;&lt;p&gt;在 Redux 中，可以编写一个日志插件来记录状态的变更。以下是实现的步骤：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;创建日志插件函数：&lt;/li&gt;&lt;/ol&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;const loggerMiddleware = (store) =" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/982" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] 在 redux 中如何写一个记录状态变更的日志插件【热度: 52】</h1>
+      <div class="subtitle">腾讯 · web框架 · 腾讯</div>
+      <div class="meta">创建：2024-10-12T15:20:37Z · 更新：2024-10-12T15:20:37Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：redux 插件</p><p>在 Redux 中，可以编写一个日志插件来记录状态的变更。以下是实现的步骤：</p><ol><li>创建日志插件函数：</li></ol><pre class="code-block"><code class="language-javascript">const loggerMiddleware = (store) =&gt; (next) =&gt; (action) =&gt; {
+  console.log(&quot;prev state&quot;, store.getState());
+  console.log(&quot;action&quot;, action);
+  const result = next(action);
+  console.log(&quot;next state&quot;, store.getState());
+  return result;
+};
+</code></pre><p>这个函数接收一个 Redux store 对象，返回一个中间件函数。这个中间件函数接收下一个中间件的调用函数<code>next</code>和当前的动作<code>action</code>。</p><ol><li>将日志插件添加到 Redux store：</li></ol><pre class="code-block"><code class="language-javascript">import { createStore, applyMiddleware } from &quot;redux&quot;;
+import rootReducer from &quot;./reducers&quot;;
+import loggerMiddleware from &quot;./loggerMiddleware&quot;;
+
+const store = createStore(rootReducer, applyMiddleware(loggerMiddleware));
+</code></pre><p>在创建 Redux store 的时候，使用<code>applyMiddleware</code>函数将日志插件中间件添加到 store 中。</p><p>这样，每当有动作被派发时，日志插件就会在控制台打印出当前的状态、动作和下一个状态，从而实现记录状态变更的目的。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

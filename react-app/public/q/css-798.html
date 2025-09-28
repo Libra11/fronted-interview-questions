@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>px 如何转为 rem【热度: 545】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：移动端适配&lt;/p&gt;&lt;p&gt;&lt;code&gt;px&lt;/code&gt;（像素）转换为 &lt;code&gt;rem&lt;/code&gt;（根元素字体大小的相对单位）需要先确定一个基准的根元素字体大小。&lt;/p&gt;&lt;p&gt;通常，我们将根元素（&lt;code&gt;&amp;lt;html&amp;g" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="px 如何转为 rem【热度: 545】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：移动端适配&lt;/p&gt;&lt;p&gt;&lt;code&gt;px&lt;/code&gt;（像素）转换为 &lt;code&gt;rem&lt;/code&gt;（根元素字体大小的相对单位）需要先确定一个基准的根元素字体大小。&lt;/p&gt;&lt;p&gt;通常，我们将根元素（&lt;code&gt;&amp;lt;html&amp;gt;&lt;/code&gt;）的字体大小设置为一个特定的值，比如 &lt;code&gt;16px&lt;/code&gt;（这是常见的默认值，但您可以根" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/798" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>px 如何转为 rem【热度: 545】</h1>
+      <div class="subtitle">CSS · CSS</div>
+      <div class="meta">创建：2024-07-13T08:39:01Z · 更新：2024-07-13T08:39:01Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：移动端适配</p><p><code>px</code>（像素）转换为 <code>rem</code>（根元素字体大小的相对单位）需要先确定一个基准的根元素字体大小。</p><p>通常，我们将根元素（<code>&lt;html&gt;</code>）的字体大小设置为一个特定的值，比如 <code>16px</code>（这是常见的默认值，但您可以根据设计需求进行修改）。</p><p>假设根元素的字体大小为 <code>16px</code>，那么转换公式为：<code>rem 值 = px 值 / 16</code> 。</p><p>例如，如果有一个元素的宽度为 <code>100px</code>，转换为 <code>rem</code> 就是：<code>100 / 16 = 6.25rem</code> 。</p><p>在实际开发中，可以使用预处理器（如 Sass、Less）或者 JavaScript 来实现自动转换。</p><p><strong>追问：可有什么办法让 px 自动转为 rem， 在开发中就直接使用 px</strong></p><p>在前端开发中，要实现输入 <code>px</code> 但自动转换为 <code>rem</code> ，可以通过以下几种方式：</p><ol><li>使用 CSS 预处理器（如 Sass、Less）</li></ol><ul><li>Sass：</li></ul><pre class="code-block"><code class="language-scss">@function pxToRem($pxValue) {
+  @return $pxValue / 16 + rem;
+}
+
+.element {
+  width: pxToRem(100);
+}
+</code></pre><ul><li>Less：</li></ul><pre class="code-block"><code class="language-less">.pxToRem(@pxValue) {
+  @remValue: @pxValue / 16;
+  @return @remValue + rem;
+}
+
+.element {
+  width: pxToRem(100);
+}
+</code></pre><ol><li>使用构建工具（如 Webpack）的插件</li></ol><ul><li>例如 <code>postcss-pxtorem</code> 插件，它可以在构建过程中自动将 <code>px</code> 转换为 <code>rem</code> 。您需要在配置中设置根元素的字体大小等相关参数。</li></ul><ol><li>自己编写脚本进行转换</li></ol><ul><li>可以在开发过程中使用 JavaScript 脚本来处理样式表中的 <code>px</code> 值，并将其转换为 <code>rem</code> 。但这种方式相对复杂，并且可能会影响开发效率。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

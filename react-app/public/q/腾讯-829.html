@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JS 脚本延迟加载的方式有哪些？【热度: 156】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：JS 延迟加载、JS 异步加载&lt;/p&gt;&lt;p&gt;JavaScript 脚本的延迟加载是一种优化网页加载时间的技术，可以提高页面的加载速度，提升用户体验。以下是常见的几种 JS 脚本延迟加载的方式：&lt;/p&gt;&lt;h3&gt;1. 使用 &lt;code&gt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="JS 脚本延迟加载的方式有哪些？【热度: 156】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：JS 延迟加载、JS 异步加载&lt;/p&gt;&lt;p&gt;JavaScript 脚本的延迟加载是一种优化网页加载时间的技术，可以提高页面的加载速度，提升用户体验。以下是常见的几种 JS 脚本延迟加载的方式：&lt;/p&gt;&lt;h3&gt;1. 使用 &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; 标签的 &lt;code&gt;defer&lt;/code&gt; 属性&lt;/h3&gt;&lt;p&gt;在 &lt;co" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/829" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>JS 脚本延迟加载的方式有哪些？【热度: 156】</h1>
+      <div class="subtitle">腾讯 · JavaScript · 腾讯</div>
+      <div class="meta">创建：2024-08-17T11:29:38Z · 更新：2024-08-17T11:29:38Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：JS 延迟加载、JS 异步加载</p><p>JavaScript 脚本的延迟加载是一种优化网页加载时间的技术，可以提高页面的加载速度，提升用户体验。以下是常见的几种 JS 脚本延迟加载的方式：</p><h3>1. 使用 <code>&lt;script&gt;</code> 标签的 <code>defer</code> 属性</h3><p>在 <code>&lt;script&gt;</code> 标签中使用 <code>defer</code> 属性可以使得脚本在文档解析完成后，但在 <code>DOMContentLoaded</code> 事件触发之前执行。<code>defer</code> 属性仅适用于外部脚本。</p><pre class="code-block"><code class="language-html">&lt;script src=&quot;path/to/your-script.js&quot; defer&gt;&lt;/script&gt;
+</code></pre><h3>2. 使用 <code>&lt;script&gt;</code> 标签的 <code>async</code> 属性</h3><p>与 <code>defer</code> 类似，<code>async</code> 属性使得脚本在加载时不会阻塞 HTML 文档的解析，但它与 <code>defer</code> 的区别在于，脚本一旦下载完成就会立即执行，而不是等到整个页面都解析完毕。这意味着 <code>async</code> 脚本的执行顺序是不确定的。</p><pre class="code-block"><code class="language-html">&lt;script src=&quot;path/to/your-script.js&quot; async&gt;&lt;/script&gt;
+</code></pre><h3>3. 动态创建 <code>&lt;script&gt;</code> 标签</h3><p>可以通过 JavaScript 动态创建 <code>&lt;script&gt;</code> 标签并插入到文档中，以此来延迟加载脚本。</p><pre class="code-block"><code class="language-javascript">var script = document.createElement(&quot;script&quot;);
+script.src = &quot;path/to/your-script.js&quot;;
+document.body.appendChild(script);
+</code></pre><h3>4. 使用加载器库（如 RequireJS、SystemJS）</h3><p>现代 JavaScript 项目中，可以使用模块加载器（如 RequireJS 或 SystemJS）来实现对脚本及其依赖的异步加载。</p><pre class="code-block"><code class="language-javascript">require([&quot;path/to/your-module&quot;], function (module) {
+  // 使用模块
+});
+</code></pre><h3>5. 利用 <code>IntersectionObserver</code></h3><p><code>IntersectionObserver</code> API 允许你配置一个回调，当监测到指定元素进入或离开视口时触发。通过这种方式，可以在元素即将出现在视图中时，动态加载相应的脚本。</p><pre class="code-block"><code class="language-javascript">let observer = new IntersectionObserver(
+  (entries, observer) =&gt; {
+    entries.forEach((entry) =&gt; {
+      if (entry.isIntersecting) {
+        // 元素现在可见，加载脚本
+        var script = document.createElement(&quot;script&quot;);
+        script.src = &quot;path/to/your-script.js&quot;;
+        document.head.appendChild(script);
+      }
+    });
+  },
+  { rootMargin: &quot;0px 0px 0px 0px&quot; }
+);
+
+observer.observe(document.querySelector(&quot;.some-element&quot;));
+</code></pre><h3>6. 使用服务端的延迟加载技术</h3><p>服务端渲染 (SSR) 或服务器端动态渲染技术（如用 Node.js 配合框架 Next.js、Nuxt.js 等）也可以实现对特定条件下的脚本延迟加载。</p><p>各个技术方案适用的场景不同，选择合适的延迟加载方式可以大幅改善网页的性能和用户体验。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

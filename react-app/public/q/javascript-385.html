@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>使用 Promise 实现一个异步流量控制的函数(限制并发数)【热度: 517】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：异步流量控制的函数&lt;/p&gt;&lt;p&gt;下面是使用 Promise 实现异步流量控制的函数的示例：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;function " />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="使用 Promise 实现一个异步流量控制的函数(限制并发数)【热度: 517】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：异步流量控制的函数&lt;/p&gt;&lt;p&gt;下面是使用 Promise 实现异步流量控制的函数的示例：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;function asyncFlowControl(tasks, limit) { let runningCount = 0; // 当前" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/385" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>使用 Promise 实现一个异步流量控制的函数(限制并发数)【热度: 517】</h1>
+      <div class="subtitle">JavaScript · JavaScript · 腾讯</div>
+      <div class="meta">创建：2023-05-30T15:19:35Z · 更新：2023-06-26T16:04:07Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：异步流量控制的函数</p><p>下面是使用 Promise 实现异步流量控制的函数的示例：</p><pre class="code-block"><code class="language-javascript">function asyncFlowControl(tasks, limit) {
+  let runningCount = 0; // 当前正在运行的任务数
+  let index = 0; // 当前执行的任务索引
+  const results = []; // 存储任务的结果
+
+  return new Promise((resolve, reject) =&gt; {
+    function runTask() {
+      if (runningCount &gt;= limit || index &gt;= tasks.length) {
+        // 达到并发限制或所有任务已执行完毕，返回结果
+        if (results.length === tasks.length) {
+          resolve(results);
+        }
+        return;
+      }
+
+      const task = tasks[index];
+      const currentIndex = index; // 保存当前任务索引
+
+      index++;
+      runningCount++;
+
+      task().then((result) =&gt; {
+        results[currentIndex] = result; // 存储任务结果
+        runningCount--;
+        runTask(); // 递归执行下一个任务
+      }).catch((error) =&gt; {
+        reject(error);
+      });
+
+      runTask(); // 递归执行下一个任务
+    }
+
+    runTask(); // 开始执行任务
+  });
+}
+
+// 示例用法
+function asyncTask(value) {
+  return new Promise((resolve) =&gt; {
+    setTimeout(() =&gt; {
+      console.log(value);
+      resolve(value);
+    }, Math.random() * 1000);
+  });
+}
+
+const tasks = [
+  () =&gt; asyncTask(1),
+  () =&gt; asyncTask(2),
+  () =&gt; asyncTask(3),
+  () =&gt; asyncTask(4),
+  () =&gt; asyncTask(5),
+];
+
+asyncFlowControl(tasks, 2).then((results) =&gt; {
+  console.log(&#39;All tasks completed:&#39;, results);
+}).catch((error) =&gt; {
+  console.error(&#39;Error occurred:&#39;, error);
+});
+</code></pre><p>以上示例中的 <code>asyncFlowControl</code> 函数接受一个任务数组 <code>tasks</code> 和一个并发限制 <code>limit</code>，它会按照并发限制逐个执行任务，并返回一个 Promise 对象。在示例中，任务数组中的每个任务都是一个返回 Promise 的函数，通过 <code>setTimeout</code> 模拟异步操作。</p><p>在执行过程中，<code>asyncFlowControl</code> 函数会维护一个 <code>runningCount</code> 变量来跟踪当前正在运行的任务数，并使用递归的方式执行任务。当达到并发限制或所有任务都已执行完毕时，函数会返回结果。</p><p>通过控制并发任务的数量，我们可以限制同时执行的异步操作，实现异步流量控制。在上述示例中，设置并发限制为 2，可以确保最多同时执行 2 个任务，并在任务执行完毕后再执行下一个任务。</p><h2>Comments / Answers</h2><hr /><p><strong>yanlele</strong> at 2023-06-26T16:04:07Z</p><p>参考文档： https://juejin.cn/post/7219961144584552504</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

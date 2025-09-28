@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>自定义 eslint 插件， 要求常量为大写 snake 命名方式， 该怎么做【热度: 35】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：eslint 插件实现&lt;/p&gt;&lt;h3&gt;1. 项目结构&lt;/h3&gt;&lt;p&gt;假设你的项目根目录为 &lt;code&gt;your-project&lt;/code&gt;，在项目中创建插件相关的目录结构：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="自定义 eslint 插件， 要求常量为大写 snake 命名方式， 该怎么做【热度: 35】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：eslint 插件实现&lt;/p&gt;&lt;h3&gt;1. 项目结构&lt;/h3&gt;&lt;p&gt;假设你的项目根目录为 &lt;code&gt;your-project&lt;/code&gt;，在项目中创建插件相关的目录结构：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code&gt;your-project/ ├── .eslintrc.js ├── src/ │ └── ... ├── e" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1098" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>自定义 eslint 插件， 要求常量为大写 snake 命名方式， 该怎么做【热度: 35】</h1>
+      <div class="subtitle">web应用场景 · web应用场景</div>
+      <div class="meta">创建：2025-02-10T16:49:33Z · 更新：2025-02-10T16:49:34Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：eslint 插件实现</p><h3>1. 项目结构</h3><p>假设你的项目根目录为 <code>your-project</code>，在项目中创建插件相关的目录结构：</p><pre class="code-block"><code>your-project/
+├── .eslintrc.js
+├── src/
+│   └── ...
+├── eslint-plugin-local/
+│   ├── lib/
+│   │   ├── rules/
+│   │   │   └── uppercase-snake-case.js
+│   │   └── index.js
+</code></pre><h3>2. 编写插件代码</h3><h4>规则组件（<code>eslint-plugin-local/lib/rules/uppercase-snake-case.js</code>）</h4><pre class="code-block"><code class="language-javascript">module.exports = {
+  meta: {
+    type: &quot;suggestion&quot;,
+    docs: {
+      description: &quot;Enforce uppercase snake case naming convention&quot;,
+      category: &quot;Stylistic Issues&quot;,
+      recommended: false,
+    },
+    schema: [],
+    messages: {
+      invalidNaming: &#39;Variable name &quot;{{name}}&quot; should be in uppercase snake case.&#39;,
+    },
+  },
+  create(context) {
+    return {
+      VariableDeclarator(node) {
+        const { id } = node;
+        if (id.type === &quot;Identifier&quot;) {
+          const name = id.name;
+          const isUppercaseSnakeCase = /^[A-Z_]+$/.test(name);
+          if (!isUppercaseSnakeCase) {
+            context.report({
+              node: id,
+              messageId: &quot;invalidNaming&quot;,
+              data: {
+                name,
+              },
+            });
+          }
+        }
+      },
+    };
+  },
+};
+</code></pre><h4>插件入口文件（<code>eslint-plugin-local/lib/index.js</code>）</h4><pre class="code-block"><code class="language-javascript">module.exports = {
+  rules: {
+    &quot;uppercase-snake-case&quot;: require(&quot;./rules/uppercase-snake-case&quot;),
+  },
+  configs: {
+    recommended: {
+      rules: {
+        &quot;eslint-plugin-local/uppercase-snake-case&quot;: &quot;error&quot;,
+      },
+    },
+  },
+};
+</code></pre><h3>3. 配置 ESLint</h3><p>在项目根目录下的 <code>.eslintrc.js</code> 文件中进行配置，让 ESLint 能够识别并使用本地插件：</p><pre class="code-block"><code class="language-javascript">module.exports = {
+  // 告诉 ESLint 从哪里查找插件
+  plugins: [
+    {
+      rules: require(&quot;./eslint-plugin-local/lib/index.js&quot;).rules,
+      configs: require(&quot;./eslint-plugin-local/lib/index.js&quot;).configs,
+    },
+  ],
+  extends: [&quot;plugin:eslint-plugin-local/recommended&quot;],
+  parser: &quot;@typescript-eslint/parser&quot;,
+  parserOptions: {
+    ecmaVersion: 2020,
+    sourceType: &quot;module&quot;,
+  },
+};
+</code></pre><h4>代码解释：</h4><ul><li><code>plugins</code> 数组中的对象用于直接引入本地插件的规则和配置。</li><li><code>extends</code> 用于应用插件中定义的推荐配置。</li></ul><h3>4. 运行 ESLint</h3><p>确保你的项目已经安装了 ESLint，然后在项目根目录下运行 ESLint 检查：</p><pre class="code-block"><code class="language-bash">npx eslint src
+</code></pre><p>这里的 <code>src</code> 是你的项目代码所在目录，你可以根据实际情况修改为其他目录。</p><p>通过以上步骤，你就可以在自己的项目中使用本地编写的 ESLint 插件了。当你修改插件代码后，再次运行 ESLint 检查，就能看到最新的检查结果。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

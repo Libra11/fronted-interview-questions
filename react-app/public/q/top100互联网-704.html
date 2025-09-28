@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何一次性渲染十万条数据还能保证页面不卡顿【热度: 426】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;原理其实就是 通过 &lt;code&gt;requestAnimationFrame&lt;/code&gt; 实现分块儿加载。&lt;/p&gt;&lt;h3&gt;requestAnimationFrame + fragment（时间分片）&lt;/h3&gt;&lt;p&gt;既然定时器的执行时间和浏览器的刷新率不一致，那么我就可以用&lt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何一次性渲染十万条数据还能保证页面不卡顿【热度: 426】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;原理其实就是 通过 &lt;code&gt;requestAnimationFrame&lt;/code&gt; 实现分块儿加载。&lt;/p&gt;&lt;h3&gt;requestAnimationFrame + fragment（时间分片）&lt;/h3&gt;&lt;p&gt;既然定时器的执行时间和浏览器的刷新率不一致，那么我就可以用&lt;code&gt;requestAnimationFrame&lt;/code&gt;来解决&lt;/p&gt;&lt;p&gt;&lt;code&gt;requestAnim" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/704" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何一次性渲染十万条数据还能保证页面不卡顿【热度: 426】</h1>
+      <div class="subtitle">TOP100互联网 · web应用场景 · TOP100互联网</div>
+      <div class="meta">创建：2024-04-19T14:35:53Z · 更新：2024-04-19T14:54:36Z</div>
+    </div>
+    <article class="content markdown-body"><p>原理其实就是 通过 <code>requestAnimationFrame</code> 实现分块儿加载。</p><h3>requestAnimationFrame + fragment（时间分片）</h3><p>既然定时器的执行时间和浏览器的刷新率不一致，那么我就可以用<code>requestAnimationFrame</code>来解决</p><p><code>requestAnimationFrame</code>也是个定时器，不同于<code>setTimeout</code>，它的时间不需要我们人为指定，这个时间取决于当前电脑的刷新率，如果是 60Hz ，那么就是 16.7ms 执行一次，如果是 120Hz 那就是 8.3ms 执行一次</p><blockquote>因此<code>requestAnimationFrame</code>也是个宏任务，前阵子面试就被问到过这个</blockquote><p>这么一来，每次电脑屏幕 16.7ms 后刷新一下，定时器就会产生 20 个<code>li</code>，<code>dom</code>结构的出现和屏幕的刷新保持了一致</p><pre class="code-block"><code class="language-js">const total = 100000;
+let ul = document.getElementById(&quot;container&quot;);
+let once = 20;
+let page = total / once;
+
+function loop(curTotal) {
+  if (curTotal &lt;= 0) return;
+
+  let pageCount = Math.min(curTotal, once);
+
+  window.requestAnimationFrame(() =&gt; {
+    for (let i = 0; i &lt; pageCount; i++) {
+      let li = document.createElement(&quot;li&quot;);
+      li.innerHTML = ~~(Math.random() * total);
+      ul.appendChild(li);
+    }
+    loop(curTotal - pageCount);
+  });
+}
+
+loop(total);
+</code></pre><p>其实目前这个代码还可以优化一下，每一次<code>appendChild</code>都是新增一个新的<code>li</code>，也就意味着需要回流一次，总共十万条数据就需要回流十万次</p><p>此前讲回流的时候提出过虚拟片段<code>fragment</code>来解决这个问题</p><p><code>fragment</code>是虚拟文档碎片，我们一次<code>for</code>循环产生 20 个<code>li</code>的过程中可以全部把真实<code>dom</code>挂载到<code>fragment</code>上，然后再把<code>fragment</code>挂载到真实<code>dom</code>上，这样原来需要回流十万次，现在只需要回流<code>100000 / 20</code>次</p><pre class="code-block"><code class="language-js">const total = 100000;
+let ul = document.getElementById(&quot;container&quot;);
+let once = 20;
+let page = total / once;
+
+function loop(curTotal) {
+  if (curTotal &lt;= 0) return;
+
+  let pageCount = Math.min(curTotal, once);
+
+  window.requestAnimationFrame(() =&gt; {
+    let fragment = document.createDocumentFragment(); // 创建一个虚拟文档碎片
+    for (let i = 0; i &lt; pageCount; i++) {
+      let li = document.createElement(&quot;li&quot;);
+      li.innerHTML = ~~(Math.random() * total);
+      fragment.appendChild(li); // 挂到fragment上
+    }
+    ul.appendChild(fragment); // 现在才回流
+    loop(curTotal - pageCount);
+  });
+}
+
+loop(total);
+</code></pre><p>进阶： 如果做到极致的话， 可以考虑通过动态计算渲染的量， 一次性渲染多少。 会涉及到一些 长任务 等相关知识。</p><p>这部分可以参考：https://juejin.cn/post/7328366295091380262</p><h3>参考文档</h3><p>https://juejin.cn/post/7354940230301057033</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

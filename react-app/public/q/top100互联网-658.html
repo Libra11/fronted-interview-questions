@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>单点登录是如何实现的？【热度: 647】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：单点登录实现、单点登录流程&lt;/p&gt;&lt;h3&gt;单点登录&lt;/h3&gt;&lt;p&gt;单点登录：Single Sign On，简称SSO。用户只要登录一次，就可以访问所有相关信任应用的资源。企业里面用的会比较多，有很多内网平台，但是只要在一个系统登录就" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="单点登录是如何实现的？【热度: 647】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：单点登录实现、单点登录流程&lt;/p&gt;&lt;h3&gt;单点登录&lt;/h3&gt;&lt;p&gt;单点登录：Single Sign On，简称SSO。用户只要登录一次，就可以访问所有相关信任应用的资源。企业里面用的会比较多，有很多内网平台，但是只要在一个系统登录就可以。&lt;/p&gt;&lt;h4&gt;实现方案&lt;/h4&gt;&lt;ul&gt;&lt;li&gt;单一域名：可以把 cookie 种在根域名下实现单点登录&lt;/li" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/658" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>单点登录是如何实现的？【热度: 647】</h1>
+      <div class="subtitle">TOP100互联网 · web应用场景 · TOP100互联网</div>
+      <div class="meta">创建：2023-12-26T15:39:09Z · 更新：2023-12-26T15:39:10Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：单点登录实现、单点登录流程</p><h3>单点登录</h3><p>单点登录：Single Sign On，简称SSO。用户只要登录一次，就可以访问所有相关信任应用的资源。企业里面用的会比较多，有很多内网平台，但是只要在一个系统登录就可以。</p><h4>实现方案</h4><ul><li>单一域名：可以把 cookie 种在根域名下实现单点登录</li><li>多域名：常用 CAS来解决，新增一个认证中心的服务。CAS（Central Authentication Service）是实现SSO单点登录的框架</li></ul><h4>CAS实现单点登录的流程：</h4><ol><li>用户访问系统A，判断未登录，则直接跳到认证中心页面</li><li>在认证中心页面输入账号，密码，生成令牌，重定向到 系统A</li><li>在系统A拿到令牌到认证中心去认证，认证通过，则建立对话</li><li>用户访问系统B，发现没有有效会话，则重定向到认证中心</li><li>认证中心发现有全局会话，新建令牌，重定向到系统B</li><li>在系统B使用令牌去认证中心验证，验证成功后，建议系统B的局部会话。</li></ol><ul><li>参考流程图：</li></ul><p><img alt="image" src="https://github.com/pro-collection/interview-question/assets/22188674/c258b9f1-e6b3-48a4-aa39-01b68b47bbde" /></p><h4>关键点</h4><p>下面是举例来详细说明CAS实现单点登录的流程：</p><p>一、第一次访问系统A</p><ol><li>用户访问系统A  (www.app1.com)， 跳转认证中心 client(www.sso.com)， 然后输入用户名，密码登录，然后认证中心 serverSSO 把  cookieSSO  种在认证中心的域名下 (www.sso.com)， 重定向到系统A，并且带上生成的 ticket 参数 (www.app1.com?ticket =xxx)</li></ol><ol><li>系统A (www.app1.com?ticket =xxx)请求系统A的后端 serverA ，serverA 去 serverSSO 验证，通过后，将cookieA种在 www.app1.com下</li></ol><p>二、第二次访问系统A 直接携带 cookieA 去访问后端，验证通过后，即登录成功。</p><p>三、第三次访问系统B</p><ol><li>访问系统B (www.app2.com)， 跳转到认证中心 client(www.sso.com)， 这个时候会把认证中心的cookieSSO也携带上，发现用户已登录过，则直接重定向到系统B（www.app2.com）， 并且带上生成的ticket参数（www.app2.com?ticket =xxx）</li></ol><ol><li>系统B (www.app2.com?ticket =xxx)请求系统B的后端 serverB，serverB 去 serverSSO 验证，通过后，将cookieB种在www.app2.com下</li></ol><p>注意cookie生成时机及种的位置。</p><ul><li>cookieSSO，SSO域名下的cookie</li><li>cookieA，系统A域名下的cookie</li><li>cookieB，系统B域名下的cookie</li></ul><h3>参考文档</h3><p>https://juejin.cn/post/7195588906809032764</p><p>https://juejin.cn/post/7044328327762411534</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

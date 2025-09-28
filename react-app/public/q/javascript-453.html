@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>hasOwnProperty 与 instanceof 区别【热度: 490】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：hasOwnProperty、instanceof、hasOwnProperty作用、instanceof作用&lt;/p&gt;&lt;p&gt;hasOwnProperty 和 instanceof 是两个不同的操作符，用于不同的目的。&lt;/p&gt;&lt;ol&gt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="hasOwnProperty 与 instanceof 区别【热度: 490】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：hasOwnProperty、instanceof、hasOwnProperty作用、instanceof作用&lt;/p&gt;&lt;p&gt;hasOwnProperty 和 instanceof 是两个不同的操作符，用于不同的目的。&lt;/p&gt;&lt;ol&gt;&lt;li&gt;hasOwnProperty&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;hasOwnProperty 是一个对象的原型方法，用来检" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/453" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>hasOwnProperty 与 instanceof 区别【热度: 490】</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-06-12T16:12:10Z · 更新：2023-06-12T16:12:11Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：hasOwnProperty、instanceof、hasOwnProperty作用、instanceof作用</p><p>hasOwnProperty 和 instanceof 是两个不同的操作符，用于不同的目的。</p><ol><li>hasOwnProperty</li></ol><p>hasOwnProperty 是一个对象的原型方法，用来检测一个对象自身是否具有指定名称的属性（不会检查原型链上的属性）。其语法如下：</p><pre class="code-block"><code>object.hasOwnProperty(property)
+</code></pre><p>其中，object 是要检测的对象，property 是要检测的属性名。如果对象自身具有指定名称的属性，则返回 true，否则返回 false。</p><ol><li>instanceof</li></ol><p>instanceof 是一个运算符，用来检测一个对象是否是某个类的实例。其语法如下：</p><pre class="code-block"><code>object instanceof constructor
+</code></pre><p>其中，object 是要检测的对象，constructor 是要检测的类（构造函数）。如果对象是指定类的实例，则返回 true，否则返回 false。</p><p>举个例子来说，假设有以下代码：</p><pre class="code-block"><code>function Person(name) {
+  this.name = name;
+}
+
+var john = new Person(&quot;John&quot;);
+
+console.log(john.hasOwnProperty(&quot;name&quot;)); // true
+console.log(john instanceof Person); // true
+</code></pre><p>上述代码中，我们创建了一个 Person 类，并使用构造函数创建了一个实例 john。然后我们分别使用 hasOwnProperty 和 instanceof 操作符检测 john 对象是否具有 name 属性和是否是 Person 类的实例，得到的结果分别为 true 和 true。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

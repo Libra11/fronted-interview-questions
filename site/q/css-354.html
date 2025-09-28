@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CSS 伪类和伪元素有哪些，它们的区别和实际应用【热度: 317】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：css 伪类、css 伪元素&lt;/p&gt;&lt;p&gt;CSS 中有伪类和伪元素两种，它们在用法和意义上有一些区别。&lt;/p&gt;&lt;p&gt;伪类是对元素在特定状态下的一种描述。比如 &lt;code&gt;:hover&lt;/code&gt; 代表鼠标悬停状态下的样式，&lt;cod" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="CSS 伪类和伪元素有哪些，它们的区别和实际应用【热度: 317】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：css 伪类、css 伪元素&lt;/p&gt;&lt;p&gt;CSS 中有伪类和伪元素两种，它们在用法和意义上有一些区别。&lt;/p&gt;&lt;p&gt;伪类是对元素在特定状态下的一种描述。比如 &lt;code&gt;:hover&lt;/code&gt; 代表鼠标悬停状态下的样式，&lt;code&gt;:active&lt;/code&gt; 代表元素被激活状态下的样式。伪类始终以冒号 &lt;code&gt;:&lt;/code&gt; 开头，并放在" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/354" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>CSS 伪类和伪元素有哪些，它们的区别和实际应用【热度: 317】</h1>
+      <div class="subtitle">CSS · CSS · 京东</div>
+      <div class="meta">创建：2023-05-15T16:03:08Z · 更新：2023-05-15T16:03:09Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：css 伪类、css 伪元素</p><p>CSS 中有伪类和伪元素两种，它们在用法和意义上有一些区别。</p><p>伪类是对元素在特定状态下的一种描述。比如 <code>:hover</code> 代表鼠标悬停状态下的样式，<code>:active</code> 代表元素被激活状态下的样式。伪类始终以冒号 <code>:</code> 开头，并放在选择器的最后。常用的 CSS 伪类有：</p><ol><li><code>:hover</code>，鼠标移动到元素上时产生的效果。</li></ol><ol><li><code>:active</code>，鼠标按下去但没有释放时的状态。</li></ol><ol><li><code>:focus</code>，元素获取焦点时的状态。</li></ol><ol><li><code>:visited</code>，链接被点击并访问过时的状态。</li></ol><ol><li><code>:nth-child(n)</code>，选中元素的第 n 个 child 元素。</li></ol><ol><li><code>:first-child</code>，选中第一个 child 元素。</li></ol><ol><li><code>:last-child</code>，选中最后一个 child 元素。</li></ol><p>另一方面，伪元素是对元素局部样式的描述，允许我们对某个元素的特定部分进行样式设置。比如 <code>::before</code> 可使用内容插入做出类似插画的效果，<code>::after</code> 可用于为元素添加内容等等。双冒号 <code>::</code> 也是伪元素的标识符。常用的 CSS 伪元素有：</p><ol><li><code>::before</code>，在元素内容前插入内容。</li></ol><ol><li><code>::after</code>，在元素内容后插入内容。</li></ol><ol><li><code>::first-letter</code>，选择元素的第一个字母。</li></ol><ol><li><code>::first-line</code>，选择元素的第一行。</li></ol><ol><li><code>::selection</code>，选择用户选中文本的部分。</li></ol><p>区别与使用：</p><ul><li>伪类的作用是改变元素在特定状态下的样式，而伪元素则充当一个元素的某一部分来做样式处理。</li><li>由于伪元素技术强大，可以为元素添加完全独立的内容而无需改变 HTML，因此在一些需要前端动态处理或给传统HTML元素嵌入样式的情况下，往往会用到伪元素技术。比如用 <code>::before</code> 和 <code>::after</code> 实现类似插画的效果。</li><li>伪类和伪元素在实际应用中搭配使用，可以产生更复杂和丰富的样式效果。因此在大量的开发工程中，两者的灵活应用至关重要。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

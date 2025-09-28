@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>类型的转换有哪些【热度: 631】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：js类型转换&lt;/p&gt;&lt;p&gt;可以将上述类型转换分为以下几类：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;显式转换：显式转换是通过特定的函数或操作符来实现的，开发者明确地指定了类型转换的规则和目标类型。例如使用&lt;code&gt;String()&lt;/code&gt;、&lt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="类型的转换有哪些【热度: 631】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：js类型转换&lt;/p&gt;&lt;p&gt;可以将上述类型转换分为以下几类：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;显式转换：显式转换是通过特定的函数或操作符来实现的，开发者明确地指定了类型转换的规则和目标类型。例如使用&lt;code&gt;String()&lt;/code&gt;、&lt;code&gt;Number()&lt;/code&gt;、&lt;code&gt;Boolean()&lt;/code&gt;等函数进行类型转。&lt;/li&gt;&lt;/o" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/540" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>类型的转换有哪些【热度: 631】</h1>
+      <div class="subtitle">JavaScript · JavaScript · 滴滴</div>
+      <div class="meta">创建：2023-08-31T15:42:14Z · 更新：2025-02-11T08:39:29Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：js类型转换</p><p>可以将上述类型转换分为以下几类：</p><ol><li>显式转换：显式转换是通过特定的函数或操作符来实现的，开发者明确地指定了类型转换的规则和目标类型。例如使用<code>String()</code>、<code>Number()</code>、<code>Boolean()</code>等函数进行类型转。</li></ol><ol><li>隐式转换：隐式转换是在特定的运算或操作中自动发生的，不需要开发者明确指定类型转换的规则和目标类型。例如在字符串拼接时，JavaScript会自动将其他类型转换为字符串类型；在使用比较操作符（如<code>==</code>、<code>&gt;</code>、<code>&lt;</code>）进行比较时，JavaScript会自动进行类型转换以满足比较的要求。或者使用<code>+</code>、<code>-</code>、<code>*</code>、<code>/</code>等操作符进行数值转换和计算。</li></ol><ol><li>强制转换：强制转换是指将一个类型强制转换为另一个类型，无论是显式转换还是隐式转换，都是通过强制转换来实现的。例如使用<code>parseInt()</code>、<code>parseFloat()</code>等函数将字符串转换为数字类型；使用<code>Boolean()</code>函数将其他类型转换为布尔类型。</li></ol><p>隐式转换在某些情况下可能会导致不可预测的结果，因此在开发中应尽量避免依赖隐式转换，而是通过显式转换来确保类型转换的准确性。</p><hr /><p><strong>补充</strong></p><p>在JavaScript中，有以下几种常见的类型转换方式：</p><ol><li>转换为字符串：可以使用String()函数或toString()方法将其他类型的值转换为字符串类型。例如：</li></ol><p>```javascript</p><p>var num = 42;</p><p>var str = String(num); // 将数字转换为字符串</p><p>var bool = true;</p><p>var str2 = bool.toString(); // 将布尔值转换为字符串</p><p>```</p><ol><li>转换为数字：可以使用Number()函数或使用parseInt()、parseFloat()等方法将其他类型的值转换为数字类型。例如：</li></ol><p>```javascript</p><p>var str = "42";</p><p>var num = Number(str); // 将字符串转换为数字</p><p>var str2 = "3.14";</p><p>var floatNum = parseFloat(str2); // 将字符串转换为浮点数</p><p>```</p><ol><li>转换为布尔值：可以使用Boolean()函数将其他类型的值转换为布尔类型。例如：</li></ol><p>```javascript</p><p>var num = 42;</p><p>var bool = Boolean(num); // 将数字转换为布尔值</p><p>var str = "hello";</p><p>var bool2 = Boolean(str); // 将字符串转换为布尔值</p><p>```</p><ol><li>隐式类型转换：JavaScript在某些情况下会自动进行类型转换，例如通过算术运算符、比较运算符等进行操作时，会根据需要隐式地将值转换为特定的类型。例如：</li></ol><p>```javascript</p><p>var num1 = 42;</p><p>var num2 = "3";</p><p>var sum = num1 + Number(num2); // 隐式将字符串转换为数字并进行相加</p><p>```</p><h2>Comments / Answers</h2><hr /><p><strong>yanlele</strong> at 2023-09-29T12:55:15Z</p><p>参考文档: https://github.com/linwu-hi/code-interview/issues/42</p><hr /><p><strong>weiizxuan</strong> at 2025-02-11T08:39:28Z</p><p>注释中提到的是 "隐式将字符串转换为数字"，但实际代码使用了 Number(num2)，这是一种 显式转换（即明确地调用 Number() 函数来将字符串转换为数字）</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

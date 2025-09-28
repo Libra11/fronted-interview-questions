@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] 父组件调用子组件的方法 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;在React中，我们经常在子组件中调用父组件的方法，一般用props回调即可。但是有时候也需要在父组件中调用子组件的方法，通过这种方法实现高内聚。有多种方法，请按需服用。&lt;/p&gt;&lt;h3&gt;类组件中&lt;/h3&gt;&lt;h4&gt;React.createRef()&lt;/h4&gt;&lt;ul&gt;&lt;li&gt;优" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] 父组件调用子组件的方法" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;在React中，我们经常在子组件中调用父组件的方法，一般用props回调即可。但是有时候也需要在父组件中调用子组件的方法，通过这种方法实现高内聚。有多种方法，请按需服用。&lt;/p&gt;&lt;h3&gt;类组件中&lt;/h3&gt;&lt;h4&gt;React.createRef()&lt;/h4&gt;&lt;ul&gt;&lt;li&gt;优点：通俗易懂，用ref指向。&lt;/li&gt;&lt;/ul&gt;&lt;ul&gt;&lt;li&gt;缺点：使用了HOC的子组件不可用，无法指向真是子组件&lt;/" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/286" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] 父组件调用子组件的方法</h1>
+      <div class="subtitle">web框架 · web框架 · 腾讯</div>
+      <div class="meta">创建：2023-04-16T13:45:21Z · 更新：2023-04-16T13:45:22Z</div>
+    </div>
+    <article class="content markdown-body"><p>在React中，我们经常在子组件中调用父组件的方法，一般用props回调即可。但是有时候也需要在父组件中调用子组件的方法，通过这种方法实现高内聚。有多种方法，请按需服用。</p><h3>类组件中</h3><h4>React.createRef()</h4><ul><li>优点：通俗易懂，用ref指向。</li></ul><ul><li>缺点：使用了HOC的子组件不可用，无法指向真是子组件</li></ul><p>比如一些常用的写法，mobx的@observer包裹的子组件就不适用此方法。</p><pre class="code-block"><code class="language-scala">import React, { Component } from &#39;react&#39;;
+
+class Sub extends Component {
+  callback() {
+    console.log(&#39;执行回调&#39;);
+  }
+  render() {
+    return &lt;div&gt;子组件&lt;/div&gt;;
+  }
+}
+
+class Super extends Component {
+  constructor(props) {
+    super(props);
+    this.sub = React.createRef();
+  }
+  handleOnClick() {
+    this.sub.callback();
+  }
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;Sub ref={this.sub}&gt;&lt;/Sub&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+
+</code></pre><h4>ref的函数式声明</h4><ul><li>优点：ref写法简洁</li><li>缺点：使用了HOC的子组件不可用，无法指向真是子组件（同上）</li></ul><p>使用方法和上述的一样，就是定义ref的方式不同。</p><pre class="code-block"><code class="language-csharp">...
+
+&lt;Sub ref={ref =&gt; this.sub = ref}&gt;&lt;/Sub&gt;
+
+...
+
+
+</code></pre><h4>使用props自定义onRef属性</h4><ul><li>优点：假如子组件是嵌套了HOC，也可以指向真实子组件。</li><li>缺点：需要自定义props属性</li></ul><pre class="code-block"><code class="language-typescript">import React, { Component } from &#39;react&#39;;
+import { observer } from &#39;mobx-react&#39;
+
+@observer
+class Sub extends Component {
+	componentDidMount(){
+    // 将子组件指向父组件的变量
+		this.props.onRef &amp;&amp; this.props.onRef(this);
+	}
+	callback(){
+		console.log(&quot;执行我&quot;)
+	}
+	render(){
+		return (&lt;div&gt;子组件&lt;/div&gt;);
+	}
+}
+
+class Super extends Component {
+	handleOnClick(){
+       // 可以调用子组件方法
+		this.Sub.callback();
+	}
+	render(){
+		return (
+          &lt;div&gt;
+			&lt;div onClick={this.handleOnClick}&gt;click&lt;/div&gt;
+			&lt;Sub onRef={ node =&gt; this.Sub = node }&gt;&lt;/Sub&gt;
+	   	  &lt;/div&gt;)
+	}
+}
+
+
+</code></pre><h3>函数组件、Hook组件</h3><h4>useImperativeHandle</h4><ul><li>优点： 1、写法简单易懂 2、假如子组件嵌套了HOC，也可以指向真实子组件</li><li>缺点： 1、需要自定义props属性 2、需要自定义暴露的方法</li></ul><pre class="code-block"><code class="language-javascript">import React, { useImperativeHandle } from &#39;react&#39;;
+import { observer } from &#39;mobx-react&#39;
+
+
+const Parent = () =&gt; {
+  let ChildRef = React.createRef();
+
+  function handleOnClick() {
+    ChildRef.current.func();
+  }
+
+  return (
+    &lt;div&gt;
+      &lt;button onClick={handleOnClick}&gt;click&lt;/button&gt;
+      &lt;Child onRef={ChildRef} /&gt;
+    &lt;/div&gt;
+  );
+};
+
+const Child = observer(props =&gt; {
+  //用useImperativeHandle暴露一些外部ref能访问的属性
+  useImperativeHandle(props.onRef, () =&gt; {
+    // 需要将暴露的接口返回出去
+    return {
+      func: func,
+    };
+  });
+  function func() {
+    console.log(&#39;执行我&#39;);
+  }
+  return &lt;div&gt;子组件&lt;/div&gt;;
+});
+
+export default Parent;
+
+</code></pre><h4>forwardRef</h4><p>使用forwardRef抛出子组件的ref</p><p>这个方法其实更适合自定义HOC。但问题是，withRouter、connect、Form.create等方法并不能抛出ref，假如Child本身就需要嵌套这些方法，那基本就不能混着用了。forwardRef本身也是用来抛出子元素，如input等原生元素的ref的，并不适合做组件ref抛出，因为组件的使用场景太复杂了。</p><pre class="code-block"><code class="language-javascript">import React, { useRef, useImperativeHandle } from &#39;react&#39;;
+import ReactDOM from &#39;react-dom&#39;;
+import { observer } from &#39;mobx-react&#39;
+
+const FancyInput = React.forwardRef((props, ref) =&gt; {
+  const inputRef = useRef();
+  useImperativeHandle(ref, () =&gt; ({
+    focus: () =&gt; {
+      inputRef.current.focus();
+    }
+  }));
+
+  return &lt;input ref={inputRef} type=&quot;text&quot; /&gt;
+});
+
+const Sub = observer(FancyInput)
+
+const App = props =&gt; {
+  const fancyInputRef = useRef();
+
+  return (
+    &lt;div&gt;
+      &lt;FancyInput ref={fancyInputRef} /&gt;
+      &lt;button
+        onClick={() =&gt; fancyInputRef.current.focus()}
+      &gt;父组件调用子组件的 focus&lt;/button&gt;
+    &lt;/div&gt;
+  )
+}
+
+export default App;
+
+
+</code></pre><h3>总结</h3><p>父组件调子组件函数有两种情况</p><ul><li>子组件无HOC嵌套：推荐使用ref直接调用</li><li>有HOC嵌套：推荐使用自定义props的方式</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

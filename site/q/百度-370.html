@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] createContext 和 useContext 有什么区别， 是做什么用的【热度: 367】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：createContext useContext、useContext 使用、createContext 使用&lt;/p&gt;&lt;h3&gt;&lt;code&gt;createContext&lt;/code&gt; 和 &lt;code&gt;useContext&lt;/code&gt;&lt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] createContext 和 useContext 有什么区别， 是做什么用的【热度: 367】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：createContext useContext、useContext 使用、createContext 使用&lt;/p&gt;&lt;h3&gt;&lt;code&gt;createContext&lt;/code&gt; 和 &lt;code&gt;useContext&lt;/code&gt;&lt;/h3&gt;&lt;p&gt;&lt;code&gt;createContext&lt;/code&gt;和&lt;code&gt;useContext&lt;/code&gt;是Re" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/370" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] createContext 和 useContext 有什么区别， 是做什么用的【热度: 367】</h1>
+      <div class="subtitle">百度 · web框架 · 百度</div>
+      <div class="meta">创建：2023-05-23T14:34:11Z · 更新：2023-05-24T07:10:51Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：createContext useContext、useContext 使用、createContext 使用</p><h3><code>createContext</code> 和 <code>useContext</code></h3><p><code>createContext</code>和<code>useContext</code>是React中用于处理上下文（Context）的两个钩子函数，它们用于在组件之间共享数据。</p><p><code>createContext</code>用于创建一个上下文对象，该对象包含<code>Provider</code>和<code>Consumer</code>两个组件。<code>createContext</code>接受一个初始值作为参数，该初始值将在没有匹配的<code>Provider</code>时被使用。</p><p><code>useContext</code>用于在函数组件中访问上下文的值。它接受一个上下文对象作为参数，并返回当前上下文的值。</p><p>具体区别和用途如下：</p><ol><li><code>createContext</code>：<code>createContext</code>用于创建一个上下文对象，并指定初始值。它返回一个包含<code>Provider</code>和<code>Consumer</code>组件的对象。<code>Provider</code>组件用于在组件树中向下传递上下文的值，而<code>Consumer</code>组件用于在组件树中向上获取上下文的值。</li></ol><pre class="code-block"><code class="language-jsx">const MyContext = createContext(initialValue);
+</code></pre><ol><li><code>useContext</code>：<code>useContext</code>用于在函数组件中访问上下文的值。它接受一个上下文对象作为参数，并返回当前上下文的值。使用<code>useContext</code>可以避免使用<code>Consumer</code>组件进行嵌套。</li></ol><pre class="code-block"><code class="language-jsx">const value = useContext(MyContext);
+</code></pre><p>使用上下文的主要目的是在组件树中共享数据，避免通过逐层传递<code>props</code>的方式传递数据。上下文可以在跨组件层级的情况下方便地共享数据，使组件之间的通信更加简洁和灵活。</p><p>使用步骤如下：</p><ol><li>使用<code>createContext</code>创建一个上下文对象，并提供初始值。</li><li>在组件树中的某个位置使用<code>Provider</code>组件，将要共享的数据通过<code>value</code>属性传递给子组件。</li><li>在需要访问上下文数据的组件中使用<code>useContext</code>钩子，获取上下文的值。</li></ol><p>需要注意的是，上下文中的数据变化会触发使用该上下文的组件重新渲染，因此应谨慎使用上下文，避免无谓的性能损耗。</p><h3>代码示范</h3><p>当使用<code>createContext</code>和<code>useContext</code>时，以下是一个简单的代码示例：</p><pre class="code-block"><code class="language-jsx">import React, { createContext, useContext } from &#39;react&#39;;
+
+// 创建上下文对象
+const MyContext = createContext();
+
+// 父组件
+function ParentComponent() {
+  const value = &#39;Hello, World!&#39;;
+
+  return (
+    // 提供上下文的值
+    &lt;MyContext.Provider value={value}&gt;
+      &lt;ChildComponent /&gt;
+    &lt;/MyContext.Provider&gt;
+  );
+}
+
+// 子组件
+function ChildComponent() {
+  // 使用 useContext 获取上下文的值
+  const value = useContext(MyContext);
+
+  return &lt;div&gt;{value}&lt;/div&gt;;
+}
+
+// 使用上述组件
+function App() {
+  return &lt;ParentComponent /&gt;;
+}
+</code></pre><p>在上述示例中，我们首先使用<code>createContext</code>创建一个上下文对象<code>MyContext</code>。然后，在<code>ParentComponent</code>组件中，我们通过<code>MyContext.Provider</code>组件提供了上下文的值，值为<code>&#39;Hello, World!&#39;</code>。在<code>ChildComponent</code>组件中，我们使用<code>useContext</code>钩子获取了上下文的值，并将其显示在页面上。</p><p>最终，我们在<code>App</code>组件中使用<code>ParentComponent</code>组件作为根组件。当渲染应用程序时，<code>ChildComponent</code>将获取到上下文的值并显示在页面上。</p><p>通过这种方式，<code>ParentComponent</code>提供了上下文的值，<code>ChildComponent</code>通过<code>useContext</code>钩子获取并使用该值，实现了组件之间的数据共享。</p><h2>Comments / Answers</h2><hr /><p><strong>chenliwen123</strong> at 2023-05-24T07:10:50Z</p><p>这个非常好  我最近刚好遇到这个问题了   原来要用useContext</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

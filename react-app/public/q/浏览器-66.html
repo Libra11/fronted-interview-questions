@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>重绘与重排的区别？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;浏览器重绘（Repaint）和重排（Reflow）是Web页面中常见的两种渲染方式，它们的区别如下：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;重排（Reflow）：当DOM元素的结构或者布局发生变化时，浏览器需要重新计算元素的几何属性（比如位置、大小等），然后重新构建渲染树，这个过程叫做重排" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="重绘与重排的区别？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;浏览器重绘（Repaint）和重排（Reflow）是Web页面中常见的两种渲染方式，它们的区别如下：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;重排（Reflow）：当DOM元素的结构或者布局发生变化时，浏览器需要重新计算元素的几何属性（比如位置、大小等），然后重新构建渲染树，这个过程叫做重排。重排的代价比较高，因为需要浏览器重新计算和布局，会消耗较多的CPU资源和时间。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li&gt;重绘" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/66" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>重绘与重排的区别？</h1>
+      <div class="subtitle">浏览器 · 浏览器</div>
+      <div class="meta">创建：2023-03-11T07:47:40Z · 更新：2023-09-09T06:17:28Z</div>
+    </div>
+    <article class="content markdown-body"><p>浏览器重绘（Repaint）和重排（Reflow）是Web页面中常见的两种渲染方式，它们的区别如下：</p><ol><li>重排（Reflow）：当DOM元素的结构或者布局发生变化时，浏览器需要重新计算元素的几何属性（比如位置、大小等），然后重新构建渲染树，这个过程叫做重排。重排的代价比较高，因为需要浏览器重新计算和布局，会消耗较多的CPU资源和时间。</li></ol><ol><li>重绘（Repaint）：当元素的样式（如背景颜色、字体颜色、边框颜色等）发生变化时，浏览器会重新绘制元素的样式，这个过程叫做重绘。重绘的代价比较低，因为不需要重新计算元素的位置和大小，只需要重新绘制元素的样式即可。</li></ol><p>因此，重排会触发重绘，但是重绘不一定会触发重排。在Web开发中，我们应该尽量避免频繁的重排和重绘，以提高页面的性能。一些常见的优化方式包括：减少DOM操作、使用CSS3动画代替JavaScript动画、避免使用table布局等。</p><p>下面是它们的区别：</p><p>|     区别      |                           重绘                           |                           重排                           |</p><p>|--------------|--------------------------------------------------------|--------------------------------------------------------|</p><p>| 定义         | 更新元素的可见样式，但不影响布局                          | 更新元素的布局和尺寸                                     |</p><p>| 影响范围      | 仅影响元素的外观，不影响其他元素                         | 影响元素及其周围的布局、尺寸和位置                           |</p><p>| 执行顺序      | 在重排之后执行                                          | 在重绘之前执行                                          |</p><p>| 开销         | 开销较小，不涉及元素的重新布局和计算                        | 开销较大，需要重新计算元素的布局和位置                         |</p><p>| 触发条件      | 元素的可见样式属性发生变化，例如颜色、背景、阴影等                 | 元素的尺寸、布局属性发生变化，例如宽度、高度、边距等               |</p><p>| 优化建议      | 使用 CSS3 的 transform 和 opacity 属性实现动画效果             | 批量更新样式，使用文档片段进行 DOM 操作，禁用动画效果，减少样式计算 |</p><p>| 示例         | 更改颜色、背景、边框等                             | 更改尺寸、位置、边距、文本内容等                               |</p><p>请注意，重绘和重排是相互关联的，当发生重排时，会随之引发重绘。因此，为了提高性能，应该尽量减少重绘和重排的次数。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

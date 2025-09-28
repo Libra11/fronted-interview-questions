@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>实现一个函数，支持深度遍历 JS 对象，且允许再遍历的时候，修改对象的数据，得到新的对象【热度: 441】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：深度遍历对象&lt;/p&gt;&lt;p&gt;实现一个这样的函数，我们需要考虑几个关键点：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;深度遍历&lt;/strong&gt;：使用递归遍历对象的所有层级。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;修改数据&lt;/strong&gt;：在遍" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="实现一个函数，支持深度遍历 JS 对象，且允许再遍历的时候，修改对象的数据，得到新的对象【热度: 441】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：深度遍历对象&lt;/p&gt;&lt;p&gt;实现一个这样的函数，我们需要考虑几个关键点：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;深度遍历&lt;/strong&gt;：使用递归遍历对象的所有层级。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;修改数据&lt;/strong&gt;：在遍历过程中允许修改对象的数据。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;返回新对象&lt;/strong&gt;：保持原对象不变，对每个属性或" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/834" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>实现一个函数，支持深度遍历 JS 对象，且允许再遍历的时候，修改对象的数据，得到新的对象【热度: 441】</h1>
+      <div class="subtitle">百度 · JavaScript · 百度</div>
+      <div class="meta">创建：2024-08-17T12:39:41Z · 更新：2024-08-17T12:39:41Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：深度遍历对象</p><p>实现一个这样的函数，我们需要考虑几个关键点：</p><ol><li><strong>深度遍历</strong>：使用递归遍历对象的所有层级。</li><li><strong>修改数据</strong>：在遍历过程中允许修改对象的数据。</li><li><strong>返回新对象</strong>：保持原对象不变，对每个属性或值进行操作，将修改后的结果存储在新的对象中返回。</li></ol><p>以下是一个简单示例，展示了如何实现上述功能：</p><pre class="code-block"><code class="language-javascript">function deepTraverseAndModify(object, modifierFunction) {
+  // 验证 object 是对象或数组，否则直接返回
+  if (typeof object !== &quot;object&quot; || object === null) {
+    return object;
+  }
+
+  // 如果传入的是数组，遍历数组每个元素
+  if (Array.isArray(object)) {
+    return object.map((item) =&gt; deepTraverseAndModify(item, modifierFunction));
+  }
+
+  // 初始化一个新对象来存储修改后的对象
+  const modifiedObject = {};
+
+  // 遍历对象的每个属性
+  Object.keys(object).forEach((key) =&gt; {
+    const originalValue = object[key];
+
+    // 判断属性值是否是对象或数组，如果是，递归调用自身，否则直接应用修改函数
+    const modifiedValue =
+      typeof originalValue === &quot;object&quot; &amp;&amp; originalValue !== null
+        ? deepTraverseAndModify(originalValue, modifierFunction)
+        : modifierFunction(originalValue, key);
+
+    modifiedObject[key] = modifiedValue;
+  });
+
+  return modifiedObject;
+}
+
+// 使用示例
+const originalObject = {
+  a: 1,
+  b: [1, 2, { c: true, d: [3, 4] }],
+  e: { f: 5, g: 6 },
+};
+
+const modifiedObject = deepTraverseAndModify(originalObject, (value, key) =&gt; {
+  // 示例：将所有数字加 10
+  if (typeof value === &quot;number&quot;) {
+    return value + 10;
+  }
+  return value;
+});
+
+console.log(&quot;Original:&quot;, originalObject);
+console.log(&quot;Modified:&quot;, modifiedObject);
+</code></pre><p>在这个例子中：</p><ul><li><code>deepTraverseAndModify</code> 函数通过递归遍历接受两个参数：要遍历的对象和一个修改函数（<code>modifierFunction</code>），这个修改函数对每个遇到的值进行操作。</li><li>如果当前项是对象或数组，函数会递归调用自身；否则，会对其值应用 <code>modifierFunction</code> 函数进行修改。</li><li>使用 <code>Object.keys()</code> 遍历对象属性，并通过映射修改值，确保返回一个新的对象，不会修改原始输入。</li></ul><p>通过这种方式，我们不仅可以深度遍历 JavaScript 对象，还能在遍历过程中修改对象的数据，并最终得到一个全新的对象。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

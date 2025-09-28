@@ -1,0 +1,58 @@
+# 给定两个数组，写一个方法来计算它们的交集？
+
+可以使用 ES6 的 Set 数据结构来实现数组交集。
+
+首先，将一个数组转化为 Set，然后遍历另一个数组，将数组中存在于 Set 中的元素存入结果数组中。
+
+以下是一个示例代码：
+
+```javascript
+function intersection(nums1, nums2) {
+  const set1 = new Set(nums1);
+  const res = [];
+
+  for (let num of nums2) {
+    if (set1.has(num)) {
+      res.push(num);
+    }
+  }
+
+  return res;
+}
+```
+
+使用示例：
+
+```javascript
+const nums1 = [1, 2, 2, 1];
+const nums2 = [2, 2];
+
+console.log(intersection(nums1, nums2)); // [2]
+```
+
+该算法的时间复杂度为 O(m+n)，其中 m 和 n 分别为两个数组的长度。
+
+## Comments / Answers
+
+---
+
+**QiaQiadiao** at 2025-07-22T04:20:44Z
+
+```
+var intersect = function(nums1, nums2) {
+    const cnt = new Map();
+    for (const x of nums1) {
+        cnt.set(x, (cnt.get(x) ?? 0) + 1);
+    }
+    const ans = [];
+    for (const x of nums2) {
+        const c = cnt.get(x) ?? 0;
+        if (c > 0) {
+            cnt.set(x, c - 1);
+            ans.push(x);
+        }
+    }
+    return ans;
+};
+```
+leetcode350，这样写才对吧

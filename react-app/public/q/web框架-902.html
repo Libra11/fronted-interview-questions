@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Vue] 深层嵌套的对象、数组或者 JavaScript 内置的数据结构，比如 Map 等， 在响应式使用方面， ref 和 reactive 有何区别吗【热度: 415】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：响应式 api&lt;/p&gt;&lt;p&gt;在 Vue 3 的响应式系统中，处理深层嵌套的数据时，&lt;code&gt;ref&lt;/code&gt; 和 &lt;code&gt;reactive&lt;/code&gt; 在行为上有一些细微但重要的区别，特别是当涉及到对象、数组以及 Jav" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Vue] 深层嵌套的对象、数组或者 JavaScript 内置的数据结构，比如 Map 等， 在响应式使用方面， ref 和 reactive 有何区别吗【热度: 415】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：响应式 api&lt;/p&gt;&lt;p&gt;在 Vue 3 的响应式系统中，处理深层嵌套的数据时，&lt;code&gt;ref&lt;/code&gt; 和 &lt;code&gt;reactive&lt;/code&gt; 在行为上有一些细微但重要的区别，特别是当涉及到对象、数组以及 JavaScript 内置的数据结构（如 Map 和 Set）时。这些区别主要体现在如何使嵌套的数据成为响应式的，以及如何维护" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/902" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Vue] 深层嵌套的对象、数组或者 JavaScript 内置的数据结构，比如 Map 等， 在响应式使用方面， ref 和 reactive 有何区别吗【热度: 415】</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2024-09-17T08:30:51Z · 更新：2024-09-17T08:30:52Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：响应式 api</p><p>在 Vue 3 的响应式系统中，处理深层嵌套的数据时，<code>ref</code> 和 <code>reactive</code> 在行为上有一些细微但重要的区别，特别是当涉及到对象、数组以及 JavaScript 内置的数据结构（如 Map 和 Set）时。这些区别主要体现在如何使嵌套的数据成为响应式的，以及如何维护这些响应性。</p><h3>处理深层嵌套的数据</h3><p>无论是使用 <code>ref</code> 还是 <code>reactive</code>，Vue 会尝试使给定的数据结构及其嵌套的所有子结构变成响应式的。但是，具体的实现机制有所不同。</p><h4><code>reactive</code></h4><ul><li><code>reactive</code> 对象默认深度响应式。当你使用 <code>reactive</code> 使一个对象变成响应式时，这个对象的所有嵌套对象和数组也会自动变成响应式的。这意味着你可以在任意深度的嵌套数据上进行修改，并且这些修改将会触发视图更新。</li><li>对于 JavaScript 的内置数据结构，如 Map 和 Set，Vue 3 也提供了响应式支持，但它们必须通过 <code>reactive</code> 方法来创建或转换为响应式的。</li></ul><pre class="code-block"><code class="language-javascript">const state = reactive({
+  nested: {
+    count: 0,
+  },
+  numbers: [1, 2, 3],
+  map: new Map(),
+});
+
+state.nested.count++; // 触发视图更新
+state.numbers.push(4); // 触发视图更新
+state.map.set(&quot;key&quot;, &quot;value&quot;); // 触发视图更新
+</code></pre><h4><code>ref</code></h4><ul><li>使用 <code>ref</code> 创建响应式数据时，如果 <code>ref</code> 被赋值为一个对象或数组，Vue 会将该对象或数组内部转换为深度响应式。然而，这种转换仅发生在赋值操作时，如果后续对该对象或数组进行再嵌套，新增的嵌套不会自动转换为响应式。</li><li>对于内置数据结构如 Map 和 Set，<code>ref</code> 可以存储它们，但不会使它们或其内容变成响应式的。如果你需要在模板中直接绑定这些数据结构的响应式变化，使用 <code>reactive</code> 会是更好的选择。</li></ul><pre class="code-block"><code class="language-javascript">const nestedObj = ref({
+  nested: {
+    count: 0,
+  },
+});
+
+nestedObj.value.nested.count++; // 触发视图更新
+
+const map = ref(new Map());
+map.value.set(&quot;key&quot;, &quot;value&quot;); // 不会触发视图更新，除非重新赋值给 map.value
+</code></pre><h3>总结</h3><p>当处理深层嵌套的对象、数组或内置数据结构时：</p><ul><li><code>reactive</code> 默认提供深度响应式，并且可以使 Map、Set 等内置数据结构变为响应式。</li><li><code>ref</code> 在赋值对象或数组时自动将其转换为响应式，但不适用于 Map 或 Set 等内置数据结构的深度响应。</li></ul><p>一般情况下，对于复杂或深层嵌套的数据结构，<code>reactive</code> 更加适合。对于基本数据类型或不太复杂的嵌套数据，<code>ref</code> 可以提供方便的响应式转换。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

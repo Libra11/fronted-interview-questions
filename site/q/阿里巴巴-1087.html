@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>vite 开发和构建有何不同？【热度: 292】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：vite、开发、构建&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;开发阶段&lt;/strong&gt;&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;快速的模块加载&lt;/strong&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;原理&lt;/strong&gt;：在开" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="vite 开发和构建有何不同？【热度: 292】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：vite、开发、构建&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;开发阶段&lt;/strong&gt;&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;快速的模块加载&lt;/strong&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;原理&lt;/strong&gt;：在开发阶段，Vite 充分利用浏览器对原生 ES 模块（ESM）的支持。当浏览器请求一个模块时，Vite 直接将对应的 ES" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1087" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>vite 开发和构建有何不同？【热度: 292】</h1>
+      <div class="subtitle">阿里巴巴 · 工程化 · 阿里巴巴</div>
+      <div class="meta">创建：2025-01-09T16:00:57Z · 更新：2025-01-09T16:00:57Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：vite、开发、构建</p><ol><li><strong>开发阶段</strong></li></ol><ul><li><strong>快速的模块加载</strong></li><li><strong>原理</strong>：在开发阶段，Vite 充分利用浏览器对原生 ES 模块（ESM）的支持。当浏览器请求一个模块时，Vite 直接将对应的 ES 模块文件发送给浏览器，而不需要像传统构建工具那样先进行打包。这使得模块加载速度非常快，因为浏览器可以直接解析和执行这些原生模块。</li><li><strong>示例</strong>：假设在一个 Vite 项目中有<code>main.js</code>和<code>utils.js</code>两个模块，<code>main.js</code>通过<code>import { someFunction } from &#39;./utils.js&#39;;</code>来引用<code>utils.js</code>中的函数。在开发服务器启动后，当浏览器访问<code>main.js</code>并遇到这个<code>import</code>语句时，Vite 会直接将<code>utils.js</code>发送给浏览器，浏览器能够快速地加载和执行这个模块。</li><li><strong>高效的模块热替换（HMR）</strong></li><li><strong>原理</strong>：Vite 的 HMR 功能允许在修改代码后，只更新发生变化的模块，而不需要刷新整个页面。它通过建立一个 WebSocket 连接来实时监听文件变化。当一个模块被修改后，Vite 会将更新后的模块发送给浏览器，浏览器会用新模块替换旧模块，同时保持应用的当前状态。</li><li><strong>示例</strong>：如果在上述<code>utils.js</code>模块中修改了<code>someFunction</code>的实现，Vite 会检测到这个变化，通过 WebSocket 将更新后的<code>utils.js</code>发送给浏览器。浏览器接收到新模块后，会更新<code>main.js</code>中对<code>someFunction</code>的引用，并且应用的其他部分状态（如组件的局部状态）可以保持不变，从而实现了快速的热替换，提高了开发效率。</li><li><strong>开发服务器的便利性</strong></li><li><strong>原理</strong>：Vite 提供了一个轻量级的开发服务器，它可以快速启动并且自动处理一些常见的开发任务，如解析<code>import</code>语句、处理 CSS 的<code>@import</code>等。这个开发服务器还支持一些开发时的功能，如自动打开浏览器、代理请求等。</li><li><strong>示例</strong>：在启动 Vite 开发服务器后，它可以自动打开默认浏览器并访问项目的首页。如果项目需要从后端 API 获取数据，并且开发环境和生产环境的 API 地址不同，Vite 的开发服务器可以通过配置代理，将前端请求转发到正确的后端 API 地址，方便开发过程中的联调。</li></ul><ol><li><strong>构建阶段（主要是<code>vite build</code>）</strong></li></ol><ul><li><strong>代码打包与优化</strong></li><li><strong>原理</strong>：在构建阶段，Vite 使用 Rollup 作为打包工具（在<code>vite build</code>过程中）。Rollup 会对项目中的所有 ES 模块进行静态分析，将它们打包成一个或多个适合生产环境的文件。这个过程包括 Tree - Shaking（摇树优化），即剔除未使用的代码，以及作用域提升（Scope Hoisting）来优化代码结构，减少变量查找的层级，从而生成更紧凑、高效的代码。</li><li><strong>示例</strong>：假设有一个包含多个工具函数的<code>utils.js</code>模块，如<code>export const add = (a, b) =&gt; a + b;</code>，<code>export const subtract = (a, b) =&gt; a - b;</code>等。在<code>main.js</code>中只使用了<code>add</code>函数，通过<code>import { add } from &#39;./utils.js&#39;;</code>引用。在构建过程中，Rollup 会通过 Tree - Shaking 检测到<code>subtract</code>等未使用的函数，不会将它们打包到最终的输出文件中，减小了文件大小。</li><li><strong>资源处理与整合</strong></li><li><strong>原理</strong>：Vite 在构建阶段会对各种资源（如 CSS、静态图像、字体等）进行处理。对于 CSS，它会将<code>@import</code>语句解析并将相关的 CSS 文件合并，还可能进行压缩和代码转换。对于静态资源，它会根据配置将它们复制到输出目录，并可能对文件名进行哈希处理，以方便缓存管理。</li><li><strong>示例</strong>：如果项目中有一个<code>styles.css</code>文件，其中通过<code>@import</code>导入了其他 CSS 文件，如<code>@import &#39;normalize.css&#39;;</code>。在构建时，Vite 会将<code>normalize.css</code>和<code>styles.css</code>合并成一个或多个 CSS 文件，并将它们放置在输出目录的合适位置，同时可能会对 CSS 进行压缩，减少文件大小，提高页面加载速度。</li><li><strong>输出格式和部署准备</strong></li><li><strong>原理</strong>：构建阶段会根据配置生成适合生产环境部署的文件格式。Vite 可以生成多种格式的输出，如<code>umd</code>、<code>es</code>、<code>cjs</code>等，以满足不同的部署场景。例如，<code>umd</code>格式可以用于在浏览器中通过<code>&lt;script&gt;</code>标签直接引用，<code>es</code>格式适合现代浏览器和模块加载器，<code>cjs</code>格式可以用于在 Node.js 环境或者一些支持 CommonJS 的地方使用。</li><li><strong>示例</strong>：如果配置 Vite 的输出格式为<code>umd</code>，并且项目名称为<code>my - app</code>，构建后会生成一个<code>my - app.umd.js</code>文件，这个文件可以直接在 HTML 文件中通过<code>&lt;script&gt;</code>标签引用，并且已经经过了打包和优化，适合在生产环境中部署。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

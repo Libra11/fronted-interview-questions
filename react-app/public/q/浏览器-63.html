@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>浏览器是如何渲染UI的？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;浏览器渲染UI的过程通常被称为渲染流水线（rendering pipeline），它可以分为以下几个步骤：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;解析HTML：浏览器首先解析HTML代码，创建DOM（文档对象模型）树。DOM树是由节点和对象组成的层次结构，它表示了文档的内容和结构。&lt;/li" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="浏览器是如何渲染UI的？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;浏览器渲染UI的过程通常被称为渲染流水线（rendering pipeline），它可以分为以下几个步骤：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;解析HTML：浏览器首先解析HTML代码，创建DOM（文档对象模型）树。DOM树是由节点和对象组成的层次结构，它表示了文档的内容和结构。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li&gt;解析CSS：浏览器接着解析CSS代码，创建CSSOM（CSS对象模型）树。CSSOM树是由C" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/63" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>浏览器是如何渲染UI的？</h1>
+      <div class="subtitle">浏览器 · 浏览器</div>
+      <div class="meta">创建：2023-03-11T06:50:04Z · 更新：2023-03-11T06:50:05Z</div>
+    </div>
+    <article class="content markdown-body"><p>浏览器渲染UI的过程通常被称为渲染流水线（rendering pipeline），它可以分为以下几个步骤：</p><ol><li>解析HTML：浏览器首先解析HTML代码，创建DOM（文档对象模型）树。DOM树是由节点和对象组成的层次结构，它表示了文档的内容和结构。</li></ol><ol><li>解析CSS：浏览器接着解析CSS代码，创建CSSOM（CSS对象模型）树。CSSOM树是由CSS规则和对应的元素组成的层次结构，它表示了文档中的元素的样式信息。</li></ol><ol><li>创建渲染树：浏览器将DOM树和CSSOM树结合起来，生成渲染树。渲染树只包含需要显示的元素，它是一种按照渲染顺序排列的树形结构。</li></ol><ol><li>布局：浏览器对渲染树进行布局（layout），计算每个元素在屏幕上的位置和大小。</li></ol><ol><li>绘制：浏览器将渲染树中的每个元素绘制到屏幕上。</li></ol><ol><li>合成：如果有多个层叠的元素，浏览器将它们合成一个图层，以提高性能。</li></ol><p>这些步骤通常是逐步完成的，而且它们是相互依赖的。例如，布局必须在绘制之前完成，因为绘制需要知道每个元素的位置和大小。为了提高性能，浏览器通常会对这些步骤进行优化，例如使用异步布局和延迟合成等技术。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

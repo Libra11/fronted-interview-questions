@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>解构复制对象， 是深拷贝还是浅拷贝【热度: 411】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：结构复制对象&lt;/p&gt;&lt;p&gt;&lt;strong&gt;浅拷贝&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;举例：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;const obj =" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="解构复制对象， 是深拷贝还是浅拷贝【热度: 411】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：结构复制对象&lt;/p&gt;&lt;p&gt;&lt;strong&gt;浅拷贝&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;举例：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;const obj = { prop1: &amp;quot;value1&amp;quot;, prop2: { nestedProp: &amp;quot;nes" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1054" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>解构复制对象， 是深拷贝还是浅拷贝【热度: 411】</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2024-11-06T15:58:00Z · 更新：2024-11-06T15:58:00Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：结构复制对象</p><p><strong>浅拷贝</strong></p><p>举例：</p><pre class="code-block"><code class="language-javascript">const obj = {
+  prop1: &quot;value1&quot;,
+  prop2: {
+    nestedProp: &quot;nestedValue&quot;,
+  },
+};
+
+// 使用扩展运算符进行复制
+const obj2 = { ...obj };
+
+console.log(&quot;原始对象 obj:&quot;, obj);
+console.log(&quot;复制后的对象 obj2:&quot;, obj2);
+
+// 修改基本类型属性
+obj2.prop1 = &quot;newValue1&quot;;
+console.log(&quot;修改基本类型属性后：&quot;);
+console.log(&quot;原始对象 obj:&quot;, obj);
+console.log(&quot;复制后的对象 obj2:&quot;, obj2);
+
+// 修改嵌套对象的属性
+obj2.prop2.nestedProp = &quot;newNestedValue&quot;;
+console.log(&quot;修改嵌套对象属性后：&quot;);
+console.log(&quot;原始对象 obj:&quot;, obj);
+console.log(&quot;复制后的对象 obj2:&quot;, obj2);
+</code></pre><p>解释如下：</p><ol><li>首先定义了一个对象<code>obj</code>，它包含一个基本类型属性<code>prop1</code>和一个嵌套对象属性<code>prop2</code>。</li><li>使用扩展运算符<code>{...obj}</code>创建了一个新的对象<code>obj2</code>，这看起来像是对<code>obj</code>进行了复制。</li><li>当修改<code>obj2</code>的基本类型属性<code>prop1</code>时，原始对象<code>obj</code>的<code>prop1</code>不受影响。这是因为基本类型的值在复制时是按值复制的。</li><li>然而，当修改<code>obj2</code>的嵌套对象属性<code>prop2.nestedProp</code>时，原始对象<code>obj</code>的<code>prop2.nestedProp</code>也被修改了。这是因为扩展运算符对于嵌套对象只是复制了引用，而不是创建一个全新的嵌套对象副本，所以这是浅拷贝的行为。</li></ol></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

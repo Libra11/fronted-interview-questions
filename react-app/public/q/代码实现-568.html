@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>实现日期格式化 format 函数【热度: 489】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：日期format函数、日期format实现&lt;/p&gt;&lt;p&gt;&lt;strong&gt;问题&lt;/strong&gt;&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-ts&quot;&gt;// js 实现日期的 for" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="实现日期格式化 format 函数【热度: 489】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：日期format函数、日期format实现&lt;/p&gt;&lt;p&gt;&lt;strong&gt;问题&lt;/strong&gt;&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-ts&quot;&gt;// js 实现日期的 format 函数 // // YYYY 对应年 // MM 对应月 // DD 对应日 // // HH 对应 24 小时制" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/568" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>实现日期格式化 format 函数【热度: 489】</h1>
+      <div class="subtitle">代码实现 · 网易 · 代码实现/算法</div>
+      <div class="meta">创建：2023-09-24T16:14:06Z · 更新：2023-09-24T16:14:06Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：日期format函数、日期format实现</p><p><strong>问题</strong></p><pre class="code-block"><code class="language-ts">// js 实现日期的  format 函数
+//
+// YYYY 对应年
+// MM 对应月
+// DD 对应日
+//
+// HH 对应 24 小时制度
+// hh 对应 12 小时制度
+// mm 对应分钟
+// ss 对应秒
+
+const date = new Date();
+const formattedDate = date.format(&#39;YYYY-MM-DD HH:mm:ss&#39;);
+console.log(formattedDate); // 输出结果为当前日期和时间的格式化字符串
+</code></pre><p><strong>解答</strong></p><p>以下是使用JavaScript实现日期格式化的<code>format</code>函数：</p><pre class="code-block"><code class="language-javascript">Date.prototype.format = function (format) {
+  const date = this;
+
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const seconds = date.getSeconds();
+
+  format = format.replace(&#39;YYYY&#39;, year);
+  format = format.replace(&#39;MM&#39;, month.toString().padStart(2, &#39;0&#39;));
+  format = format.replace(&#39;DD&#39;, day.toString().padStart(2, &#39;0&#39;));
+  format = format.replace(&#39;HH&#39;, hours.toString().padStart(2, &#39;0&#39;));
+  format = format.replace(&#39;hh&#39;, (hours % 12).toString().padStart(2, &#39;0&#39;));
+  format = format.replace(&#39;mm&#39;, minutes.toString().padStart(2, &#39;0&#39;));
+  format = format.replace(&#39;ss&#39;, seconds.toString().padStart(2, &#39;0&#39;));
+
+  return format;
+};
+
+// 示例用法
+const date = new Date();
+const formattedDate = date.format(&#39;YYYY-MM-DD HH:mm:ss&#39;);
+console.log(formattedDate); // 输出结果为当前日期和时间的格式化字符串
+</code></pre><p>上述代码中，我们通过在<code>Date</code>对象的原型上定义<code>format</code>函数，使得所有的<code>Date</code>对象都可以调用<code>format</code>函数进行日期格式化。在函数内部，我们使用<code>getFullYear</code>、<code>getMonth</code>、<code>getDate</code>等方法获取日期的年、月、日、时、分、秒的值，并将其替换到传入的<code>format</code>字符串中对应的占位符。最后返回格式化后的字符串。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

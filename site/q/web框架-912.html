@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Vue] watch 和 watchEffect 场景上有何区别， 该如何选择【热度: 174】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：侦听器选择&lt;/p&gt;&lt;p&gt;&lt;code&gt;watch&lt;/code&gt; 和 &lt;code&gt;watchEffect&lt;/code&gt; 在 Vue 3 中都是强大的响应式特性，用于侦听响应式状态的变化并执行一些副作用（如调用函数）。虽然它们很相似，但在" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Vue] watch 和 watchEffect 场景上有何区别， 该如何选择【热度: 174】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：侦听器选择&lt;/p&gt;&lt;p&gt;&lt;code&gt;watch&lt;/code&gt; 和 &lt;code&gt;watchEffect&lt;/code&gt; 在 Vue 3 中都是强大的响应式特性，用于侦听响应式状态的变化并执行一些副作用（如调用函数）。虽然它们很相似，但在使用场景和行为上有一些关键的区别，了解这些区别可以帮助你选择最合适的工具来实现你的需求。&lt;/p&gt;&lt;h3&gt;watch&lt;/h" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/912" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Vue] watch 和 watchEffect 场景上有何区别， 该如何选择【热度: 174】</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2024-09-17T09:09:32Z · 更新：2024-09-17T09:10:37Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：侦听器选择</p><p><code>watch</code> 和 <code>watchEffect</code> 在 Vue 3 中都是强大的响应式特性，用于侦听响应式状态的变化并执行一些副作用（如调用函数）。虽然它们很相似，但在使用场景和行为上有一些关键的区别，了解这些区别可以帮助你选择最合适的工具来实现你的需求。</p><h3>watch</h3><ul><li><strong>精确性</strong>：<code>watch</code> 允许你明确指定要侦听的数据源，并且可以分别访问其新值和旧值。这让 <code>watch</code> 在需要对特定数据变化做出响应时非常精确和灵活。</li><li><strong>惰性执行</strong>：<code>watch</code> 默认情况下是惰性执行的，即它需要数据发生变化后才执行回调。这意味着在初始化时，<code>watch</code> 的回调不会执行，除非你通过配置使其立即执行。</li><li><strong>使用场景</strong>：当你需要明确知道数据何时改变以及如何改变时（例如对比新旧值），或者需要侦听一个或多个特定的响应式引用时，<code>watch</code> 是更好的选择。</li></ul><h3>watchEffect</h3><ul><li><strong>自动侦测</strong>：<code>watchEffect</code> 会自动侦测其回调函数中用到的响应式状态，并在这些状态改变时重新执行。这意味着你不需要明确指定侦听的状态，让侦听副作用的编写更简单直接。</li><li><strong>立即执行</strong>：<code>watchEffect</code> 回调会在初始时立即执行一次，然后再每次依赖的响应式状态变化时再次执行。这适合于不需要初始条件判断且希望立即根据响应式状态渲染或执行逻辑的场景。</li><li><strong>使用场景</strong>：当你需要自动追踪并响应所有使用到的响应式状态变化时，<code>watchEffect</code> 是更便捷的选项。它适用于依赖项不明确或者希望自动追踪依赖并执行副作用的场合。</li></ul><h3>如何选择</h3><ol><li><strong>如果你的副作用逻辑需要明确侦听特定的数据源，并且需要区分初始执行和依赖更新时的逻辑</strong>，那么使用 <code>watch</code> 更合适。<code>watch</code> 提供了对侦听数据和执行逻辑的细粒度控制。</li><li><strong>如果你的逻辑只是单纯地需要对使用到的任何响应式状态的改变做出响应，且希望简化依赖跟踪</strong>，<code>watchEffect</code> 更简单、更易于使用。它自动收集依赖项，简化了代码，使你的副作用逻辑更容易编写和维护。</li></ol><p>通常，选择依赖于你想要的控制级别和特定的使用情况。<code>watch</code> 提供了更高的灵活性和控制力，<code>watchEffect</code> 则为常见的自动响应逻辑提供了便利。了解这些区别和使用场景可以帮助你更合理地使用 Vue 3 的响应式系统。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

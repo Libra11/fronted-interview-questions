@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何检测对象是否循环引用？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h2&gt;检测循环引用&lt;/h2&gt;&lt;p&gt;例如下面的场景， 已经出现循环引用了， 如何检测？&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;const foo = { foo: &amp;quot;Foo&amp;quot;, bar: { " />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何检测对象是否循环引用？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h2&gt;检测循环引用&lt;/h2&gt;&lt;p&gt;例如下面的场景， 已经出现循环引用了， 如何检测？&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;const foo = { foo: &amp;quot;Foo&amp;quot;, bar: { bar: &amp;quot;Bar&amp;quot;, }, }; foo.bar.baz = foo; // 循环引用！ &lt;/co" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/6" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何检测对象是否循环引用？</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-06T15:19:30Z · 更新：2025-05-31T13:47:14Z</div>
+    </div>
+    <article class="content markdown-body"><h2>检测循环引用</h2><p>例如下面的场景， 已经出现循环引用了， 如何检测？</p><pre class="code-block"><code class="language-js">const foo = {
+  foo: &quot;Foo&quot;,
+  bar: {
+    bar: &quot;Bar&quot;,
+  },
+};
+
+foo.bar.baz = foo; // 循环引用！
+</code></pre><p>解答：使用 WeakSet 特性解决；</p><pre class="code-block"><code class="language-js">// 对 传入的 subject 对象 内部存储的所有内容执行回调
+function execRecursively(fn, subject, _refs = new WeakSet()) {
+  // 避免无限递归
+  if (_refs.has(subject)) {
+    return;
+  }
+
+  fn(subject);
+  if (typeof subject === &quot;object&quot;) {
+    _refs.add(subject);
+    for (const key in subject) {
+      execRecursively(fn, subject[key], _refs);
+    }
+  }
+}
+
+const foo = {
+  foo: &quot;Foo&quot;,
+  bar: {
+    bar: &quot;Bar&quot;,
+  },
+};
+
+foo.bar.baz = foo; // 循环引用！
+execRecursively((obj) =&gt; console.log(obj), foo);
+</code></pre><p>参考：<a href="https://github.com/yanlele/interview-question/issues/35" target="_blank" rel="noopener">#35 </a></p><h2>Comments / Answers</h2><hr /><p><strong>Guan-Erjia</strong> at 2025-05-31T06:36:33Z</p><p>JSON.stringify 如果报错就是循环引用</p><hr /><p><strong>canvascat</strong> at 2025-05-31T13:47:13Z</p><blockquote>JSON.stringify 如果报错就是循环引用</blockquote><pre class="code-block"><code class="language-js">const greet = () =&gt; &#39;hi&#39;
+greet.greet = greet  // 循环引用！
+
+JSON.stringify(greet) // 不会报错
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

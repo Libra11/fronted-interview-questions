@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>页面加载速度提升（性能优化）应该从哪些方向来思考？【热度: 1,099】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：性能提升、加载优化&lt;/p&gt;&lt;h3&gt;页面加载优化&lt;/h3&gt;&lt;p&gt;「页面加载链路+流程优化+协作方」的多级分类思考&lt;/p&gt;&lt;ul&gt;&lt;li&gt;页面启动&lt;/li&gt;&lt;li&gt;service worker 缓存重要的静态资源&lt;/li&gt;&lt;li&gt;页面保" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="页面加载速度提升（性能优化）应该从哪些方向来思考？【热度: 1,099】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：性能提升、加载优化&lt;/p&gt;&lt;h3&gt;页面加载优化&lt;/h3&gt;&lt;p&gt;「页面加载链路+流程优化+协作方」的多级分类思考&lt;/p&gt;&lt;ul&gt;&lt;li&gt;页面启动&lt;/li&gt;&lt;li&gt;service worker 缓存重要的静态资源&lt;/li&gt;&lt;li&gt;页面保活&lt;/li&gt;&lt;li&gt;资源加载&lt;/li&gt;&lt;li&gt;网络连接&lt;/li&gt;&lt;li&gt;NDS&lt;/li&gt;&lt;li&gt;减少 NDS 解析&lt;/l" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/638" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>页面加载速度提升（性能优化）应该从哪些方向来思考？【热度: 1,099】</h1>
+      <div class="subtitle">网易 · 工程化 · 网易</div>
+      <div class="meta">创建：2023-11-15T16:12:40Z · 更新：2023-11-25T12:33:25Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：性能提升、加载优化</p><h3>页面加载优化</h3><p>「页面加载链路+流程优化+协作方」的多级分类思考</p><ul><li>页面启动</li><li>service worker 缓存重要的静态资源</li><li>页面保活</li><li>资源加载</li><li>网络连接</li><li>NDS</li><li>减少 NDS 解析</li><li>NDA 预解析</li><li>HTTP</li><li>开启 HTTP2 多路复用</li><li>优化核心请求链路</li><li>HTML 加载</li><li>内容优化</li><li>代码压缩</li><li>代码精简(tailwindcss)</li><li>服务端渲染 SSG</li><li>流程优化</li><li>服务端渲染 SSR</li><li>流式渲染</li><li>预渲染</li><li>静态资源加载</li><li>内容优化</li><li>JS、CSS 代码压缩</li><li>均衡资源包体积：复用代码抽离为一份资源打包、同时开启</li><li>精简代码</li><li>雪碧图</li><li>动态图片降质量</li><li>动态 polyfill (根据浏览器的支持情况，动态加载需要的 polyfill（填充）脚本)</li><li>不常变的资源单独打包</li><li>根据浏览器版本打包， 高版本浏览器， 直接使用 es6 作为输出文件</li><li>流程优化</li><li>配置前端缓存: 资源、请求</li><li>使用 CDN</li><li>CDN 优化</li><li>协调资源加载优先级</li><li>动态资源转静态 CDN 链接加载(例如大图片等)</li><li>静态资源使用 service worker 离线存储</li><li>非首屏资源懒加载</li><li>资源和业务请求预加载</li><li>微前端加载应用</li><li>微组件加载核心模块资源</li><li>代码执行</li><li>减少执行</li><li>减少重复渲染</li><li>大体量计算场景， 尽量使用缓存函数</li><li>使用防抖节流</li><li>速度提升</li><li>使用 worker 多线程加速</li><li>充分利用异步请求的线下之间来进行核心代码的加载或者执行</li><li>wasm 处理大量计算场景</li><li>渲染高耗时场景， 迁移到 canvas 、虚拟 dom 等</li><li>动态渲染：动态渲染可视区内容， 例如图片懒加载等；</li><li>流程优化</li><li>非首屏模块， 延迟加载与渲染</li><li>longtask 任务拆分执行</li><li>利用请求闲暇时间， 请求后续页面资源</li><li>数据获取</li><li>内容优化</li><li>减少请求、合并请求、BFF</li><li>首屏数据使用模板注入到前端应用</li><li>流程优化</li><li>数据预请求</li><li>常量数据缓存</li><li>非首屏请求，延迟到首屏加载完成之后请求</li><li>请求并行</li><li>渲染相关</li><li>虚拟列表</li><li>延迟渲染</li><li>减少重绘重排</li><li>图片预加载到内存</li></ul><h2>Comments / Answers</h2><hr /><p><strong>yanlele</strong> at 2023-11-15T16:13:15Z</p><p>参考文档： https://juejin.cn/post/7249665163242307640</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

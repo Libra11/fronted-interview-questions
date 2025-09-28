@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>介绍一下 fetch 请求 keepalive 属性【热度: 112】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：fetch keepalive 属性&lt;/p&gt;&lt;p&gt;&lt;code&gt;keepalive&lt;/code&gt; 选项在 &lt;code&gt;fetch&lt;/code&gt; 请求中的作用主要是允许在浏览器即将关闭或者用户即将离开当前页面时，仍然能够成功发送网络请求" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="介绍一下 fetch 请求 keepalive 属性【热度: 112】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：fetch keepalive 属性&lt;/p&gt;&lt;p&gt;&lt;code&gt;keepalive&lt;/code&gt; 选项在 &lt;code&gt;fetch&lt;/code&gt; 请求中的作用主要是允许在浏览器即将关闭或者用户即将离开当前页面时，仍然能够成功发送网络请求。这个选项的设计初衷是为了处理那些需要在页面生命周期结束时发送的统计或追踪数据的场景，比如用户的行为追踪数据、性能数据等" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/848" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>介绍一下 fetch 请求 keepalive 属性【热度: 112】</h1>
+      <div class="subtitle">网络 · 网络</div>
+      <div class="meta">创建：2024-08-25T06:24:04Z · 更新：2024-08-25T06:24:04Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：fetch keepalive 属性</p><p><code>keepalive</code> 选项在 <code>fetch</code> 请求中的作用主要是允许在浏览器即将关闭或者用户即将离开当前页面时，仍然能够成功发送网络请求。这个选项的设计初衷是为了处理那些需要在页面生命周期结束时发送的统计或追踪数据的场景，比如用户的行为追踪数据、性能数据等。</p><h3>keepalive 选项的主要特点包括：</h3><ul><li><strong>异步发送</strong>：<code>keepalive</code> 选项允许请求在后台异步发送，即使在 <code>unload</code> 或 <code>beforeunload</code> 事件中触发。这确保了页面卸载过程不会因等待数据发送而延迟。</li><li><strong>请求不会阻止页面关闭</strong>：使用了 <code>keepalive</code> 选项的请求不会阻止浏览器关闭页面，提升了用户体验。</li><li><strong>数据量限制</strong>：为了保证功能的有效性和避免滥用，<code>keepalive</code> 请求的数据大小有限制。最新的浏览器通常限制请求体的大小在 64KB 左右。</li></ul><ul><li><strong>用例限制</strong>：考虑到 <code>keepalive</code> 选项设计的是为了处理小量且关键的数据，比如统计和追踪数据，因此它并不适合用于发送大量数据。</li></ul><h3>示例</h3><p>以下是如何在 <code>fetch</code> 请求中使用 <code>keepalive</code> 选项的例子：</p><pre class="code-block"><code class="language-javascript">window.addEventListener(&quot;beforeunload&quot;, (event) =&gt; {
+  // 构造你想要发送的数据
+  const data = {
+    // ...一些追踪数据
+  };
+
+  // 发送请求到服务器
+  fetch(&quot;https://yourserver.com/api/track&quot;, {
+    method: &quot;POST&quot;,
+    body: JSON.stringify(data),
+    headers: {
+      &quot;Content-Type&quot;: &quot;application/json&quot;,
+    },
+    keepalive: true, // 使用 keepalive 选项
+  });
+});
+</code></pre><p>这种方法非常适合收集页面关闭前的最后一些用户行为数据，以便于更准确地追踪用户在网页上的活动和体验。但要记住，<code>keepalive</code> 选项应当谨慎使用，并确保发送的数据量不会超过浏览器的限制。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

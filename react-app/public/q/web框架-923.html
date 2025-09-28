@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Vue] 介绍一下条件插槽【热度: 100】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：vue3 条件插槽&lt;/p&gt;&lt;p&gt;可以查看官网: https://cn.vuejs.org/guide/components/slots#conditional-slots&lt;/p&gt;&lt;p&gt;在 Vue 中，条件插槽可以通过结合使用 &lt;co" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Vue] 介绍一下条件插槽【热度: 100】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：vue3 条件插槽&lt;/p&gt;&lt;p&gt;可以查看官网: https://cn.vuejs.org/guide/components/slots#conditional-slots&lt;/p&gt;&lt;p&gt;在 Vue 中，条件插槽可以通过结合使用 &lt;code&gt;$slots&lt;/code&gt; 属性与 &lt;code&gt;v-if&lt;/code&gt; 来实现动态地根据特定条件渲染不同的内容到插" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/923" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Vue] 介绍一下条件插槽【热度: 100】</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2024-09-22T04:20:32Z · 更新：2024-09-28T02:20:17Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：vue3 条件插槽</p><p>可以查看官网: https://cn.vuejs.org/guide/components/slots#conditional-slots</p><p>在 Vue 中，条件插槽可以通过结合使用 <code>$slots</code> 属性与 <code>v-if</code> 来实现动态地根据特定条件渲染不同的内容到插槽中。</p><p><strong>一、基本概念</strong></p><p>条件插槽允许在父组件向子组件传递内容时，根据一定的条件来决定渲染哪个插槽的内容。通过使用 <code>$slots</code> 属性可以访问子组件中的插槽内容，然后结合 <code>v-if</code> 进行条件判断来选择要渲染的部分。</p><p><strong>二、使用方法</strong></p><ol><li>在子组件中定义插槽：</li></ol><p>```html</p><p><template></p><p><div></p><p><slot v-if="$slots.conditionalSlot" name="conditionalSlot"></slot></p><p><slot v-else name="defaultSlot"></slot></p><p></div></p><p></template></p><p>```</p><p>在这个子组件中，定义了两个插槽，一个名为 <code>conditionalSlot</code>，另一个名为 <code>defaultSlot</code>。通过判断 <code>$slots.conditionalSlot</code> 是否存在来决定渲染哪个插槽。</p><ol><li>在父组件中使用条件插槽：</li></ol><p>```html</p><p><template></p><p><ChildComponent></p><p><template v-if="someCondition" #conditionalSlot></p><p><!-- 条件成立时要渲染的内容 --></p><p><p>Conditional content</p></p><p></template></p><p><template v-else #defaultSlot></p><p><!-- 条件不成立时要渲染的内容 --></p><p><p>Default content</p></p><p></template></p><p></ChildComponent></p><p></template></p><p>```</p><p>在父组件中，根据 <code>someCondition</code> 的值来决定向子组件的插槽中传递不同的内容。当 <code>someCondition</code> 为真时，传递名为 <code>conditionalSlot</code> 的插槽内容；当 <code>someCondition</code> 为假时，传递名为 <code>defaultSlot</code> 的插槽内容。</p><p><strong>三、优势</strong></p><ol><li>动态性：可以根据不同的条件动态地渲染不同的内容，使组件更加灵活适应各种场景。</li><li>可维护性：将不同情况下的内容分别组织在不同的模板中，使得代码更加清晰易读，便于维护。</li><li>代码复用：通过条件插槽，可以在不同的场景下复用同一个子组件，只需要在父组件中根据不同的条件传递不同的内容即可。</li></ol></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

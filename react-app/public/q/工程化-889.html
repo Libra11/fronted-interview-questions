@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>pnpm install 和 npm install 有何区别 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;code&gt;pnpm install&lt;/code&gt; 和 &lt;code&gt;npm install&lt;/code&gt; 都是用于安装 JavaScript 项目依赖的命令，但它们背后的包管理器（分别是 &lt;code&gt;pnpm&lt;/code&gt; 和 &lt;code&gt;npm&lt;/code&gt;）在处理依赖安" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="pnpm install 和 npm install 有何区别" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;code&gt;pnpm install&lt;/code&gt; 和 &lt;code&gt;npm install&lt;/code&gt; 都是用于安装 JavaScript 项目依赖的命令，但它们背后的包管理器（分别是 &lt;code&gt;pnpm&lt;/code&gt; 和 &lt;code&gt;npm&lt;/code&gt;）在处理依赖安装、存储和优化方面有一些关键区别。&lt;/p&gt;&lt;h3&gt;1. &lt;strong&gt;存储方式的区别&lt;/strong&gt;&lt;/h3&gt;&lt;ul" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/889" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>pnpm install 和 npm install 有何区别</h1>
+      <div class="subtitle">工程化 · 工程化 · 阿里巴巴</div>
+      <div class="meta">创建：2024-09-17T02:42:28Z · 更新：2024-09-17T02:42:28Z</div>
+    </div>
+    <article class="content markdown-body"><p><code>pnpm install</code> 和 <code>npm install</code> 都是用于安装 JavaScript 项目依赖的命令，但它们背后的包管理器（分别是 <code>pnpm</code> 和 <code>npm</code>）在处理依赖安装、存储和优化方面有一些关键区别。</p><h3>1. <strong>存储方式的区别</strong></h3><ul><li><strong>npm</strong>：在每个项目的 <code>node_modules</code> 文件夹中分别存储其依赖。这意味着如果你有多个项目，它们共享相同的依赖库，这些依赖库的多个副本将在你的文件系统中的每个项目内分别存储。这样做会占用更多的磁盘空间。</li></ul><ul><li><strong>pnpm</strong>：采用一种称为<strong>内容寻址文件系统</strong>的方式来存储依赖。所有项目的依赖被存储在一个共享的位置，各个项目中的 <code>node_modules</code> 目录通过硬链接（hard links）或符号链接（symlinks）指向这个共享位置。该方法有效地减少了磁盘空间的占用，并加快了依赖的安装速度。</li></ul><h3>2. <strong>性能与速度</strong></h3><ul><li><strong>pnpm</strong>：由于对依赖进行了有效的复用，并且使用硬链接来减少磁盘上的副本数量，通常可以提供比 <code>npm</code> 更快的安装速度。</li></ul><ul><li><strong>npm</strong>：近几个大版本中也进行了许多性能改进，但在多个项目中共享相同依赖时，它可能仍然比 <code>pnpm</code> 更慢，尤其是在首次安装依赖时。</li></ul><h3>3. <strong>依赖平面结构 vs. 嵌套结构</strong></h3><ul><li><strong>npm</strong>：自版本 3 以后，默认创建扁平的 <code>node_modules</code> 结构（尽可能），这样做是为了避免 Windows 系统中路径过长的问题。但在必要时， <code>npm</code> 仍然会创建嵌套的 <code>node_modules</code> 目录结构，以解决依赖冲突。</li></ul><ul><li><strong>pnpm</strong>：通过使用符号链接，<code>pnpm</code> 维护了一个严格的嵌套依赖结构，更接近每个包的 <code>package.json</code> 文件所声明的依赖树形态。这提供了更高的一致性和在某些情况下更好的包隔离性。</li></ul><h3>4. <strong>依赖隔离与安全性</strong></h3><ul><li><strong>pnpm</strong>：更好地隔离了依赖，每个包只能访问其在 <code>package.json</code> 中声明的依赖。这一特性增强了项目的安全性，因为它阻止了未声明的依赖被意外引入的情况。</li></ul><ul><li><strong>npm</strong>：虽然 <code>npm</code> 也遵循 <code>package.json</code> 中的声明，但其扁平化的 <code>node_modules</code> 结构有时可能会容易地让包访问到未明确声明的依赖。</li></ul><h3>5. <strong>命令行界面（CLI）和配置</strong></h3><ul><li>这两个工具的命令行界面（CLI）和配置都非常直观且类似，但它们的某些命令和选项可能会有细微差别。<code>pnpm</code> 为了优化性能和安全性引入了一些特有的命令和配置选项。</li></ul><p>总的来说，<code>pnpm</code> 在多项目管理、磁盘空间和安装速度方面提供了优于 <code>npm</code> 的性能和利益。对于新项目或在寻求性能优化的既存项目，考虑试用 <code>pnpm</code> 可能是个不错的选择。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

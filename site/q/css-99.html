@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>了解 BFC 吗？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;blockquote&gt;小提示：先聊一聊BFC是什么；&lt;/blockquote&gt;&lt;p&gt;然后再说说触发BFC的条件；&lt;/p&gt;&lt;p&gt;再说一说BFC的一些作用&lt;/p&gt;&lt;p&gt;BFC是块级格式化上下文，是一个独立的渲染区域，让处于 BFC 内部的元素与外部的元素相互隔离，使内外元素的定位不" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="了解 BFC 吗？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;blockquote&gt;小提示：先聊一聊BFC是什么；&lt;/blockquote&gt;&lt;p&gt;然后再说说触发BFC的条件；&lt;/p&gt;&lt;p&gt;再说一说BFC的一些作用&lt;/p&gt;&lt;p&gt;BFC是块级格式化上下文，是一个独立的渲染区域，让处于 BFC 内部的元素与外部的元素相互隔离，使内外元素的定位不会相互影响。(俗称：&lt;strong&gt;脱离文档流&lt;/strong&gt;)&lt;/p&gt;&lt;p&gt;&lt;strong&gt;触发条件&lt;/strong" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/99" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>了解 BFC 吗？</h1>
+      <div class="subtitle">CSS · CSS</div>
+      <div class="meta">创建：2023-03-14T15:07:53Z · 更新：2023-03-14T15:07:54Z</div>
+    </div>
+    <article class="content markdown-body"><blockquote>小提示：先聊一聊BFC是什么；</blockquote><p>然后再说说触发BFC的条件；</p><p>再说一说BFC的一些作用</p><p>BFC是块级格式化上下文，是一个独立的渲染区域，让处于 BFC 内部的元素与外部的元素相互隔离，使内外元素的定位不会相互影响。(俗称：<strong>脱离文档流</strong>)</p><p><strong>触发条件</strong></p><ul><li>position: absolute/fixed：绝对定位</li><li>display: inline-block / table / flex</li><li>float 设置除none以外的值；（只要设置了浮动，当前元素就创建了BFC）</li><li>ovevflow !== visible (可为：hidden、auto、scroll)</li></ul><p><strong>特性和应用</strong></p><ul><li>阻止margin重叠：同一个 BFC 下外边距（margin）会发生折叠</li><li>清除浮动 ：清除内部浮动(清除浮动的原理是两个div都位于同一个 BFC 区域之中)</li><li>自适应两栏布局：左float+右BFC，是利用了BFC 的区域不会与 float 的元素区域重叠的机制</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

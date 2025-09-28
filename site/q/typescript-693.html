@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>介绍一下 TS 中的泛型【热度: 118】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：TS 泛型&lt;/p&gt;&lt;p&gt;TypeScript 的泛型是一种工具，它能够使代码更加灵活，能够适配多种类型而非单一的类型。泛型可以创建可重用的组件，这些组件可以支持多种类型的数据，而不失去类型检查时的安全性。&lt;/p&gt;&lt;h3&gt;泛型的基本概" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="介绍一下 TS 中的泛型【热度: 118】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：TS 泛型&lt;/p&gt;&lt;p&gt;TypeScript 的泛型是一种工具，它能够使代码更加灵活，能够适配多种类型而非单一的类型。泛型可以创建可重用的组件，这些组件可以支持多种类型的数据，而不失去类型检查时的安全性。&lt;/p&gt;&lt;h3&gt;泛型的基本概念&lt;/h3&gt;&lt;p&gt;在 TypeScript 中, 泛型使用一个类型变量，常见的类型变量有 &lt;code&gt;T&lt;/code&gt;," />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/693" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>介绍一下 TS 中的泛型【热度: 118】</h1>
+      <div class="subtitle">TypeScript · TypeScript · TOP100互联网</div>
+      <div class="meta">创建：2024-04-13T13:54:38Z · 更新：2024-04-13T13:54:39Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：TS 泛型</p><p>TypeScript 的泛型是一种工具，它能够使代码更加灵活，能够适配多种类型而非单一的类型。泛型可以创建可重用的组件，这些组件可以支持多种类型的数据，而不失去类型检查时的安全性。</p><h3>泛型的基本概念</h3><p>在 TypeScript 中, 泛型使用一个类型变量，常见的类型变量有 <code>T</code>,<code>U</code>,<code>V</code> 等。通过类型变量，你可以创建一个可以适应任何类型的组件（比如函数、接口或类）。类型变量像是函数或类的一个特殊参数，但这个参数是类型而非具体的值。</p><h3>泛型的使用场景</h3><ol><li><strong>函数</strong>：你可以创建一个泛型函数，该函数可以接受任意类型的参数，同时保证输入参数和返回参数类型相同：</li></ol><pre class="code-block"><code class="language-typescript">function identity&lt;T&gt;(arg: T): T {
+  return arg;
+}
+</code></pre><p>这里 <code>T</code> 用作类型变量，可以捕获用户提供的类型（比如 <code>number</code>），然后这个类型将被用于函数的参数和返回类型。</p><ol><li><strong>接口</strong>：使用泛型定义接口可以创建可用于多种类型的接口。</li></ol><pre class="code-block"><code class="language-typescript">interface GenericIdentityFn&lt;T&gt; {
+  (arg: T): T;
+}
+
+function identity&lt;T&gt;(arg: T): T {
+  return arg;
+}
+
+let myIdentity: GenericIdentityFn&lt;number&gt; = identity;
+</code></pre><p>这里 <code>GenericIdentityFn</code> 接口定义了一个属性，它是一个接收 <code>T</code> 类型参数并返回 <code>T</code> 类型的函数。</p><ol><li><strong>type</strong>：<code>type</code> 关键字可以用来创建类型别名，它确实支持泛型。你可以为类型别名定义泛型参数，然后在使用该类型别名时指定具体的类型。</li></ol><p>下面是使用泛型的类型别名的例子：</p><pre class="code-block"><code class="language-typescript">// 这里定义了一个带有泛型参数 T 的类型别名
+type Container&lt;T&gt; = {
+  value: T;
+};
+
+// 可以这样使用类型别名
+let numberContainer: Container&lt;number&gt; = { value: 1 };
+let stringContainer: Container&lt;string&gt; = { value: &quot;Hello&quot; };
+
+// 使用类型别名定义函数类型
+type ReturnFunction&lt;T&gt; = () =&gt; T;
+
+// 这个函数返回一个数字
+let myFunction: ReturnFunction&lt;number&gt; = () =&gt; 42;
+
+// 使用带有两个参数的泛型
+type KeyValue&lt;K, V&gt; = {
+  key: K;
+  value: V;
+};
+
+let keyValue: KeyValue&lt;string, number&gt; = { key: &quot;testKey&quot;, value: 123 };
+</code></pre><p>通过使用泛型，<code>type</code> 可以定义灵活的类型别名，使得别名能够用于各种不同的数据类型，同时保持类型的安全性。这使得你可以在类型别名中使用泛型来捕获传递给别名的类型信息。</p><ol><li><strong>类</strong>：泛型也可以用于类定义中，使得类可以灵活地与多种类型协作。</li></ol><pre class="code-block"><code class="language-typescript">class GenericNumber&lt;T&gt; {
+  zeroValue: T;
+  add: (x: T, y: T) =&gt; T;
+}
+
+let myGenericNumber = new GenericNumber&lt;number&gt;();
+myGenericNumber.zeroValue = 0;
+myGenericNumber.add = function (x, y) {
+  return x + y;
+};
+</code></pre><p>这里，<code>GenericNumber&lt;T&gt;</code> 类具有一个类型为 <code>T</code> 的属性 <code>zeroValue</code> 和一个用两个 <code>T</code> 类型参数返回 <code>T</code> 类型的方法 <code>add</code>。</p><h3>泛型约束</h3><p>有时你可能希望对泛型进行限制，只允许使用满足特定接口的类型。这称为泛型约束。</p><pre class="code-block"><code class="language-typescript">interface Lengthwise {
+  length: number;
+}
+
+function loggingIdentity&lt;T extends Lengthwise&gt;(arg: T): T {
+  console.log(arg.length); // Now we know it has a .length property, so no more error
+  return arg;
+}
+</code></pre><p>在这里，我们约束了类型 <code>T</code> 必须遵从 <code>Lengthwise</code> 接口，确保传入的类型具有 <code>length</code> 属性。</p><h3>泛型中使用类型参数</h3><p>你还可以在泛型中使用类型参数本身。</p><pre class="code-block"><code class="language-typescript">function getProperty&lt;T, K extends keyof T&gt;(obj: T, key: K) {
+  return obj[key];
+}
+
+let x = { a: 1, b: 2, c: 3 };
+
+getProperty(x, &quot;a&quot;); // Okay
+getProperty(x, &quot;m&quot;); // Error: Argument of type &#39;&quot;m&quot;&#39; isn&#39;t assignable to &#39;&quot;a&quot; | &quot;b&quot; | &quot;c&quot;&#39;
+</code></pre><p>在这个示例中，<code>getProperty</code> 函数有两个参数：<code>obj</code> 和 <code>key</code>，<code>obj</code> 是对象 <code>T</code>，<code>key</code> 是 <code>T</code> 中键的集合 <code>keyof T</code> 的成员。</p><p>通过泛型，TypeScript 允许你在保持类型安全的同时创建灵活，可适用于多种类型的组件。这样你就能够写出更加通用且易于复用的代码。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

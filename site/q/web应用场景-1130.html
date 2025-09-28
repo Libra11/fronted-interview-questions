@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>less 与 css 有何区别【热度: 214】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：less 与 css&lt;/p&gt;&lt;p&gt;Less 是 CSS 的预处理器，它在原生 CSS 的基础上扩展了诸多功能，解决了原生 CSS 开发中的痛点（如缺乏变量、复用机制、逻辑处理等）。以下是 Less 与 CSS 的核心区别：&lt;/p&gt;&lt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="less 与 css 有何区别【热度: 214】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：less 与 css&lt;/p&gt;&lt;p&gt;Less 是 CSS 的预处理器，它在原生 CSS 的基础上扩展了诸多功能，解决了原生 CSS 开发中的痛点（如缺乏变量、复用机制、逻辑处理等）。以下是 Less 与 CSS 的核心区别：&lt;/p&gt;&lt;h3&gt;&lt;strong&gt;1. 语法与功能&lt;/strong&gt;&lt;/h3&gt;&lt;p&gt;| &lt;strong&gt;特性&lt;/strong&gt; | " />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1130" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>less 与 css 有何区别【热度: 214】</h1>
+      <div class="subtitle">web应用场景 · web应用场景 · 腾讯</div>
+      <div class="meta">创建：2025-08-31T10:20:19Z · 更新：2025-08-31T10:20:19Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：less 与 css</p><p>Less 是 CSS 的预处理器，它在原生 CSS 的基础上扩展了诸多功能，解决了原生 CSS 开发中的痛点（如缺乏变量、复用机制、逻辑处理等）。以下是 Less 与 CSS 的核心区别：</p><h3><strong>1. 语法与功能</strong></h3><p>| <strong>特性</strong>     | <strong>CSS</strong>（原生）                                             | <strong>Less</strong>                                                                  |</p><p>| ------------ | ----------------------------------------------------------- | ------------------------------------------------------------------------- |</p><p>| <strong>变量支持</strong> | 无（CSS 变量 <code>--var</code> 是较新特性，兼容性和功能有限）         | 支持 <code>@variable: value</code> 定义变量，可全局复用、参与运算，优先级清晰        |</p><p>| <strong>嵌套规则</strong> | 需重复书写父选择器，代码冗余（如 <code>.parent .child { ... }</code>） | 支持选择器嵌套（类似 HTML 结构），减少重复代码，层级更清晰                |</p><p>| <strong>代码复用</strong> | 无原生复用机制，需复制粘贴或依赖 <code>@import</code> 导入整个文件     | 支持「混合（Mixin）」复用样式片段，可带参数实现个性化复用                 |</p><p>| <strong>逻辑处理</strong> | 无（仅能通过 <code>@media</code> 实现简单条件，无循环、判断）          | 支持条件判断（<code>when</code>）、循环（混合自调用）、运算（加减乘除、颜色计算）    |</p><p>| <strong>模块化</strong>   | <code>@import</code> 导入整个 CSS 文件，增加请求数，无作用域隔离       | 支持导入 Less 文件，可结合 <code>(reference)</code> 仅引用变量/混合，避免冗余代码    |</p><p>| <strong>内置工具</strong> | 无                                                          | 提供颜色处理（<code>darken()</code>、<code>lighten()</code>）、数值计算（<code>percentage()</code>）等函数 |</p><h3><strong>2. 开发效率</strong></h3><ul><li><strong>CSS</strong>：</li></ul><p>编写重复代码多（如相同颜色、尺寸需多次书写），修改时需全局搜索替换，维护成本高。</p><p>示例（重复代码问题）：</p><p>```css</p><p>.btn {</p><p>background: #1890ff;</p><p>}</p><p>.card {</p><p>border-color: #1890ff;</p><p>}</p><p>.title {</p><p>color: #1890ff;</p><p>}</p><p>/<em> 若要修改主题色，需逐个修改 </em>/</p><p>```</p><ul><li><strong>Less</strong>：</li></ul><p>通过变量、混合等特性减少重复代码，修改时只需调整一处，开发和维护效率大幅提升。</p><p>示例（解决重复问题）：</p><p>```less</p><p>@primary: #1890ff; /<em> 变量定义 </em>/</p><p>.btn {</p><p>background: @primary;</p><p>}</p><p>.card {</p><p>border-color: @primary;</p><p>}</p><p>.title {</p><p>color: @primary;</p><p>}</p><p>/<em> 修改主题色只需改 @primary 即可 </em>/</p><p>```</p><h3><strong>3. 编译方式</strong></h3><ul><li><strong>CSS</strong>：</li></ul><p>是浏览器可直接解析的样式语言，无需编译，写完即可运行。</p><ul><li><strong>Less</strong>：</li></ul><p>是「预编译语言」，浏览器无法直接识别，必须通过 Less 编译器（如 <code>lessc</code>、Webpack 的 <code>less-loader</code>）转换为 CSS 后才能被浏览器解析。</p><p>流程：<code>Less 代码 → 编译 → CSS 代码 → 浏览器执行</code></p><h3><strong>4. 代码结构</strong></h3><ul><li><strong>CSS</strong>：</li></ul><p>层级嵌套需通过后代选择器实现，代码冗长且层级不直观。</p><p>示例：</p><p>```css</p><p>.header {</p><p>padding: 20px;</p><p>}</p><p>.header .logo {</p><p>width: 100px;</p><p>}</p><p>.header .nav {</p><p>margin-left: 20px;</p><p>}</p><p>.header .nav li {</p><p>display: inline-block;</p><p>}</p><p>```</p><ul><li><strong>Less</strong>：</li></ul><p>支持嵌套语法，结构与 HTML 一致，层级清晰，减少选择器冗余。</p><p>示例：</p><p>```less</p><p>.header {</p><p>padding: 20px;</p><p>.logo {</p><p>width: 100px;</p><p>}</p><p>.nav {</p><p>margin-left: 20px;</p><p>li {</p><p>display: inline-block;</p><p>}</p><p>}</p><p>}</p><p>```</p><h3><strong>5. 适用场景</strong></h3><ul><li><strong>CSS</strong>：</li></ul><p>适合简单页面（如静态页面、小网站），或需要快速编写、无需复杂逻辑的场景。</p><ul><li><strong>Less</strong>：</li></ul><p>适合中大型项目、组件库开发或需要频繁复用样式、动态调整主题的场景（如通过变量切换主题色、响应式适配）。</p><h3><strong>总结</strong></h3><p>Less 不是替代 CSS，而是对 CSS 的增强：</p><ul><li><strong>CSS 是基础</strong>：浏览器最终执行的是 CSS，它是样式的“目标语言”。</li><li><strong>Less 是工具</strong>：通过提供变量、嵌套、复用等功能，让开发者更高效地编写 CSS，最终仍需编译为 CSS 才能运行。</li></ul><p>简单说，Less 解决了原生 CSS“写起来麻烦、改起来痛苦”的问题，是现代前端开发中提升样式开发效率的主流选择。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

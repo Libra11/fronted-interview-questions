@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何实现可过期的 localstorage 数据? - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;以下是一个封装了支持过期时间的&lt;code&gt;localStorage&lt;/code&gt;的示例代码：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;class EnhancedLocalStorage { " />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何实现可过期的 localstorage 数据?" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;以下是一个封装了支持过期时间的&lt;code&gt;localStorage&lt;/code&gt;的示例代码：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;class EnhancedLocalStorage { constructor() { this.prefix = &amp;#39;enhanced_storage_&amp;#39;; }" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/127" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何实现可过期的 localstorage 数据?</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-19T13:36:22Z · 更新：2024-10-26T08:28:47Z</div>
+    </div>
+    <article class="content markdown-body"><p>以下是一个封装了支持过期时间的<code>localStorage</code>的示例代码：</p><pre class="code-block"><code class="language-javascript">class EnhancedLocalStorage {
+  constructor() {
+    this.prefix = &#39;enhanced_storage_&#39;;
+  }
+
+  setItem(key, value, expirationInSeconds) {
+    const item = {
+      value,
+      expirationTime: expirationInSeconds? Date.now() + expirationInSeconds * 1000 : null
+    };
+    localStorage.setItem(this.prefix + key, JSON.stringify(item));
+  }
+
+  getItem(key) {
+    const itemStr = localStorage.getItem(this.prefix + key);
+    if (!itemStr) return null;
+    const item = JSON.parse(itemStr);
+    if (item.expirationTime &amp;&amp; item.expirationTime &lt; Date.now()) {
+      localStorage.removeItem(this.prefix + key);
+      return null;
+    }
+    return item.value;
+  }
+
+  removeItem(key) {
+    localStorage.removeItem(this.prefix + key);
+  }
+}
+
+const enhancedStorage = new EnhancedLocalStorage();
+export default enhancedStorage;
+</code></pre><p>使用方法如下：</p><pre class="code-block"><code class="language-javascript">// 设置带有过期时间的存储项
+enhancedStorage.setItem(&#39;myKey&#39;, &#39;myValue&#39;, 60); // 60 秒后过期
+
+// 获取存储项
+const value = enhancedStorage.getItem(&#39;myKey&#39;);
+console.log(value);
+
+// 一段时间后，存储项过期
+setTimeout(() =&gt; {
+  const expiredValue = enhancedStorage.getItem(&#39;myKey&#39;);
+  console.log(expiredValue); // null
+}, 65000);
+</code></pre><p>在这个封装中，使用了一个自定义的前缀来避免与普通的<code>localStorage</code>键冲突。设置项时，会记录一个过期时间，如果有过期时间且当前时间超过了过期时间，在获取项时会返回<code>null</code>并自动删除该项。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

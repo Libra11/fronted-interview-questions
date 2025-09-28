@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>【React】绑定事件的原理是什么？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;在 React 中，绑定事件的原理是基于合成事件（SyntheticEvent）的机制。合成事件是一种由 React 自己实现的事件系统，它是对原生 DOM 事件的封装和优化，提供了一种统一的事件处理机制，可以跨浏览器保持一致的行为。&lt;/p&gt;&lt;p&gt;当我们在 React 组件" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="【React】绑定事件的原理是什么？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;在 React 中，绑定事件的原理是基于合成事件（SyntheticEvent）的机制。合成事件是一种由 React 自己实现的事件系统，它是对原生 DOM 事件的封装和优化，提供了一种统一的事件处理机制，可以跨浏览器保持一致的行为。&lt;/p&gt;&lt;p&gt;当我们在 React 组件中使用 &lt;code&gt;onClick&lt;/code&gt; 等事件处理函数时，实际上是在使用合成事件。React 使用一种称为“事" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/135" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>【React】绑定事件的原理是什么？</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2023-03-19T15:00:05Z · 更新：2025-03-09T11:33:11Z</div>
+    </div>
+    <article class="content markdown-body"><p>在 React 中，绑定事件的原理是基于合成事件（SyntheticEvent）的机制。合成事件是一种由 React 自己实现的事件系统，它是对原生 DOM 事件的封装和优化，提供了一种统一的事件处理机制，可以跨浏览器保持一致的行为。</p><p>当我们在 React 组件中使用 <code>onClick</code> 等事件处理函数时，实际上是在使用合成事件。React 使用一种称为“事件委托”的技术，在组件的最外层容器上注册事件监听器，然后根据事件的目标元素和事件类型来触发合适的事件处理函数。这种机制可以大大减少事件监听器的数量，提高事件处理的性能和效率。</p><p>在使用合成事件时，React 会将事件处理函数包装成一个合成事件对象（SyntheticEvent），并将其传递给事件处理函数。合成事件对象包含了与原生 DOM 事件相同的属性和方法，例如 <code>target</code>、<code>currentTarget</code>、<code>preventDefault()</code> 等，但是它是由 React 实现的，并不是原生的 DOM 事件对象。因此，我们不能在合成事件对象上调用 <code>stopPropagation()</code> 或 <code>stopImmediatePropagation()</code> 等方法，而应该使用 <code>nativeEvent</code> 属性来访问原生 DOM 事件对象。</p><p>绑定事件的实现原理也涉及到 React 的更新机制。当组件的状态或属性发生变化时，React 会对组件进行重新渲染，同时重新注册事件监听器。为了避免不必要的事件处理函数的创建和注册，React 会对事件处理函数进行缓存和复用，只有在事件处理函数发生变化时才会重新创建和注册新的事件处理函数。这种机制可以大大提高组件的性能和效率，尤其是在处理大量事件和频繁更新状态的情况下。</p><h2>Comments / Answers</h2><hr /><p><strong>5ector</strong> at 2025-03-09T11:33:10Z</p><p>React 事件对象实现了一些标准的 Event方法：</p><p>preventDefault()：阻止事件的默认浏览器行为。</p><p>stopPropagation()：阻止事件在 React 树中的传播。</p><p><a href="url" target="_blank" rel="noopener">https://zh-hans.react.dev/reference/react-dom/components/common#react-event-object</a></p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>中间人攻击是什么？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;中间人攻击（Man-in-the-Middle Attack，简称MITM）是一种常见的网络攻击手段，以下是关于它的详细介绍：&lt;/p&gt;&lt;h3&gt;定义&lt;/h3&gt;&lt;p&gt;中间人攻击是攻击者在通信双方不知情的情况下，插入到通信链路中间，拦截、窃听、篡改甚至伪造通信双方之间传输的数据，" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="中间人攻击是什么？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;中间人攻击（Man-in-the-Middle Attack，简称MITM）是一种常见的网络攻击手段，以下是关于它的详细介绍：&lt;/p&gt;&lt;h3&gt;定义&lt;/h3&gt;&lt;p&gt;中间人攻击是攻击者在通信双方不知情的情况下，插入到通信链路中间，拦截、窃听、篡改甚至伪造通信双方之间传输的数据，从而达到获取敏感信息、干扰通信或进行其他恶意操作的目的。攻击者就像处在通信双方中间的“中间人”，使得通信双方误以为是在直" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/186" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>中间人攻击是什么？</h1>
+      <div class="subtitle">网络 · 网络</div>
+      <div class="meta">创建：2023-03-26T09:29:08Z · 更新：2025-02-09T15:08:50Z</div>
+    </div>
+    <article class="content markdown-body"><p>中间人攻击（Man-in-the-Middle Attack，简称MITM）是一种常见的网络攻击手段，以下是关于它的详细介绍：</p><h3>定义</h3><p>中间人攻击是攻击者在通信双方不知情的情况下，插入到通信链路中间，拦截、窃听、篡改甚至伪造通信双方之间传输的数据，从而达到获取敏感信息、干扰通信或进行其他恶意操作的目的。攻击者就像处在通信双方中间的“中间人”，使得通信双方误以为是在直接与对方通信，而实际上他们之间的通信都经过了攻击者的处理。</p><h3>攻击方式</h3><ul><li><strong>嗅探与窃听</strong>：攻击者通过将自己的设备接入目标网络，使用嗅探工具监听网络中传输的数据包。例如在未加密的公共Wi-Fi网络中，攻击者可以轻松获取用户发送和接收的信息，包括登录凭证、聊天记录、电子邮件内容等。</li><li><strong>会话劫持</strong>：攻击者在用户与目标服务器建立会话的过程中，窃取用户的会话标识，如会话ID。一旦获取到有效的会话标识，攻击者就可以冒充用户与服务器进行交互，执行用户权限内的各种操作，如转账、修改密码等。</li><li><strong>DNS欺骗</strong>：攻击者篡改域名系统（DNS）服务器的记录，将用户请求的域名解析到恶意服务器的IP地址。当用户访问该域名时，实际上会连接到攻击者控制的服务器，攻击者可以获取用户输入的信息，或者向用户提供伪造的内容。</li><li><strong>ARP欺骗</strong>：在局域网中，攻击者通过发送虚假的地址解析协议（ARP）消息，将自己的MAC地址与目标设备的IP地址进行绑定，使得局域网内的其他设备将发送给目标设备的数据发送到攻击者的设备上，从而实现对数据的拦截和篡改。</li></ul><h3>攻击场景</h3><ul><li><strong>公共网络环境</strong>：在咖啡馆、机场等公共场所的免费Wi-Fi网络中，用户连接到网络后，攻击者可能会搭建一个与正常网络名称相似的恶意Wi-Fi热点，诱导用户连接。一旦用户连接到恶意热点，攻击者就可以实施中间人攻击，窃取用户的敏感信息。</li><li><strong>企业网络内部</strong>：攻击者可能会利用企业网络中的漏洞或弱密码，入侵企业内部网络，然后在内部网络中实施中间人攻击，获取企业的商业机密、员工的个人信息等。</li><li><strong>移动设备通信</strong>：攻击者可以通过伪造基站或利用移动网络中的漏洞，拦截移动设备与基站之间的通信，获取用户的通话内容、短信信息、上网数据等。</li></ul><h3>防范措施</h3><ul><li><strong>使用加密通信</strong>：在网络通信中，使用SSL/TLS等加密协议对数据进行加密传输，使攻击者即使拦截到数据也难以解密查看内容。</li><li><strong>验证身份</strong>：在建立连接时，对通信双方的身份进行严格验证，确保与合法的服务器或用户进行通信。</li><li><strong>更新系统和软件</strong>：及时更新操作系统、浏览器、应用程序等软件，修复可能存在的安全漏洞，降低被中间人攻击的风险。</li><li><strong>注意网络环境</strong>：避免连接不明来源的Wi-Fi网络，尤其是那些没有密码或名称可疑的网络。在公共网络中，尽量使用VPN等安全连接方式。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

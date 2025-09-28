@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] forwardRef 作用是什么？【热度: 2,628】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;code&gt;forwardRef&lt;/code&gt; 是 React 提供的一个高阶函数，它可以让你在函数组件中访问子组件的 ref，并把该 ref 传递给子组件。&lt;/p&gt;&lt;p&gt;使用 &lt;code&gt;forwardRef&lt;/code&gt; 的主要场景是，当你需要访问子组件的 DOM 节点" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] forwardRef 作用是什么？【热度: 2,628】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;code&gt;forwardRef&lt;/code&gt; 是 React 提供的一个高阶函数，它可以让你在函数组件中访问子组件的 ref，并把该 ref 传递给子组件。&lt;/p&gt;&lt;p&gt;使用 &lt;code&gt;forwardRef&lt;/code&gt; 的主要场景是，当你需要访问子组件的 DOM 节点或实例时，比如要操作子组件的滚动条、聚焦输入框等等。在这些场景下，需要用到 &lt;code&gt;ref&lt;/code&gt;，而 &lt;co" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/295" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] forwardRef 作用是什么？【热度: 2,628】</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2023-04-17T15:54:15Z · 更新：2023-04-18T01:34:07Z</div>
+    </div>
+    <article class="content markdown-body"><p><code>forwardRef</code> 是 React 提供的一个高阶函数，它可以让你在函数组件中访问子组件的 ref，并把该 ref 传递给子组件。</p><p>使用 <code>forwardRef</code> 的主要场景是，当你需要访问子组件的 DOM 节点或实例时，比如要操作子组件的滚动条、聚焦输入框等等。在这些场景下，需要用到 <code>ref</code>，而 <code>ref</code> 又不能直接在函数组件中使用。</p><p>下面是 <code>forwardRef</code> 的基本使用方式：</p><pre class="code-block"><code class="language-jsx">jsxCopy codeimport React, { forwardRef } from &#39;react&#39;;
+
+const MyComponent = forwardRef((props, ref) =&gt; {
+  return &lt;input type=&quot;text&quot; ref={ref} /&gt;;
+});
+
+function App() {
+  const inputRef = React.createRef();
+
+  const handleClick = () =&gt; {
+    inputRef.current.focus();
+  };
+
+  return (
+    &lt;div&gt;
+      &lt;MyComponent ref={inputRef} /&gt;
+      &lt;button onClick={handleClick}&gt;Focus Input&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre><p>在上面的例子中，我们创建了一个 <code>MyComponent</code> 组件，并通过 <code>forwardRef</code> 来包裹它。这样，<code>MyComponent</code> 就可以在 props 中接收一个 <code>ref</code> 属性，而 <code>forwardRef</code> 将会将该属性转发到子组件中。</p><p>在 <code>App</code> 组件中，我们创建了一个 <code>inputRef</code> 对象，并将它作为 <code>MyComponent</code> 的 <code>ref</code> 属性传递给了 <code>MyComponent</code> 组件。然后，我们在 <code>handleClick</code> 函数中使用 <code>inputRef</code> 来聚焦输入框。</p><p>需要注意的是，<code>forwardRef</code> 的回调函数接收两个参数：<code>props</code> 和 <code>ref</code>。其中，<code>props</code> 是组件的属性对象，<code>ref</code> 是回调函数中定义的 ref 对象。在函数组件中，我们必须将 <code>ref</code> 传递给要访问的子组件，否则 <code>ref</code> 将无法访问到子组件的 DOM 节点或实例。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

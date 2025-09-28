@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>跨站请求伪造（Cross-Site Request Forgery, CSRF）具体实现步骤是啥， 如何防止？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;跨站请求伪造（Cross-Site Request Forgery, CSRF）是一种常见的网络攻击方式，攻击者可以利用已登录的用户身份，通过伪造用户的请求，对服务器上的资源进行非法操作。下面是一种常见的 CSRF 攻击方式：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;用户在浏览器中登录了某个" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="跨站请求伪造（Cross-Site Request Forgery, CSRF）具体实现步骤是啥， 如何防止？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;跨站请求伪造（Cross-Site Request Forgery, CSRF）是一种常见的网络攻击方式，攻击者可以利用已登录的用户身份，通过伪造用户的请求，对服务器上的资源进行非法操作。下面是一种常见的 CSRF 攻击方式：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;用户在浏览器中登录了某个网站，并获取了该网站的 Cookie。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li&gt;攻击者诱导用户访问一个恶意网站，并在该网站上放" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/122" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>跨站请求伪造（Cross-Site Request Forgery, CSRF）具体实现步骤是啥， 如何防止？</h1>
+      <div class="subtitle">网络 · 网络</div>
+      <div class="meta">创建：2023-03-19T13:18:38Z · 更新：2023-03-19T13:18:39Z</div>
+    </div>
+    <article class="content markdown-body"><p>跨站请求伪造（Cross-Site Request Forgery, CSRF）是一种常见的网络攻击方式，攻击者可以利用已登录的用户身份，通过伪造用户的请求，对服务器上的资源进行非法操作。下面是一种常见的 CSRF 攻击方式：</p><ol><li>用户在浏览器中登录了某个网站，并获取了该网站的 Cookie。</li></ol><ol><li>攻击者诱导用户访问一个恶意网站，并在该网站上放置了一段恶意代码，用于发起 CSRF 攻击。</li></ol><ol><li>当用户在恶意网站上执行某个操作时，比如点击某个按钮或链接，恶意代码会自动向目标网站发送一个 HTTP 请求，请求中包含攻击者想要执行的操作和参数，同时也会携带用户的 Cookie。</li></ol><ol><li>目标网站接收到请求后，会认为这是一个合法的请求，因为它携带了用户的 Cookie。于是服务器会执行攻击者想要的操作，比如删除用户的数据、修改用户的密码等。</li></ol><p>为了防止 CSRF 攻击，开发人员可以采取以下措施：</p><ol><li>随机化 Token：为每个请求生成一个随机化的 Token，将 Token 放入表单中，并在服务器端进行验证。这可以防止攻击者伪造合法的请求。</li></ol><ol><li>使用 Referer 验证：在服务器端进行 Referer 验证，只允许来自合法来源的请求。这可以防止攻击者在自己的网站上放置恶意代码，进行 CSRF 攻击。</li></ol><ol><li>使用验证码：在某些敏感操作上，比如修改密码、删除数据等，可以要求用户输入验证码。这可以降低攻击者的成功率，因为攻击者很难获取验证码。</li></ol><p>需要注意的是，以上措施并不能完全防止 CSRF 攻击，因为攻击者总是可以通过一些复杂的方法来规避这些防御措施。因此，开发人员需要综合考虑多种防范措施，以提高网站的安全性。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

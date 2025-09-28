@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Vue] 有哪些内置组件【热度: 355】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：vue 内置组件&lt;/p&gt;&lt;p&gt;在 Vue 中，有一些内置组件，主要包括以下几个：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、&lt;code&gt;&amp;lt;component&amp;gt;&lt;/code&gt;动态组件&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;作用：用" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Vue] 有哪些内置组件【热度: 355】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：vue 内置组件&lt;/p&gt;&lt;p&gt;在 Vue 中，有一些内置组件，主要包括以下几个：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、&lt;code&gt;&amp;lt;component&amp;gt;&lt;/code&gt;动态组件&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;作用：用于根据条件动态地渲染不同的组件。&lt;/li&gt;&lt;li&gt;使用方法：&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;二、" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/932" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Vue] 有哪些内置组件【热度: 355】</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2024-09-22T05:21:02Z · 更新：2024-09-22T05:21:02Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：vue 内置组件</p><p>在 Vue 中，有一些内置组件，主要包括以下几个：</p><p><strong>一、<code>&lt;component&gt;</code>动态组件</strong></p><ol><li>作用：用于根据条件动态地渲染不同的组件。</li><li>使用方法：</li></ol><p>```vue</p><p><template></p><p><div></p><p><component :is="currentComponent"></component></p><p><button @click="toggleComponent">Toggle Component</button></p><p></div></p><p></template></p><p><script setup></p><p>import ComponentA from "./ComponentA.vue";</p><p>import ComponentB from "./ComponentB.vue";</p><p>let currentComponent = ComponentA;</p><p>const toggleComponent = () => {</p><p>currentComponent = currentComponent === ComponentA ? ComponentB : ComponentA;</p><p>};</p><p></script></p><p>```</p><p><strong>二、<code>&lt;transition&gt;</code>过渡组件</strong></p><ol><li>作用：为元素或组件的插入、更新和移除添加过渡效果。</li><li>使用方法：</li></ol><p>```vue</p><p><template></p><p><div></p><p><transition name="fade"></p><p><p v-if="show">Hello World</p></p><p></transition></p><p><button @click="toggleShow">Toggle</button></p><p></div></p><p></template></p><p><script setup></p><p>import { ref } from "vue";</p><p>const show = ref(true);</p><p>const toggleShow = () => {</p><p>show.value = !show.value;</p><p>};</p><p></script></p><p><style></p><p>.fade-enter-active,</p><p>.fade-leave-active {</p><p>transition: opacity 0.5s;</p><p>}</p><p>.fade-enter-from,</p><p>.fade-leave-to {</p><p>opacity: 0;</p><p>}</p><p></style></p><p>```</p><p><strong>三、<code>&lt;teleport&gt;</code>传送门组件</strong></p><ol><li>作用：将一个组件的模板内容渲染到指定的 DOM 节点位置，而不是在组件自身的位置。</li><li>使用方法：</li></ol><p>```vue</p><p><template></p><p><div></p><p><teleport to="body"></p><p><div class="modal">This is a modal content.</div></p><p></teleport></p><p></div></p><p></template></p><p><style></p><p>.modal {</p><p>position: fixed;</p><p>top: 50%;</p><p>left: 50%;</p><p>transform: translate(-50%, -50%);</p><p>background-color: white;</p><p>padding: 20px;</p><p>border: 1px solid #ccc;</p><p>}</p><p></style></p><p>```</p><p><strong>四、<code>&lt;keep-alive&gt;</code>缓存组件</strong></p><ol><li>作用：在组件切换时缓存不活动的组件实例，避免重复渲染，提高性能。</li><li>使用方法：</li></ol><p>```vue</p><p><template></p><p><div></p><p><keep-alive></p><p><component :is="currentComponent"></component></p><p></keep-alive></p><p><button @click="toggleComponent">Toggle Component</button></p><p></div></p><p></template></p><p><script setup></p><p>import ComponentA from "./ComponentA.vue";</p><p>import ComponentB from "./ComponentB.vue";</p><p>let currentComponent = ComponentA;</p><p>const toggleComponent = () => {</p><p>currentComponent = currentComponent === ComponentA ? ComponentB : ComponentA;</p><p>};</p><p></script></p><p>```</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

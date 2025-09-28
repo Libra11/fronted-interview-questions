@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] Fiber的含义与数据结构【热度: 1,778】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：react16 架构、react Reconciler、react fiber、react 协调器&lt;/p&gt;&lt;h3&gt;Fiber的含义&lt;/h3&gt;&lt;ol&gt;&lt;li&gt;作为架构来说，之前React15的Reconciler采用递归的方式执行，数" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] Fiber的含义与数据结构【热度: 1,778】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：react16 架构、react Reconciler、react fiber、react 协调器&lt;/p&gt;&lt;h3&gt;Fiber的含义&lt;/h3&gt;&lt;ol&gt;&lt;li&gt;作为架构来说，之前React15的Reconciler采用递归的方式执行，数据保存在递归调用栈中，所以被称为stack Reconciler。React16的Reconciler基于Fiber节点" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/323" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] Fiber的含义与数据结构【热度: 1,778】</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2023-04-28T17:31:23Z · 更新：2023-04-28T17:31:24Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：react16 架构、react Reconciler、react fiber、react 协调器</p><h3>Fiber的含义</h3><ol><li>作为架构来说，之前React15的Reconciler采用递归的方式执行，数据保存在递归调用栈中，所以被称为stack Reconciler。React16的Reconciler基于Fiber节点实现，被称为Fiber Reconciler。</li></ol><ol><li>作为静态的数据结构来说，每个Fiber节点对应一个React element，保存了该组件的类型（函数组件/类组件/原生组件...）、对应的DOM节点等信息。</li></ol><ol><li>作为动态的工作单元来说，每个Fiber节点保存了本次更新中该组件改变的状态、要执行的工作（需要被删除/被插入页面中/被更新...）。</li></ol><h3>Fiber的结构</h3><p>总的属性如下：</p><pre class="code-block"><code class="language-js">function FiberNode(
+  tag: WorkTag,
+  pendingProps: mixed,
+  key: null | string,
+  mode: TypeOfMode,
+) {
+  // 作为静态数据结构的属性
+  this.tag = tag;
+  this.key = key;
+  this.elementType = null;
+  this.type = null;
+  this.stateNode = null;
+
+  // 用于连接其他Fiber节点形成Fiber树
+  this.return = null;
+  this.child = null;
+  this.sibling = null;
+  this.index = 0;
+
+  this.ref = null;
+
+  // 作为动态的工作单元的属性
+  this.pendingProps = pendingProps;
+  this.memoizedProps = null;
+  this.updateQueue = null;
+  this.memoizedState = null;
+  this.dependencies = null;
+
+  this.mode = mode;
+
+  this.effectTag = NoEffect;
+  this.nextEffect = null;
+
+  this.firstEffect = null;
+  this.lastEffect = null;
+
+  // 调度优先级相关
+  this.lanes = NoLanes;
+  this.childLanes = NoLanes;
+
+  // 指向该fiber在另一次更新时对应的fiber
+  this.alternate = null;
+}
+</code></pre><p>可以按三层含义将他们分类来看</p><h4>作为架构</h4><p>每个Fiber节点有个对应的React element，多个Fiber节点是如何连接形成树呢？靠如下三个属性：</p><pre class="code-block"><code class="language-js">// 指向父级Fiber节点
+this.return = null;
+// 指向子Fiber节点
+this.child = null;
+// 指向右边第一个兄弟Fiber节点
+this.sibling = null;
+</code></pre><p>举个例子，如下的组件结构：</p><pre class="code-block"><code class="language-js">function App() {
+  return (
+    &lt;div&gt;
+      i am
+      &lt;span&gt;KaSong&lt;/span&gt;
+    &lt;/div&gt;
+  )
+}
+</code></pre><p>对应的Fiber树结构：</p><p><img alt="image" src="https://user-images.githubusercontent.com/22188674/235214339-4efeccaf-95fd-420f-8ac2-7a9b89c301c0.png" /></p><h4>作为静态的数据结构</h4><p>作为一种静态的数据结构，保存了组件相关的信息：</p><pre class="code-block"><code class="language-js">// Fiber对应组件的类型 Function/Class/Host...
+this.tag = tag;
+// key属性
+this.key = key;
+// 大部分情况同type，某些情况不同，比如FunctionComponent使用React.memo包裹
+this.elementType = null;
+// 对于 FunctionComponent，指函数本身，对于ClassComponent，指class，对于HostComponent，指DOM节点tagName
+this.type = null;
+// Fiber对应的真实DOM节点
+this.stateNode = null;
+</code></pre><h4>作为动态的工作单元</h4><p>作为动态的工作单元，Fiber中如下参数保存了本次更新相关的信息，我们会在后续的更新流程中使用到具体属性时再详细介绍</p><pre class="code-block"><code class="language-js">// 保存本次更新造成的状态改变相关信息
+this.pendingProps = pendingProps;
+this.memoizedProps = null;
+this.updateQueue = null;
+this.memoizedState = null;
+this.dependencies = null;
+
+this.mode = mode;
+
+// 保存本次更新会造成的DOM操作
+this.effectTag = NoEffect;
+this.nextEffect = null;
+
+this.firstEffect = null;
+this.lastEffect = null;
+
+// 调度优先级相关
+this.lanes = NoLanes;
+this.childLanes = NoLanes;
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

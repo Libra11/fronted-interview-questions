@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>flex 布局中 align-content 与 align-items 有何区别【热度: 106】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：flex 布局属性&lt;/p&gt;&lt;p&gt;在 Flex 布局中，&lt;code&gt;align-content&lt;/code&gt;和&lt;code&gt;align-items&lt;/code&gt;都是用于控制 Flex 容器内项目在交叉轴（垂直于主轴的方向）上的对齐方式，" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="flex 布局中 align-content 与 align-items 有何区别【热度: 106】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：flex 布局属性&lt;/p&gt;&lt;p&gt;在 Flex 布局中，&lt;code&gt;align-content&lt;/code&gt;和&lt;code&gt;align-items&lt;/code&gt;都是用于控制 Flex 容器内项目在交叉轴（垂直于主轴的方向）上的对齐方式，但它们有以下区别：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、作用范围不同&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;code&gt;a" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1030" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>flex 布局中 align-content 与 align-items 有何区别【热度: 106】</h1>
+      <div class="subtitle">web应用场景 · web应用场景</div>
+      <div class="meta">创建：2024-10-26T07:31:12Z · 更新：2024-10-26T07:31:13Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：flex 布局属性</p><p>在 Flex 布局中，<code>align-content</code>和<code>align-items</code>都是用于控制 Flex 容器内项目在交叉轴（垂直于主轴的方向）上的对齐方式，但它们有以下区别：</p><p><strong>一、作用范围不同</strong></p><ol><li><code>align-items</code>：</li></ol><ul><li>作用于 Flex 容器内的单行项目。</li><li>它决定了每个单独的项目在交叉轴上的对齐方式。</li><li>例如，如果<code>align-items: center</code>，则容器内的所有项目将在交叉轴上居中对齐。</li></ul><ol><li><code>align-content</code>：</li></ol><ul><li>作用于整个 Flex 容器的多行项目。</li><li>当 Flex 容器有多行项目时，它决定了这些行在交叉轴上的对齐方式。</li><li>例如，如果<code>align-content: space-between</code>，则多行项目之间在交叉轴上会均匀分布，第一行与容器顶部对齐，最后一行与容器底部对齐。</li></ul><p><strong>二、适用场景不同</strong></p><ol><li><code>align-items</code>：</li></ol><ul><li>适用于单行的 Flex 布局，或者即使容器有多行，但只需要统一控制所有项目的对齐方式时。</li><li>比如，创建一个简单的导航栏，其中的项目在垂直方向上需要保持一致的对齐方式。</li></ul><ol><li><code>align-content</code>：</li></ol><ul><li>适用于多行的 Flex 布局，且需要对多行进行整体的对齐控制。</li><li>例如，一个包含大量卡片的网格布局，当卡片数量较多导致出现多行时，可以使用<code>align-content</code>来调整行与行之间在垂直方向上的间距和对齐方式。</li></ul><p><strong>三、示例对比</strong></p><ol><li><code>align-items</code>示例：</li></ol><p>```html</p><p><div style="display: flex; align-items: center; height: 200px;"></p><p><div style="background-color: lightblue; width: 50px; height: 50px;">Item 1</div></p><p><div style="background-color: lightgreen; width: 50px; height: 50px;">Item 2</div></p><p><div style="background-color: lightyellow; width: 50px; height: 50px;">Item 3</div></p><p></div></p><p>```</p><ul><li>在这个例子中，三个项目在垂直方向上居中对齐，因为设置了<code>align-items: center</code>。</li></ul><ol><li><code>align-content</code>示例：</li></ol><p>```html</p><p><div style="display: flex; flex-wrap: wrap; align-content: space-between; height: 300px;"></p><p><div style="background-color: lightblue; width: 50px; height: 50px;">Item 1</div></p><p><div style="background-color: lightgreen; width: 50px; height: 50px;">Item 2</div></p><p><div style="background-color: lightyellow; width: 50px; height: 50px;">Item 3</div></p><p><div style="background-color: lightcoral; width: 50px; height: 50px;">Item 4</div></p><p><div style="background-color: lightskyblue; width: 50px; height: 50px;">Item 5</div></p><p><div style="background-color: lightpink; width: 50px; height: 50px;">Item 6</div></p><p></div></p><p>```</p><ul><li>这里由于项目数量较多，容器出现了多行。设置了<code>align-content: space-between</code>后，行与行之间在垂直方向上均匀分布，第一行靠近容器顶部，最后一行靠近容器底部。</li></ul><p>综上所述，<code>align-items</code>主要用于控制单行项目在交叉轴上的对齐方式，而<code>align-content</code>则用于控制多行项目整体在交叉轴上的对齐方式。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

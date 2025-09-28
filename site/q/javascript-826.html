@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>js 数据类型里面，Map 和 object 分别有哪些适用场景，开发中该如何抉择【热度: 395】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;在 JavaScript 中，&lt;code&gt;Map&lt;/code&gt;和普通的对象（&lt;code&gt;Object&lt;/code&gt;）都可以用作键值对的集合，但它们各自的特性和使用场景有所不同。根据这些特性和场景，你可以选择最适合你需求的数据结构。&lt;/p&gt;&lt;h3&gt;Object&lt;/h3&gt;&lt;p&gt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="js 数据类型里面，Map 和 object 分别有哪些适用场景，开发中该如何抉择【热度: 395】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;在 JavaScript 中，&lt;code&gt;Map&lt;/code&gt;和普通的对象（&lt;code&gt;Object&lt;/code&gt;）都可以用作键值对的集合，但它们各自的特性和使用场景有所不同。根据这些特性和场景，你可以选择最适合你需求的数据结构。&lt;/p&gt;&lt;h3&gt;Object&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;特性&lt;/strong&gt;：&lt;/p&gt;&lt;ul&gt;&lt;li&gt;键（key）必须是字符串或符号（&lt;code&gt;Symbol" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/826" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>js 数据类型里面，Map 和 object 分别有哪些适用场景，开发中该如何抉择【热度: 395】</h1>
+      <div class="subtitle">JavaScript · JavaScript · 美团</div>
+      <div class="meta">创建：2024-08-17T11:20:19Z · 更新：2024-08-21T14:23:08Z</div>
+    </div>
+    <article class="content markdown-body"><p>在 JavaScript 中，<code>Map</code>和普通的对象（<code>Object</code>）都可以用作键值对的集合，但它们各自的特性和使用场景有所不同。根据这些特性和场景，你可以选择最适合你需求的数据结构。</p><h3>Object</h3><p><strong>特性</strong>：</p><ul><li>键（key）必须是字符串或符号（<code>Symbol</code>）。</li><li>适合少量和简单数据结构的场景，以及当你知道键集合不会经常变化时。</li><li>对象字面量语法简洁，易于创建和操作。</li><li>部分现代 JavaScript 引擎对对象进行了优化，在访问已知键和枚举属性时表现良好。</li></ul><p><strong>适用场景</strong>：</p><ul><li>当键是简单字符串时。</li><li>需要将数据结构序列化为 JSON 时（<code>Map</code>不支持直接序列化）。</li><li>当利用对象在原型链上提供方法时，例如<code>.toString()</code>。</li><li>当要利用存在的库和框架 API，这些 API 期望传入对象时。</li></ul><h3>Map</h3><p><strong>特性</strong>：</p><ul><li>键可以是任意值，包括对象。</li><li>保留了键值对的插入顺序。</li><li>可以容易地获取其大小（<code>Map.prototype.size</code>属性）。</li><li>更加适合频繁增删键值对的场景。</li><li>直接的迭代支持，<code>Map</code>有<code>.keys()</code>, <code>.values()</code>, 和 <code>.entries()</code>方法，以及可以直接被 for...of 循环迭代。</li></ul><p><strong>适用场景</strong>：</p><ul><li>键的集合是动态的，频繁增加或删除键值对。</li><li>键不仅仅是字符串或符号，可能是对象或其他复杂类型。</li><li>需要保持键值对的插入顺序。</li><li>当集合大小经常变化且需频繁读取大小时。</li><li>需要高性能的迭代操作。</li></ul><h3>抉择</h3><p>选择<code>Map</code>还是<code>Object</code>主要取决于你的具体应用场景：</p><ul><li><strong>静态和可序列化的键值对集合</strong>：如果你需要一个简单的数据结构来表示静态的键值对集合，且可能需要将这个集合序列化为 JSON，那么普通对象可能更适合你的需求。</li><li><strong>动态或复杂的键值对集合</strong>：如果你需要存储复杂类型的键，或者你的键值对集合需要频繁更新（添加/删除键值对），同时需要保留插入顺序，那么<code>Map</code>将是更好的选择。</li></ul><p>通常，<code>Map</code>在处理复杂、动态或大量的键值对数据时提供了更好的灵活性和性能。然而，在简单的场景下，或当需要利用 JSON 进行序列化、反序列化时，使用普通的对象可能更方便和直观。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

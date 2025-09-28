@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>proxy能够监听到对象中的对象的引用吗？【热度: 112】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：proxy 监听引用&lt;/p&gt;&lt;p&gt;是的，&lt;code&gt;Proxy&lt;/code&gt; 能够监听到对象属性的读取和设置操作，包括对象中嵌套的对象的引用操作。但是，要注意的是，如果你想要监听一个嵌套对象内部的变化（例如，对象的属性或者数组的元素" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="proxy能够监听到对象中的对象的引用吗？【热度: 112】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：proxy 监听引用&lt;/p&gt;&lt;p&gt;是的，&lt;code&gt;Proxy&lt;/code&gt; 能够监听到对象属性的读取和设置操作，包括对象中嵌套的对象的引用操作。但是，要注意的是，如果你想要监听一个嵌套对象内部的变化（例如，对象的属性或者数组的元素），那么你需要单独为这个嵌套对象也创建一个 &lt;code&gt;Proxy&lt;/code&gt; 实例。因为 &lt;code&gt;Proxy&lt;/" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/836" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>proxy能够监听到对象中的对象的引用吗？【热度: 112】</h1>
+      <div class="subtitle">TOP100互联网 · JavaScript · TOP100互联网</div>
+      <div class="meta">创建：2024-08-18T06:11:09Z · 更新：2025-03-01T12:46:38Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：proxy 监听引用</p><p>是的，<code>Proxy</code> 能够监听到对象属性的读取和设置操作，包括对象中嵌套的对象的引用操作。但是，要注意的是，如果你想要监听一个嵌套对象内部的变化（例如，对象的属性或者数组的元素），那么你需要单独为这个嵌套对象也创建一个 <code>Proxy</code> 实例。因为 <code>Proxy</code> 只能直接监听它直接代理的对象的操作，对于嵌套对象的操作，需要嵌套地使用 <code>Proxy</code> 来实现深度监听。</p><p>举个例子：</p><pre class="code-block"><code class="language-javascript">function createDeepProxy(obj) {
+  // 递归函数，为对象及其嵌套对象创建代理
+  const handler = {
+    get(target, property, receiver) {
+      const value = Reflect.get(target, property, receiver);
+      if (typeof value === &quot;object&quot; &amp;&amp; value !== null) {
+        // 如果属性是对象（且非 null），则为该属性也创建代理
+        return createDeepProxy(value);
+      }
+      return value;
+    },
+    set(target, property, value, receiver) {
+      console.log(`Setting property ${property} to ${value}`);
+      return Reflect.set(target, property, value, receiver);
+    },
+  };
+
+  return new Proxy(obj, handler);
+}
+
+const original = { name: &quot;John&quot;, address: { city: &quot;New York&quot; } };
+
+const proxied = createDeepProxy(original);
+
+proxied.address.city = &quot;San Francisco&quot;; // 控制台输出：Setting property city to San Francisco
+console.log(original.address.city); // 输出 San Francisco
+</code></pre><p>在这个例子中，<code>createDeepProxy</code> 函数使用了递归，为对象及其所有嵌套对象创建了 <code>Proxy</code> 代理。因此，修改嵌套对象 <code>address</code> 下的 <code>city</code> 属性时，<code>set</code> 陷阱（trap）被触发，并且控制台有相应的输出。但注意这种递归创建 <code>Proxy</code> 的做法可能会带来性能问题，特别是在处理有很深嵌套结构或者很大的对象时。</p><p>此外，需要留意的是，由于每次访问嵌套对象时都会动态创建新的 <code>Proxy</code> 实例，这可能导致一些意料之外的行为，比如基于身份的比较或引用检查可能会失败。因此，在实际应用中，应根据需求精心设计 <code>Proxy</code> 的使用方式。</p><h2>Comments / Answers</h2><hr /><p><strong>BruceYuj</strong> at 2025-03-01T12:46:37Z</p><p>可以优化一下：使用 WeakMap 来避免每次对嵌套对象都要重新创建一个新的代理对象</p><pre class="code-block"><code class="language-javascript">// 使用 WeakMap 缓存已代理的对象
+const proxyCache = new WeakMap();
+
+function createReactive(obj) {
+  // 如果不是对象或已代理过，直接返回
+  if (typeof obj !== &quot;object&quot; || obj === null) {
+    return obj;
+  }
+
+  // 检查缓存中是否已有代理对象
+  if (proxyCache.has(obj)) {
+    return proxyCache.get(obj); // 返回缓存的代理
+  }
+
+  const handler = {
+    get(target, prop, receiver) {
+      const result = Reflect.get(target, prop, receiver);
+      console.log(`访问 ${prop}`);
+      // 如果返回值是对象，递归创建或获取代理
+      if (typeof result === &quot;object&quot; &amp;&amp; result !== null) {
+        return createReactive(result); // 复用缓存或创建新代理
+      }
+      return result;
+    },
+    set(target, prop, value) {
+      console.log(`设置 ${prop} 为 ${value}`);
+      target[prop] = value;
+      return true;
+    }
+  };
+
+  // 创建代理并缓存
+  const proxy = new Proxy(obj, handler);
+  proxyCache.set(obj, proxy);
+  return proxy;
+}
+
+// 测试代码
+const target = {
+  nested: {
+    value: 1
+  }
+};
+
+const proxy = createReactive(target);
+
+// 第一次访问嵌套对象
+const nested1 = proxy.nested;
+// 输出: &quot;访问 nested&quot;
+
+// 第二次访问嵌套对象
+const nested2 = proxy.nested;
+// 输出: &quot;访问 nested&quot;（但不会生成新的 Proxy）
+
+console.log(nested1 === nested2); // 输出: true（同一个代理对象）
+
+// 修改嵌套对象内部属性
+proxy.nested.value = 2;
+// 输出: 
+// &quot;访问 nested&quot;
+// &quot;设置 value 为 2&quot;
+
+console.log(target.nested.value); // 输出: 2
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

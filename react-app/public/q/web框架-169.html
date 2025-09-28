@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[koa] body-parser 中间件实现原理？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;Koa 中间件 &lt;code&gt;koa-bodyparser&lt;/code&gt; 的原理是将 HTTP 请求中的 &lt;code&gt;request body&lt;/code&gt; 解析成 JavaScript 对象，并将其挂载到 &lt;code&gt;ctx.request.body&lt;/code&gt; 属性上，" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[koa] body-parser 中间件实现原理？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;Koa 中间件 &lt;code&gt;koa-bodyparser&lt;/code&gt; 的原理是将 HTTP 请求中的 &lt;code&gt;request body&lt;/code&gt; 解析成 JavaScript 对象，并将其挂载到 &lt;code&gt;ctx.request.body&lt;/code&gt; 属性上，方便后续的处理。&lt;/p&gt;&lt;p&gt;具体来说，&lt;code&gt;koa-bodyparser&lt;/code&gt; 中间件会监听 HTTP " />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/169" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[koa] body-parser 中间件实现原理？</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2023-03-26T07:53:06Z · 更新：2023-03-26T07:53:06Z</div>
+    </div>
+    <article class="content markdown-body"><p>Koa 中间件 <code>koa-bodyparser</code> 的原理是将 HTTP 请求中的 <code>request body</code> 解析成 JavaScript 对象，并将其挂载到 <code>ctx.request.body</code> 属性上，方便后续的处理。</p><p>具体来说，<code>koa-bodyparser</code> 中间件会监听 HTTP 请求的 <code>data</code> 事件和 <code>end</code> 事件，然后将请求中的数据流解析成一个 JavaScript 对象，并将其作为参数传递给 <code>ctx.request.body</code> 属性，最后调用 <code>await next()</code>，将控制权交给下一个中间件。</p><p>在实现过程中，<code>koa-bodyparser</code> 中间件会根据请求头中的 <code>Content-Type</code> 字段来判断请求体的类型，支持解析的请求体类型有 <code>application/json</code>、<code>application/x-www-form-urlencoded</code> 和 <code>multipart/form-data</code>。对于其他类型的请求体，<code>koa-bodyparser</code> 会将其解析成一个空对象 <code>{}</code>。</p><p>下面是一个简单的 <code>koa-bodyparser</code> 中间件的实现示例：</p><pre class="code-block"><code class="language-javascript">function bodyParser() {
+  return async (ctx, next) =&gt; {
+    if (ctx.request.method === &#39;POST&#39; || ctx.request.method === &#39;PUT&#39;) {
+      let data = &#39;&#39;;
+      ctx.req.on(&#39;data&#39;, (chunk) =&gt; {
+        data += chunk;
+      });
+      ctx.req.on(&#39;end&#39;, () =&gt; {
+        if (ctx.request.headers[&#39;content-type&#39;] === &#39;application/json&#39;) {
+          ctx.request.body = JSON.parse(data);
+        } else if (ctx.request.headers[&#39;content-type&#39;] === &#39;application/x-www-form-urlencoded&#39;) {
+          ctx.request.body = querystring.parse(data);
+        } else if (ctx.request.headers[&#39;content-type&#39;].startsWith(&#39;multipart/form-data&#39;)) {
+          // 解析 multipart/form-data 请求体
+          // ...
+        } else {
+          ctx.request.body = {};
+        }
+        return next();
+      });
+    } else {
+      return next();
+    }
+  };
+}
+</code></pre><p>在这个实现中，如果请求方法为 <code>POST</code> 或者 <code>PUT</code>，则开始监听 <code>data</code> 事件和 <code>end</code> 事件，将请求体数据解析成一个 JavaScript 对象并挂载到 <code>ctx.request.body</code> 上，最后调用 <code>next()</code> 将控制权交给下一个中间件。对于其他请求方法，则直接调用 <code>next()</code> 交给下一个中间件处理。注意，这个实现只支持解析 <code>application/json</code> 和 <code>application/x-www-form-urlencoded</code> 类型的请求体，对于其他类型的请求体需要进行特殊处理。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

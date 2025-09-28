@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[webpack] module、chunk 、bundle 的区别【热度: 136】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;首先上图：&lt;/p&gt;&lt;p&gt;&lt;img alt=&quot;3 (1)&quot; src=&quot;https://user-images.githubusercontent.com/22188674/234582993-25c40cda-d3ee-4f96-b134-44a950aba11f.png&quot; " />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[webpack] module、chunk 、bundle 的区别【热度: 136】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;首先上图：&lt;/p&gt;&lt;p&gt;&lt;img alt=&quot;3 (1)&quot; src=&quot;https://user-images.githubusercontent.com/22188674/234582993-25c40cda-d3ee-4f96-b134-44a950aba11f.png&quot; /&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;手写下一个一个的文件，它们无论是 &lt;code&gt;ESM&lt;/code&gt; 还是 &lt;code&gt;com" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/309" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[webpack] module、chunk 、bundle 的区别【热度: 136】</h1>
+      <div class="subtitle">工程化 · 工程化</div>
+      <div class="meta">创建：2023-04-26T13:01:07Z · 更新：2023-04-26T13:02:02Z</div>
+    </div>
+    <article class="content markdown-body"><p>首先上图：</p><p><img alt="3 (1)" src="https://user-images.githubusercontent.com/22188674/234582993-25c40cda-d3ee-4f96-b134-44a950aba11f.png" /></p><ul><li>手写下一个一个的文件，它们无论是 <code>ESM</code> 还是 <code>commonJS</code> 或是 <code>AMD</code>，他们都是 <code>module</code></li><li>当我们写的 <code>module</code> 源文件传到 <code>webpack</code> 进行打包时，<code>webpack</code> 会根据文件引用关系生成 <code>chunk</code> 文件，<code>webpack</code> 会对这个 <code>chunk</code> 文件进行一些操作</li><li>webpack 处理好 chunk 文件后，最后会输出 bundle 文件，这个 bundle 文件包含了经过加载和编译的最终源文件，可以直接在浏览器中运行。</li></ul><p>一般来说一个 chunk 对应一个 bundle，比如上图中的 <code>utils.js -&gt; chunks 1 -&gt; utils.bundle.js</code></p><p>但也有例外，比如说上图中，我就用 <code>MiniCssExtractPlugin</code> 从 chunks 0 中抽离出了 <code>index.bundle.css</code> 文件</p><p><strong>总结</strong>：</p><p>module，chunk 和 bundle 其实就是同一份逻辑代码在不同转换场景下的取了三个名字：</p><p>我们直接写出来的是 module，webpack 处理时是 chunk，最后生成浏览器可以直接运行的 bundle。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

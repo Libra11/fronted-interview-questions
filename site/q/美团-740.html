@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>vue 中 Scoped Styles 是如何实现样式隔离的， 原理是啥？【热度: 244】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：Scoped Styles 样式隔离&lt;/p&gt;&lt;p&gt;在 Vue 中，&lt;code&gt;.vue&lt;/code&gt; 单文件组件的 &lt;code&gt;&amp;lt;style&amp;gt;&lt;/code&gt; 标签可以添加一个 &lt;code&gt;scoped&lt;/code&gt; 属性" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="vue 中 Scoped Styles 是如何实现样式隔离的， 原理是啥？【热度: 244】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：Scoped Styles 样式隔离&lt;/p&gt;&lt;p&gt;在 Vue 中，&lt;code&gt;.vue&lt;/code&gt; 单文件组件的 &lt;code&gt;&amp;lt;style&amp;gt;&lt;/code&gt; 标签可以添加一个 &lt;code&gt;scoped&lt;/code&gt; 属性来实现样式的隔离。通过这个 &lt;code&gt;scoped&lt;/code&gt; 属性，Vue 会确保样式只应用到当前组件的模板中，而" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/740" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>vue 中 Scoped Styles 是如何实现样式隔离的， 原理是啥？【热度: 244】</h1>
+      <div class="subtitle">美团 · CSS · 美团</div>
+      <div class="meta">创建：2024-05-05T15:20:28Z · 更新：2024-05-05T15:20:28Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：Scoped Styles 样式隔离</p><p>在 Vue 中，<code>.vue</code> 单文件组件的 <code>&lt;style&gt;</code> 标签可以添加一个 <code>scoped</code> 属性来实现样式的隔离。通过这个 <code>scoped</code> 属性，Vue 会确保样式只应用到当前组件的模板中，而不会泄漏到外部的其他组件中。</p><p>这个效果是通过 PostCSS 在构建过程中对 CSS 进行转换来实现的。基本原理如下：</p><h3>Scoped Styles 的工作原理：</h3><ol><li>当你为 <code>&lt;style&gt;</code> 标签添加 <code>scoped</code> 属性时，Vue 的加载器（比如 <code>vue-loader</code>）会处理你的组件文件。</li></ol><ol><li><code>vue-loader</code> 使用 PostCSS 来处理 <code>scoped</code> 的 CSS。它为组件模板内的每个元素添加一个独特的属性（如 <code>data-v-f3f3eg9</code>）。这个属性是随机生成的，确保唯一性（是在 Vue 项目构建过程中的 hash 值）。</li></ol><ol><li>同时，所有的 CSS 规则都会被更新，以仅匹配带有相应属性选择器的元素。例如：如果你有一个 <code>.button</code> 类的样式规则，它会被转换成类似 <code>.button[data-v-f3f3eg9]</code> 的形式。这确保了样式只会被应用到拥有对应属性的 DOM 元素上。</li></ol><h3>示例</h3><p>假设你在组件 <code>MyComponent.vue</code> 内写了如下代码：</p><pre class="code-block"><code class="language-html">&lt;template&gt;
+  &lt;button class=&quot;btn&quot;&gt;Click Me&lt;/button&gt;
+&lt;/template&gt;
+
+&lt;style scoped&gt;
+  .btn {
+    background-color: blue;
+  }
+&lt;/style&gt;
+</code></pre><p><code>vue-loader</code> 将处理上述代码，模板中的 <code>&lt;button&gt;</code> 可能会渲染成类似下面的 HTML：</p><pre class="code-block"><code class="language-html">&lt;button class=&quot;btn&quot; data-v-f3f3eg9&gt;Click Me&lt;/button&gt;
+</code></pre><p>CSS 则会被转换成：</p><pre class="code-block"><code class="language-css">.btn[data-v-f3f3eg9] {
+  background-color: blue;
+}
+</code></pre><p>因此，<code>.btn</code> 类的样式仅会应用于拥有 <code>data-v-f3f3eg9</code> 属性的 <code>&lt;button&gt;</code> 元素上。</p><h3>注意：</h3><ul><li>Scoped styles 提供了样式封装，但不是绝对的隔离。子组件的根节点仍然会受到父组件的 <code>scoped</code> CSS 的影响。在子组件中使用 <code>scoped</code> 可以避免这种情况。</li><li>Scoped CSS 不防止全局样式影响组件。如果其他地方定义了全局样式，它们仍然会应用到组件中。</li><li>当使用外部库的类名时，<code>scoped</code> 可能会导致样式不被应用，因为它会期望所有匹配规则的元素都带有特定的属性。</li></ul><p>总的来说，Scoped Styles 是 Vue 单文件组件提供的一种方便且有效的样式封装方式，通过 PostCSS 转换和属性选择器来实现组件之间的样式隔离。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

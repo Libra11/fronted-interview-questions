@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JS 的加载会阻塞浏览器渲染吗？【热度: 243】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：浏览器渲染阻塞、JS 阻塞浏览器渲染&lt;/p&gt;&lt;p&gt;JavaScript 的加载、解析和执行默认情况下会阻塞浏览器的渲染过程。这是因为浏览器渲染引擎和 JavaScript 引擎是单线程的，并且二者共享同一个线程。JavaScript" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="JS 的加载会阻塞浏览器渲染吗？【热度: 243】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：浏览器渲染阻塞、JS 阻塞浏览器渲染&lt;/p&gt;&lt;p&gt;JavaScript 的加载、解析和执行默认情况下会阻塞浏览器的渲染过程。这是因为浏览器渲染引擎和 JavaScript 引擎是单线程的，并且二者共享同一个线程。JavaScript 在执行时会阻止 DOM 构建，因为 JavaScript 可能会修改 DOM 结构（例如添加、修改或删除节点）。出于这" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/697" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>JS 的加载会阻塞浏览器渲染吗？【热度: 243】</h1>
+      <div class="subtitle">浏览器 · 浏览器 · TOP100互联网</div>
+      <div class="meta">创建：2024-04-13T14:47:10Z · 更新：2024-04-13T14:47:10Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：浏览器渲染阻塞、JS 阻塞浏览器渲染</p><p>JavaScript 的加载、解析和执行默认情况下会阻塞浏览器的渲染过程。这是因为浏览器渲染引擎和 JavaScript 引擎是单线程的，并且二者共享同一个线程。JavaScript 在执行时会阻止 DOM 构建，因为 JavaScript 可能会修改 DOM 结构（例如添加、修改或删除节点）。出于这个原因，浏览器必须暂停 DOM 的解析和渲染，直到 JavaScript 执行完成。</p><p>默认情况下，当浏览器遇到一个<code>&lt;script&gt;</code>标签时，会立即停止解析 HTML，转而下载和执行脚本，然后再继续 HTML 的解析和渲染。这意味着在 HTML 文档中的 JavaScript 脚本的下载和执行过程中，页面的渲染是被阻塞的。</p><p>不过，你可以用下面几种方法调整脚本的加载和执行行为，以减少对浏览器渲染过程的阻塞：</p><ol><li><strong>异步脚本（async）</strong>：</li></ol><p>在<code>&lt;script&gt;</code>标签中使用<code>async</code>属性可以使得脚本的加载变成异步操作。当使用<code>async</code>属性时，浏览器会在后台进行下载，但脚本的执行还是会阻塞 DOM 渲染。</p><p>```html</p><p><script async src="script.js"></script></p><p>```</p><p>使用<code>async</code>时，脚本会在下载完成后尽快执行，这可能会在文档解析完成之前或之后。</p><ol><li><strong>延迟脚本（defer）</strong>：</li></ol><p><code>defer</code>属性使得脚本在 HTML 解析完成之后、DOMContentLoaded 事件触发之前执行，不阻塞 HTML 的解析。</p><p>```html</p><p><script defer src="script.js"></script></p><p>```</p><p>使用<code>defer</code>，脚本的执行顺序将按照它们在 DOM 中出现的顺序执行。</p><ol><li><strong>动态脚本加载</strong>：</li></ol><p>你可以使用 JavaScript 动态创建<code>&lt;script&gt;</code>元素并添加到 DOM 中，这允许你控制脚本的加载和执行时机。</p><p>```javascript</p><p>var script = document.createElement("script");</p><p>script.src = "script.js";</p><p>document.body.appendChild(script);</p><p>```</p><ol><li><strong>移动脚本位置</strong>：</li></ol><p>将脚本放在 HTML 的底部，即<code>&lt;body&gt;</code>标签关闭之前，而不是放在<code>&lt;head&gt;</code>中，可以让页面内容先加载显示，从而减少用户对加载过程的可感知时间。</p><p>现代 Web 开发中通常推荐使用<code>async</code>或<code>defer</code>属性，提高页面加载性能，尤其是对于那些需要从外部服务器加载的大型 JavaScript 库来说尤为关键。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

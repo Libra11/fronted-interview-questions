@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JS 作用域链链接多少?【热度: 882】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：JS 作用域链链、JS 作用域链链应用&lt;/p&gt;&lt;h3&gt;概念&lt;/h3&gt;&lt;p&gt;JavaScript 作用域链（Scope Chain）是指变量和函数的可访问性和查找规则。它是由多个执行上下文（Execution Context）的变量对" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="JS 作用域链链接多少?【热度: 882】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：JS 作用域链链、JS 作用域链链应用&lt;/p&gt;&lt;h3&gt;概念&lt;/h3&gt;&lt;p&gt;JavaScript 作用域链（Scope Chain）是指变量和函数的可访问性和查找规则。它是由多个执行上下文（Execution Context）的变量对象（Variable Object）按照它们被创建的顺序组成的链式结构。&lt;/p&gt;&lt;p&gt;在 JavaScript 中，每个" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/389" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>JS 作用域链链接多少?【热度: 882】</h1>
+      <div class="subtitle">美团 · JavaScript · 美团</div>
+      <div class="meta">创建：2023-05-30T15:48:36Z · 更新：2023-05-30T15:48:37Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：JS 作用域链链、JS 作用域链链应用</p><h3>概念</h3><p>JavaScript 作用域链（Scope Chain）是指变量和函数的可访问性和查找规则。它是由多个执行上下文（Execution Context）的变量对象（Variable Object）按照它们被创建的顺序组成的链式结构。</p><p>在 JavaScript 中，每个函数都会创建一个新的执行上下文，并将其添加到作用域链的最前端。当访问一个变量时，JavaScript 引擎会先从当前执行上下文的变量对象开始查找，如果找不到，则沿着作用域链依次向上查找，直到全局执行上下文的变量对象。</p><p>作用域链的创建过程如下：</p><ol><li>在函数定义时，会创建一个变量对象（VO）来存储函数的变量和函数声明。这个变量对象包含了当前函数的作用域中的变量和函数。</li><li>在函数执行时，会创建一个执行上下文（Execution Context），并将其添加到作用域链的最前端。执行上下文中的变量对象称为活动对象（Active Object）。</li><li>当访问一个变量时，JavaScript 引擎首先会在活动对象中查找，如果找不到，则沿着作用域链依次向上查找，直到全局执行上下文的变量对象。</li><li>如果在作用域链的任何一个环节找到了变量，则停止查找并返回变量的值；如果未找到，则抛出引用错误（ReferenceError）。</li></ol><p>作用域链的特点：</p><ol><li>作用域链是一个静态的概念，它在函数定义时就确定了，不会随着函数的调用而改变。</li><li>作用域链是由多个执行上下文的变量对象按照它们被创建的顺序组成的。</li><li>作用域链的最后一个变量对象是全局执行上下文的变量对象，它是作用域链的终点。</li><li>内部函数可以访问外部函数的变量，因为内部函数的作用域链包含了外部函数的变量对象。</li></ol><h3>有哪些应用场景</h3><p>作用域链在 JavaScript 中具有广泛的应用场景。下面列举了一些常见的应用场景：</p><ol><li>变量查找：作用域链决定了变量的访问顺序，当访问一个变量时，会按照作用域链的顺序依次查找变量，直到找到匹配的变量或到达全局作用域。</li></ol><ol><li>闭包：闭包是指函数能够访问和操作它的外部函数中定义的变量。通过作用域链，内部函数可以访问外部函数的变量，实现了闭包的特性。闭包在许多场景中用于创建私有变量和实现函数封装。</li></ol><ol><li>垃圾回收：JavaScript 的垃圾回收机制通过作用域链来判断变量的生命周期。当变量不再被引用时，垃圾回收器可以回收它所占用的内存空间。</li></ol><ol><li>函数作为参数传递：在 JavaScript 中，可以将函数作为参数传递给其他函数。在传递过程中，作用域链决定了内部函数对外部函数变量的访问权限，实现了回调函数和高阶函数的功能。</li></ol><ol><li>面向对象编程：JavaScript 中的对象和原型链是基于作用域链实现的。通过原型链，对象可以访问和继承其原型对象的属性和方法。</li></ol><ol><li>模块化开发：作用域链可以用于实现模块化开发，通过定义私有变量和公共接口，控制模块内部变量的可访问性，避免变量冲突和全局污染。</li></ol><ol><li>作用域链的动态改变：在 JavaScript 中，可以通过闭包和动态作用域的特性来改变作用域链。例如，使用 eval() 函数或 with 语句可以改变当前的作用域链。</li></ol><p>总之，作用域链在 JavaScript 中扮演了重要的角色，涵盖了变量的访问、闭包、垃圾回收、模块化开发等多个方面。深入理解作用域链对于编写高质量的 JavaScript 代码和理解其底层工作原理非常重要。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

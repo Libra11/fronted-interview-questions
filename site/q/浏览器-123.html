@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>script 标签 defer 和 async 区别？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;code&gt;defer&lt;/code&gt; 和 &lt;code&gt;async&lt;/code&gt; 是用于控制脚本加载和执行的 HTML &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; 标签属性。&lt;/p&gt;&lt;p&gt;&lt;code&gt;defer&lt;/code&gt; 和 &lt;code&gt;async&lt;/code" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="script 标签 defer 和 async 区别？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;code&gt;defer&lt;/code&gt; 和 &lt;code&gt;async&lt;/code&gt; 是用于控制脚本加载和执行的 HTML &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; 标签属性。&lt;/p&gt;&lt;p&gt;&lt;code&gt;defer&lt;/code&gt; 和 &lt;code&gt;async&lt;/code&gt; 的主要区别在于它们对脚本的加载和执行的影响。&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;code&gt;defer&lt;/code&gt; 属性告诉浏" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/123" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>script 标签 defer 和 async 区别？</h1>
+      <div class="subtitle">浏览器 · 浏览器</div>
+      <div class="meta">创建：2023-03-19T13:22:06Z · 更新：2023-03-19T13:26:23Z</div>
+    </div>
+    <article class="content markdown-body"><p><code>defer</code> 和 <code>async</code> 是用于控制脚本加载和执行的 HTML <code>&lt;script&gt;</code> 标签属性。</p><p><code>defer</code> 和 <code>async</code> 的主要区别在于它们对脚本的加载和执行的影响。</p><ul><li><code>defer</code> 属性告诉浏览器立即下载脚本，但延迟执行，等到文档加载完成后再按照它们在页面中出现的顺序依次执行。这意味着脚本不会阻止文档的解析和渲染，并且它们也不会阻止其他脚本的执行。如果多个脚本都使用 <code>defer</code> 属性，则它们将按照它们在页面中出现的顺序依次执行。</li></ul><ul><li><code>async</code> 属性告诉浏览器立即下载脚本，但它们不一定按照它们在页面中出现的顺序执行。它们将在下载完成后立即执行。这意味着脚本不会阻止文档的解析和渲染，但可能会阻止其他脚本的执行。如果多个脚本都使用 <code>async</code> 属性，则它们将按照它们下载完成的顺序依次执行。</li></ul><p>需要注意的是，当使用 <code>defer</code> 和 <code>async</code> 属性时，浏览器的支持情况可能不同。一些较旧的浏览器可能不支持这些属性，或者仅支持 <code>defer</code> 而不支持 <code>async</code>。因此，为了确保脚本的兼容性，建议在使用 <code>defer</code> 和 <code>async</code> 属性时，同时提供一个备用脚本，并考虑使用特性检测来检查浏览器是否支持这些属性。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

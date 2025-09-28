@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Vue] Vue2 中双向绑定是通过 Object.defineProperty() 实现的， 那么它是如何监控数组的？【热度: 447】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：Vue2 中双向绑、Vue2 中双向绑监控数组&lt;/p&gt;&lt;p&gt;在 Vue 2 中，双向数据绑定的核心是 &lt;code&gt;Object.defineProperty()&lt;/code&gt;，它允许 Vue 对每个属性进行 getter 和 set" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Vue] Vue2 中双向绑定是通过 Object.defineProperty() 实现的， 那么它是如何监控数组的？【热度: 447】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：Vue2 中双向绑、Vue2 中双向绑监控数组&lt;/p&gt;&lt;p&gt;在 Vue 2 中，双向数据绑定的核心是 &lt;code&gt;Object.defineProperty()&lt;/code&gt;，它允许 Vue 对每个属性进行 getter 和 setter 的拦截，从而实现响应式系统。对于普通的响应式属性来说，这一切都很简单，因为属性的 getter 和 setter" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/719" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Vue] Vue2 中双向绑定是通过 Object.defineProperty() 实现的， 那么它是如何监控数组的？【热度: 447】</h1>
+      <div class="subtitle">阿里巴巴 · web框架 · 阿里巴巴</div>
+      <div class="meta">创建：2024-04-20T06:37:32Z · 更新：2024-04-20T06:37:33Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：Vue2 中双向绑、Vue2 中双向绑监控数组</p><p>在 Vue 2 中，双向数据绑定的核心是 <code>Object.defineProperty()</code>，它允许 Vue 对每个属性进行 getter 和 setter 的拦截，从而实现响应式系统。对于普通的响应式属性来说，这一切都很简单，因为属性的 getter 和 setter 可以很容易地更改并通知 Vue 更新视图。</p><p>但是，由于 JavaScript 的限制，使用 <code>Object.defineProperty()</code> 注册响应式属性时并不能完美地跟踪数组索引的变化。而 Vue 需要能够捕捉对数组元素的修改，因此它采用了一种特殊的策略来实现对数组的响应式处理。</p><h3>Vue 是如何监控数组的？</h3><ol><li><strong>拦截数组的变异方法</strong>：Vue 使用一个数组的代理隔着来拦截七个变异数组方法（<code>push</code>、<code>pop</code>、<code>shift</code>、<code>unshift</code>、<code>splice</code>）和 <code>sort</code> 方法以及 <code>reverse</code> 方法。对这些方法的调用会被重新定义，以保证当它们被调用时，视图会重新渲染。</li></ol><ol><li><strong>Vue.set 和 Vue.delete</strong>：Vue 提供了两个全局函数 <code>Vue.set</code> 和 <code>Vue.delete</code>，这些函数确保任何对数组进行的直接设置或删除操作都能够触发视图更新。</li></ol><ol><li><strong>不直接使用索引赋值</strong>：直接进行索引赋值操作（如 <code>vm.items[indexOfItem] = newValue</code>）不会触发视图更新，因为这是一种不能被 <code>Object.defineProperty</code> 拦截的操作。为了避免这个陷阱，你应该使用 <code>Vue.set</code> 代替索引赋值。</li></ol><ol><li><strong>附加属性</strong>：Vue 会为每个项目的数组添加一些附加属性，这些属性可以触发一些视图渲染。</li></ol><h3>使用例子</h3><p>以下是两个响应式数组操作的示例：</p><pre class="code-block"><code class="language-javascript">// 展示Vue.set的使用
+Vue.set(vm.items, indexOfItem, newValue);
+
+// 展示Vue.delete的使用
+Vue.delete(vm.items, indexOfItem);
+</code></pre><p>使用这些方法可以确保 Vue 的观察者模式能够检测到数组的变化，这点对于在循环中使用的内联数组是非常有用的。</p><h3>注意事项</h3><p>尽管 Vue 2 通过重新定义数组的变异方法和提供 <code>Vue.set</code> 和 <code>Vue.delete</code> 方法来实现对数组的响应式更新，但刀片开发人员在操作数组时还是需要谨慎以避免那些一开始就不会被 Vue 捕获的数组操作。</p><p>总结来说，Vue 对数组的响应式更新比对象要复杂，因为数组需要通过一种特殊的机制来捕获变异操作而不是普通的属性赋值。这是 Vue 响应式系统比较高级的部分，也是为什么在 Vue 2 中推荐使用 Vue 提供的方法来操作数组的核心原因。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

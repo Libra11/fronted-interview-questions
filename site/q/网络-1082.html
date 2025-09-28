@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>前端假如有几十个请求，如何去控制并发【热度: 590】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：并发请求处理&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;使用&lt;code&gt;Promise.allSettled&lt;/code&gt;和分批处理&lt;/strong&gt;：将请求按并发限制分成小批次，用&lt;code&gt;Promise.allSettled&lt;/c" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="前端假如有几十个请求，如何去控制并发【热度: 590】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：并发请求处理&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;使用&lt;code&gt;Promise.allSettled&lt;/code&gt;和分批处理&lt;/strong&gt;：将请求按并发限制分成小批次，用&lt;code&gt;Promise.allSettled&lt;/code&gt;逐批执行，如&lt;code&gt;fetchWithConcurrency&lt;/code&gt;函数，通过循环取批次并处理，最后返" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1082" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>前端假如有几十个请求，如何去控制并发【热度: 590】</h1>
+      <div class="subtitle">网络 · 网络</div>
+      <div class="meta">创建：2025-01-09T15:37:24Z · 更新：2025-02-14T06:52:49Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：并发请求处理</p><ol><li><strong>使用<code>Promise.allSettled</code>和分批处理</strong>：将请求按并发限制分成小批次，用<code>Promise.allSettled</code>逐批执行，如<code>fetchWithConcurrency</code>函数，通过循环取批次并处理，最后返回所有结果。</li><li><strong>使用队列方式控制并发</strong>：<code>PromiseQueue</code>类通过限制同时运行的<code>Promise</code>数量管理并发，有<code>enqueue</code>方法添加任务，<code>runNext</code>方法按规则执行任务，使用时创建实例并传入并发数，将请求任务入队后用<code>Promise.all</code>执行。</li><li><strong>使用第三方库</strong></li></ol><ul><li><strong><code>p - limit</code></strong>：引入后设置最大并发数，将请求任务用其包裹后用<code>Promise.all</code>执行。</li><li><strong><code>promise - pool</code></strong>：引入后配置请求数组、并发数和任务函数，执行<code>promisePool</code>获取结果。</li></ul><ol><li><strong>浏览器专用：<code>AbortController</code>限制超时</strong>：<code>fetchWithTimeout</code>函数利用<code>AbortController</code>结合超时机制，在超时后中止请求，处理请求时传入<code>signal</code>，捕获错误并在最后清除超时。</li><li><strong>选择建议</strong></li></ol><ul><li>任务数量多但单任务时间短，适合分批处理或<code>PromiseQueue</code>。</li><li>任务数量多且复杂，建议用<code>p - limit</code>等库。</li><li>实时性要求高，可考虑<code>AbortController</code>或合理设置超时策略。</li></ul><ul><li>参考文档</li></ul><p>https://juejin.cn/post/7457511148513443850</p><h2>Comments / Answers</h2><hr /><p><strong>weiizxuan</strong> at 2025-02-14T06:52:49Z</p><blockquote>浏览器对同一域名的并发请求数有限制（通常是 6~8 个），超过限制的请求会被放入队列等待</blockquote><p>浏览器已经帮你控制过了，哪怕是IE6</p><p>而且就算浏览器没有控制并发，几十个用户同时发送请求的情况呢？前端怎么处理？</p><p>所以说<strong>前端根本就无需处理并发</strong></p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

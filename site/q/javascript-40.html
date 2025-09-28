@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JS 深拷贝有哪些方式， 手写实现一下？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h1&gt;关于深拷贝和浅拷贝的实现&lt;/h1&gt;&lt;p&gt;目录&lt;/p&gt;&lt;p&gt;&lt;!-- toc --&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;#no1-%E6%B5%85%E6%8B%B7%E8%B4%9D%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="JS 深拷贝有哪些方式， 手写实现一下？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h1&gt;关于深拷贝和浅拷贝的实现&lt;/h1&gt;&lt;p&gt;目录&lt;/p&gt;&lt;p&gt;&lt;!-- toc --&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;#no1-%E6%B5%85%E6%8B%B7%E8%B4%9D%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;No.1 浅拷贝存在的问题&lt;/a&gt;&lt;/li&gt;&lt;l" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/40" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>JS 深拷贝有哪些方式， 手写实现一下？</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-09T15:11:57Z · 更新：2023-03-09T15:14:05Z</div>
+    </div>
+    <article class="content markdown-body"><h1>关于深拷贝和浅拷贝的实现</h1><p>目录</p><p><!-- toc --></p><ul><li><a href="#no1-%E6%B5%85%E6%8B%B7%E8%B4%9D%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98" target="_blank" rel="noopener">No.1 浅拷贝存在的问题</a></li><li><a href="#no2-%E6%99%AE%E9%80%9A%E7%9A%84%E6%B7%B1%E6%8B%B7%E8%B4%9D" target="_blank" rel="noopener">No.2 普通的深拷贝</a></li><li><a href="#no3-%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1%E6%B7%B1%E6%8B%B7%E8%B4%9D%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0" target="_blank" rel="noopener">No.3 数组对象深拷贝的简单实现</a></li><li><a href="#no4-%E5%88%A9%E7%94%A8%E5%AF%B9%E8%B1%A1%E5%AE%9E%E7%8E%B0%E6%B7%B1%E6%8B%B7%E8%B4%9D" target="_blank" rel="noopener">No.4 利用对象实现深拷贝</a></li><li><a href="#no5-%E5%88%A9%E7%94%A8class%E5%AE%9E%E7%8E%B0%E6%B7%B1%E6%8B%B7%E8%B4%9D" target="_blank" rel="noopener">No.5 利用class实现深拷贝</a></li><li><a href="#no6-%E8%A7%A3%E5%86%B3%E6%B7%B1%E6%8B%B7%E8%B4%9D%E7%BB%88%E6%9E%81%E5%A5%A5%E4%B9%89" target="_blank" rel="noopener">No.6 解决深拷贝终极奥义</a></li></ul><p><!-- tocstop --></p><h2>No.1 浅拷贝存在的问题</h2><pre class="code-block"><code class="language-javascript">var person={
+    name:&#39;yanle&#39;,
+    age:24,
+    address:{
+        home:&#39;home address&#39;,
+        office:&#39;office address&#39;
+    },
+    schools:[&#39;xiaoxue&#39;,&#39;daxue&#39;]
+};
+var programer={
+    language:&#39;javascript&#39;
+};
+function extend(p,c){
+    var c=c||{};
+    for(var prop in p){
+        c[prop]=p[prop]
+    }
+    return c;
+}
+</code></pre><p>extend(person,programer)</p><p>programer.schools[0]='lelele'</p><p>person.schools[0]       //输出结果也是lelele，</p><p>说明了不仅是父对象里面还有个对象这种情况，子对象发生改变影响父对象，如果父对象里面是一个数组，也是会影响的！</p><p>请参考： <a href="./01、浅拷贝存在的问题.js" target="_blank" rel="noopener">浅拷贝存在的问题</a></p><h2>No.2 普通的深拷贝</h2><pre class="code-block"><code class="language-javascript">let person = {
+    name: &#39;yanle&#39;,
+    age: 24,
+    address: {
+        home: &#39;home address&#39;,
+        office: &#39;office address&#39;
+    },
+    schools: [&#39;xiaoxue&#39;, &#39;daxue&#39;]
+};
+let programer = {
+    language: &#39;javascript&#39;
+};
+
+function extendDeeply(p, c = {}) {
+    for (let prop in p) {
+        if (typeof p[prop] === &#39;object&#39;) {
+            c[prop] = (p[prop].constructor === Array) ? [] : {};
+            extendDeeply(p[prop], c[prop])
+        } else {
+            c[prop] = p[prop]
+        }
+    }
+    return c;
+}
+
+extendDeeply(person, programer);
+console.log(programer);
+programer.name = &#39;lelelelele&#39;;
+console.log(programer);
+console.log(person);
+</code></pre><p>这种情况无论是数组还是对象，子类发生改变都不会影响父类了</p><p>原理：这里的c对象并不是直接就取的p对象里面的值，而是先赋予了一个空的对象或者数据，再拿空的对象或者数据去装填p对象的数据，这样就可以断开引用关系；</p><p>请参考：<a href="./02、普通的深拷贝.js" target="_blank" rel="noopener">普通的深拷贝</a></p><h2>No.3 数组对象深拷贝的简单实现</h2><p>如果对象是一个数组对象，那么可以用字符串方法来实现深拷贝（就是断开引用连接，赋予新的对象实例）</p><p><code>arr.slice(0)</code> 这样得到的数组对象就会指向自己心的引用了;</p><h2>No.4 利用对象实现深拷贝</h2><pre class="code-block"><code class="language-javascript">function Parent(){
+    this.name=&#39;abc&#39;;
+    this.address={home:&#39;home&#39;}
+}
+function Child(){
+    Parent.call(this);
+    this.language=&#39;java&#39;
+}
+
+let parent = new Parent();
+let child = new Child();
+
+console.log(parent);
+console.log(child);
+
+console.log(&#39;=======================&#39;);
+
+child.name = &#39;123&#39;;
+console.log(parent);
+console.log(child);
+</code></pre><p>原理：返回的是不同对象的实例，所以不存在公用一个this指向的问题</p><p>请参考：<a href="./03、利用对象实现深拷贝.js" target="_blank" rel="noopener">利用对象实现深拷贝</a></p><h2>No.5 利用class实现深拷贝</h2><pre class="code-block"><code class="language-javascript">class Person{
+    constructor(name, age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    run() {
+        console.log(&#39;person can run&#39;);
+    }
+}
+
+class Child extends Person{
+    constructor(name,age,address) {
+        super(name, age);
+        this.address = address;
+    }
+}
+
+let person = new Person(&#39;yanle&#39;, 25);
+let child = new Child(&#39;yanle&#39;, 25, &#39;chongqing&#39;);
+console.log(person);
+console.log(child);
+console.log(&#39;=========================&#39;);
+child.name = &#39;lelellelelele&#39;;
+console.log(person);
+console.log(child);
+</code></pre><h2>No.6 解决深拷贝终极奥义</h2><p>github有开源模块专门解决这个问题的： <a href="https://github.com/unclechu/node-deep-extend" target="_blank" rel="noopener">https://github.com/unclechu/node-deep-extend</a></p><p>其源码实例如下： <a href="https://github.com/unclechu/node-deep-extend/blob/master/lib/deep-extend.js" target="_blank" rel="noopener">deep-extend.js</a></p><p>也可以参考本地目录： <a href="./deep-extend.js" target="_blank" rel="noopener">deep-extend.js</a></p><p>本地使用实例： <a href="./test.js" target="_blank" rel="noopener">test</a></p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

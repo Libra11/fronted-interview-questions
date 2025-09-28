@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WeakMap 是什么样的数据结构【热度: 431】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：WeakMap应用、WeakMap数据、WeakMap api&lt;/p&gt;&lt;p&gt;&lt;strong&gt;基本概念&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;WeakMap 是一种键值对存储的数据结构，类似于 Map。它的特点是键必须是对象，值可以是任意类型" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="WeakMap 是什么样的数据结构【热度: 431】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：WeakMap应用、WeakMap数据、WeakMap api&lt;/p&gt;&lt;p&gt;&lt;strong&gt;基本概念&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;WeakMap 是一种键值对存储的数据结构，类似于 Map。它的特点是键必须是对象，值可以是任意类型的数据。&lt;/p&gt;&lt;p&gt;WeakMap 内部使用了引用计数的方式来判断键是否存活，当键不再被引用时，垃圾回收机制会自动清除" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/553" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>WeakMap 是什么样的数据结构【热度: 431】</h1>
+      <div class="subtitle">JavaScript · JavaScript · 网易</div>
+      <div class="meta">创建：2023-09-16T08:12:16Z · 更新：2023-09-16T08:12:45Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：WeakMap应用、WeakMap数据、WeakMap api</p><p><strong>基本概念</strong></p><p>WeakMap 是一种键值对存储的数据结构，类似于 Map。它的特点是键必须是对象，值可以是任意类型的数据。</p><p>WeakMap 内部使用了引用计数的方式来判断键是否存活，当键不再被引用时，垃圾回收机制会自动清除对应的键值对。这意味着如果没有其他地方引用该键，WeakMap 中的键值对会被自动清理，并释放内存。</p><p>与 Map 不同的是，WeakMap 的键是弱引用，不会阻止垃圾回收。这意味着在 WeakMap 中，键不能被枚举、迭代或获取键的数量。同时，WeakMap 也没有提供像 Map 中的 size 属性和 clear 方法。</p><p>因为键是弱引用，所以 WeakMap 也不能使用普通对象作为键，只能使用具有引用类型的对象作为键。这是为了避免内存泄漏问题，因为如果键是普通对象，即使它没有被其他地方引用，也无法被垃圾回收。</p><p>因为 WeakMap 的键是弱引用并且没有提供常用的方法，所以它的使用场景相对有限，主要用于存储对象的私有数据或附加元数据。</p><p><strong>有哪些 api</strong></p><p>WeakMap 提供了以下的 API：</p><ul><li><code>set(key, value)</code>: 向 WeakMap 中设置键值对，键必须是对象。</li><li><code>get(key)</code>: 获取指定键对应的值。</li><li><code>has(key)</code>: 判断指定键是否存在于 WeakMap 中。</li><li><code>delete(key)</code>: 删除指定键对应的键值对。</li><li>注意：WeakMap 没有提供 <code>size</code> 属性和 <code>clear</code> 方法，也不能直接迭代或枚举键。</li></ul><p>需要注意的是，由于 WeakMap 的键是弱引用，只能使用对象作为键，同时也意味着无法通过值来查找对应的键。所以 WeakMap 适用于需要存储对象的私有数据或附加元数据的场景，而不适合用于需要根据值来查找键的情况。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

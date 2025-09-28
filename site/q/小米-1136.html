@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>react 开发的应用里面， 如何给系统设置一个全局的崩溃的提示页面【热度: 725】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：崩溃提示&lt;/p&gt;&lt;p&gt;在 React 应用中设置全局崩溃提示页面，核心是通过 &lt;strong&gt;错误边界边界（Error Boundary）&lt;/strong&gt; 来捕获子组件树中的 JavaScript 错误，并显示备用 UI。以下是具" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="react 开发的应用里面， 如何给系统设置一个全局的崩溃的提示页面【热度: 725】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：崩溃提示&lt;/p&gt;&lt;p&gt;在 React 应用中设置全局崩溃提示页面，核心是通过 &lt;strong&gt;错误边界边界（Error Boundary）&lt;/strong&gt; 来捕获子组件树中的 JavaScript 错误，并显示备用 UI。以下是具体实现方案：&lt;/p&gt;&lt;h3&gt;实现说明&lt;/h3&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;错误边界组件（ErrorBoundary）" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1136" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>react 开发的应用里面， 如何给系统设置一个全局的崩溃的提示页面【热度: 725】</h1>
+      <div class="subtitle">小米 · web框架 · 小米</div>
+      <div class="meta">创建：2025-08-31T10:36:12Z · 更新：2025-08-31T10:36:12Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：崩溃提示</p><p>在 React 应用中设置全局崩溃提示页面，核心是通过 <strong>错误边界边界（Error Boundary）</strong> 来捕获子组件树中的 JavaScript 错误，并显示备用 UI。以下是具体实现方案：</p><h3>实现说明</h3><ol><li><strong>错误边界组件（ErrorBoundary）</strong></li></ol><ul><li>这是一个 React 类组件，利用 React 的错误捕获生命周期 <code>getDerivedStateFromError</code> 和 <code>componentDidCatch</code> 捕获子组件错误</li><li><code>getDerivedStateFromError</code>：用于更新状态，触发错误 UI 渲染</li><li><code>componentDidCatch</code>：用于记录错误信息（可上报到服务端）</li><li>提供重试和返回首页功能，提升用户体验</li></ul><pre class="code-block"><code class="language-jsx">import React from &quot;react&quot;;
+import { Button } from &quot;your-ui-library&quot;; // 可替换为你的 UI 库或自定义按钮
+
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      hasError: false,
+      error: null,
+      errorInfo: null,
+    };
+  }
+
+  // 捕获子组件树中的错误
+  static getDerivedStateFromError(error) {
+    // 更新 state，下一次渲染将显示错误 UI
+    return { hasError: true };
+  }
+
+  // 记录错误信息（可用于上报）
+  componentDidCatch(error, errorInfo) {
+    this.setState({
+      error: error,
+      errorInfo: errorInfo,
+    });
+
+    // 可选：将错误信息上报到服务端
+    console.error(&quot;全局错误捕获:&quot;, error, errorInfo);
+    // 实际项目中可以调用接口上报：
+    // fetch(&#39;/api/log-error&#39;, {
+    //   method: &#39;POST&#39;,
+    //   body: JSON.stringify({ error: error.message, stack: errorInfo.componentStack })
+    // });
+  }
+
+  // 重置错误状态（重新加载应用）
+  resetErrorHandler = () =&gt; {
+    this.setState({
+      hasError: false,
+      error: null,
+      errorInfo: null,
+    });
+    // 可选：如果需要完全重置应用状态，可以刷新页面
+    // window.location.reload();
+  };
+
+  render() {
+    if (this.state.hasError) {
+      // 错误发生时显示的崩溃页面
+      return (
+        &lt;div className=&quot;global-error-container&quot;&gt;
+          &lt;div className=&quot;error-content&quot;&gt;
+            &lt;h2&gt;😱 应用发生错误&lt;/h2&gt;
+            &lt;p&gt;很抱歉，页面出现了意外错误，请尝试刷新或联系管理员。&lt;/p&gt;
+
+            {/* 可选：显示错误详情（生产环境可隐藏） */}
+            {process.env.NODE_ENV === &quot;development&quot; &amp;&amp; (
+              &lt;details style={{ whiteSpace: &quot;pre-wrap&quot; }}&gt;
+                &lt;summary&gt;错误详情&lt;/summary&gt;
+                {this.state.error?.message}
+                &lt;br /&gt;
+                {this.state.errorInfo?.componentStack}
+              &lt;/details&gt;
+            )}
+
+            &lt;div className=&quot;error-actions&quot;&gt;
+              &lt;Button onClick={this.resetErrorHandler} variant=&quot;primary&quot;&gt;
+                重试
+              &lt;/Button&gt;
+              &lt;Button onClick={() =&gt; (window.location.href = &quot;/&quot;)} variant=&quot;secondary&quot; style={{ marginLeft: &quot;10px&quot; }}&gt;
+                返回首页
+              &lt;/Button&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      );
+    }
+
+    // 如果没有错误，渲染子组件
+    return this.props.children;
+  }
+}
+
+export default ErrorBoundary;
+</code></pre><ol><li><strong>全局应用</strong></li></ol><ul><li>在应用入口（App.jsx）用 ErrorBoundary 包裹整个应用，确保所有子组件的错误都能被捕获</li><li>错误边界会自动捕获其内部所有组件（包括嵌套组件）的渲染错误、生命周期错误等</li></ul><pre class="code-block"><code class="language-jsx">import React from &quot;react&quot;;
+import ErrorBoundary from &quot;./ErrorBoundary&quot;;
+import Router from &quot;./Router&quot;; // 你的路由组件
+import GlobalStyle from &quot;./GlobalStyle&quot;; // 全局样式
+
+function App() {
+  return (
+    // 用错误边界包裹整个应用
+    &lt;ErrorBoundary&gt;
+      &lt;GlobalStyle /&gt;
+      &lt;Router /&gt;
+    &lt;/ErrorBoundary&gt;
+  );
+}
+
+export default App;
+</code></pre><h3>注意事项</h3><ul><li>错误边界<strong>不能捕获以下错误</strong>：</li></ul><ul><li>事件处理函数中的错误（需手动 try/catch）</li><li>异步代码中的错误（如 setTimeout、Promise）</li><li>错误边界自身的错误</li><li>服务端渲染的错误</li></ul><ul><li>对于异步错误（如 API 请求失败），需要额外在代码中处理（如 try/catch 或状态管理）</li></ul><ul><li>可以根据需要扩展错误边界，例如：</li><li>增加错误分类显示不同提示</li><li>实现自动重试逻辑</li><li>集成错误监控工具（如 Sentry）</li></ul><p>通过这种方式，你的 React 应用就能拥有一个全局的崩溃处理机制，在发生错误时给用户友好的提示，而不是白屏或控制台报错。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

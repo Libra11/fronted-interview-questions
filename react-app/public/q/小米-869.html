@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>实现阿拉伯数字转中文【热度: 673】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：数字转中文&lt;/p&gt;&lt;p&gt;将阿拉伯数字转换成中文数字，主要考虑到以下几个转换规则：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;基本数字&lt;/strong&gt;：0-9 对应的汉字数字。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;单位&lt;/strong&gt;：十" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="实现阿拉伯数字转中文【热度: 673】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：数字转中文&lt;/p&gt;&lt;p&gt;将阿拉伯数字转换成中文数字，主要考虑到以下几个转换规则：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;基本数字&lt;/strong&gt;：0-9 对应的汉字数字。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;单位&lt;/strong&gt;：十、百、千、万、亿等。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;规则&lt;/strong&gt;：数字从右到左，每 4 位一小节，小节内部和" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/869" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>实现阿拉伯数字转中文【热度: 673】</h1>
+      <div class="subtitle">小米 · 小米 · 代码实现/算法</div>
+      <div class="meta">创建：2024-08-31T03:12:35Z · 更新：2024-08-31T03:12:35Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：数字转中文</p><p>将阿拉伯数字转换成中文数字，主要考虑到以下几个转换规则：</p><ol><li><strong>基本数字</strong>：0-9 对应的汉字数字。</li><li><strong>单位</strong>：十、百、千、万、亿等。</li><li><strong>规则</strong>：数字从右到左，每 4 位一小节，小节内部和小节之间的转换规则。</li></ol><h3>实现思路</h3><ol><li>将阿拉伯数字分解成单个数字，从右到左进行处理。</li><li>对每 4 位数字进行处理，即一个小节，处理完再根据小节的位置添加对应的单位（万、亿等）。</li><li>处理当前小节内部的数字，并添加十、百、千的单位，注意去除连续的零，并且在必要时加入“零”字。</li><li>将各个小节合并得到最终结果。</li></ol><p>下面的 JavaScript 函数实现了阿拉伯数字到中文数字的基本转换：</p><pre class="code-block"><code class="language-js">const number2text = (number, type = &quot;upper&quot;) =&gt; {
+  // 配置
+  const confs = {
+    lower: {
+      num: [&quot;零&quot;, &quot;一&quot;, &quot;二&quot;, &quot;三&quot;, &quot;四&quot;, &quot;五&quot;, &quot;六&quot;, &quot;七&quot;, &quot;八&quot;, &quot;九&quot;],
+      unit: [&quot;&quot;, &quot;十&quot;, &quot;百&quot;, &quot;千&quot;, &quot;万&quot;],
+      level: [&quot;&quot;, &quot;万&quot;, &quot;亿&quot;],
+    },
+    upper: {
+      num: [&quot;零&quot;, &quot;壹&quot;, &quot;贰&quot;, &quot;叁&quot;, &quot;肆&quot;, &quot;伍&quot;, &quot;陆&quot;, &quot;柒&quot;, &quot;捌&quot;, &quot;玖&quot;],
+      unit: [&quot;&quot;, &quot;拾&quot;, &quot;佰&quot;, &quot;仟&quot;],
+      level: [&quot;&quot;, &quot;万&quot;, &quot;亿&quot;],
+    },
+    decimal: {
+      unit: [&quot;分&quot;, &quot;角&quot;],
+    },
+    maxNumber: 999999999999.99,
+  };
+
+  // 过滤不合法参数
+  if (Number(number) &gt; confs.maxNumber) {
+    console.error(`The maxNumber is ${confs.maxNumber}. ${number} is bigger than it!`);
+    return false;
+  }
+
+  const conf = confs[type];
+  const numbers = String(Number(number).toFixed(2)).split(&quot;.&quot;);
+  const integer = numbers[0].split(&quot;&quot;);
+  const decimal = Number(numbers[1]) === 0 ? [] : numbers[1].split(&quot;&quot;);
+
+  // 四位分级
+  const levels = integer.reverse().reduce((pre, item, idx) =&gt; {
+    let level = pre[0] &amp;&amp; pre[0].length &lt; 4 ? pre[0] : [];
+    let value = item === &quot;0&quot; ? conf.num[item] : conf.num[item] + conf.unit[idx % 4];
+    level.unshift(value);
+
+    if (level.length === 1) {
+      pre.unshift(level);
+    } else {
+      pre[0] = level;
+    }
+
+    return pre;
+  }, []);
+
+  // 整数部分
+  const _integer = levels.reduce((pre, item, idx) =&gt; {
+    let _level = conf.level[levels.length - idx - 1];
+    let _item = item.join(&quot;&quot;).replace(/(零)\1+/g, &quot;$1&quot;); // 连续多个零字的部分设置为单个零字
+
+    // 如果这一级只有一个零字，则去掉这级
+    if (_item === &quot;零&quot;) {
+      _item = &quot;&quot;;
+      _level = &quot;&quot;;
+
+      // 否则如果末尾为零字，则去掉这个零字
+    } else if (_item[_item.length - 1] === &quot;零&quot;) {
+      _item = _item.slice(0, _item.length - 1);
+    }
+
+    return pre + _item + _level;
+  }, &quot;&quot;);
+
+  // 小数部分
+  let _decimal = decimal
+    .map((item, idx) =&gt; {
+      const unit = confs.decimal.unit;
+      const _unit = item !== &quot;0&quot; ? unit[unit.length - idx - 1] : &quot;&quot;;
+
+      return `${conf.num[item]}${_unit}`;
+    })
+    .join(&quot;&quot;);
+
+  // 如果是整数，则补个整字
+  return `${_integer}元` + (_decimal || &quot;整&quot;);
+};
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

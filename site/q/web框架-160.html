@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>什么是洋葱模型？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;说到洋葱模型，就必须聊一聊中间件，中间件这个概念，我们并不陌生，比如平时我们用的 &lt;code&gt;redux&lt;/code&gt;、&lt;code&gt;express&lt;/code&gt; 、&lt;code&gt;koa&lt;/code&gt; 这些库里，都离不开中间件。&lt;/p&gt;&lt;p&gt;那 &lt;code&gt;koa&lt;/code&gt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="什么是洋葱模型？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;说到洋葱模型，就必须聊一聊中间件，中间件这个概念，我们并不陌生，比如平时我们用的 &lt;code&gt;redux&lt;/code&gt;、&lt;code&gt;express&lt;/code&gt; 、&lt;code&gt;koa&lt;/code&gt; 这些库里，都离不开中间件。&lt;/p&gt;&lt;p&gt;那 &lt;code&gt;koa&lt;/code&gt; 里面的中间件是什么样的呢？其本质上是一个函数，这个函数有着特定，单一的功能，&lt;code&gt;koa&lt;/code&gt;将一个个中" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/160" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>什么是洋葱模型？</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2023-03-26T06:38:58Z · 更新：2023-03-26T06:38:58Z</div>
+    </div>
+    <article class="content markdown-body"><p>说到洋葱模型，就必须聊一聊中间件，中间件这个概念，我们并不陌生，比如平时我们用的 <code>redux</code>、<code>express</code> 、<code>koa</code> 这些库里，都离不开中间件。</p><p>那 <code>koa</code> 里面的中间件是什么样的呢？其本质上是一个函数，这个函数有着特定，单一的功能，<code>koa</code>将一个个中间件注册进来，通过<strong>组合</strong>实现强大的功能。</p><p>先看 <code>demo</code> ：</p><pre class="code-block"><code class="language-js">// index.js
+const Koa = require(&quot;koa&quot;)
+const app = new Koa();
+
+// 中间件1
+app.use(async (ctx, next) =&gt; {
+    console.log(&quot;1&quot;)
+    await next()
+    console.log(&quot;2&quot;)
+});
+// 中间件2
+app.use(async (ctx, next) =&gt; {
+    console.log(&quot;3&quot;)
+    await next()
+    console.log(&quot;4&quot;)
+});
+// 中间件3
+app.use(async (ctx, next) =&gt; {
+    console.log(&quot;5&quot;)
+    await next()
+    console.log(&quot;6&quot;)
+});
+app.listen(8002);
+
+
+</code></pre><p>先后注册了三个中间件，运行一下<code>index.js</code> ，可以看到输出结果为：</p><pre class="code-block"><code class="language-js">1
+3
+5
+6
+4
+2
+
+</code></pre><p>没接触过洋葱模型的人第一眼可能会疑惑，为什么调用了一个 <code>next</code> 之后，直接从<code>1</code> 跳到了 <code>3</code> ，而不是先输出<code>1</code> ，再输出<code>2</code>呢。 其实这就是洋葱模型特点，下图是它的执行过程：</p><p><img alt="image.png" src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/80798be002944d67a46c456d4af3c03c~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp?" /> 一开始我们先后注册了三个中间件，分别是中间件1，中间件2，中间件3，调用<code>listen</code>方法，打开对应端口的页面，触发了中间件的执行。</p><p>首先会先执行第一个中间件的 <code>next</code> 的前置语句，相当于 <code>demo</code> 里面的 <code>console.log(&#39;1&#39;)</code> ，当调用 <code>next()</code> 之后，会直接进入第二个中间件，继续重复上述逻辑，直至最后一个中间件，就会执行 <code>next</code> 的后置语句，然后继续上一个中间件的后置语句，继续重复上述逻辑，直至执行第一个中间件的后置语句，最后输出。</p><p><img alt="image.png" src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/935675e49480426eb517a68c224673c7~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp?" /> 正是因为它这种执行机制，才被称为<strong>洋葱模型</strong>。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

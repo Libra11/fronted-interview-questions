@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>`display: none;`与`visibility: hidden;`的区别是啥 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;联系：它们都能让元素不可见&lt;/p&gt;&lt;p&gt;区别：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;display:none;会让元素完全从渲染树中消失，渲染的时候不占据任何空间；&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;visibility: hidden;不会让元素从渲染树消失，渲染师元素继续占据空间，只是内容不可" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="`display: none;`与`visibility: hidden;`的区别是啥" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;联系：它们都能让元素不可见&lt;/p&gt;&lt;p&gt;区别：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;display:none;会让元素完全从渲染树中消失，渲染的时候不占据任何空间；&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;visibility: hidden;不会让元素从渲染树消失，渲染师元素继续占据空间，只是内容不可见&lt;/p&gt;&lt;ol&gt;&lt;li&gt;display: none;是非继承属性，子孙节点消失由于元素从渲染树消失造成，通过修改子孙节" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/58" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>`display: none;`与`visibility: hidden;`的区别是啥</h1>
+      <div class="subtitle">CSS · CSS</div>
+      <div class="meta">创建：2023-03-10T15:17:41Z · 更新：2023-03-10T15:18:10Z</div>
+    </div>
+    <article class="content markdown-body"><p>联系：它们都能让元素不可见</p><p>区别：</p><ol><li>display:none;会让元素完全从渲染树中消失，渲染的时候不占据任何空间；</li></ol><p>visibility: hidden;不会让元素从渲染树消失，渲染师元素继续占据空间，只是内容不可见</p><ol><li>display: none;是非继承属性，子孙节点消失由于元素从渲染树消失造成，通过修改子孙节点属性无法显示；</li></ol><p>visibility: hidden;是继承属性，子孙节点消失由于继承了hidden，通过设置visibility: visible;可以让子孙节点显式</p><ol><li>修改常规流中元素的display通常会造成文档重排。修改visibility属性只会造成本元素的重绘。</li><li>读屏器不会读取display: none;元素内容；会读取visibility: hidden;元素内容</li></ol></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

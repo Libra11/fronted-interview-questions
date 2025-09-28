@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ajax 和 xhr 是什么关系？【热度: 332】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：ajax 和 xhr&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Ajax&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;全称为 Asynchronous JavaScript and XML（异步 JavaScript 和 XML），是一种在不重新加载整个网页的" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="ajax 和 xhr 是什么关系？【热度: 332】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：ajax 和 xhr&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Ajax&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;全称为 Asynchronous JavaScript and XML（异步 JavaScript 和 XML），是一种在不重新加载整个网页的情况下，与服务器进行数据交换并更新部分网页内容的技术方法。&lt;/p&gt;&lt;p&gt;Ajax 主要基于以下几个关键概念和技术：&lt;/p" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/809" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>ajax 和 xhr 是什么关系？【热度: 332】</h1>
+      <div class="subtitle">网络 · 网络 · TOP100互联网</div>
+      <div class="meta">创建：2024-08-10T02:52:57Z · 更新：2024-08-10T02:52:58Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：ajax 和 xhr</p><p><strong>Ajax</strong></p><p>全称为 Asynchronous JavaScript and XML（异步 JavaScript 和 XML），是一种在不重新加载整个网页的情况下，与服务器进行数据交换并更新部分网页内容的技术方法。</p><p>Ajax 主要基于以下几个关键概念和技术：</p><ol><li>异步通信：允许网页在发送请求后继续执行其他操作，无需等待服务器响应。</li></ol><ol><li>JavaScript：用于处理请求的发送、响应的接收和页面的动态更新。</li></ol><ol><li>XML 或其他数据格式：虽然名称中包含 XML，但实际上服务器返回的数据可以是 XML、JSON、HTML 等各种格式。</li></ol><p><strong>关系</strong></p><p><code>Ajax</code>（Asynchronous JavaScript and XML）是一种使用多种技术（包括 <code>XMLHttpRequest</code>（XHR）对象）在后台与服务器进行异步数据交换，而无需重新加载整个网页的 Web 开发技术。</p><p><code>XMLHttpRequest</code> 是实现 <code>Ajax</code> 技术的关键对象之一。通过创建 <code>XMLHttpRequest</code> 对象，我们可以使用 JavaScript 向服务器发送请求，并处理服务器返回的响应。</p><p>简单来说，<code>XMLHttpRequest</code> 是实现 <code>Ajax</code> 的一种底层机制或工具。<code>Ajax</code> 是一个更广泛的概念，涵盖了使用包括 <code>XMLHttpRequest</code> 在内的技术来实现异步数据交互的方法和模式。</p><p>例如，以下是一个使用 <code>XMLHttpRequest</code> 实现简单 <code>Ajax</code> 请求的示例：</p><pre class="code-block"><code class="language-javascript">let xhr = new XMLHttpRequest();
+
+xhr.open(&quot;GET&quot;, &quot;https://example.com/data&quot;);
+
+xhr.onreadystatechange = function () {
+  if (xhr.readyState === 4 &amp;&amp; xhr.status === 200) {
+    let data = xhr.responseText;
+
+    console.log(data);
+  }
+};
+
+xhr.send();
+</code></pre><p>在这个示例中，我们通过操作 <code>XMLHttpRequest</code> 对象来完成了一个异步获取数据的过程，这就是 <code>Ajax</code> 技术的一种应用。</p><p><strong>其他实现方式</strong></p><p>除了使用 <code>XMLHttpRequest</code> 实现 <code>Ajax</code> 之外，还有以下几种常见的实现方式：</p><ol><li><code>fetch</code> API：这是现代浏览器中提供的一种更简洁的异步请求方式，基于 <code>Promise</code> 。</li></ol><pre class="code-block"><code class="language-javascript">fetch(&quot;https://example.com/data&quot;)
+  .then((response) =&gt; response.json())
+
+  .then((data) =&gt; console.log(data))
+
+  .catch((error) =&gt; console.error(error));
+</code></pre><ol><li><code>Axios</code> 库：一个流行的第三方 <code>Ajax</code> 库，提供了丰富的功能和简洁的接口。</li></ol><pre class="code-block"><code class="language-javascript">axios
+  .get(&quot;https://example.com/data&quot;)
+
+  .then((response) =&gt; console.log(response.data))
+
+  .catch((error) =&gt; console.error(error));
+</code></pre><ol><li><code>jQuery</code> 的 <code>$.ajax()</code> 方法：如果项目中使用了 <code>jQuery</code> 库，可以使用其提供的 <code>ajax</code> 方法。</li></ol><pre class="code-block"><code class="language-javascript">$.ajax({
+  url: &quot;https://example.com/data&quot;,
+
+  method: &quot;GET&quot;,
+
+  success: function (data) {
+    console.log(data);
+  },
+
+  error: function (error) {
+    console.error(error);
+  },
+});
+</code></pre><p>这些方式各有特点，可以根据项目的需求和技术架构选择合适的 <code>Ajax</code> 实现方式。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

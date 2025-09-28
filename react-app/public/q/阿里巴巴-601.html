@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[代码实现] 手写数组降维flat方法【热度: 244】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：JS数组降维、reduce数组降维&lt;/p&gt;&lt;p&gt;原生Array.prototype.flat方法接受一个depth参数，默认值为1，depth表示要降维的维数：&lt;/p&gt;&lt;p&gt;输出结果：&lt;/p&gt;&lt;pre class=&quot;code-blo" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[代码实现] 手写数组降维flat方法【热度: 244】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：JS数组降维、reduce数组降维&lt;/p&gt;&lt;p&gt;原生Array.prototype.flat方法接受一个depth参数，默认值为1，depth表示要降维的维数：&lt;/p&gt;&lt;p&gt;输出结果：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;const arr = [1, [2, 3], [4, [5" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/601" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[代码实现] 手写数组降维flat方法【热度: 244】</h1>
+      <div class="subtitle">阿里巴巴 · 阿里巴巴 · 代码实现/算法</div>
+      <div class="meta">创建：2023-10-21T14:35:10Z · 更新：2023-10-21T14:35:26Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：JS数组降维、reduce数组降维</p><p>原生Array.prototype.flat方法接受一个depth参数，默认值为1，depth表示要降维的维数：</p><p>输出结果：</p><pre class="code-block"><code class="language-js">const arr = [1, [2, 3], [4, [5, 6]]]
+console.log(arr.flat(1))         // [1, 2, 3, 4, [5, 6]]
+console.log(arr.flat(Infinity))  // [1, 2, 3, 4, 5, 6]
+</code></pre><p>reduce + 递归实现方案</p><pre class="code-block"><code class="language-js">// MDN: 可查看更多flat实现方法
+function flat(arr = [], depth = 1) {
+  if (arr.length === 0) {
+    return []
+  }
+  let result = []
+  if (depth &gt; 0) {
+    result = arr.reduce((acc, val) =&gt; {
+      return acc.concat(Array.isArray(val) ? flat(val, depth - 1) : val)
+    }, [])
+  } else {
+    result = arr.slice()
+  }
+  return result
+}
+
+const arr = [1, 2, 3, [1, 2, 3, 4, [2, 3, 4]]]
+const myResult1 = flat(arr, 1)
+const originResult1 = arr.flat(1)
+const myResult2 = flat(arr, Infinity)
+const originResult2 = arr.flat(Infinity)
+console.log(myResult1)      // [1, 2, 3, 1, 2, 3, 4, [2, 3, 4]]
+console.log(originResult1)  // [1, 2, 3, 1, 2, 3, 4, [2, 3, 4]]
+console.log(myResult2)     // [1, 2, 3, 1, 2, 3, 4, 2, 3, 4]
+console.log(originResult2) // [1, 2, 3, 1, 2, 3, 4, 2, 3, 4]
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

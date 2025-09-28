@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CORS 请求中，是如何触发预检请求【热度: 229】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：CORS 预检请求条件&lt;/p&gt;&lt;p&gt;其动机是，&lt;code&gt;HTML 4.0&lt;/code&gt; 中的 &lt;code&gt;&amp;lt;form&amp;gt;&lt;/code&gt; 元素（早于跨站 &lt;code&gt;XMLHttpRequest 和 fetch&lt;/code" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="CORS 请求中，是如何触发预检请求【热度: 229】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：CORS 预检请求条件&lt;/p&gt;&lt;p&gt;其动机是，&lt;code&gt;HTML 4.0&lt;/code&gt; 中的 &lt;code&gt;&amp;lt;form&amp;gt;&lt;/code&gt; 元素（早于跨站 &lt;code&gt;XMLHttpRequest 和 fetch&lt;/code&gt;）可以向任何来源提交简单请求，所以任何编写服务器的人一定已经在保护跨站请求伪造攻击&lt;code&gt;（CSRF）&lt;/code" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/675" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>CORS 请求中，是如何触发预检请求【热度: 229】</h1>
+      <div class="subtitle">阿里巴巴 · 网络 · 阿里巴巴</div>
+      <div class="meta">创建：2024-01-29T16:20:56Z · 更新：2024-01-29T16:20:57Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：CORS 预检请求条件</p><p>其动机是，<code>HTML 4.0</code> 中的 <code>&lt;form&gt;</code> 元素（早于跨站 <code>XMLHttpRequest 和 fetch</code>）可以向任何来源提交简单请求，所以任何编写服务器的人一定已经在保护跨站请求伪造攻击<code>（CSRF）</code>。 在这个假设下，服务器不必选择加入（通过响应预检请求）来接收任何看起来像表单提交的请求，因为 CSRF 的威胁并不比表单提交的威胁差。然而，服务器仍然必须提供 <code>Access-Control-Allow-Origin</code>的选择，以便与脚本共享响应。</p><p>若请求满足所有下述条件，则该请求可视为简单请求：</p><ul><li>使用下列方法之一：</li><li><code>GET</code></li><li><code>HEAD</code></li><li><code>POST</code></li></ul><ul><li>除了被用户代理自动设置的标头字段（例如 Connection、User-Agent 或其他在 Fetch 规范中定义为禁用标头名称的标头），允许人为设置的字段为 Fetch 规范定义的对 CORS 安全的标头字段集合。该集合为：</li><li><code>Accept</code></li><li><code>Accept-Language</code></li><li><code>Content-Language</code></li><li><code>Content-Type（需要注意额外的限制）</code></li><li><code>Range（只允许简单的范围标头值 如 bytes=256- 或 bytes=127-255）</code></li></ul><ul><li>Content-Type 标头所指定的媒体类型的值仅限于下列三者之一：</li><li><code>text/plain</code></li><li><code>multipart/form-data</code></li><li><code>application/x-www-form-urlencoded</code></li></ul><ul><li>如果请求是使用 <code>XMLHttpRequest</code> 对象发出的，在返回的 <code>XMLHttpRequest.upload</code> 对象属性上没有注册任何事件监听器；也就是说，给定一个 <code>XMLHttpRequest</code> 实例 <code>xhr</code>，没有调用 <code>xhr.upload.addEventListener()</code>，以监听该上传请求。</li></ul><ul><li>请求中没有使用 <code>ReadableStream</code> 对象。</li></ul><p>比如说，假如站点 https://foo.example 的网页应用想要访问 https://bar.other 的资源。foo.example 的网页中可能包含类似于下面的 JavaScript 代码：</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>样式优先级的规则是什么？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;在 CSS 中，当多个选择器应用于同一个元素并设置了相同的属性时，就会出现样式冲突的问题。此时，CSS 会根据一定的规则来决定哪个样式具有更高的优先级，从而确定最终的样式效果。CSS 样式优先级的规则如下：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;!important：具有最高优先级，用于强" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="样式优先级的规则是什么？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;在 CSS 中，当多个选择器应用于同一个元素并设置了相同的属性时，就会出现样式冲突的问题。此时，CSS 会根据一定的规则来决定哪个样式具有更高的优先级，从而确定最终的样式效果。CSS 样式优先级的规则如下：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;!important：具有最高优先级，用于强制覆盖其它样式。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li&gt;内联样式：直接在 HTML 元素的 style 属性中定义的样式，其" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/110" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>样式优先级的规则是什么？</h1>
+      <div class="subtitle">CSS · CSS</div>
+      <div class="meta">创建：2023-03-15T14:19:46Z · 更新：2023-03-15T14:19:47Z</div>
+    </div>
+    <article class="content markdown-body"><p>在 CSS 中，当多个选择器应用于同一个元素并设置了相同的属性时，就会出现样式冲突的问题。此时，CSS 会根据一定的规则来决定哪个样式具有更高的优先级，从而确定最终的样式效果。CSS 样式优先级的规则如下：</p><ol><li>!important：具有最高优先级，用于强制覆盖其它样式。</li></ol><ol><li>内联样式：直接在 HTML 元素的 style 属性中定义的样式，其优先级高于后面提到的其它选择器。</li></ol><ol><li>ID 选择器：通过 #id 定义的样式，其优先级高于后面提到的 class 选择器和标签选择器。</li></ol><ol><li>类选择器、属性选择器、伪类选择器：通过 .class、\[attribute. 或 :pseudo 定义的样式，其优先级高于后面提到的标签选择器。</li></ol><ol><li>标签选择器、伪元素选择器：通过 tagname 或 ::pseudo 定义的样式，优先级最低。</li></ol><p>需要注意的是，当出现多个选择器具有相同的优先级时，CSS 会按照样式表中出现的顺序来决定样式的优先级，越后出现的样式会覆盖前面出现的样式。此外，继承自父元素的样式的优先级比上述任何选择器都低。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

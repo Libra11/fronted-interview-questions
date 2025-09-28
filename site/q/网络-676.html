@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>列表分页， 快速翻页下的竞态问题【热度: 444】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：翻页场景竞态问题&lt;/p&gt;&lt;p&gt;&lt;strong&gt;列表分页， 快速翻页下的竞态问题&lt;/strong&gt;&lt;/p&gt;&lt;blockquote&gt;问题描述：比如在前端分页请求的时候， 因为翻页很快， 所以请求还没有来得及回来的时候， 就发起了下一次请" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="列表分页， 快速翻页下的竞态问题【热度: 444】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：翻页场景竞态问题&lt;/p&gt;&lt;p&gt;&lt;strong&gt;列表分页， 快速翻页下的竞态问题&lt;/strong&gt;&lt;/p&gt;&lt;blockquote&gt;问题描述：比如在前端分页请求的时候， 因为翻页很快， 所以请求还没有来得及回来的时候， 就发起了下一次请求， 且请求返回的时间也是不固定的。 &lt;/blockquote&gt;&lt;blockquote&gt;如何保证最后一次请求结果和其请求" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/676" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>列表分页， 快速翻页下的竞态问题【热度: 444】</h1>
+      <div class="subtitle">网络 · 网络 · 阿里巴巴</div>
+      <div class="meta">创建：2024-04-06T06:14:46Z · 更新：2024-08-23T01:28:52Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：翻页场景竞态问题</p><p><strong>列表分页， 快速翻页下的竞态问题</strong></p><blockquote>问题描述：比如在前端分页请求的时候， 因为翻页很快， 所以请求还没有来得及回来的时候， 就发起了下一次请求， 且请求返回的时间也是不固定的。 </blockquote><blockquote>如何保证最后一次请求结果和其请求页码是对应上的。</blockquote><p>在处理这种情况时，一种常见的方法是使用请求标记或唯一标识符来确保请求和结果之间的对应关系。</p><p>以下是一个示例代码片段，展示了一种可能的解决方案：</p><pre class="code-block"><code class="language-javascript">// 存储请求的标记
+let requestId = 0;
+
+// 发起请求的函数
+function sendRequest(page) {
+  requestId++;
+
+  // 将请求标记与页码一起发送
+  fetch(`/api?requestId=${requestId}&amp;page=${page}`)
+
+   .then(response =&gt; response.json())
+
+   .then(data =&gt; {
+      // 根据请求标记处理返回的数据
+      handleResponseData(requestId, data);
+    });
+}
+
+// 处理返回数据的函数
+function handleResponseData(requestId, data) {
+  if (requestId === currentRequestId) {
+    // 在这里处理数据并更新页面
+  }
+}
+
+// 在翻页时调用 sendRequest 函数
+</code></pre><p>在这个示例中，每次发起请求时都会增加请求标记 <code>requestId</code>，并将其与页码一起发送到服务器。在处理返回的数据时，根据请求标记来确保与当前的请求对应。</p><p>另外，还可以考虑以下几点：</p><ul><li>对快速翻页进行限制或优化，避免过于频繁的请求。</li><li>在服务器端处理请求时，可以根据请求标记来保证返回的数据与特定的请求相关联。</li><li>可以使用缓存来存储部分数据，减少不必要的请求。</li></ul><p><strong>保证唯一性</strong></p><p>保证请求标记的唯一性可以通过以下几种方式：</p><ol><li>使用递增的数字：就像上面示例中的 <code>requestId</code> 一样，每次增加 1。</li><li>使用随机数：生成一个随机的数字作为请求标记。</li><li>使用时间戳：结合当前时间生成唯一的标记。</li><li>组合多种因素：例如，将数字、时间戳或其他相关信息组合起来创建唯一标记。</li></ol><p>例如，使用时间戳作为请求标记的示例代码如下：</p><pre class="code-block"><code class="language-javascript">let requestId = Date.now();
+</code></pre><p>这样每次请求时，<code>requestId</code> 都会是一个唯一的时间戳值。</p><h2>Comments / Answers</h2><hr /><p><strong>frontbyby</strong> at 2024-08-23T01:28:51Z</p><p>为什么不用AbortControl 来取消请求呢</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何排除样式文件、图片等资源文件进行单测【热度: 173】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：前端单测，如何排除样式文件、图片&lt;/p&gt;&lt;p&gt;在进行前端单元测试时，样式文件（如 CSS、SCSS 等）和图片等资源文件通常不会影响代码的逻辑功能，为了让测试更加专注于代码逻辑，避免不必要的依赖和错误，需要排除这些资源文件。下面分别" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何排除样式文件、图片等资源文件进行单测【热度: 173】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：前端单测，如何排除样式文件、图片&lt;/p&gt;&lt;p&gt;在进行前端单元测试时，样式文件（如 CSS、SCSS 等）和图片等资源文件通常不会影响代码的逻辑功能，为了让测试更加专注于代码逻辑，避免不必要的依赖和错误，需要排除这些资源文件。下面分别介绍使用不同测试框架（如 Jest）时的处理方法。&lt;/p&gt;&lt;h3&gt;使用 Jest 排除资源文件&lt;/h3&gt;&lt;h4&gt;1. 样" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1107" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何排除样式文件、图片等资源文件进行单测【热度: 173】</h1>
+      <div class="subtitle">工程化 · 工程化</div>
+      <div class="meta">创建：2025-03-25T15:47:18Z · 更新：2025-03-25T15:47:18Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：前端单测，如何排除样式文件、图片</p><p>在进行前端单元测试时，样式文件（如 CSS、SCSS 等）和图片等资源文件通常不会影响代码的逻辑功能，为了让测试更加专注于代码逻辑，避免不必要的依赖和错误，需要排除这些资源文件。下面分别介绍使用不同测试框架（如 Jest）时的处理方法。</p><h3>使用 Jest 排除资源文件</h3><h4>1. 样式文件处理</h4><p>对于样式文件，可使用 <code>identity-obj-proxy</code> 包来模拟样式导入。<code>identity-obj-proxy</code> 会将所有的 CSS 类名转换为相同的字符串，从而避免实际加载 CSS 文件。</p><p><strong>安装依赖</strong></p><pre class="code-block"><code class="language-bash">npm install --save-dev identity-obj-proxy
+</code></pre><p><strong>配置 Jest</strong></p><p>在 <code>jest.config.js</code> 或 <code>package.json</code> 中的 <code>jest</code> 配置里添加如下内容：</p><pre class="code-block"><code class="language-javascript">module.exports = {
+  // ...其他配置
+  moduleNameMapper: {
+    &quot;\\.(css|less|scss|sass)$&quot;: &quot;identity-obj-proxy&quot;,
+  },
+};
+</code></pre><p>或者在 <code>package.json</code> 中：</p><pre class="code-block"><code class="language-json">{
+  &quot;jest&quot;: {
+    &quot;moduleNameMapper&quot;: {
+      &quot;\\.(css|less|scss|sass)$&quot;: &quot;identity-obj-proxy&quot;
+    }
+  }
+}
+</code></pre><p>这样，当在测试代码中导入 CSS 文件时，Jest 会使用 <code>identity-obj-proxy</code> 来模拟，而不会真正加载 CSS 文件。</p><p><strong>示例代码</strong></p><p>假设有如下组件：</p><pre class="code-block"><code class="language-jsx">// MyComponent.jsx
+import React from &quot;react&quot;;
+import &quot;./styles.css&quot;;
+
+const MyComponent = () =&gt; {
+  return &lt;div className=&quot;my-class&quot;&gt;Hello, World!&lt;/div&gt;;
+};
+
+export default MyComponent;
+</code></pre><p>测试代码可以正常编写，不用担心 <code>styles.css</code> 文件的加载问题：</p><pre class="code-block"><code class="language-javascript">// MyComponent.test.js
+import React from &quot;react&quot;;
+import { render, screen } from &quot;@testing-library/react&quot;;
+import MyComponent from &quot;./MyComponent&quot;;
+
+test(&quot;renders MyComponent&quot;, () =&gt; {
+  render(&lt;MyComponent /&gt;);
+  const element = screen.getByText(&quot;Hello, World!&quot;);
+  expect(element).toBeInTheDocument();
+});
+</code></pre><h4>2. 图片文件处理</h4><p>对于图片文件，可使用一个简单的模块来模拟图片导入。</p><p><strong>配置 Jest</strong></p><p>在 <code>jest.config.js</code> 或 <code>package.json</code> 中的 <code>jest</code> 配置里添加如下内容：</p><pre class="code-block"><code class="language-javascript">module.exports = {
+  // ...其他配置
+  moduleNameMapper: {
+    &quot;\\.(jpg|jpeg|png|gif|svg)$&quot;: &quot;&lt;rootDir&gt;/__mocks__/fileMock.js&quot;,
+  },
+};
+</code></pre><p>或者在 <code>package.json</code> 中：</p><pre class="code-block"><code class="language-json">{
+  &quot;jest&quot;: {
+    &quot;moduleNameMapper&quot;: {
+      &quot;\\.(jpg|jpeg|png|gif|svg)$&quot;: &quot;&lt;rootDir&gt;/__mocks__/fileMock.js&quot;
+    }
+  }
+}
+</code></pre><p><strong>创建模拟文件</strong></p><p>在项目根目录下创建 <code>__mocks__</code> 文件夹，并在其中创建 <code>fileMock.js</code> 文件，内容如下：</p><pre class="code-block"><code class="language-javascript">module.exports = &quot;test-file-stub&quot;;
+</code></pre><p>这样，当在测试代码中导入图片文件时，Jest 会使用 <code>fileMock.js</code> 中的模拟值来替代，而不会真正加载图片文件。</p><p><strong>示例代码</strong></p><p>假设有如下组件：</p><pre class="code-block"><code class="language-jsx">// ImageComponent.jsx
+import React from &quot;react&quot;;
+import myImage from &quot;./my-image.png&quot;;
+
+const ImageComponent = () =&gt; {
+  return &lt;img src={myImage} alt=&quot;Test Image&quot; /&gt;;
+};
+
+export default ImageComponent;
+</code></pre><p>测试代码可以正常编写，不用担心 <code>my-image.png</code> 文件的加载问题：</p><pre class="code-block"><code class="language-javascript">// ImageComponent.test.js
+import React from &quot;react&quot;;
+import { render, screen } from &quot;@testing-library/react&quot;;
+import ImageComponent from &quot;./ImageComponent&quot;;
+
+test(&quot;renders ImageComponent&quot;, () =&gt; {
+  render(&lt;ImageComponent /&gt;);
+  const imageElement = screen.getByAltText(&quot;Test Image&quot;);
+  expect(imageElement).toBeInTheDocument();
+});
+</code></pre><p>通过以上配置，你可以在 Jest 单元测试中排除样式文件和图片等资源文件的干扰，专注于代码逻辑的测试。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

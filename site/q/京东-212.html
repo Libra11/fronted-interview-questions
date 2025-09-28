@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[3, 15, 8, 29, 102, 22].sort(), 结果是多少， 为什么？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;输出结果为：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;[102, 15, 22, 29, 3, 8] &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;原因：&lt;/p&gt;&lt;p&gt;&lt;code&gt;Array.prototype.sort(" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[3, 15, 8, 29, 102, 22].sort(), 结果是多少， 为什么？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;输出结果为：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;[102, 15, 22, 29, 3, 8] &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;原因：&lt;/p&gt;&lt;p&gt;&lt;code&gt;Array.prototype.sort()&lt;/code&gt;&lt;/p&gt;&lt;p&gt;如果没有指明 compareFn ，那么元素会按照转换为的字符串的诸个字符的 Unicod" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/212" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[3, 15, 8, 29, 102, 22].sort(), 结果是多少， 为什么？</h1>
+      <div class="subtitle">京东 · JavaScript · 京东</div>
+      <div class="meta">创建：2023-03-27T15:26:57Z · 更新：2023-03-27T15:26:59Z</div>
+    </div>
+    <article class="content markdown-body"><p>输出结果为：</p><pre class="code-block"><code class="language-js">[102, 15, 22, 29, 3, 8]
+</code></pre><p>原因：</p><p><code>Array.prototype.sort()</code></p><p>如果没有指明 compareFn ，那么元素会按照转换为的字符串的诸个字符的 Unicode 位点进行排序。例如 "Banana" 会被排列到 "cherry" 之前。当数字按由小到大排序时，9 出现在 80 之前，但因为（没有指明 compareFn），比较的数字会先被转换为字符串，所以在 Unicode 顺序上 "80" 要比 "9" 要靠前。</p><p>如果指明了 compareFn ，那么数组会按照调用该函数的返回值排序。即 a 和 b 是两个将要被比较的元素：</p><p>如果 compareFn(a, b) 大于 0，b 会被排列到 a 之前。</p><p>如果 compareFn(a, b) 小于 0，那么 a 会被排列到 b 之前；</p><p>如果 compareFn(a, b) 等于 0，a 和 b 的相对位置不变。 备注：ECMAScript 标准并不保证这一行为，而且也不是所有浏览器都会遵守（例如 Mozilla 在 2003 年之前的版本）；</p><p>参考文档：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/sort</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

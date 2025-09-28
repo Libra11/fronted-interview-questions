@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TCP粘包了解多少【热度: 927】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：粘包、粘包解决办法&lt;/p&gt;&lt;p&gt;TCP粘包（TCP packet sticking）是指在数据传输过程中，发送方连续发送的若干小数据包被接收方组合成较大的数据块或者多个小数据包粘合在一起接收的现象。&lt;/p&gt;&lt;p&gt;TCP是面向流的传输" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="TCP粘包了解多少【热度: 927】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：粘包、粘包解决办法&lt;/p&gt;&lt;p&gt;TCP粘包（TCP packet sticking）是指在数据传输过程中，发送方连续发送的若干小数据包被接收方组合成较大的数据块或者多个小数据包粘合在一起接收的现象。&lt;/p&gt;&lt;p&gt;TCP是面向流的传输协议，数据在传输过程中会被拆分成TCP数据段，并在接收方重新组装。由于TCP的流式传输特性，发送方连续发送的多个小数据包" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/407" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>TCP粘包了解多少【热度: 927】</h1>
+      <div class="subtitle">网络 · 网络 · 京东</div>
+      <div class="meta">创建：2023-06-04T14:02:58Z · 更新：2023-06-04T14:02:59Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：粘包、粘包解决办法</p><p>TCP粘包（TCP packet sticking）是指在数据传输过程中，发送方连续发送的若干小数据包被接收方组合成较大的数据块或者多个小数据包粘合在一起接收的现象。</p><p>TCP是面向流的传输协议，数据在传输过程中会被拆分成TCP数据段，并在接收方重新组装。由于TCP的流式传输特性，发送方连续发送的多个小数据包可能会在接收方一次性接收，从而导致粘包现象。</p><p>TCP粘包的原因主要有以下几点：</p><ol><li>发送方连续发送的数据包很小，可能不足以填满一个TCP数据段的大小，导致多个数据包合并在一起发送。</li></ol><ol><li>发送方发送数据的速率和接收方处理数据的速率不一致，可能会导致多个数据包在传输过程中一起到达接收方。</li></ol><p>TCP粘包可能会导致数据解析错误或者数据处理不准确，影响通信的正确性和性能。为了解决TCP粘包问题，可以采用以下方法：</p><ol><li>使用固定长度的数据包：发送方在发送数据前，在数据包中添加固定长度的头部，接收方通过读取固定长度的数据来拆分数据包。</li></ol><ol><li>使用特殊字符或者标记符号进行分隔：发送方在数据包之间添加特定的字符或者标记符号作为分隔符，接收方通过识别分隔符来拆分数据包。</li></ol><ol><li>使用消息长度字段：发送方在数据包中添加表示消息长度的字段，接收方首先读取消息长度字段，然后根据长度来读取相应长度的数据。</li></ol><p>通过采用上述方法，可以有效地解决TCP粘包问题，确保数据在传输过程中的正确性和完整性。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

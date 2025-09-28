@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HTML 中的 input 标签有哪些 type【热度: 197】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：input 标签 type 属性&lt;/p&gt;&lt;p&gt;HTML 中的&lt;code&gt;&amp;lt;input&amp;gt;&lt;/code&gt;标签有多种&lt;code&gt;type&lt;/code&gt;属性值，以下是一些常见的类型：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、文本输入类型" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="HTML 中的 input 标签有哪些 type【热度: 197】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：input 标签 type 属性&lt;/p&gt;&lt;p&gt;HTML 中的&lt;code&gt;&amp;lt;input&amp;gt;&lt;/code&gt;标签有多种&lt;code&gt;type&lt;/code&gt;属性值，以下是一些常见的类型：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、文本输入类型&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;code&gt;text&lt;/code&gt;：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;用于输" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1011" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>HTML 中的 input 标签有哪些 type【热度: 197】</h1>
+      <div class="subtitle">web应用场景 · web应用场景</div>
+      <div class="meta">创建：2024-10-18T15:07:49Z · 更新：2024-10-18T15:07:49Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：input 标签 type 属性</p><p>HTML 中的<code>&lt;input&gt;</code>标签有多种<code>type</code>属性值，以下是一些常见的类型：</p><p><strong>一、文本输入类型</strong></p><ol><li><code>text</code>：</li></ol><ul><li>用于输入单行文本。这是最常见的输入类型之一，用户可以在输入框中输入任何文本内容。</li><li>例如：<code>&lt;input type=&quot;text&quot;&gt;</code>。</li></ul><ol><li><code>password</code>：</li></ol><ul><li>用于输入密码，输入的内容会以掩码形式显示，以保护密码的安全性。</li><li>例如：<code>&lt;input type=&quot;password&quot;&gt;</code>。</li></ul><p><strong>二、数值输入类型</strong></p><ol><li><code>number</code>：</li></ol><ul><li>用于输入数值。可以设置最小值、最大值、步长等属性来限制输入的范围。</li><li>例如：<code>&lt;input type=&quot;number&quot; min=&quot;0&quot; max=&quot;100&quot; step=&quot;1&quot;&gt;</code>。</li></ul><ol><li><code>range</code>：</li></ol><ul><li>以滑块的形式显示，用户可以通过拖动滑块来选择一个数值范围内的值。</li><li>例如：<code>&lt;input type=&quot;range&quot; min=&quot;0&quot; max=&quot;100&quot;&gt;</code>。</li></ul><p><strong>三、日期和时间输入类型</strong></p><ol><li><code>date</code>：</li></ol><ul><li>用于选择日期。通常会显示一个日期选择器，方便用户选择日期。</li><li>例如：<code>&lt;input type=&quot;date&quot;&gt;</code>。</li></ul><ol><li><code>time</code>：</li></ol><ul><li>用于选择时间。可以选择小时、分钟和秒。</li><li>例如：<code>&lt;input type=&quot;time&quot;&gt;</code>。</li></ul><ol><li><code>datetime-local</code>：</li></ol><ul><li>用于选择日期和时间，包括本地时区信息。</li><li>例如：<code>&lt;input type=&quot;datetime-local&quot;&gt;</code>。</li></ul><p><strong>四、选择类型</strong></p><ol><li><code>checkbox</code>：</li></ol><ul><li>复选框，用户可以选择多个选项。</li><li>例如：<code>&lt;input type=&quot;checkbox&quot;&gt;</code>。</li></ul><ol><li><code>radio</code>：</li></ol><ul><li>单选按钮，用户只能选择一个选项。通常多个单选按钮具有相同的<code>name</code>属性，以确保只能选择其中一个。</li><li>例如：<code>&lt;input type=&quot;radio&quot; name=&quot;option&quot;&gt;</code>。</li></ul><ol><li><code>select</code>：</li></ol><ul><li>下拉列表，用户可以从预定义的选项中选择一个值。可以使用<code>&lt;option&gt;</code>标签来定义选项。</li><li>例如：</li></ul><pre class="code-block"><code class="language-html">&lt;select&gt;
+  &lt;option value=&quot;option1&quot;&gt;Option 1&lt;/option&gt;
+  &lt;option value=&quot;option2&quot;&gt;Option 2&lt;/option&gt;
+&lt;/select&gt;
+</code></pre><p><strong>五、按钮类型</strong></p><ol><li><code>submit</code>：</li></ol><ul><li>提交按钮，用于提交表单数据。通常与<code>&lt;form&gt;</code>标签一起使用。</li><li>例如：<code>&lt;input type=&quot;submit&quot; value=&quot;Submit&quot;&gt;</code>。</li></ul><ol><li><code>reset</code>：</li></ol><ul><li>重置按钮，用于重置表单中的所有输入字段为初始状态。</li><li>例如：<code>&lt;input type=&quot;reset&quot; value=&quot;Reset&quot;&gt;</code>。</li></ul><ol><li><code>button</code>：</li></ol><ul><li>普通按钮，可以通过 JavaScript 为其添加自定义的行为。</li><li>例如：<code>&lt;input type=&quot;button&quot; value=&quot;Click Me&quot;&gt;</code>。</li></ul><p><strong>六、其他类型</strong></p><ol><li><code>email</code>：</li></ol><ul><li>用于输入电子邮件地址。浏览器可能会对输入的内容进行有效性验证。</li><li>例如：<code>&lt;input type=&quot;email&quot;&gt;</code>。</li></ul><ol><li><code>url</code>：</li></ol><ul><li>用于输入 URL 地址。浏览器可能会对输入的内容进行有效性验证。</li><li>例如：<code>&lt;input type=&quot;url&quot;&gt;</code>。</li></ul><ol><li><code>search</code>：</li></ol><ul><li>用于输入搜索关键词。通常会显示一些特定的样式，如圆角等。</li><li>例如：<code>&lt;input type=&quot;search&quot;&gt;</code>。</li></ul><ol><li><code>hidden</code>：</li></ol><ul><li>隐藏输入字段，用于在表单中传递数据，但不会在页面上显示给用户。</li><li>例如：<code>&lt;input type=&quot;hidden&quot; value=&quot;some-value&quot;&gt;</code>。</li></ul><ol><li><code>color</code>：</li></ol><ul><li>用于选择颜色。通常会显示一个颜色选择器。</li><li>例如：<code>&lt;input type=&quot;color&quot;&gt;</code>。</li></ul><ol><li><code>file</code>：</li></ol><ul><li>用于上传文件。可以设置<code>multiple</code>属性允许选择多个文件。</li><li>例如：<code>&lt;input type=&quot;file&quot;&gt;</code>或<code>&lt;input type=&quot;file&quot; multiple&gt;</code>。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

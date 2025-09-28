@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何计算页面白屏时间【热度: 400】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：白屏时间&lt;/p&gt;&lt;p&gt;白屏时间是指从浏览器开始请求页面到页面开始显示内容的时间。可以通过以下方法计算白屏时间：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、使用浏览器的性能 API&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;现代浏览器提供了&lt;code&gt;pe" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何计算页面白屏时间【热度: 400】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：白屏时间&lt;/p&gt;&lt;p&gt;白屏时间是指从浏览器开始请求页面到页面开始显示内容的时间。可以通过以下方法计算白屏时间：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、使用浏览器的性能 API&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;现代浏览器提供了&lt;code&gt;performance&lt;/code&gt;对象，可以用来获取页面加载过程中的各种时间戳。通过这些时间戳的差值可以计算出白屏时间。&lt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1004" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何计算页面白屏时间【热度: 400】</h1>
+      <div class="subtitle">web应用场景 · web应用场景</div>
+      <div class="meta">创建：2024-10-18T14:02:01Z · 更新：2024-10-18T14:02:58Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：白屏时间</p><p>白屏时间是指从浏览器开始请求页面到页面开始显示内容的时间。可以通过以下方法计算白屏时间：</p><p><strong>一、使用浏览器的性能 API</strong></p><p>现代浏览器提供了<code>performance</code>对象，可以用来获取页面加载过程中的各种时间戳。通过这些时间戳的差值可以计算出白屏时间。</p><ol><li>具体步骤：</li></ol><ul><li>在页面的<code>&lt;head&gt;</code>标签中插入一段 JavaScript 代码，在页面加载时记录关键时间点。</li><li>使用<code>performance.timing.navigationStart</code>表示浏览器开始导航的时间戳。</li><li>寻找一个表示页面开始有内容显示的时间点，通常可以使用<code>performance.timing.domInteractive</code>（文档被解析完成，开始加载外部资源时的时间戳）或者<code>performance.timing.domContentLoadedEventStart</code>（<code>DOMContentLoaded</code>事件开始的时间戳）作为近似的白屏结束时间点。</li><li>白屏时间 = 白屏结束时间点 - <code>performance.timing.navigationStart</code>。</li></ul><p>例如：</p><pre class="code-block"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;script&gt;
+      const timing = performance.timing;
+      const whiteScreenTime = timing.domInteractive - timing.navigationStart;
+      console.log(`白屏时间为：${whiteScreenTime}ms`);
+    &lt;/script&gt;
+  &lt;/head&gt;
+
+  &lt;body&gt;
+    &lt;!-- 页面内容 --&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><ol><li>注意事项：</li></ol><ul><li>不同的浏览器对于性能时间戳的定义可能略有不同，需要在多种浏览器上进行测试以确保准确性。</li><li>这种方法计算的白屏时间是一个近似值，因为很难精确地确定页面开始显示内容的瞬间。</li></ul><p><strong>二、使用自定义标记和日志</strong></p><ol><li>步骤：</li></ol><ul><li>在页面的 HTML 结构中，在<code>&lt;head&gt;</code>标签之后插入一个不可见的元素，例如一个空的<code>&lt;div&gt;</code>元素，并给它一个特定的 ID。</li><li>在页面的 CSS 中，将这个元素的背景颜色设置为与页面背景相同的颜色，使其在页面加载初期不可见。</li><li>在页面的 JavaScript 代码中，当页面开始有内容显示时，通过修改这个元素的样式使其变为可见，并记录当前时间。</li><li>白屏时间 = 元素变为可见的时间 - 浏览器开始导航的时间。</li></ul><p>例如：</p><pre class="code-block"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;style&gt;
+      #whiteScreenMarker {
+        display: none;
+      }
+    &lt;/style&gt;
+    &lt;script&gt;
+      const timing = performance.timing;
+      document.addEventListener(&quot;DOMContentLoaded&quot;, function () {
+        document.getElementById(&quot;whiteScreenMarker&quot;).style.display = &quot;block&quot;;
+        const whiteScreenTime = performance.now() - timing.navigationStart;
+        console.log(`白屏时间为：${whiteScreenTime}ms`);
+      });
+    &lt;/script&gt;
+  &lt;/head&gt;
+
+  &lt;body&gt;
+    &lt;div id=&quot;whiteScreenMarker&quot;&gt;&lt;/div&gt;
+    &lt;!-- 页面内容 --&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><ol><li>注意事项：</li></ol><ul><li>这种方法需要手动在页面中插入标记元素和相应的 JavaScript 代码，可能会增加一些开发工作量。</li><li>同样需要考虑在不同浏览器上的兼容性和准确性。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

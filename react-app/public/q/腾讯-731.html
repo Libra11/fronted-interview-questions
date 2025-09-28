@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] Portals 作用是什么， 有哪些使用场景？【热度: 216】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：React Portals API&lt;/p&gt;&lt;p&gt;React Portals 提供了一种将子节点渲染到存在于父组件以外的 DOM 节点的方式。通常，组件的渲染输出会被插入到其在组件树中的父组件下，但是 Portals 提供了一种穿透组" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] Portals 作用是什么， 有哪些使用场景？【热度: 216】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：React Portals API&lt;/p&gt;&lt;p&gt;React Portals 提供了一种将子节点渲染到存在于父组件以外的 DOM 节点的方式。通常，组件的渲染输出会被插入到其在组件树中的父组件下，但是 Portals 提供了一种穿透组件层次结构直接渲染到任意 DOM 节点的方法。&lt;/p&gt;&lt;h3&gt;React Portals 的作用：&lt;/h3&gt;&lt;ol&gt;&lt;l" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/731" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] Portals 作用是什么， 有哪些使用场景？【热度: 216】</h1>
+      <div class="subtitle">腾讯 · web框架 · 腾讯</div>
+      <div class="meta">创建：2024-05-05T14:24:52Z · 更新：2024-05-05T14:24:52Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：React Portals API</p><p>React Portals 提供了一种将子节点渲染到存在于父组件以外的 DOM 节点的方式。通常，组件的渲染输出会被插入到其在组件树中的父组件下，但是 Portals 提供了一种穿透组件层次结构直接渲染到任意 DOM 节点的方法。</p><h3>React Portals 的作用：</h3><ol><li><strong>父子结构逃逸</strong>：React Portals 允许你将子组件渲染到其父组件 DOM 结构之外的地方，这在视觉和位置上「逃逸」了它们的父组件。</li><li><strong>样式继承独立</strong>：使用 Portal 的组件通常可以避免父组件样式的影响，易于控制和自定义样式。</li></ol><ol><li><strong>事件冒泡正常</strong>：尽管 Portal 可以渲染到 DOM 树中的任何位置，但是事件冒泡会按照 React 组件树而不是 DOM 树来进行。所以，尽管组件可能被渲染到 DOM 树的不同部分，它的行为仍然像常规的 React 子组件一样。</li></ol><h3>React Portals 的使用场景：</h3><ol><li><strong>模态框</strong>：最常见的场景之一就是模态对话框，这时候对话框需要覆盖应用程序的其余部分（包括可能存在的其他元素如遮罩层），而且往往模态框的样式不应该受到其它 DOM 元素的影响。</li></ol><ol><li><strong>浮动菜单</strong>：对于那些需要覆盖其它元素的浮动菜单或下拉式组件，React Portal 可以使这些组件渲染在最外层，避免被其他 DOM 元素的样式或结构干扰。</li></ol><ol><li><strong>提示/通知</strong>：用于在界面上创建提示信息，如 Toasts 或 Snackbars，这些通常会浮动在内容之上并在固定位置显示。</li></ol><ol><li><strong>全屏组件</strong>：对于需要全屏显示而不受现有 DOM 层级影响的组件（如图片库的全屏视图、视频播放或者游戏界面）。</li></ol><ol><li><strong>第三方库的集成</strong>：有时候需要将 React 组件嵌入由非 React 库管理的 DOM 结构中，此时 Portal 可以非常有用。</li></ol><p>总之，Portals 提供了一种灵活的方式来逃离父组件的限制，帮助开发者更加自由和方便地进行 UI 布局，同时也有助于维护组件结构的整洁和一致性。</p><h3>代码使用举例</h3><p>假设我们想创建一个模态框（Modal）组件，我们会希望这个模态框在 DOM 中是在最顶层的，但在 React 组件树中它应该在逻辑上保持在其父组件下。使用 React Portals 可以很容易地实现这一点。</p><p>首先，我们在 <code>public/index.html</code> 中，添加一个新的 DOM 节点，作为 Portal 的容器：</p><pre class="code-block"><code class="language-html">&lt;!-- index.html --&gt;
+&lt;div id=&quot;app-root&quot;&gt;&lt;/div&gt;
+&lt;!-- React App 将会挂载在这里 --&gt;
+&lt;div id=&quot;modal-root&quot;&gt;&lt;/div&gt;
+&lt;!-- Modal 元素将会挂载在这里 --&gt;
+</code></pre><p>接着，我们创建一个 <code>Modal</code> 组件，它会使用 <code>ReactDOM.createPortal</code> 来渲染其子元素到 <code>#modal-root</code>：</p><pre class="code-block"><code class="language-javascript">// Modal.js
+import React from &quot;react&quot;;
+import ReactDOM from &quot;react-dom&quot;;
+
+class Modal extends React.Component {
+  render() {
+    // 使用 ReactDOM.createPortal 将子元素渲染到 modal-root 中
+    return ReactDOM.createPortal(
+      // 任何有效的 React 孩子元素
+      this.props.children,
+      // 一个 DOM 元素
+      document.getElementById(&quot;modal-root&quot;)
+    );
+  }
+}
+
+export default Modal;
+</code></pre><p>现在，我们可以在应用程序的任何其他组件中使用这个 <code>Modal</code> 组件了，不论它们在 DOM 树中的位置如何：</p><pre class="code-block"><code class="language-javascript">// App.js
+import React from &quot;react&quot;;
+import Modal from &quot;./Modal&quot;;
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { showModal: false };
+  }
+
+  handleShow = () =&gt; {
+    this.setState({ showModal: true });
+  };
+
+  handleClose = () =&gt; {
+    this.setState({ showModal: false });
+  };
+
+  render() {
+    return (
+      &lt;div className=&quot;App&quot;&gt;
+        &lt;button onClick={this.handleShow}&gt;显示模态框&lt;/button&gt;
+
+        {this.state.showModal ? (
+          &lt;Modal&gt;
+            &lt;div className=&quot;modal&quot;&gt;
+              &lt;div className=&quot;modal-content&quot;&gt;
+                &lt;h2&gt;我是一个模态框!&lt;/h2&gt;
+                &lt;button onClick={this.handleClose}&gt;关闭&lt;/button&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/Modal&gt;
+        ) : null}
+      &lt;/div&gt;
+    );
+  }
+}
+
+export default App;
+</code></pre><p>在以上代码中，无论 <code>Modal</code> 组件在 <code>App</code> 组件中的位置如何，模态框的渲染位置总是在 <code>#modal-root</code> 中，这是一个典型的使用 React Portals 的例子。上述代码中的模态框在视觉上会覆盖整个应用程序的位置，但在组件层次结构中它仍然是 <code>App</code> 组件的子组件。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

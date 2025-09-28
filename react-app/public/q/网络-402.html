@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>使用 ajax 封装一个上传文件的函数【热度: 206】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：ajax 上传文件、ajax 上传文件函数、ajax 上传文件封装&lt;/p&gt;&lt;p&gt;下面是一个使用 AJAX 封装的上传文件函数的示例代码：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;languag" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="使用 ajax 封装一个上传文件的函数【热度: 206】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：ajax 上传文件、ajax 上传文件函数、ajax 上传文件封装&lt;/p&gt;&lt;p&gt;下面是一个使用 AJAX 封装的上传文件函数的示例代码：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;function uploadFile(file, url, progressCallbac" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/402" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>使用 ajax 封装一个上传文件的函数【热度: 206】</h1>
+      <div class="subtitle">网络 · 网络 · 美团</div>
+      <div class="meta">创建：2023-06-02T16:13:21Z · 更新：2023-06-02T16:13:22Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：ajax 上传文件、ajax 上传文件函数、ajax 上传文件封装</p><p>下面是一个使用 AJAX 封装的上传文件函数的示例代码：</p><pre class="code-block"><code class="language-javascript">function uploadFile(file, url, progressCallback, successCallback, errorCallback) {
+  const xhr = new XMLHttpRequest();
+  const formData = new FormData();
+
+  // 将文件添加到 FormData 对象
+  formData.append(&#39;file&#39;, file);
+
+  xhr.open(&#39;POST&#39;, url, true);
+
+  // 监听上传进度
+  xhr.upload.addEventListener(&#39;progress&#39;, function(event) {
+    if (event.lengthComputable) {
+      const progress = Math.round((event.loaded / event.total) * 100);
+      // 调用进度回调函数
+      progressCallback(progress);
+    }
+  });
+
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        // 上传成功
+        // 解析响应数据
+        const response = JSON.parse(xhr.responseText);
+        // 调用成功回调函数
+        successCallback(response);
+      } else {
+        // 上传失败
+        // 创建错误对象
+        const error = new Error(`File upload failed with status ${xhr.status}`);
+        // 调用错误回调函数
+        errorCallback(error);
+      }
+    }
+  };
+
+  // 发送请求
+  xhr.send(formData);
+}
+
+// 使用示例
+const fileInput = document.getElementById(&#39;file-input&#39;);
+const uploadButton = document.getElementById(&#39;upload-button&#39;);
+const progressElement = document.getElementById(&#39;progress&#39;);
+const statusElement = document.getElementById(&#39;status&#39;);
+
+uploadButton.addEventListener(&#39;click&#39;, function() {
+  const file = fileInput.files[0];
+  const url = &#39;https://api.example.com/upload&#39;;
+  
+  uploadFile(
+    file,
+    url,
+    function(progress) {
+      // 更新进度
+      progressElement.textContent = `Upload Progress: ${progress}%`;
+    },
+    function(response) {
+      // 上传成功
+      statusElement.textContent = &#39;Upload Successful&#39;;
+      console.log(&#39;Response:&#39;, response);
+    },
+    function(error) {
+      // 上传失败
+      statusElement.textContent = &#39;Upload Failed&#39;;
+      console.error(&#39;Error:&#39;, error);
+    }
+  );
+});
+</code></pre><p>在上述示例代码中，定义了一个 <code>uploadFile</code> 函数用于上传文件。该函数接收文件对象、上传 URL、进度回调函数、成功回调函数和错误回调函数作为参数。</p><p>函数内部通过创建 <code>XMLHttpRequest</code> 对象，将文件添加到 <code>FormData</code> 对象，并使用 <code>POST</code> 方法发送请求到指定的 URL。同时，通过监听 <code>upload</code> 事件来获取上传进度，并调用进度回调函数进行更新。在请求的状态改变时，根据响应状态码判断上传成功与否，并调用相应的回调函数。</p><p>使用示例中，通过监听按钮点击事件，获取选择的文件对象，并调用 <code>uploadFile</code> 函数进行文件上传。在回调函数中更新进度和状态信息，并处理成功和失败的情况。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Proxy 和 Reflect 有什么关系？【热度: 361】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;code&gt;Proxy&lt;/code&gt; 和 &lt;code&gt;Reflect&lt;/code&gt; 是 ES6 (ECMAScript 2015) 中引入的两个不同的构造函数，它们密切相关，通常在某些操作中一起使用。&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;Proxy&lt;/strong&gt;：&lt;/" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Proxy 和 Reflect 有什么关系？【热度: 361】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;code&gt;Proxy&lt;/code&gt; 和 &lt;code&gt;Reflect&lt;/code&gt; 是 ES6 (ECMAScript 2015) 中引入的两个不同的构造函数，它们密切相关，通常在某些操作中一起使用。&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;Proxy&lt;/strong&gt;：&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;&lt;code&gt;Proxy&lt;/code&gt; 对象用于定义基本操作的自定义行为，例如属性查找、赋值、枚举、" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/695" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>Proxy 和 Reflect 有什么关系？【热度: 361】</h1>
+      <div class="subtitle">滴滴 · JavaScript · 滴滴</div>
+      <div class="meta">创建：2024-04-13T14:17:03Z · 更新：2025-02-28T16:24:46Z</div>
+    </div>
+    <article class="content markdown-body"><p><code>Proxy</code> 和 <code>Reflect</code> 是 ES6 (ECMAScript 2015) 中引入的两个不同的构造函数，它们密切相关，通常在某些操作中一起使用。</p><ol><li><strong>Proxy</strong>：</li></ol><p><code>Proxy</code> 对象用于定义基本操作的自定义行为，例如属性查找、赋值、枚举、函数调用等。当你对一个<code>Proxy</code>对象执行这些操作时，你可以拦截并重新定义这些操作的行为。</p><p>下面是一些你可以使用<code>Proxy</code>拦截的操作:</p><ul><li><code>get</code>：读取属性值</li><li><code>set</code>：设置属性值</li><li><code>has</code>：<code>in</code>操作符</li><li><code>deleteProperty</code>：<code>delete</code>操作符</li><li><code>apply</code>：调用一个函数</li><li>诸如此类的其他捕获器（handlers）</li></ul><ol><li><strong>Reflect</strong>：</li></ol><p><code>Reflect</code>对象与<code>Proxy</code>捕获器（handlers）的方法一一对应。其目的是提供默认行为，对相应的对象操作进行默认的行为操作。在很多情况下，<code>Reflect</code>的方法与对应的直接对象操作是相同的。</p><p>这里是一些<code>Reflect</code>提供的方法的例子：</p><ul><li><code>Reflect.get()</code>：获取对象属性的值，类似于<code>obj[prop]</code></li><li><code>Reflect.set()</code>：设置对象属性的值，类似于<code>obj[prop] = value</code></li><li><code>Reflect.has()</code>：类似于<code>prop in obj</code></li><li><code>Reflect.deleteProperty()</code>：类似于<code>delete obj[prop]</code></li><li><code>Reflect.apply()</code>：调用一个函数</li><li>其他与<code>Proxy</code>捕获器相对应的方法</li></ul><p><strong>两者的关系</strong>：</p><p><code>Proxy</code>和<code>Reflect</code>的关系体现在它们共同协作时。在<code>Proxy</code>的捕获器函数中，开发者可以调用对应的<code>Reflect</code>方法，以实现默认的行为，同时加入自己的操纵和侧面逻辑。<code>Reflect</code>方法提供了一种方便的方式来保持默认行为，而不需要手动编写这些语义。</p><p>例如，当在<code>Proxy</code>捕获器中捕获属性的读取行为时，使用<code>Reflect.get()</code>可以非常容易地调用相应对象的默认读取行为：</p><pre class="code-block"><code class="language-javascript">let obj = {
+  a: 1,
+  b: 2,
+  c: 3,
+};
+
+let p = new Proxy(obj, {
+  get(target, prop, receiver) {
+    console.log(`读取了属性 ${prop}`);
+    return Reflect.get(target, prop, receiver); // 调用默认操作
+  },
+  set(target, prop, value, receiver) {
+    console.log(`将属性 ${prop} 设置为 ${value}`);
+    return Reflect.set(target, prop, value, receiver); // 调用默认操作
+  },
+});
+
+console.log(p.a); // 读取了属性 a，返回 1
+p.b = 4; // 将属性 b 设置为 4
+</code></pre><p>上面的例子中，通过<code>Reflect</code>对象的方法，我们不仅可以保持默认的<code>get</code>和<code>set</code>行为，还可以在这个过程之前或之后添加自己的逻辑。这样的设计使得代理行为的实现既安全又易于管理。</p><p>总而言之，<code>Proxy</code>和<code>Reflect</code>共同提供了一种强大的机制来拦截和定义基本的 JavaScript 操作，<code>Reflect</code>能提供操纵对象的默认方法，而<code>Proxy</code>则允许我们根据需要来定义这些操作的新行为。</p><blockquote>以前对两者进行过对比， 但是没有讨论起关联关系。</blockquote><blockquote>以前对比的文章：https://github.com/pro-collection/interview-question/issues/8</blockquote><h2>Comments / Answers</h2><hr /><p><strong>qiuqiuma</strong> at 2024-04-15T08:12:33Z</p><p>Proxy中的get，set在底层中通过一系列操作过程后最终调用get或者set，但是Reflect的操作的最原子化的了，是直接调用最原始的get或set，不会经过其他过程</p><hr /><p><strong>BruceYuj</strong> at 2025-02-28T16:24:45Z</p><blockquote>Proxy中的get，set在底层中通过一系列操作过程后最终调用get或者set，但是Reflect的操作的最原子化的了，是直接调用最原始的get或set，不会经过其他过程</blockquote><p>没看懂你在说啥</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

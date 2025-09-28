@@ -1,0 +1,28 @@
+# JavaScript 中的变量在内存中的具体存储形式是什么【热度: 183】
+
+- Issue: #339
+- State: open
+- Labels: JavaScript
+- Author: yanlele
+- URL: https://github.com/pro-collection/interview-question/issues/339
+- Created: 2023-05-05T16:03:04Z
+- Updated: 2023-05-05T16:03:05Z
+
+## Body
+
+**关键词**：JavaScript 变量存储形式
+
+在JavaScript中，变量的存储方式是基于所存储值的数据类型。JavaScript有7种内置数据类型：undefined、null、boolean、number、string、symbol和object。
+
+对于基础数据类型（除了object），变量值会直接存储在内存中。具体来说，这些数据类型的变量在内存中的存储形式如下：
+
+- undefined和null：这两个数据类型都只有一个值，每个值有一个特殊的内存地址。存储它们的变量会被赋予对应的内存地址。
+- boolean：这个数据类型的值只需要存储一个比特位（0或1），它们通常被存储在栈中，而不是堆中。
+- number：根据规范，数字类型在内存中占用8个字节的空间（64位），它们通常被存储在栈中，而不是堆中。
+- string：字符串实际上是一组字符数组，它们通常被存储在堆中，并通过引用地址存储在栈中。
+- symbol：每个symbol对应于唯一的标识符。它们通常被存储在堆中，并通过引用地址存储在栈中。
+
+而对于对象类型（包括对象、数组等），变量存储了一个指向存储对象的内存地址的指针。JavaScript采用引用计数内存管理，因此它会对每个对象进行引用计数，当一个对象不再被引用时，JavaScript会自动回收这个对象的内存空间。
+
+总的来说，在JavaScript中，变量的存储方式基于值类型的数据类型，对于对象型变量，存储指向对象的内存地址的指针以及对象的值，而对于基础类型的变量，直接存储变量的值。
+

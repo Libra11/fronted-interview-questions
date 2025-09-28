@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>script 标签上有那些属性，分别作用是啥？【热度: 744】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：script 标签属性、script 标签属性作用、常用 script 标签属性&lt;/p&gt;&lt;p&gt;在HTML中，&lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt;标签用于引入或嵌入JavaScript代码。&lt;code&gt;&amp;lt;scr" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="script 标签上有那些属性，分别作用是啥？【热度: 744】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：script 标签属性、script 标签属性作用、常用 script 标签属性&lt;/p&gt;&lt;p&gt;在HTML中，&lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt;标签用于引入或嵌入JavaScript代码。&lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt;标签可以使用以下属性来调整脚本的行为：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;常用属性&lt;/strong" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/485" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>script 标签上有那些属性，分别作用是啥？【热度: 744】</h1>
+      <div class="subtitle">Shopee · web应用场景 · Shopee</div>
+      <div class="meta">创建：2023-07-25T16:25:30Z · 更新：2023-07-25T16:25:30Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：script 标签属性、script 标签属性作用、常用 script 标签属性</p><p>在HTML中，<code>&lt;script&gt;</code>标签用于引入或嵌入JavaScript代码。<code>&lt;script&gt;</code>标签可以使用以下属性来调整脚本的行为：</p><p><strong>常用属性</strong></p><ol><li><code>src</code>：指定要引入的外部JavaScript文件的URL。例如：<code>&lt;script src=&quot;script.js&quot;&gt;&lt;/script&gt;</code>。通过这个属性，浏览器会下载并执行指定的外部脚本文件。</li></ol><ol><li><code>async</code>：可选属性，用于指示浏览器异步加载脚本。这意味着脚本会在下载的同时继续解析HTML文档，不会阻塞其他资源的加载。例如：<code>&lt;script src=&quot;script.js&quot; async&gt;&lt;/script&gt;</code>。</li></ol><ol><li><code>defer</code>：可选属性，用于指示浏览器延迟执行脚本，直到文档解析完成。这样可以确保脚本在文档完全呈现之前不会执行。例如：<code>&lt;script src=&quot;script.js&quot; defer&gt;&lt;/script&gt;</code>。</li></ol><ol><li><code>type</code>：指定脚本语言的MIME类型。通常是<code>text/javascript</code>或者<code>module</code>（用于ES6模块）。如果未指定该属性，浏览器默认将其视为JavaScript类型。例如：<code>&lt;script type=&quot;text/javascript&quot;&gt;...&lt;/script&gt;</code>。</li></ol><ol><li><code>charset</code>：指定外部脚本文件的字符编码。例如：<code>&lt;script src=&quot;script.js&quot; charset=&quot;UTF-8&quot;&gt;&lt;/script&gt;</code>。</li></ol><ol><li><code>integrity</code>：用于指定外部脚本文件的Subresource Integrity（SRI）。SRI可以确保浏览器在加载脚本时验证其完整性，防止通过恶意更改文件来执行潜在的攻击。例如：<code>&lt;script src=&quot;script.js&quot; integrity=&quot;sha256-qznLcsROx4GACP2dm0UCKCzCG+HiZ1guq6ZZDob/Tng=&quot;&gt;&lt;/script&gt;</code>。</li></ol><p><strong>不常用属性</strong></p><ol><li><code>crossorigin</code>：正常的 script 元素将最小的信息传递给 window.onerror，用于那些没有通过标准 CORS 检查的脚本。要允许对静态媒体使用独立域名的网站进行错误记录，请使用此属性。参见 CORS 设置属性。</li></ol><ol><li><code>fetchpriority</code>：提供一个指示，说明在获取外部脚本时要使用的相对优先级。</li></ol><ol><li><code>nomodule</code>： 这个布尔属性被设置来标明这个脚本不应该在支持 ES 模块的浏览器中执行。实际上，这可用于在不支持模块化 JavaScript 的旧浏览器中提供回退脚本。</li></ol><ol><li><code>nonce</code>: 在 <code>script-src Content-Security-Policy (en-US)</code> 中允许脚本的一个一次性加密随机数（nonce）。服务器每次传输策略时都必须生成一个唯一的 nonce 值。提供一个无法猜测的 nonce 是至关重要。</li></ol><ol><li><code>referrerpolicy</code>: 表示在获取脚本或脚本获取资源时，要发送哪个 referrer。</li></ol><p>可以参考文档：https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/script</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

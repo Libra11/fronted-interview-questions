@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>promise.race、promise.all、promise.allSettled 有哪些区别？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;code&gt;Promise.race()&lt;/code&gt;、&lt;code&gt;Promise.all()&lt;/code&gt;、&lt;code&gt;Promise.allSettled()&lt;/code&gt; 都是 JavaScript 中的 Promise 相关 API，它们的区别如下：&lt;/p&gt;&lt;ol&gt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="promise.race、promise.all、promise.allSettled 有哪些区别？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;code&gt;Promise.race()&lt;/code&gt;、&lt;code&gt;Promise.all()&lt;/code&gt;、&lt;code&gt;Promise.allSettled()&lt;/code&gt; 都是 JavaScript 中的 Promise 相关 API，它们的区别如下：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;code&gt;Promise.race()&lt;/code&gt;&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;&lt;code&gt;Promise.ra" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/105" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>promise.race、promise.all、promise.allSettled 有哪些区别？</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-15T13:43:12Z · 更新：2023-03-15T13:43:44Z</div>
+    </div>
+    <article class="content markdown-body"><p><code>Promise.race()</code>、<code>Promise.all()</code>、<code>Promise.allSettled()</code> 都是 JavaScript 中的 Promise 相关 API，它们的区别如下：</p><ol><li><code>Promise.race()</code></li></ol><p><code>Promise.race()</code> 接收一个包含多个 Promise 的数组作为参数，返回一个新的 Promise。该 Promise 将会在数组中的任意一个 Promise 状态变为 <code>fulfilled</code> 或 <code>rejected</code> 时被解决，且以第一个解决的 Promise 的结果作为其结果返回。</p><p>如果数组中所有 Promise 都被拒绝，则返回的 Promise 将会以最先被拒绝的 Promise 的原因作为其原因拒绝。</p><ol><li><code>Promise.all()</code></li></ol><p><code>Promise.all()</code> 接收一个包含多个 Promise 的数组作为参数，返回一个新的 Promise。该 Promise 将会在数组中所有 Promise 状态均为 <code>fulfilled</code> 时被解决，并且以数组形式返回所有 Promise 的结果。</p><p>如果数组中有任何一个 Promise 被拒绝，则返回的 Promise 将会以最先被拒绝的 Promise 的原因作为其原因拒绝。</p><ol><li><code>Promise.allSettled()</code></li></ol><p><code>Promise.allSettled()</code> 接收一个包含多个 Promise 的数组作为参数，返回一个新的 Promise。该 Promise 将会在数组中所有 Promise 状态都被解决时被解决，并且以数组形式返回所有 Promise 的结果。和 <code>Promise.all()</code> 不同，<code>Promise.allSettled()</code> 不会在有 Promise 被拒绝时拒绝该 Promise。</p><p>返回的 Promise 的数组中的每个元素都是一个对象，该对象表示原始 Promise 的结果。每个对象都有一个 <code>status</code> 属性，表示原始 Promise 的状态，其值为字符串 <code>&#39;fulfilled&#39;</code> 或 <code>&#39;rejected&#39;</code>。如果 Promise 被解决，对象还会包含一个 <code>value</code> 属性，表示 Promise 的解决值。如果 Promise 被拒绝，对象还会包含一个 <code>reason</code> 属性，表示 Promise 的拒绝原因。</p><p>综上所述，<code>Promise.race()</code>、<code>Promise.all()</code> 和 <code>Promise.allSettled()</code> 的主要区别在于它们对多个 Promise 的状态处理方式不同，以及返回的 Promise 所包含的数据类型和结构不同。</p><h2>Comments / Answers</h2><hr /><p><strong>yanlele</strong> at 2023-03-15T13:43:44Z</p><p>可以参考这个文档</p><p>https://juejin.cn/post/6844903912592375821</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,79 @@
+# js 宏任务与微任务都是指什么， 优先级如何？
+
+在JavaScript中，宏任务（macro-task）和微任务（micro-task）是指异步操作的两种类型。
+
+## 基本操作
+
+**宏任务通常包括以下操作：**
+
+- setTimeout和setInterval定时器回调函数
+- 事件回调函数（例如，鼠标点击、键盘输入等）
+- AJAX请求的回调函数
+- 请求动画帧（requestAnimationFrame）回调函数
+- script标签的onload和onerror事件
+
+当一个宏任务开始执行时，JavaScript 引擎会将其放入调用堆栈的底部，然后继续执行其他代码。当调用堆栈为空时，JavaScript引擎会取出下一个宏任务并执行。
+
+**微任务通常包括以下操作：**
+
+- Promise的回调函数
+- Generator函数
+- MutationObserver 的回调函数
+- process.nextTick（Node.js环境下）
+
+当一个微任务被添加到任务队列中时，它会在当前宏任务执行完成后立即执行，而不是等待下一个宏任务开始执行。这使得微任务可以在当前宏任务执行期间处理异步操作的结果，从而提高应用程序的响应性能。
+
+## 宏任务与微任务的优先级是怎样的？
+
+在 JavaScript 中，宏任务和微任务的执行优先级是不同的。**通常情况下，微任务的优先级高于宏任务**，也就是说，在一个宏任务中，如果有微任务存在，那么微任务会优先于宏任务执行。
+
+具体来说，当一个宏任务开始执行时，如果在它的执行过程中产生了微任务，那么这些微任务会被添加到微任务队列中，等待当前宏任务执行完成后立即执行。如果在这个过程中产生了新的微任务，则会一直执行微任务，直到微任务队列为空，然后JavaScript引擎才会继续执行下一个宏任务。
+
+例如，以下代码演示了宏任务和微任务的执行顺序：
+```js
+console.log('start');
+
+setTimeout(function() {
+  console.log('setTimeout');
+}, 0);
+
+Promise.resolve().then(function() {
+  console.log('promise');
+});
+
+console.log('end');
+```
+上述代码中，先执行同步代码 console.log('start') 和 console.log('end')。接着，使用 setTimeout 添加一个宏任务，然后使用 Promise.resolve().then 添加一个微任务。由于微任务优先级高于宏任务，因此 Promise 的回调函数会在 setTimeout 回调函数之前执行。因此，上述代码的输出顺序如下：
+```
+start
+end
+promise
+setTimeout
+```
+
+
+
+
+## Comments / Answers
+
+---
+
+**BruceYuj** at 2025-02-20T04:32:26Z
+
+从 HTML 规范来看，`requestAnimationFrame` 既不属于 microtask 也不属于 macrotask。推广来讲，和渲染相关的操作都不属于 macrotask 和 microtask。其触发时间由浏览器决定。
+
+1. **执行一个 macrotask**（如主代码、`setTimeout` 回调等）。
+2. **执行所有 microtask**：
+   - 依次执行队列中的每个 microtask。
+   - 若执行过程中产生新的 microtask，继续处理，直到队列清空。
+3. **UI 渲染**（如有需要）。
+4. **重复循环**，处理下一个 macrotask。
+
+而是否渲染是根据实际情况来决定的。
+```javascript
+Promise.resolve().then(() => console.log('Microtask'));
+setTimeout(() => console.log('Macrotask'));
+requestAnimationFrame(() => console.log('RAF'));
+// 输出顺序：Microtask → RAF → Macrotask 或者 Microtask -> Macrotask -> RAF
+```
+代码验证两种输出都有可能

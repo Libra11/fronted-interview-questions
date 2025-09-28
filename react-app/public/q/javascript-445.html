@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>执行上下文栈是什么【热度: 632】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：执行上下文栈&lt;/p&gt;&lt;p&gt;在JavaScript中，执行上下文栈（Execution Context Stack）是用于跟踪和管理函数执行的机制。每当JavaScript代码执行到一个函数时，就会创建一个执行上下文（Executio" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="执行上下文栈是什么【热度: 632】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：执行上下文栈&lt;/p&gt;&lt;p&gt;在JavaScript中，执行上下文栈（Execution Context Stack）是用于跟踪和管理函数执行的机制。每当JavaScript代码执行到一个函数时，就会创建一个执行上下文（Execution Context）并被推入执行上下文栈的顶部。当函数执行完毕后，执行上下文将从栈中弹出，控制权将返回给调用该函数的上下" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/445" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>执行上下文栈是什么【热度: 632】</h1>
+      <div class="subtitle">JavaScript · JavaScript · 网易</div>
+      <div class="meta">创建：2023-06-12T15:24:14Z · 更新：2023-06-12T15:24:14Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：执行上下文栈</p><p>在JavaScript中，执行上下文栈（Execution Context Stack）是用于跟踪和管理函数执行的机制。每当JavaScript代码执行到一个函数时，就会创建一个执行上下文（Execution Context）并被推入执行上下文栈的顶部。当函数执行完毕后，执行上下文将从栈中弹出，控制权将返回给调用该函数的上下文。</p><p>执行上下文栈遵循"先进后出"（Last-In-First-Out）的原则。也就是说，最后一个推入栈的执行上下文会被最先弹出。</p><p>每个执行上下文都包含了以下三个重要的组成部分：</p><ol><li>变量对象（Variable Object）：变量对象存储了函数的形参、函数声明、变量声明和作用域链等信息。</li></ol><ol><li>作用域链（Scope Chain）：作用域链是一个由当前执行上下文的变量对象和所有父级执行上下文的变量对象组成的链表结构。它用于变量查找的过程。</li></ol><ol><li>this 值：this 值指定了当前执行上下文中的 this 关键字的指向。</li></ol><p>通过执行上下文栈，JavaScript引擎能够追踪到代码的执行位置，并根据当前执行上下文的环境来解析变量和执行函数。这种栈结构的管理方式使得JavaScript能够实现函数的嵌套调用和正确的变量作用域处理。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

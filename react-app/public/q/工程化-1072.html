@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Webpack] 我如何实现在高版本浏览器上使用 es6 产物， 在低版本上使用 es5【热度: 122】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：Webpack es6 产物&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;分别打包 ES5 和 ES6 产物（从一份 ES6 源码）&lt;/strong&gt;&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;配置 Webpack 和 Babel" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Webpack] 我如何实现在高版本浏览器上使用 es6 产物， 在低版本上使用 es5【热度: 122】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：Webpack es6 产物&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;分别打包 ES5 和 ES6 产物（从一份 ES6 源码）&lt;/strong&gt;&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;配置 Webpack 和 Babel 基础环境&lt;/strong&gt;&lt;/li&gt;&lt;li&gt;首先，安装必要的依赖。除了 Webpack 本身相关的依赖外，还需要&lt;co" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1072" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Webpack] 我如何实现在高版本浏览器上使用 es6 产物， 在低版本上使用 es5【热度: 122】</h1>
+      <div class="subtitle">工程化 · 工程化</div>
+      <div class="meta">创建：2024-11-23T03:23:47Z · 更新：2024-11-23T03:23:48Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：Webpack es6 产物</p><ol><li><strong>分别打包 ES5 和 ES6 产物（从一份 ES6 源码）</strong></li></ol><ul><li><strong>配置 Webpack 和 Babel 基础环境</strong></li><li>首先，安装必要的依赖。除了 Webpack 本身相关的依赖外，还需要<code>babel - loader</code>、<code>@babel/core</code>和<code>@babel/preset - env</code>。</li></ul><p>```bash</p><p>npm install webpack webpack - cli babel - loader @babel/core @babel/preset - env --save - dev</p><p>```</p><ul><li>创建 Webpack 配置文件（例如<code>webpack.config.js</code>），并在其中配置基本的模块规则，用于处理 JavaScript 文件。先配置一个简单的 ES6 打包规则：</li></ul><p>```javascript</p><p>const path = require("path");</p><p>module.exports = {</p><p>entry: "./src/index.js", // 假设ES6源码入口文件是index.js</p><p>output: {</p><p>filename: "es6 - bundle.js",</p><p>path: path.resolve(__dirname, "dist/es6"),</p><p>},</p><p>module: {</p><p>rules: [</p><p>{</p><p>test: /\.js$/,</p><p>exclude: /node_modules/,</p><p>use: {</p><p>loader: "babel - loader",</p><p>options: {</p><p>presets: [</p><p>[</p><p>"@babel/preset - env",</p><p>{</p><p>targets: {</p><p>// 设置一个较高的浏览器版本支持ES6原生，这里假设现代浏览器都支持</p><p>chrome: "80",</p><p>firefox: "70",</p><p>},</p><p>},</p><p>],</p><p>],</p><p>},</p><p>},</p><p>},</p><p>],</p><p>},</p><p>};</p><p>```</p><ul><li><strong>添加 ES5 打包配置</strong></li><li>为了打包 ES5 产物，在 Webpack 配置文件中添加另一个配置对象。可以通过<code>webpack - merge</code>工具（需要安装<code>webpack - merge</code>）来合并基础配置和 ES5 特定配置，避免重复配置。</li></ul><p>```javascript</p><p>const path = require("path");</p><p>const webpackMerge = require("webpack - merge");</p><p>const baseConfig = {</p><p>entry: "./src/index.js",</p><p>output: {</p><p>filename: "es6 - bundle.js",</p><p>path: path.resolve(__dirname, "dist/es6"),</p><p>},</p><p>module: {</p><p>rules: [</p><p>{</p><p>test: /\.js$/,</p><p>exclude: /node_modules/,</p><p>use: {</p><p>loader: "babel - loader",</p><p>options: {</p><p>presets: [</p><p>[</p><p>"@babel/preset - env",</p><p>{</p><p>targets: {</p><p>chrome: "80",</p><p>firefox: "70",</p><p>},</p><p>},</p><p>],</p><p>],</p><p>},</p><p>},</p><p>},</p><p>],</p><p>},</p><p>};</p><p>const es5Config = {</p><p>output: {</p><p>filename: "es5 - bundle.js",</p><p>path: path.resolve(__dirname, "dist/es5"),</p><p>},</p><p>module: {</p><p>rules: [</p><p>{</p><p>test: /\.js$/,</p><p>exclude: /node_modules/,</p><p>use: {</p><p>loader: "babel - loader",</p><p>options: {</p><p>presets: [</p><p>[</p><p>"@babel/preset - env",</p><p>{</p><p>targets: {</p><p>// 设置较低的浏览器版本，确保转换为ES5语法</p><p>chrome: "50",</p><p>firefox: "40",</p><p>},</p><p>useBuiltIns: "usage",</p><p>corejs: 3,</p><p>},</p><p>],</p><p>],</p><p>},</p><p>},</p><p>},</p><p>],</p><p>},</p><p>};</p><p>module.exports = [baseConfig, webpackMerge(baseConfig, es5Config)];</p><p>```</p><ul><li>上述配置中，<code>es5Config</code>部分重新定义了输出文件名和路径，并且在<code>babel - loader</code>的选项中，通过<code>@babel/preset - env</code>的<code>targets</code>选项设置了较低的浏览器支持范围，这样就可以将源码转换为 ES5 语法并打包到<code>dist/es5</code>目录下的<code>es5 - bundle.js</code>文件。</li></ul><ol><li><strong>区分加载 ES5 还是 ES6 产物</strong></li></ol><ul><li><strong>使用浏览器特性检测脚本（HTML + JavaScript）</strong></li><li>在 HTML 文件（假设是<code>index.html</code>）中，可以添加一段 JavaScript 代码来检测浏览器是否支持 ES6 特性。例如，检测<code>Promise</code>是否存在（<code>Promise</code>是 ES6 的一个典型特性）。</li></ul><p>```html</p><p><!DOCTYPE html></p><p><html lang="en"></p><p><head></p><p><meta charset="UTF-8" /></p><p><title>Document</title></p><p></head></p><p><body></p><p><script></p><p>if (typeof Promise === "undefined") {</p><p>document.write('<script src="dist/es5/es5 - bundle.js"><\/script>');</p><p>} else {</p><p>document.write('<script src="dist/es6/es6 - bundle.js"><\/script>');</p><p>}</p><p></script></p><p></body></p><p></html></p><p>```</p><ul><li>这种方法简单直接，但有一定的局限性。如果浏览器对 ES6 的支持不完全（例如，支持部分 ES6 语法但不支持检测的特性），可能会导致加载错误的产物。</li><li><strong>使用服务端渲染（SSR）或构建时检测（更高级）</strong></li><li>如果是在服务端渲染的应用中，可以在服务端根据用户代理（User - Agent）来判断浏览器版本，进而选择加载 ES5 还是 ES6 产物。这需要在服务端代码（例如 Node.js 中的 Express 应用）中进行逻辑处理。</li><li>另一种构建时检测的方法是，在构建过程中生成一个包含浏览器支持信息的配置文件。可以使用<code>browserslist</code>工具（<code>@babel/preset - env</code>内部也使用了这个工具来确定目标浏览器）结合一些自定义脚本，在构建时确定目标浏览器范围，然后生成一个配置文件（例如<code>browser - config.json</code>），内容可能是<code>{&quot;supportsES6&quot;: true}</code>或者<code>{&quot;supportsES6&quot;: false}</code>。在 HTML 文件中，通过读取这个配置文件来加载相应的产物。</li></ul><p>```javascript</p><p>// 假设这是一个自定义脚本，用于生成browser - config.json</p><p>const browserslist = require("browserslist");</p><p>const fs = require("fs");</p><p>const targets = {</p><p>chrome: "50",</p><p>firefox: "40",</p><p>};</p><p>const browsers = browserslist(Object.keys(targets).map((browser) => <code>${browser} &gt;= ${targets[browser]}</code>));</p><p>const supportsES6 = browsers.some(</p><p>(browser) => browser.includes("Chrome >= 80") || browser.includes("Firefox >= 70")</p><p>);</p><p>fs.writeFileSync("browser - config.json", JSON.stringify({ supportsES6 }));</p><p>```</p><ul><li>然后在 HTML 文件中：</li></ul><p>```html</p><p><!DOCTYPE html></p><p><html lang="en"></p><p><head></p><p><meta charset="UTF-8" /></p><p></head></p><p><body></p><p><script></p><p>const browserConfig = JSON.parse(document.currentScript.getAttribute("data - config"));</p><p>if (browserConfig.supportsES6) {</p><p>document.write('<script src="dist/es6/es6 - bundle.js"><\/script>');</p><p>} else {</p><p>document.write('<script src="dist/es5/es5 - bundle.js"><\/script>');</p><p>}</p><p></script></p><p><script src="browser - config.json" data - config></script></p><p></body></p><p></html></p><p>```</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>XHR 和 Fetch 是否支持取消请求【热度: 122】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：XHR 取消请求、Fetch 取消请求&lt;/p&gt;&lt;p&gt;&lt;strong&gt;XHR 支持取消请求&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;XHR（XMLHttpRequest）对象支持取消请求。你可以使用 &lt;code&gt;xhr.abort()&lt;/cod" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="XHR 和 Fetch 是否支持取消请求【热度: 122】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：XHR 取消请求、Fetch 取消请求&lt;/p&gt;&lt;p&gt;&lt;strong&gt;XHR 支持取消请求&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;XHR（XMLHttpRequest）对象支持取消请求。你可以使用 &lt;code&gt;xhr.abort()&lt;/code&gt; 方法来取消正在进行的请求。&lt;/p&gt;&lt;p&gt;下面是一个使用 XHR 取消请求的示例代码：&lt;/p&gt;&lt;pre class=" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/575" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>XHR 和 Fetch 是否支持取消请求【热度: 122】</h1>
+      <div class="subtitle">网络 · 网络 · 阿里巴巴</div>
+      <div class="meta">创建：2023-10-01T09:07:06Z · 更新：2023-10-01T09:24:37Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：XHR 取消请求、Fetch 取消请求</p><p><strong>XHR 支持取消请求</strong></p><p>XHR（XMLHttpRequest）对象支持取消请求。你可以使用 <code>xhr.abort()</code> 方法来取消正在进行的请求。</p><p>下面是一个使用 XHR 取消请求的示例代码：</p><pre class="code-block"><code class="language-javascript">const xhr = new XMLHttpRequest();
+xhr.open(&#39;GET&#39;, &#39;https://api.example.com/data&#39;, true);
+xhr.send();
+
+// 取消请求
+xhr.abort();
+</code></pre><p>使用 <code>xhr.abort()</code> 方法会导致 XHR 请求被中止，并触发 <code>abort</code> 事件。</p><p>需要注意的是，取消请求后，XHR 对象将不再可用，不能再使用已经取消的 XHR 对象发送新的请求。</p><p><strong>Fetch API 原生不提供直接的方法来取消请求。然而，你可以使用 AbortController 来实现取消 fetch 请求的功能。</strong></p><p>AbortController 是一个用于控制和取消异步操作的 API，它可以与 fetch 一起使用来取消网络请求。下面是一个使用 AbortController 来取消 fetch 请求的示例代码：</p><pre class="code-block"><code class="language-javascript">const controller = new AbortController();
+const signal = controller.signal;
+
+fetch(&#39;https://api.example.com/data&#39;, { signal })
+  .then(response =&gt; {
+    // 处理响应
+  })
+  .catch(error =&gt; {
+    if (error.name === &#39;AbortError&#39;) {
+      console.log(&#39;请求被取消&#39;);
+    } else {
+      console.log(&#39;发生错误&#39;, error);
+    }
+  });
+
+// 取消请求
+controller.abort();
+</code></pre><p>在上面的代码中，我们创建了一个 AbortController 对象，并从中获取一个 signal 信号。然后，将 signal 信号传递给 fetch 请求的 options 参数中。当调用 <code>controller.abort()</code> 方法时，fetch 请求会被取消，并且会触发一个 <code>AbortError</code> 错误。</p><p>需要注意的是，AbortController 是一个较新的 API，不是所有浏览器都完全支持。为了确保在不支持 AbortController 的情况下仍能取消 fetch 请求，你可以使用 polyfill 或使用第三方库（如 Axios）来实现取消功能。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

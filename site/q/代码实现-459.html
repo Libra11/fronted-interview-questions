@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[代码实现] 手写实现 Object.create【热度: 179】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：Object.create实现、Object.create手写&lt;/p&gt;&lt;p&gt;Object.create() 方法可以用于创建一个新对象，使其原型与指定的对象完全相同。可以通过以下方式手写实现 Object.create() 方法。&lt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[代码实现] 手写实现 Object.create【热度: 179】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：Object.create实现、Object.create手写&lt;/p&gt;&lt;p&gt;Object.create() 方法可以用于创建一个新对象，使其原型与指定的对象完全相同。可以通过以下方式手写实现 Object.create() 方法。&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascript&quot;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/459" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[代码实现] 手写实现 Object.create【热度: 179】</h1>
+      <div class="subtitle">代码实现 · 小米 · 代码实现/算法</div>
+      <div class="meta">创建：2023-06-13T16:15:06Z · 更新：2023-09-06T15:52:19Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：Object.create实现、Object.create手写</p><p>Object.create() 方法可以用于创建一个新对象，使其原型与指定的对象完全相同。可以通过以下方式手写实现 Object.create() 方法。</p><pre class="code-block"><code class="language-javascript">function createObject(proto) {
+  function F() {}
+  F.prototype = proto;
+  return new F();
+}
+
+// Example usage
+const person = {
+  firstName: &#39;John&#39;,
+  lastName: &#39;Doe&#39;,
+  fullName: function() {
+    return this.firstName + &#39; &#39; + this.lastName;
+  }
+};
+
+const anotherPerson = createObject(person);
+anotherPerson.firstName = &#39;Jane&#39;;
+console.log(anotherPerson.fullName()); // Output: &quot;Jane Doe&quot;
+</code></pre><p>该实现方式创建了一个名为 F 的空函数，将其原型设置为传入的 proto 对象，然后返回一个新创建的 F 函数对象。这个新对象的原型与传入的 proto 对象相同，从而实现了 Object.create() 的功能。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>原生 js 如何进行监听路由的变化【热度: 906】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：原生路由监听&lt;/p&gt;&lt;p&gt;在原生 JavaScript 中，可以使用 window 对象上的 popstate 事件来监听路由的变化。popstate 事件在浏览器的历史记录发生变化时触发，包括当用户点击浏览器的前进或后退按钮、调用" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="原生 js 如何进行监听路由的变化【热度: 906】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：原生路由监听&lt;/p&gt;&lt;p&gt;在原生 JavaScript 中，可以使用 window 对象上的 popstate 事件来监听路由的变化。popstate 事件在浏览器的历史记录发生变化时触发，包括当用户点击浏览器的前进或后退按钮、调用 history.pushState() 或 history.replaceState() 方法等。&lt;/p&gt;&lt;p&gt;下面是" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/495" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>原生 js 如何进行监听路由的变化【热度: 906】</h1>
+      <div class="subtitle">浏览器 · 浏览器 · 网易</div>
+      <div class="meta">创建：2023-07-26T15:48:43Z · 更新：2023-09-05T07:30:20Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：原生路由监听</p><p>在原生 JavaScript 中，可以使用 window 对象上的 popstate 事件来监听路由的变化。popstate 事件在浏览器的历史记录发生变化时触发，包括当用户点击浏览器的前进或后退按钮、调用 history.pushState() 或 history.replaceState() 方法等。</p><p>下面是一个简单的示例代码，演示如何使用 popstate 事件监听路由的变化：</p><pre class="code-block"><code class="language-javascript">// 监听 popstate 事件
+window.addEventListener(&#39;popstate&#39;, function(event) {
+  // 在这里可以执行路由变化后的处理逻辑
+  console.log(&#39;路由发生了变化&#39;);
+});
+
+// 修改 URL 并添加一条历史记录
+history.pushState(null, null, &#39;/new-route&#39;);
+
+// 或者使用 history.replaceState() 方法替换当前历史记录
+// history.replaceState(null, null, &#39;/new-route&#39;);
+</code></pre><p>在上面的代码中，当 popstate 事件触发时，回调函数会被执行。你可以在回调函数中添加适当的处理逻辑，例如更新页面内容、重新渲染视图等。</p><p>需要注意的是，popstate 事件不会在页面加载时触发，因此如果你需要在页面加载时执行一些初始化的路由处理逻辑，可以将该逻辑封装为一个函数，并在加载时调用一次，然后再通过 popstate 事件监听路由的变化。</p><p>另外，还可以使用 history.state 属性来获取当前历史记录的状态对象，该对象可以在调用 history.pushState() 或 history.replaceState() 方法时传入。这样可以在 popstate 事件回调函数中访问和使用该状态对象。</p><pre class="code-block"><code class="language-javascript">window.addEventListener(&#39;popstate&#39;, function(event) {
+  var state = history.state;
+  // 在这里可以访问和使用历史记录的状态对象
+});
+</code></pre><p>通过监听 popstate 事件，可以在原生 JavaScript 中轻松地监听和响应路由的变化，从而实现相应的页面切换和处理逻辑。</p><h2>Comments / Answers</h2><hr /><p><strong>Ctrl30</strong> at 2023-08-17T08:20:56Z</p><p>我试了这个监听没效果。。。 是我浏览器有问题？</p><hr /><p><strong>yanlele</strong> at 2023-08-17T08:27:44Z</p><blockquote>我试了这个监听没效果。。。 是我浏览器有问题？</blockquote><p>@Ctrl30</p><p>这个是处理原生事件的哟。</p><p>可以看这个文档：https://developer.mozilla.org/zh-CN/docs/Web/API/Window/popstate_event</p><hr /><p><strong>wuhuaizai</strong> at 2023-09-05T07:15:27Z</p><p>调用 history.pushState() 或 history.replaceState() 方法不会触发popstate事件</p><hr /><p><strong>yanlele</strong> at 2023-09-05T07:30:20Z</p><blockquote>调用 history.pushState() 或 history.replaceState() 方法不会触发popstate事件</blockquote><p>@wuhuaizai</p><p>可以试试下面这段代码</p><pre class="code-block"><code class="language-js">window.onpopstate = function (event) {
+  alert(
+    &quot;location: &quot; +
+      document.location +
+      &quot;, state: &quot; +
+      JSON.stringify(event.state),
+  );
+};
+
+history.pushState({ page: 1 }, &quot;title 1&quot;, &quot;?page=1&quot;); // 页面前进一个状态
+history.pushState({ page: 2 }, &quot;title 2&quot;, &quot;?page=2&quot;); // // 页面前进2个状态
+history.replaceState({ page: 3 }, &quot;title 3&quot;, &quot;?page=3&quot;); // // 页面前进3个状态
+history.back(); // 弹出 &quot;location: http://example.com/example.html?page=1, state: {&quot;page&quot;:1}&quot; // 回退状态
+history.back(); // 弹出 &quot;location: http://example.com/example.html, state: null 
+history.go(2); // 弹出 &quot;location: http://example.com/example.html?page=3, state: {&quot;page&quot;:3}
+</code></pre><p>可以之所以没有触发，可以参考这个：</p><p><img alt="image" src="https://github.com/pro-collection/interview-question/assets/22188674/f687f76d-fbf9-4aad-b1e4-037899af462c" /></p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

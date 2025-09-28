@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>https 中如何保证证书是可信任的【热度: 210】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：https 证书可信保证&lt;/p&gt;&lt;p&gt;在 HTTPS 中，保证证书是可信任的主要通过以下几个方面实现：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、证书颁发机构（CA）的信任体系&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;根证书的" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="https 中如何保证证书是可信任的【热度: 210】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：https 证书可信保证&lt;/p&gt;&lt;p&gt;在 HTTPS 中，保证证书是可信任的主要通过以下几个方面实现：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、证书颁发机构（CA）的信任体系&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;根证书的信任&lt;/strong&gt;：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;操作系统和浏览器内置了一些受信任的根证书颁发机构（Root " />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/973" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>https 中如何保证证书是可信任的【热度: 210】</h1>
+      <div class="subtitle">阿里巴巴 · 网络 · 阿里巴巴</div>
+      <div class="meta">创建：2024-10-07T08:38:59Z · 更新：2024-10-07T08:38:59Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：https 证书可信保证</p><p>在 HTTPS 中，保证证书是可信任的主要通过以下几个方面实现：</p><p><strong>一、证书颁发机构（CA）的信任体系</strong></p><ol><li><strong>根证书的信任</strong>：</li></ol><ul><li>操作系统和浏览器内置了一些受信任的根证书颁发机构（Root CA）的证书。这些根证书是整个信任体系的基础。</li><li>当浏览器接收到一个服务器的 SSL/TLS 证书时，它会沿着证书链向上追溯，直到找到一个受信任的根证书。如果证书链中的所有证书都有效，并且最终可以追溯到一个受信任的根证书，那么这个服务器证书就被认为是可信任的。</li></ul><ol><li><strong>中间证书的验证</strong>：</li></ol><ul><li>通常，服务器证书不是由根证书颁发机构直接颁发的，而是由中间证书颁发机构（Intermediate CA）颁发的。中间证书颁发机构的证书又由根证书颁发机构颁发。</li><li>浏览器在验证服务器证书时，会同时验证证书链中的中间证书。它会检查中间证书的有效性、签名是否正确以及是否在有效期内等。</li></ul><p><strong>二、证书的验证过程</strong></p><ol><li><strong>证书的完整性检查</strong>：</li></ol><ul><li>浏览器会检查服务器证书的数字签名，以确保证书在传输过程中没有被篡改。证书的数字签名是使用证书颁发机构的私钥生成的，浏览器可以使用证书颁发机构的公钥来验证签名的有效性。</li><li>如果签名验证失败，说明证书可能被篡改，浏览器会显示警告信息，并且可能拒绝建立安全连接。</li></ul><ol><li><strong>证书的有效期检查</strong>：</li></ol><ul><li>浏览器会检查服务器证书的有效期，确保证书在当前时间是有效的。如果证书已过期或尚未生效，浏览器会显示警告信息，并且可能拒绝建立安全连接。</li></ul><ol><li><strong>域名匹配检查</strong>：</li></ol><ul><li>浏览器会检查服务器证书中的域名与用户访问的域名是否匹配。如果证书中的域名与访问的域名不匹配，浏览器会显示警告信息，并且可能拒绝建立安全连接。</li><li>例如，如果用户访问“example.com”，但服务器证书是为“another-example.com”颁发的，那么浏览器会认为证书不可信。</li></ul><p><strong>三、证书吊销检查</strong></p><ol><li><strong>证书吊销列表（CRL）</strong>：</li></ol><ul><li>证书颁发机构可以吊销已经颁发的证书，例如当证书的私钥被泄露或者证书的所有者发生变化时。为了检查证书是否被吊销，浏览器可以查询证书颁发机构发布的证书吊销列表（CRL）。</li><li>CRL 是一个包含已吊销证书序列号的列表，浏览器可以下载这个列表，并检查服务器证书的序列号是否在列表中。如果在列表中，说明证书已被吊销，浏览器会显示警告信息，并且可能拒绝建立安全连接。</li></ul><ol><li><strong>在线证书状态协议（OCSP）</strong>：</li></ol><ul><li>除了 CRL，浏览器还可以使用在线证书状态协议（OCSP）来实时查询服务器证书的状态。OCSP 允许浏览器向证书颁发机构的服务器发送一个请求，询问服务器证书是否有效。</li><li>证书颁发机构的服务器会返回一个响应，指示证书的状态（有效、吊销或未知）。浏览器可以根据这个响应来决定是否信任服务器证书。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

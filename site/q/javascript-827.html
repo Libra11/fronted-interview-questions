@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>对象的遍历方式有哪些【热度: 848】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：对象遍历方式&lt;/p&gt;&lt;p&gt;遍历 JavaScript 对象的属性可以使用几种不同的方法，每种方法都有其适用场景和特点。以下是一些常用的遍历对象属性的方法：&lt;/p&gt;&lt;h3&gt;1. &lt;strong&gt;for-in 循环&lt;/strong&gt;&lt;/" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="对象的遍历方式有哪些【热度: 848】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：对象遍历方式&lt;/p&gt;&lt;p&gt;遍历 JavaScript 对象的属性可以使用几种不同的方法，每种方法都有其适用场景和特点。以下是一些常用的遍历对象属性的方法：&lt;/p&gt;&lt;h3&gt;1. &lt;strong&gt;for-in 循环&lt;/strong&gt;&lt;/h3&gt;&lt;p&gt;&lt;code&gt;for-in&lt;/code&gt; 循环可以遍历一个对象的所有&lt;strong&gt;可枚举属性&lt;/strong" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/827" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>对象的遍历方式有哪些【热度: 848】</h1>
+      <div class="subtitle">JavaScript · JavaScript · PDD</div>
+      <div class="meta">创建：2024-08-17T11:23:25Z · 更新：2024-08-17T11:23:25Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：对象遍历方式</p><p>遍历 JavaScript 对象的属性可以使用几种不同的方法，每种方法都有其适用场景和特点。以下是一些常用的遍历对象属性的方法：</p><h3>1. <strong>for-in 循环</strong></h3><p><code>for-in</code> 循环可以遍历一个对象的所有<strong>可枚举属性</strong>，包括其原型链上的属性。</p><pre class="code-block"><code class="language-javascript">const obj = { a: 1, b: 2, c: 3 };
+for (const key in obj) {
+  if (obj.hasOwnProperty(key)) {
+    // 推荐检查属性是否为对象本身的属性
+    console.log(key, obj[key]);
+  }
+}
+</code></pre><p>使用 <code>hasOwnProperty</code> 方法检查属性是否是对象本身的属性（而不是继承的属性）是一个好习惯。</p><h3>2. <strong>Object.keys()</strong></h3><p><code>Object.keys()</code> 方法返回一个包含对象自身所有可枚举属性名称的数组。</p><pre class="code-block"><code class="language-javascript">const obj = { a: 1, b: 2, c: 3 };
+Object.keys(obj).forEach((key) =&gt; {
+  console.log(key, obj[key]);
+});
+</code></pre><h3>3. <strong>Object.values()</strong></h3><p><code>Object.values()</code> 方法返回一个包含对象自身所有可枚举属性值的数组。</p><pre class="code-block"><code class="language-javascript">const obj = { a: 1, b: 2, c: 3 };
+Object.values(obj).forEach((value) =&gt; {
+  console.log(value);
+});
+</code></pre><h3>4. <strong>Object.entries()</strong></h3><p><code>Object.entries()</code> 方法返回一个给定对象自身可枚举属性的键值对数组。</p><pre class="code-block"><code class="language-javascript">const obj = { a: 1, b: 2, c: 3 };
+Object.entries(obj).forEach(([key, value]) =&gt; {
+  console.log(key, value);
+});
+</code></pre><h3>5. <strong>Object.getOwnPropertyNames()</strong></h3><p><code>Object.getOwnPropertyNames()</code> 方法返回一个数组，包含对象自身的所有属性（不论属性是否可枚举），但不包括 Symbol 属性。</p><pre class="code-block"><code class="language-javascript">const obj = { a: 1, b: 2, c: 3 };
+const propertyNames = Object.getOwnPropertyNames(obj);
+propertyNames.forEach((name) =&gt; {
+  console.log(name, obj[name]);
+});
+</code></pre><h3>6. <strong>Reflect.ownKeys()</strong></h3><p><code>Reflect.ownKeys()</code> 方法返回一个数组，包含对象自身的所有键，包括<strong>字符串键</strong>和<strong>Symbol 键</strong>。</p><pre class="code-block"><code class="language-javascript">const obj = { a: 1, b: 2, c: 3, [Symbol(&quot;d&quot;)]: 4 };
+Reflect.ownKeys(obj).forEach((key) =&gt; {
+  console.log(key, obj[key]);
+});
+</code></pre><p>根据需要选择合适的方法进行对象属性的遍历。例如，当你想要同时获取属性的键和值时，<code>Object.entries()</code> 是一个很好的选择。而如果你想要包括 Symbol 属性在内的所有键，那么 <code>Reflect.ownKeys()</code>可能是更合适的选择。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

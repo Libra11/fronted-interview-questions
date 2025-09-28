@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>面试题刷题</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="icon" href="assets/favicon.svg" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="#categories">分类</a>
+        <a href="#">关于</a>
+      </nav>
+    </div>
+  </header>
+  <section class="hero">
+    <div class="container">
+      <h1>前端面试题 · 高效刷题</h1>
+      <p>覆盖公司与专题分类，支持搜索、筛选与快速跳转原始问题。</p>
+      <div class="search-bar">
+        <input id="search-input" type="search" placeholder="搜索题目、标签、编号..." />
+      </div>
+      <div class="quick-filters" id="quick-filters"></div>
+    </div>
+  </section>
+
+  <main class="container layout">
+    <aside class="sidebar">
+      <h2 id="categories">分类</h2>
+      <div id="category-list" class="category-list"></div>
+    </aside>
+    <section class="results">
+      <div id="stats" class="stats"></div>
+      <div id="cards" class="cards"></div>
+      <div id="pagination" class="pagination"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">© 面试题刷题 · 本地静态站点</footer>
+  <script src="assets/index-data.js"></script>
+  <script src="assets/app.js"></script>
+  
+</body>
+</html>

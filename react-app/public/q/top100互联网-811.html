@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>日志监控：如何还原用户操作流程【热度: 450】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：日志监控 - 还原现场、日志监控 - 前端录制用户行为技术方案&lt;/p&gt;&lt;h3&gt;需求&lt;/h3&gt;&lt;p&gt;一种手段来获取用户某一时段连续的操作行为，也就是录制用户行为，包括整个会话中的每一个点击、滑动、输入等行为，同时支持回放录制的操作行为" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="日志监控：如何还原用户操作流程【热度: 450】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：日志监控 - 还原现场、日志监控 - 前端录制用户行为技术方案&lt;/p&gt;&lt;h3&gt;需求&lt;/h3&gt;&lt;p&gt;一种手段来获取用户某一时段连续的操作行为，也就是录制用户行为，包括整个会话中的每一个点击、滑动、输入等行为，同时支持回放录制的操作行为，完整且真实地重现用户行为以帮助我们回溯或分析某些使用场景。&lt;/p&gt;&lt;h3&gt;实现方式&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;方案" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/811" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>日志监控：如何还原用户操作流程【热度: 450】</h1>
+      <div class="subtitle">TOP100互联网 · web应用场景 · TOP100互联网</div>
+      <div class="meta">创建：2024-08-10T03:31:45Z · 更新：2024-08-10T03:31:46Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：日志监控 - 还原现场、日志监控 - 前端录制用户行为技术方案</p><h3>需求</h3><p>一种手段来获取用户某一时段连续的操作行为，也就是录制用户行为，包括整个会话中的每一个点击、滑动、输入等行为，同时支持回放录制的操作行为，完整且真实地重现用户行为以帮助我们回溯或分析某些使用场景。</p><h3>实现方式</h3><p><strong>方案对比</strong></p><p>| 对比内容   | 视频录制             | 页面截图                 | Dom 快照录制              |</p><p>| ---------- | -------------------- | ------------------------ | ------------------------- |</p><p>| 开源库     | WebRTC 原生支持      | html2canvas              | rrweb                     |</p><p>| 用户感知   | 录制有感             | 录制无感                 | 录制无感                  |</p><p>| 产物大小   | 大                   | 大                       | 相对较小                  |</p><p>| 兼容性     | 详见相关 API 兼容性  | 部分场景内容截图无法显示 | 兼容性相对较好            |</p><p>| 信息安全   | 无法脱敏             | 无法脱敏                 | 可以脱敏                  |</p><p>| 可操作性   | 弱                   | 弱                       | 强（支持数据脱敏/加密等） |</p><p>| 回放清晰度 | 录制时决定，有损录制 | 录制时决定，有损录制     | 高保真                    |</p><h3>实操</h3><h4>视频录制</h4><p>录制用户行为最容易想到的就是将屏幕操作通过视频的方式录制下来，目前浏览器本身已经提供了一套基于音视轨的实时数据流传输方案 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/WebRTC_API" target="_blank" rel="noopener">WebRTC</a>（Web Real-Time Communications），在我们的录屏使用场景主要关注以下几个 API：</p><ul><li><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/getUserMedia" target="_blank" rel="noopener">getDisplayMedia()</a> - 提示用户给予使用媒体输入的许可从而获取屏幕的流；</li><li><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/MediaRecorder/MediaRecorder" target="_blank" rel="noopener">MediaRecorder()</a> - 生成对指定的媒体流进行录制的 MediaRecorder 对象；</li><li><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/MediaRecorder/dataavailable_event" target="_blank" rel="noopener">ondataavailable</a> - 当 MediaRecorder 将媒体数据传递到应用程序以供使用时将触发该事件；</li></ul><p>整体录制流程如下：</p><ol><li>调用<code>mediaDevices.getDisplayMedia()</code>由用户授权选择屏幕进行录制，获取到数据流；</li><li>生成一个<code>new MediaRecorder()</code>对象录制获取的屏幕的数据流；</li><li>在 MediaRecorder 对象上设置<code>ondataavailable</code>监听事件用于获取录制的 Blob 数据。</li></ol><pre class="code-block"><code class="language-html">代码解读&lt;template&gt;
+  &lt;video ref=&quot;playerRef&quot;&gt;&lt;/video&gt;
+  &lt;button @click=&quot;handleStart&quot;&gt;开启录制&lt;/button&gt;
+  &lt;button @click=&quot;handlePause&quot;&gt;暂停录制&lt;/button&gt;
+  &lt;button @click=&quot;handleResume&quot;&gt;继续录制&lt;/button&gt;
+  &lt;button @click=&quot;handleStop&quot;&gt;结束录制&lt;/button&gt;
+  &lt;button @click=&quot;handleReplay&quot;&gt;播放录制&lt;/button&gt;
+  &lt;button @click=&quot;handleReset&quot;&gt;重置内容&lt;/button&gt;
+&lt;/template&gt;
+
+&lt;script lang=&quot;ts&quot; setup&gt;
+  import { ref, reactive } from &quot;vue&quot;;
+
+  const playerRef = ref();
+  const state = reactive({
+    mediaRecorder: null as null | MediaRecorder,
+    blobs: [] as Blob[],
+  });
+
+  // 开始录制
+  const handleStart = async () =&gt; {
+    const stream = await navigator.mediaDevices.getDisplayMedia();
+    state.mediaRecorder = new MediaRecorder(stream, {
+      mimeType: &quot;video/webm&quot;,
+    });
+    state.mediaRecorder.addEventListener(&quot;dataavailable&quot;, (e: BlobEvent) =&gt; {
+      state.blobs.push(e.data);
+    });
+    state.mediaRecorder?.start();
+  };
+  // canvas录制(特殊处理)
+  const handleCanvasRecord = () =&gt; {
+    const stream = canvas.captureStream(60); // 60 FPS recording
+    const recorder = new MediaRecorder(stream, {
+      mimeType: &quot;video/webm;codecs=vp9&quot;,
+    });
+    recorder.ondataavailable = (e) =&gt; {
+      state.blobs.push(e.data);
+    };
+  };
+  // 暂停录制
+  const handlePause = () =&gt; {
+    state.mediaRecorder?.pause();
+  };
+  // 继续录制
+  const handleResume = () =&gt; {
+    state.mediaRecorder?.resume();
+  };
+  // 停止录制
+  const handleStop = () =&gt; {
+    state.mediaRecorder?.stop();
+  };
+  // 播放录制
+  const handleReplay = () =&gt; {
+    if (state.blobs.length === 0 || !playerRef.value) return;
+    const blob = new Blob(state.blobs, { type: &quot;video/webm&quot; });
+    playerRef.value.src = URL.createObjectURL(blob);
+    playerRef.value.play();
+  };
+
+  const handleReset = () =&gt; {
+    state.blobs = [];
+    state.mediaRecorder = null;
+    playerRef.value.src = null;
+  };
+  const handleDownload = () =&gt; {
+    if (state.blobs.length === 0) return;
+    const blob = new Blob(state.blobs, { type: &quot;video/webm&quot; });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement(&quot;a&quot;);
+    a.href = url;
+    a.style.display = &quot;none&quot;;
+    a.download = &quot;record.webm&quot;;
+    a.click();
+  };
+&lt;/script&gt;
+</code></pre><p><img alt="Untitled 1.png" src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7c4204442dc649d8af7027d85652bbcd~tplv-k3u1fbpfcp-jj-mark:3024:0:0:0:q75.awebp#?w=3582&amp;h=2118&amp;s=1544515&amp;e=png&amp;b=fcfcfc" /></p><h4>页面截图</h4><p>众所周知，视频是由一帧帧的画面组合而成的，因此我们可以按照一定时间间隔来截图的方式保存当前页面快照，然后将快照按照相同的截取速度播放形成视频就能实现用户行为录制了。最常用的截图方法就是以 <a href="https://www.npmjs.com/package/html2canvas" target="_blank" rel="noopener">html2canvas</a> 库为代表的 canvas 截图，我们在使用过程中也发现了较多问题：</p><ol><li>canvas 截图有较多局限之处，例如无法绘制动画、样式错位、<a href="https://html2canvas.hertzen.com/features" target="_blank" rel="noopener">不支持部分 CSS 样式</a>等；</li><li>截图性能开销较大，可能会导致掉帧，例如我们在尝试中 css 动画有非常明显的卡顿等；</li><li>截图资源体积大，我们尝试中截图时单张图片体积为 200k 左右，以 24 帧来算一分钟录制的图片体积将近 300MB，对带宽和资源存储都是浪费；</li><li>在需要忽略的元素上增加 data-html2canvas-ignore 属性或者设置 ignoreElements 属性删除特定元素可以对某些特定数据或内容进行脱敏，但会直接删除元素无法做到“有占位但无内容”效果，影响页面布局。</li></ol><pre class="code-block"><code class="language-html">代码解读&lt;template&gt;
+  &lt;el-button @click=&quot;handleStart&quot;&gt;开启录制&lt;/el-button&gt;
+  &lt;el-button @click=&quot;handleStop&quot;&gt;停止录制&lt;/el-button&gt;
+  &lt;el-button @click=&quot;handleReplay&quot;&gt;播放录制&lt;/el-button&gt;
+  &lt;img :src=&quot;state.imgs[state.num ?? 0]&quot; /&gt;
+&lt;/template&gt;
+
+&lt;script lang=&quot;ts&quot; setup&gt;
+  import { reactive } from &quot;vue&quot;;
+  import html2canvas from &quot;html2canvas&quot;;
+
+  const state = reactive({
+    visible: false,
+    imgs: [] as string[],
+    num: 0,
+    recordInterval: null as any,
+    replayInterval: null as any,
+  });
+
+  const FPS = 30;
+  const interval = 1000 / FPS;
+  const handleStart = async () =&gt; {
+    handleReset();
+    state.recordInterval = setInterval(() =&gt; {
+      if (state.imgs.length &gt; 100) {
+        handleStop();
+        return;
+      }
+      html2canvas(document.body).then((canvas: any) =&gt; {
+        const img = canvas.toDataURL();
+        state.imgs.push(img);
+      });
+    }, interval);
+  };
+
+  const handleStop = () =&gt; {
+    state.recordInterval &amp;&amp; clearInterval(state.recordInterval);
+  };
+
+  const handleReplay = async () =&gt; {
+    state.recordInterval &amp;&amp; clearInterval(state.recordInterval);
+    state.num = 0;
+    state.visible = true;
+    state.replayInterval = setInterval(() =&gt; {
+      if (state.num &gt;= state.imgs.length - 1) {
+        clearInterval(state.replayInterval);
+        return;
+      }
+      state.num++;
+    }, interval);
+  };
+
+  const handleReset = () =&gt; {
+    state.imgs = [];
+    state.recordInterval = null;
+    state.replayInterval = null;
+    state.num = 0;
+  };
+&lt;/script&gt;
+</code></pre><h4>Dom 快照录制</h4><blockquote>💡 <strong>Dom 快照录制 - rrweb 库</strong> 是目前最为流行的解决方案，一些商业化平台解决方案也都主要基于 rrweb 库来进行录制与回放的功能开发。</blockquote><p>rrweb 主要由 3 部分组成：</p><ol><li><a href="https://github.com/rrweb-io/rrweb/tree/master/packages/rrweb-snapshot/" target="_blank" rel="noopener">rrweb-snapshot</a>，包含 snapshot 和 rebuild 两部分，snapshot 用于将 DOM 及其状态转化为可序列化的数据结构并添加唯一标识，rebuild 是将 snapshot 记录的数据结构重建为对应 DOM。</li><li><a href="https://github.com/rrweb-io/rrweb" target="_blank" rel="noopener">rrweb</a>，包含 record 和 replay 两个功能，record 用于记录 DOM 中的所有变更，replay 则是将记录的变更按照对应的时间一一重放。</li><li><a href="https://github.com/rrweb-io/rrweb/tree/master/packages/rrweb-player/" target="_blank" rel="noopener">rrweb-player</a>，为 rrweb 提供一套 UI 控件，提供基于 GUI 的暂停、快进、拖拽至任意时间点播放等功能。</li></ol><p><img alt="Untitled 4.png" src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5c837f24b84d444db31b8941d2df4021~tplv-k3u1fbpfcp-jj-mark:3024:0:0:0:q75.awebp#?w=1822&amp;h=602&amp;s=18559&amp;e=png&amp;a=1&amp;b=fdf2f2" /></p><p><strong>分别设计到了【录制】和【回访】两个场景</strong></p><p>细节可以参考官网文档即可</p><h3>参考文档</h3><p>https://juejin.cn/post/7280429214607769658</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

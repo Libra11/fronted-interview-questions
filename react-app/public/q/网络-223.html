@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>介绍下如何实现 token 加密？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;Token 是一种常用的身份验证机制，通常被用于 Web 应用程序的用户身份验证。Token 的生成和使用可以使用加密技术来增强安全性，下面介绍一下如何实现 Token 加密。&lt;/p&gt;&lt;p&gt;Token 加密一般有两个步骤：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;生成 Token&lt;/li&gt;&lt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="介绍下如何实现 token 加密？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;Token 是一种常用的身份验证机制，通常被用于 Web 应用程序的用户身份验证。Token 的生成和使用可以使用加密技术来增强安全性，下面介绍一下如何实现 Token 加密。&lt;/p&gt;&lt;p&gt;Token 加密一般有两个步骤：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;生成 Token&lt;/li&gt;&lt;li&gt;加密 Token&lt;/li&gt;&lt;/ol&gt;&lt;h3&gt;1. 生成 Token&lt;/h3&gt;&lt;p&gt;在生成 Token 时，需要将用" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/223" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>介绍下如何实现 token 加密？</h1>
+      <div class="subtitle">网络 · 网络</div>
+      <div class="meta">创建：2023-03-28T15:36:35Z · 更新：2023-03-28T15:36:35Z</div>
+    </div>
+    <article class="content markdown-body"><p>Token 是一种常用的身份验证机制，通常被用于 Web 应用程序的用户身份验证。Token 的生成和使用可以使用加密技术来增强安全性，下面介绍一下如何实现 Token 加密。</p><p>Token 加密一般有两个步骤：</p><ol><li>生成 Token</li><li>加密 Token</li></ol><h3>1. 生成 Token</h3><p>在生成 Token 时，需要将用户的一些信息进行组合，生成一个字符串，该字符串通常包括以下信息：</p><ol><li>用户的唯一标识（如用户 ID）</li><li>时间戳</li><li>有效期</li></ol><p>这些信息可以用分隔符分隔开，如用“.”分隔。</p><h3>2. 加密 Token</h3><p>加密 Token 有多种方式，下面介绍两种常用的方式：</p><h4>1. 对称加密</h4><p>对称加密是指加密和解密使用同一密钥的加密算法。对称加密的优点是加解密速度快，缺点是密钥传输容易被截获，从而影响安全性。</p><p>常用的对称加密算法有 DES、3DES、AES 等。</p><h4>2. 非对称加密</h4><p>非对称加密是指加密和解密使用不同密钥的加密算法。非对称加密的优点是密钥传输安全，缺点是加解密速度较慢。</p><p>常用的非对称加密算法有 RSA、DSA 等。</p><p>一般情况下，为了兼顾安全性和效率，通常采用混合加密，即先使用非对称加密算法对 Token 进行加密，再使用对称加密算法对加密后的 Token 进行加密。</p><p>综上所述，实现 Token 加密的关键在于对 Token 的生成和加密，需要根据具体业务需求来选择合适的加密算法和加密方式。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

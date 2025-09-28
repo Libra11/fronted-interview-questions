@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>请分别用深度优先思想和广度优先思想实现一个拷贝函数？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;深度优先思想实现拷贝函数可以采用递归的方式遍历对象或数组，对每个元素进行复制。如果当前元素是一个对象或数组，则递归调用拷贝函数，如果是基本数据类型则直接进行复制。以下是一个用深度优先思想实现拷贝函数的示例代码：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;cod" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="请分别用深度优先思想和广度优先思想实现一个拷贝函数？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;深度优先思想实现拷贝函数可以采用递归的方式遍历对象或数组，对每个元素进行复制。如果当前元素是一个对象或数组，则递归调用拷贝函数，如果是基本数据类型则直接进行复制。以下是一个用深度优先思想实现拷贝函数的示例代码：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;function deepClone(obj) { // 如" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/193" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>请分别用深度优先思想和广度优先思想实现一个拷贝函数？</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-26T10:05:58Z · 更新：2023-03-26T10:05:59Z</div>
+    </div>
+    <article class="content markdown-body"><p>深度优先思想实现拷贝函数可以采用递归的方式遍历对象或数组，对每个元素进行复制。如果当前元素是一个对象或数组，则递归调用拷贝函数，如果是基本数据类型则直接进行复制。以下是一个用深度优先思想实现拷贝函数的示例代码：</p><pre class="code-block"><code class="language-javascript">function deepClone(obj) {
+  // 如果obj是基本数据类型或null，则直接返回
+  if (typeof obj !== &#39;object&#39; || obj === null) {
+    return obj;
+  }
+
+  let result;
+  // 判断obj是数组还是对象
+  if (Array.isArray(obj)) {
+    result = [];
+  } else {
+    result = {};
+  }
+
+  // 递归遍历obj的每个属性或元素，并进行拷贝
+  for (let key in obj) {
+    result[key] = deepClone(obj[key]);
+  }
+
+  return result;
+}
+</code></pre><p>广度优先思想实现拷贝函数可以使用队列的方式，将每个元素放入队列中，然后循环遍历队列。如果当前元素是一个对象或数组，则将其属性或元素放入队列中，然后继续循环遍历队列。如果是基本数据类型则直接进行复制。以下是一个用广度优先思想实现拷贝函数的示例代码：</p><pre class="code-block"><code class="language-javascript">function breadthClone(obj) {
+  // 如果obj是基本数据类型或null，则直接返回
+  if (typeof obj !== &#39;object&#39; || obj === null) {
+    return obj;
+  }
+
+  let result;
+  // 判断obj是数组还是对象
+  if (Array.isArray(obj)) {
+    result = [];
+  } else {
+    result = {};
+  }
+
+  let queue = [obj];
+  let resQueue = [result];
+
+  // 循环遍历队列
+  while (queue.length &gt; 0) {
+    let curObj = queue.shift();
+    let curRes = resQueue.shift();
+
+    // 遍历当前元素的每个属性或元素，并进行拷贝
+    for (let key in curObj) {
+      let val = curObj[key];
+      if (typeof val === &#39;object&#39; &amp;&amp; val !== null) {
+        // 如果当前属性或元素是一个对象或数组，则将其放入队列中
+        let newVal = Array.isArray(val) ? [] : {};
+        curRes[key] = newVal;
+        queue.push(val);
+        resQueue.push(newVal);
+      } else {
+        // 如果是基本数据类型则直接进行复制
+        curRes[key] = val;
+      }
+    }
+  }
+
+  return result;
+}
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

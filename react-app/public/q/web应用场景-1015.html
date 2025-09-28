@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>package.json 依赖申明的方式有哪些， 他们有何却别【热度: 193】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：前端依赖申明方式&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、&lt;code&gt;dependencies&lt;/code&gt;（生产依赖）&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;定义和用途&lt;/strong&gt;：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;l" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="package.json 依赖申明的方式有哪些， 他们有何却别【热度: 193】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：前端依赖申明方式&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、&lt;code&gt;dependencies&lt;/code&gt;（生产依赖）&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;定义和用途&lt;/strong&gt;：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;&lt;code&gt;dependencies&lt;/code&gt;用于声明项目在生产环境中运行所必需的依赖项。&lt;/li&gt;&lt;li&gt;这些" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1015" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>package.json 依赖申明的方式有哪些， 他们有何却别【热度: 193】</h1>
+      <div class="subtitle">web应用场景 · web应用场景</div>
+      <div class="meta">创建：2024-10-18T15:18:06Z · 更新：2024-10-18T15:18:07Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：前端依赖申明方式</p><p><strong>一、<code>dependencies</code>（生产依赖）</strong></p><ol><li><strong>定义和用途</strong>：</li></ol><ul><li><code>dependencies</code>用于声明项目在生产环境中运行所必需的依赖项。</li><li>这些依赖项是项目正常运行所不可或缺的，无论是在开发阶段还是在部署到生产环境后。</li></ul><ol><li><strong>示例</strong>：</li></ol><ul><li>比如，如果你的项目使用了 Express.js 框架来构建服务器，那么 Express.js 就应该被声明在<code>dependencies</code>中。</li><li><code>&quot;express&quot;: &quot;^4.17.1&quot;</code>表示安装 Express 版本 4.17.1 或更高的兼容版本。</li></ul><ol><li><strong>安装和使用</strong>：</li></ol><ul><li>当你运行<code>npm install</code>或<code>yarn install</code>时，这些依赖项会被自动安装到项目的<code>node_modules</code>目录中。</li><li>在生产环境中部署项目时，这些依赖项也会被一同部署。</li></ul><p><strong>二、<code>devDependencies</code>（开发依赖）</strong></p><ol><li><strong>定义和用途</strong>：</li></ol><ul><li><code>devDependencies</code>用于声明仅在开发过程中需要的依赖项。</li><li>这些依赖项通常包括开发工具、测试框架、代码格式化工具等，它们不是项目在生产环境中运行所必需的。</li></ul><ol><li><strong>示例</strong>：</li></ol><ul><li>例如，Jest 是一个流行的 JavaScript 测试框架，如果你的项目使用 Jest 进行测试，那么 Jest 应该被声明在<code>devDependencies</code>中。</li><li><code>&quot;jest&quot;: &quot;^26.6.3&quot;</code>表示安装 Jest 版本 26.6.3 或更高的兼容版本。</li></ul><ol><li><strong>安装和使用</strong>：</li></ol><ul><li>同样，当你运行<code>npm install</code>或<code>yarn install</code>时，这些依赖项会被安装到项目的<code>node_modules</code>目录中。</li><li>但是，在生产环境中部署项目时，通常不会部署这些开发依赖项，以减小项目的体积和复杂性。</li></ul><p><strong>区别总结</strong>：</p><ol><li><strong>使用场景不同</strong>：</li></ol><ul><li><code>dependencies</code>中的依赖项是项目在生产环境中运行所必需的，而<code>devDependencies</code>中的依赖项仅在开发过程中使用。</li></ul><ol><li><strong>部署方式不同</strong>：</li></ol><ul><li>生产环境部署时，通常只部署<code>dependencies</code>中的依赖项，而不部署<code>devDependencies</code>中的依赖项。</li></ul><ol><li><strong>影响项目体积和复杂性</strong>：</li></ol><ul><li>将不必要的依赖项放在<code>devDependencies</code>中可以减小项目在生产环境中的体积和复杂性，提高性能和安全性。</li></ul><p><strong>三、<code>peerDependencies</code>（对等依赖）</strong></p><ol><li><strong>定义和用途</strong>：</li></ol><ul><li><code>peerDependencies</code> 用于声明当前包所依赖的其他包，但这些依赖项不会被自动安装。</li><li>它通常用于插件或扩展的场景，表明当前包与特定版本的其他包兼容，并且期望宿主环境已经安装了这些对等依赖。</li></ul><ol><li><strong>示例</strong>：</li></ol><ul><li>假设你正在开发一个 React 插件，你的插件可能需要特定版本的 React 才能正常工作。在这种情况下，你可以在 <code>package.json</code> 的 <code>peerDependencies</code> 中声明对 React 的依赖。</li><li><code>&quot;peerDependencies&quot;: { &quot;react&quot;: &quot;^17.0.2&quot; }</code> 表示这个插件期望宿主环境安装了 React 17.0.2 或更高的兼容版本。</li></ul><ol><li><strong>安装和使用</strong>：</li></ol><ul><li>当用户安装你的包时，他们需要确保在自己的项目中手动安装了满足 <code>peerDependencies</code> 要求的包。如果没有安装或版本不匹配，可能会导致运行时错误。</li></ul><p><strong>区别总结</strong>：</p><ul><li><strong>与 <code>dependencies</code> 的区别</strong>：</li><li><code>dependencies</code> 中的依赖项会在安装当前包时自动安装，而 <code>peerDependencies</code> 中的依赖项不会自动安装，需要用户在宿主项目中自行安装。</li><li><strong>与 <code>devDependencies</code> 的区别</strong>：</li><li><code>devDependencies</code> 是仅在开发过程中使用的依赖项，而 <code>peerDependencies</code> 是与当前包在运行时的兼容性相关的依赖项，不一定只在开发过程中使用。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

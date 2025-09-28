@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>corejs 是做什么用的， 跟 Polyfill 是什么关系【热度: 100】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：corejs 和 Polyfill&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;CoreJs 的作用&lt;/strong&gt;&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;提供标准的 JavaScript 功能支持&lt;/strong&gt;：Cor" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="corejs 是做什么用的， 跟 Polyfill 是什么关系【热度: 100】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：corejs 和 Polyfill&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;CoreJs 的作用&lt;/strong&gt;&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;提供标准的 JavaScript 功能支持&lt;/strong&gt;：CoreJs 是一个 JavaScript 标准库，它提供了许多在现代 JavaScript 环境中被认为是标准的功能。这些功" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1073" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>corejs 是做什么用的， 跟 Polyfill 是什么关系【热度: 100】</h1>
+      <div class="subtitle">工程化 · 工程化</div>
+      <div class="meta">创建：2024-11-23T03:25:28Z · 更新：2024-11-23T03:25:29Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：corejs 和 Polyfill</p><ol><li><strong>CoreJs 的作用</strong></li></ol><ul><li><strong>提供标准的 JavaScript 功能支持</strong>：CoreJs 是一个 JavaScript 标准库，它提供了许多在现代 JavaScript 环境中被认为是标准的功能。这些功能包括但不限于对 ES6 + 语法的支持，如<code>Promise</code>、<code>Symbol</code>、<code>Map</code>、<code>Set</code>等。例如，在一些较旧的浏览器中可能没有原生的<code>Promise</code>支持，CoreJs 可以提供一个兼容的<code>Promise</code>实现，使得代码能够在这些浏览器中正确运行。</li><li><strong>跨浏览器兼容性支持</strong>：它能够填补不同浏览器之间的 JavaScript 功能差距。由于不同浏览器对 JavaScript 标准的实现进度不同，CoreJs 可以确保在各种浏览器环境下都能提供一致的功能。比如，某些浏览器可能没有完全实现<code>Array.prototype.includes</code>方法，CoreJs 可以添加这个方法的实现，使得应用程序在这些浏览器中也能使用该功能。</li><li><strong>模块化的功能提供</strong>：CoreJs 是模块化的，这意味着可以根据具体的需求选择引入特定的模块。例如，如果只需要在项目中添加<code>Promise</code>和<code>Map</code>的支持，而不需要其他功能，可以只引入 CoreJs 相关的模块，避免不必要的代码体积增加。</li></ul><ol><li><strong>CoreJs 与 Polyfill 的关系</strong></li></ol><ul><li><strong>CoreJs 是 Polyfill 的一种实现方式</strong>：Polyfill 是一个术语，用于描述一段代码，它提供了浏览器中缺失的功能。CoreJs 可以看作是一种全面的 Polyfill 库。当浏览器不支持某个 JavaScript 特性时，CoreJs 可以通过添加相应的代码来模拟该特性，就像填充了浏览器功能的空缺一样。例如，对于<code>Object.assign</code>方法，如果浏览器不支持，CoreJs 可以提供一个自定义的函数来实现相同的功能，这个自定义函数就是一种 Polyfill。</li><li><strong>Polyfill 可以有多种来源，CoreJs 是常用的一种</strong>：除了 CoreJs 之外，开发人员也可以自己编写 Polyfill 或者使用其他库来提供类似的功能。但是 CoreJs 是经过广泛测试和优化的，它涵盖了大量的 JavaScript 特性，并且能够很好地与 Babel 等工具配合使用。例如，在 Babel 的<code>@babel/preset - env</code>配置中，使用<code>useBuiltIns: &#39;usage&#39;</code>选项时，Babel 会根据目标浏览器的情况，自动引入 CoreJs 中的相关 Polyfill，以确保代码在目标浏览器中能够正确运行。这样就能够高效地为项目添加必要的 Polyfill，而不是无差别地引入所有可能的 Polyfill，从而减小代码体积。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>移动端如何实现上拉加载，下拉刷新？【热度: 718】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：上拉加载、下拉刷新&lt;/p&gt;&lt;p&gt;移动端实现上拉加载和下拉刷新通常使用一些特定的库或框架来简化开发。以下是两种常见的实现方式：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;使用第三方库：一些流行的移动端UI库（如iScroll、BetterScroll、A" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="移动端如何实现上拉加载，下拉刷新？【热度: 718】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：上拉加载、下拉刷新&lt;/p&gt;&lt;p&gt;移动端实现上拉加载和下拉刷新通常使用一些特定的库或框架来简化开发。以下是两种常见的实现方式：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;使用第三方库：一些流行的移动端UI库（如iScroll、BetterScroll、Ant Design Mobile等）提供了上拉加载和下拉刷新的功能，你可以使用它们来实现。这些库通常提供了易于使用的AP" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/446" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>移动端如何实现上拉加载，下拉刷新？【热度: 718】</h1>
+      <div class="subtitle">web应用场景 · web应用场景 · 京东</div>
+      <div class="meta">创建：2023-06-12T15:29:22Z · 更新：2023-06-12T15:29:23Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：上拉加载、下拉刷新</p><p>移动端实现上拉加载和下拉刷新通常使用一些特定的库或框架来简化开发。以下是两种常见的实现方式：</p><ol><li>使用第三方库：一些流行的移动端UI库（如iScroll、BetterScroll、Ant Design Mobile等）提供了上拉加载和下拉刷新的功能，你可以使用它们来实现。这些库通常提供了易于使用的API和配置选项，可以在你的应用中轻松地集成上拉加载和下拉刷新功能。</li></ol><ol><li>自定义实现：如果你想更自定义地实现上拉加载和下拉刷新，可以使用原生的触摸事件（如touchstart、touchmove、touchend等）和滚动事件（如scroll）来监测用户的手势操作和滚动行为，并根据这些事件来触发相应的加载或刷新逻辑。你可以监听触摸事件来检测用户的下拉或上拉手势，当达到一定的阈值时，触发刷新或加载的操作。同时，你还需要监听滚动事件来判断当前滚动位置是否已经到达页面底部，从而触发上拉加载的操作。</li></ol><p>当自定义实现上拉加载和下拉刷新时，你可以使用JavaScript和HTML/CSS来编写代码。下面是一个简单的示例，演示了如何通过原生事件来实现上拉加载和下拉刷新的功能：</p><p>HTML 结构：</p><pre class="code-block"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;上拉加载和下拉刷新示例&lt;/title&gt;
+  &lt;style&gt;
+    /* 用于展示加载和刷新状态的样式 */
+    .loading {
+      text-align: center;
+      padding: 10px;
+      background-color: #f1f1f1;
+    }
+
+    .refresh {
+      text-align: center;
+      padding: 10px;
+      background-color: #f1f1f1;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&quot;content&quot;&gt;
+    &lt;!-- 内容区域 --&gt;
+  &lt;/div&gt;
+  &lt;div id=&quot;loading&quot; class=&quot;loading&quot;&gt;
+    加载中...
+  &lt;/div&gt;
+  &lt;div id=&quot;refresh&quot; class=&quot;refresh&quot;&gt;
+    下拉刷新
+  &lt;/div&gt;
+
+  &lt;script src=&quot;your_script.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>JavaScript 代码（your_script.js）：</p><pre class="code-block"><code class="language-javascript">// 获取相关元素
+var content = document.getElementById(&#39;content&#39;);
+var loading = document.getElementById(&#39;loading&#39;);
+var refresh = document.getElementById(&#39;refresh&#39;);
+
+var isRefreshing = false;
+var isLoading = false;
+
+// 监听触摸事件
+var startY = 0;
+var moveY = 0;
+content.addEventListener(&#39;touchstart&#39;, function(event) {
+  startY = event.touches[0].pageY;
+});
+
+content.addEventListener(&#39;touchmove&#39;, function(event) {
+  moveY = event.touches[0].pageY;
+
+  // 下拉刷新
+  if (moveY - startY &gt; 100 &amp;&amp; !isRefreshing) {
+    refresh.innerHTML = &#39;释放刷新&#39;;
+  }
+
+  // 上拉加载
+  var scrollTop = content.scrollTop;
+  var scrollHeight = content.scrollHeight;
+  var offsetHeight = content.offsetHeight;
+  if (scrollTop + offsetHeight &gt;= scrollHeight &amp;&amp; !isLoading) {
+    loading.style.display = &#39;block&#39;;
+  }
+});
+
+content.addEventListener(&#39;touchend&#39;, function(event) {
+  // 下拉刷新
+  if (moveY - startY &gt; 100 &amp;&amp; !isRefreshing) {
+    refresh.innerHTML = &#39;刷新中...&#39;;
+    simulateRefresh();
+  }
+
+  // 上拉加载
+  var scrollTop = content.scrollTop;
+  var scrollHeight = content.scrollHeight;
+  var offsetHeight = content.offsetHeight;
+  if (scrollTop + offsetHeight &gt;= scrollHeight &amp;&amp; !isLoading) {
+    loading.style.display = &#39;block&#39;;
+    simulateLoad();
+  }
+
+  // 重置状态
+  startY = 0;
+  moveY = 0;
+});
+
+// 模拟刷新
+function simulateRefresh() {
+  isRefreshing = true;
+  setTimeout(function() {
+    // 刷新完成后的操作
+    refresh.innerHTML = &#39;刷新成功&#39;;
+    isRefreshing = false;
+  }, 2000);
+}
+
+// 模拟加载
+function simulateLoad() {
+  isLoading = true;
+  setTimeout(function() {
+    // 加载完成后的操作
+    loading.style.display = &#39;none&#39;;
+    isLoading = false;
+  }, 2000);
+}
+</code></pre><p>上面的代码使用了<code>touchstart</code>、<code>touchmove</code>和<code>touchend</code>事件来监测用户的手势操作，实现了下拉刷新和上拉加载的功能。通过修改<code>refresh</code>和<code>loading</code>元</p><p>素的内容和样式，可以实现相应的状态展示效果。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

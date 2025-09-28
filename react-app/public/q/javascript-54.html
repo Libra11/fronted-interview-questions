@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>请设计一个算法, 将两个有序数组合并为一个数组, 请不要使用concat以及sort方法 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;可以使用双指针法来合并两个有序数组。具体步骤如下：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;创建一个新的数组来存储合并后的结果。&lt;/li&gt;&lt;li&gt;初始化两个指针，分别指向两个数组的起始位置。&lt;/li&gt;&lt;li&gt;比较两个指针所指向的元素，将较小的元素添加到新数组中，并将对应指针向后移动一位。&lt;/" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="请设计一个算法, 将两个有序数组合并为一个数组, 请不要使用concat以及sort方法" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;可以使用双指针法来合并两个有序数组。具体步骤如下：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;创建一个新的数组来存储合并后的结果。&lt;/li&gt;&lt;li&gt;初始化两个指针，分别指向两个数组的起始位置。&lt;/li&gt;&lt;li&gt;比较两个指针所指向的元素，将较小的元素添加到新数组中，并将对应指针向后移动一位。&lt;/li&gt;&lt;li&gt;重复步骤3，直到其中一个数组的指针超出了数组的范围。&lt;/li&gt;&lt;li&gt;将剩余的未合并元素直接添加到新数组的" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/54" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>请设计一个算法, 将两个有序数组合并为一个数组, 请不要使用concat以及sort方法</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-10T15:12:33Z · 更新：2025-02-20T08:33:01Z</div>
+    </div>
+    <article class="content markdown-body"><p>可以使用双指针法来合并两个有序数组。具体步骤如下：</p><ol><li>创建一个新的数组来存储合并后的结果。</li><li>初始化两个指针，分别指向两个数组的起始位置。</li><li>比较两个指针所指向的元素，将较小的元素添加到新数组中，并将对应指针向后移动一位。</li><li>重复步骤3，直到其中一个数组的指针超出了数组的范围。</li><li>将剩余的未合并元素直接添加到新数组的末尾。</li><li>返回新数组作为结果。</li></ol><p>以下是用 JavaScript 实现的代码：</p><pre class="code-block"><code class="language-javascript">function mergeArrays(arr1, arr2) {
+  const merged = [];
+  let i = 0; // 第一个数组的指针
+  let j = 0; // 第二个数组的指针
+
+  while (i &lt; arr1.length &amp;&amp; j &lt; arr2.length) {
+    if (arr1[i] &lt;= arr2[j]) {
+      merged.push(arr1[i]);
+      i++;
+    } else {
+      merged.push(arr2[j]);
+      j++;
+    }
+  }
+
+  // 将剩余的未合并元素添加到新数组的末尾
+  while (i &lt; arr1.length) {
+    merged.push(arr1[i]);
+    i++;
+  }
+
+  while (j &lt; arr2.length) {
+    merged.push(arr2[j]);
+    j++;
+  }
+
+  return merged;
+}
+
+// 示例
+const arr1 = [1, 3, 5, 7];
+const arr2 = [2, 4, 6, 8];
+const mergedArray = mergeArrays(arr1, arr2);
+console.log(mergedArray); // 输出 [1, 2, 3, 4, 5, 6, 7, 8]
+</code></pre><p>这个算法的时间复杂度是 O(n)，其中 n 是两个数组的总长度。</p><h2>Comments / Answers</h2><hr /><p><strong>lzdml</strong> at 2023-07-25T05:19:39Z</p><p>上面的代码确定没问题吗,</p><p>如left和right如下结果</p><p>let left = [1, 7, 4, 8, 9, 10];</p><p>let right = [2, 5];</p><hr /><p><strong>lzdml</strong> at 2023-07-25T05:32:45Z</p><p>需要处理while循环结束之后比较的最后一位, 所以还需要用while去处理第一个循环结束之后两边数组剩余的元素</p><pre class="code-block"><code>function merge(left, right) {
+        if (!Array.isArray(left) || !Array.isArray(right)) {
+          throw new Error(&quot;Both parameters must be arrays.&quot;);
+        }
+
+        let leftIndex = 0,
+          rightIndex = 0;
+        let result = [];
+        let leftLen = left.length;
+        let rightLen = right.length;
+
+        while (leftIndex &lt; leftLen &amp;&amp; rightIndex &lt; rightLen) {
+          if (left[leftIndex] &lt; right[rightIndex]) {
+            result.push(left[leftIndex++]);
+          } else {
+            result.push(right[rightIndex++]);
+          }
+        }
+        console.log(&quot;result :&gt;&gt; &quot;, result);
+
+        // 处理剩余的元素
+        while (leftIndex &lt; leftLen) {
+          result.push(left[leftIndex++]);
+        }
+
+        while (rightIndex &lt; rightLen) {
+          result.push(right[rightIndex++]);
+        }
+
+        return result;
+      }
+</code></pre><hr /><p><strong>yanlele</strong> at 2023-07-25T06:09:13Z</p><blockquote>上面的代码确定没问题吗, 如left和right如下结果 let left = [1, 7, 4, 8, 9, 10]; let right = [2, 5];</blockquote><p>@lzdml 难得有小伙伴会认真看内容；感谢你的回复；</p><p>这个题目是：本来两个数组就是有序的。</p><p>如果本身两个数组就是无序的情况复杂对会增加非常多。</p><hr /><p><strong>yanlele</strong> at 2023-07-25T06:11:19Z</p><blockquote>需要处理while循环结束之后比较的最后一位, 所以还需要用while去处理第一个循环结束之后两边数组剩余的元素</blockquote><blockquote></blockquote><blockquote>```</blockquote><blockquote>function merge(left, right) {</blockquote><blockquote>        if (!Array.isArray(left) || !Array.isArray(right)) {</blockquote><blockquote>          throw new Error("Both parameters must be arrays.");</blockquote><blockquote>        }</blockquote><blockquote></blockquote><blockquote>        let leftIndex = 0,</blockquote><blockquote>          rightIndex = 0;</blockquote><blockquote>        let result = [];</blockquote><blockquote>        let leftLen = left.length;</blockquote><blockquote>        let rightLen = right.length;</blockquote><blockquote></blockquote><blockquote>        while (leftIndex < leftLen && rightIndex < rightLen) {</blockquote><blockquote>          if (left[leftIndex] < right[rightIndex]) {</blockquote><blockquote>            result.push(left[leftIndex++]);</blockquote><blockquote>          } else {</blockquote><blockquote>            result.push(right[rightIndex++]);</blockquote><blockquote>          }</blockquote><blockquote>        }</blockquote><blockquote>        console.log("result :>> ", result);</blockquote><blockquote></blockquote><blockquote>        // 处理剩余的元素</blockquote><blockquote>        while (leftIndex < leftLen) {</blockquote><blockquote>          result.push(left[leftIndex++]);</blockquote><blockquote>        }</blockquote><blockquote></blockquote><blockquote>        while (rightIndex < rightLen) {</blockquote><blockquote>          result.push(right[rightIndex++]);</blockquote><blockquote>        }</blockquote><blockquote></blockquote><blockquote>        return result;</blockquote><blockquote>      }</blockquote><blockquote>```</blockquote><p>@lzdml emmm， 确实是实现有问题， 丢了最后一位</p><hr /><p><strong>yanlele</strong> at 2023-07-25T06:12:03Z</p><p>@lzdml 已更新</p><hr /><p><strong>BruceYuj</strong> at 2025-02-20T08:32:59Z</p><p>双指针合并即可</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

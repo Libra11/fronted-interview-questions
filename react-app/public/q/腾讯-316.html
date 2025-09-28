@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>npm 包管理了解多少？【热度: 1,321】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：npm 依赖管理、npm 包管理、npm 缓存&lt;/p&gt;&lt;p&gt;&lt;strong&gt;npm 是如何进行依赖管理的？&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;npm 是通过 package.json 文件来进行依赖管理的。当在项目中使用第三方库时，我们" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="npm 包管理了解多少？【热度: 1,321】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：npm 依赖管理、npm 包管理、npm 缓存&lt;/p&gt;&lt;p&gt;&lt;strong&gt;npm 是如何进行依赖管理的？&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;npm 是通过 package.json 文件来进行依赖管理的。当在项目中使用第三方库时，我们可以在 package.json 中添加对应的依赖项及版本号，npm 会根据 package.json 中的依赖关系，自" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/316" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>npm 包管理了解多少？【热度: 1,321】</h1>
+      <div class="subtitle">腾讯 · 工程化 · 腾讯</div>
+      <div class="meta">创建：2023-04-26T15:28:50Z · 更新：2023-04-26T15:28:50Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：npm 依赖管理、npm 包管理、npm 缓存</p><p><strong>npm 是如何进行依赖管理的？</strong></p><p>npm 是通过 package.json 文件来进行依赖管理的。当在项目中使用第三方库时，我们可以在 package.json 中添加对应的依赖项及版本号，npm 会根据 package.json 中的依赖关系，自动安装相应的依赖包及其依赖项。当我们执行 npm install 命令时，npm 会自动根据 package.json 中的依赖信息进行依赖包的安装。</p><p>npm 的依赖管理还涉及到依赖的版本控制，可以在 package.json 中指定对应的版本号，常见的版本号控制符号有：</p><ul><li><code>^（caret）</code>：匹配到次要版本号（第二个数字）的最新版本。例如，^1.2.3 表示安装 1.2.x 的最新版本（除了 1.3.0）。</li><li><code>~（tilde）</code>：匹配到修订版本号（第三个数字）的最新版本。例如，~1.2.3 表示安装 1.2.3 到 1.2.x 的最新版本（除了 1.3.0）。</li><li><code>*</code>：匹配到最新的版本。</li><li><code>&gt;=</code>：匹配到大于或等于指定版本的最新版本。</li><li><code>&lt;、&lt;=、&gt;</code>：匹配到小于、小于等于或大于指定版本的最新版本。</li></ul><p>在 npm 的依赖管理中，还有两种类型的依赖关系：生产依赖和开发依赖。生产依赖是指在应用程序运行时必须要加载的依赖，开发依赖是指在应用程序开发过程中使用的依赖。在 package.json 中，生产依赖使用 dependencies 字段，开发依赖使用 devDependencies 字段。这样可以让项目更加清晰地管理其依赖关系。</p><p><strong>npm 有缓存包的能力吗？</strong></p><p>npm有缓存包的能力。当你第一次使用npm安装一个包时，npm会自动将该包缓存在本地。这样，当你下次需要安装相同版本的该包时，npm就不必重新从网络上下载该包，而是直接使用缓存中的包。这样可以提高包的下载速度，节省网络带宽。</p><p>npm的缓存位于本地文件系统中的一个隐藏目录。默认情况下，缓存位于当前用户的主目录下的.npm目录中。你可以使用以下命令查看npm缓存的路径：</p><pre class="code-block"><code class="language-shell">npm config get cache
+</code></pre><p>你也可以通过npm cache命令来管理npm缓存，例如清空缓存：</p><pre class="code-block"><code class="language-shell">npm cache clean
+</code></pre><p>或者查看缓存的统计信息：</p><pre class="code-block"><code class="language-shell">npm cache ls
+</code></pre><p><strong>npm 是如何使用缓存中的包的？</strong></p><p>使用缓存中的包可以通过以下两种方式实现：</p><ul><li><code>使用 npm ci 命令</code></li></ul><p>npm ci 命令会首先检查 package-lock.json 或 npm-shrinkwrap.json 文件，以确保安装的依赖与锁定的版本一致。然后，它会在 node_modules 目录下安装依赖，如果缓存中存在符合要求的包，npm ci 会直接从缓存中复制到 node_modules 目录下，而不需要重新下载和编译。</p><ul><li><code>手动指定缓存路径</code></li></ul><p>如果需要手动使用缓存中的包，可以在 npm install 命令中指定缓存路径，例如：</p><pre class="code-block"><code class="language-shell">npm install --cache /path/to/npm-cache
+</code></pre><p>然后，执行 npm install 命令时，npm 会尝试从指定的缓存路径中获取包，如果找到匹配的包，就会直接复制到 node_modules 目录下。</p><p>需要注意的是，手动指定缓存路径的方式可能会导致不同的项目之间共用缓存，因此需要确保缓存路径的唯一性。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Webpack] output 配置里面， chunkFilename 和 filename 区别是什么？【热度: 210】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：chunkFilename 和 filename&lt;/p&gt;&lt;p&gt;在 Webpack 中的 &lt;code&gt;output&lt;/code&gt; 配置对象中，&lt;code&gt;filename&lt;/code&gt; 和 &lt;code&gt;chunkFilename&lt;/c" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Webpack] output 配置里面， chunkFilename 和 filename 区别是什么？【热度: 210】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：chunkFilename 和 filename&lt;/p&gt;&lt;p&gt;在 Webpack 中的 &lt;code&gt;output&lt;/code&gt; 配置对象中，&lt;code&gt;filename&lt;/code&gt; 和 &lt;code&gt;chunkFilename&lt;/code&gt; 是用来指定输出文件的命名方式的关键属性。它们之间的区别主要涉及到最终生成的 JavaScript 文件的类型。" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/765" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Webpack] output 配置里面， chunkFilename 和 filename 区别是什么？【热度: 210】</h1>
+      <div class="subtitle">TOP100互联网 · 工程化 · TOP100互联网</div>
+      <div class="meta">创建：2024-05-26T02:39:55Z · 更新：2024-05-26T02:39:56Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：chunkFilename 和 filename</p><p>在 Webpack 中的 <code>output</code> 配置对象中，<code>filename</code> 和 <code>chunkFilename</code> 是用来指定输出文件的命名方式的关键属性。它们之间的区别主要涉及到最终生成的 JavaScript 文件的类型。</p><ol><li><strong>filename</strong>: <code>filename</code> 属性用于指定输出的 <strong>bundle</strong> 的名称。当你的应用只有一个入口点时，可以直接使用一个固定名称。如果有多个入口点，那么你可以使用占位符来确保每个文件具有唯一的名称，如使用 <code>[name]</code> 来对应每个入口点的名称。<code>filename</code> 主要与入口点相关联的那些文件有关。</li></ol><p>```javascript</p><p>output: {</p><p>filename: "bundle.js"; // 一个固定名称，适用于单入口</p><p>// 或者</p><p>filename: "[name].bundle.js"; // 使用占位符，适用于多入口</p><p>}</p><p>```</p><ol><li><strong>chunkFilename</strong>: <code>chunkFilename</code> 属性用于指定非入口的 <strong>chunk</strong>（通常是动态加载的模块）的名称。这些 chunk 文件通常是由于代码分割产生的。当使用如 <code>import()</code> 这样的动态导入语法时，Webpack 会分割代码到新的 chunk 中，这时候 <code>chunkFilename</code> 的命名规则就会被应用。</li></ol><p>```javascript</p><p>output: {</p><p>chunkFilename: "[name].chunk.js";</p><p>}</p><p>```</p><p>这意味着如果你有一个动态加载的模块（例如懒加载模块），Webpack 会使用 chunkFilename 的规则来生成这些额外的文件。同样，你也可以在 <code>chunkFilename</code> 中使用占位符来保持文件名的唯一性。常用的占位符有 <code>[id]</code>, <code>[name]</code>, <code>[chunkhash]</code> 等。</p><p>使用这两个属性使得 Webpack 能够区分出入口文件和其他类型的文件，从而允许开发者更好地控制输出资源的命名和缓存。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

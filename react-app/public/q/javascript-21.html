@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何使对象 iterable 化， 以其可以支持 for...of 迭代 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;在 JavaScript 中，如果一个对象要被 for...of 迭代，那么它必须是可迭代的。可迭代对象是一种具有 Symbol.iterator 方法的对象，该方法返回一个迭代器对象，该迭代器对象实现了 next() 方法，每次调用 next() 方法都返回一个包含 va" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何使对象 iterable 化， 以其可以支持 for...of 迭代" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;在 JavaScript 中，如果一个对象要被 for...of 迭代，那么它必须是可迭代的。可迭代对象是一种具有 Symbol.iterator 方法的对象，该方法返回一个迭代器对象，该迭代器对象实现了 next() 方法，每次调用 next() 方法都返回一个包含 value 和 done 属性的对象，用于迭代对象的每个元素。&lt;/p&gt;&lt;p&gt;因此，要使一个对象 iterable 化，需要实" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/21" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何使对象 iterable 化， 以其可以支持 for...of 迭代</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-06T15:20:17Z · 更新：2023-03-06T15:20:18Z</div>
+    </div>
+    <article class="content markdown-body"><p>在 JavaScript 中，如果一个对象要被 for...of 迭代，那么它必须是可迭代的。可迭代对象是一种具有 Symbol.iterator 方法的对象，该方法返回一个迭代器对象，该迭代器对象实现了 next() 方法，每次调用 next() 方法都返回一个包含 value 和 done 属性的对象，用于迭代对象的每个元素。</p><p>因此，要使一个对象 iterable 化，需要实现一个 Symbol.iterator 方法。该方法应该返回一个迭代器对象，这个迭代器对象应该实现 next() 方法，用于返回迭代对象的每个元素。</p><p><strong>举一个例子</strong>下面是一个简单的示例，演示如何将一个普通对象 iterable 化：</p><pre class="code-block"><code class="language-js">const myObj = {
+  data: [1, 2, 3],
+  [Symbol.iterator]() {
+    let index = 0;
+    return {
+      next: () =&gt; {
+        if (index &lt; this.data.length) {
+          return { value: this.data[index++], done: false };
+        } else {
+          return { done: true };
+        }
+      },
+    };
+  },
+};
+
+for (const item of myObj) {
+  console.log(item);
+}
+// 输出：1, 2, 3
+</code></pre><p><strong>再举一个例子</strong>，比如我们有一个对象，里面存储了一些学生的信息，我们希望能够使用 for...of 循环遍历每个学生信息：</p><pre class="code-block"><code class="language-js">const students = {
+  Alice: { age: 18, gender: &#39;female&#39;, score: 90 },
+  Bob: { age: 19, gender: &#39;male&#39;, score: 85 },
+  Charlie: { age: 20, gender: &#39;male&#39;, score: 95 }
+};
+
+students[Symbol.iterator] = function* () {
+  const keys = Object.keys(this);
+  for (let i = 0; i &lt; keys.length; i++) {
+    yield [keys[i], this[keys[i]]];
+  }
+};
+
+for (const [name, info] of students) {
+  console.log(`${name}: ${info.age} ${info.gender} ${info.score}`);
+}
+</code></pre><p>这样我们就可以使用 for...of 循环遍历学生信息对象中的每个学生信息了。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

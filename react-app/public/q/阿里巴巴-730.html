@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>mouseEnter、mouseLeave、mouseOver、mouseOut 有什么区别？【热度: 266】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：mouseEnter、mouseLeave、mouseOver、mouseOut 区别&lt;/p&gt;&lt;p&gt;这四个事件都与鼠标指针与元素的交互有关，不过它们之间有一些关键的差异：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;mouseEnter " />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="mouseEnter、mouseLeave、mouseOver、mouseOut 有什么区别？【热度: 266】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：mouseEnter、mouseLeave、mouseOver、mouseOut 区别&lt;/p&gt;&lt;p&gt;这四个事件都与鼠标指针与元素的交互有关，不过它们之间有一些关键的差异：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;mouseEnter 和 mouseLeave&lt;/strong&gt;：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;&lt;code&gt;mouseEnter&lt;/co" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/730" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>mouseEnter、mouseLeave、mouseOver、mouseOut 有什么区别？【热度: 266】</h1>
+      <div class="subtitle">阿里巴巴 · JavaScript · 阿里巴巴</div>
+      <div class="meta">创建：2024-05-05T14:18:09Z · 更新：2024-05-05T14:18:10Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：mouseEnter、mouseLeave、mouseOver、mouseOut 区别</p><p>这四个事件都与鼠标指针与元素的交互有关，不过它们之间有一些关键的差异：</p><ol><li><strong>mouseEnter 和 mouseLeave</strong>：</li></ol><ul><li><code>mouseEnter</code> 事件当鼠标指针进入元素时触发，但不冒泡，即只有指定的元素可以触发此事件，其子元素不能。</li><li><code>mouseLeave</code> 事件则是当鼠标指针离开元素时触发，同样也不冒泡。</li></ul><ol><li><strong>mouseOver 和 mouseOut</strong>：</li></ol><ul><li><code>mouseOver</code> 事件当鼠标指针移动到元素或其子元素上时触发，该事件会冒泡，即如果鼠标指针移动到其子元素上，也会触发该元素的<code>mouseOver</code>事件。</li><li><code>mouseOut</code> 事件则是当鼠标指针离开元素或其子元素时触发，也会冒泡。</li></ul><p>总结一下它们的区别：</p><ul><li><strong>冒泡</strong>: <code>mouseOver</code> 和 <code>mouseOut</code> 事件会冒泡（父元素也会响应这个事件），而 <code>mouseEnter</code> 和 <code>mouseLeave</code> 不会冒泡。</li><li><strong>对子元素的响应</strong>：<code>mouseOver</code> 和 <code>mouseOut</code> 会在鼠标指针移动到子元素上时也被触发，而 <code>mouseEnter</code> 和 <code>mouseLeave</code> 在鼠标指针移动到子元素上时不会被触发。</li></ul><p>在处理具有嵌套子元素的元素时，使用 <code>mouseEnter</code> 和 <code>mouseLeave</code> 可以避免多余的事件触发，因为它们不会在鼠标从父元素移动到子元素时触发事件。(即不会对内部子元素的进入和离开反应敏感)。而 <code>mouseOver</code> 和 <code>mouseOut</code> 更适合需要监测鼠标指针是否有移动到子元素上的情况。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

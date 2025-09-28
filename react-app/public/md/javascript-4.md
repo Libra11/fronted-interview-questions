@@ -1,0 +1,90 @@
+# ES6 Map 数据结构了解多少？
+
+## 基本概念
+
+Map 对象保存键值对，并且能够记住键的原始插入顺序。任何值（对象或者基本类型）都可以作为一个键或一个值。
+
+Map 对象是键值对的集合。Map 中的一个键只能出现一次；它在 Map 的集合中是独一无二的。Map 对象按键值对迭代——一个 for...of 循环在每次迭代后会返回一个形式为 [key，value] 的数组。迭代按插入顺序进行，即键值对按 set() 方法首次插入到集合中的顺序（也就是说，当调用 set() 时，map 中没有具有相同值的键）进行迭代。
+
+## api
+
+**静态属性**
+- size 属性：size属性返回 Map 结构的成员总数。
+
+**实例方法**
+- set(key, value)：set方法设置key所对应的键值，然后返回整个 Map 结构。如果key已经有值，则键值会被更新，否则就新生成该键。
+
+- get(key)：get方法读取key对应的键值，如果找不到key，返回undefined。
+
+- has(key)：has方法返回一个布尔值，表示某个键是否在 Map 数据结构中。
+
+- delete(key)：delete方法删除某个键，返回 true 。如果删除失败，返回 false 。
+
+- clear()：clear方法清除所有成员，没有返回值。
+
+- forEach()：遍历 Map 的所有成员。
+
+**迭代方法**
+- keys()：返回键名的遍历器。
+- values()：返回键值的遍历器。
+- entries()：返回所有成员的遍历器。
+- `Map.prototype[@@iterator]()`：返回一个新的迭代对象，其为一个包含 Map 对象中所有键值对的 [key, value] 数组，并以插入 Map 对象的顺序排列。
+    
+    
+## 复制或合并 Maps
+Map 能像数组一样被复制：
+```js
+const original = new Map([
+  [1, 'one'],
+]);
+
+const clone = new Map(original);
+
+console.log(clone.get(1)); // one
+console.log(original === clone); // false. 浅比较 不为同一个对象的引用
+```
+
+
+Map 对象间可以进行合并，但是会保持键的唯一性。
+```js
+const first = new Map([
+  [1, 'one'],
+  [2, 'two'],
+  [3, 'three'],
+]);
+
+const second = new Map([
+  [1, 'uno'],
+  [2, 'dos']
+]);
+
+// 合并两个 Map 对象时，如果有重复的键值，则后面的会覆盖前面的。
+// 展开语法本质上是将 Map 对象转换成数组。
+const merged = new Map([...first, ...second]);
+
+console.log(merged.get(1)); // uno
+console.log(merged.get(2)); // dos
+console.log(merged.get(3)); // three
+```
+
+
+Map 对象也能与数组合并：
+```js
+const first = new Map([
+  [1, 'one'],
+  [2, 'two'],
+  [3, 'three'],
+]);
+
+const second = new Map([
+  [1, 'uno'],
+  [2, 'dos']
+]);
+
+// Map 对象同数组进行合并时，如果有重复的键值，则后面的会覆盖前面的。
+const merged = new Map([...first, ...second, [1, 'eins']]);
+
+console.log(merged.get(1)); // eins
+console.log(merged.get(2)); // dos
+console.log(merged.get(3)); // three
+```

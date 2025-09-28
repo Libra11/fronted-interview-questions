@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[&#39;1&#39;, &#39;2&#39;, &#39;3&#39;].map(parseInt) 结果是啥，为什么？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;执行 &lt;code&gt;[&amp;#39;1&amp;#39;, &amp;#39;2&amp;#39;, &amp;#39;3&amp;#39;].map(parseInt)&lt;/code&gt; 会得到 &lt;code&gt;[1, NaN, NaN]&lt;/code&gt;，这个结果可能和人们预期的不一样。&lt;/p&gt;&lt;p&gt;这是因为 &lt;code&gt;ma" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[&#39;1&#39;, &#39;2&#39;, &#39;3&#39;].map(parseInt) 结果是啥，为什么？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;执行 &lt;code&gt;[&amp;#39;1&amp;#39;, &amp;#39;2&amp;#39;, &amp;#39;3&amp;#39;].map(parseInt)&lt;/code&gt; 会得到 &lt;code&gt;[1, NaN, NaN]&lt;/code&gt;，这个结果可能和人们预期的不一样。&lt;/p&gt;&lt;p&gt;这是因为 &lt;code&gt;map&lt;/code&gt; 方法会传入三个参数：当前遍历到的元素、当前遍历到的索引、原数组本身。而 &lt;code&gt;parseInt&lt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/191" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[&#39;1&#39;, &#39;2&#39;, &#39;3&#39;].map(parseInt) 结果是啥，为什么？</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-26T09:59:54Z · 更新：2023-03-26T09:59:54Z</div>
+    </div>
+    <article class="content markdown-body"><p>执行 <code>[&#39;1&#39;, &#39;2&#39;, &#39;3&#39;].map(parseInt)</code> 会得到 <code>[1, NaN, NaN]</code>，这个结果可能和人们预期的不一样。</p><p>这是因为 <code>map</code> 方法会传入三个参数：当前遍历到的元素、当前遍历到的索引、原数组本身。而 <code>parseInt</code> 函数则接受两个参数：需要被解析的值、用于解析的进制数。在执行 <code>[&#39;1&#39;, &#39;2&#39;, &#39;3&#39;].map(parseInt)</code> 时，实际传入 <code>parseInt</code> 的参数如下：</p><ul><li><code>&#39;1&#39;</code>、<code>0</code>（表示解析为十进制）：解析后得到数字 <code>1</code>。</li><li><code>&#39;2&#39;</code>、<code>1</code>（表示解析为一进制）：解析后得到 <code>NaN</code>。</li><li><code>&#39;3&#39;</code>、<code>2</code>（表示解析为二进制）：解析后得到 <code>NaN</code>。</li></ul><p>所以结果为 <code>[1, NaN, NaN]</code>。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

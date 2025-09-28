@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TypeScript 内置的类型方法和工具类型【热度: 492】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：ts 内置类型方法、ts 内置工具类型&lt;/p&gt;&lt;p&gt;TypeScript 提供了许多内置的类型方法和工具类型，用于处理和操作类型。以下是其中一些常用的内置类型方法：&lt;/p&gt;&lt;h3&gt;分类&lt;/h3&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;Uti" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="TypeScript 内置的类型方法和工具类型【热度: 492】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：ts 内置类型方法、ts 内置工具类型&lt;/p&gt;&lt;p&gt;TypeScript 提供了许多内置的类型方法和工具类型，用于处理和操作类型。以下是其中一些常用的内置类型方法：&lt;/p&gt;&lt;h3&gt;分类&lt;/h3&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;Utility Types（工具类型）&lt;/strong&gt;：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Partial\" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/665" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>TypeScript 内置的类型方法和工具类型【热度: 492】</h1>
+      <div class="subtitle">TOP100互联网 · TypeScript · TOP100互联网</div>
+      <div class="meta">创建：2024-01-07T16:37:24Z · 更新：2024-01-07T16:37:25Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：ts 内置类型方法、ts 内置工具类型</p><p>TypeScript 提供了许多内置的类型方法和工具类型，用于处理和操作类型。以下是其中一些常用的内置类型方法：</p><h3>分类</h3><ol><li><strong>Utility Types（工具类型）</strong>：</li></ol><ul><li><strong>Partial\<T></strong>: 将类型 T 的所有属性变为可选。</li><li><strong>Required\<T></strong>: 将类型 T 的所有属性变为必选。</li><li><strong>Readonly\<T></strong>: 将类型 T 的所有属性变为只读。</li><li><strong>Record\<K, T></strong>: 创建一个具有指定键类型 K 和值类型 T 的新对象类型。</li><li><strong>Pick\<T, K></strong>: 从类型 T 中选择指定属性 K 形成新类型。</li><li><strong>Omit\<T, K></strong>: 从类型 T 中排除指定属性 K 形成新类型。</li><li><strong>Exclude\<T, U></strong>: 从类型 T 中排除可以赋值给类型 U 的类型。</li><li><strong>Extract\<T, U></strong>: 从类型 T 中提取可以赋值给类型 U 的类型。</li><li><strong>NonNullable\<T></strong>: 从类型 T 中排除 null 和 undefined 类型。</li><li><strong>ReturnType\<T></strong>: 获取函数类型 T 的返回类型。</li><li><strong>Parameters\<T></strong>: 获取函数类型 T 的参数类型组成的元组类型。</li></ul><ol><li><strong>条件判定类型</strong>：</li></ol><ul><li><strong>Conditional Types（条件类型）</strong>: 根据类型关系进行条件判断生成不同的类型。</li><li><strong>Distribute Conditional Types（分布式条件类型）</strong>: 分发条件类型，允许条件类型在联合类型上进行分发。</li></ul><ol><li><strong>Mapped Types（映射类型）</strong>：根据已有类型创建新类型，通过映射类型可以生成新的类型结构。</li></ol><ol><li><strong>Template Literal Types（模板文字类型）</strong>：使用字符串模板创建新类型。</li></ol><ol><li><strong>类型推断关键字</strong>：</li></ol><ul><li><strong>keyof关键字</strong>：关键字允许在泛型条件类型中推断类型变量。</li><li><strong>instanceof</strong>：运算符用于检查对象是否是特定类的实例。</li><li><strong>in</strong>：用于检查对象是否具有特定属性。</li><li><strong>type guards</strong>：类型守卫是自定义的函数或条件语句，用于在代码块内缩小变量的类型范围。</li><li><strong>as</strong>：用于类型断言，允许将一个变量断言为特定的类型。</li></ul><p>这些工具类型和方法使得在 TypeScript 中能够更灵活地操作和利用类型系统，增强了类型的安全性和可读性。</p><h3>Utility Types（工具类型）介绍</h3><p>当涉及到 TypeScript 中的这些工具类型时，它们都是为了便捷地处理和操作类型而设计的。让我为你逐个介绍并提供代码示例：</p><h4>1. Partial\<T></h4><p>这个类型将类型 <code>T</code> 的所有属性变为可选。</p><p>示例：</p><pre class="code-block"><code class="language-typescript">interface User {
+  name: string;
+  age: number;
+}
+
+type PartialUser = Partial&lt;User&gt;;
+// PartialUser 的类型为 { name?: string; age?: number; }
+
+const partialUserData: PartialUser = {}; // 全部属性变为可选
+</code></pre><h4>2. Required\<T></h4><p>与 <code>Partial</code> 相反，该类型将类型 <code>T</code> 的所有属性变为必选。</p><p>示例：</p><pre class="code-block"><code class="language-typescript">interface PartialUser {
+  name?: string;
+  age?: number;
+}
+
+type RequiredUser = Required&lt;PartialUser&gt;;
+// RequiredUser 的类型为 { name: string; age: number; }
+
+const requiredUserData: RequiredUser = { name: &#39;John&#39;, age: 25 }; // 全部属性变为必选
+</code></pre><h4>3. Readonly\<T></h4><p>将类型 <code>T</code> 的所有属性变为只读。 一旦复制之后是不允许更改的。</p><p>示例：</p><pre class="code-block"><code class="language-typescript">interface User {
+  name: string;
+  age: number;
+}
+
+type ReadonlyUser = Readonly&lt;User&gt;;
+// ReadonlyUser 的类型为 { readonly name: string; readonly age: number; }
+
+const user: ReadonlyUser = { name: &#39;Alice&#39;, age: 30 };
+// user.name = &#39;Bob&#39;; // 这里会报错，因为属性是只读的
+</code></pre><h4>4. Record\<K, T></h4><p>该类型创建一个具有指定键类型 <code>K</code> 和值类型 <code>T</code> 的新对象类型。</p><p>示例：</p><pre class="code-block"><code class="language-typescript">type PageInfo = {
+  title: string;
+};
+
+type Page = &#39;home&#39; | &#39;about&#39; | &#39;contact&#39;;
+
+const pages: Record&lt;Page, PageInfo&gt; = {
+  home: { title: &#39;Home&#39; },
+  about: { title: &#39;About&#39; },
+  contact: { title: &#39;Contact&#39; },
+};
+// pages 的类型为 { home: PageInfo; about: PageInfo; contact: PageInfo; }
+</code></pre><h4>5. Pick\<T, K></h4><p>从类型 <code>T</code> 中选择指定属性 <code>K</code> 形成新类型。</p><p>示例：</p><pre class="code-block"><code class="language-typescript">interface User {
+  name: string;
+  age: number;
+  email: string;
+}
+
+type UserBasicInfo = Pick&lt;User, &#39;name&#39; | &#39;email&#39;&gt;;
+// UserBasicInfo 的类型为 { name: string; email: string; }
+
+const basicUserInfo: UserBasicInfo = { name: &#39;Sarah&#39;, email: &#39;sarah@example.com&#39; };
+</code></pre><h4>6. Omit\<T, K></h4><p>与 <code>Pick</code> 相反，该类型从类型 <code>T</code> 中排除指定属性 <code>K</code> 形成新类型。</p><p>示例：</p><pre class="code-block"><code class="language-typescript">interface User {
+  name: string;
+  age: number;
+  email: string;
+}
+
+type UserWithoutAge = Omit&lt;User, &#39;age&#39;&gt;;
+// UserWithoutAge 的类型为 { name: string; email: string; }
+
+const userWithoutAge: UserWithoutAge = { name: &#39;Alex&#39;, email: &#39;alex@example.com&#39; };
+</code></pre><p>当涉及到 <code>Exclude&lt;T, U&gt;</code> 和 <code>Extract&lt;T, U&gt;</code> 时，让我们进一步丰富例子来更好地说明它们的用法。</p><h4>7. Exclude\<T, U></h4><p><code>Exclude&lt;T, U&gt;</code> 从类型 <code>T</code> 中排除可以赋值给类型 <code>U</code> 的类型。</p><p>举例：</p><pre class="code-block"><code class="language-typescript">type T = string | number | boolean;
+type U = string | boolean;
+
+type OnlyNumber = Exclude&lt;T, U&gt;;
+// OnlyNumber 的类型为 number
+
+const example1: OnlyNumber = 10; // 可以赋值，因为只有 number 类型被提取
+// const example2: OnlyNumber = &#39;Hello&#39;; // 这行会报错，因为 string 类型被排除
+// const example3: OnlyNumber = true; // 这行也会报错，因为 boolean 类型被排除
+
+function printValue(val: OnlyNumber) {
+  console.log(val);
+}
+
+printValue(20); // 可以传入，因为参数类型为 OnlyNumber
+// printValue(&#39;Hi&#39;); // 这行会报错，因为参数类型不是 OnlyNumber
+</code></pre><p>在这个例子中，<code>T</code> 是 <code>string | number | boolean</code>，<code>U</code> 是 <code>string | boolean</code>。<code>Exclude&lt;T, U&gt;</code> 从 <code>T</code> 中排除了 <code>U</code> 中包含的类型，所以 <code>OnlyNumber</code></p><p>的类型就只有 <code>number</code>。这个类型可以在函数参数上提供类型安全性，确保只接受特定类型的参数。</p><h4>8. Extract\<T, U></h4><p><code>Extract&lt;T, U&gt;</code> 从类型 <code>T</code> 中提取可以赋值给类型 <code>U</code> 的类型。</p><p>举例：</p><pre class="code-block"><code class="language-typescript">type T = string | number | boolean;
+type U = string | boolean;
+
+type OnlyStringOrBoolean = Extract&lt;T, U&gt;;
+// OnlyStringOrBoolean 的类型为 string | boolean
+
+const example1: OnlyStringOrBoolean = &#39;Hello&#39;; // 可以赋值，因为 string 类型被提取
+const example2: OnlyStringOrBoolean = true; // 也可以赋值，因为 boolean 类型也被提取
+// const example3: OnlyStringOrBoolean = 10; // 这行会报错，因为 number 类型被排除
+
+function printValue(val: OnlyStringOrBoolean) {
+  console.log(val);
+}
+
+printValue(&#39;Hey&#39;); // 可以传入，因为参数类型为 OnlyStringOrBoolean
+printValue(true); // 也可以传入，因为参数类型为 OnlyStringOrBoolean
+// printValue(30); // 这行会报错，因为参数类型不是 OnlyStringOrBoolean
+</code></pre><p>在这个例子中，<code>T</code> 是 <code>string | number | boolean</code>，<code>U</code> 是 <code>string | boolean</code>。<code>Extract&lt;T, U&gt;</code> 从 <code>T</code> 中提取了 <code>U</code></p><p>中包含的类型，所以 <code>OnlyStringOrBoolean</code> 的类型就是 <code>string | boolean</code>。这个类型可以用在函数参数上，确保只接受特定的类型作为参数，提高代码的类型安全性。</p><h4>9. NonNullable\<T></h4><p><code>NonNullable&lt;T&gt;</code> 类型从类型 <code>T</code> 中排除 <code>null</code> 和 <code>undefined</code> 类型。</p><p>示例：</p><pre class="code-block"><code class="language-typescript">type T = string | null | undefined;
+
+type NonNullString = NonNullable&lt;T&gt;;
+// NonNullString 的类型为 string
+
+const example: NonNullString = &#39;Hello&#39;; // 可以赋值，因为 null 和 undefined 被排除
+// const example2: NonNullString = null; // 这行会报错，因为 null 被排除
+</code></pre><p>在这个例子中，<code>NonNullable</code> 从 <code>string | null | undefined</code> 中排除了 <code>null</code> 和 <code>undefined</code> 类型，只保留了 <code>string</code> 类型。</p><h4>10. ReturnType\<T></h4><p><code>ReturnType&lt;T&gt;</code> 类型获取函数类型 <code>T</code> 的返回类型。</p><p>示例：</p><pre class="code-block"><code class="language-typescript">function greet(): string {
+  return &#39;Hello!&#39;;
+}
+
+type GreetReturnType = ReturnType&lt;typeof greet&gt;;
+// GreetReturnType 的类型为 string
+
+const result: GreetReturnType = &#39;Hi&#39;; // 可以赋值，因为函数的返回类型是 string
+// const result2: GreetReturnType = 10; // 这行会报错，因为类型不匹配
+</code></pre><p><code>ReturnType</code> 获取了 <code>greet</code> 函数的返回类型，因此 <code>GreetReturnType</code> 就是 <code>string</code> 类型。</p><h4>11. Parameters\<T></h4><p><code>Parameters&lt;T&gt;</code> 类型获取函数类型 <code>T</code> 的参数类型组成的元组类型。</p><p>示例：</p><pre class="code-block"><code class="language-typescript">function greet(name: string, age: number): void {
+  console.log(`Hello, ${name}! You are ${age} years old.`);
+}
+
+type GreetFunctionParams = Parameters&lt;typeof greet&gt;;
+// GreetFunctionParams 的类型为 [string, number]
+
+const example: GreetFunctionParams = [&#39;Alice&#39;, 30]; // 可以赋值，因为参数类型匹配
+// const example2: GreetFunctionParams = [&#39;Bob&#39;, &#39;20&#39;]; // 这行会报错，因为参数类型不匹配
+</code></pre><p><code>Parameters</code> 获取了 <code>greet</code> 函数的参数类型组成的元组类型 <code>[string, number]</code>，因此 <code>GreetFunctionParams</code> 就是包含了函数参数类型的元组类型。</p><h3>条件判定类型</h3><p>条件类型是 TypeScript 中强大且灵活的类型构造方式，它允许根据类型关系进行条件判断生成不同的类型。分布式条件类型是条件类型的一种特殊形式，它允许条件类型在联合类型上进行分发，以便更精确地推断和处理类型。</p><h4>Conditional Types（条件类型）</h4><p>条件类型基于输入的类型关系来确定最终的类型。它使用 <code>infer</code> 关键字来推断和定义类型。条件类型通常结合了 TypeScript 中的<code>extends</code>关键字，这样就可以根据条件来确定最终的类型。</p><p>当谈到 TypeScript 中的条件类型时，让我们通过更多的例子来深入了解它们的应用和灵活性。</p><p><strong>1. 根据输入类型选择不同的类型</strong></p><p>条件类型基于输入的类型关系来确定最终的类型。它使用 infer 关键字来推断和定义类型。条件类型通常结合了 TypeScript 中的extends关键字，这样就可以根据条件来确定最终的类型。</p><p>示例：</p><pre class="code-block"><code class="language-typescript">type TypeName&lt;T&gt; =
+  T extends string ? &quot;string&quot; :
+    T extends number ? &quot;number&quot; :
+      T extends boolean ? &quot;boolean&quot; :
+        &quot;other&quot;;
+
+type A = TypeName&lt;string&gt;;            // A 的类型为 &quot;string&quot;
+type B = TypeName&lt;number&gt;;            // B 的类型为 &quot;number&quot;
+type C = TypeName&lt;boolean&gt;;           // C 的类型为 &quot;boolean&quot;
+type D = TypeName&lt;object&gt;;            // D 的类型为 &quot;other&quot;
+type E = TypeName&lt;string | number&gt;;   // E 的类型为 &quot;string&quot; | &quot;number&quot;
+</code></pre><p>在这个例子中，<code>TypeName&lt;T&gt;</code> 条件类型根据传入的类型 <code>T</code> 来确定最终返回的类型字符串。如果 <code>T</code> 是 <code>string</code>、<code>number</code> 或 <code>boolean</code> 类型，则返回对应的类型字符串，否则返回 <code>&quot;other&quot;</code>。</p><p><strong>2. 条件类型中使用 <code>infer</code> 关键字</strong></p><p><code>infer</code> 关键字通常与<code>extends</code>结合使用，用于在条件类型内部声明一个类型变量，并从中提取或推断出一个类型。 它允许我们在泛型条件类型中推断出待推断类型的部分。</p><p>具体左右有以下两点：</p><ol><li>TypeScript 支持 infer 来提取类型的一部分，通过模式匹配的方式。</li></ol><p>示例：</p><pre class="code-block"><code class="language-typescript">type ExtractReturnType&lt;T&gt; = T extends (...args: any[]) =&gt; infer R ? R : never;
+
+function greet(): string {
+  return &#39;Hello!&#39;;
+}
+
+type GreetReturnType = ExtractReturnType&lt;typeof greet&gt;;
+// GreetReturnType 的类型为 string
+</code></pre><p>这个例子中的 <code>ExtractReturnType&lt;T&gt;</code> 条件类型获取函数类型 <code>T</code> 的返回类型。它使用了 <code>infer</code> 关键字来推断函数的返回类型，如果 <code>T</code> 是一个函数类型，则返回其返回类型，否则返回 <code>never</code>。</p><ol><li><code>infer extends</code> 用来做类型转换，比如 string 转 number、转 boolean 等；</li></ol><p>具体的例子可以参考文章：https://juejin.cn/post/7133438765317488677</p><p><strong>3. 条件类型配合泛型使用</strong></p><p>示例：</p><pre class="code-block"><code class="language-typescript">type Diff&lt;T, U&gt; = T extends U ? never : T;
+
+type FilterOut&lt;T, U&gt; = T extends any ? Diff&lt;T, U&gt; : never;
+
+type Result = FilterOut&lt;&#39;a&#39; | &#39;b&#39; | &#39;c&#39; | &#39;d&#39;, &#39;a&#39; | &#39;c&#39;&gt;;
+// Result 的类型为 &quot;b&quot; | &quot;d&quot;
+</code></pre><p>在这个例子中，<code>FilterOut&lt;T, U&gt;</code> 条件类型根据传入的两个联合类型 <code>T</code> 和 <code>U</code>，从 <code>T</code> 中过滤掉属于 <code>U</code> 类型的成员，返回剩余的类型。通过 <code>Diff&lt;T, U&gt;</code></p><p>辅助实现了这个操作。这种方式可以在处理类型时非常有用，比如过滤掉某些特定类型。</p><h4>Distributive Conditional Types（分布式条件类型）</h4><p>分布式条件类型是条件类型的一种特殊形式，它在联合类型上进行推断和分发，并返回联合类型中每个成员的条件类型。</p><p>示例：</p><pre class="code-block"><code class="language-typescript">type ToArray&lt;T&gt; = T extends any ? T[] : never;
+
+type StrArray = ToArray&lt;string&gt;; // StrArray 的类型为 string[]
+type NumArray = ToArray&lt;number&gt;; // NumArray 的类型为 number[]
+type UnionArray = ToArray&lt;string | number&gt;; // UnionArray 的类型为 (string | number)[]
+</code></pre><p>在这个例子中，<code>ToArray&lt;T&gt;</code> 条件类型以联合类型 <code>T</code> 为输入，并将其分发到联合类型的每个成员上，返回一个数组类型。这种分布式行为使得条件类型在处理联合类型时更加灵活和强大。</p><p>条件类型和分布式条件类型为 TypeScript 中的类型系统增加了极大的灵活性和表达能力，允许开发者根据复杂的类型关系来定义和推断类型。</p><h3>Mapped Types（映射类型）</h3><p><code>映射类型（Mapped Types）</code> 是 TypeScript 中一种强大的类型操作，它允许你通过已有类型来创建新类型，通常通过映射现有类型的属性、方法或者创建新的属性来实现。</p><p>常见的映射类型是利用 <code>keyof</code> 关键字配合索引类型来生成新的类型。一个经典的例子是 <code>Partial&lt;T&gt;</code> 类型。它接受一个类型 <code>T</code> 并将所有属性设置为可选的：</p><pre class="code-block"><code class="language-typescript">type Partial&lt;T&gt; = {
+    [P in keyof T]?: T[P];
+};
+
+interface User {
+    name: string;
+    age: number;
+}
+
+type PartialUser = Partial&lt;User&gt;;
+// PartialUser 类型为 { name?: string; age?: number; }
+</code></pre><p>在这个例子中，<code>Partial&lt;T&gt;</code> 使用了映射类型，通过遍历 <code>T</code> 类型的所有属性（由 <code>keyof T</code> 获取），创建了一个新类型，该类型包含了原类型 <code>T</code> 的所有属性，并将它们设为可选的。</p><p>除了 <code>Partial</code>，还有一些其他常见的映射类型：</p><ul><li><code>Readonly&lt;T&gt;</code>：将类型 <code>T</code> 中所有属性设置为只读。</li><li><code>Pick&lt;T, K&gt;</code>：选择类型 <code>T</code> 中的特定属性 <code>K</code>。</li><li><code>Record&lt;K, T&gt;</code>：根据键类型 <code>K</code> 创建一个新类型，其属性为类型 <code>T</code>。</li><li><code>Exclude&lt;T, U&gt;</code> 和 <code>Extract&lt;T, U&gt;</code>：从类型 <code>T</code> 中排除或提取符合类型 <code>U</code> 的部分。</li></ul><p>映射类型可以使类型操作更加灵活，能够根据现有类型创建出符合特定需求的新类型。这种功能特别适用于工具类型（Utility Types）的定义，使得类型系统更具表现力和可维护性。</p><h3>Template Literal Types（模板文字类型）</h3><p>Template Literal Types（模板文字类型）是 TypeScript 4.1 引入的一项新特性，它允许在类型系统中对字符串文本进行操作和转换。这项功能利用了模板字符串的灵活性，使得可以在类型声明中使用类似于模板字符串的语法。</p><p>在模板文字类型中，可以使用模板字符串的 <code>${}</code> 语法来动态地创建字符串字面量类型。这使得类型系统更具表现力，能够进行更复杂的字符串类型操作。</p><p>举个例子，假设有一个类型 <code>WelcomeMessage</code>，用于根据用户类型生成不同的欢迎消息：</p><pre class="code-block"><code class="language-typescript">type User = &quot;admin&quot; | &quot;user&quot;;
+
+type WelcomeMessage&lt;T extends User&gt; = `Welcome, ${Capitalize&lt;T&gt;}!`;
+
+type AdminWelcome = WelcomeMessage&lt;&quot;admin&quot;&gt;;
+// AdminWelcome 类型为 &quot;Welcome, Admin!&quot;
+
+type UserWelcome = WelcomeMessage&lt;&quot;user&quot;&gt;;
+// UserWelcome 类型为 &quot;Welcome, User!&quot;
+</code></pre><p>在这个例子中，<code>WelcomeMessage</code> 是一个模板文字类型，利用了模板字符串中的 <code>${}</code> 语法。它动态地根据传入的用户类型（"admin" 或 "user"）生成相应的欢迎消息。这里使用了 <code>Capitalize&lt;T&gt;</code> 来确保用户名的首字母大写。</p><p>模板文字类型在类型定义中能够进行字符串的拼接、转换等操作，使得在类型层面上能够更灵活地处理和操作字符串类型。</p><h3>类型推断关键字</h3><p>在 TypeScript 中，有几个关键字和操作符用于类型判定。这些关键字和操作符帮助你在代码中进行类型检查、类型判断和类型转换。</p><ol><li><strong>typeof</strong></li></ol><p><code>typeof</code> 是一个类型查询操作符，用于获取变量或表达式的类型。它可以返回该值的类型字符串表示。比如 <code>typeof variable</code> 返回变量的类型，如 <code>&#39;number&#39;</code>、<code>&#39;string&#39;</code>、<code>&#39;object&#39;</code> 等。</p><pre class="code-block"><code class="language-typescript">const numberVar = 10;
+type NumberType = typeof numberVar; // NumberType 是 number 类型
+</code></pre><ol><li><strong>instanceof</strong></li></ol><p><code>instanceof</code> 运算符用于检查对象是否是特定类的实例。它返回一个布尔值表示检查结果。</p><pre class="code-block"><code class="language-typescript">class Animal {}
+class Dog extends Animal {}
+
+const dog = new Dog();
+if (dog instanceof Dog) {
+  console.log(&#39;It is a dog!&#39;);
+}
+</code></pre><ol><li><strong>in</strong></li></ol><p><code>in</code> 关键字用于检查对象是否具有特定属性。它在条件语句中常用于判断对象是否包含某个属性。</p><pre class="code-block"><code class="language-typescript">interface Person {
+  name: string;
+  age: number;
+}
+
+const person: Person = { name: &#39;Alice&#39;, age: 30 };
+if (&#39;age&#39; in person) {
+  console.log(&#39;Person has age property.&#39;);
+}
+</code></pre><ol><li><strong>type guards</strong></li></ol><p>类型守卫是自定义的函数或条件语句，用于在代码块内缩小变量的类型范围。它们可以是 <code>typeof</code>、<code>instanceof</code> 或者其他自定义条件的组合。</p><pre class="code-block"><code class="language-typescript">function isNumber(value: any): value is number {
+  return typeof value === &#39;number&#39;;
+}
+
+function process(value: any) {
+  if (isNumber(value)) {
+    // value 在此处被缩小为 number 类型
+    console.log(value.toFixed(2)); // 可以调用 number 类型的方法
+  } else {
+    console.log(&#39;Value is not a number&#39;);
+  }
+}
+</code></pre><ol><li><strong>as</strong></li></ol><p><code>as</code> 关键字用于类型断言，允许将一个变量断言为特定的类型。</p><pre class="code-block"><code class="language-typescript">const someValue: any = &#39;hello&#39;;
+const length = (someValue as string).length;
+</code></pre><p>这些关键字和操作符能够在 TypeScript 中进行类型判断、类型检查和类型转换，有助于确保代码的类型安全性和正确性。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>npm run start 的过程是啥，为何能执行对应的命令【热度: 170】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：npm run start 过程&lt;/p&gt;&lt;p&gt;当你在项目的根目录下执行 &lt;code&gt;npm run start&lt;/code&gt; 命令时，实际上触发了一个由 Node.js 包管理器（npm）管理的一系列流程。理解这一过程，可以帮助你更" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="npm run start 的过程是啥，为何能执行对应的命令【热度: 170】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：npm run start 过程&lt;/p&gt;&lt;p&gt;当你在项目的根目录下执行 &lt;code&gt;npm run start&lt;/code&gt; 命令时，实际上触发了一个由 Node.js 包管理器（npm）管理的一系列流程。理解这一过程，可以帮助你更好地掌握项目的构建和开发流程。以下是 &lt;code&gt;npm run start&lt;/code&gt; 执行过程的概述：&lt;/p&gt;&lt;h" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/890" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>npm run start 的过程是啥，为何能执行对应的命令【热度: 170】</h1>
+      <div class="subtitle">web应用场景 · web应用场景 · 腾讯</div>
+      <div class="meta">创建：2024-09-17T02:47:32Z · 更新：2024-09-17T02:47:32Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：npm run start 过程</p><p>当你在项目的根目录下执行 <code>npm run start</code> 命令时，实际上触发了一个由 Node.js 包管理器（npm）管理的一系列流程。理解这一过程，可以帮助你更好地掌握项目的构建和开发流程。以下是 <code>npm run start</code> 执行过程的概述：</p><h3>1. <code>npm run start</code> 是怎么工作的？</h3><ul><li><strong>查找 <code>package.json</code> 文件</strong>：npm 首先在当前目录下查找 <code>package.json</code> 文件。这个文件包含了项目的元数据和配置信息，包括一系列定义了脚本（scripts）的键值对。</li><li><strong>解析 <code>scripts</code> 对象</strong>：<code>npm run start</code> 会在 <code>package.json</code> 文件的 <code>scripts</code> 对象里查找名为 <code>&quot;start&quot;</code> 的脚本命令。例如：</li></ul><p>```json</p><p>"scripts": {</p><p>"start": "node index.js"</p><p>}</p><p>```</p><ul><li><strong>执行命令</strong>：找到 <code>&quot;start&quot;</code> 脚本后，npm 会在命令行中执行其定义的命令，如上述例子中的 <code>node index.js</code>。这里的命令可以是任何可以在终端或命令提示符下运行的命令，包括启动一个服务器、打包应用等。</li></ul><h3>2. <code>npm run start</code> 为何能够执行对应命令？</h3><p>这归功于 npm 的工作方式。<code>npm run</code> 命令是一个通用命令，用于执行 <code>package.json</code> 文件中 <code>scripts</code> 属性下定义的任意脚本。这些脚本可以是几乎任何你希望自动运行的命令行指令。当执行 <code>npm run start</code> 时，npm 会查找并执行与 <code>start</code> 相关联的脚本指令。</p><h3>3. 为什么使用 <code>npm run start</code>？</h3><p>使用 <code>npm run start</code> 以及 <code>package.json</code> 中的其他脚本有几个好处：</p><ul><li><strong>标准化</strong>：为常用任务（如启动开发服务器、构建生产代码等）提供一致的命令接口。</li><li><strong>简化复杂命令</strong>：将长长的、可能很复杂的命令简化为一个简单的脚本命令，提高开发效率。</li><li><strong>跨平台兼容</strong>：一些命令（尤其是 UNIX 命令）在不同的操作系统下表现不同。使用 npm 脚本可以通过特定工具（如 <code>cross-env</code>）来实现跨平台兼容。</li><li><strong>依赖局部安装的包</strong>：在 npm 脚本中运行的命令可以直接使用项目 <code>node_modules/.bin</code> 目录下安装的本地依赖，无需全局安装或在命令前添加路径。</li></ul><p>总结而言，<code>npm run start</code> 以及 <code>package.json</code> 中定义的其他脚本，为项目开发提供了一种灵活、标准化、易于管理的方式来执行各种命令行任务。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

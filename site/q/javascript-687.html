@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JS 严格模式作用是啥？【热度: 530】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;JavaScript的严格模式（&quot;use strict&quot;）是一种限制JavaScript语法的方式，目的是为了捕捉一些常见的编码错误，同时阻止或者抛出错误对于一些保险不良行为的使用。它通过在脚本或函数的顶部添加一个特殊的声明来启用，声明如下：&lt;/p&gt;&lt;pre class=&quot;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="JS 严格模式作用是啥？【热度: 530】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;JavaScript的严格模式（&quot;use strict&quot;）是一种限制JavaScript语法的方式，目的是为了捕捉一些常见的编码错误，同时阻止或者抛出错误对于一些保险不良行为的使用。它通过在脚本或函数的顶部添加一个特殊的声明来启用，声明如下：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&amp;quot;use stri" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/687" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>JS 严格模式作用是啥？【热度: 530】</h1>
+      <div class="subtitle">JavaScript · JavaScript · 腾讯</div>
+      <div class="meta">创建：2024-04-13T10:22:07Z · 更新：2024-04-18T02:17:29Z</div>
+    </div>
+    <article class="content markdown-body"><p>JavaScript的严格模式（"use strict"）是一种限制JavaScript语法的方式，目的是为了捕捉一些常见的编码错误，同时阻止或者抛出错误对于一些保险不良行为的使用。它通过在脚本或函数的顶部添加一个特殊的声明来启用，声明如下：</p><pre class="code-block"><code class="language-javascript">&quot;use strict&quot;;
+</code></pre><p>以下是严格模式的一些主要作用：</p><ol><li><strong>消除JavaScript语法的一些静默错误</strong>：</li></ol><p>在非严格模式下，这些错误不会抛出异常，可能导致开发者难以发现。启用严格模式后，这些错误会被抛出。</p><ol><li><strong>修复可能使JavaScript引擎难以优化代码的一些错误</strong>：</li></ol><p>有些代码模式可能是引擎优化的障碍。严格模式下这些模式会被禁止，有时候能提升代码的性能。</p><ol><li><strong>禁止使用某些语法</strong>：</li></ol><p>这些语法在未来的ECMAScript版本中可能会有其他的用途。比如，未来的ECMAScript版本可能会使用<code>implements</code>, <code>interface</code>, <code>let</code>, <code>package</code>, <code>private</code>, <code>protected</code>, <code>public</code>, <code>static</code>, 和 <code>yield</code> 作为关键词。</p><ol><li><strong>为未来新版JS做准备</strong>：</li></ol><p>有些旧语法或行为在严格模式下已被废弃，确保代码兼容未来语言的演变。</p><p>以下是“严格模式”相比于“非严格模式”的一些具体区别：</p><ul><li>在严格模式下，试图给未声明的变量赋值会抛出错误。</li><li>删除不可删除的属性会抛错（如 <code>delete Object.prototype;</code>）。</li><li>要求函数的参数名唯一。</li><li>禁用<code>with</code>语句。</li><li><code>eval</code>在严格模式下有自己的作用域，且不会引入新的变量。</li><li>禁止<code>this</code>关键字指向全局对象。</li><li>不能使用八进制语法（例如，<code>042</code>这样的八进制数字会抛错）。</li><li>不能给不可写属性赋值，也不能给只读属性赋值（getter-only）。</li><li>禁止在非构造函数中使用<code>delete</code>删除变量（否则会被忽略而不是抛错）。</li></ul><p>总的来说，严格模式使得JavaScript语言有了更严谨的错误检查体系，促使开发者编写出更安全、更有利于维护和运行效率的代码。</p><h2>Comments / Answers</h2><hr /><p><strong>candy4290</strong> at 2024-04-18T02:17:28Z</p><p>外包到特斯拉的面试，问到过这个问题</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

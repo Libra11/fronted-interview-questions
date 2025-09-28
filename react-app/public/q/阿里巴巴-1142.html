@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nginx 如何按资源类型（如.js/.png）分发到不同服务器？配置策略是什么？【热度: 159】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：nginx 转发&lt;/p&gt;&lt;p&gt;Nginx 可以通过 &lt;code&gt;location&lt;/code&gt; 指令匹配不同资源类型（如 &lt;code&gt;.js&lt;/code&gt;、&lt;code&gt;.png&lt;/code&gt;），并将请求分发到不同服务器，实现资源的分" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Nginx 如何按资源类型（如.js/.png）分发到不同服务器？配置策略是什么？【热度: 159】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：nginx 转发&lt;/p&gt;&lt;p&gt;Nginx 可以通过 &lt;code&gt;location&lt;/code&gt; 指令匹配不同资源类型（如 &lt;code&gt;.js&lt;/code&gt;、&lt;code&gt;.png&lt;/code&gt;），并将请求分发到不同服务器，实现资源的分类部署和负载均衡。这种配置策略适合将静态资源（JS、图片）与动态资源（API）分离部署，提升整体服务性能。&lt;/p&gt;&lt;h3" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1142" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>Nginx 如何按资源类型（如.js/.png）分发到不同服务器？配置策略是什么？【热度: 159】</h1>
+      <div class="subtitle">阿里巴巴 · web应用场景 · 阿里巴巴</div>
+      <div class="meta">创建：2025-09-07T05:58:10Z · 更新：2025-09-07T05:58:10Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：nginx 转发</p><p>Nginx 可以通过 <code>location</code> 指令匹配不同资源类型（如 <code>.js</code>、<code>.png</code>），并将请求分发到不同服务器，实现资源的分类部署和负载均衡。这种配置策略适合将静态资源（JS、图片）与动态资源（API）分离部署，提升整体服务性能。</p><h3>一、核心配置策略：按文件后缀匹配并转发</h3><p>通过 <code>location</code> 块的正则表达式匹配符（区分大小写）或 ~\* 匹配符（不区分大小写），根据文件后缀名匹配不同资源类型，再通过 <code>proxy_pass</code> 转发到对应服务器。</p><h4>1. 基础配置示例（分离 JS/CSS 与图片资源）</h4><pre class="code-block"><code class="language-nginx">http {
+    # 定义后端服务器组（可配置负载均衡）
+    # JS/CSS 资源服务器组
+    upstream js_css_servers {
+        server 192.168.1.101:8080;  # JS/CSS 服务器1
+        server 192.168.1.102:8080;  # JS/CSS 服务器2（负载均衡）
+    }
+
+    # 图片资源服务器组
+    upstream image_servers {
+        server 192.168.1.201:8080;  # 图片服务器1
+        server 192.168.1.202:8080;  # 图片服务器2（负载均衡）
+    }
+
+    # 其他资源（如HTML、API）服务器
+    upstream default_server {
+        server 192.168.1.301:8080;
+    }
+
+    server {
+        listen 80;
+        server_name example.com;
+
+        # 1. 匹配 .js 和 .css 文件，转发到 JS/CSS 服务器组
+        location ~* \.(js|css)$ {
+            proxy_pass http://js_css_servers;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            # 静态资源缓存优化（可选）
+            expires 1d;  # 缓存 1 天
+            add_header Cache-Control &quot;public, max-age=86400&quot;;
+        }
+
+        # 2. 匹配图片文件（.png/.jpg/.jpeg/.gif/.webp），转发到图片服务器组
+        location ~* \.(png|jpg|jpeg|gif|webp)$ {
+            proxy_pass http://image_servers;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            # 图片缓存时间更长（可选）
+            expires 7d;  # 缓存 7 天
+            add_header Cache-Control &quot;public, max-age=604800&quot;;
+        }
+
+        # 3. 其他所有请求（如 HTML、API）转发到默认服务器
+        location / {
+            proxy_pass http://default_server;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+        }
+    }
+}
+</code></pre><h3>二、配置策略解析</h3><h4>1. 匹配规则说明</h4><ul><li>*<em><code>~&lt;/em&gt; \.(js|css)$</code>**：</li></ul><ul><li><code>~*</code> 表示不区分大小写匹配（如 <code>.JS</code>、<code>.Css</code> 也会被匹配）。</li><li><code>\.(js|css)$</code> 是正则表达式，匹配以 <code>.js</code> 或 <code>.css</code> 结尾的请求。</li></ul><ul><li><strong>优先级注意</strong>：</li></ul><p>Nginx 的 <code>location</code> 匹配有优先级，*<em>精确匹配（<code>=</code>）> 前缀匹配（不含正则）> 正则匹配（<code>~</code>/<code>~&lt;/em&gt;</code>）**。</p><p>因此，按资源类型的正则匹配会优先于普通前缀匹配（如 <code>/static</code>），需确保规则无冲突。</p><h4>2. 服务器组（upstream）配置</h4><ul><li>通过 <code>upstream</code> 定义同类资源的服务器集群，支持负载均衡策略（默认轮询）：</li><li>可添加 <code>weight=2</code> 调整权重（如 <code>server 192.168.1.101:8080 weight=2;</code>）。</li><li>可添加 <code>backup</code> 配置备用服务器（如 <code>server 192.168.1.103:8080 backup;</code>）。</li></ul><h4>3. 资源优化补充配置</h4><ul><li><strong>缓存策略</strong>：静态资源（JS、图片）通常不频繁变动，通过 <code>expires</code> 和 <code>Cache-Control</code> 头设置浏览器缓存，减少重复请求。</li><li><strong>防盗链</strong>：图片等资源可添加防盗链配置，防止被其他网站盗用：</li></ul><p>```nginx</p><p>location ~* \.(png|jpg|jpeg|gif|webp)$ {</p><p># 仅允许 example.com 域名引用图片</p><p>valid_referers none blocked example.com *.example.com;</p><p>if ($invalid_referer) {</p><p>return 403;  # 非法引用返回 403</p><p>}</p><p># ... 其他配置</p><p>}</p><p>```</p><h3>三、扩展场景：按目录 + 资源类型组合匹配</h3><p>若资源按目录分类（如 <code>/static/js</code>、<code>/static/img</code>），可结合目录和后缀匹配，进一步细化转发规则：</p><pre class="code-block"><code class="language-nginx"># 仅匹配 /static/js 目录下的 .js 文件
+location ~* /static/js/.*\.js$ {
+    proxy_pass http://js_servers;
+}
+
+# 仅匹配 /static/img 目录下的图片文件
+location ~* /static/img/.*\.(png|jpg)$ {
+    proxy_pass http://image_servers;
+}
+</code></pre><h3>四、注意事项</h3><ol><li><strong>正则表达式效率</strong>：</li></ol><p>过多复杂的正则匹配会影响 Nginx 性能，建议资源类型规则尽量简洁（如合并同类后缀）。</p><ol><li><strong>后端资源路径一致性</strong>：</li></ol><p>确保转发目标服务器的资源路径与请求路径一致。例如，请求 <code>example.com/static/a.js</code> 被转发到 <code>js_css_servers</code> 后，服务器需能在 <code>/static/a.js</code> 路径找到资源。</p><ol><li><strong>HTTPS 场景适配</strong>：</li></ol><p>若使用 HTTPS，配置逻辑不变，只需在 <code>server</code> 块中添加 SSL 证书配置，转发目标可保持 HTTP（内部通信）或 HTTPS（跨公网）。</p><h3>总结</h3><p>按资源类型分发的核心策略是：</p><ol><li>用 <code>location ~* \.(后缀1|后缀2)$</code> 匹配不同资源类型。</li><li>通过 <code>upstream</code> 定义对应资源的服务器集群，支持负载均衡。</li><li>结合缓存、防盗链等配置优化静态资源访问。</li></ol><p>这种方案能实现资源的分类部署，减轻单服务器压力，同时针对不同资源类型（如图片、JS）进行专项优化，提升整体服务性能。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

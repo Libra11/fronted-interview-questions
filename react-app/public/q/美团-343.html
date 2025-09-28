@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] createElement 和 cloneElement 有什么区别【热度: 218】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：createElement cloneElement&lt;/p&gt;&lt;h3&gt;&lt;code&gt;createElement&lt;/code&gt; 和 &lt;code&gt;cloneElement&lt;/code&gt; 有什么区别?&lt;/h3&gt;&lt;p&gt;React 中的 &lt;cod" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] createElement 和 cloneElement 有什么区别【热度: 218】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：createElement cloneElement&lt;/p&gt;&lt;h3&gt;&lt;code&gt;createElement&lt;/code&gt; 和 &lt;code&gt;cloneElement&lt;/code&gt; 有什么区别?&lt;/h3&gt;&lt;p&gt;React 中的 &lt;code&gt;createElement&lt;/code&gt; 和 &lt;code&gt;cloneElement&lt;/code&gt; 都可以用来创建元素" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/343" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] createElement 和 cloneElement 有什么区别【热度: 218】</h1>
+      <div class="subtitle">美团 · web框架 · 美团</div>
+      <div class="meta">创建：2023-05-06T13:27:11Z · 更新：2023-05-06T13:27:12Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：createElement cloneElement</p><h3><code>createElement</code> 和 <code>cloneElement</code> 有什么区别?</h3><p>React 中的 <code>createElement</code> 和 <code>cloneElement</code> 都可以用来创建元素，但它们用法有所不同。</p><p><code>createElement</code> 用于在 React 中动态地创建一个新的元素，并返回一个 React 元素对象。它的用法如下：</p><pre class="code-block"><code class="language-jsx">React.createElement(type, [props], [...children]);
+</code></pre><p>其中，<code>type</code> 是指要创建的元素的类型，可以是一个 HTML 标签名（如 <code>div</code>、<code>span</code> 等），也可以是一个 React 组件类（如自定义的组件），<code>props</code> 是一个包含该元素需要设置的属性信息的对象，<code>children</code> 是一个包含其子元素的数组。<code>createElement</code> 会以这些参数为基础创建并返回一个 React 元素对象，React 将使用它来构建真正的 DOM 元素。</p><p><code>cloneElement</code> 用于复制一个已有的元素，并返回一个新的 React 元素，同时可以修改它的一些属性。它的用法如下：</p><pre class="code-block"><code class="language-jsx">React.cloneElement(element, [props], [...children]);
+</code></pre><p>其中，<code>element</code> 是指要复制的 React 元素对象，<code>props</code> 是一个包含需要覆盖或添加的属性的对象，<code>children</code> 是一个包含其修改后的子元素的数组。<code>cloneElement</code> 会以这些参数为基础复制该元素，并返回一个新的 React 元素对象。</p><p>在实际使用中，<code>createElement</code> 通常用于创建新的元素（如动态生成列表），而 <code>cloneElement</code> 更适用于用于修改已有的元素，例如在一个组件内部使用 <code>cloneElement</code> 来修改传递进来的子组件的属性。</p><h3><code>cloneElement</code> 有哪些应用场景</h3><p>React 中的 <code>cloneElement</code> 主要适用于以下场景：</p><ol><li>修改 props</li></ol><p><code>cloneElement</code> 可以用于复制一个已有的元素并覆盖或添加一些新的属性。例如，可以复制一个带有默认属性的组件并传递新的属性，达到修改属性的目的。</p><pre class="code-block"><code class="language-jsx">// 假设有这样一个组件
+function MyComponent(props) {
+  // ...
+}
+
+// 在另一个组件中使用 cloneElement 修改 MyComponent 的 props
+function AnotherComponent() {
+  return React.cloneElement(&lt;MyComponent /&gt;, { color: &#39;red&#39; });
+}
+</code></pre><ol><li>渲染列表</li></ol><p>在渲染列表时，可以使用 <code>Array.map()</code> 生成一系列的元素数组，也可以使用 <code>React.Children.map()</code> 遍历子元素并返回一系列的元素数组，同时使用 <code>cloneElement</code> 复制元素并传入新的 key 和 props。</p><pre class="code-block"><code class="language-jsx">// 使用 Children.map() 遍历子元素并复制元素
+function MyList({ children, color }) {
+  return (
+    &lt;ul&gt;
+      {React.Children.map(children, (child, index) =&gt;
+        React.cloneElement(child, { key: index, color })
+      )}
+    &lt;/ul&gt;
+  );
+}
+
+// 在组件中使用 MyList 渲染列表元素
+function MyPage() {
+  return (
+    &lt;MyList color=&quot;red&quot;&gt;
+      &lt;li&gt;Item 1&lt;/li&gt;
+      &lt;li&gt;Item 2&lt;/li&gt;
+      &lt;li&gt;Item 3&lt;/li&gt;
+    &lt;/MyList&gt;
+  );
+}
+</code></pre><ol><li>修改子元素</li></ol><p>使用 <code>cloneElement</code> 也可以在一个组件内部修改传递进来的子组件的属性，例如修改按钮的样式。</p><pre class="code-block"><code class="language-jsx">function ButtonGroup({ children, style }) {
+  return (
+    &lt;div style={style}&gt;
+      {React.Children.map(children, (child) =&gt;
+        React.cloneElement(child, { style: { color: &#39;red&#39; } })
+      )}
+    &lt;/div&gt;
+  );
+}
+
+function MyPage() {
+  return (
+    &lt;ButtonGroup style={{ display: &#39;flex&#39; }}&gt;
+      &lt;button&gt;Save&lt;/button&gt;
+      &lt;button&gt;Cancel&lt;/button&gt;
+    &lt;/ButtonGroup&gt;
+  );
+}
+</code></pre><p>总之，<code>cloneElement</code> 可以方便地复制已有的 React 元素并修改其属性，适用于许多场景，例如修改 props、渲染列表和修改子元素等。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

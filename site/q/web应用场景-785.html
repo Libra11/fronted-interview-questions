@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何清理源码里面没有被应用的代码， 主要是 JS、TS、CSS 代码【热度: 329】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：代码清理&lt;/p&gt;&lt;p&gt;清理源码中未被应用的 JavaScript (JS)、TypeScript (TS) 和 CSS 代码的关键在于合理利用工具和策略，来识别和移除这些废弃的代码。下面是一份指南，帮助你高效完成这一任务：&lt;/p&gt;&lt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何清理源码里面没有被应用的代码， 主要是 JS、TS、CSS 代码【热度: 329】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：代码清理&lt;/p&gt;&lt;p&gt;清理源码中未被应用的 JavaScript (JS)、TypeScript (TS) 和 CSS 代码的关键在于合理利用工具和策略，来识别和移除这些废弃的代码。下面是一份指南，帮助你高效完成这一任务：&lt;/p&gt;&lt;h3&gt;对于 JavaScript 和 TypeScript&lt;/h3&gt;&lt;h4&gt;1. 使用 ESLint&lt;/h4&gt;&lt;ul&gt;&lt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/785" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何清理源码里面没有被应用的代码， 主要是 JS、TS、CSS 代码【热度: 329】</h1>
+      <div class="subtitle">web应用场景 · web应用场景 · 腾讯</div>
+      <div class="meta">创建：2024-07-12T12:22:27Z · 更新：2024-07-12T12:22:28Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：代码清理</p><p>清理源码中未被应用的 JavaScript (JS)、TypeScript (TS) 和 CSS 代码的关键在于合理利用工具和策略，来识别和移除这些废弃的代码。下面是一份指南，帮助你高效完成这一任务：</p><h3>对于 JavaScript 和 TypeScript</h3><h4>1. 使用 ESLint</h4><ul><li><strong>初始化 ESLint</strong>：如果你还没有使用 ESLint，可以通过<code>npx eslint --init</code>命令来初始化配置。</li><li><strong>配置规则</strong>：确保在<code>.eslintrc</code>配置文件中启用了<code>no-unused-vars</code>规则，以识别未使用的变量和函数。</li></ul><pre class="code-block"><code class="language-json">{
+  &quot;rules&quot;: {
+    &quot;no-unused-vars&quot;: &quot;warn&quot;
+  }
+}
+</code></pre><ul><li><strong>使用 ESLint 的 --fix 选项</strong>: 虽然 ESLint 主要用于识别问题，但它的 --fix 选项可以自动修复一些问题，包括删除未使用的变量等。不过，这种方式相对保守，无法删除大块的未使用代码</li></ul><h4>2. 使用 TypeScript 编译器选项</h4><ul><li>对于 TypeScript 项目，可以在<code>tsconfig.json</code>文件中启用<code>noUnusedLocals</code>和<code>noUnusedParameters</code>选项，以识别未使用的本地变量和函数参数。</li></ul><pre class="code-block"><code class="language-json">{
+  &quot;compilerOptions&quot;: {
+    &quot;noUnusedLocals&quot;: true,
+    &quot;noUnusedParameters&quot;: true
+  }
+}
+</code></pre><h4>3. 利用 Webpack 的 Tree Shaking</h4><ul><li>确保在生产模式下使用 Webpack，它自带 Tree Shaking 功能，可以去除死代码（未被使用的代码）。</li><li>使用 ES6 模块语法（即<code>import</code>和<code>export</code>），因为 Tree Shaking 仅支持静态导入。</li></ul><h3>对于 CSS</h3><h4>1. 使用 PurgeCSS</h4><ul><li><strong>PurgeCSS</strong>分析你的内容和 CSS 文件，去除不匹配的选择器。非常适用于清楚在 HTML 或 JS 文件中未引用的 CSS 代码。</li><li>可以通过 Webpack、Gulp 或 PostCSS 等多种方式与 PurgeCSS 集成。</li></ul><pre class="code-block"><code class="language-bash">npm install purgecss
+</code></pre><p>使用 PurgeCSS 时，配置你的内容文件路径（如 HTML 或 JSX 文件），它会扫描这些文件以确定哪些 CSS 选择器被使用：</p><pre class="code-block"><code class="language-javascript">// 一个基本的PurgeCSS配置例子
+new PurgecssPlugin({
+  paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true }),
+});
+</code></pre><h3>使用 Codemods</h3><p>Codemods 是 Facebook 提出的一种工具，允许你对代码库进行大规模的自动化重构。通过编写特定的脚本，你可以自定义删除或修改未被调用的代码的逻辑。例如，使用 <code>jscodeshift</code> 工具可以配合具体规则进行代码修改。</p><h3>注意事项</h3><ul><li><strong>测试</strong>：自动删除代码后，务必执行完整的测试套件，确认改动不会影响现有功能。</li><li><strong>版本控制</strong>：在进行删除操作之前，确保代码已经提交到版本控制系统，以便必要时可以恢复。</li><li><strong>逐步执行</strong>：尤其是在较大或复杂的项目中，建议分步骤、逐渐移除未使用的代码，每次删除后都进行测试和评估。</li></ul><p>使用这些策略和工具可以帮助自动化清理未使用的代码，但是请注意，完全自动化的过程可能会有风险，依然需要人工审核和测试以确保代码的质量和应用的稳定性。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

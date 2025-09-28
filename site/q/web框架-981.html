@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] 如何实践数据不可变状态【热度: 114】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：react 数据不可变&lt;/p&gt;&lt;p&gt;在 React 中，可以通过以下几种方式来实践数据不可变状态：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、使用不可变数据结构库（如 Immutable.js）&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;st" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] 如何实践数据不可变状态【热度: 114】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：react 数据不可变&lt;/p&gt;&lt;p&gt;在 React 中，可以通过以下几种方式来实践数据不可变状态：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、使用不可变数据结构库（如 Immutable.js）&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;安装和导入 Immutable.js&lt;/strong&gt;：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;首先，安装 Imm" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/981" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] 如何实践数据不可变状态【热度: 114】</h1>
+      <div class="subtitle">web框架 · web框架 · 阿里巴巴</div>
+      <div class="meta">创建：2024-10-12T15:11:53Z · 更新：2024-10-12T15:11:54Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：react 数据不可变</p><p>在 React 中，可以通过以下几种方式来实践数据不可变状态：</p><p><strong>一、使用不可变数据结构库（如 Immutable.js）</strong></p><ol><li><strong>安装和导入 Immutable.js</strong>：</li></ol><ul><li>首先，安装 Immutable.js 库：<code>npm install immutable</code>。</li><li>然后，在 React 组件中导入所需的 Immutable 数据结构，如<code>Map</code>和<code>List</code>：</li></ul><p>```javascript</p><p>import { Map, List } from "immutable";</p><p>```</p><ol><li><strong>创建不可变状态</strong>：</li></ol><ul><li>使用 Immutable 数据结构来创建组件的初始状态。例如，使用<code>Map</code>来表示一个包含多个属性的对象：</li></ul><p>```javascript</p><p>const initialState = Map({</p><p>count: 0,</p><p>name: "Initial Name",</p><p>});</p><p>```</p><ul><li>或者使用<code>List</code>来表示一个数组：</li></ul><p>```javascript</p><p>const initialList = List([1, 2, 3]);</p><p>```</p><ol><li><strong>更新不可变状态</strong>：</li></ol><ul><li>Immutable.js 提供了一系列方法来更新不可变数据结构，这些方法会返回一个新的不可变对象，而不是修改原始对象。例如，要增加<code>count</code>属性的值，可以使用<code>set</code>方法：</li></ul><p>```javascript</p><p>const newState = state.set("count", state.get("count") + 1);</p><p>```</p><ul><li>要添加一个元素到<code>List</code>中，可以使用<code>push</code>方法：</li></ul><p>```javascript</p><p>const newList = list.push(4);</p><p>```</p><ol><li><strong>在 React 组件中使用</strong>：</li></ol><ul><li>在 React 组件中，可以使用<code>useState</code>钩子来管理不可变状态。将初始状态设置为 Immutable 对象，并在更新状态时使用 Immutable 的方法：</li></ul><p>```javascript</p><p>import React, { useState } from "react";</p><p>import { Map } from "immutable";</p><p>function MyComponent() {</p><p>const [state, setState] = useState(Map({ count: 0 }));</p><p>const increment = () => {</p><p>setState(state.set("count", state.get("count") + 1));</p><p>};</p><p>return (</p><p><div></p><p><p>Count: {state.get("count")}</p></p><p><button onClick={increment}>Increment</button></p><p></div></p><p>);</p><p>}</p><p>```</p><p><strong>二、使用纯函数和扩散语法（Spread Syntax）</strong></p><ol><li><strong>纯函数更新状态</strong>：</li></ol><ul><li>在 React 中，尽量使用纯函数来更新状态。纯函数是指一个函数的返回值仅取决于其输入参数，并且没有副作用。</li><li>例如，定义一个函数来更新状态：</li></ul><p>```javascript</p><p>const updateState = (oldState, newData) => ({</p><p>...oldState,</p><p>...newData,</p><p>});</p><p>```</p><ul><li>这个函数接受旧状态和新数据作为参数，并返回一个新的状态对象，其中包含旧状态和新数据的合并。</li></ul><ol><li><strong>在 React 组件中使用</strong>：</li></ol><ul><li>在 React 组件中，可以使用<code>useState</code>钩子和纯函数来更新状态：</li></ul><p>```javascript</p><p>import React, { useState } from "react";</p><p>function MyComponent() {</p><p>const [state, setState] = useState({ count: 0 });</p><p>const increment = () => {</p><p>setState(updateState(state, { count: state.count + 1 }));</p><p>};</p><p>return (</p><p><div></p><p><p>Count: {state.count}</p></p><p><button onClick={increment}>Increment</button></p><p></div></p><p>);</p><p>}</p><p>```</p><ul><li>在这个例子中，<code>increment</code>函数调用<code>updateState</code>函数来更新组件的状态，创建一个新的状态对象，而不是修改原始状态。</li></ul><p><strong>三、避免直接修改状态对象</strong></p><ol><li><strong>不要直接修改状态</strong>：</li></ol><ul><li>在 React 中，永远不要直接修改组件的状态对象。例如，不要使用以下方式修改状态：</li></ul><p>```javascript</p><p>state.count++;</p><p>setState(state);</p><p>```</p><ul><li>这种方式会导致不可预测的行为，因为 React 依赖于状态的不可变性来进行渲染优化。</li></ul><ol><li><strong>创建新的对象或数组</strong>：</li></ol><ul><li>当需要更新状态时，创建一个新的对象或数组来表示新的状态。可以使用对象字面量或数组字面量来创建新的对象或数组，或者使用扩散语法来复制旧对象或数组的属性，并添加或修改需要更新的属性。</li><li>例如，要更新一个包含多个属性的对象状态，可以这样做：</li></ul><p>```javascript</p><p>const newState = {</p><p>...state,</p><p>count: state.count + 1,</p><p>name: "New Name",</p><p>};</p><p>setState(newState);</p><p>```</p><ul><li>要更新一个数组状态，可以使用<code>map</code>方法或扩散语法来创建一个新的数组：</li></ul><p>```javascript</p><p>const newList = state.list.map((item) => item * 2);</p><p>setState({ ...state, list: newList });</p><p>```</p><p>通过以上方法，可以在 React 中实践数据不可变状态，提高应用的性能和可预测性，避免意外的副作用，并帮助 React 进行更高效的渲染优化。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>可有办法判断用户的网络条件, 判断网速快慢，网络状态？【热度: 195】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：网络状态&lt;/p&gt;&lt;p&gt;确定用户的网络条件，包括网络速度和连接状态，对于提供优质用户体验至关重要。以下是一些方法可以帮助你判断用户的网络条件：&lt;/p&gt;&lt;h3&gt;1. &lt;strong&gt;Navigator Connection API&lt;/s" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="可有办法判断用户的网络条件, 判断网速快慢，网络状态？【热度: 195】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：网络状态&lt;/p&gt;&lt;p&gt;确定用户的网络条件，包括网络速度和连接状态，对于提供优质用户体验至关重要。以下是一些方法可以帮助你判断用户的网络条件：&lt;/p&gt;&lt;h3&gt;1. &lt;strong&gt;Navigator Connection API&lt;/strong&gt;&lt;/h3&gt;&lt;p&gt;这个 API 提供有关系统的网络连接的信息，如网络的类型和下载速度。这个 API 的支持度不" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/857" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>可有办法判断用户的网络条件, 判断网速快慢，网络状态？【热度: 195】</h1>
+      <div class="subtitle">网络 · 网络 · 小米</div>
+      <div class="meta">创建：2024-08-29T15:18:24Z · 更新：2024-08-29T15:18:24Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：网络状态</p><p>确定用户的网络条件，包括网络速度和连接状态，对于提供优质用户体验至关重要。以下是一些方法可以帮助你判断用户的网络条件：</p><h3>1. <strong>Navigator Connection API</strong></h3><p>这个 API 提供有关系统的网络连接的信息，如网络的类型和下载速度。这个 API 的支持度不是全局性的，但在许多现代浏览器上可用。使用这个 API，你可以获取到有关用户网络连接的详细信息。</p><pre class="code-block"><code class="language-javascript">if (&quot;connection&quot; in navigator) {
+  const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+
+  console.log(`网络类型: ${connection.effectiveType}`);
+  console.log(`估计的下行速度: ${connection.downlink}Mbps`);
+  console.log(`RTT: ${connection.rtt}ms`);
+
+  // 监听网络类型变化
+  connection.addEventListener(&quot;change&quot;, (e) =&gt; {
+    console.log(`网络类型变化为: ${connection.effectiveType}`);
+  });
+}
+</code></pre><ul><li><code>connection.effectiveType</code> 提供了网络的类型，如 <code>&#39;4g&#39;</code>，<code>&#39;3g&#39;</code>，代表网络速度。</li><li><code>connection.downlink</code> 提供了网络的下载速度信息，单位是 Mbps。</li><li><code>connection.rtt</code> 提供了来回时间信息，单位是毫秒。</li></ul><h3>2. <strong>观测发送请求的速度</strong></h3><p>通过发送一个小请求（可能是一个小文件或 API 请求）并测量它完成的时间，可以粗略地估计当前的网络速度。</p><pre class="code-block"><code class="language-javascript">let startTime = new Date().getTime(); // 记录开始时间
+fetch(&quot;your-small-file-or-api-url&quot;).then((response) =&gt; {
+  let endTime = new Date().getTime(); // 记录结束时间
+  let duration = endTime - startTime; // 请求持续时间
+  console.log(`请求持续时间: ${duration}ms`);
+  // 根据持续时间和文件大小估计网速
+});
+</code></pre><h3>3. <strong>监听在线和离线事件</strong></h3><p>HTML5 引入了在线和离线事件监听，可以用来简单判断用户是否连接到网络。</p><pre class="code-block"><code class="language-javascript">window.addEventListener(&quot;online&quot;, () =&gt; console.log(&quot;网络已连接&quot;));
+window.addEventListener(&quot;offline&quot;, () =&gt; console.log(&quot;网络已断开&quot;));
+</code></pre><p>根据<code>navigator.onLine</code>的属性值，你可以检测用户是否在线。</p><pre class="code-block"><code class="language-javascript">if (navigator.onLine) {
+  console.log(&quot;用户在线&quot;);
+} else {
+  console.log(&quot;用户离线&quot;);
+}
+</code></pre><h3>结论</h3><p>虽然无法精确地测量用户的网速，但以上方法提供了一些手段来估计用户的网络状况。这样的信息可以用来动态调整网站或应用的行为，例如，通过降低图像质量、推迟非关键资源的加载或取消某些动画，以改善慢速连接下的用户体验。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

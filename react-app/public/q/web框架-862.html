@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] 性能调优中，如何确定哪个数据变化引起的组件渲染【热度: 500】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：react 渲染性能调优&lt;/p&gt;&lt;p&gt;帮助开发者排查是哪个属性改变导致了组件的 rerender。&lt;/p&gt;&lt;p&gt;直接接受 ahooks 里面的一个方法： &lt;a href=&quot;https://ahooks.js.org/zh-CN/ho" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] 性能调优中，如何确定哪个数据变化引起的组件渲染【热度: 500】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：react 渲染性能调优&lt;/p&gt;&lt;p&gt;帮助开发者排查是哪个属性改变导致了组件的 rerender。&lt;/p&gt;&lt;p&gt;直接接受 ahooks 里面的一个方法： &lt;a href=&quot;https://ahooks.js.org/zh-CN/hooks/use-why-did-you-update&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;u" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/862" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] 性能调优中，如何确定哪个数据变化引起的组件渲染【热度: 500】</h1>
+      <div class="subtitle">web框架 · web框架 · 阿里巴巴</div>
+      <div class="meta">创建：2024-08-29T15:51:35Z · 更新：2024-08-29T15:51:36Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：react 渲染性能调优</p><p>帮助开发者排查是哪个属性改变导致了组件的 rerender。</p><p>直接接受 ahooks 里面的一个方法： <a href="https://ahooks.js.org/zh-CN/hooks/use-why-did-you-update" target="_blank" rel="noopener">useWhyDidYouUpdate</a></p><p>源码实现：</p><pre class="code-block"><code class="language-tsx">import { useEffect, useRef } from &quot;react&quot;;
+
+export type IProps = Record&lt;string, any&gt;;
+
+export default function useWhyDidYouUpdate(componentName: string, props: IProps) {
+  const prevProps = useRef&lt;IProps&gt;({});
+
+  useEffect(() =&gt; {
+    if (prevProps.current) {
+      const allKeys = Object.keys({ ...prevProps.current, ...props });
+      const changedProps: IProps = {};
+
+      allKeys.forEach((key) =&gt; {
+        if (!Object.is(prevProps.current[key], props[key])) {
+          changedProps[key] = {
+            from: prevProps.current[key],
+            to: props[key],
+          };
+        }
+      });
+
+      if (Object.keys(changedProps).length) {
+        console.log(&quot;[why-did-you-update]&quot;, componentName, changedProps);
+      }
+    }
+
+    prevProps.current = props;
+  });
+}
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

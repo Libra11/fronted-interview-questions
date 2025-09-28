@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>介绍一下 scrollIntoView api【热度: 286】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：scrollIntoView api&lt;/p&gt;&lt;p&gt;&lt;code&gt;scrollIntoView&lt;/code&gt; 是一个 Web API，允许网页开发者控制元素如何被滚动到浏览器的可视区域。这个方法可以对任何 &lt;code&gt;Element&lt;/" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="介绍一下 scrollIntoView api【热度: 286】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：scrollIntoView api&lt;/p&gt;&lt;p&gt;&lt;code&gt;scrollIntoView&lt;/code&gt; 是一个 Web API，允许网页开发者控制元素如何被滚动到浏览器的可视区域。这个方法可以对任何 &lt;code&gt;Element&lt;/code&gt; 使用，以改变窗口的滚动位置，以便最终元素位于屏幕可见范围内。它对于某些需要用户立即看到的表单错误、警告，或者" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/708" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>介绍一下 scrollIntoView api【热度: 286】</h1>
+      <div class="subtitle">web应用场景 · web应用场景 · TOP100互联网</div>
+      <div class="meta">创建：2024-04-19T15:59:01Z · 更新：2024-04-19T15:59:02Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：scrollIntoView api</p><p><code>scrollIntoView</code> 是一个 Web API，允许网页开发者控制元素如何被滚动到浏览器的可视区域。这个方法可以对任何 <code>Element</code> 使用，以改变窗口的滚动位置，以便最终元素位于屏幕可见范围内。它对于某些需要用户立即看到的表单错误、警告，或者在执行完某些操作后需要用户注意的元素比如通知提示尤为有用。</p><h3>基本用法</h3><pre class="code-block"><code class="language-javascript">element.scrollIntoView(smoothScrollingOptions);
+</code></pre><h3>参数说明</h3><p><code>smoothScrollingOptions</code> 是一个可选对象。当设定为 <code>false</code>、<code>undefined</code> 或一个计算值为 <code>false</code> 的值（比如 <code>0</code>）的时候，滚动操作将以最简单的方式立即执行，而不会平滑过渡。</p><p>当为 <code>true</code> 或者一个与滚动行为不冲突的对象时，浏览器会执行一个平滑的滚动动作，逐渐将元素滚动到视野内。</p><h3>选项</h3><p>该方法接受一个可选的 <code>ScrollIntoViewOptions</code> 对象，它包含以下属性：</p><ol><li><strong>block</strong>: 描述元素应当在其块级方向上的对齐方式。可以是 <code>&quot;start&quot;</code>、<code>&quot;center&quot;</code>、<code>&quot;end&quot;</code> 或 <code>&quot;nearest&quot;</code> 中的一个。</li></ol><ul><li><code>start</code> — 元素顶部与包含块的顶部对齐，只有块级元素会被滚动到这个位置。</li><li><code>center</code> — 元素将尽可能被居中对齐地显示。</li><li><code>end</code> — 元素底部将与包含块的底部对齐。</li><li><code>nearest</code> — 元素将滚动到最近的边缘。</li></ul><ol><li><strong>inline</strong>: 描述在元素行进方向的对齐方式。同样可以是 <code>&quot;start&quot;</code>、<code>&quot;center&quot;</code>、<code>&quot;end&quot;</code> 或 <code>&quot;nearest&quot;</code> 中的一个。</li></ol><ol><li><strong>behavior</strong>: 描述滚动行为。设置为 <code>&quot;auto&quot;</code> 时将使用默认滚动，设置为 <code>&quot;smooth&quot;</code> 时将平滑滚动。</li></ol><h3>例子</h3><pre class="code-block"><code class="language-javascript">document.getElementById(&quot;myElement&quot;).scrollIntoView({
+  behavior: &quot;smooth&quot;, // 平滑滚动
+  block: &quot;start&quot;, // 元素顶部与包含块顶部对齐
+});
+</code></pre><p>请注意，<code>scrollIntoView</code> 只能够使元素完全可见，但仍需留意元素灵感中其他内容可能超出视口之外。此外，滚动的方式也可能会受到 Web 浏览器和平台的不同而有所不同，例如一些浏览器可能有最高滚动速度的限制。</p><p><strong>参考文档</strong></p><ul><li>https://developer.mozilla.org/zh-CN/docs/Web/API/Element/scrollIntoView</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

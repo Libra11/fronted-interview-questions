@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>前端日志埋点 SDK 设计思路【热度: 755】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：前端埋点监控、埋点 SDK 设计&lt;/p&gt;&lt;h3&gt;前端日志埋点 SDK 设计思路&lt;/h3&gt;&lt;p&gt;既然涉及到了日志和埋点，分析一下需求是啥：&lt;/p&gt;&lt;ul&gt;&lt;li&gt;自动化上报 页面 PV、UV。 如果能自动化上报页面性能， 用户点击路径" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="前端日志埋点 SDK 设计思路【热度: 755】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：前端埋点监控、埋点 SDK 设计&lt;/p&gt;&lt;h3&gt;前端日志埋点 SDK 设计思路&lt;/h3&gt;&lt;p&gt;既然涉及到了日志和埋点，分析一下需求是啥：&lt;/p&gt;&lt;ul&gt;&lt;li&gt;自动化上报 页面 PV、UV。 如果能自动化上报页面性能， 用户点击路径行为，就更好了。&lt;/li&gt;&lt;li&gt;自动上报页面异常。&lt;/li&gt;&lt;li&gt;发送埋点信息的时候， 不影响性能， 不阻碍页面主流" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/635" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>前端日志埋点 SDK 设计思路【热度: 755】</h1>
+      <div class="subtitle">web应用场景 · web应用场景 · 阿里巴巴</div>
+      <div class="meta">创建：2023-11-11T14:18:02Z · 更新：2023-11-11T14:18:02Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：前端埋点监控、埋点 SDK 设计</p><h3>前端日志埋点 SDK 设计思路</h3><p>既然涉及到了日志和埋点，分析一下需求是啥：</p><ul><li>自动化上报 页面 PV、UV。 如果能自动化上报页面性能， 用户点击路径行为，就更好了。</li><li>自动上报页面异常。</li><li>发送埋点信息的时候， 不影响性能， 不阻碍页面主流程加载和请求发送。</li><li>能够自定义日志发送， 日志 scope、key、value。</li></ul><h3>SDK 设计</h3><p>sdk 的设计主要围绕以下几个话题来进行：</p><ul><li>SDK 初始化</li><li>数据发送</li><li>自定义错误上报</li><li>初始化错误监控</li><li>自定义日志上报</li></ul><p><strong>最基本使用</strong></p><pre class="code-block"><code class="language-js">import StatisticSDK from &#39;StatisticSDK&#39;;
+// 全局初始化一次
+window.insSDK = new StatisticSDK(&#39;uuid-12345&#39;);
+
+
+&lt;button onClick={() =&gt; {
+  window.insSDK.event(&#39;click&#39;, &#39;confirm&#39;);
+...// 其他业务代码
+}}&gt;确认&lt;/button&gt;
+</code></pre><h3>数据发送</h3><p>数据发送是一个最基础的api，后面的功能都要基于此进行。这里介绍使用 <code>navigator.sendBeacon</code> 来发送请求；具体原因如下</p><p>使用 <code>navigator.sendBeacon()</code> 方法有以下优势：</p><ol><li>异步操作：<code>navigator.sendBeacon()</code> 方法会在后台异步地发送数据，不会阻塞页面的其他操作。这意味着即使页面正在卸载或关闭，该方法也可以继续发送数据，确保数据的可靠性。</li></ol><ol><li>高可靠性：<code>navigator.sendBeacon()</code> 方法会尽可能地保证数据的传输成功。它使用浏览器内部机制进行发送，具有更高的可靠性和稳定性。即使在网络连接不稳定或断开的情况下，该方法也会尝试发送数据，确保数据的完整性。</li></ol><ol><li>自动化处理：<code>navigator.sendBeacon()</code> 方法会自动处理数据的发送细节，无需手动设置请求头、响应处理等。它会将数据封装成 POST 请求，并自动设置请求头和数据编码，使开发者能够更专注于业务逻辑的处理。</li></ol><ol><li>跨域支持：<code>navigator.sendBeacon()</code> 方法支持跨域发送数据。在一些情况下，例如使用第三方统计服务等，可能需要将数据发送到其他域名下的服务器，此时使用 <code>navigator.sendBeacon()</code></li></ol><p>方法可以避免跨域问题。</p><p>需要注意的是，<code>navigator.sendBeacon()</code> 方法发送的数据是以 POST 请求的形式发送到服务器，通常会将数据以表单数据或 JSON 格式进行封装。因此，后端服务器需要正确处理这些数据，并进行相应的解析和处理。</p><p><strong>简单介绍一下 <code>navigator.sendBeacon</code> 用法</strong></p><p>语法：</p><pre class="code-block"><code class="language-js">navigator.sendBeacon(url);
+navigator.sendBeacon(url, data);
+</code></pre><p>参数</p><ul><li>url</li><li>url 参数表明 data 将要被发送到的网络地址。</li></ul><ul><li>data 可选</li><li>data 参数是将要发送的 <code>ArrayBuffer、ArrayBufferView、Blob、DOMString、FormData 或 URLSearchParams</code> 类型的数据。</li></ul><p><strong>发送代码实现如下</strong></p><pre class="code-block"><code class="language-js">class StatisticSDK {
+  constructor(productID, baseURL) {
+    this.productID = productID;
+    this.baseURL = baseURL;
+  }
+
+  send(query = {}) {
+    query.productID = this.productID;
+
+    let data = new URLSearchParams();
+    for (const [key, value] of Object.entries(query)) {
+      data.append(key, value);
+    }
+    navigator.sendBeacon(this.baseURL, data);
+  }
+}
+</code></pre><h3>用户行为与日志上报</h3><p>用户行为主要涉及到的是事件上报和 pv 曝光， 借助 send 实现即可。</p><pre class="code-block"><code class="language-js">class StatisticSDK {
+  constructor(productID, baseURL) {
+    this.productID = productID;
+    this.baseURL = baseURL;
+  }
+
+  send(query = {}) {
+    query.productID = this.productID;
+
+    let data = new URLSearchParams();
+    for (const [key, value] of Object.entries(query)) {
+      data.append(key, value);
+    }
+    navigator.sendBeacon(this.baseURL, data);
+  }
+
+  event(key, value = {}) {
+    this.send({ event: key, ...value })
+  }
+
+  pv() {
+    this.event(&#39;pv&#39;)
+  }
+}
+</code></pre><h3>性能上报</h3><p>性能主要涉及的 api 为 performance.timing 里面的时间内容；</p><pre class="code-block"><code class="language-js">class StatisticSDK {
+  constructor(productID, baseURL) {
+    this.productID = productID;
+    this.baseURL = baseURL;
+  }
+
+  send(query = {}) {
+    query.productID = this.productID;
+
+    let data = new URLSearchParams();
+    for (const [key, value] of Object.entries(query)) {
+      data.append(key, value);
+    }
+    navigator.sendBeacon(this.baseURL, data);
+  }
+
+  // ....
+  initPerformance() {
+    this.send({ event: &#39;performance&#39;, ...performance.timing })
+  }
+}
+</code></pre><h3>错误上报</h3><p>错误上报分两类：</p><p>一个是 dom 操作错误与 JS 错误报警， 也是常说的运行时报错。 该类报错直接可以通过 <code>addEventListener(&#39;error&#39;)</code> 监控即可；</p><p>另一个是Promise内部抛出的错误是无法被error捕获到的，这时需要用<code>unhandledrejection</code>事件。</p><pre class="code-block"><code class="language-js">class StatisticSDK {
+  constructor(productID, baseURL) {
+    this.productID = productID;
+    this.baseURL = baseURL;
+  }
+
+  send(query = {}) {
+    query.productID = this.productID;
+
+    let data = new URLSearchParams();
+    for (const [key, value] of Object.entries(query)) {
+      data.append(key, value);
+    }
+    navigator.sendBeacon(this.baseURL, data);
+  }
+
+  // ....
+  error(err, errInfo = {}) {
+    const { message, stack } = err;
+    this.send({ event: &#39;error&#39;, message, stack, ...errInfo })
+  }
+
+  initErrorListenner() {
+    window.addEventListener(&#39;error&#39;, event =&gt; {
+      this.error(error);
+    })
+    window.addEventListener(&#39;unhandledrejection&#39;, event =&gt; {
+      this.error(new Error(event.reason), { type: &#39;unhandledrejection&#39; })
+    })
+  }
+}
+</code></pre><h3>React 和 vue 错误边界</h3><p>错误边界是希望当应用内部发生渲染错误时，不会整个页面崩溃。我们提前给它设置一个兜底组件，并且可以细化粒度，只有发生错误的部分被替换成这个「兜底组件」，不至于整个页面都不能正常工作。</p><p><strong>React</strong></p><p>可以使用类组件错误边界来进行处理， 涉及到的生命周期为：<code>getDerivedStateFromError</code> 和 <code>componentDidCatch</code>；</p><pre class="code-block"><code class="language-js">// 定义错误边界
+class ErrorBoundary extends React.Component {
+  state = { error: null }
+  static getDerivedStateFromError(error) {
+    return { error }
+  }
+  componentDidCatch(error, errorInfo) {
+    // 调用我们实现的SDK实例
+    insSDK.error(error, errorInfo)
+  }
+  render() {
+    if (this.state.error) {
+      return &lt;h2&gt;Something went wrong.&lt;/h2&gt;
+    }
+    return this.props.children
+  }
+}
+...
+&lt;ErrorBoundary&gt;
+  &lt;BuggyCounter /&gt;
+&lt;/ErrorBoundary&gt;
+</code></pre><p><strong>Vue</strong></p><p>vue也有一个类似的生命周期来做这件事：<code>errorCaptured</code></p><pre class="code-block"><code class="language-js">Vue.component(&#39;ErrorBoundary&#39;, {
+  data: () =&gt; ({ error: null }),
+  errorCaptured (err, vm, info) {
+    this.error = `${err.stack}\n\nfound in ${info} of component`
+    // 调用我们的SDK，上报错误信息
+    insSDK.error(err,info)
+    return false
+  },
+  render (h) {
+    if (this.error) {
+      return h(&#39;pre&#39;, { style: { color: &#39;red&#39; }}, this.error)
+    }
+    return this.$slots.default[0]
+  }
+})
+...
+&lt;error-boundary&gt;
+  &lt;buggy-counter /&gt;
+&lt;/error-boundary&gt;
+</code></pre><h3>参考文档</h3><p>https://juejin.cn/post/7085679511290773534</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

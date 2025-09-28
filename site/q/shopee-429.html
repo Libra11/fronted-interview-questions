@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>html 中前缀为 data- 开头的元素属性是什么？【热度：903】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;HTML 中前缀为 &lt;code&gt;data-&lt;/code&gt; 开头的元素属性被称为自定义数据属性（Custom Data Attributes）或者数据属性（Data Attributes）。&lt;/p&gt;&lt;p&gt;这些属性的命名以 &lt;code&gt;data-&lt;/code&gt; 开头，后面可以跟" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="html 中前缀为 data- 开头的元素属性是什么？【热度：903】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;HTML 中前缀为 &lt;code&gt;data-&lt;/code&gt; 开头的元素属性被称为自定义数据属性（Custom Data Attributes）或者数据属性（Data Attributes）。&lt;/p&gt;&lt;p&gt;这些属性的命名以 &lt;code&gt;data-&lt;/code&gt; 开头，后面可以跟上任意自定义的名称。这样的属性可以用来存储与元素相关的自定义数据，以便在 JavaScript 或 CSS 中进行访问和" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/429" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>html 中前缀为 data- 开头的元素属性是什么？【热度：903】</h1>
+      <div class="subtitle">Shopee · web应用场景 · Shopee</div>
+      <div class="meta">创建：2023-06-07T15:05:07Z · 更新：2023-06-07T15:05:29Z</div>
+    </div>
+    <article class="content markdown-body"><p>HTML 中前缀为 <code>data-</code> 开头的元素属性被称为自定义数据属性（Custom Data Attributes）或者数据属性（Data Attributes）。</p><p>这些属性的命名以 <code>data-</code> 开头，后面可以跟上任意自定义的名称。这样的属性可以用来存储与元素相关的自定义数据，以便在 JavaScript 或 CSS 中进行访问和操作。</p><p>自定义数据属性的命名应该遵循以下规则：</p><ul><li>属性名必须以 <code>data-</code> 开头。</li><li>属性名可以包含任意<code>字母、数字、连字符（-）、下划线（_）和小数点（.）</code>。</li><li>属性名不应该包含大写字母，因为 HTML 属性名是不区分大小写的。</li></ul><p>通过自定义数据属性，我们可以在 HTML 元素中嵌入自定义的数据，然后在 JavaScript 中使用 <code>getAttribute()</code> 方法或直接通过元素对象的 <code>dataset</code> 属性来访问这些数据。</p><p>例如，在 HTML 中定义了一个自定义数据属性 <code>data-color=&quot;red&quot;</code>：</p><pre class="code-block"><code class="language-html">&lt;div id=&quot;myDiv&quot; data-color=&quot;red&quot;&gt;&lt;/div&gt;
+</code></pre><p>在 JavaScript 中可以通过以下方式获取该自定义数据属性的值：</p><pre class="code-block"><code class="language-javascript">const myDiv = document.getElementById(&#39;myDiv&#39;);
+const color = myDiv.getAttribute(&#39;data-color&#39;); // 获取属性值为 &quot;red&quot;
+const dataset = myDiv.dataset; // 获取包含所有自定义数据属性的对象 { color: &quot;red&quot; }
+const colorValue = dataset.color; // 获取属性值为 &quot;red&quot;
+</code></pre><p>通过自定义数据属性，我们可以将相关的数据绑定到 HTML 元素上，方便在 JavaScript 中进行处理和操作，增强了 HTML 和 JavaScript 之间的交互性。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

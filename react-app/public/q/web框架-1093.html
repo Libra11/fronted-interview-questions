@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] Recoil 里面 selector 该如何使用【热度: 239】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：Recoil selector&lt;/p&gt;&lt;p&gt;在 Recoil 中，&lt;code&gt;selector&lt;/code&gt; 用于创建派生状态，它可以根据一个或多个原子（&lt;code&gt;atom&lt;/code&gt;）状态计算出新的状态。&lt;code&gt;selec" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] Recoil 里面 selector 该如何使用【热度: 239】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：Recoil selector&lt;/p&gt;&lt;p&gt;在 Recoil 中，&lt;code&gt;selector&lt;/code&gt; 用于创建派生状态，它可以根据一个或多个原子（&lt;code&gt;atom&lt;/code&gt;）状态计算出新的状态。&lt;code&gt;selector&lt;/code&gt; 的值会自动进行记忆化，只有当依赖的状态发生变化时才会重新计算。下面详细介绍 &lt;code&gt;selec" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1093" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] Recoil 里面 selector 该如何使用【热度: 239】</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2025-02-10T16:01:40Z · 更新：2025-02-10T16:01:41Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：Recoil selector</p><p>在 Recoil 中，<code>selector</code> 用于创建派生状态，它可以根据一个或多个原子（<code>atom</code>）状态计算出新的状态。<code>selector</code> 的值会自动进行记忆化，只有当依赖的状态发生变化时才会重新计算。下面详细介绍 <code>selector</code> 的使用方法。</p><h3>1. 基本使用</h3><p>创建一个简单的 <code>atom</code> 和 <code>selector</code>：</p><pre class="code-block"><code class="language-jsx">import React from &quot;react&quot;;
+import { atom, selector, useRecoilValue } from &quot;recoil&quot;;
+
+// 定义一个原子状态
+const textState = atom({
+  key: &quot;textState&quot;,
+  default: &quot;Hello, Recoil!&quot;,
+});
+
+// 定义一个 selector，它依赖于 textState
+const textLengthState = selector({
+  key: &quot;textLengthState&quot;,
+  get: ({ get }) =&gt; {
+    const text = get(textState);
+    return text.length;
+  },
+});
+
+const App = () =&gt; {
+  // 使用 useRecoilValue 钩子获取 selector 的值
+  const textLength = useRecoilValue(textLengthState);
+
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Text length: {textLength}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+};
+
+export default App;
+</code></pre><p>在上述代码中：</p><ul><li>首先定义了一个 <code>atom</code> <code>textState</code>，它代表一个文本状态。</li><li>然后定义了一个 <code>selector</code> <code>textLengthState</code>，在 <code>get</code> 函数中，通过 <code>get</code> 参数获取 <code>textState</code> 的值，并计算其长度。</li><li>最后在组件中使用 <code>useRecoilValue</code> 钩子获取 <code>textLengthState</code> 的值并渲染。</li></ul><h3>2. 多个依赖的 selector</h3><p><code>selector</code> 可以依赖多个 <code>atom</code> 或其他 <code>selector</code>：</p><pre class="code-block"><code class="language-jsx">import React from &quot;react&quot;;
+import { atom, selector, useRecoilValue } from &quot;recoil&quot;;
+
+// 定义两个原子状态
+const num1State = atom({
+  key: &quot;num1State&quot;,
+  default: 10,
+});
+
+const num2State = atom({
+  key: &quot;num2State&quot;,
+  default: 20,
+});
+
+// 定义一个 selector，依赖于 num1State 和 num2State
+const sumState = selector({
+  key: &quot;sumState&quot;,
+  get: ({ get }) =&gt; {
+    const num1 = get(num1State);
+    const num2 = get(num2State);
+    return num1 + num2;
+  },
+});
+
+const App = () =&gt; {
+  const sum = useRecoilValue(sumState);
+
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Sum: {sum}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+};
+
+export default App;
+</code></pre><p>在这个例子中，<code>sumState</code> 这个 <code>selector</code> 依赖于 <code>num1State</code> 和 <code>num2State</code> 两个 <code>atom</code>，它会计算这两个状态的和。</p><h3>3. 可写的 selector</h3><p>除了只读的 <code>selector</code>，还可以创建可写的 <code>selector</code>，通过 <code>set</code> 函数来修改依赖的状态：</p><pre class="code-block"><code class="language-jsx">import React from &quot;react&quot;;
+import { atom, selector, useRecoilState } from &quot;recoil&quot;;
+
+// 定义一个原子状态
+const counterState = atom({
+  key: &quot;counterState&quot;,
+  default: 0,
+});
+
+// 定义一个可写的 selector
+const doubleCounterState = selector({
+  key: &quot;doubleCounterState&quot;,
+  get: ({ get }) =&gt; {
+    const counter = get(counterState);
+    return counter * 2;
+  },
+  set: ({ set }, newValue) =&gt; {
+    set(counterState, newValue / 2);
+  },
+});
+
+const App = () =&gt; {
+  const [doubleCounter, setDoubleCounter] = useRecoilState(doubleCounterState);
+
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Double Counter: {doubleCounter}&lt;/p&gt;
+      &lt;button onClick={() =&gt; setDoubleCounter(doubleCounter + 2)}&gt;Increment Double&lt;/button&gt;
+    &lt;/div&gt;
+  );
+};
+
+export default App;
+</code></pre><p>在这个例子中，<code>doubleCounterState</code> 是一个可写的 <code>selector</code>：</p><ul><li><code>get</code> 函数根据 <code>counterState</code> 计算出双倍的值。</li><li><code>set</code> 函数接收一个新值，并将其除以 2 后更新 <code>counterState</code>。</li></ul><h3>4. 使用多个 <code>selector</code> 组合状态</h3><p>可以将多个 <code>selector</code> 组合起来创建更复杂的派生状态：</p><pre class="code-block"><code class="language-jsx">import React from &quot;react&quot;;
+import { atom, selector, useRecoilValue } from &quot;recoil&quot;;
+
+// 定义原子状态
+const priceState = atom({
+  key: &quot;priceState&quot;,
+  default: 100,
+});
+
+const discountRateState = atom({
+  key: &quot;discountRateState&quot;,
+  default: 0.1,
+});
+
+// 定义第一个 selector，计算折扣金额
+const discountAmountState = selector({
+  key: &quot;discountAmountState&quot;,
+  get: ({ get }) =&gt; {
+    const price = get(priceState);
+    const discountRate = get(discountRateState);
+    return price * discountRate;
+  },
+});
+
+// 定义第二个 selector，计算最终价格
+const finalPriceState = selector({
+  key: &quot;finalPriceState&quot;,
+  get: ({ get }) =&gt; {
+    const price = get(priceState);
+    const discountAmount = get(discountAmountState);
+    return price - discountAmount;
+  },
+});
+
+const App = () =&gt; {
+  const finalPrice = useRecoilValue(finalPriceState);
+
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Final Price: {finalPrice}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+};
+
+export default App;
+</code></pre><p>在这个例子中，<code>discountAmountState</code> 计算折扣金额，<code>finalPriceState</code> 依赖于 <code>priceState</code> 和 <code>discountAmountState</code> 计算最终价格。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,295 @@
+# 解释边距重叠
+
+# 什么是BFC
+
+BFC （block formatting context） 及块级格式化上下文，从样式上看，具有 BFC 的元素与普通的容器没有什么区别，从功能上看，BFC相当于构建了一个密闭的盒子模型，在BFC中的元素不受外部元素的影响；
+
+**个人理解**：BFC就是将盒子中子元素的属性锁在父元素中，例如margin,float 使其不影响盒子外的元素。
+
+
+
+# 如何构建BFC
+
+以下情况都会使元素产生BFC
+
+- 根元素或其它包含它的元素 (也就是html元素本身就是BFC)
+- float:left ,right
+- position:absolute,fixed
+- display:inline-block,table-cell,table-caption;(行内块元素与表格元素)
+- overflow：hidden，auto，scroll （非 visible属性）
+- display: flow-root
+- column-span: all
+
+# BFC的作用
+
+## 1. 解决高度塌陷
+由于浮动元素脱离了文档流，普通盒子是无法包裹住已经浮动的元素；父级元素的高度为0；
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        * { box-sizing: border-box; }
+
+        .outer {
+            background-color: #ccc;
+            width: 200px;
+        }
+        .outer div{
+            width: 100px;
+            margin: 10px 20px;
+            background-color: red;
+            width: 100px;
+            height: 100px;
+        }
+
+    </style>
+</head>
+<body >
+    <div class="outer ">
+        <div style="float: left;"></div>
+    </div>
+</body>
+</html>
+```
+当子元素浮动 父级获取不到浮动元素的高度，造成高度塌陷
+
+
+当父元素转变为BFC时，浮动元素被包裹住：
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        * { box-sizing: border-box; }
+
+        .outer {
+            background-color: #ccc;
+            width: 200px;
+            overflow: hidden;  //转变为BFC
+        }
+        .outer div{
+            width: 100px;
+            margin: 10px 20px;
+            background-color: red;
+            width: 100px;
+            height: 100px;
+        }
+
+    </style>
+</head>
+<body >
+    <div class="outer ">
+        <div style="float: left;"></div>
+    </div>
+</body>
+</html>
+```
+
+## 2.浮动重叠
+当一个元素浮动，后面的元素没浮动，那么后面的元素就会与浮动元素发生重叠
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        * { box-sizing: border-box; }
+
+        .outer {
+            background-color: #ccc;
+            width: 200px;
+            overflow: hidden;
+        }
+        .outer div{
+            width: 100px;
+            margin: 10px 20px;
+            background-color: red;
+            width: 100px;
+            height: 100px;
+        }
+
+    </style>
+</head>
+<body >
+    <div class="outer ">
+        <div style="float: left;"></div>
+        <div ></div>
+    </div>
+</body>
+</html>
+```
+后一个元素 与前一个浮动元素发生重叠
+
+根据BFC不与浮动元素重叠的特性，为没有浮动的元素创建BFC环境
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        * { box-sizing: border-box; }
+
+        .outer {
+            background-color: #ccc;
+            width: 200px;
+            overflow: hidden;
+        }
+        .outer div{
+            width: 100px;
+            margin: 10px 20px;
+            background-color: red;
+            width: 100px;
+            height: 100px;
+        }
+
+    </style>
+</head>
+<body >
+    <div class="outer ">
+        <div style="float: left;"></div>
+        <div style="overflow: hidden;"></div>
+    </div>
+</body>
+</html>
+```
+
+## 3.边距重叠
+边距重叠分为两种情况
+
+- 父子重叠
+```html
+当 父级没有 
+-  垂直方向的border，
+-  垂直方向 padding，
+-  父级不是内联元素，
+-  父级不是BFC,
+-  父级没有清除浮动，
+
+这五个条件时，子元素的上下边距会和父级发生重叠 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        * { box-sizing: border-box; }
+
+        .outer {
+            background-color: #ccc;
+            width: 200px;
+        }
+        .outer div{
+            width: 100px;
+            margin: 10px 20px;
+            background-color: red;
+            width: 100px;
+            height: 100px;
+        }
+
+    </style>
+</head>
+<body >
+    <div class="outer ">
+        <div></div>
+    </div>
+</body>
+</html>
+```
+
+解决办法：
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        * { box-sizing: border-box; }
+
+        .outer {
+            background-color: #ccc;
+            width: 200px;
+            /*padding: 1px;*/    加padding  
+            /*border: 1px solid yellow;*/ 加border
+            /*display: inline-block;*/  内联块
+            /*overflow: hidden;*/       BFC
+        }
+        .clearfix:after{                清除浮动
+            content: '';
+            display: table;
+            clear:both;
+        }
+        .outer div{
+            width: 100px;
+            margin: 10px 20px;
+            background-color: red;
+            width: 100px;
+            height: 100px;
+        }
+
+    </style>
+</head>
+<body >
+    <div class="outer clearfix">
+        <div></div>
+    </div>
+</body>
+</html>
+```
+
+- 兄弟重叠
+当两个元素的垂直边距相互接触时，两者边距会发生合并，合并的规则为      
+```html
+- 如果是正数比大小，大的覆盖小的
+- 都为负数比绝对值大小，大的覆盖小的
+- 正负都有取其差
+
+1.将两个元素浮动
+2.将两个元素display：inline-block
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        * { box-sizing: border-box; }
+
+        .outer {
+            background-color: #ccc;
+            width: 200px;
+            overflow: hidden;
+        }
+        .outer div{
+            width: 100px;
+            margin: 10px 20px;
+            background-color: red;
+            width: 100px;
+            height: 100px;
+            /*下面两种方式*/
+            float: left;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body >
+    <div class="outer ">
+        <div ></div>
+        <div ></div>
+    </div>
+</body>
+</html>
+```
+其实兄弟重叠完全可以设置一个最大值的边距就可达到想要的效果，完全没有必要去使用上面的两个方法。
+
+
+
+# 参考文档
+- https://blog.csdn.net/itseven7/article/details/79009215

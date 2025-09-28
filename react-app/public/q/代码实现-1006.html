@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JS 如何翻转一个字符串【热度: 442】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：翻转字符串&lt;/p&gt;&lt;p&gt;在 JavaScript 中，可以通过以下几种方式翻转一个字符串：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、使用循环和字符串拼接&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;原理：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;通过" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="JS 如何翻转一个字符串【热度: 442】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：翻转字符串&lt;/p&gt;&lt;p&gt;在 JavaScript 中，可以通过以下几种方式翻转一个字符串：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、使用循环和字符串拼接&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;原理：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;通过从字符串的末尾开始遍历每个字符，并将其依次拼接起来，从而实现字符串的翻转。&lt;/li&gt;&lt;li&gt;首先获取字符串的长度，然后从" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1006" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>JS 如何翻转一个字符串【热度: 442】</h1>
+      <div class="subtitle">代码实现 · 代码实现/算法</div>
+      <div class="meta">创建：2024-10-18T14:05:57Z · 更新：2025-05-14T12:51:24Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：翻转字符串</p><p>在 JavaScript 中，可以通过以下几种方式翻转一个字符串：</p><p><strong>一、使用循环和字符串拼接</strong></p><ol><li>原理：</li></ol><ul><li>通过从字符串的末尾开始遍历每个字符，并将其依次拼接起来，从而实现字符串的翻转。</li><li>首先获取字符串的长度，然后从最后一个字符开始，逐个将字符添加到一个新的字符串中。</li></ul><ol><li>代码示例：</li></ol><pre class="code-block"><code class="language-javascript">function reverseString(str) {
+  let reversedStr = &quot;&quot;;
+  for (let i = str.length - 1; i &gt;= 0; i--) {
+    reversedStr += str[i];
+  }
+  return reversedStr;
+}
+
+const originalString = &quot;hello world&quot;;
+const reversedString = reverseString(originalString);
+console.log(reversedString); // &#39;dlrow olleh&#39;
+</code></pre><p><strong>二、使用数组方法和<code>join</code></strong></p><ol><li>原理：</li></ol><ul><li>将字符串转换为字符数组，然后使用数组的<code>reverse</code>方法翻转数组的顺序，最后再使用<code>join</code>方法将数组转换回字符串。</li><li>这种方法利用了 JavaScript 中数组操作的便利性来实现字符串的翻转。</li></ul><ol><li>代码示例：</li></ol><pre class="code-block"><code class="language-javascript">function reverseString(str) {
+  return str.split(&quot;&quot;).reverse().join(&quot;&quot;);
+}
+
+const originalString = &quot;hello world&quot;;
+const reversedString = reverseString(originalString);
+console.log(reversedString); // &#39;dlrow olleh&#39;
+</code></pre><p><strong>三、使用递归</strong></p><ol><li>原理：</li></ol><ul><li>递归地将字符串的最后一个字符与剩余部分的翻转结果拼接起来，直到字符串为空。</li><li>每次递归调用都将字符串缩短一个字符，并将最后一个字符放在结果的前面。</li></ul><ol><li>代码示例：</li></ol><pre class="code-block"><code class="language-javascript">function reverseString(str) {
+  if (str === &quot;&quot;) {
+    return &quot;&quot;;
+  }
+  return str[str.length - 1] + reverseString(str.slice(0, -1));
+}
+
+const originalString = &quot;hello world&quot;;
+const reversedString = reverseString(originalString);
+console.log(reversedString); // &#39;dlrow olleh&#39;
+</code></pre><h2>Comments / Answers</h2><hr /><p><strong>Guan-Erjia</strong> at 2025-04-19T10:53:36Z</p><p>直接使用 <code>split(&quot;&quot;)</code> ，特殊字符(emoji)可能会被切割成多个字符，导致结果不一致，可改为使用 lodash 的 <code>toArray</code> 方法</p><hr /><p><strong>CatWithWings</strong> at 2025-05-14T12:51:23Z</p><p>可以使用双指针吧</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

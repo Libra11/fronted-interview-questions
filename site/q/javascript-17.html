@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ajax如何获取下载进度? - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h2&gt;ajax如何获取下载进度?&lt;/h2&gt;&lt;p&gt;要获取下载进度，可以使用 &lt;code&gt;XMLHttpRequest&lt;/code&gt; 对象提供的 &lt;code&gt;onprogress&lt;/code&gt; 事件。&lt;/p&gt;&lt;p&gt;使用 onprogress 事件，可以获取文件的下载进度信息，可以通" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="ajax如何获取下载进度?" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h2&gt;ajax如何获取下载进度?&lt;/h2&gt;&lt;p&gt;要获取下载进度，可以使用 &lt;code&gt;XMLHttpRequest&lt;/code&gt; 对象提供的 &lt;code&gt;onprogress&lt;/code&gt; 事件。&lt;/p&gt;&lt;p&gt;使用 onprogress 事件，可以获取文件的下载进度信息，可以通过 loaded 和 total 属性获取当前已经下载的字节数和文件的总字节数，从而计算出当前的下载进度。&lt;/p&gt;&lt;p&gt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/17" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>ajax如何获取下载进度?</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-06T15:20:03Z · 更新：2023-03-06T15:20:05Z</div>
+    </div>
+    <article class="content markdown-body"><h2>ajax如何获取下载进度?</h2><p>要获取下载进度，可以使用 <code>XMLHttpRequest</code> 对象提供的 <code>onprogress</code> 事件。</p><p>使用 onprogress 事件，可以获取文件的下载进度信息，可以通过 loaded 和 total 属性获取当前已经下载的字节数和文件的总字节数，从而计算出当前的下载进度。</p><p>下面是一个使用 onprogress 事件获取文件下载进度的示例代码：</p><pre class="code-block"><code class="language-js">const xhr = new XMLHttpRequest();
+xhr.open(&#39;GET&#39;, &#39;file.url&#39;, true);
+xhr.responseType = &#39;blob&#39;;
+xhr.onprogress = function (event) {
+  if (event.lengthComputable) {
+    const percentComplete = (event.loaded / event.total) * 100;
+    console.log(`Downloaded ${percentComplete}%`);
+  }
+};
+xhr.onload = function (event) {
+  // 文件下载完成
+  const blob = xhr.response;
+};
+xhr.send();
+</code></pre><p>在上面的代码中，通过将 XMLHttpRequest 对象的 <strong>responseType 设置为 blob</strong>，来请求一个文件资源，然后监听 onprogress 事件，计算出当前的下载进度，并在控制台输出，最后在 onload 事件中获取到下载的文件内容。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

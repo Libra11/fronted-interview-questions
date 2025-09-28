@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] useEffect的第二个参数，如何判断依赖是否发生变化？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;code&gt;useEffect&lt;/code&gt;的第二个参数是一个依赖数组，用于判断副作用函数的依赖是否发生变化。React使用JavaScript的&lt;code&gt;Object.is&lt;/code&gt;方法来判断依赖项是否发生变化。在比较依赖项时，React首先检查依赖项的值是否相等。" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] useEffect的第二个参数，如何判断依赖是否发生变化？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;code&gt;useEffect&lt;/code&gt;的第二个参数是一个依赖数组，用于判断副作用函数的依赖是否发生变化。React使用JavaScript的&lt;code&gt;Object.is&lt;/code&gt;方法来判断依赖项是否发生变化。在比较依赖项时，React首先检查依赖项的值是否相等。如果依赖项的值是引用类型，React会比较它们的引用地址，而不是比较它们的属性值。因此，在比较引用类型时，即使对象具有相" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/179" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] useEffect的第二个参数，如何判断依赖是否发生变化？</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2023-03-26T08:36:21Z · 更新：2023-03-26T08:37:57Z</div>
+    </div>
+    <article class="content markdown-body"><p><code>useEffect</code>的第二个参数是一个依赖数组，用于判断副作用函数的依赖是否发生变化。React使用JavaScript的<code>Object.is</code>方法来判断依赖项是否发生变化。在比较依赖项时，React首先检查依赖项的值是否相等。如果依赖项的值是引用类型，React会比较它们的引用地址，而不是比较它们的属性值。因此，在比较引用类型时，即使对象具有相同的属性值，但它们的引用地址不同，React仍然认为它们是不同的。</p><p>需要注意的是，如果依赖项是一个数组或对象，由于它们是引用类型，因此即使数组或对象中的元素或属性没有发生变化，但数组或对象本身的引用地址发生变化，也会导致React重新执行副作用函数。在这种情况下，我们可以使用<code>useCallback</code>和<code>useMemo</code>来缓存回调函数和计算结果，以便避免在依赖数组发生变化时重新计算和创建。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

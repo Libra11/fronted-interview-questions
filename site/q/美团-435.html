@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>什么是伪数组、什么是类数组【热度: 1,510】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：伪数组、类数组&lt;/p&gt;&lt;p&gt;伪数组（Array-like）和类数组（Array-like Object）都是描述一种类似数组的对象结构，它们在外观和行为上类似于数组，但实际上不是真正的数组。&lt;/p&gt;&lt;p&gt;伪数组（Array-like" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="什么是伪数组、什么是类数组【热度: 1,510】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：伪数组、类数组&lt;/p&gt;&lt;p&gt;伪数组（Array-like）和类数组（Array-like Object）都是描述一种类似数组的对象结构，它们在外观和行为上类似于数组，但实际上不是真正的数组。&lt;/p&gt;&lt;p&gt;伪数组（Array-like）：&lt;/p&gt;&lt;ul&gt;&lt;li&gt;伪数组是指具有类似数组的结构，但不具备数组的方法和属性的对象。&lt;/li&gt;&lt;li&gt;伪数组对象通" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/435" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>什么是伪数组、什么是类数组【热度: 1,510】</h1>
+      <div class="subtitle">美团 · JavaScript · 美团</div>
+      <div class="meta">创建：2023-06-08T15:31:01Z · 更新：2023-06-08T15:31:15Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：伪数组、类数组</p><p>伪数组（Array-like）和类数组（Array-like Object）都是描述一种类似数组的对象结构，它们在外观和行为上类似于数组，但实际上不是真正的数组。</p><p>伪数组（Array-like）：</p><ul><li>伪数组是指具有类似数组的结构，但不具备数组的方法和属性的对象。</li><li>伪数组对象通常拥有一个 length 属性，用于表示其元素的个数。</li><li>伪数组对象可以通过索引访问元素，类似于数组的下标访问。</li><li>伪数组对象不具备数组的方法，如 push、pop、slice 等。</li></ul><p>类数组（Array-like Object）：</p><ul><li>类数组是指具有类似数组的结构，但不是由 Array 构造函数创建的对象。</li><li>类数组对象通常拥有一个 length 属性，用于表示其元素的个数。</li><li>类数组对象可以通过索引访问元素，类似于数组的下标访问。</li><li>类数组对象不具备数组的方法，如 push、pop、slice 等。</li></ul><p>示例：</p><pre class="code-block"><code class="language-javascript">// 伪数组
+const arrayLike = { 0: &#39;apple&#39;, 1: &#39;banana&#39;, length: 2 };
+console.log(arrayLike[0]);  // &#39;apple&#39;
+console.log(arrayLike.length);  // 2
+console.log(arrayLike.push);  // undefined
+
+// 类数组
+const arrayLikeObject = document.querySelectorAll(&#39;div&#39;);
+console.log(arrayLikeObject[0]);  // DOM元素
+console.log(arrayLikeObject.length);  // 元素数量
+console.log(arrayLikeObject.push);  // undefined
+</code></pre><p>需要注意的是，伪数组和类数组虽然具有类似数组的结构，但它们没有继承自 Array 的方法和属性，因此无法直接使用数组的方法。如果需要使用数组的方法，可以将伪数组或类数组对象转换为真正的数组，例如通过 <code>Array.from()</code>、<code>Array.prototype.slice.call()</code> 或展开运算符 <code>...</code> 等方法进行转换。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,155 @@
+# 微前端通过 Nginx 实现主 / 子应用路由分发，如何配置 location 和 try_files？需处理哪些资源路径问题？【热度: 120】
+
+- Issue: #1145
+- State: open
+- Labels: web应用场景
+- Author: yanlele
+- URL: https://github.com/pro-collection/interview-question/issues/1145
+- Created: 2025-09-07T06:09:50Z
+- Updated: 2025-09-07T06:19:28Z
+
+## Body
+
+微前端通过 Nginx 实现主/子应用路由分发时，核心是通过 `location` 匹配不同应用的路由路径，并结合 `try_files` 处理 SPA 路由刷新 404 问题。同时需解决子应用资源路径、主/子应用路由冲突等关键问题。以下是具体实现方案：
+
+
+### 一、基础场景：主应用与子应用通过路径前缀区分
+假设：
+- 主应用路由：`https://example.com/`（根路径）
+- 子应用 A 路由：`https://example.com/app1/`（前缀 `/app1`）
+- 子应用 B 路由：`https://example.com/app2/`（前缀 `/app2`）
+
+#### 1. 目录结构（前端资源存放）
+```
+/var/www/
+├── main-app/          # 主应用打包文件
+│   ├── index.html
+│   ├── static/
+│   └── ...
+├── app1/              # 子应用 A 打包文件
+│   ├── index.html
+│   ├── static/
+│   └── ...
+└── app2/              # 子应用 B 打包文件
+    ├── index.html
+    └── ...
+```
+
+#### 2. Nginx 核心配置（location + try_files）
+```nginx
+server {
+    listen 80;
+    server_name example.com;
+    root /var/www;  # 父目录（包含所有应用）
+
+    # 1. 主应用路由（根路径 /）
+    location / {
+        # 主应用实际目录为 /var/www/main-app
+        alias /var/www/main-app/;
+        index index.html;
+
+        # 解决主应用 History 路由刷新 404
+        # 逻辑：优先匹配物理文件，匹配不到则返回主应用 index.html
+        try_files $uri $uri/ /main-app/index.html;
+    }
+
+    # 2. 子应用 A 路由（/app1 前缀）
+    location /app1 {
+        # 子应用 A 实际目录为 /var/www/app1
+        alias /var/www/app1/;
+        index index.html;
+
+        # 解决子应用 A History 路由刷新 404
+        # 注意：try_files 最后需指向子应用自己的 index.html
+        try_files $uri $uri/ /app1/index.html;
+    }
+
+    # 3. 子应用 B 路由（/app2 前缀）
+    location /app2 {
+        alias /var/www/app2/;
+        index index.html;
+        try_files $uri $uri/ /app2/index.html;
+    }
+}
+```
+
+
+### 二、关键配置解析
+#### 1. `alias` 与 `root` 的选择
+- **必须使用 `alias`**：子应用路径（如 `/app1`）与实际目录（`/var/www/app1`）是“映射关系”，`alias` 会将 `/app1` 直接替换为实际目录（如请求 `/app1/static.js` 映射到 `/var/www/app1/static.js`）。  
+- 若误用 `root`：`root /var/www` 会在请求路径后拼接目录（`/app1/static.js` 会映射到 `/var/www/app1/static.js`，看似可行，但子应用内路由跳转可能出现异常）。
+
+#### 2. `try_files` 的路径规则
+- 主应用：`try_files $uri $uri/ /main-app/index.html`  
+  最后一个参数必须是主应用 `index.html` 的**绝对路径**（相对于 Nginx 根目录），确保主应用路由（如 `/home`）刷新时返回主应用入口。  
+- 子应用：`try_files $uri $uri/ /app1/index.html`  
+  最后一个参数必须是子应用自己的 `index.html`（如 `/app1/index.html`），否则子应用路由（如 `/app1/detail`）刷新会返回主应用入口，导致路由错乱。
+
+
+### 三、需处理的资源路径问题
+微前端路由分发的核心坑点是**资源路径引用错误**，需从 Nginx 配置和前端打包两方面协同解决：
+
+#### 1. 子应用静态资源路径错误（404）
+**问题**：子应用打包时若使用绝对路径（如 `src="/static/js/app1.js"`），会被解析为 `https://example.com/static/js/app1.js`，但实际路径应为 `https://example.com/app1/static/js/app1.js`，导致 404。
+
+**解决方案**：
+- **前端打包配置**：子应用需设置 `publicPath` 为自身路径前缀（如 `/app1/`）：  
+  - Vue 项目：`vue.config.js` 中 `publicPath: '/app1/'`  
+  - React 项目：`package.json` 中 `homepage: '/app1'` 或 `webpack.config.js` 中 `output.publicPath: '/app1/'`  
+- **效果**：资源引用会自动添加 `/app1` 前缀（如 `src="/app1/static/js/app1.js"`），匹配 Nginx 配置的 `alias` 路径。
+
+#### 2. 主/子应用路由冲突
+**问题**：若主应用存在 `/app1` 路由，会与子应用的 `/app1` 路径冲突，导致主应用路由被 Nginx 拦截并转发到子应用。
+
+**解决方案**：
+- **路由命名规范**：子应用路径前缀需全局唯一（如 `/micro-app1`、`/micro-app2`），避免与主应用路由重名。  
+- **Nginx 优先级控制**：若必须使用相同前缀，可通过 `location` 精确匹配优先处理主应用路由：
+  ```nginx
+  # 主应用的 /app1 路由（精确匹配，优先级高于子应用的 /app1 前缀匹配）
+  location = /app1 {
+      alias /var/www/main-app/;
+      try_files $uri $uri/ /main-app/index.html;
+  }
+
+  # 子应用 /app1 前缀路由（优先级低）
+  location /app1/ {
+      alias /var/www/app1/;
+      try_files $uri $uri/ /app1/index.html;
+  }
+  ```
+
+#### 3. 子应用接口请求路径错误
+**问题**：子应用接口请求（如 `/api/data`）会被发送到 `https://example.com/api/data`，若需区分子应用接口（如 `https://example.com/app1/api/data`），需调整代理规则。
+
+**解决方案**：
+- **前端统一前缀**：子应用接口请求添加自身路径前缀（如 `axios.defaults.baseURL = '/app1/api'`）。  
+- **Nginx 代理转发**：
+  ```nginx
+  # 子应用 A 的接口代理
+  location /app1/api {
+      # 移除 /app1 前缀后转发到后端（如后端接口实际路径为 /api）
+      proxy_pass http://backend-server/api;
+      proxy_set_header Host $host;
+  }
+  ```
+
+#### 4. 子应用懒加载路由资源 404
+**问题**：子应用使用路由懒加载时（如 Vue/React 的 `import('./page.vue')`），打包后的 chunk 文件路径可能未包含子应用前缀，导致加载失败。
+
+**解决方案**：
+- 确保懒加载的 chunk 路径也使用 `publicPath` 配置的前缀，现代打包工具（Webpack 5+、Vite）会自动处理，只需正确设置 `publicPath` 即可。
+
+
+### 四、复杂场景：子应用嵌套或动态路径
+若子应用包含动态路由（如 `/app1/user/:id`）或嵌套路由（如 `/app1/dashboard/settings`），Nginx 配置无需额外调整，因为 `location /app1` 会匹配所有以 `/app1` 开头的路径，`try_files` 会统一指向子应用 `index.html`，路由解析由子应用前端框架完成。
+
+
+### 五、总结
+微前端 Nginx 路由分发的核心配置要点：  
+1. 用 `location /app1` 匹配子应用路径，`alias` 指向实际目录。  
+2. 用 `try_files $uri $uri/ /app1/index.html` 解决子应用 History 路由刷新 404。  
+3. 必须处理的资源问题：  
+   - 子应用打包设置 `publicPath` 为路径前缀（如 `/app1/`）。  
+   - 避免主/子应用路由重名，接口请求添加子应用前缀。  
+
+通过以上配置，可实现主/子应用路由的无冲突分发，确保静态资源和路由正常访问。

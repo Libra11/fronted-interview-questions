@@ -1,0 +1,38 @@
+# vite 与 esbuild 是关系【热度: 55】
+
+- Issue: #1089
+- State: open
+- Labels: 工程化, 阿里巴巴
+- Author: yanlele
+- URL: https://github.com/pro-collection/interview-question/issues/1089
+- Created: 2025-01-09T16:09:00Z
+- Updated: 2025-03-27T07:54:49Z
+
+## Body
+
+**关键词**：vite 与 esbuild
+
+1. **Vite 对 Esbuild 的依赖关系（构建阶段）**
+
+   - **代码转换和打包工具**：在 Vite 的构建过程（`vite build`）中，Esbuild 扮演了重要的角色。Esbuild 是一个超高速的 JavaScript 打包器，Vite 利用 Esbuild 来进行代码的转换和初步打包。它能够快速地将 ES 模块（ESM）进行处理，如解析`import`和`export`语句，把多个模块合并成一个或多个输出文件。
+   - **性能优势体现**：Esbuild 的高性能主要体现在其使用 Go 语言编写，具有高度并行化的编译能力。相比传统的打包工具，它能够以极快的速度完成任务。例如，在处理大型项目中的大量 JavaScript 模块时，Esbuild 可以在很短的时间内完成打包工作，这对于 Vite 在构建阶段提高效率非常有帮助。
+
+2. **功能协作关系（在 Vite 生态中的角色）**
+
+   - **与 Vite 插件的协作**：Vite 有丰富的插件生态系统，Esbuild 可以和这些插件协作来完成更复杂的构建任务。例如，在处理 CSS、TS（TypeScript）等文件时，Vite 插件可以在 Esbuild 的基础上进行进一步的处理。当 Esbuild 完成对 JavaScript 模块的初步打包后，Vite 插件可以对打包后的文件进行优化，如压缩、添加代码注释等操作。
+   - **在不同模块类型处理中的分工**：对于不同类型的模块，Vite 和 Esbuild 有不同的处理方式。Esbuild 主要专注于 JavaScript 模块的快速打包和转换，而 Vite 则负责整体的构建流程协调，包括对 CSS 文件的处理（如解析`@import`语句）、静态资源的处理（如图片、字体的加载路径优化）以及模块热替换（HMR）等开发阶段的功能。例如，在处理一个包含 JavaScript、CSS 和图片的项目时，Esbuild 会快速打包 JavaScript 模块，Vite 则会确保 CSS 正确加载并且图片资源能够被正确引用。
+
+3. **Vite 开发阶段与 Esbuild 的关联（相对较弱）**
+   - **开发模式下的功能侧重不同**：在 Vite 开发阶段，其主要利用浏览器原生 ES 模块的支持来实现快速的模块加载和模块热替换，Esbuild 的打包功能在这个阶段没有像在构建阶段那样被大量使用。Vite 开发服务器会在浏览器请求模块时即时提供相应的 ES 模块文件，而不是依赖 Esbuild 进行预先打包。
+   - **潜在的间接关联**：不过，在开发阶段，Vite 的一些配置选项和底层机制可能会和 Esbuild 产生间接关联。例如，在配置`vite.config.js`文件时，一些关于模块解析、路径别名等设置可能会影响到后续构建阶段 Esbuild 的工作方式。同时，开发阶段对模块的处理方式也为构建阶段 Esbuild 的高效打包提供了基础，如准确的模块依赖关系等信息。
+
+
+## Comments / Answers
+
+---
+
+**LIBai11** at 2025-03-27T07:54:49Z
+
+Vite 目前使用 esbuild 进行依赖预打包（dependency pre-bundling），使用 Rollup 进行生产构建。
+[https://vite.dev/guide/dep-pre-bundling.html](url)
+[https://cn.vite.dev/guide/why.html#why-not-bundle-with-esbuild](url)

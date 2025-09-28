@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Vue] 子组件定义接受的 props 方式有哪些【热度: 465】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：组件定义 props&lt;/p&gt;&lt;p&gt;在 Vue 中，子组件可以通过 &lt;code&gt;props&lt;/code&gt; 接收来自父组件的数据。&lt;code&gt;props&lt;/code&gt; 是组件的可配置项之一，它允许外部环境传递数据给组件。有几种不同的方式" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Vue] 子组件定义接受的 props 方式有哪些【热度: 465】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：组件定义 props&lt;/p&gt;&lt;p&gt;在 Vue 中，子组件可以通过 &lt;code&gt;props&lt;/code&gt; 接收来自父组件的数据。&lt;code&gt;props&lt;/code&gt; 是组件的可配置项之一，它允许外部环境传递数据给组件。有几种不同的方式来定义组件的 &lt;code&gt;props&lt;/code&gt;，这些方式提供了不同级别的验证和默认值设置。以下是 Vue 中定义 &lt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/918" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Vue] 子组件定义接受的 props 方式有哪些【热度: 465】</h1>
+      <div class="subtitle">web框架 · web框架 · TOP100互联网</div>
+      <div class="meta">创建：2024-09-17T13:34:58Z · 更新：2024-09-17T13:39:18Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：组件定义 props</p><p>在 Vue 中，子组件可以通过 <code>props</code> 接收来自父组件的数据。<code>props</code> 是组件的可配置项之一，它允许外部环境传递数据给组件。有几种不同的方式来定义组件的 <code>props</code>，这些方式提供了不同级别的验证和默认值设置。以下是 Vue 中定义 <code>props</code> 的不同方式及其特点：</p><h3>1. <strong>数组形式</strong></h3><p>直接使用字符串数组列出所有想要接受的 <code>props</code>。这种方式最简单，但不提供额外的验证。</p><pre class="code-block"><code class="language-javascript">props: [&quot;title&quot;, &quot;likes&quot;, &quot;isPublished&quot;, &quot;commentIds&quot;, &quot;author&quot;];
+</code></pre><h3>2. <strong>对象形式（具有类型检查）</strong></h3><p>使用对象形式，你可以为每个 prop 指定类型，这提供了基本的类型检查。<code>type</code> 可以是下列原生构造函数之一：<code>String</code>、<code>Number</code>、<code>Boolean</code>、<code>Array</code>、<code>Object</code>、<code>Date</code>、<code>Function</code>、<code>Symbol</code>，或者这些构造函数组成的数组，表示多种可能的类型。</p><pre class="code-block"><code class="language-javascript">props: {
+  title: String,
+  likes: Number,
+  isPublished: Boolean,
+  commentIds: Array,
+  author: Object,
+  callback: Function,
+  contactsPromise: Promise // 仅在 Vue 3 中可用
+}
+</code></pre><h3>3. <strong>对象形式（具有类型检查和默认值）</strong></h3><p>除了类型检查之外，还可以为每个 prop 指定默认值或验证函数。这种方式在需要确保组件的 prop 具有正确的类型或默认值时非常有用。</p><pre class="code-block"><code class="language-javascript">props: {
+  title: {
+    type: String,
+    required: true
+  },
+  likes: {
+    type: Number,
+    default: 0
+  },
+  isPublished: {
+    type: Boolean,
+    default: false
+  },
+  comments: {
+    type: Array,
+    // 对于对象或数组类型的 prop，必须使用一个函数来返回默认值
+    default: function () {
+      return []
+    }
+  },
+  author: {
+    type: Object,
+    default: function () {
+      return { name: &#39;Anonymous&#39; }
+    }
+  },
+  callback: {
+    type: Function,
+    // 默认值为一个函数
+    default: function () {
+      return () =&gt; {}
+    }
+  }
+}
+</code></pre><h3>4. <strong>对象形式（具有验证函数）</strong></h3><p>可以为 <code>props</code> 提供一个自定义验证函数。如果验证失败，则 Vue 会发出警告（仅在开发模式下）。这种方式适用于需要进行更复杂验证的场景。</p><pre class="code-block"><code class="language-javascript">props: {
+  age: {
+    type: Number,
+    validator: function (value) {
+      // 这个值必须匹配下面的条件
+      return value &gt; 0 &amp;&amp; value &lt; 100;
+    }
+  }
+}
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

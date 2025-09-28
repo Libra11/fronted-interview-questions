@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何从 http1.1 迁移到 http2 ? - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;从 HTTP 1.1 迁移到 HTTP/2 通常需要进行以下步骤：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;升级服务器：首先，你需要将你的服务器升级到支持 HTTP/2。大多数主流服务器，如Apache、Nginx等，都已经支持 HTTP/2。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li&gt;使用 HTT" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何从 http1.1 迁移到 http2 ?" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;从 HTTP 1.1 迁移到 HTTP/2 通常需要进行以下步骤：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;升级服务器：首先，你需要将你的服务器升级到支持 HTTP/2。大多数主流服务器，如Apache、Nginx等，都已经支持 HTTP/2。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li&gt;使用 HTTPS：HTTP/2 只支持加密连接，因此需要使用 HTTPS。所以，你需要获得一个 SSL 证书，并使用 HTTPS 连" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/196" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何从 http1.1 迁移到 http2 ?</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-26T10:37:43Z · 更新：2025-03-12T06:16:13Z</div>
+    </div>
+    <article class="content markdown-body"><p>从 HTTP 1.1 迁移到 HTTP/2 通常需要进行以下步骤：</p><ol><li>升级服务器：首先，你需要将你的服务器升级到支持 HTTP/2。大多数主流服务器，如Apache、Nginx等，都已经支持 HTTP/2。</li></ol><ol><li>使用 HTTPS：HTTP/2 只支持加密连接，因此需要使用 HTTPS。所以，你需要获得一个 SSL 证书，并使用 HTTPS 连接来替代原来的 HTTP 连接。</li></ol><ol><li>修改网页代码：为了利用 HTTP/2 的多路复用特性，你需要将网页中的多个小文件（例如 CSS、JavaScript、图像等）合并为一个文件，以减少请求的数量。此外，你还需要避免在一个请求中同时传输大量数据，以免阻塞其他请求的传输。</li></ol><ol><li>配置服务器：为了使 HTTP/2 能够充分发挥性能，你需要进行一些服务器配置，例如启用 HTTP/2、调整 TLS 版本和密码套件等。</li></ol><p>需要注意的是，HTTP/2 是一个复杂的协议，迁移过程中需要仔细审查每一个步骤，并且对性能进行监测和测试，以确保迁移后的网站性能更好。</p><h2>Comments / Answers</h2><hr /><p><strong>pp-show</strong> at 2025-03-12T06:16:12Z</p><p>第三点有问题。不需要合并啊</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

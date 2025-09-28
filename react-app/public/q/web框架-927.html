@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Vue] 组合式函数 和 vue2 mixins 对比， 有何优劣【热度: 311】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：组合式函数 对比 mixins&lt;/p&gt;&lt;p&gt;在 Vue 3 中，组合式函数（Composables）与 Vue 2 中的混入（Mixins）相比，有以下优劣：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、组合式函数的优势&lt;/strong&gt;&lt;/p" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Vue] 组合式函数 和 vue2 mixins 对比， 有何优劣【热度: 311】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：组合式函数 对比 mixins&lt;/p&gt;&lt;p&gt;在 Vue 3 中，组合式函数（Composables）与 Vue 2 中的混入（Mixins）相比，有以下优劣：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、组合式函数的优势&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;更好的可读性和可维护性：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;组合式函数通常是一个独立的函数，其逻辑更加" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/927" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Vue] 组合式函数 和 vue2 mixins 对比， 有何优劣【热度: 311】</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2024-09-22T05:02:25Z · 更新：2024-09-22T05:02:25Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：组合式函数 对比 mixins</p><p>在 Vue 3 中，组合式函数（Composables）与 Vue 2 中的混入（Mixins）相比，有以下优劣：</p><p><strong>一、组合式函数的优势</strong></p><ol><li>更好的可读性和可维护性：</li></ol><ul><li>组合式函数通常是一个独立的函数，其逻辑更加清晰，容易理解和调试。每个组合式函数专注于特定的功能，使得代码结构更加模块化。</li><li>相比之下，混入可能会导致命名冲突和难以追踪的代码来源，尤其是当多个混入被应用到一个组件时。</li></ul><ol><li>灵活的组合和参数化：</li></ol><ul><li>可以根据需要选择和组合不同的组合式函数，并且可以传递参数来定制它们的行为。这使得代码更加灵活，可以适应不同的场景。</li><li>混入的组合相对固定，难以进行灵活的参数化。</li></ul><ol><li>更好的类型支持：</li></ol><ul><li>在使用 TypeScript 时，组合式函数可以更好地利用类型系统，提供更准确的类型提示和错误检查。</li><li>混入在类型支持方面相对较弱，可能会导致类型不明确的问题。</li></ul><ol><li>避免命名冲突：</li></ol><ul><li>组合式函数通过命名空间或函数名来避免命名冲突，而混入可能会因为相同的属性或方法名而产生冲突。</li></ul><p><strong>二、混入的优势</strong></p><ol><li>历史兼容性：</li></ol><ul><li>如果是从 Vue 2 迁移过来的项目，已经使用了混入，那么在一定程度上可以继续使用它们，减少迁移成本。</li></ul><ol><li>简单的使用方式：</li></ol><ul><li>对于一些简单的复用场景，混入可以快速地将一些通用的属性和方法添加到组件中，使用起来相对简单。</li></ul><p><strong>三、组合式函数的劣势</strong></p><ol><li>学习曲线：</li></ol><ul><li>对于习惯了 Vue 2 混入的开发者来说，学习和适应组合式函数可能需要一定的时间。</li></ul><ol><li>代码组织要求高：</li></ol><ul><li>由于组合式函数需要更加细致的代码组织，对于一些小型项目或快速开发场景，可能会觉得相对繁琐。</li></ul><p><strong>四、混入的劣势</strong></p><ol><li>不明确的来源：</li></ol><ul><li>当多个混入被应用到一个组件时，很难确定某个属性或方法的具体来源，这会增加代码的理解难度。</li></ul><ol><li>潜在的命名冲突：</li></ol><ul><li>如前所述，混入容易产生命名冲突，尤其是在大型项目中，可能会导致难以调试的问题。</li></ul><ol><li>可维护性问题：</li></ol><ul><li>随着项目的发展，混入可能会变得复杂和难以维护，特别是当需要修改或扩展它们的功能时。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

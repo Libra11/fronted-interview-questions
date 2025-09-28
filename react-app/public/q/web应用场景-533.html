@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>单点登录是什么， 具体流程是什么【热度: 1,168】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：单点登录流程&lt;/p&gt;&lt;p&gt;SSO 一般都需要一个独立的认证中心（passport），子系统的登录均得通过 passport，子系统本身将不参与登录操作，当一个系统成功登录以后，passport 将会颁发一个令牌给各个子系统，子系统可" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="单点登录是什么， 具体流程是什么【热度: 1,168】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：单点登录流程&lt;/p&gt;&lt;p&gt;SSO 一般都需要一个独立的认证中心（passport），子系统的登录均得通过 passport，子系统本身将不参与登录操作，当一个系统成功登录以后，passport 将会颁发一个令牌给各个子系统，子系统可以拿着令牌会获取各自的受保护资源，为了减少频繁认证，各个子系统在被 passport 授权以后，会建立一个局部会话，在一" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/533" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>单点登录是什么， 具体流程是什么【热度: 1,168】</h1>
+      <div class="subtitle">web应用场景 · web应用场景 · 小米</div>
+      <div class="meta">创建：2023-08-25T14:54:28Z · 更新：2023-08-25T14:54:49Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：单点登录流程</p><p>SSO 一般都需要一个独立的认证中心（passport），子系统的登录均得通过 passport，子系统本身将不参与登录操作，当一个系统成功登录以后，passport 将会颁发一个令牌给各个子系统，子系统可以拿着令牌会获取各自的受保护资源，为了减少频繁认证，各个子系统在被 passport 授权以后，会建立一个局部会话，在一定时间内可以无需再次向 passport 发起认证。</p><p>具体流程是：</p><ol><li>用户访问系统 1 的受保护资源，系统 1 发现用户未登录，跳转至 sso 认证中心，并将自己的地址作为参数</li><li>sso 认证中心发现用户未登录，将用户引导至登录页面</li><li>用户输入用户名密码提交登录申请</li><li>sso 认证中心校验用户信息，创建用户与 sso 认证中心之间的会话，称为全局会话，同时创建授权令牌</li><li>sso 认证中心带着令牌跳转会最初的请求地址（系统 1）</li><li>系统 1 拿到令牌，去 sso 认证中心校验令牌是否有效</li><li>sso 认证中心校验令牌，返回有效，注册系统 1</li><li>系统 1 使用该令牌创建与用户的会话，称为局部会话，返回受保护资源</li><li>用户访问系统 2 的受保护资源</li><li>系统 2 发现用户未登录，跳转至 sso 认证中心，并将自己的地址作为参数</li><li>sso 认证中心发现用户已登录，跳转回系统 2 的地址，并附上令牌</li><li>系统 2 拿到令牌，去 sso 认证中心校验令牌是否有效</li><li>sso 认证中心校验令牌，返回有效，注册系统 2</li><li>系统 2 使用该令牌创建与用户的局部会话，返回受保护资源</li></ol></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

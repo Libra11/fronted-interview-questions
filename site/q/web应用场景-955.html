@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>单元测试、E2E 测试有和区别？【热度: 258】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：前端测试&lt;/p&gt;&lt;p&gt;单元测试（Unit Testing）和端到端测试（End-to-End Testing，E2E Testing）有以下主要区别：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、测试范围&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="单元测试、E2E 测试有和区别？【热度: 258】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：前端测试&lt;/p&gt;&lt;p&gt;单元测试（Unit Testing）和端到端测试（End-to-End Testing，E2E Testing）有以下主要区别：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、测试范围&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;单元测试：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;聚焦于软件系统的最小可测试单元，通常是函数、方法或类。&lt;/li&gt;&lt;li&gt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/955" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>单元测试、E2E 测试有和区别？【热度: 258】</h1>
+      <div class="subtitle">web应用场景 · web应用场景 · 腾讯</div>
+      <div class="meta">创建：2024-09-28T03:31:56Z · 更新：2024-09-28T03:31:57Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：前端测试</p><p>单元测试（Unit Testing）和端到端测试（End-to-End Testing，E2E Testing）有以下主要区别：</p><p><strong>一、测试范围</strong></p><ol><li>单元测试：</li></ol><ul><li>聚焦于软件系统的最小可测试单元，通常是函数、方法或类。</li><li>只测试单个功能单元的行为，隔离其他部分的影响。</li><li>例如，测试一个特定的数学函数是否正确计算结果，或者一个类的某个方法是否按照预期执行特定任务。</li></ul><ol><li>端到端测试：</li></ol><ul><li>模拟用户与整个应用程序的交互，从用户界面开始，经过各个系统组件和层，一直到后端服务。</li><li>涵盖整个软件系统的多个模块、组件和服务的集成。</li><li>例如，测试一个完整的用户注册流程，包括在用户界面输入信息、提交表单、后端验证、数据库存储以及最终的反馈显示。</li></ul><p><strong>二、测试目的</strong></p><ol><li>单元测试：</li></ol><ul><li>主要目的是确保各个独立的功能单元正确工作，尽早发现代码中的错误。</li><li>帮助开发者在开发过程中快速定位和修复问题，提高代码质量和可维护性。</li></ul><ol><li>端到端测试：</li></ol><ul><li>验证整个系统在真实环境下的功能和性能是否符合预期。</li><li>确保不同组件之间的集成没有问题，以及系统能够满足用户的实际需求。</li></ul><p><strong>三、依赖关系</strong></p><ol><li>单元测试：</li></ol><ul><li>通常可以独立运行，不依赖于外部系统或复杂的环境设置。</li><li>可以使用模拟对象（mocks）和桩对象（stubs）来模拟外部依赖，以便专注于测试目标单元的功能。</li></ul><ol><li>端到端测试：</li></ol><ul><li>依赖于完整的系统部署和运行环境，包括数据库、服务器、网络等。</li><li>需要确保所有相关的组件和服务都正常运行，以进行有效的测试。</li></ul><p><strong>四、测试速度</strong></p><ol><li>单元测试：</li></ol><ul><li>通常执行速度很快，因为只测试小范围的代码，并且可以使用轻量级的测试框架和工具。</li><li>开发者可以频繁运行单元测试，以便在开发过程中及时发现问题。</li></ul><ol><li>端到端测试：</li></ol><ul><li>由于涉及到整个系统的模拟和运行，执行速度相对较慢。</li><li>可能需要较长的时间来准备测试环境和执行测试用例。</li></ul><p><strong>五、维护成本</strong></p><ol><li>单元测试：</li></ol><ul><li>相对容易维护，因为当代码发生变化时，只需要更新相关的单元测试。</li><li>由于测试范围小，定位和修复问题也比较容易。</li></ul><ol><li>端到端测试：</li></ol><ul><li>维护成本较高，因为系统的任何变化都可能影响到端到端测试的结果。</li><li>需要不断更新测试用例以适应系统的变化，并且可能需要处理复杂的环境配置和依赖关系问题。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

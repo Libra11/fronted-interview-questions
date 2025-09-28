@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>infer 关键字是什么【热度: 100】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：infer 关键字、infer 关键字作用&lt;/p&gt;&lt;p&gt;在 TypeScript 中，&lt;code&gt;infer&lt;/code&gt; 是一个用于条件类型中的关键字。它的作用是从待推断的类型中提取特定的类型，并将其赋值给一个类型变量。这个类型变" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="infer 关键字是什么【热度: 100】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：infer 关键字、infer 关键字作用&lt;/p&gt;&lt;p&gt;在 TypeScript 中，&lt;code&gt;infer&lt;/code&gt; 是一个用于条件类型中的关键字。它的作用是从待推断的类型中提取特定的类型，并将其赋值给一个类型变量。这个类型变量可以在条件类型的 &lt;code&gt;true&lt;/code&gt; 分支中使用。&lt;/p&gt;&lt;p&gt;通过使用 &lt;code&gt;infer&lt;/c" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/510" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>infer 关键字是什么【热度: 100】</h1>
+      <div class="subtitle">TypeScript · TypeScript</div>
+      <div class="meta">创建：2023-08-03T16:01:55Z · 更新：2023-08-03T16:01:55Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：infer 关键字、infer 关键字作用</p><p>在 TypeScript 中，<code>infer</code> 是一个用于条件类型中的关键字。它的作用是从待推断的类型中提取特定的类型，并将其赋值给一个类型变量。这个类型变量可以在条件类型的 <code>true</code> 分支中使用。</p><p>通过使用 <code>infer</code> 关键字，我们可以实现一些高级的类型操作，比如从函数类型中提取参数类型、从数组类型中提取元素类型等。</p><p>以下是一个示例，展示了如何使用 <code>infer</code> 关键字提取函数参数的类型：</p><pre class="code-block"><code class="language-typescript">type ParamType&lt;T&gt; = T extends (param: infer P) =&gt; any ? P : never;
+
+function foo(arg: number): void {
+  // ...
+}
+
+type FooParam = ParamType&lt;typeof foo&gt;; // FooParam 的类型是 number
+</code></pre><p>在上述示例中，我们定义了一个条件类型 <code>ParamType&lt;T&gt;</code>，它接受一个泛型参数 <code>T</code>。在 <code>extends</code> 条件语句中，我们检查泛型参数 <code>T</code> 是否可以赋值给一个函数类型，并使用 <code>infer</code></p><p>关键字提取函数参数的类型并赋值给类型变量 <code>P</code>。如果不是函数类型，则返回 <code>never</code> 类型。</p><p>然后，我们定义了一个函数 <code>foo</code>，它接受一个 <code>number</code> 类型的参数。通过使用 <code>typeof foo</code>，我们获取函数 <code>foo</code> 的类型，并使用 <code>ParamType&lt;typeof foo&gt;</code></p><p>提取函数参数的类型，赋值给类型变量 <code>FooParam</code>。在本例中，<code>FooParam</code> 的类型为 <code>number</code>。</p><p>因此，<code>infer</code> 是 TypeScript 中用于条件类型中的关键字，用于类型推断和提取特定类型的操作。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

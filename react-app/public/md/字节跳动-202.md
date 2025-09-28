@@ -1,0 +1,33 @@
+# 浏览器 和 Node 事件循环有区别吗？
+
+浏览器和Node.js事件循环在本质上是相同的，它们都是基于事件循环模型实现异步操作。但是它们的实现细节和环境限制有所不同。
+
+在浏览器中，事件循环模型基于浏览器提供的`EventTarget`接口，包括浏览器环境下的DOM、XMLHttpRequest、WebSocket、Web Worker等等，所有的异步任务都会被推入任务队列，等待事件循环系统去处理。
+
+而在Node.js中，事件循环模型则基于Node提供的`EventEmitter`接口，所有的异步任务都会被推入libuv的事件队列中，等待事件循环系统去处理。同时，Node.js还有一个特点是支持I/O操作，也就是在I/O完成之前，会把任务挂起，不会把任务加入到事件队列中，以避免事件队列阻塞。
+
+另外，浏览器中的事件循环系统是单线程的，即所有的任务都在同一个线程中运行，因此需要注意不能有耗时的操作。而Node.js则是多线程的，它可以利用异步I/O等机制来充分利用多核CPU的能力，提高并发处理能力。
+
+---------------
+
+> 2023.05.15 补充
+
+Node.js 和浏览器的 Event Loop 的差异主要体现在以下几个方面：
+
+1.实现方法不同：Node.js 的 Event Loop 实现与浏览器中的不同。Node.js 使用了 libuv 库来实现 Event Loop，而浏览器中通常使用的是浏览器引擎自带的 Event Loop。
+
+2.触发时机不同：Node.js 和浏览器中的 Event Loop 的触发时机也有所不同。浏览器的 Event Loop 在主线程上执行，当主线程空闲时会执行 Event Loop，而 Node.js 的 Event Loop 是在一个单独的线程中运行，与主线程分离。
+
+3.内置的 API 不同：Node.js 的事件机制包含一些在浏览器中没有的 API，比如 fs、http、net 等模块，这些内置的 API 让 Node.js 的 Event Loop 更加强大。
+
+4.在浏览器中，有一些 Web API 是异步的，比如 setTimeout、setInterval、XMLHTTPRequest 等，这些 Web API 在事件队列中注册了一个回调函数，然后在一定时间后由 Event Loop 触发执行。而在 Node.js 中，它们同样存在，但是它们不是 Web API 的一部分。Node.js 通过 Timers、I/O Callbacks、Immediate 和 Close Callbacks 等回调机制来执行类似的任务，这些回调函数同样会被注册到事件队列中等待执行。
+
+总之，Node.js 和浏览器中的 Event Loop 主要差异在于实现方法、触发时机和内置 API 等方面。但无论在哪种环境中，Event Loop 都是 JavaScript 异步编程的基础。
+
+## Comments / Answers
+
+---
+
+**BruceYuj** at 2025-03-08T05:31:32Z
+
+nodejs 的 event loop 依然在 main thread 当中，和 browser 是一致的。libuv 的线程池是用来执行 阻塞 IO 操作的

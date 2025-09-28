@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nginx 配置跨域（CORS）需设置哪些关键响应头？复杂跨域（带 cookie、自定义头）有何注意点【热度: 124】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：nginx 配置跨域&lt;/p&gt;&lt;p&gt;Nginx 配置跨域（CORS）的核心是通过设置特定响应头，允许不同域的前端资源请求当前服务器资源。以下是关键配置和复杂跨域场景的注意事项：&lt;/p&gt;&lt;h3&gt;一、基础跨域配置：关键响应头&lt;/h3&gt;&lt;p" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Nginx 配置跨域（CORS）需设置哪些关键响应头？复杂跨域（带 cookie、自定义头）有何注意点【热度: 124】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：nginx 配置跨域&lt;/p&gt;&lt;p&gt;Nginx 配置跨域（CORS）的核心是通过设置特定响应头，允许不同域的前端资源请求当前服务器资源。以下是关键配置和复杂跨域场景的注意事项：&lt;/p&gt;&lt;h3&gt;一、基础跨域配置：关键响应头&lt;/h3&gt;&lt;p&gt;基础跨域（无 cookie、无自定义头）需配置以下核心响应头，允许指定域的请求访问资源：&lt;/p&gt;&lt;pre class=" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1138" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>Nginx 配置跨域（CORS）需设置哪些关键响应头？复杂跨域（带 cookie、自定义头）有何注意点【热度: 124】</h1>
+      <div class="subtitle">web应用场景 · web应用场景</div>
+      <div class="meta">创建：2025-09-07T05:54:08Z · 更新：2025-09-07T05:54:08Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：nginx 配置跨域</p><p>Nginx 配置跨域（CORS）的核心是通过设置特定响应头，允许不同域的前端资源请求当前服务器资源。以下是关键配置和复杂跨域场景的注意事项：</p><h3>一、基础跨域配置：关键响应头</h3><p>基础跨域（无 cookie、无自定义头）需配置以下核心响应头，允许指定域的请求访问资源：</p><pre class="code-block"><code class="language-nginx">location / {
+    # 1. 允许的源域名（必填）
+    # 注意：生产环境建议明确指定域名（如 https://example.com），而非 *
+    add_header Access-Control-Allow-Origin *;
+
+    # 2. 允许的请求方法（必填）
+    add_header Access-Control-Allow-Methods &#39;GET, POST, PUT, DELETE, OPTIONS&#39;;
+
+    # 3. 允许的请求头（可选，根据实际需求添加）
+    add_header Access-Control-Allow-Headers &#39;Content-Type, Authorization&#39;;
+
+    # 4. 预检请求（OPTIONS）的缓存时间（可选，减少预检请求次数）
+    add_header Access-Control-Max-Age 3600;
+
+    # 处理预检请求（OPTIONS）：直接返回 204 成功状态
+    if ($request_method = &#39;OPTIONS&#39;) {
+        return 204;
+    }
+}
+</code></pre><p><strong>各头字段作用</strong>：</p><ul><li><code>Access-Control-Allow-Origin</code>：指定允许跨域请求的源（<code>*</code> 表示允许所有源，不推荐生产环境使用）。</li><li><code>Access-Control-Allow-Methods</code>：允许的 HTTP 方法（需包含实际使用的方法，如 <code>OPTIONS</code> 是预检请求必须的）。</li><li><code>Access-Control-Allow-Headers</code>：允许请求中携带的自定义头（如 <code>Authorization</code>、<code>X-Custom-Header</code>）。</li><li><code>Access-Control-Max-Age</code>：预检请求（OPTIONS）的结果缓存时间（秒），避免频繁预检。</li></ul><h3>二、复杂跨域场景：带 cookie、自定义头的注意点</h3><p>当跨域请求需要 <strong>携带 cookie</strong> 或 <strong>自定义请求头</strong> 时，配置需更严格，且前后端需协同配合：</p><h4>1. 带 cookie 的跨域（<code>withCredentials: true</code>）</h4><ul><li><strong>Nginx 必须明确指定允许的源</strong>（不能用 <code>*</code>），否则浏览器会拒绝响应：</li></ul><p>```nginx</p><p># 错误：带 cookie 时不能用 *</p><p># add_header Access-Control-Allow-Origin *;</p><p># 正确：明确指定允许的源（如 https://frontend.com）</p><p>add_header Access-Control-Allow-Origin https://frontend.com;</p><p># 必须添加：允许携带 cookie</p><p>add_header Access-Control-Allow-Credentials true;</p><p>```</p><ul><li><strong>前端需配合设置</strong>：请求时需显式开启 <code>withCredentials</code>（以 Fetch 为例）：</li></ul><p>```javascript</p><p>fetch("https://backend.com/api/data", {</p><p>credentials: "include", // 等价于 XMLHttpRequest 的 withCredentials: true</p><p>});</p><p>```</p><h4>2. 带自定义请求头（如 <code>X-Token</code>）</h4><ul><li><strong>需在 <code>Access-Control-Allow-Headers</code> 中显式包含自定义头</strong>，否则预检请求会失败：</li></ul><p>```nginx</p><p># 例如允许 X-Token、X-User-Id 等自定义头</p><p>add_header Access-Control-Allow-Headers 'Content-Type, X-Token, X-User-Id';</p><p>```</p><ul><li><strong>浏览器会先发送 OPTIONS 预检请求</strong>，需确保 Nginx 正确处理（返回 204 或 200）：</li></ul><p>```nginx</p><p>if ($request_method = 'OPTIONS') {</p><p>return 204;  # 预检请求成功，无需返回 body</p><p>}</p><p>```</p><h4>3. 其他注意事项</h4><ul><li><strong><code>add_header</code> 指令的作用域</strong>：如果 Nginx 配置中存在多个 <code>location</code> 块，跨域头需配置在对应请求的 <code>location</code> 中（如接口请求通常在 <code>/api</code> 路径）。</li><li><strong>避免重复设置头</strong>：如果后端服务（如 Node.js、Java）已设置 CORS 头，Nginx 无需重复添加，否则可能导致浏览器解析冲突。</li></ul><ul><li><strong>生产环境安全性</strong>：</li><li>禁止使用 <code>Access-Control-Allow-Origin: *</code>（尤其是带 cookie 的场景）。</li><li>限制 <code>Access-Control-Allow-Methods</code> 为必要的方法（如仅允许 <code>GET, POST</code>）。</li><li>避免 <code>Access-Control-Allow-Headers</code> 包含通配符（如 <code>*</code>），仅添加实际需要的头。</li></ul><h3>三、完整复杂跨域配置示例（带 cookie + 自定义头）</h3><pre class="code-block"><code class="language-nginx">server {
+    listen 80;
+    server_name backend.com;
+
+    # 接口路径的跨域配置（假设接口都在 /api 下）
+    location /api {
+        # 明确允许的前端域名（不能用 *）
+        add_header Access-Control-Allow-Origin https://frontend.com;
+
+        # 允许携带 cookie
+        add_header Access-Control-Allow-Credentials true;
+
+        # 允许的方法（包含预检请求 OPTIONS）
+        add_header Access-Control-Allow-Methods &#39;GET, POST, PUT, DELETE, OPTIONS&#39;;
+
+        # 允许的头（包含自定义头 X-Token）
+        add_header Access-Control-Allow-Headers &#39;Content-Type, Authorization, X-Token&#39;;
+
+        # 预检请求结果缓存 1 小时
+        add_header Access-Control-Max-Age 3600;
+
+        # 处理预检请求
+        if ($request_method = &#39;OPTIONS&#39;) {
+            return 204;
+        }
+
+        # 转发请求到后端服务（如 Node.js、Java 服务）
+        proxy_pass http://127.0.0.1:3000;
+        proxy_set_header Host $host;
+    }
+}
+</code></pre><h3>总结</h3><ul><li>基础跨域：核心配置 <code>Access-Control-Allow-Origin</code>、<code>-Methods</code>、<code>-Headers</code>。</li><li>带 cookie 跨域：必须指定具体 <code>Origin</code>，并添加 <code>Access-Control-Allow-Credentials: true</code>。</li><li>自定义头跨域：需在 <code>Allow-Headers</code> 中显式声明，并正确处理 OPTIONS 预检请求。</li><li>生产环境需严格限制允许的源、方法和头，避免安全风险。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>babel 的工作流程是如何的？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;Babel 是一个 JavaScript 编译器，它的主要功能是将新版本的 JavaScript 代码转换成向后兼容的代码。Babel 的工作流程可以简单概括为以下几个步骤：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;解析：将 JavaScript 代码解析成 AST（抽象语法树）。&lt;/li&gt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="babel 的工作流程是如何的？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;Babel 是一个 JavaScript 编译器，它的主要功能是将新版本的 JavaScript 代码转换成向后兼容的代码。Babel 的工作流程可以简单概括为以下几个步骤：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;解析：将 JavaScript 代码解析成 AST（抽象语法树）。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li&gt;转换：对 AST 进行遍历，进行代码转换。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li&gt;生成：将转换后的" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/236" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>babel 的工作流程是如何的？</h1>
+      <div class="subtitle">工程化 · 工程化</div>
+      <div class="meta">创建：2023-03-29T15:37:34Z · 更新：2023-03-29T15:37:35Z</div>
+    </div>
+    <article class="content markdown-body"><p>Babel 是一个 JavaScript 编译器，它的主要功能是将新版本的 JavaScript 代码转换成向后兼容的代码。Babel 的工作流程可以简单概括为以下几个步骤：</p><ol><li>解析：将 JavaScript 代码解析成 AST（抽象语法树）。</li></ol><ol><li>转换：对 AST 进行遍历，进行代码转换。</li></ol><ol><li>生成：将转换后的 AST 生成 JavaScript 代码。</li></ol><p>具体来说，Babel 的工作流程如下：</p><ol><li>Babel 使用 babylon 解析器将 JavaScript 代码解析成 AST，babylon 是一个基于 AST 的 JavaScript 解析器。</li></ol><ol><li>Babel 使用 babel-traverse 遍历器对 AST 进行遍历，找到需要转换的节点，进行转换。</li></ol><ol><li>Babel 使用 babel-core 转换器将 AST 转换成 JavaScript 代码。babel-core 是 babel 的核心模块，它包含了所有的转换器和插件。</li></ol><ol><li>Babel 使用 babel-generator 生成器将转换后的 AST 生成 JavaScript 代码。babel-generator 是一个将 AST 转换成 JavaScript 代码的工具。</li></ol><p>在整个流程中，Babel 还会使用 babel-preset-env、babel-plugin-transform-runtime、babel-polyfill 等插件和工具来完成更加复杂的任务，如将 ES6 模块转换成 CommonJS 模块，使用 Polyfill 来实现一些新的 API 等。</p><p>需要注意的是，Babel 的转换过程是有损的，转换后的代码不一定与原始代码完全相同，也可能存在性能问题。因此，在使用 Babel 进行转换时，需要谨慎选择转换的规则和插件，以确保转换后的代码正确、高效。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

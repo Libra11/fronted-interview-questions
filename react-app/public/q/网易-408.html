@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>token过期后，页面如何实现无感刷新【热度: 485】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：token过期刷新、token刷新&lt;/p&gt;&lt;p&gt;当 token 过期后，实现无感刷新页面的一种常见方式是使用刷新 token 的机制。下面是一个基本的实现思路：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;在前端应用中，使用某种方式（例如 Cookie、" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="token过期后，页面如何实现无感刷新【热度: 485】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：token过期刷新、token刷新&lt;/p&gt;&lt;p&gt;当 token 过期后，实现无感刷新页面的一种常见方式是使用刷新 token 的机制。下面是一个基本的实现思路：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;在前端应用中，使用某种方式（例如 Cookie、Local Storage）存储 token。&lt;/li&gt;&lt;li&gt;在每次发起请求时，通过拦截器或者请求中间件检查 toke" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/408" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>token过期后，页面如何实现无感刷新【热度: 485】</h1>
+      <div class="subtitle">网易 · 网络 · 网易</div>
+      <div class="meta">创建：2023-06-04T14:05:08Z · 更新：2023-06-04T14:05:09Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：token过期刷新、token刷新</p><p>当 token 过期后，实现无感刷新页面的一种常见方式是使用刷新 token 的机制。下面是一个基本的实现思路：</p><ol><li>在前端应用中，使用某种方式（例如 Cookie、Local Storage）存储 token。</li><li>在每次发起请求时，通过拦截器或者请求中间件检查 token 是否过期。</li><li>如果 token 过期，前端会收到一个特定的响应（例如 HTTP 状态码 401 Unauthorized）。</li><li>前端通过监听该特定的响应，触发刷新 token 的操作。</li><li>刷新 token 的操作可以是发送一个特定的请求到后端，后端验证并颁发新的 token。</li><li>在 token 刷新成功后，前端更新存储的 token，并重新发起之前的请求，确保请求的无感刷新。</li></ol><p>需要注意的是，具体的实现可能会因框架和后端 API 的不同而有所差异。上述步骤提供了一个基本的思路，你可以根据实际需求和使用的技术栈进行调整和扩展。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

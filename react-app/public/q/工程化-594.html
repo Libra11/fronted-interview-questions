@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>在你的项目中， 使用过哪些 webpack plugin, 说一下他们的作用【热度: 361】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;下表列出了常见的 Webpack 插件及其作用：&lt;/p&gt;&lt;p&gt;| 插件名称 | 作用 |&lt;/p&gt;&lt;p&gt;| ------------------------------------------------ | ---------------------------------" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="在你的项目中， 使用过哪些 webpack plugin, 说一下他们的作用【热度: 361】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;下表列出了常见的 Webpack 插件及其作用：&lt;/p&gt;&lt;p&gt;| 插件名称 | 作用 |&lt;/p&gt;&lt;p&gt;| ------------------------------------------------ | ---------------------------------------------------------------------------------------------" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/594" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>在你的项目中， 使用过哪些 webpack plugin, 说一下他们的作用【热度: 361】</h1>
+      <div class="subtitle">工程化 · 工程化 · 阿里巴巴</div>
+      <div class="meta">创建：2023-10-05T03:28:31Z · 更新：2023-10-05T03:29:18Z</div>
+    </div>
+    <article class="content markdown-body"><p>下表列出了常见的 Webpack 插件及其作用：</p><p>| 插件名称                                     | 作用                                                                                                                      |</p><p>| ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |</p><p>| <code>HtmlWebpackPlugin</code>                      | 自动生成 HTML 文件，并将打包后的资源自动注入到 HTML 中。                                                                     |</p><p>| <code>MiniCssExtractPlugin</code>                | 将 CSS 代码提取到单独的文件中，而不是内联到 JavaScript 中。                                                                   |</p><p>| <code>CopyWebpackPlugin</code>                   | 将指定的文件或目录复制到输出目录。                                                                                         |</p><p>| <code>CleanWebpackPlugin</code>                  | 在每次构建之前清理输出目录，避免旧的文件残留。                                                                               |</p><p>| <code>DefinePlugin</code>                          | 在编译过程中创建全局常量，可以在代码中直接使用。                                                                             |</p><p>| <code>HotModuleReplacementPlugin</code> | 启用热模块更换（Hot Module Replacement），在开发过程中实现代码修改后实时更新页面，无需刷新。                           |</p><p>| <code>ProvidePlugin</code>                           | 自动加载模块，使模块在使用时可以直接使用对应的全局变量，无需引入。                                                               |</p><p>| <code>MiniCssExtractPlugin</code>                | 将 CSS 代码提取到单独的文件中，而不是内联到 JavaScript 中。                                                                   |</p><p>| <code>OptimizeCSSAssetsPlugin</code>        | 压缩提取出的 CSS 文件。                                                                                                    |</p><p>| <code>uglifyjs-webpack-plugin</code>           | 压缩 JavaScript 代码。                                                                                                      |</p><p>| <code>webpack-bundle-analyzer</code>        | 分析打包后的文件大小，并可视化展示，方便优化打包结果。                                                                       |</p><p>| <code>CompressionWebpackPlugin</code>   | 使用 gzip 或其他压缩算法对文件进行压缩，减小文件大小，加快网络传输速度。                                                      |</p><p>| <code>CopyWebpackPlugin</code>                 | 将指定的文件或目录复制到输出目录。                                                                                          |</p><p>| <code>FriendlyErrorsWebpackPlugin</code>     | 提供友好的构建错误提示和优化构建速度的功能。                                                                                 |</p><p>| <code>ImageminWebpackPlugin</code>           | 压缩图片资源，减小文件大小，提升加载速度。                                                                                  |</p><p>| <code>HotModuleReplacementPlugin</code> | 启用热模块更换（Hot Module Replacement），在开发过程中实现代码修改后实时更新页面，无需刷新。                            |</p><p>| <code>HtmlWebpackPlugin</code>                      | 自动生成 HTML 文件，并将打包后的资源自动注入到 HTML 中。                                                                     |</p><p>| <code>IgnorePlugin</code>                                | 忽略特定的模块，避免将其打包到最终的输出文件中。                                                                             |</p><p>| <code>BannerPlugin</code>                                | 在打包的文件块顶部添加自定义的注释和信息。                                                                                   |</p><p>| <code>webpack.DefinePlugin</code>              | 在编译过程中创建全局常量，可以在代码中直接使用。                                                                             |</p><p>| <code>webpack.ProgressPlugin</code>          | 在控制台输出构建进度信息。                                                                                                  |</p><p>| <code>webpack-bundle-analyzer</code>        | 分析打包后的文件大小，并可视化展示，方便优化打包结果。                                                                       |</p><p>| <code>webpackbar</code>                                  | 在命令行中显示构建进度条，提供更直观的构建进度信息。                                                                          |</p><p>这些插件可以根据需要配置在 Webpack 的插件列表（<code>plugins</code>）中，以实现对构建过程的各种增强和优化操作。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

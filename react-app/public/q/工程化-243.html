@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[webpack] webpack 是如何给 web 应用注入环境变量的， 原理是啥 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;Webpack 可以通过 DefinePlugin 插件给 web 应用注入环境变量。该插件会在编译过程中替换掉代码中指定的变量，以实现在运行时替换成环境变量的值。&lt;/p&gt;&lt;p&gt;在 webpack 的配置文件中，需要先引入该插件，然后将需要注入的环境变量通过该插件进行配置。" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[webpack] webpack 是如何给 web 应用注入环境变量的， 原理是啥" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;Webpack 可以通过 DefinePlugin 插件给 web 应用注入环境变量。该插件会在编译过程中替换掉代码中指定的变量，以实现在运行时替换成环境变量的值。&lt;/p&gt;&lt;p&gt;在 webpack 的配置文件中，需要先引入该插件，然后将需要注入的环境变量通过该插件进行配置。例如：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascr" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/243" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[webpack] webpack 是如何给 web 应用注入环境变量的， 原理是啥</h1>
+      <div class="subtitle">工程化 · 工程化 · 百度</div>
+      <div class="meta">创建：2023-04-02T15:11:38Z · 更新：2023-04-02T15:11:39Z</div>
+    </div>
+    <article class="content markdown-body"><p>Webpack 可以通过 DefinePlugin 插件给 web 应用注入环境变量。该插件会在编译过程中替换掉代码中指定的变量，以实现在运行时替换成环境变量的值。</p><p>在 webpack 的配置文件中，需要先引入该插件，然后将需要注入的环境变量通过该插件进行配置。例如：</p><pre class="code-block"><code class="language-javascript">const webpack = require(&#39;webpack&#39;);
+
+module.exports = {
+  // 其他配置
+  plugins: [
+    new webpack.DefinePlugin({
+      &#39;process.env&#39;: {
+        NODE_ENV: JSON.stringify(&#39;production&#39;)
+      },
+      API_URL: JSON.stringify(&#39;http://api.example.com&#39;)
+    })
+  ]
+};
+</code></pre><p>上述配置中，定义了两个需要注入的变量，分别是 <code>process.env.NODE_ENV</code> 和 <code>API_URL</code>。其中，<code>process.env.NODE_ENV</code> 是一个常用的环境变量，用来标识当前是开发环境还是生产环境；<code>API_URL</code> 是一个自定义的环境变量，用来存储 API 的地址。</p><p>在代码中使用这些环境变量时，只需要直接引用即可：</p><pre class="code-block"><code class="language-javascript">if (process.env.NODE_ENV === &#39;production&#39;) {
+  console.log(&#39;当前为生产环境&#39;);
+}
+
+fetch(API_URL + &#39;/users&#39;)
+  .then(response =&gt; response.json())
+  .then(data =&gt; console.log(data));
+</code></pre><p>Webpack 在编译时会将这些变量替换成对应的值，例如：</p><pre class="code-block"><code class="language-javascript">if (&#39;production&#39; === &#39;production&#39;) {
+  console.log(&#39;当前为生产环境&#39;);
+}
+
+fetch(&#39;http://api.example.com&#39; + &#39;/users&#39;)
+  .then(response =&gt; response.json())
+  .then(data =&gt; console.log(data));
+</code></pre><p>通过这种方式，我们就可以在代码中方便地使用环境变量，同时保证了在不同环境下都能正确地使用相应的变量值。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

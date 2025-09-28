@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何使用 node 做一个全局命令行工具【热度: 141】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;blockquote&gt;作者备注&lt;/blockquote&gt;&lt;blockquote&gt;&lt;/blockquote&gt;&lt;blockquote&gt;这个问题， 其实本质就是一个 package.json 配置里面的 bin 配置， 没有多大的价值&lt;/blockquote&gt;&lt;p&gt;以下是使用 Nod" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何使用 node 做一个全局命令行工具【热度: 141】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;blockquote&gt;作者备注&lt;/blockquote&gt;&lt;blockquote&gt;&lt;/blockquote&gt;&lt;blockquote&gt;这个问题， 其实本质就是一个 package.json 配置里面的 bin 配置， 没有多大的价值&lt;/blockquote&gt;&lt;p&gt;以下是使用 Node.js 创建一个全局命令行工具的步骤：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、创建项目结构&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1024" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何使用 node 做一个全局命令行工具【热度: 141】</h1>
+      <div class="subtitle">阿里巴巴 · Nodejs · 阿里巴巴</div>
+      <div class="meta">创建：2024-10-26T06:53:53Z · 更新：2024-10-26T06:55:06Z</div>
+    </div>
+    <article class="content markdown-body"><blockquote>作者备注</blockquote><blockquote></blockquote><blockquote>这个问题， 其实本质就是一个 package.json 配置里面的 bin 配置， 没有多大的价值</blockquote><p>以下是使用 Node.js 创建一个全局命令行工具的步骤：</p><p><strong>一、创建项目结构</strong></p><ol><li>创建一个新的文件夹作为项目目录，例如<code>my-cli-tool</code>。</li><li>在项目目录中，初始化一个新的 Node.js 项目，可以使用<code>npm init</code>或<code>yarn init</code>命令，根据提示填写项目的基本信息。</li></ol><p><strong>二、安装必要的模块</strong></p><ol><li>安装<code>commander</code>模块，这是一个用于构建命令行界面的流行工具。</li></ol><ul><li>使用 npm：<code>npm install commander --save</code></li><li>使用 yarn：<code>yarn add commander</code></li></ul><p><strong>三、编写命令行工具代码</strong></p><ol><li>创建一个主入口文件，例如<code>index.js</code>。</li><li>在入口文件中，引入<code>commander</code>模块并进行配置：</li></ol><p>```javascript</p><p>const program = require("commander");</p><p>program</p><p>.version("1.0.0")</p><p>.description("My awesome CLI tool")</p><p>.option("-n, --name <value>", "Your name")</p><p>.action((options) => {</p><p>console.log(<code>Hello, ${options.name || &quot;World&quot;}!</code>);</p><p>});</p><p>program.parse(process.argv);</p><p>```</p><p>在这个例子中，我们创建了一个命令行工具，它接受一个<code>--name</code>选项，并在执行时打印出问候语。</p><p><strong>四、设置全局安装</strong></p><ol><li>在项目的<code>package.json</code>文件中，添加一个<code>bin</code>字段，指定命令行工具的入口文件：</li></ol><p>```json</p><p>{</p><p>"name": "my-cli-tool",</p><p>"version": "1.0.0",</p><p>"description": "My awesome CLI tool",</p><p>"main": "index.js",</p><p>"bin": {</p><p>"my-tool": "./index.js"</p><p>},</p><p>"dependencies": {</p><p>"commander": "^9.4.0"</p><p>}</p><p>}</p><p>```</p><p>这里将命令行工具的名称设置为<code>my-tool</code>，对应的入口文件是<code>index.js</code>。</p><ol><li>使用<code>npm link</code>或<code>yarn link</code>命令将项目链接到全局环境中。这将使你的命令行工具在系统中可用。</li></ol><ul><li>使用 npm：<code>npm link</code></li><li>使用 yarn：<code>yarn link</code></li></ul><p><strong>五、测试命令行工具</strong></p><ol><li>打开终端，输入<code>my-tool --name John</code>，如果一切正常，应该会看到输出<code>Hello, John!</code>。</li></ol></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

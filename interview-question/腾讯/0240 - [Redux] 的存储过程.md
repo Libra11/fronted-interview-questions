@@ -1,0 +1,23 @@
+# [Redux] 的存储过程
+
+- Issue: #240
+- State: open
+- Labels: web框架, 腾讯
+- Author: yanlele
+- URL: https://github.com/pro-collection/interview-question/issues/240
+- Created: 2023-04-02T14:42:37Z
+- Updated: 2023-04-02T14:42:38Z
+
+## Body
+
+Redux 的存储过程可以简单地分为以下几个步骤：
+
+1. Action Creator 函数被调用，生成一个 Action 对象；
+2. Action 对象被传递给 Store.dispatch() 方法；
+3. Redux Store 调用 Reducer 函数，将当前的 State 和 Action 作为参数传入；
+4. Reducer 函数根据 Action 的类型，生成一个新的 State；
+5. Redux Store 将新的 State 存储下来，用于下一次的状态更新；
+6. 组件通过调用 Store.subscribe() 方法，监听 Store 中 State 的变化；
+7. 当 State 发生变化时，Store 会通知所有的订阅者，订阅者会重新渲染相应的组件。
+
+这个过程可以简单地描述为：Action -> Reducer -> Store -> View。其中，Action 是一个纯对象，它描述了发生的事件；Reducer 是一个纯函数，它接收当前的 State 和 Action，返回一个新的 State；Store 是将 Action 和 Reducer 结合起来的对象，它维护了应用程序的 State；View 则是 React 组件，它通过 Store.subscribe() 方法监听 State 的变化，根据 State 的变化重新渲染页面。

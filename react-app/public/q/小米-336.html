@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] 事件绑定原理【热度: 1,097】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：react事件绑定、react合成事件、react事件监听&lt;/p&gt;&lt;h3&gt;绑定原理与过程&lt;/h3&gt;&lt;p&gt;在 React 中，事件绑定不同于传统的直接在 HTML 元素添加事件监听器的方式。React 的事件绑定是建立在自定义组件上的" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] 事件绑定原理【热度: 1,097】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：react事件绑定、react合成事件、react事件监听&lt;/p&gt;&lt;h3&gt;绑定原理与过程&lt;/h3&gt;&lt;p&gt;在 React 中，事件绑定不同于传统的直接在 HTML 元素添加事件监听器的方式。React 的事件绑定是建立在自定义组件上的，因此需要对 React 组件的生命周期进行理解。&lt;/p&gt;&lt;p&gt;React 事件绑定的原理可以概括为三个步骤：&lt;/p&gt;&lt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/336" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] 事件绑定原理【热度: 1,097】</h1>
+      <div class="subtitle">小米 · web框架 · 小米</div>
+      <div class="meta">创建：2023-05-05T15:31:51Z · 更新：2023-05-05T15:47:20Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：react事件绑定、react合成事件、react事件监听</p><h3>绑定原理与过程</h3><p>在 React 中，事件绑定不同于传统的直接在 HTML 元素添加事件监听器的方式。React 的事件绑定是建立在自定义组件上的，因此需要对 React 组件的生命周期进行理解。</p><p>React 事件绑定的原理可以概括为三个步骤：</p><ol><li>创建 React 元素</li></ol><p>在 React 中，事件的绑定是通过在 JSX 中创建元素时给元素添加一个事件属性实现的。例如：</p><pre class="code-block"><code>&lt;button onClick={this.handleClick}&gt;点我&lt;/button&gt;
+</code></pre><p>这里使用 onClick 属性将组件的 handleClick 方法传递给一个按钮组件，这个按钮组件在点击之后会调用 handleClick 方法。</p><ol><li>挂载事件处理函数</li></ol><p>当 React 元素插入文档中之后，React 会在元素宿主节点上挂载事件处理函数。这个过程是在 React 元素生成之后、组件挂载之前完成的。React 在执行组件挂载生命周期函数之前，会将所有元素上声明的事件处理函数统一挂载到 DOM 上。</p><ol><li>移除事件处理函数</li></ol><p>当 React 元素被移除文档时，React 会自动移除对应的事件处理函数。这个过程是在组件卸载之后、元素从 DOM 中移除之前执行的。</p><p>React 的事件绑定表现为组件的方法，所以在事件处理函数中，可以通过 this 关键字来访问组件的状态和属性。</p><p>需要注意的是，React 组件中不能使用原生事件绑定方式，比如使用 <code>element.addEventListener(&#39;click&#39;, function(){})</code>，因为这样做会导致 React 无法正确地跟踪组件状态的变化，从而可能导致一些潜在问题。</p><h3>React 组件中为何不能使用原生事件绑定方式</h3><p>React 组件中不能使用原生事件绑定方式是因为，React 使用的是 Virtual DOM 技术，而不是直接操作 DOM。React 的 Virtual DOM 能够自动监测组件（即数据）状态的变化和更新，从而根据更新后的状态重新渲染视图，并在必要的时候更新真实 DOM。</p><p>如果使用原生事件绑定方式，比如使用 <code>element.addEventListener(&#39;click&#39;, function(){})</code>，那么这些绑定的事件处理函数是直接绑定在真实的 DOM 元素上的，并不参与 Virtual DOM 中的数据流程，这样就会导致以下两个问题：</p><ol><li>事件绑定后，如果组件状态变化并且重新渲染，那么重新渲染后的组件实例会重新创建一个新的 DOM 元素，而旧的 DOM 元素会被销毁，导致原来的事件处理函数被绑定在了一个不存在的元素上，导致事件失效。</li></ol><ol><li>使用原生事件绑定方式，无法在事件处理函数中直接访问组件实例的状态和属性。例如，在事件处理函数中想要访问一个组件的状态或者属性，就必须使用组件实例的引用（即 this 指针），但是这个 this 指针指向的并不是组件实例本身，而是真实的 DOM 元素，这样就无法直接访问组件状态和属性。</li></ol><p>因此，在 React 中，我们必须使用 <code>onClick</code> 等钩子函数来绑定事件处理函数，这样 React 就能够在其 Virtual DOM 中正确地跟踪组件状态变化，并保证事件处理函数的正确性。当然，在一些极端的情况下，React 也提供了访问真实 DOM 元素的机制，比如 <code>ref</code> 属性，这个可以在某些场景下使用。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

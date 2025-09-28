@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[webpack] externals 是如何加载外部依赖的【热度: 330】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：webpack externals&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;&lt;code&gt;externals&lt;/code&gt;基础原理&lt;/strong&gt;&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;当在 Webpack 配置文件中使用&lt;code&gt;ex" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[webpack] externals 是如何加载外部依赖的【热度: 330】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：webpack externals&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;&lt;code&gt;externals&lt;/code&gt;基础原理&lt;/strong&gt;&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;当在 Webpack 配置文件中使用&lt;code&gt;externals&lt;/code&gt;选项时，实际上是在告诉 Webpack 某些模块应该被视为外部依赖，而不是被打包进最终的输出" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1075" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[webpack] externals 是如何加载外部依赖的【热度: 330】</h1>
+      <div class="subtitle">工程化 · 工程化</div>
+      <div class="meta">创建：2024-11-23T03:36:20Z · 更新：2024-11-23T03:36:21Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：webpack externals</p><ol><li><strong><code>externals</code>基础原理</strong></li></ol><ul><li>当在 Webpack 配置文件中使用<code>externals</code>选项时，实际上是在告诉 Webpack 某些模块应该被视为外部依赖，而不是被打包进最终的输出文件。这意味着这些模块将在运行时由浏览器或其他运行环境提供，而不是由 Webpack 处理。</li></ul><ol><li><strong>在浏览器环境中的加载方式（以全局变量为例）</strong></li></ol><ul><li><strong>配置<code>externals</code></strong>：</li><li>假设项目依赖于<code>lodash</code>库，并且希望在浏览器环境中通过<code>&lt;script&gt;</code>标签加载<code>lodash</code>的全局变量。首先在 Webpack 配置文件中这样配置<code>externals</code>：</li></ul><p>```javascript</p><p>module.exports = {</p><p>//...其他配置</p><p>externals: {</p><p>lodash: "lodash",</p><p>},</p><p>};</p><p>```</p><ul><li><strong>HTML 文件中的脚本引入</strong>：</li><li>然后在 HTML 文件中，需要手动添加<code>&lt;script&gt;</code>标签来引入<code>lodash</code>。例如：</li></ul><p>```html</p><p><!DOCTYPE html></p><p><html lang="en"></p><p><head></p><p><meta charset="UTF-8" /></p><p></head></p><p><body></p><p><script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script></p><p><script src="your - main - app - bundle.js"></script></p><p></body></p><p></html></p><p>```</p><ul><li>在这里，<code>your - main - app - bundle.js</code>是 Webpack 打包后的应用程序主文件。当 Webpack 在代码中遇到<code>import _ from &#39;lodash&#39;;</code>语句时，它不会将<code>lodash</code>的代码打包进输出文件，而是假设<code>lodash</code>已经在运行时环境中存在，并且可以通过全局变量<code>lodash</code>访问。所以在打包后的 JavaScript 代码中，实际上是通过全局变量来引用外部依赖的。</li></ul><ol><li><strong>在其他运行环境（如 Node.js）中的加载方式（以 CommonJS 模块为例）</strong></li></ol><ul><li><strong>配置<code>externals</code>类似操作</strong>：</li><li>在 Webpack 配置文件中，对于要作为外部依赖处理的模块（假设是<code>axios</code>，用于在 Node.js 环境中进行 HTTP 请求），配置<code>externals</code>如下：</li></ul><p>```javascript</p><p>module.exports = {</p><p>//...其他配置</p><p>externals: {</p><p>axios: "axios",</p><p>},</p><p>};</p><p>```</p><ul><li><strong>运行时环境中的模块引用</strong>：</li><li>在 Node.js 应用程序代码中，需要确保<code>axios</code>已经作为一个 CommonJS 模块安装在项目的<code>node_modules</code>目录下或者在全局环境中有相应的模块路径。当运行打包后的代码时，Webpack 不会打包<code>axios</code>，而是期望在 Node.js 的模块加载机制中找到它。例如，在打包后的 Node.js 代码中可能会有类似这样的引用：</li></ul><p>```javascript</p><p>const axios = require("axios");</p><p>```</p><ul><li>此时，Node.js 会按照自己的模块加载规则去查找<code>axios</code>模块，就像没有经过 Webpack 打包一样。这是因为 Webpack 通过<code>externals</code>配置将<code>axios</code>模块的加载责任交给了运行时环境的模块加载系统。</li></ul><ol><li><strong>AMD（Asynchronous Module Definition）模块加载方式（适用于支持 AMD 的环境）</strong></li></ol><ul><li><strong>配置<code>externals</code>和模块定义</strong>：</li><li>假设在一个支持 AMD 的浏览器环境或者 JavaScript 运行环境中，有一个名为<code>backbone</code>的外部依赖，在 Webpack 配置文件中设置<code>externals</code>：</li></ul><p>```javascript</p><p>module.exports = {</p><p>//...其他配置</p><p>externals: {</p><p>backbone: "backbone",</p><p>},</p><p>};</p><p>```</p><ul><li><strong>AMD 模块加载脚本</strong>：</li><li>在 HTML 文件或者 AMD 模块加载器的配置文件中，需要使用 AMD 的方式来加载<code>backbone</code>模块。例如，在一个简单的 AMD 配置中，可能会有如下代码来加载<code>backbone</code>和应用程序主模块：</li></ul><p>```html</p><p><!DOCTYPE html></p><p><html lang="en"></p><p><head></p><p><meta charset="UTF-8" /></p><p></head></p><p><body></p><p><script src="https://requirejs.org/docs/release/2.3.6/minified/require.js"></script></p><p><script></p><p>require.config({</p><p>paths: {</p><p>backbone: "https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.4.0/backbone-min",</p><p>},</p><p>});</p><p>require(["your - main - app - module", "backbone"], function (app, backbone) {</p><p>// 应用程序主模块和backbone模块都加载完成后执行的代码</p><p>app.init();</p><p>});</p><p></script></p><p></body></p><p></html></p><p>```</p><ul><li>这里使用<code>require.js</code>作为 AMD 模块加载器，通过<code>require.config</code>配置<code>backbone</code>模块的路径，然后在<code>require</code>函数中加载应用程序主模块和<code>backbone</code>模块。Webpack 在打包过程中，由于<code>externals</code>配置，知道<code>backbone</code>是外部依赖，会正确地处理代码中的引用，使得在运行时可以通过 AMD 模块加载器来加载<code>backbone</code>模块并正确地执行应用程序。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

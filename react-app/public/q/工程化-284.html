@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[webpack] 核心库 - tapable 的设计思路与实现原理是什么？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h3&gt;Webpack Tapable 的设计思路&lt;/h3&gt;&lt;p&gt;Webpack Tapable 的设计思路主要基于观察者模式（Observer Pattern）和发布-订阅模式（Publish-Subscribe Pattern），用于解耦各个插件之间的依赖关系，让插件能够独立" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[webpack] 核心库 - tapable 的设计思路与实现原理是什么？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h3&gt;Webpack Tapable 的设计思路&lt;/h3&gt;&lt;p&gt;Webpack Tapable 的设计思路主要基于观察者模式（Observer Pattern）和发布-订阅模式（Publish-Subscribe Pattern），用于解耦各个插件之间的依赖关系，让插件能够独立作用于特定的钩子（Hook），从而实现可扩展性和灵活性。&lt;/p&gt;&lt;p&gt;具体来说，Tapable 采用了钩子（Hook）的" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/284" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[webpack] 核心库 - tapable 的设计思路与实现原理是什么？</h1>
+      <div class="subtitle">工程化 · 工程化</div>
+      <div class="meta">创建：2023-04-12T14:51:55Z · 更新：2023-04-12T14:56:38Z</div>
+    </div>
+    <article class="content markdown-body"><h3>Webpack Tapable 的设计思路</h3><p>Webpack Tapable 的设计思路主要基于观察者模式（Observer Pattern）和发布-订阅模式（Publish-Subscribe Pattern），用于解耦各个插件之间的依赖关系，让插件能够独立作用于特定的钩子（Hook），从而实现可扩展性和灵活性。</p><p>具体来说，Tapable 采用了钩子（Hook）的概念，每个钩子对应一组事件，Webpack 在不同的时刻触发这些钩子，插件可以注册自己的事件处理函数到对应的钩子上，以实现各种功能。</p><p>为了避免插件之间的耦合，Tapable 将事件处理函数按照钩子类型分为同步钩子（Sync Hook）、异步钩子（Async Hook）、单向异步钩子（Async Parallel Hook）和多向异步钩子（Async Series Hook）四种类型。这样，不同类型的钩子对应着不同的事件处理顺序和调用方式，插件在注册自己的事件处理函数时，可以选择不同的钩子类型来适应不同的应用场景。</p><p>除此之外，Tapable 还提供了一些辅助方法和工具函数，用于方便地创建和管理钩子、向钩子注册事件处理函数、调用钩子的事件处理函数等。这些工具函数的设计思路也遵循了解耦、简单易用的原则，为插件开发提供了很大的便利性。</p><h3>Tapable 的使用</h3><p>Webpack Tapable 的使用分为三个步骤：</p><ol><li>定义一个新的 Tapable 实例：在 Webpack 插件中定义一个新的 Tapable 实例，并定义需要监听的事件。</li></ol><pre class="code-block"><code class="language-javascript">const { SyncHook } = require(&#39;tapable&#39;);
+
+class MyPlugin {
+  constructor() {
+    this.hooks = {
+      beforeRun: new SyncHook([&#39;compiler&#39;]),
+      done: new SyncHook([&#39;stats&#39;])
+    };
+  }
+
+  apply(compiler) {
+    this.hooks.beforeRun.tap(&#39;MyPlugin&#39;, compiler =&gt; {
+      console.log(&#39;Webpack is starting to run...&#39;);
+    });
+
+    this.hooks.done.tap(&#39;MyPlugin&#39;, stats =&gt; {
+      console.log(&#39;Webpack has finished running.&#39;);
+    });
+  }
+}
+</code></pre><ol><li>触发事件：在 Webpack 的编译过程中，调用 Tapable 实例的触发方法，触发事件。</li></ol><pre class="code-block"><code class="language-javascript">compiler.hooks.beforeRun.call(compiler);
+// Webpack is starting to run...
+
+compiler.run((err, stats) =&gt; {
+  if (err) {
+    console.error(err);
+    return;
+  }
+
+  console.log(stats);
+  compiler.hooks.done.call(stats);
+  // Webpack has finished running.
+});
+</code></pre><ol><li>注册插件：在 Webpack 的配置文件中，将插件实例注册到 Webpack 中。</li></ol><pre class="code-block"><code class="language-javascript">const MyPlugin = require(&#39;./my-plugin&#39;);
+
+module.exports = {
+  plugins: [new MyPlugin()]
+};
+</code></pre><p>以上是使用 Tapable 的基本流程，通过 Tapable 可以监听到编译过程中的各个事件，并对编译过程进行修改，从而实现各种插件。以下是一些常见的 Tapable 类型和用法：</p><ul><li>SyncHook：同步 Hook，按照注册的顺序同步执行所有回调函数。</li></ul><pre class="code-block"><code class="language-javascript">const { SyncHook } = require(&#39;tapable&#39;);
+
+const hook = new SyncHook([&#39;arg1&#39;, &#39;arg2&#39;]);
+
+hook.tap(&#39;MyPlugin&#39;, (arg1, arg2) =&gt; {
+  console.log(`Hook is triggered with arguments: ${arg1}, ${arg2}`);
+});
+
+hook.tap(&#39;MyPlugin&#39;, (arg1, arg2) =&gt; {
+  console.log(&#39;Second callback is called&#39;);
+});
+
+hook.call(&#39;Hello&#39;, &#39;world&#39;);
+// Hook is triggered with arguments: Hello, world
+// Second callback is called
+</code></pre><ul><li>AsyncParallelHook：异步 Hook，按照注册的顺序异步执行所有回调函数，不关心回调函数的返回值。</li></ul><pre class="code-block"><code class="language-javascript">const { AsyncParallelHook } = require(&#39;tapable&#39;);
+
+const hook = new AsyncParallelHook([&#39;arg1&#39;, &#39;arg2&#39;]);
+
+hook.tap(&#39;MyPlugin&#39;, (arg1, arg2, callback) =&gt; {
+  setTimeout(() =&gt; {
+    console.log(`Hook is triggered with arguments: ${arg1}, ${arg2}`);
+    callback();
+  }, 1000);
+});
+
+hook.tap(&#39;MyPlugin&#39;, (arg1, arg2, callback) =&gt; {
+  setTimeout(() =&gt; {
+    console.log(&#39;Second callback is called&#39;);
+    callback();
+  }, 500)
+})
+</code></pre><h3>Tapable 是如何实现的？代码简单实现一下？</h3><p>Webpack Tapable 是基于发布-订阅模式的一个插件系统，它提供了一组钩子函数，让插件可以在相应的时机执行自己的逻辑。</p><p>下面是一个简单的自定义 Tapable 的实现：</p><pre class="code-block"><code class="language-javascript">class Tapable {
+  constructor() {
+    this.hooks = {};
+  }
+
+  // 注册事件监听函数
+  tap(name, callback) {
+    if (!this.hooks[name]) {
+      this.hooks[name] = [];
+    }
+    this.hooks[name].push(callback);
+  }
+
+  // 触发事件
+  call(name, ...args) {
+    const callbacks = this.hooks[name];
+    if (callbacks &amp;&amp; callbacks.length) {
+      callbacks.forEach((callback) =&gt; callback(...args));
+    }
+  }
+}
+</code></pre><p>在这个例子中，我们定义了一个 <code>Tapable</code> 类，它有一个 <code>hooks</code> 对象属性，用于存储各个事件对应的监听函数。然后我们定义了 <code>tap</code> 方法，用于注册事件监听函数，以及 <code>call</code> 方法，用于触发事件。</p><p>下面是一个使用自定义 Tapable 的例子：</p><pre class="code-block"><code class="language-javascript">const tapable = new Tapable();
+
+tapable.tap(&#39;event1&#39;, (arg1, arg2) =&gt; {
+  console.log(&#39;event1 is triggered with arguments:&#39;, arg1, arg2);
+});
+
+tapable.tap(&#39;event2&#39;, (arg1, arg2) =&gt; {
+  console.log(&#39;event2 is triggered with arguments:&#39;, arg1, arg2);
+});
+
+tapable.call(&#39;event1&#39;, &#39;hello&#39;, &#39;world&#39;);
+tapable.call(&#39;event2&#39;, &#39;foo&#39;, &#39;bar&#39;);
+</code></pre><p>在这个例子中，我们定义了两个事件 <code>event1</code> 和 <code>event2</code>，并为它们注册了监听函数。当我们调用 <code>call</code> 方法触发事件时，注册的监听函数就会依次执行。</p><p>这个自定义 Tapable 的实现虽然简单，但它体现了 Tapable 的设计思路和核心功能。在实际使用中，Webpack 的 Tapable 提供了更多的功能和钩子，可以满足不同场景的需求。</p><h2>Comments / Answers</h2><hr /><p><strong>yanlele</strong> at 2023-04-12T14:56:38Z</p><p>可以参考文档： https://juejin.cn/post/7216604612404052026</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

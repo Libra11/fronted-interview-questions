@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AMD 和 CMD  模块化有和区别？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;AMD（Asynchronous Module Definition）和CMD（Common Module Definition）都是JavaScript模块化方案。它们的主要区别在于对依赖的处理方式上不同。&lt;/p&gt;&lt;p&gt;AMD是在require.js推广过程中诞生的，它的" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="AMD 和 CMD  模块化有和区别？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;AMD（Asynchronous Module Definition）和CMD（Common Module Definition）都是JavaScript模块化方案。它们的主要区别在于对依赖的处理方式上不同。&lt;/p&gt;&lt;p&gt;AMD是在require.js推广过程中诞生的，它的特点是提前执行，强调依赖前置。也就是说，在定义模块时就需要声明其所有依赖的模块。它的语法如下：&lt;/p&gt;&lt;pre clas" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/204" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>AMD 和 CMD  模块化有和区别？</h1>
+      <div class="subtitle">工程化 · 工程化 · 腾讯</div>
+      <div class="meta">创建：2023-03-26T14:08:39Z · 更新：2023-03-26T14:11:05Z</div>
+    </div>
+    <article class="content markdown-body"><p>AMD（Asynchronous Module Definition）和CMD（Common Module Definition）都是JavaScript模块化方案。它们的主要区别在于对依赖的处理方式上不同。</p><p>AMD是在require.js推广过程中诞生的，它的特点是提前执行，强调依赖前置。也就是说，在定义模块时就需要声明其所有依赖的模块。它的语法如下：</p><pre class="code-block"><code class="language-javascript">define([&#39;dependency1&#39;, &#39;dependency2&#39;], function(dependency1, dependency2) {
+  // 模块的定义
+});
+</code></pre><p>CMD是在Sea.js推广过程中诞生的，它和AMD非常相似，但是更加懒惰，是依赖就近，延迟执行。也就是说，在模块中需要用到依赖时，才去引入依赖。它的语法如下：</p><pre class="code-block"><code class="language-javascript">define(function(require, exports, module) {
+  var dependency1 = require(&#39;dependency1&#39;);
+  var dependency2 = require(&#39;dependency2&#39;);
+  // 模块的定义
+});
+</code></pre><p>简单来说，AMD是提前执行、依赖前置，CMD是延迟执行、依赖就近。两种模块化方案各有优缺点，选择哪种模块化方案需要根据实际情况和个人偏好进行考虑。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>`DOMContentLoaded`事件和`load`事件有什么区别【热度: 210】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：DOMContentLoaded 和 onload 事件&lt;/p&gt;&lt;p&gt;&lt;code&gt;DOMContentLoaded&lt;/code&gt;事件和&lt;code&gt;load&lt;/code&gt;事件主要有以下区别：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、触发时机&lt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="`DOMContentLoaded`事件和`load`事件有什么区别【热度: 210】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：DOMContentLoaded 和 onload 事件&lt;/p&gt;&lt;p&gt;&lt;code&gt;DOMContentLoaded&lt;/code&gt;事件和&lt;code&gt;load&lt;/code&gt;事件主要有以下区别：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、触发时机&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;code&gt;DOMContentLoaded&lt;/code&gt;事件：&lt;/li&gt;&lt;/o" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1003" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>`DOMContentLoaded`事件和`load`事件有什么区别【热度: 210】</h1>
+      <div class="subtitle">web应用场景 · web应用场景</div>
+      <div class="meta">创建：2024-10-18T13:59:39Z · 更新：2024-10-18T13:59:39Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：DOMContentLoaded 和 onload 事件</p><p><code>DOMContentLoaded</code>事件和<code>load</code>事件主要有以下区别：</p><p><strong>一、触发时机</strong></p><ol><li><code>DOMContentLoaded</code>事件：</li></ol><ul><li>触发时机是在文档的 DOM（文档对象模型）完全加载和解析完成后，不等待样式表、图片和子框架等外部资源的加载完成。这意味着当 HTML 结构被完全解析，并且可以通过 JavaScript 访问和操作 DOM 元素时，该事件就会触发。</li><li>例如，当打开一个网页时，浏览器首先下载 HTML 文档并进行解析。一旦 HTML 文档的解析完成，<code>DOMContentLoaded</code>事件就会触发，此时可以立即执行一些与 DOM 操作相关的 JavaScript 代码，而不必等待页面上的所有图像和其他资源加载完毕。</li></ul><ol><li><code>load</code>事件：</li></ol><ul><li>触发时机是在整个网页（包括所有的资源如样式表、图片、脚本等）完全加载完成后。这意味着不仅 HTML 文档的 DOM 结构要被加载和解析，而且所有的外部资源（如图片、CSS 文件、JavaScript 文件等）也必须完全下载并加载到浏览器中，该事件才会触发。</li><li>例如，在一个包含大量图片和复杂样式表的网页中，<code>load</code>事件可能会在所有这些资源都加载完成后才触发，这可能需要相对较长的时间，具体取决于网络速度和资源的大小。</li></ul><p><strong>二、用途</strong></p><ol><li><code>DOMContentLoaded</code>事件：</li></ol><ul><li>通常用于在 DOM 准备好后尽快执行一些关键的 JavaScript 代码，这些代码可能需要操作 DOM 元素或设置事件监听器，但不需要等待所有外部资源的加载。这样可以提高页面的交互性和响应速度，因为用户可以在页面的主要内容加载完成后就开始与页面进行交互，而不必等待所有资源加载完毕。</li><li>例如，可以在<code>DOMContentLoaded</code>事件的回调函数中初始化页面的布局、设置表单验证规则或显示一些初始的动画效果。</li></ul><ol><li><code>load</code>事件：</li></ol><ul><li>主要用于在确保整个页面的所有资源都加载完成后执行一些特定的操作，这些操作可能依赖于所有的资源都可用。例如，在一个需要确保所有图片都加载完成后才能正确显示的画廊页面中，可以使用<code>load</code>事件来触发图片的展示动画或调整页面布局以适应所有图片的尺寸。</li><li>另外，<code>load</code>事件也可以用于在页面完全加载后进行一些性能监测或统计工作，例如记录页面的加载时间或检查所有资源是否正确加载。</li></ul><p><strong>三、性能影响</strong></p><ol><li><code>DOMContentLoaded</code>事件：</li></ol><ul><li>由于它在 DOM 加载和解析完成后就触发，不等待外部资源的加载，所以可以更快地执行相关的 JavaScript 代码，减少用户等待的时间。这对于提高页面的性能和用户体验非常重要，特别是在网络速度较慢或页面包含大量资源的情况下。</li><li>例如，如果一个页面有很多大尺寸的图片，使用<code>DOMContentLoaded</code>事件可以让用户在图片还在加载的过程中就开始与页面进行交互，而不必等待所有图片都加载完成。</li></ul><ol><li><code>load</code>事件：</li></ol><ul><li>因为它需要等待所有资源的加载完成，所以可能会导致页面的加载时间较长，特别是在网络状况不佳或资源较多的情况下。然而，在某些情况下，确保所有资源都加载完成是必要的，所以<code>load</code>事件仍然有其特定的用途。</li><li>例如，如果一个页面的布局或功能依赖于所有的样式表和图片都加载完成，那么使用<code>load</code>事件可以确保在执行相关代码时所有资源都可用，避免出现布局错误或功能不正常的情况。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

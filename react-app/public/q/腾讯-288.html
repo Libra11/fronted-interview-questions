@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[webpack] externals 作用是啥？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;code&gt;webpack&lt;/code&gt; 中的 &lt;code&gt;externals&lt;/code&gt; 配置项用于指定在打包时需要排除掉的模块，这些模块会被视为外部依赖，即不会被打包进最终的输出文件中，而是通过其他方式引入。&lt;/p&gt;&lt;p&gt;使用 &lt;code&gt;externals&lt;/cod" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[webpack] externals 作用是啥？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;code&gt;webpack&lt;/code&gt; 中的 &lt;code&gt;externals&lt;/code&gt; 配置项用于指定在打包时需要排除掉的模块，这些模块会被视为外部依赖，即不会被打包进最终的输出文件中，而是通过其他方式引入。&lt;/p&gt;&lt;p&gt;使用 &lt;code&gt;externals&lt;/code&gt; 配置项可以使得打包后的代码文件更小，同时也可以在运行时从外部获取依赖，例如通过 CDN、全局变量或者通过 &lt;cod" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/288" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[webpack] externals 作用是啥？</h1>
+      <div class="subtitle">腾讯 · 工程化 · 腾讯</div>
+      <div class="meta">创建：2023-04-16T14:30:00Z · 更新：2023-04-16T14:30:00Z</div>
+    </div>
+    <article class="content markdown-body"><p><code>webpack</code> 中的 <code>externals</code> 配置项用于指定在打包时需要排除掉的模块，这些模块会被视为外部依赖，即不会被打包进最终的输出文件中，而是通过其他方式引入。</p><p>使用 <code>externals</code> 配置项可以使得打包后的代码文件更小，同时也可以在运行时从外部获取依赖，例如通过 CDN、全局变量或者通过 <code>require</code> 的方式等。</p><p>举个例子，假设我们需要在项目中引入 <code>jquery</code> 库，但我们并不想在打包的过程中将其打包进最终的输出文件中，而是从外部引入。我们可以通过以下的配置来实现：</p><pre class="code-block"><code class="language-js">module.exports = {
+  // ...
+  externals: {
+    jquery: &#39;jQuery&#39;
+  }
+};
+</code></pre><p>这里的 <code>externals</code> 配置项告诉 <code>webpack</code> 在打包时忽略 <code>jquery</code> 模块的引用，而在代码运行时，我们需要手动将 <code>jquery</code> 通过 <code>script</code> 标签引入，并将其暴露在全局变量 <code>jQuery</code> 下，例如：</p><pre class="code-block"><code class="language-html">&lt;script src=&quot;https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+  window.jQuery = jQuery;
+&lt;/script&gt;
+</code></pre><p>这样在代码中引入 <code>jquery</code> 模块时，<code>webpack</code> 就会将其作为外部依赖进行处理，而不是将其打包进输出文件中。</p><p>需要注意的是，使用 <code>externals</code> 配置项需要谨慎，因为如果在运行时无法正确获取到指定的外部依赖，就会导致代码运行出错。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

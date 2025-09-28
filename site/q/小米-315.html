@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>npx 了解多少？【热度: 290】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：npx 原理、npx 作用、npx 执行&lt;/p&gt;&lt;p&gt;&lt;strong&gt;npx 是什么&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;npx是一个由Node.js官方提供的用于快速执行npm包中的可执行文件的工具。它可以帮助我们在不全局安装某些包的情" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="npx 了解多少？【热度: 290】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：npx 原理、npx 作用、npx 执行&lt;/p&gt;&lt;p&gt;&lt;strong&gt;npx 是什么&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;npx是一个由Node.js官方提供的用于快速执行npm包中的可执行文件的工具。它可以帮助我们在不全局安装某些包的情况下，直接运行该包提供的命令行工具。npx会在执行时，检查本地项目中是否安装了对应的依赖，如果没有安装则会自动下载安装，" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/315" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>npx 了解多少？【热度: 290】</h1>
+      <div class="subtitle">小米 · 工程化 · 小米</div>
+      <div class="meta">创建：2023-04-26T15:15:58Z · 更新：2023-04-26T15:16:44Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：npx 原理、npx 作用、npx 执行</p><p><strong>npx 是什么</strong></p><p>npx是一个由Node.js官方提供的用于快速执行npm包中的可执行文件的工具。它可以帮助我们在不全局安装某些包的情况下，直接运行该包提供的命令行工具。npx会在执行时，检查本地项目中是否安装了对应的依赖，如果没有安装则会自动下载安装，并执行命令。如果本地已经存在该依赖，则直接执行命令。</p><p>使用npx时，可以在命令行中输入要执行的包名加上其参数，例如：</p><pre class="code-block"><code class="language-shell">npx create-react-app my-app
+</code></pre><p>以上命令会在本地下载并运行create-react-app包中的可执行文件，创建一个名为my-app的React应用程序。</p><p><strong>npx 会把远端的包下载到本地吗?</strong></p><p>npx 不会像 npm 或 yarn 一样将包下载到本地的 node_modules 目录中。相反，它会在执行命令时，在本地缓存中寻找并下载包，然后执行该包中的命令。这样可以避免在开发过程中在全局安装大量的包，同时也可以确保使用的是最新版本的包。</p><p><strong>npx 执行完成之后， 下载的包是否会被删除？</strong></p><p>是的，npx会在执行完命令后删除下载的包。这是因为npx会在执行命令之前，将需要执行的包下载到一个临时目录中，并在执行完毕后删除该目录。这样可以避免在本地留下不必要的依赖包。如果需要保留依赖包，可以使用--no-cleanup选项来禁止删除下载的包。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

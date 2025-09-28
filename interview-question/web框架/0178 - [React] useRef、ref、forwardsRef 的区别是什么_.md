@@ -1,0 +1,21 @@
+# [React] useRef、ref、forwardsRef 的区别是什么?
+
+- Issue: #178
+- State: open
+- Labels: web框架
+- Author: yanlele
+- URL: https://github.com/pro-collection/interview-question/issues/178
+- Created: 2023-03-26T08:29:41Z
+- Updated: 2023-03-26T08:36:50Z
+
+## Body
+
+在 React 中，`ref` 是一种用于访问 DOM 元素或组件实例的方法，`useRef` 和 `forwardRef` 是 `ref` 的两个相关 Hook 和高阶组件。
+
+1. `ref`：`ref` 是 React 中用于访问 DOM 元素或组件实例的方法。在函数组件中，可以使用 `useRef` Hook 来创建一个 `ref` 对象，然后将其传递给需要引用的元素或组件。在类组件中，可以直接在类中定义 `ref` 属性，并将其设置为元素或组件的实例。
+
+2. `useRef`：`useRef` 是 React 中的 Hook，用于创建一个 `ref` 对象，并在组件生命周期内保持其不变。`useRef` 可以用于访问 DOM 元素或组件实例，并且在每次渲染时都会返回同一个 `ref` 对象。通常情况下，`useRef` 更适合用于存储不需要触发重新渲染的值，例如定时器的 ID 或者其他副作用。
+
+3. `forwardRef`：`forwardRef` 是一个高阶组件，用于将 `ref` 属性转发给其子组件。通常情况下，如果一个组件本身并不需要使用 `ref` 属性，但是其子组件需要使用 `ref` 属性，那么可以使用 `forwardRef` 来传递 `ref` 属性。`forwardRef` 接受一个函数作为参数，并将 `ref` 对象作为第二个参数传递给该函数，然后返回一个新的组件，该组件接受 `ref` 属性并将其传递给子组件。
+
+简而言之，`ref` 是 React 中访问 DOM 元素或组件实例的方法，`useRef` 是一个 Hook，用于创建并保持一个不变的 `ref` 对象，`forwardRef` 是一个高阶组件，用于传递 `ref` 属性给子组件。

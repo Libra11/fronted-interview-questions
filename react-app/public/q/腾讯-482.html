@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何搭建一套灰度系统？【热度: 1,226】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：灰度上线&lt;/p&gt;&lt;p&gt;这个是一个非常复杂的话题， 没法直接给出答案， 进提供一些实现的思路：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;什么是灰度&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;灰度系统可以把流量划分成多份，一份走新版本代码，一份走老版本代码。&lt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何搭建一套灰度系统？【热度: 1,226】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：灰度上线&lt;/p&gt;&lt;p&gt;这个是一个非常复杂的话题， 没法直接给出答案， 进提供一些实现的思路：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;什么是灰度&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;灰度系统可以把流量划分成多份，一份走新版本代码，一份走老版本代码。&lt;/p&gt;&lt;p&gt;而且灰度系统支持设置流量的比例，比如可以把走新版本代码的流程设置为 5%，没啥问题再放到 10%，50%，最" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/482" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何搭建一套灰度系统？【热度: 1,226】</h1>
+      <div class="subtitle">腾讯 · 工程化 · 腾讯</div>
+      <div class="meta">创建：2023-07-23T04:18:11Z · 更新：2023-07-23T04:18:11Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：灰度上线</p><p>这个是一个非常复杂的话题， 没法直接给出答案， 进提供一些实现的思路：</p><p><strong>什么是灰度</strong></p><p>灰度系统可以把流量划分成多份，一份走新版本代码，一份走老版本代码。</p><p>而且灰度系统支持设置流量的比例，比如可以把走新版本代码的流程设置为 5%，没啥问题再放到 10%，50%，最后放到 100% 全量。</p><p>这样可以把出现问题的影响降到最低。</p><p>而且灰度系统不止这一个用途，比如产品不确定某些改动是不是要的，就要做 AB 实验，也就是要把流量分成两份，一份走 A 版本代码，一份走 B 版本代码。</p><p><strong>实现思路</strong></p><ol><li>后端支持：灰度上线需要后端的支持，通过后端的灰度发布控制，可以将不同版本的前端应用分配给不同用户。</li></ol><ol><li>搭建网关层： 支持一部分用户分发到 A 版本， 一部分用户分发到 B 版本 （通常使用 nginx 搭建）。</li></ol><ol><li>版本管控机制： 使用版本控制系统（如Git、package.version、hash version 等）来管理不同版本的前端应用代码。在灰度上线时，可以根据需要切换到特定的版本。</li></ol><ol><li>动态路由：通过动态路由配置，将用户请求导向不同版本的前端应用。例如，可以使用Nginx或其他反向代理服务器来实现动态路由。</li></ol><ol><li>流量染色：使用Cookie或Session来控制用户的灰度版本访问。可以通过设置不同的Cookie值或Session标记，将用户分配到不同的灰度版本。</li></ol><ol><li>更复杂的漏量配置： 例如要根据部门、权限、角色等方式来开放灰度；可以使用让用户访问应用的时候， 查询其权限和角色， 根据权限和角色来分发不同的页面路由。</li></ol><p><strong>参考文档</strong></p><ul><li><a href="https://juejin.cn/post/7250914419579944997" target="_blank" rel="noopener">基于 Nginx 实现一个灰度上线系统</a></li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

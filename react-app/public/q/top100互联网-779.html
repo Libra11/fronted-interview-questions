@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] 循环渲染中 为什么推荐不用 index 做 key【热度: 320】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：React 循环渲染问题&lt;/p&gt;&lt;p&gt;在 React 的循环渲染中，不推荐使用数组的&lt;code&gt;index&lt;/code&gt;（索引）作为元素的&lt;code&gt;key&lt;/code&gt;，主要基于以下几点理由：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] 循环渲染中 为什么推荐不用 index 做 key【热度: 320】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：React 循环渲染问题&lt;/p&gt;&lt;p&gt;在 React 的循环渲染中，不推荐使用数组的&lt;code&gt;index&lt;/code&gt;（索引）作为元素的&lt;code&gt;key&lt;/code&gt;，主要基于以下几点理由：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;列表项顺序的变化&lt;/strong&gt;：如果列表项的顺序会发生变化（如排序、增加、删除操作），使用&lt;code&gt;index&lt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/779" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] 循环渲染中 为什么推荐不用 index 做 key【热度: 320】</h1>
+      <div class="subtitle">TOP100互联网 · web框架 · TOP100互联网</div>
+      <div class="meta">创建：2024-07-12T11:50:53Z · 更新：2024-07-12T11:51:17Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：React 循环渲染问题</p><p>在 React 的循环渲染中，不推荐使用数组的<code>index</code>（索引）作为元素的<code>key</code>，主要基于以下几点理由：</p><ol><li><strong>列表项顺序的变化</strong>：如果列表项的顺序会发生变化（如排序、增加、删除操作），使用<code>index</code>作为<code>key</code>可能会导致性能问题和组件状态的错误。这是因为 React 依赖<code>key</code>来判断哪些元素是新元素、哪些被移除，以及哪些元素的位置发生了变化。当使用<code>index</code>作为<code>key</code>时，即使数据项的内容改变了，<code>key</code>仍然保持不变，导致 React 无法正确识别和优化渲染。</li></ol><ol><li><strong>性能问题</strong>：当列表项发生变动时，如果使用<code>index</code>作为<code>key</code>，React 可能会做更多的 DOM 操作来更新视图，因为它无法准确地通过<code>key</code>识别哪些元素是新的，哪些元素被移动了位置。这可能导致不必要的重渲染和性能下降。</li></ol><ol><li><strong>组件状态的问题</strong>：对于使用 state 的组件，如果列表项的顺序改变，使用<code>index</code>作为<code>key</code>可能会导致状态错乱。例如，当你删除一个列表项时，后面的项会移上来，它们的<code>index</code>改变了，如果它们有独立的状态，这时会由于<code>index</code>作为<code>key</code>使得状态与视图匹配错误。</li></ol><p>因此，推荐的做法是使用唯一的、稳定的标识符（如数据库中的 id 或者具有唯一性的 hash 值等）作为<code>key</code>，这样无论数据如何变化，每个元素的<code>key</code>都是稳定的，可以帮助 React 更准确、更高效地进行 DOM 的比对和更新。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

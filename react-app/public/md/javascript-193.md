@@ -1,0 +1,72 @@
+# 请分别用深度优先思想和广度优先思想实现一个拷贝函数？
+
+深度优先思想实现拷贝函数可以采用递归的方式遍历对象或数组，对每个元素进行复制。如果当前元素是一个对象或数组，则递归调用拷贝函数，如果是基本数据类型则直接进行复制。以下是一个用深度优先思想实现拷贝函数的示例代码：
+
+```javascript
+function deepClone(obj) {
+  // 如果obj是基本数据类型或null，则直接返回
+  if (typeof obj !== 'object' || obj === null) {
+    return obj;
+  }
+
+  let result;
+  // 判断obj是数组还是对象
+  if (Array.isArray(obj)) {
+    result = [];
+  } else {
+    result = {};
+  }
+
+  // 递归遍历obj的每个属性或元素，并进行拷贝
+  for (let key in obj) {
+    result[key] = deepClone(obj[key]);
+  }
+
+  return result;
+}
+```
+
+广度优先思想实现拷贝函数可以使用队列的方式，将每个元素放入队列中，然后循环遍历队列。如果当前元素是一个对象或数组，则将其属性或元素放入队列中，然后继续循环遍历队列。如果是基本数据类型则直接进行复制。以下是一个用广度优先思想实现拷贝函数的示例代码：
+
+```javascript
+function breadthClone(obj) {
+  // 如果obj是基本数据类型或null，则直接返回
+  if (typeof obj !== 'object' || obj === null) {
+    return obj;
+  }
+
+  let result;
+  // 判断obj是数组还是对象
+  if (Array.isArray(obj)) {
+    result = [];
+  } else {
+    result = {};
+  }
+
+  let queue = [obj];
+  let resQueue = [result];
+
+  // 循环遍历队列
+  while (queue.length > 0) {
+    let curObj = queue.shift();
+    let curRes = resQueue.shift();
+
+    // 遍历当前元素的每个属性或元素，并进行拷贝
+    for (let key in curObj) {
+      let val = curObj[key];
+      if (typeof val === 'object' && val !== null) {
+        // 如果当前属性或元素是一个对象或数组，则将其放入队列中
+        let newVal = Array.isArray(val) ? [] : {};
+        curRes[key] = newVal;
+        queue.push(val);
+        resQueue.push(newVal);
+      } else {
+        // 如果是基本数据类型则直接进行复制
+        curRes[key] = val;
+      }
+    }
+  }
+
+  return result;
+}
+```

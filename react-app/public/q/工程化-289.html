@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[webpack] 分包的方式有哪些？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h3&gt;在 Webpack 中，可以通过以下方式进行分包&lt;/h3&gt;&lt;ol&gt;&lt;li&gt;通过 &lt;code&gt;entry&lt;/code&gt; 属性指定入口文件，在打包时，Webpack 会按照入口文件生成一个 chunk，每个 chunk 包含了一组代码块，最终生成一个或多个 bundle。&lt;/" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[webpack] 分包的方式有哪些？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h3&gt;在 Webpack 中，可以通过以下方式进行分包&lt;/h3&gt;&lt;ol&gt;&lt;li&gt;通过 &lt;code&gt;entry&lt;/code&gt; 属性指定入口文件，在打包时，Webpack 会按照入口文件生成一个 chunk，每个 chunk 包含了一组代码块，最终生成一个或多个 bundle。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li&gt;通过 &lt;code&gt;SplitChunksPlugin&lt;/code&gt; 插件对公共依赖进行分" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/289" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[webpack] 分包的方式有哪些？</h1>
+      <div class="subtitle">工程化 · 工程化</div>
+      <div class="meta">创建：2023-04-16T14:37:43Z · 更新：2023-04-16T14:37:44Z</div>
+    </div>
+    <article class="content markdown-body"><h3>在 Webpack 中，可以通过以下方式进行分包</h3><ol><li>通过 <code>entry</code> 属性指定入口文件，在打包时，Webpack 会按照入口文件生成一个 chunk，每个 chunk 包含了一组代码块，最终生成一个或多个 bundle。</li></ol><ol><li>通过 <code>SplitChunksPlugin</code> 插件对公共依赖进行分割。该插件会把公共依赖提取出来，形成一个或多个独立的 chunk，以便在多个 bundle 中共享。</li></ol><ol><li>使用动态导入（Dynamic Import）技术进行按需加载。在代码中使用 <code>import()</code> 或 <code>require.ensure()</code>，Webpack 会将这些代码块按照配置的策略进行分割，生成一个或多个独立的 chunk。</li></ol><ol><li>使用 <code>DllPlugin</code> 插件将一些不经常变化的代码提取出来，形成一个动态链接库（DLL）。在打包时，可以直接引用这个 DLL，而不必重复打包。</li></ol><ol><li>通过 <code>externals</code> 属性将一些模块声明为外部依赖。在打包时，Webpack 会跳过这些模块的打包过程，而是在运行时从外部环境中加载。</li></ol><h3>SplitChunksPlugin 是怎么对公共依赖进行分割的 ?</h3><p>Webpack的SplitChunksPlugin插件是用来对公共依赖进行分割的，其原理是将公共模块提取出来，形成一个或多个共享块，并在需要时动态加载。这个插件会分析模块之间的依赖关系，将具有相同引用模块的代码块进行提取，以便于实现缓存和更快的加载。</p><p>SplitChunksPlugin的默认配置包括以下三个块：</p><ol><li>通过异步加载（异步块）生成的代码块</li><li>与初始块（即入口点）共享的代码块</li><li>在两个或更多块之间共享的代码块</li></ol><p>其中，第二个块是最常见的，它包括从多个入口点引用的公共模块。我们可以通过以下示例来说明：</p><pre class="code-block"><code class="language-javascript">// webpack.config.js
+module.exports = {
+  entry: {
+    main: &#39;./src/main.js&#39;,
+    other: &#39;./src/other.js&#39;
+  },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: &#39;vendors&#39;,
+          chunks: &#39;all&#39;
+        }
+      }
+    }
+  }
+};
+</code></pre><p>在上面的配置中，我们定义了两个入口点<code>main</code>和<code>other</code>，并将<code>SplitChunksPlugin</code>配置为将从<code>node_modules</code>目录中引用的代码提取到名为<code>vendors</code>的代码块中。这个代码块将被引用到我们的入口点中，以便于减少加载时间和提高性能。</p><p>当我们打包时，Webpack将分析这两个入口点，并发现它们都引用了<code>node_modules</code>目录下的依赖，于是将这些依赖提取到<code>vendors</code>代码块中。我们可以在<code>main.js</code>和<code>other.js</code>中看到这样的代码：</p><pre class="code-block"><code class="language-javascript">import &#39;lodash&#39;; // 公共模块被引用
+</code></pre><p>通过这种方式，Webpack能够将公共代码提取到单独的代码块中，以便于更高效地加载和缓存。</p><h3>webpack DllPlugin 是如何提取依赖的？</h3><p>Webpack DllPlugin 是用于将某些库（例如第三方库）提前编译和打包，以便在开发和生产构建过程中减少依赖项的分析时间，提高打包速度的插件。</p><p>具体来说，DllPlugin 分为两个步骤：第一步是生成一个包含库的映射文件（manifest.json），第二步是在开发或生产构建中使用该映射文件来引入预编译的库。</p><p>DllPlugin 的基本原理是将库单独编译成一个或多个 dll 文件（动态链接库），同时生成一个 manifest.json 文件记录这些库文件的名称、路径等信息。在开发或生产构建过程中，通过引用 manifest.json 文件，将已经预编译好的库文件引入到项目中。这样可以避免在每次打包时都去分析和打包第三方库，提高构建速度。</p><p>下面是一个简单的例子：</p><p>在 webpack.config.dll.js 中定义打包的库：</p><pre class="code-block"><code class="language-lua">luaCopy codeconst path = require(&#39;path&#39;);
+const webpack = require(&#39;webpack&#39;);
+
+module.exports = {
+  mode: &#39;production&#39;,
+  entry: {
+    vendor: [&#39;react&#39;, &#39;react-dom&#39;, &#39;lodash&#39;]
+  },
+  output: {
+    path: path.join(__dirname, &#39;dist&#39;),
+    filename: &#39;[name].dll.js&#39;,
+    library: &#39;[name]&#39;
+  },
+  plugins: [
+    new webpack.DllPlugin({
+      name: &#39;[name]&#39;,
+      path: path.join(__dirname, &#39;dist&#39;, &#39;[name].manifest.json&#39;)
+    })
+  ]
+};
+</code></pre><p>然后运行 <code>webpack --config webpack.config.dll.js</code>，会生成 <code>vendor.dll.js</code> 和 <code>vendor.manifest.json</code> 文件。</p><p>在开发或生产环境中，通过引入生成的 manifest.json 文件，将预编译好的库文件引入项目中：</p><pre class="code-block"><code class="language-lua">luaCopy codeconst path = require(&#39;path&#39;);
+const webpack = require(&#39;webpack&#39;);
+
+module.exports = {
+  mode: &#39;production&#39;,
+  entry: {
+    app: &#39;./src/index.js&#39;
+  },
+  output: {
+    path: path.join(__dirname, &#39;dist&#39;),
+    filename: &#39;[name].js&#39;
+  },
+  plugins: [
+    new webpack.DllReferencePlugin({
+      manifest: require(&#39;./dist/vendor.manifest.json&#39;)
+    })
+  ]
+};
+</code></pre><p>这样，在打包过程中，webpack 会自动将 <code>vendor.dll.js</code> 中包含的第三方库从项目中分离出来，而不需要重复打包和分析这些库。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

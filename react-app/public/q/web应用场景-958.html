@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>try...catch 是否能捕获异步异常【热度: 701】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：异常处理&lt;/p&gt;&lt;p&gt;题目是：以下代码有错吗？如果有错，应该如何改正？&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;try { setTimeout(() =&amp;gt; {" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="try...catch 是否能捕获异步异常【热度: 701】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：异常处理&lt;/p&gt;&lt;p&gt;题目是：以下代码有错吗？如果有错，应该如何改正？&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;try { setTimeout(() =&amp;gt; { throw new Error(&amp;quot;err&amp;quot;); }, 200); } catch (err) { " />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/958" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>try...catch 是否能捕获异步异常【热度: 701】</h1>
+      <div class="subtitle">web应用场景 · web应用场景</div>
+      <div class="meta">创建：2024-10-07T07:23:27Z · 更新：2024-10-07T07:23:28Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：异常处理</p><p>题目是：以下代码有错吗？如果有错，应该如何改正？</p><pre class="code-block"><code class="language-js">try {
+  setTimeout(() =&gt; {
+    throw new Error(&quot;err&quot;);
+  }, 200);
+} catch (err) {
+  console.log(err);
+}
+
+try {
+  Promise.resolve().then(() =&gt; {
+    throw new Error(&quot;err&quot;);
+  });
+} catch (err) {
+  console.log(err);
+}
+</code></pre><p><strong>解答</strong></p><p>才知道 try...catch 不能异步捕获代码错误。在 JavaScript 中，setTimeout 是一个异步函数，它的回调函数会在指定的延时后被放入事件队列，等待当前执行栈清空后才执行。因此，当 setTimeout 的回调函数执行并抛出错误时，try...catch 已经执行完毕，无法捕捉到异步回调中的错误。</p><p>正确的做法是在异步操作中直接处理错误，例如使用回调函数、Promises 或者 async/await 结合 try...catch</p><pre class="code-block"><code class="language-js">new Promise((resolve, reject) =&gt; {
+  setTimeout(() =&gt; {
+    try {
+      throw new Error(&quot;err&quot;);
+    } catch (err) {
+      reject(err);
+    }
+  }, 200);
+})
+  .then(() =&gt; {
+    // 正常执行时的处理逻辑
+  })
+  .catch((err) =&gt; {
+    console.log(err); // 这里会捕捉到错误
+  });
+</code></pre><p>至于第二个例子，尝试使用 try...catch 来捕捉一个在 Promise 链中抛出的错误。这种方式同样是无效的，因为 try...catch 不能捕捉到在 Promise 链中的异步错误。</p><p>在 Promise 中抛出一个错误（例如通过 throw 语句）会导致 Promise 被拒绝（或失败）。要正确处理这个错误，需要在 Promise 链中使用.catch 方法或者在一个 async 函数中使用 try...catch。</p><pre class="code-block"><code class="language-js">// 方法一
+Promise.resolve()
+  .then(() =&gt; {
+    throw new Error(&quot;err&quot;);
+  })
+  .catch((err) =&gt; {
+    console.log(err); // 这里会捕捉到错误
+  });
+
+// 方法二
+async function handleError() {
+  try {
+    await Promise.resolve().then(() =&gt; {
+      throw new Error(&quot;err&quot;);
+    });
+  } catch (err) {
+    console.log(err); // 这里会捕捉到错误
+  }
+}
+
+handleError();
+</code></pre><p><strong>补充</strong></p><p><img alt="1" src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0729c13766834971947e0f9c78a00b43~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.avis#?w=686&amp;h=182&amp;s=24314&amp;e=png&amp;b=fcfcfc" /></p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ajax 是否支持取消请求 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;&lt;code&gt;xhr.abort()&lt;/code&gt; 方法用于中止当前的请求&lt;/strong&gt;。调用该方法会导致 XHR 对象触发 abort 事件，且触发 readystatechange 事件的处理函数，xhr.readyState 的值将变为 0。&lt;/p&gt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="ajax 是否支持取消请求" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;&lt;code&gt;xhr.abort()&lt;/code&gt; 方法用于中止当前的请求&lt;/strong&gt;。调用该方法会导致 XHR 对象触发 abort 事件，且触发 readystatechange 事件的处理函数，xhr.readyState 的值将变为 0。&lt;/p&gt;&lt;p&gt;下面是一个示例代码，展示了如何使用标志位实现取消请求的效果：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/401" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>ajax 是否支持取消请求</h1>
+      <div class="subtitle">小米 · 网络 · 小米</div>
+      <div class="meta">创建：2023-06-02T16:09:51Z · 更新：2023-06-02T16:25:35Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong><code>xhr.abort()</code> 方法用于中止当前的请求</strong>。调用该方法会导致 XHR 对象触发 abort 事件，且触发 readystatechange 事件的处理函数，xhr.readyState 的值将变为 0。</p><p>下面是一个示例代码，展示了如何使用标志位实现取消请求的效果：</p><pre class="code-block"><code class="language-javascript">let isRequestCanceled = false;
+
+function sendGetRequest(url, callback) {
+  const xhr = new XMLHttpRequest();
+  xhr.open(&#39;GET&#39;, url, true);
+
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === XMLHttpRequest.DONE &amp;&amp; !isRequestCanceled) {
+      if (xhr.status === 200) {
+        // 请求成功
+        const response = JSON.parse(xhr.responseText);
+        callback(null, response);
+      } else {
+        // 请求失败
+        const error = new Error(`Request failed with status ${xhr.status}`);
+        callback(error, null);
+      }
+    }
+  };
+
+  xhr.send();
+
+  // 取消请求
+  function cancelRequest() {
+    if (xhr.readyState !== XMLHttpRequest.DONE) {
+      xhr.abort();
+      isRequestCanceled = true;
+      callback(new Error(&#39;Request canceled&#39;), null);
+    }
+  }
+
+  // 返回取消请求的函数
+  return cancelRequest;
+}
+
+// 使用示例
+const apiUrl = &#39;https://api.example.com/data&#39;;
+const cancelRequest = sendGetRequest(apiUrl, (error, response) =&gt; {
+  if (error) {
+    console.error(&#39;Error:&#39;, error);
+  } else {
+    console.log(&#39;Response:&#39;, response);
+  }
+});
+
+// 取消请求
+cancelRequest();
+</code></pre><p>在上述示例代码中，添加了一个 <code>cancelRequest</code> 函数用于取消请求。该函数会在请求发送后立即返回，并中止请求的发送。同时，将标志位 <code>isRequestCanceled</code> 设为 true，并通过回调函数返回一个错误对象，表示请求被取消。</p><p>需要注意的是，虽然通过标志位模拟了请求的取消，但实际上请求已经发送到服务器并得到了响应。只是在客户端这边忽略了响应结果。在真实的网络请求中，服务器仍然会继续处理请求并返回响应，但客户端会忽略该响应。</p><p><strong>取消ajax请求的意义</strong></p><ul><li>已发出的请求可能仍然会到达后端</li></ul><ul><li>取消后续的回调处理，避免多余的回调处理，以及特殊情况，先发出的后返回，导致回调中的数据错误覆盖</li></ul><ul><li>取消loading效果，以及该请求的其他交互效果，特别是在单页应用中，A页面跳转到B页面之后，A页面的请求应该取消，否则回调中的一些处理可能影响B页面</li></ul><ul><li>超时处理，错误处理等都省去了，节约资源</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

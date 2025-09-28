@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>实现一个处理长字符串的函数【热度: 200】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;blockquote&gt;描述&lt;/blockquote&gt;&lt;blockquote&gt;&lt;/blockquote&gt;&lt;blockquote&gt;实现一个处理字符串的函数: 字符串长度不能超过 256，如果超过 256， 字符串中间字符 【...】处理，且处理结果字符串长度还是为 256&lt;/blo" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="实现一个处理长字符串的函数【热度: 200】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;blockquote&gt;描述&lt;/blockquote&gt;&lt;blockquote&gt;&lt;/blockquote&gt;&lt;blockquote&gt;实现一个处理字符串的函数: 字符串长度不能超过 256，如果超过 256， 字符串中间字符 【...】处理，且处理结果字符串长度还是为 256&lt;/blockquote&gt;&lt;p&gt;以下是使用 JavaScript 实现的函数：&lt;/p&gt;&lt;pre class=&quot;code-block" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1053" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>实现一个处理长字符串的函数【热度: 200】</h1>
+      <div class="subtitle">代码实现 · 代码实现/算法</div>
+      <div class="meta">创建：2024-11-06T15:53:43Z · 更新：2024-11-06T15:53:44Z</div>
+    </div>
+    <article class="content markdown-body"><blockquote>描述</blockquote><blockquote></blockquote><blockquote>实现一个处理字符串的函数: 字符串长度不能超过 256，如果超过 256， 字符串中间字符 【...】处理，且处理结果字符串长度还是为 256</blockquote><p>以下是使用 JavaScript 实现的函数：</p><pre class="code-block"><code class="language-javascript">function processString(str) {
+  if (str.length &lt;= 256) {
+    return str;
+  }
+  const halfLength = Math.floor((256 - 3) / 2);
+  return str.slice(0, halfLength) + &quot;... &quot; + str.slice(str.length - halfLength);
+}
+</code></pre><p>这个函数首先检查输入字符串的长度是否超过 256。如果不超过，则直接返回原字符串。如果超过，它会计算出前后两端保留的字符长度，使得加上中间的“... ”后总长度为 256。然后，它从字符串的开头和结尾分别截取相应长度的子字符串，并将它们与“... ”拼接起来返回。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

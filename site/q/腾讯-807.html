@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] hooks 调用是可以写在 if 语句里面吗【热度: 337】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：hooks 调用问题&lt;/p&gt;&lt;p&gt;&lt;strong&gt;hooks 写在 if 语句里面， 也是可以执行的， 但是会带来很多不可预期的异常&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;在 React 中，Hooks 的调用不应该直接写在 &lt;code&gt;i" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] hooks 调用是可以写在 if 语句里面吗【热度: 337】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：hooks 调用问题&lt;/p&gt;&lt;p&gt;&lt;strong&gt;hooks 写在 if 语句里面， 也是可以执行的， 但是会带来很多不可预期的异常&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;在 React 中，Hooks 的调用不应该直接写在 &lt;code&gt;if&lt;/code&gt; 语句里面。&lt;/p&gt;&lt;p&gt;Hooks 必须在函数组件的顶层（不在循环、条件判断或嵌套函数中）按顺序调用。" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/807" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] hooks 调用是可以写在 if 语句里面吗【热度: 337】</h1>
+      <div class="subtitle">腾讯 · web框架 · 腾讯</div>
+      <div class="meta">创建：2024-08-10T02:32:59Z · 更新：2024-08-10T02:32:59Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：hooks 调用问题</p><p><strong>hooks 写在 if 语句里面， 也是可以执行的， 但是会带来很多不可预期的异常</strong></p><p>在 React 中，Hooks 的调用不应该直接写在 <code>if</code> 语句里面。</p><p>Hooks 必须在函数组件的顶层（不在循环、条件判断或嵌套函数中）按顺序调用。这是因为 React 需要在每次渲染时以相同的顺序调用 Hooks，以正确管理组件的状态和副作用。</p><p>如果在 <code>if</code> 语句中调用 Hooks，可能会导致以下错误：</p><ol><li>状态不一致：由于渲染顺序的不确定性，可能会导致状态的更新和获取出现不一致的情况。</li></ol><ol><li>难以预测的行为：React 依赖于 Hooks 的调用顺序来正确管理组件的内部逻辑，如果在条件语句中调用，可能会导致难以理解和调试的问题。</li></ol><p>例如，下面的代码是错误的：</p><pre class="code-block"><code class="language-jsx">function MyComponent() {
+  if (someCondition) {
+    const [count, setCount] = useState(0); // 错误：不允许在条件语句中调用 useState
+  }
+
+  // 后续代码
+}
+</code></pre><p>为了遵循规则，应该将 Hooks 的调用始终保持在函数组件的最顶层。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

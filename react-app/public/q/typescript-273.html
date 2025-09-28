@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ts 中 type 和 interface的区别 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h3&gt;相同点&lt;/h3&gt;&lt;ol&gt;&lt;li&gt;都可以描述一个对象或者函数&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;interface&lt;/li&gt;&lt;/ul&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-typescript&quot;&gt;interface Us" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="ts 中 type 和 interface的区别" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h3&gt;相同点&lt;/h3&gt;&lt;ol&gt;&lt;li&gt;都可以描述一个对象或者函数&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;interface&lt;/li&gt;&lt;/ul&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-typescript&quot;&gt;interface User { name: string age: number } interface SetUser { (name: s" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/273" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>ts 中 type 和 interface的区别</h1>
+      <div class="subtitle">TypeScript · TypeScript · 腾讯</div>
+      <div class="meta">创建：2023-04-09T07:29:21Z · 更新：2023-08-06T07:44:59Z</div>
+    </div>
+    <article class="content markdown-body"><h3>相同点</h3><ol><li>都可以描述一个对象或者函数</li></ol><ul><li>interface</li></ul><pre class="code-block"><code class="language-typescript">interface User {
+  name: string
+  age: number
+}
+
+interface SetUser {
+  (name: string, age: number): void;
+}
+</code></pre><ul><li>ts</li></ul><pre class="code-block"><code class="language-typescript">type User = {
+  name: string
+  age: number
+};
+
+type SetUser = (name: string, age: number) =&gt; void;
+</code></pre><ol><li>都允许拓展（extends） interface 和 type 都可以拓展，并且两者并不是相互独立的，也就是说 interface 可以 extends type, type 也可以 extends interface 。</li></ol><h3>差异点</h3><ul><li><strong>type</strong></li><li>type 可以声明基本类型别名，联合类型，元组等类型</li><li>type 语句中还可以使用 typeof 获取实例的 类型进行赋值</li><li>其他骚操作</li></ul><pre class="code-block"><code class="language-typescript">type StringOrNumber = string | number;
+type Text = string | { text: string };
+type NameLookup = Dictionary&lt;string, Person&gt;;
+type Callback&lt;T&gt; = (data: T) =&gt; void;
+type Pair&lt;T&gt; = [T, T];
+type Coordinates = Pair&lt;number&gt;;
+type Tree&lt;T&gt; = T | { left: Tree&lt;T&gt;, right: Tree&lt;T&gt; };
+</code></pre><ul><li><strong>interface</strong></li><li>interface 能够声明合并</li></ul><pre class="code-block"><code class="language-typescript">interface User {
+  name: string
+  age: number
+}
+
+interface User {
+  sex: string
+}
+
+/*
+User 接口为 {
+  name: string
+  age: number
+  sex: string 
+}
+*/
+</code></pre><p>一般来说，如果不清楚什么时候用interface/type，能用 interface 实现，就用 interface , 如果不能就用 type 。</p><h2>Comments / Answers</h2><hr /><p><strong>yanlele</strong> at 2023-08-06T07:44:59Z</p><p>补充：</p><p>interface 和 type 两个关键字因为其功能比较接近，常常引起新手的疑问：应该在什么时候用type，什么时候用interface？ interface 的特点如下： :::info</p><ul><li>同名interface自动聚合，也可以和已有的同名class聚合，适合做polyfill</li><li>自身只能表示object/class/function的类型 ::: 建议<strong>库的开发者所提供的公共api应该尽量用interface/class</strong>，方便使用者自行扩展。举个例子，monaco缺失了一些需要的API，所以需要手动polyfill一下。</li></ul><pre class="code-block"><code class="language-typescript">/**
+ * Cloud Studio使用的monaco版本较老0.14.3，和官方文档相比缺失部分功能
+ * 另外vscode有一些特有的功能，必须适配
+ * 故在这里手动实现作为补充
+ */
+declare module monaco {
+  interface Position {
+    delta(deltaLineNumber?: number, deltaColumn?: number): Position
+  }
+}
+
+// monaco 0.15.5
+monaco.Position.prototype.delta = function (this: monaco.Position, deltaLineNumber = 0, deltaColumn = 0) {
+  return new monaco.Position(this.lineNumber + deltaLineNumber, this.column + deltaColumn);
+}
+
+</code></pre><p>与interface相比，type的特点如下： :::info</p><ul><li>表达功能更强大，不局限于object/class/function</li><li>要扩展已有type需要创建新type，不可以重名</li><li>支持更复杂的类型操作 ::: 基本上所有用interface表达的类型都有其等价的type表达。但在实践的过程中，也发现了一种类型只能用interface表达，无法用type表达，那就是往函数上挂载属性。</li></ul><pre class="code-block"><code class="language-typescript">interface FuncWithAttachment {
+    (param: string): boolean;
+    someProperty: number;
+}
+
+const testFunc: FuncWithAttachment = ...;
+const result = testFunc(&#39;mike&#39;);    // 有类型提醒
+testFunc.someProperty = 3;    // 有类型提醒
+
+</code></pre><p>from <a href="https://juejin.cn/post/6844903904140853255 %22https://juejin.cn/post/6844903904140853255%22" target="_blank" rel="noopener">《TypeScript中高级应用与最佳实践》</a></p><p><img alt="image.png" src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7fd55c79091a435792ce71d120aca641~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" /></p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

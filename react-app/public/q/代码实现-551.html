@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[代码实现] JS 中数组深对比实现【热度: 985】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：JS数组对比&lt;/p&gt;&lt;p&gt;在JavaScript中，可以使用递归的方式实现数组的深度对比。以下是一个示例函数，用于比较两个数组是否相等：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;languag" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[代码实现] JS 中数组深对比实现【热度: 985】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：JS数组对比&lt;/p&gt;&lt;p&gt;在JavaScript中，可以使用递归的方式实现数组的深度对比。以下是一个示例函数，用于比较两个数组是否相等：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;// 判断对象是否相同 function deepEqual(obj1, obj2) { /" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/551" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[代码实现] JS 中数组深对比实现【热度: 985】</h1>
+      <div class="subtitle">代码实现 · 网易 · 代码实现/算法</div>
+      <div class="meta">创建：2023-09-06T16:00:24Z · 更新：2024-08-01T12:15:28Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：JS数组对比</p><p>在JavaScript中，可以使用递归的方式实现数组的深度对比。以下是一个示例函数，用于比较两个数组是否相等：</p><pre class="code-block"><code class="language-javascript">// 判断对象是否相同
+function deepEqual(obj1, obj2) {
+  // 检查类型是否相同
+  if (typeof obj1 !== typeof obj2) {
+    return false;
+  }
+  
+  // 检查是否是对象或数组
+  if (typeof obj1 === &#39;object&#39; &amp;&amp; obj1 !== null &amp;&amp; obj2 !== null) {
+    // 检查对象或数组长度是否相同
+    if (Object.keys(obj1).length !== Object.keys(obj2).length) {
+      return false;
+    }
+  
+    for (let key in obj1) {
+      // 递归比较每个属性的值
+      if (!deepEqual(obj1[key], obj2[key])) {
+        return false;
+      }
+    }
+    
+    return true;
+  }
+  
+  // 比较基本类型的值
+  return obj1 === obj2;
+}
+
+function deepArrayEqual(arr1, arr2) {
+  // 检查数组长度是否相同
+  if (arr1.length !== arr2.length) {
+    return false;
+  }
+  
+  for (let i = 0; i &lt; arr1.length; i++) {
+    const value1 = arr1[i];
+    const value2 = arr2[i];
+    
+    // 递归比较每个元素的值
+    if (Array.isArray(value1) &amp;&amp; Array.isArray(value2)) {
+      if (!deepArrayEqual(value1, value2)) {
+        return false;
+      }
+    } else if (typeof value1 === &#39;object&#39; &amp;&amp; typeof value2 === &#39;object&#39;) {
+      if (!deepEqual(value1, value2)) {
+        return false;
+      }
+    } else {
+      // 比较基本类型的值
+      if (value1 !== value2) {
+        return false;
+      }
+    }
+  }
+  
+  return true;
+}
+</code></pre><p>使用示例：</p><pre class="code-block"><code class="language-javascript">const arr1 = [1, [2, 3], { name: &#39;John&#39; }];
+const arr2 = [1, [2, 3], { name: &#39;John&#39; }];
+const arr3 = [1, [2, 3], { name: &#39;Jane&#39; }];
+
+console.log(deepArrayEqual(arr1, arr2)); // true
+console.log(deepArrayEqual(arr1, arr3)); // false
+</code></pre><p>在上述示例中，<code>deepArrayEqual</code>函数会递归比较两个数组的每个元素的值，包括嵌套的数组和对象。如果两个数组是相等的，则返回<code>true</code>，否则返回<code>false</code>。注意，该函数不会检查函数、正则表达式、日期等复杂类型的值。</p><h2>Comments / Answers</h2><hr /><p><strong>plutda</strong> at 2023-09-10T07:15:39Z</p><p>deepEqual的实现漏了吧</p><hr /><p><strong>yanlele</strong> at 2023-09-10T08:07:45Z</p><p>@plutda 请问具体是指？</p><hr /><p><strong>plutda</strong> at 2023-09-10T09:47:09Z</p><blockquote>@plutda 请问具体是指？</blockquote><p>第17行，比较两个对象的deepEqual函数没有实现呀</p><hr /><p><strong>yanlele</strong> at 2023-09-10T13:55:10Z</p><p>@plutda 哎哟我去， 我真眼睛瞎了；</p><p>deepEqual 是对象深度对比， 可以看看这个， 具体实现， 我也更正一下， 贴如这个项目里面来；</p><p>https://github.com/pro-collection/interview-question/issues/550</p><hr /><p><strong>yanlele</strong> at 2023-09-10T13:55:53Z</p><blockquote>> @plutda 请问具体是指？</blockquote><blockquote></blockquote><blockquote>第17行，比较两个对象的deepEqual函数没有实现呀</blockquote><p>感谢小伙伴反馈， 认真的同学 @plutda</p><hr /><p><strong>whynyist</strong> at 2024-08-01T12:15:27Z</p><p>数组元素有函数的话就不对了</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

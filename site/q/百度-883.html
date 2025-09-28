@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>在开发过程中，想做 git 代码暂存，该如何做【热度: 342】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：git stash 使用&lt;/p&gt;&lt;blockquote&gt;作者备注 &lt;/blockquote&gt;&lt;blockquote&gt;这个问题的指向性非常明显， 就是在问 git stash 的使用&lt;/blockquote&gt;&lt;p&gt;在 Git 中，如果" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="在开发过程中，想做 git 代码暂存，该如何做【热度: 342】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：git stash 使用&lt;/p&gt;&lt;blockquote&gt;作者备注 &lt;/blockquote&gt;&lt;blockquote&gt;这个问题的指向性非常明显， 就是在问 git stash 的使用&lt;/blockquote&gt;&lt;p&gt;在 Git 中，如果你想要暂存当前的工作进度，可以使用&lt;code&gt;git stash&lt;/code&gt;命令。这个命令会将你的工作目录中的修改（已" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/883" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>在开发过程中，想做 git 代码暂存，该如何做【热度: 342】</h1>
+      <div class="subtitle">百度 · web应用场景 · 百度</div>
+      <div class="meta">创建：2024-09-15T07:29:34Z · 更新：2024-09-15T07:29:34Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：git stash 使用</p><blockquote>作者备注  </blockquote><blockquote>这个问题的指向性非常明显， 就是在问 git stash 的使用</blockquote><p>在 Git 中，如果你想要暂存当前的工作进度，可以使用<code>git stash</code>命令。这个命令会将你的工作目录中的修改（已追踪文件的修改和暂存的改动）保存到一个未完成工作的栈中，同时将你的工作目录恢复到上次提交的状态，从而让你可以转而处理其他工作，之后再回来继续刚才的工作。</p><h3>基本用法</h3><ul><li><strong>暂存当前的工作</strong></li></ul><pre class="code-block"><code class="language-bash">git stash
+</code></pre><p>或者，为这次暂存操作添加一个描述，以便之后更容易识别：</p><pre class="code-block"><code class="language-bash">git stash save &quot;特征X的进度&quot;
+</code></pre><ul><li><strong>查看暂存列表</strong></li></ul><pre class="code-block"><code class="language-bash">git stash list
+</code></pre><p>这个命令会显示所有被暂存的进度列表。</p><ul><li><strong>应用最近的暂存</strong></li></ul><pre class="code-block"><code class="language-bash">git stash apply
+</code></pre><p>默认情况下，<code>git stash apply</code>将重新应用最近暂存的进度。如果你有多个暂存进度，可以通过指定 stash 的名称（例如：<code>stash@{0}</code>）来选择具体的一个进度使用。</p><pre class="code-block"><code class="language-bash">git stash apply stash@{0}
+</code></pre><ul><li><strong>弹出最近的暂存</strong></li></ul><pre class="code-block"><code class="language-bash">git stash pop
+</code></pre><p>这个命令将应用最近的暂存进度，并将这个暂存记录从暂存的栈中移除。</p><ul><li><strong>删除一个指定的暂存</strong></li></ul><pre class="code-block"><code class="language-bash">git stash drop stash@{0}
+</code></pre><ul><li><strong>清除所有暂存</strong></li></ul><pre class="code-block"><code class="language-bash">git stash clear
+</code></pre><h3>进阶用法</h3><ul><li><strong>暂存未追踪的文件</strong></li></ul><p>如果你还想暂存那些新添加到工作目录中但还没有加入版本控制的文件（即未追踪文件），可以使用<code>-u</code>或<code>--include-untracked</code>选项：</p><pre class="code-block"><code class="language-bash">git stash -u
+</code></pre><p>或</p><pre class="code-block"><code class="language-bash">git stash --include-untracked
+</code></pre><ul><li><strong>暂存忽略文件</strong></li></ul><p>默认<code>git stash</code>不会暂存<code>.gitignore</code>中忽略的文件。如果你希望连同这些文件一起暂存，可以使用<code>-a</code>或<code>--all</code>选项：</p><pre class="code-block"><code class="language-bash">git stash -a
+</code></pre><p>git stash 是一个非常有用的功能，特别是当你需要快速切换到另一个分支处理一些工作，而你的当前分支有未完成的工作时。它允许你临时保管你的工作进度，防止未完工的更改妨碍其他任务的进行。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

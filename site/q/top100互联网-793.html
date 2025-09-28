@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>dom 里面， 如何判定 a 元素是否是 b 元素的子元素【热度: 400】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：dom.contains 方法&lt;/p&gt;&lt;p&gt;在 DOM（文档对象模型）中，要判断元素 &lt;code&gt;a&lt;/code&gt; 是否是元素 &lt;code&gt;b&lt;/code&gt; 的子元素，您可以使用以下的 JavaScript 代码：&lt;/p&gt;&lt;pre " />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="dom 里面， 如何判定 a 元素是否是 b 元素的子元素【热度: 400】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：dom.contains 方法&lt;/p&gt;&lt;p&gt;在 DOM（文档对象模型）中，要判断元素 &lt;code&gt;a&lt;/code&gt; 是否是元素 &lt;code&gt;b&lt;/code&gt; 的子元素，您可以使用以下的 JavaScript 代码：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;functio" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/793" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>dom 里面， 如何判定 a 元素是否是 b 元素的子元素【热度: 400】</h1>
+      <div class="subtitle">TOP100互联网 · web应用场景 · TOP100互联网</div>
+      <div class="meta">创建：2024-07-12T13:05:37Z · 更新：2024-07-12T13:05:37Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：dom.contains 方法</p><p>在 DOM（文档对象模型）中，要判断元素 <code>a</code> 是否是元素 <code>b</code> 的子元素，您可以使用以下的 JavaScript 代码：</p><pre class="code-block"><code class="language-javascript">function isChildElement(a, b) {
+  return b.contains(a);
+}
+</code></pre><p>可以这样使用上述函数：</p><pre class="code-block"><code class="language-javascript">const elementA = document.getElementById(&quot;elementA&quot;);
+const elementB = document.getElementById(&quot;elementB&quot;);
+
+if (isChildElement(elementA, elementB)) {
+  console.log(&quot;元素 A 是元素 B 的子元素&quot;);
+} else {
+  console.log(&quot;元素 A 不是元素 B 的子元素&quot;);
+}
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

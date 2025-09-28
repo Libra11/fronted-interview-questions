@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>escape、encodeURI、encodeURIComponent 区别【热度: 367】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：js URL 编码解码&lt;/p&gt;&lt;p&gt;在 JavaScript 中，&lt;code&gt;escape()&lt;/code&gt;、&lt;code&gt;encodeURI()&lt;/code&gt; 和 &lt;code&gt;encodeURIComponent()&lt;/code&gt; " />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="escape、encodeURI、encodeURIComponent 区别【热度: 367】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：js URL 编码解码&lt;/p&gt;&lt;p&gt;在 JavaScript 中，&lt;code&gt;escape()&lt;/code&gt;、&lt;code&gt;encodeURI()&lt;/code&gt; 和 &lt;code&gt;encodeURIComponent()&lt;/code&gt; 都是用于编码 URL 或字符串的函数，但它们有一些区别：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;code&gt;escape()&lt;/code" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/439" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>escape、encodeURI、encodeURIComponent 区别【热度: 367】</h1>
+      <div class="subtitle">阿里巴巴 · JavaScript · 阿里巴巴</div>
+      <div class="meta">创建：2023-06-08T15:46:51Z · 更新：2023-09-29T12:42:05Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：js URL 编码解码</p><p>在 JavaScript 中，<code>escape()</code>、<code>encodeURI()</code> 和 <code>encodeURIComponent()</code> 都是用于编码 URL 或字符串的函数，但它们有一些区别：</p><ol><li><code>escape()</code> 函数用于编码字符串中的特殊字符，使其能够安全地传输。它对字符进行编码，包括非 ASCII 字符和特殊字符。但需要注意的是，<code>escape()</code> 不会编码 URL 中的保留字符（例如 <code>:/?#[]@!$&amp;&#39;()*+,;=</code>），它只会编码其他字符。</li></ol><pre class="code-block"><code class="language-javascript">// 输出：%48%65%6c%6c%6f%20%57%6f%72%6c%64%21
+console.log(escape(&quot;Hello World!&quot;));  
+</code></pre><ol><li><code>encodeURI()</code> 函数用于对整个 URL 进行编码，用于将 URL 中的特殊字符转换为可传输的形式。它不会编码 URL 中的保留字符和一些特殊字符（例如 <code>:/?#[]@!$&amp;&#39;()*+,;=</code>）。它主要用于编码整个 URL，而不是编码 URL 的参数值。</li></ol><pre class="code-block"><code class="language-javascript">// 输出：http://example.com/page.php?id=123
+console.log(encodeURI(&quot;http://example.com/page.php?id=123&quot;));  
+</code></pre><ol><li><code>encodeURIComponent()</code> 函数用于编码 URL 的参数值，它会对所有特殊字符进行编码，包括 URL 中的保留字符和其他特殊字符。它用于编码 URL 参数中的特殊字符，以确保它们在 URL 中的传输和解析过程中不会被误解。</li></ol><pre class="code-block"><code class="language-javascript">// 输出：Hello%20World%21
+console.log(encodeURIComponent(&quot;Hello World!&quot;));  
+</code></pre><p>需要注意的是，<code>escape()</code> 函数已被废弃，不推荐使用。在大多数情况下，建议使用 <code>encodeURI()</code> 或 <code>encodeURIComponent()</code> 函数进行 URL 编码。选择使用哪个函数取决于具体的需求，是否需要编码整个 URL 或只是其中的一部分（如参数值）。</p><hr /><p><strong>补充</strong></p><p>| 函数                  | 编码范围          | 编码空格 | 编码特殊字符 | 可逆性 |</p><p>| --------------------- | ----------------- | -------- | ------------ | ------ |</p><p>| <code>escape</code>              | ASCII 字符外的所有字符 | <code>+</code>      | 是           | 是     |</p><p>| <code>encodeURI</code>           | URL 中的部分字符  | 否       | 否           | 是     |</p><p>| <code>encodeURIComponent</code> | URL 中的所有字符  | <code>%20</code>    | 是           | 是     |</p><p>下面是对每个函数的详细解释：</p><ol><li><code>escape</code> 函数用于编码字符串中的所有字符，包括非 ASCII 字符和某些特殊字符。它会将这些字符转换为 <code>%xx</code> 形式的十六进制转义序列，其中 <code>xx</code> 是字符的 ASCII 值的十六进制表示。它还会将空格编码为 <code>+</code> 符号。该函数可以对编码后的字符串进行反转义，以还原原始字符串。</li></ol><ol><li><code>encodeURI</code> 函数用于对 URL 中的某些字符进行编码，包括保留字符和一些特殊字符。它会将这些字符转换为 <code>%xx</code> 形式的十六进制转义序列，其中 <code>xx</code> 是字符的 ASCII 值的十六进制表示。与 <code>escape</code> 不同，<code>encodeURI</code> 不会编码空格。该函数可以对编码后的字符串进行反转义，以还原原始字符串。</li></ol><ol><li><code>encodeURIComponent</code> 函数用于对 URL 中所有字符进行编码，包括保留字符和特殊字符。它会将这些字符转换为 <code>%xx</code> 形式的十六进制转义序列，其中 <code>xx</code> 是字符的 ASCII 值的十六进制表示。与 <code>encodeURI</code> 不同，<code>encodeURIComponent</code> 会将空格编码为 <code>%20</code>。该函数可以对编码后的字符串进行反转义，以还原原始字符串。</li></ol></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>浏览器有同源策略， 但是为何 cdn 请求资源的时候不会有跨域限制【热度: 579】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：同源策略、跨域限制&lt;/p&gt;&lt;h3&gt;同源策略是啥&lt;/h3&gt;&lt;p&gt;浏览器的同源策略（Same-origin policy）是一种重要的安全机制，用于限制不同源的文档或脚本之间的交互操作。&lt;/p&gt;&lt;p&gt;“源”（origin）由三部分组成：" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="浏览器有同源策略， 但是为何 cdn 请求资源的时候不会有跨域限制【热度: 579】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：同源策略、跨域限制&lt;/p&gt;&lt;h3&gt;同源策略是啥&lt;/h3&gt;&lt;p&gt;浏览器的同源策略（Same-origin policy）是一种重要的安全机制，用于限制不同源的文档或脚本之间的交互操作。&lt;/p&gt;&lt;p&gt;“源”（origin）由三部分组成：协议（protocol）、域名（domain）和端口（port）。如果两个 URL 的协议、域名和端口都完全相同，那么它" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/797" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>浏览器有同源策略， 但是为何 cdn 请求资源的时候不会有跨域限制【热度: 579】</h1>
+      <div class="subtitle">TOP100互联网 · 网络 · TOP100互联网</div>
+      <div class="meta">创建：2024-07-13T03:19:04Z · 更新：2024-07-13T03:19:05Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：同源策略、跨域限制</p><h3>同源策略是啥</h3><p>浏览器的同源策略（Same-origin policy）是一种重要的安全机制，用于限制不同源的文档或脚本之间的交互操作。</p><p>“源”（origin）由三部分组成：协议（protocol）、域名（domain）和端口（port）。如果两个 URL 的协议、域名和端口都完全相同，那么它们就是同源的；否则，就是不同源的。</p><p>同源策略的主要作用和规则如下：</p><ol><li><strong>阻止文档或脚本读取来自不同源的文档内容</strong></li></ol><ul><li>比如，在 <code>https://example.com/page1.html</code> 页面中的 JavaScript 脚本，不能读取 <code>https://anotherdomain.com/page2.html</code> 的文档内容。</li></ul><ol><li><strong>限制不同源的脚本之间的交互</strong></li></ol><ul><li>不同源的脚本不能相互调用方法、访问对象属性或修改对方的 DOM（文档对象模型）。</li></ul><ol><li><strong>限制跨源的网络请求</strong></li></ol><ul><li>例如，使用 <code>XMLHttpRequest</code> 或 <code>Fetch API</code> 发起的网络请求，如果目标地址与当前页面的源不同，会受到同源策略的限制。不过，一些跨源请求可以通过 CORS（跨源资源共享，Cross-Origin Resource Sharing）机制来实现合法的跨源访问。</li></ul><p>同源策略的目的是防止恶意网站窃取用户在其他网站上的敏感信息或进行未经授权的操作，保护用户数据的安全性和隐私性。</p><p>举个例子，如果没有同源策略，恶意网站 <code>malicious-site.com</code> 可能会在其页面中嵌入脚本，尝试读取用户正在访问的银行网站 <code>bank-site.com</code> 的页面内容，获取用户的账户信息、交易记录等敏感数据，这将给用户带来极大的安全风险。</p><h3>浏览器有同源策略， 但是为何 cdn 请求资源的时候不跨域</h3><p>一些 CDN 资源不受同源策略限制，是因为同源策略主要是浏览器的一种安全机制，用于限制不同源的文档或脚本之间的交互操作，但对于某些特定类型的资源访问，浏览器会有一些例外情况。</p><p><strong>在 HTML 中，<code>&lt;script&gt;、&lt;img&gt;、&lt;iframe&gt;、&lt;link&gt;</code>等标签的 src 属性所指向的资源（如 JavaScript 文件、图片、CSS 文件等）通常是可以跨域访问的。</strong></p><p>例如，可以在自己的网站中通过<code>&lt;script src=&quot;https://cdn.example.com/vue.min.js&quot;&gt;&lt;/script&gt;</code>加载来自 CDN 的 Vue.js 库。</p><p>这样做的主要原因是为了保证 Web 的开放性和可扩展性。如果这些资源也严格受到同源策略的限制，那么将所有相关资源都部署在同一个服务器下会违背 Web 开放的初衷，并且不利于资源的分发和缓存。</p><p>然而，虽然浏览器允许这些资源的跨域加载，但在加载 JavaScript 时，会限制对返回内容的读写权限，以防止恶意脚本获取或修改其他域的信息。</p><p>另外，CDN 服务提供商通常也会采取一些措施来确保资源的安全性和合法性。他们会对资源进行管理和配置，只允许合法的请求访问资源，并防止恶意使用或滥用 CDN 资源。</p><p>需要注意的是，同源策略仍然是非常重要的安全机制，它能有效防止恶意网站窃取用户在其他网站上的敏感信息或进行未经授权的操作。在涉及到敏感数据的交互或需要更严格安全控制的情况下，仍然需要遵循同源策略或采用适当的跨域解决方案，如 CORS（跨域资源共享）等。CORS 通过在服务器端设置响应头，明确允许哪些源可以访问资源，从而在保证安全的前提下实现跨域数据交互。</p><h3>img src 指向的任何资源都是可以跨域访问吗</h3><p>一般情况下，<code>&lt;img&gt;</code> 元素的 <code>src</code> 属性指向的资源是可以进行跨域访问的。</p><p>当您在网页中使用 <code>&lt;img&gt;</code> 标签加载图片资源时，浏览器会向指定的 URL 发送请求获取图片数据，并将其显示在页面上，即使该资源的源与当前页面的源不同。</p><p>然而，也存在一些特殊情况和限制：</p><ol><li>如果图片资源所在的服务器设置了严格的访问控制策略（例如通过服务器端的配置限制某些来源的访问），那么可能会导致您的请求被拒绝。</li></ol><ol><li>对于一些受版权保护或有特殊访问权限要求的图片资源，如果您没有相应的授权或访问权限，即使浏览器本身允许跨域访问，您也无法获取和显示这些图片。</li></ol><p>总的来说，在大多数常规情况下，<code>&lt;img&gt;</code> 元素的 <code>src</code> 属性指向的图片资源能够实现跨域访问，但需要考虑服务器端的配置和资源本身的权限要求等因素。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

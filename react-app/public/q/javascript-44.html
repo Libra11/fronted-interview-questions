@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>数组去重方式有哪些，简单手写一下？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h2&gt;数组去重&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;1、双层循环，外层循环元素，内层循环时比较值如果有相同的值则跳过，不相同则push进数组&lt;/strong&gt;&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;A" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="数组去重方式有哪些，简单手写一下？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h2&gt;数组去重&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;1、双层循环，外层循环元素，内层循环时比较值如果有相同的值则跳过，不相同则push进数组&lt;/strong&gt;&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;Array.prototype.distinct = function(){ var arr = this, result" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/44" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>数组去重方式有哪些，简单手写一下？</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-09T15:18:20Z · 更新：2024-07-23T08:12:21Z</div>
+    </div>
+    <article class="content markdown-body"><h2>数组去重</h2><p><strong>1、双层循环，外层循环元素，内层循环时比较值如果有相同的值则跳过，不相同则push进数组</strong></p><pre class="code-block"><code class="language-javascript">Array.prototype.distinct = function(){
+  var arr = this,
+    result = [],
+    i,
+    j,
+    len = arr.length;
+  for(i = 0; i &lt; len; i++){
+    for(j = i + 1; j &lt; len; j++){
+      if(arr[i] === arr[j]){
+        j = ++i;
+      }
+    }
+    result.push(arr[i]);
+  }
+  return result;
+}
+var arra = [1,2,3,4,4,1,1,2,1,1,1];
+arra.distinct();       //返回[3,4,2,1]
+</code></pre><p><strong>2、利用splice直接在原数组进行操作</strong></p><p>双层循环，外层循环元素，内层循环时比较值</p><p>值相同时，则删去这个值</p><p>注意点:删除元素之后，需要将数组的长度也减1.</p><pre class="code-block"><code class="language-javascript">Array.prototype.distinct = function (){
+  var arr = this,
+    i,
+    j,
+    len = arr.length;
+  for(i = 0; i &lt; len; i++){
+    for(j = i + 1; j &lt; len; j++){
+      if(arr[i] == arr[j]){
+        arr.splice(j,1);
+        len--;
+        j--;
+      }
+    }
+  }
+  return arr;
+};
+var a = [1,2,3,4,5,6,5,3,2,4,56,4,1,2,1,1,1,1,1,1,];
+var b = a.distinct();
+console.log(b.toString()); //1,2,3,4,5,6,56
+</code></pre><p><strong>3、利用对象的属性不能相同的特点进行去重</strong></p><pre class="code-block"><code class="language-javascript">Array.prototype.distinct = function (){
+  var arr = this,
+    i,
+    obj = {},
+    result = [],
+    len = arr.length;
+  for(i = 0; i&lt; arr.length; i++){
+    if(!obj[arr[i]]){  //如果能查找到，证明数组元素重复了
+      obj[arr[i]] = 1;
+      result.push(arr[i]);
+    }
+  }
+  return result;
+};
+var a = [1,2,3,4,5,6,5,3,2,4,56,4,1,2,1,1,1,1,1,1,];
+var b = a.distinct();
+console.log(b.toString()); //1,2,3,4,5,6,56
+</code></pre><p><strong>4、数组递归去重</strong></p><pre class="code-block"><code class="language-javascript">Array.prototype.distinct = function (){
+  var arr = this,
+    len = arr.length;
+  arr.sort(function(a,b){    //对数组进行排序才能方便比较
+    return a - b;
+  })
+  function loop(index){
+    if(index &gt;= 1){
+      if(arr[index] === arr[index-1]){
+        arr.splice(index,1);
+      }
+      loop(index - 1);  //递归loop函数进行去重
+    }
+  }
+  loop(len-1);
+  return arr;
+};
+var a = [1,2,3,4,5,6,5,3,2,4,56,4,1,2,1,1,1,1,1,1,56,45,56];
+var b = a.distinct();
+console.log(b.toString());    //1,2,3,4,5,6,45,56
+</code></pre><p><strong>5、利用indexOf以及forEach</strong></p><pre class="code-block"><code class="language-javascript">Array.prototype.distinct = function (){
+  var arr = this,
+    result = [],
+    len = arr.length;
+  arr.forEach(function(v, i ,arr){    //这里利用map，filter方法也可以实现
+    var bool = arr.indexOf(v,i+1);    //从传入参数的下一个索引值开始寻找是否存在重复
+    if(bool === -1){
+      result.push(v);
+    }
+  })
+  return result;
+};
+var a = [1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,3,3,3,3,3,3,3,2,3,3,2,2,1,23,1,23,2,3,2,3,2,3];
+var b = a.distinct();
+console.log(b.toString());  //1,23,2,3
+</code></pre><p><strong>6、利用ES6的set</strong></p><pre class="code-block"><code class="language-javascript">// 利用Array.from将Set结构转换成数组
+function dedupe(array){
+  return Array.from(new Set(array));
+}
+dedupe([1,1,2,3]) //[1,2,3]
+// 拓展运算符(...)内部使用for...of循环
+let arr = [1,2,3,3];
+let resultarr = [...new Set(arr)];  
+console.log(resultarr); //[1,2,3]
+</code></pre><h2>Comments / Answers</h2><hr /><p><strong>wzb0817</strong> at 2024-07-23T08:12:20Z</p><p>arr.reduce((pre, next) => {</p><p>if (!pre.includes(next)) {</p><p>return [...pre, next];</p><p>}</p><p>return pre;</p><p>}, []);</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

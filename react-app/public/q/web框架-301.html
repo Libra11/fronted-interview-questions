@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] 生命周期有哪些？【热度: 889】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;主要生命周期分为两个版本，&lt;/p&gt;&lt;p&gt;分别是： &lt;code&gt;v16.0前&lt;/code&gt; 和 &lt;code&gt;v16.4&lt;/code&gt;&lt;/p&gt;&lt;h3&gt;v16.0 前&lt;/h3&gt;&lt;p&gt;&lt;img alt=&quot;1&quot; src=&quot;https://foruda.gitee.com/images" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] 生命周期有哪些？【热度: 889】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;主要生命周期分为两个版本，&lt;/p&gt;&lt;p&gt;分别是： &lt;code&gt;v16.0前&lt;/code&gt; 和 &lt;code&gt;v16.4&lt;/code&gt;&lt;/p&gt;&lt;h3&gt;v16.0 前&lt;/h3&gt;&lt;p&gt;&lt;img alt=&quot;1&quot; src=&quot;https://foruda.gitee.com/images/1682257247128664078/b5848c64_7819612.png&quot; /&gt;&lt;/p&gt;&lt;p&gt;总共分为&lt;str" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/301" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] 生命周期有哪些？【热度: 889】</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2023-04-23T13:45:38Z · 更新：2023-04-23T14:17:15Z</div>
+    </div>
+    <article class="content markdown-body"><p>主要生命周期分为两个版本，</p><p>分别是： <code>v16.0前</code> 和 <code>v16.4</code></p><h3>v16.0 前</h3><p><img alt="1" src="https://foruda.gitee.com/images/1682257247128664078/b5848c64_7819612.png" /></p><p>总共分为<strong>四大阶段</strong>：</p><ol><li>{初始化| Intialization}</li><li>{挂载| Mounting}</li><li>{更新| Update}</li><li>{卸载| Unmounting}</li></ol><h4>Intialization(初始化）</h4><p>在初始化阶段,会用到 <code>constructor()</code> 这个构造函数，如：</p><pre class="code-block"><code class="language-javascript">constructor(props) {
+  super(props);
+}
+
+</code></pre><ul><li><code>super</code>的作用</li><li>用来调用<em>基类</em>的构造方法( <code>constructor()</code> ),</li><li>也<strong>将父组件的<code>props</code>注入给子组件，供子组件读取</strong></li><li>初始化操作，定义<code>this.state</code>的初始内容</li><li><strong>只会执行一次</strong></li></ul><hr /><h4>Mounting(挂载）（3个）</h4><ol><li><code>componentWillMount</code>：<strong>在组件挂载到<code>DOM</code>前调用</strong></li></ol><ul><li>这里面的调用的<code>this.setState</code>不会引起组件的重新渲染，也可以把写在这边的内容提到<code>constructor()</code>，所以在项目中很少。</li><li><strong>只会调用一次</strong></li></ul><ol><li><code>render</code>: 渲染</li></ol><ul><li>只要<code>props</code>和<code>state</code>发生改变（无论值是否有变化,两者的重传递和重赋值，都可以引起组件重新<code>render</code>），<code>都会重新渲染render</code>。</li><li><code>return</code>：<strong>是必须的，是一个React元素</strong>，不负责组件实际渲染工作，由<code>React</code>自身根据此元素去渲染出<code>DOM</code>。</li><li><code>render</code> 是<strong>纯函数</strong>，不能执行<code>this.setState</code>。</li></ul><ol><li><code>componentDidMount</code>：<strong>组件挂载到<code>DOM</code>后调用</strong></li></ol><ul><li><strong>调用一次</strong></li></ul><hr /><h4>Update(更新)（5个）</h4><ol><li><code>componentWillReceiveProps(nextProps)</code>:调用于<code>props</code>引起的组件更新过程中</li></ol><ul><li><code>nextProps</code>：父组件传给当前组件新的<code>props</code></li><li>可以用<code>nextProps</code>和<code>this.props</code>来查明重传<code>props</code>是否发生改变（原因：不能保证父组件重传的<code>props</code>有变化）</li><li>只要<code>props</code>发生变化就会，引起调用</li></ul><ol><li><code>shouldComponentUpdate(nextProps, nextState)</code>：用于性能优化</li></ol><ul><li><code>nextProps</code>：当前组件的<code>this.props</code></li><li><code>nextState</code>：当前组件的<code>this.state</code></li><li>通过比较<code>nextProps</code>和<code>nextState</code>,来判断当前组件是否有必要继续执行更新过程。</li><li>返回<code>false</code>：表示停止更新，用于减少组件的不必要渲染，优化性能</li><li>返回<code>true</code>：继续执行更新</li><li>像<code>componentWillReceiveProps（）</code>中执行了<code>this.setState</code>，更新了<code>state</code>，但<strong>在<code>render</code>前</strong>(如<code>shouldComponentUpdate</code>，<code>componentWillUpdate</code>)，<code>this.state</code>依然指向更新前的state，不然<code>nextState</code>及当前组件的<code>this.state</code>的对比就一直是<code>true</code>了</li></ul><ol><li><code>componentWillUpdate(nextProps, nextState)</code>：组件更新前调用</li></ol><ul><li>在<code>render</code>方法前执行</li><li>由于组件更新就会调用，所以一般很少使用</li></ul><ol><li><code>render</code>：重新渲染</li></ol><ol><li><code>componentDidUpdate(prevProps, prevState)</code>：组件更新后被调用</li></ol><ul><li><code>prevProps</code>：组件更新前的<code>props</code></li><li><code>prevState</code>：组件更新前的<code>state</code></li><li>可以操作组件更新的DOM</li></ul><hr /><h4>Unmounting(卸载)（1个）</h4><p><code>componentWillUnmount</code>：组件被卸载前调用</p><p>可以在这里执行一些<strong>清理工作</strong>，比如清除组件中使用的<em>定时器</em>，清除<code>componentDidMount</code>中<em>手动创建的DOM元素</em>等，以避免引起内存泄漏</p><hr /><h3>React v16.4</h3><p><img alt="2" src="https://foruda.gitee.com/images/1682257393147988566/aa702114_7819612.png" /></p><p>与 <code>v16.0</code>的生命周期相比</p><ul><li>新增了 -- （两个<code>getXX</code>）</li></ul><ol><li><code>getDerivedStateFromProps</code></li><li><code>getSnapshotBeforeUpdate</code></li></ol><ul><li>取消了 -- (三个<code>componmentWillXX</code>)</li></ul><ol><li><code>componentWillMount</code>、</li><li><code>componentWillReceiveProps</code>、</li><li><code>componentWillUpdate</code></li></ol><h4>getDerivedStateFromProps</h4><p><code>getDerivedStateFromProps(prevProps, prevState)</code>：组件创建和更新时调用的方法</p><ul><li><code>prevProps</code>：组件更新前的<code>props</code></li><li><code>prevState</code>：组件更新前的<code>state</code></li></ul><blockquote>在<code>React v16.3</code>中，在创建和更新时，只能是由父组件引发才会调用这个函数，在<code>React v16.4</code>改为无论是<code>Mounting</code>还是<code>Updating</code>，全部都会调用。</blockquote><p>是一个静态函数，也就是这个函数不能通过<code>this</code>访问到<code>class</code>的属性。</p><blockquote>如果<code>props</code>传入的内容不需要影响到你的<code>state</code>，那么就需要返回一个<code>null</code>，这个<strong>返回值是必须的</strong>，所以尽量将其写到函数的末尾。</blockquote><p>在组件创建时和更新时的render方法之前调用，它应该</p><ul><li>返回一个对象来更新状态</li><li>或者返回<code>null</code>来不更新任何内容</li></ul><h4>getSnapshotBeforeUpdate</h4><p><code>getSnapshotBeforeUpdate(prevProps,prevState)</code>:<code>Updating</code>时的函数，在render之后调用</p><ul><li><code>prevProps</code>：组件更新前的<code>props</code></li><li><code>prevState</code>：组件更新前的<code>state</code></li></ul><p>可以读取，但无法使用DOM的时候，在组件可以在可能更改之前从<code>DOM</code>捕获一些信息（例如滚动位置）</p><blockquote><strong>返回的任何值都将作为参数传递给<code>componentDidUpdate（)</code></strong></blockquote><hr /><h3>Note</h3><p>在<code>17.0</code>的版本，官方彻底废除</p><ul><li><code>componentWillMount</code>、</li><li><code>componentWillReceiveProps</code>、</li><li><code>componentWillUpdate</code></li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

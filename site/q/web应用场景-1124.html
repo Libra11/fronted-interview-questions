@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>介绍一下 git stash【热度: 386】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：git stash&lt;/p&gt;&lt;p&gt;&lt;code&gt;git stash&lt;/code&gt; 是 Git 中一个非常实用的命令，用于&lt;strong&gt;临时保存工作区和暂存区的修改&lt;/strong&gt;，让你可以在不提交当前变更的情况下，切换到其他分支或进" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="介绍一下 git stash【热度: 386】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：git stash&lt;/p&gt;&lt;p&gt;&lt;code&gt;git stash&lt;/code&gt; 是 Git 中一个非常实用的命令，用于&lt;strong&gt;临时保存工作区和暂存区的修改&lt;/strong&gt;，让你可以在不提交当前变更的情况下，切换到其他分支或进行其他操作，之后还能恢复这些临时保存的变更。&lt;/p&gt;&lt;h3&gt;核心作用&lt;/h3&gt;&lt;p&gt;当你正在一个分支上开发，突然需要切换" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1124" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>介绍一下 git stash【热度: 386】</h1>
+      <div class="subtitle">web应用场景 · web应用场景</div>
+      <div class="meta">创建：2025-08-31T10:09:36Z · 更新：2025-08-31T10:09:36Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：git stash</p><p><code>git stash</code> 是 Git 中一个非常实用的命令，用于<strong>临时保存工作区和暂存区的修改</strong>，让你可以在不提交当前变更的情况下，切换到其他分支或进行其他操作，之后还能恢复这些临时保存的变更。</p><h3>核心作用</h3><p>当你正在一个分支上开发，突然需要切换到其他分支（比如修复紧急 Bug），但当前工作还没完成不想提交时，<code>git stash</code> 可以：</p><ul><li>把工作区和暂存区的所有修改（包括新增、修改、删除的文件）暂存到一个“栈”中</li><li>让工作区回到最近一次提交的干净状态（与 <code>git reset --hard HEAD</code> 效果类似，但变更被临时保存了）</li><li>之后可以随时从“栈”中恢复这些变更，继续之前的工作</li></ul><h3>常用命令</h3><ol><li><strong>暂存当前变更</strong></li></ol><p>```bash</p><p>git stash</p><p># 或添加描述（推荐，方便区分多个stash）</p><p>git stash save "描述信息：例如「首页导航栏修改」"</p><p>```</p><p>执行后，工作区会恢复到干净状态，变更被存入 stash 栈。</p><ol><li><strong>查看所有暂存的变更</strong></li></ol><p>```bash</p><p>git stash list</p><p>```</p><p>输出类似：</p><p>```</p><p>stash@{0}: On feature/login: 修复登录按钮样式</p><p>stash@{1}: On develop: 临时添加调试日志</p><p>```</p><p><code>stash@{n}</code> 是每个暂存的唯一标识，<code>n</code> 越小表示越新。</p><ol><li><strong>恢复暂存的变更</strong></li></ol><ul><li>恢复最新的 stash（<code>stash@{0}</code>），且保留 stash 记录：</li></ul><p>```bash</p><p>git stash apply</p><p>```</p><ul><li>恢复指定的 stash（例如 <code>stash@{1}</code>）：</li></ul><p>```bash</p><p>git stash apply stash@{1}</p><p>```</p><ul><li>恢复最新的 stash 并删除该 stash 记录（推荐用完即删的场景）：</li></ul><p>```bash</p><p>git stash pop</p><p>```</p><ol><li><strong>删除暂存的变更</strong></li></ol><ul><li>删除最新的 stash：</li></ul><p>```bash</p><p>git stash drop</p><p>```</p><ul><li>删除指定的 stash：</li></ul><p>```bash</p><p>git stash drop stash@{1}</p><p>```</p><ul><li>删除所有 stash：</li></ul><p>```bash</p><p>git stash clear</p><p>```</p><ol><li><strong>查看 stash 中的具体修改</strong></li></ol><p>查看最新 stash 与当前工作区的差异：</p><p>```bash</p><p>git stash show</p><p>```</p><p>查看详细差异（显示具体修改的内容）：</p><p>```bash</p><p>git stash show -p</p><p>```</p><h3>注意事项</h3><ul><li><code>git stash</code> 只会暂存<strong>已跟踪文件</strong>（即已被 Git 管理的文件）的修改，以及<strong>已添加到暂存区的新增文件</strong>。未跟踪的全新文件（未执行过 <code>git add</code>）不会被暂存，需要先执行 <code>git add</code> 或使用 <code>git stash -u</code>（<code>-u</code> 表示包括未跟踪文件）。</li><li>恢复 stash 时，如果当前工作区有修改，可能会出现冲突，需要手动解决。</li><li>stash 存储在本地仓库，不会被推送到远程，切换电脑后无法获取。</li></ul><p>简单来说，<code>git stash</code> 就像一个“剪贴板”，让你可以临时“剪切”当前工作状态，稍后再“粘贴”回来，非常适合处理多任务切换的场景。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

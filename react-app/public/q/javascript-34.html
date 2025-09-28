@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DOM事件类相关问题 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;DOM事件级别、DOM事件模型、DOM事件流、DOM事件捕获的具体流程、Event对象的常见应用、自动以事件&lt;/p&gt;&lt;h1&gt;dom 级别&lt;/h1&gt;&lt;p&gt;DOM级别一共可以分为四个级别：DOM0级、DOM1级、DOM2级和DOM3级。&lt;/p&gt;&lt;p&gt;DOM级别其实就是标准的迭代" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="DOM事件类相关问题" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;DOM事件级别、DOM事件模型、DOM事件流、DOM事件捕获的具体流程、Event对象的常见应用、自动以事件&lt;/p&gt;&lt;h1&gt;dom 级别&lt;/h1&gt;&lt;p&gt;DOM级别一共可以分为四个级别：DOM0级、DOM1级、DOM2级和DOM3级。&lt;/p&gt;&lt;p&gt;DOM级别其实就是标准的迭代，对于版本的称呼，类似ES5、ES6。&lt;/p&gt;&lt;h2&gt;1、DOM0级&lt;/h2&gt;&lt;p&gt;DOM没有被W3C定为标准之前。&lt;/" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/34" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>DOM事件类相关问题</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-06T15:20:56Z · 更新：2023-04-24T03:50:54Z</div>
+    </div>
+    <article class="content markdown-body"><p>DOM事件级别、DOM事件模型、DOM事件流、DOM事件捕获的具体流程、Event对象的常见应用、自动以事件</p><h1>dom 级别</h1><p>DOM级别一共可以分为四个级别：DOM0级、DOM1级、DOM2级和DOM3级。</p><p>DOM级别其实就是标准的迭代，对于版本的称呼，类似ES5、ES6。</p><h2>1、DOM0级</h2><p>DOM没有被W3C定为标准之前。</p><h2>2、DOM1级</h2><p>1998年10月成为W3C的标准后，称为DOM1级。DOM1级由两个模块组成：DOM核心（DOM Core）和DOM HTML。其中，DOM核心规定的是如何映射基于XML的文档结构，以便简化对文档中任意部分的访问和操作。DOM HTML模块则在DOM核心的基础上加以扩展，添加了针对HTML的对象和方法。</p><h2>3、DOM2级</h2><p>在DOM1级的基础上进行了扩展。为节点添加了更多方法和属性等。</p><p>添加新的模块，包括：视图、事件、范围、遍历、样式等。</p><h2>4、DOM3级</h2><p>DOM3级进一步扩展了DOM，增加了XPath模块、加载和保存（DOM Load and Save）模块等，开始支持XML1.0规范。</p><h1>DOM事件</h1><h2>1、DOM0级事件</h2><p>DOM0级处理事件就是将一个函数赋值给一个事件处理属性。</p><pre class="code-block"><code class="language-js">&lt;button id=&quot;btn&quot; type=&quot;button&quot;&gt;&lt;/button&gt; 
+ 
+var btn = document.getElementById(&#39;btn&#39;)
+btn.onclick = function() { 
+    console.log(&#39;Hello World&#39;)
+}
+// 将一个函数赋值给了一个事件处理属性onclick 这样的方法就是DOM0级。
+// 可以通过给事件处理属性赋值null来解绑事件。
+</code></pre><h2>DOM2级事件</h2><p>DOM2级处理事件是在DOM0级处理事件的基础上再添加了一些处理程序。</p><ul><li>可以同时绑定多个事件处理函数。</li><li>定义了 addEventListener 和 removeEventListener 两个方法。</li></ul><pre class="code-block"><code class="language-js">element.addEventListener(eventName, fn, useCapture)
+// 第三个参数 useCapture：指定事件是否在捕获或冒泡阶段执行。布尔值，可选，默认false
+// 可能值：true - 事件句柄在捕获阶段执行；false- 默认。事件句柄在冒泡阶段执行
+
+&lt;button id=&quot;btn&quot; type=&quot;button&quot;&gt;&lt;/button&gt; 
+ 
+var btn = document.getElementById(&#39;btn&#39;)
+function showFn() { 
+    alert(&#39;Hello World&#39;)
+}
+function LogFn() { 
+    alert(&#39;Hello World&#39;)
+}
+// 同时绑定多个事件处理函数
+btn.addEventListener(&#39;click&#39;, showFn);
+btn.addEventListener(&#39;click&#39;, LogFn);
+
+// 解绑事件 
+btn.removeEventListener(&#39;click&#39;, showFn); 
+</code></pre><h2>DOM3级事件</h2><p>DOM3级处理事件是在DOM2级处理事件的基础上再添加了很多事件类型。</p><ul><li>UI事件，当用户与页面上的元素交互时触发，如：<code>load</code>、<code>scroll</code></li><li>焦点事件，当元素获得或失去焦点时触发，如：<code>blur</code>、<code>focus</code></li><li>鼠标事件，当用户通过鼠标在页面执行操作时触发如：<code>dbclick</code>、<code>mouseup</code></li><li>滚轮事件，当使用鼠标滚轮或类似设备时触发，如：<code>mousewheel</code></li><li>文本事件，当在文档中输入文本时触发，如：<code>textInput</code></li><li>键盘事件，当用户通过键盘在页面上执行操作时触发，如：<code>keydown</code>、<code>keypress</code></li><li>合成事件，当为IME（输入法编辑器）输入字符时触发，如：<code>compositionstart</code></li><li>变动事件，当底层DOM结构发生变化时触发，如：<code>DOMsubtreeModified</code></li></ul><p>同时DOM3级事件也允许使用者自定义一些事件。</p><h1>事件模型</h1><p>捕获（从上到下）、冒泡（从下到上）；</p><h1>事件流</h1><p>用户和浏览器做交互的过程中，事件的传递，比如点击左键，怎么传递到页面上的。</p><p>捕获->目标阶段->冒泡</p><pre class="code-block"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;事件冒泡&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&quot;parent&quot;&gt;
+    我是父元素
+    &lt;span id=&quot;son&quot;&gt;我是子元素&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+var parent = document.getElementById(&#39;parent&#39;);
+var son = document.getElementById(&#39;son&#39;);
+
+parent.addEventListener(&#39;click&#39;, () =&gt; {
+  alert(&#39;父级冒泡&#39;);
+}, false);
+parent.addEventListener(&#39;click&#39;, () =&gt; {
+  alert(&#39;父级捕获&#39;);
+}, true);
+son.addEventListener(&#39;click&#39;, () =&gt; {
+  alert(&#39;子级捕获&#39;);
+}, true);
+son.addEventListener(&#39;click&#39;, () =&gt; {
+  alert(&#39;子级冒泡&#39;);
+}, false);
+&lt;/script&gt;
+&lt;/html&gt;
+</code></pre><p>当点击父元素：父级捕获 -> 父级冒泡</p><p>当点击子元素：父级捕获 -> 子级捕获 -> 子级冒泡 -> 父级冒泡</p><h2>Comments / Answers</h2><hr /><p><strong>olivewind</strong> at 2023-04-23T15:17:30Z</p><p>最后错了吧。</p><p>当点击父元素：父级捕获 -> 父级冒泡</p><p>当点击子元素：父级捕获 -> 子级捕获 -> 子级冒泡 -> 父级冒泡</p><hr /><p><strong>yanlele</strong> at 2023-04-24T03:50:41Z</p><blockquote>最后错了吧。</blockquote><blockquote></blockquote><blockquote>当点击父元素：父级捕获 -> 父级冒泡 当点击子元素：父级捕获 -> 子级捕获 -> 子级冒泡 -> 父级冒泡</blockquote><p>感谢提醒， 确实是错了；</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

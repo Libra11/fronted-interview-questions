@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[webpack] 是如何处理 commonjs 模块的文件， 使其编译结果能被浏览器使用。【热度: 210】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：webpack 打包处理 commonjs 模块&lt;/p&gt;&lt;p&gt;以下是详细讲解 Webpack 如何将 CommonJS 模块转换为浏览器可以执行的 JavaScript 文件：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、模块解析阶段&lt;/str" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[webpack] 是如何处理 commonjs 模块的文件， 使其编译结果能被浏览器使用。【热度: 210】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：webpack 打包处理 commonjs 模块&lt;/p&gt;&lt;p&gt;以下是详细讲解 Webpack 如何将 CommonJS 模块转换为浏览器可以执行的 JavaScript 文件：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、模块解析阶段&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;识别 CommonJS 模块&lt;/strong&gt;：&lt;/li&gt;&lt;/ol&gt;&lt;u" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1009" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[webpack] 是如何处理 commonjs 模块的文件， 使其编译结果能被浏览器使用。【热度: 210】</h1>
+      <div class="subtitle">工程化 · 工程化</div>
+      <div class="meta">创建：2024-10-18T15:04:04Z · 更新：2024-10-18T15:04:04Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：webpack 打包处理 commonjs 模块</p><p>以下是详细讲解 Webpack 如何将 CommonJS 模块转换为浏览器可以执行的 JavaScript 文件：</p><p><strong>一、模块解析阶段</strong></p><ol><li><strong>识别 CommonJS 模块</strong>：</li></ol><ul><li>Webpack 从项目的入口文件（通常在配置中指定，如<code>entry: &#39;./src/index.js&#39;</code>）开始扫描代码。当遇到<code>require(&#39;some-module&#39;)</code>这样的语句时，Webpack 识别出这是一个 CommonJS 模块的引入。</li><li>它会记录下这个模块的依赖关系，以便后续处理。</li></ul><ol><li><strong>构建依赖图</strong>：</li></ol><ul><li>对于每个引入的模块，Webpack 会继续深入解析该模块内部的依赖关系，递归地构建出一个完整的模块依赖图。</li><li>例如，如果模块 A 引入了模块 B 和模块 C，而模块 B 又引入了模块 D，那么 Webpack 会构建出一个反映这些依赖关系的有向无环图。</li></ul><p><strong>二、模块转换阶段</strong></p><ol><li><strong>处理<code>require</code>函数</strong>：</li></ol><ul><li>在浏览器环境中，没有原生的<code>require</code>函数。Webpack 会将 CommonJS 中的<code>require</code>函数转换为一种在浏览器中可行的模块加载方式。</li><li>通常，Webpack 会使用一种称为“模块加载器”的机制。在打包后的文件中，会生成一个模块加载函数，这个函数负责在运行时加载和执行模块。</li><li>例如，对于<code>const moduleB = require(&#39;moduleB&#39;)</code>这样的语句，Webpack 可能会将其转换为类似于以下的代码：</li></ul><pre class="code-block"><code class="language-javascript">// 假设模块加载函数名为 __webpack_require__
+const moduleB = __webpack_require__(&quot;./moduleB.js&quot;);
+</code></pre><ol><li><strong>处理<code>module.exports</code>和<code>exports</code></strong>：</li></ol><ul><li>CommonJS 使用<code>module.exports</code>或<code>exports</code>来导出模块的内容。Webpack 会将这些导出的内容转换为在浏览器中可访问的形式。</li><li>如果一个模块使用<code>module.exports = { someFunction: () =&gt; {} }</code>这样的方式导出，Webpack 可能会将其转换为：</li></ul><pre class="code-block"><code class="language-javascript">// 假设模块的 ID 为 1
+__webpack_module.exports__ = { someFunction: () =&gt; {} };
+</code></pre><ul><li>然后，在加载这个模块时，可以通过模块加载函数获取到这个导出的对象：</li></ul><pre class="code-block"><code class="language-javascript">const module = __webpack_require__(1);
+console.log(module.someFunction());
+</code></pre><ol><li><strong>代码优化和转换</strong>：</li></ol><ul><li>Webpack 还会进行一系列的代码优化和转换操作。例如：</li><li><strong>Tree Shaking</strong>：去除未使用的代码，减小文件大小。如果一个模块中的某个函数从未被其他模块引用，Webpack 会在打包过程中去除这个函数的代码。</li><li><strong>代码压缩</strong>：减小输出文件的大小，提高加载速度。Webpack 可以使用工具如 UglifyJS 或 Terser 对代码进行压缩。</li><li><strong>模块合并</strong>：如果多个模块具有相同的依赖，Webpack 可能会将这些模块合并在一起，减少重复的代码加载。</li></ul><p><strong>三、输出打包文件阶段</strong></p><ol><li><strong>生成浏览器可执行的文件</strong>：</li></ol><ul><li>经过模块转换和优化后，Webpack 会将所有的模块及其依赖关系打包成一个或多个文件。这些文件通常包含了模块加载函数和所有模块的代码。</li><li>打包后的文件可以直接在浏览器中通过<code>&lt;script&gt;</code>标签引入。例如：</li></ul><pre class="code-block"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot; /&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;script src=&quot;bundle.js&quot;&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><ul><li>当浏览器加载这个文件时，模块加载函数会开始执行，根据需要动态地加载和执行各个模块。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

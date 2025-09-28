@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JavaScript 如何做内存管理？【热度: 603】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：JavaScript内存管理&lt;/p&gt;&lt;p&gt;JavaScript中的内存管理是由垃圾收集器负责的。垃圾收集器会自动追踪不再使用的对象，并在适当的时候释放它们占用的内存。&lt;/p&gt;&lt;p&gt;JavaScript的垃圾收集器使用了一种称为&quot;&lt;s" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="JavaScript 如何做内存管理？【热度: 603】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：JavaScript内存管理&lt;/p&gt;&lt;p&gt;JavaScript中的内存管理是由垃圾收集器负责的。垃圾收集器会自动追踪不再使用的对象，并在适当的时候释放它们占用的内存。&lt;/p&gt;&lt;p&gt;JavaScript的垃圾收集器使用了一种称为&quot;&lt;strong&gt;标记-清除&lt;/strong&gt;&quot;（mark and sweep）的算法来确定哪些对象是不再需要的。该算法通过标" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/563" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>JavaScript 如何做内存管理？【热度: 603】</h1>
+      <div class="subtitle">JavaScript · JavaScript · 网易</div>
+      <div class="meta">创建：2023-09-24T15:41:49Z · 更新：2023-09-24T15:41:49Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：JavaScript内存管理</p><p>JavaScript中的内存管理是由垃圾收集器负责的。垃圾收集器会自动追踪不再使用的对象，并在适当的时候释放它们占用的内存。</p><p>JavaScript的垃圾收集器使用了一种称为"<strong>标记-清除</strong>"（mark and sweep）的算法来确定哪些对象是不再需要的。该算法通过标记所有被引用的对象，然后清除未被标记的对象。</p><p>以下是JavaScript中的一些内存管理的原则和技巧：</p><ol><li>自动内存管理：JavaScript的垃圾收集器会自动管理内存，不需要手动释放内存。你只需确保不再使用的对象没有被引用，垃圾收集器会在适当的时候自动回收内存。</li></ol><ol><li>避免全局变量：全局变量会一直存在于内存中，直到页面关闭。尽量减少使用全局变量，而是使用函数作用域或模块化的方式来限制变量的作用范围。</li></ol><ol><li>及时释放引用：当你不再需要一个对象时，最好将对它的引用设置为null，这样可以使垃圾收集器更早地释放对象所占用的内存。</li></ol><ol><li>避免循环引用：如果对象之间存在循环引用，即使它们已经不再被使用，垃圾收集器也不会自动释放它们。确保及时断开循环引用，使垃圾收集器能够正确地回收内存。</li></ol><ol><li>避免大量对象的创建和销毁：频繁地创建和销毁大量对象会导致垃圾收集器频繁地执行，影响性能。如果可能的话，尽量重用对象，而不是频繁地创建和销毁它们。</li></ol><p>虽然JavaScript的垃圾收集器自动管理内存，但仍然需要开发人员编写高效的代码来避免内存泄漏和浪费，以确保JavaScript应用程序的性能和可靠性。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

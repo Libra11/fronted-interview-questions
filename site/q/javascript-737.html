@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>在 JS 中， 如何解决递归导致栈溢出问题？【热度: 269】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：栈溢出问题&lt;/p&gt;&lt;p&gt;在 JavaScript 中，递归如果执行过深，确实有可能导致“栈溢出(stack overflow)”错误，因为每次函数调用都会向调用栈中添加一个新的帧，而每个线程的调用栈都有其最大容量限制。当这个容量被超" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="在 JS 中， 如何解决递归导致栈溢出问题？【热度: 269】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：栈溢出问题&lt;/p&gt;&lt;p&gt;在 JavaScript 中，递归如果执行过深，确实有可能导致“栈溢出(stack overflow)”错误，因为每次函数调用都会向调用栈中添加一个新的帧，而每个线程的调用栈都有其最大容量限制。当这个容量被超过时，就会发生栈溢出。为了解决这个问题，你可以使用几种不同的方法：&lt;/p&gt;&lt;h3&gt;尾调用优化（Tail Call Opt" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/737" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>在 JS 中， 如何解决递归导致栈溢出问题？【热度: 269】</h1>
+      <div class="subtitle">JavaScript · JavaScript · 小米</div>
+      <div class="meta">创建：2024-05-05T14:58:37Z · 更新：2024-05-05T14:58:38Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：栈溢出问题</p><p>在 JavaScript 中，递归如果执行过深，确实有可能导致“栈溢出(stack overflow)”错误，因为每次函数调用都会向调用栈中添加一个新的帧，而每个线程的调用栈都有其最大容量限制。当这个容量被超过时，就会发生栈溢出。为了解决这个问题，你可以使用几种不同的方法：</p><h3>尾调用优化（Tail Call Optimization）</h3><p>在 ES6 中，引入了尾调用优化。这意味着如果函数的最后一个操作是返回另一个函数的调用（即尾调用），那么这个调用可以在不增加新栈帧的情况下执行。但是，截至我知识更新的时间，大多数 JavaScript 引擎还没有实现这项优化，或者它在默认情况下并未激活。</p><h3>转化为循环</h3><p>大多数递归函数都可以重写为循环，这样可以避免调用栈问题。这种方法需要手动维护一个栈来存储必要的状态信息，而这个栈通常是存储在堆（heap）中的数组，不受调用栈大小限制。</p><p>例如，下面递归计算阶乘的代码：</p><pre class="code-block"><code class="language-javascript">function factorial(n) {
+  if (n === 1) return 1;
+  return n * factorial(n - 1);
+}
+</code></pre><p>可以重写为循环形式：</p><pre class="code-block"><code class="language-javascript">function factorial(n) {
+  let result = 1;
+  for (let i = 2; i &lt;= n; i++) {
+    result *= i;
+  }
+  return result;
+}
+</code></pre><h3>用 Trampoline 函数</h3><p>Trampoline 是一个高阶函数，使您可以在递归调用的情况下避免栈溢出。它通过在每个递归步骤返回一个函数而不是值，然后持续调用这些函数，直到获得最终结果为止。</p><pre class="code-block"><code class="language-javascript">function trampoline(fn) {
+  return function (...args) {
+    let result = fn.apply(this, args);
+
+    while (typeof result === &quot;function&quot;) {
+      result = result();
+    }
+
+    return result;
+  };
+}
+</code></pre><p>然后，将原始递归函数改写为每次递归调用返回一个函数：</p><pre class="code-block"><code class="language-javascript">function recursiveFunction(args) {
+  if (baseCase) {
+    return finalValue;
+  } else {
+    return function () {
+      return recursiveFunction(newArgs);
+    };
+  }
+}
+
+const trampolinedFunction = trampoline(recursiveFunction);
+</code></pre><p>调用 <code>trampolinedFunction</code> 会避免栈溢出，因为它不是真正的递归调用，只是同步循环调用那些返回的函数。</p><h3>生成器和 Promises</h3><p>使用 ES6 的生成器(generator)和/或 Promises 也可以用来避免递归调用过深。这些特性可以帮助您生成异步递归调用，其允许事件循环（event loop）介入，避免单次执行过多递归调用造成的栈溢出。</p><h3>使用异步递归</h3><p>将递归函数改造成异步函数（async function），并确保每一次递归调用都有机会返回控制权给 JavaScript 事件循环，这可以通过<code>setTimeout</code>、<code>setImmediate</code>或者<code>process.nextTick</code>（在 Node.js 环境下）实现。</p><p>例如，可以将一个同步递归函数改写为：</p><pre class="code-block"><code class="language-javascript">function recursiveAsyncFunction(i) {
+  if (i &lt; 0) return Promise.resolve();
+  console.log(&quot;Recursion &quot;, i);
+  return new Promise((resolve) =&gt; {
+    setImmediate(() =&gt; {
+      resolve(recursiveAsyncFunction(i - 1));
+    });
+  });
+}
+</code></pre><p>记得确保递归终止条件是正确的，否则即便以上方法也可能导致无限循环或者内存泄漏。每一种方法都有其适用场景，具体使用哪一种方法取决于问题的具体需求。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>前端如何用 canvas 来做电影院选票功能 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;电影院选票功能可以通过 Canvas 来实现，具体实现步骤如下：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;绘制座位图案：使用 Canvas 绘制座位图案，可以用矩形或圆形来表示每个座位，还可以添加不同颜色来表示该座位的状态（已售、已选、可选等）。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li&gt;添加鼠标事" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="前端如何用 canvas 来做电影院选票功能" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;电影院选票功能可以通过 Canvas 来实现，具体实现步骤如下：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;绘制座位图案：使用 Canvas 绘制座位图案，可以用矩形或圆形来表示每个座位，还可以添加不同颜色来表示该座位的状态（已售、已选、可选等）。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li&gt;添加鼠标事件：添加鼠标事件，如鼠标移动、鼠标单击等，来实现用户交互操作。例如，当用户点击座位时，将该座位的状态改为已选状态，并更新" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/468" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>前端如何用 canvas 来做电影院选票功能</h1>
+      <div class="subtitle">网易 · web应用场景 · 网易</div>
+      <div class="meta">创建：2023-06-26T15:55:34Z · 更新：2023-06-26T15:55:35Z</div>
+    </div>
+    <article class="content markdown-body"><p>电影院选票功能可以通过 Canvas 来实现，具体实现步骤如下：</p><ol><li>绘制座位图案：使用 Canvas 绘制座位图案，可以用矩形或圆形来表示每个座位，还可以添加不同颜色来表示该座位的状态（已售、已选、可选等）。</li></ol><ol><li>添加鼠标事件：添加鼠标事件，如鼠标移动、鼠标单击等，来实现用户交互操作。例如，当用户点击座位时，将该座位的状态改为已选状态，并更新座位图案的颜色。</li></ol><ol><li>统计已选座位：在用户选票的过程中，需要统计已选座位的数量和位置，并将选票信息展示给用户。可以通过遍历座位图案数组来实现。</li></ol><ol><li>添加检查功能：为了防止用户在选票过程中出现错误，可以添加检查功能，如检查座位是否已被售出或已被其他人选中等。</li></ol><ol><li>添加确认和支付功能：当用户选好座位后，需要确认并支付，可以通过弹出确认对话框来实现，并将用户的选票信息发送至后台进行处理。</li></ol><p><strong>代码实现如下</strong></p><pre class="code-block"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Title&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;canvas id=&quot;canvas&quot; width=&quot;800&quot; height=&quot;600&quot;&gt;&lt;/canvas&gt;
+&lt;button id=&quot;btnPay&quot;&gt;确认并支付&lt;/button&gt;
+
+
+&lt;script&gt;
+  // 获取画布和按钮元素
+  var canvas = document.getElementById(&#39;canvas&#39;);
+  var btnPay = document.getElementById(&#39;btnPay&#39;);
+
+  // 获取画布上下文和座位数组
+  var ctx = canvas.getContext(&#39;2d&#39;);
+  var seats = [];
+
+  // 绘制座位
+  function drawSeat(x, y, state) {
+    switch (state) {
+      case 0:
+        ctx.fillStyle = &#39;#ccc&#39;; // 可选座位
+        break;
+      case 1:
+        ctx.fillStyle = &#39;#f00&#39;; // 已售座位
+        break;
+      case 2:
+        ctx.fillStyle = &#39;#0f0&#39;; // 已选座位
+        break;
+      default:
+        ctx.fillStyle = &#39;#000&#39;; // 其他座位
+        break;
+    }
+    ctx.fillRect(x, y, 30, 30);
+  }
+
+  // 初始化座位数组
+  function initSeat() {
+    for (var i = 0; i &lt; 10; i++) {
+      seats[i] = [];
+      for (var j = 0; j &lt; 10; j++) {
+        seats[i][j] = 0; // 初始状态为可选
+        drawSeat(i * 40 + 50, j * 40 + 50, 0); // 绘制座位
+      }
+    }
+  }
+
+  // 统计已选座位数量和位置
+  function countSelectedSeats() {
+    var selectedSeats = [];
+    var count = 0;
+    for (var i = 0; i &lt; 10; i++) {
+      for (var j = 0; j &lt; 10; j++) {
+        if (seats[i][j] == 2) {
+          selectedSeats.push([i, j]);
+          count++;
+        }
+      }
+    }
+    return [count, selectedSeats];
+  }
+
+  // 更新座位状态和颜色
+  function updateSeat(x, y) {
+    if (seats[x][y] == 0) {
+      seats[x][y] = 2; // 更改为已选状态
+    } else if (seats[x][y] == 2) {
+      seats[x][y] = 0; // 更改为可选状态
+    }
+    drawSeat(x * 40 + 50, y * 40 + 50, seats[x][y]); // 更新颜色
+  }
+
+  // 检查座位状态是否可选
+  function checkSeat(x, y) {
+    if (seats[x][y] == 1) {
+      alert(&#39;该座位已售出，请选择其他座位！&#39;);
+      return false;
+    } else if (seats[x][y] == 2) {
+      alert(&#39;该座位已被选中，请选择其他座位！&#39;);
+      return false;
+    }
+    return true;
+  }
+
+  // 点击事件处理函数
+  function handleClick(e) {
+    var x = parseInt((e.clientX - canvas.offsetLeft - 50) / 40);
+    var y = parseInt((e.clientY - canvas.offsetTop - 50) / 40);
+    if (x &gt;= 0 &amp;&amp; x &lt; 10 &amp;&amp; y &gt;= 0 &amp;&amp; y &lt; 10) {
+      if (checkSeat(x, y)) {
+        updateSeat(x, y);
+        var count = countSelectedSeats()[0];
+        if (count &gt; 0) {
+          btnPay.innerHTML = &#39;确认并支付（已选 &#39; + count + &#39; 座位）&#39;;
+        } else {
+          btnPay.innerHTML = &#39;确认并支付&#39;;
+        }
+      }
+    }
+  }
+
+  // 确认并支付按钮点击事件处理函数
+  function handlePay() {
+    var selectedSeats = countSelectedSeats()[1];
+    if (selectedSeats.length == 0) {
+      alert(&#39;请选择座位！&#39;);
+      return;
+    }
+    if (confirm(&#39;您已选中以下座位：&#39; + selectedSeats.join(&#39;、&#39;) + &#39;，确认支付吗？&#39;)) {
+      // 向后台发送选票信息，并进行支付处理
+      alert(&#39;支付成功！请前往指定影院取票！&#39;);
+      initSeat(); // 重新初始化座位
+      btnPay.innerHTML = &#39;确认并支付&#39;;
+    }
+  }
+
+  // 初始化座位
+  initSeat();
+
+  // 绑定点击事件和确认并支付按钮点击事件
+  canvas.addEventListener(&#39;click&#39;, handleClick);
+  btnPay.addEventListener(&#39;click&#39;, handlePay);
+
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

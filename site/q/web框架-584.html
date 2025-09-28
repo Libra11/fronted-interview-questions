@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] 从 React 层面上， 能做的性能优化有哪些？【热度: 1,005】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：React性能优化&lt;/p&gt;&lt;p&gt;从 React 层面上，可以进行以下性能优化：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;使用 memoization（记忆化）：通过使用 React.memo() 或 useMemo() 来避免不必要的重新渲染。这对于" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] 从 React 层面上， 能做的性能优化有哪些？【热度: 1,005】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：React性能优化&lt;/p&gt;&lt;p&gt;从 React 层面上，可以进行以下性能优化：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;使用 memoization（记忆化）：通过使用 React.memo() 或 useMemo() 来避免不必要的重新渲染。这对于纯函数组件和大型组件特别有用。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li&gt;使用 shouldComponentUpdate 或 " />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/584" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] 从 React 层面上， 能做的性能优化有哪些？【热度: 1,005】</h1>
+      <div class="subtitle">web框架 · web框架 · 美团</div>
+      <div class="meta">创建：2023-10-01T14:21:28Z · 更新：2023-12-17T09:29:51Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：React性能优化</p><p>从 React 层面上，可以进行以下性能优化：</p><ol><li>使用 memoization（记忆化）：通过使用 React.memo() 或 useMemo() 来避免不必要的重新渲染。这对于纯函数组件和大型组件特别有用。</li></ol><ol><li>使用 shouldComponentUpdate 或 PureComponent：在类组件中，可以通过重写 shouldComponentUpdate 方法或使用 PureComponent 来避免不必要的重新渲染。</li></ol><ol><li>使用 React.lazy 和 Suspense：通过使用 React.lazy 和 Suspense 来按需加载组件，从而减少初始加载时间。</li></ol><ol><li>使用虚拟化：对于大型列表或表格等组件，可以使用虚拟化技术（如 react-window 或 react-virtualized）来仅渲染可见区域内的元素，从而提高性能。</li></ol><ol><li>避免不必要的渲染：在函数组件中，可以使用 useCallback 和 useMemo 来避免不必要的函数创建和计算, 使用 useRef 保持函数应用的唯一性。</li></ol><ol><li>使用 key 属性：在使用列表或动态元素时，确保为每个元素提供唯一的 key 属性，这有助于 React 有效地识别和更新元素。</li></ol><ol><li>使用 React DevTools Profiler：使用 React DevTools Profiler 来分析组件的渲染性能，并找出性能瓶颈。</li></ol><ol><li>使用 React.StrictMode：在开发环境中，可以使用 React.StrictMode 组件来检测潜在的问题和不安全的使用。</li></ol><ol><li>避免深层嵌套：尽量避免过多的组件嵌套，这可能会导致性能下降。</li></ol><ol><li>使用组件分割：将大型组件拆分成多个小组件，可以提高组件的可维护性和性能。</li></ol><p>这些是一些常见的 React 层面上的性能优化技巧，根据具体的应用场景和需求，可能还有其他优化方式。</p><p>参考文档：</p><p>https://juejin.cn/post/7273427487588925501</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

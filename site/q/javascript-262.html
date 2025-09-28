@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>数组里面有10万个数据，取第一个元素和第10万个元素的时间相差多少？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;数组可以直接根据索引取的对应的元素，所以不管取哪个位置的元素的时间复杂度都是 O(1)&lt;/p&gt;&lt;p&gt;&lt;strong&gt;得出结论：消耗时间几乎一致，差异可以忽略不计&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;原因&lt;/strong&gt;:&lt;/p&gt;&lt;p&gt;JavaScript 没有真" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="数组里面有10万个数据，取第一个元素和第10万个元素的时间相差多少？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;数组可以直接根据索引取的对应的元素，所以不管取哪个位置的元素的时间复杂度都是 O(1)&lt;/p&gt;&lt;p&gt;&lt;strong&gt;得出结论：消耗时间几乎一致，差异可以忽略不计&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;原因&lt;/strong&gt;:&lt;/p&gt;&lt;p&gt;JavaScript 没有真正意义上的数组，所有的数组其实是对象，其“索引”看起来是数字，其实会被转换成字符串，作为属性名（对象的 key）来使用。" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/262" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>数组里面有10万个数据，取第一个元素和第10万个元素的时间相差多少？</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-04-08T15:31:48Z · 更新：2023-04-08T15:31:48Z</div>
+    </div>
+    <article class="content markdown-body"><p>数组可以直接根据索引取的对应的元素，所以不管取哪个位置的元素的时间复杂度都是 O(1)</p><p><strong>得出结论：消耗时间几乎一致，差异可以忽略不计</strong></p><p><strong>原因</strong>:</p><p>JavaScript 没有真正意义上的数组，所有的数组其实是对象，其“索引”看起来是数字，其实会被转换成字符串，作为属性名（对象的 key）来使用。所以无论是取第 1 个还是取第 10 万个元素，都是用 key 精确查找哈希表的过程，其消耗时间大致相同。</p><p>Chrome 浏览器JS引擎 V8中，数组有两种存储模式，一种是类似C语言中的线性结构存储（索引值连续，且都是正整数的情况下），一种是采用Hash结构存储（索引值为负数，数组稀疏，间隔比较大）</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

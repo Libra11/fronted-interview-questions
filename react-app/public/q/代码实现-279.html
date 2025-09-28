@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[代码实现] 简单实现一个洋葱模式中间件 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;洋葱模型是一种常用的中间件模型，例如在 Koa 框架中就广泛应用了这种模型。这种模型的特点是请求被传递到下一个中间件之前，需要先经过当前中间件处理，然后再逐层返回。&lt;/p&gt;&lt;p&gt;下面是一个简单的洋葱模型的示例代码：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;c" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[代码实现] 简单实现一个洋葱模式中间件" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;洋葱模型是一种常用的中间件模型，例如在 Koa 框架中就广泛应用了这种模型。这种模型的特点是请求被传递到下一个中间件之前，需要先经过当前中间件处理，然后再逐层返回。&lt;/p&gt;&lt;p&gt;下面是一个简单的洋葱模型的示例代码：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;function middleware1(next) {" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/279" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[代码实现] 简单实现一个洋葱模式中间件</h1>
+      <div class="subtitle">代码实现 · 代码实现/算法</div>
+      <div class="meta">创建：2023-04-12T14:02:02Z · 更新：2023-09-06T15:52:33Z</div>
+    </div>
+    <article class="content markdown-body"><p>洋葱模型是一种常用的中间件模型，例如在 Koa 框架中就广泛应用了这种模型。这种模型的特点是请求被传递到下一个中间件之前，需要先经过当前中间件处理，然后再逐层返回。</p><p>下面是一个简单的洋葱模型的示例代码：</p><pre class="code-block"><code class="language-javascript">function middleware1(next) {
+  return function(ctx) {
+    console.log(&#39;middleware1 before&#39;);
+    next(ctx);
+    console.log(&#39;middleware1 after&#39;);
+  }
+}
+
+function middleware2(next) {
+  return function(ctx) {
+    console.log(&#39;middleware2 before&#39;);
+    next(ctx);
+    console.log(&#39;middleware2 after&#39;);
+  }
+}
+
+function middleware3(next) {
+  return function(ctx) {
+    console.log(&#39;middleware3 before&#39;);
+    next(ctx);
+    console.log(&#39;middleware3 after&#39;);
+  }
+}
+
+function compose(middlewares) {
+  return function(ctx) {
+    function dispatch(i) {
+      if (i === middlewares.length) {
+        return;
+      }
+      const middleware = middlewares[i];
+      const next = dispatch.bind(null, i + 1);
+      middleware(next)(ctx);
+    }
+    dispatch(0);
+  }
+}
+
+const middlewares = [middleware1, middleware2, middleware3];
+const composed = compose(middlewares);
+composed({});
+</code></pre><p>这个示例中有三个中间件函数 <code>middleware1</code>、<code>middleware2</code> 和 <code>middleware3</code>，它们都是接受一个 <code>next</code> 函数作为参数的高阶函数。当这个中间件被执行时，它将接受一个 <code>ctx</code> 对象作为参数，并且调用 <code>next(ctx)</code> 将请求传递给下一个中间件。</p><p><code>compose</code> 函数接受一个中间件函数数组作为参数，返回一个新的函数，这个函数可以将请求传递给第一个中间件函数。每个中间件函数都将接收一个 <code>next</code> 函数作为参数，并返回一个新的函数，这个新的函数将接收 <code>ctx</code> 对象作为参数，并且在调用 <code>next(ctx)</code> 之前和之后都会执行一些操作。当 <code>next(ctx)</code> 被调用时，请求将被传递到下一个中间件函数。</p><p>在 <code>composed</code> 函数中，我们将一个空的 <code>ctx</code> 对象作为参数传递给第一个中间件函数。<code>dispatch</code> 函数递归地调用中间件数组中的每一个中间件函数，并将 <code>ctx</code> 对象和下一个中间件函数作为参数传递。当最后一个中间件函数完成处理时，递归调用结束，请求处理完成。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

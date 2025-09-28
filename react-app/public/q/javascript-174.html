@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Promise then 第二个参数和 Promise.catch 的区别是什么? - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;code&gt;Promise.then()&lt;/code&gt; 方法可以接受两个参数，第一个参数是 &lt;code&gt;onFulfilled&lt;/code&gt; 回调函数，第二个参数是 &lt;code&gt;onRejected&lt;/code&gt; 回调函数。当 Promise 状态变为 &lt;code&gt;fulf" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Promise then 第二个参数和 Promise.catch 的区别是什么?" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;code&gt;Promise.then()&lt;/code&gt; 方法可以接受两个参数，第一个参数是 &lt;code&gt;onFulfilled&lt;/code&gt; 回调函数，第二个参数是 &lt;code&gt;onRejected&lt;/code&gt; 回调函数。当 Promise 状态变为 &lt;code&gt;fulfilled&lt;/code&gt; 时，将会调用 &lt;code&gt;onFulfilled&lt;/code&gt; 回调函数；当 Promise " />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/174" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>Promise then 第二个参数和 Promise.catch 的区别是什么?</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-26T08:10:06Z · 更新：2023-03-26T08:10:06Z</div>
+    </div>
+    <article class="content markdown-body"><p><code>Promise.then()</code> 方法可以接受两个参数，第一个参数是 <code>onFulfilled</code> 回调函数，第二个参数是 <code>onRejected</code> 回调函数。当 Promise 状态变为 <code>fulfilled</code> 时，将会调用 <code>onFulfilled</code> 回调函数；当 Promise 状态变为 <code>rejected</code> 时，将会调用 <code>onRejected</code> 回调函数。其中，第二个参数 <code>onRejected</code> 是可选的。</p><p><code>Promise.catch()</code> 方法是一个特殊的 <code>Promise.then()</code> 方法，它只接受一个参数，即 <code>onRejected</code> 回调函数。如果 Promise 状态变为 <code>rejected</code>，则会调用 <code>onRejected</code> 回调函数；如果状态变为 <code>fulfilled</code>，则不会调用任何回调函数。因此，<code>Promise.catch()</code> 方法可以用来捕获 Promise 中的错误，相当于使用 <code>Promise.then(undefined, onRejected)</code>。</p><p>区别主要在于使用的方式不同。<code>Promise.then(onFulfilled, onRejected)</code> 可以同时传递两个回调函数，用来处理 Promise 状态变为 <code>fulfilled</code> 或者 <code>rejected</code> 的情况；而 <code>Promise.catch(onRejected)</code> 则只能用来处理 Promise 状态变为 <code>rejected</code> 的情况，并且使用更加简洁明了。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

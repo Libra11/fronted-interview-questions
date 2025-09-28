@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>axios的拦截器原理及应用、简单手写核心逻辑？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h3&gt;axios 拦截器的使用&lt;/h3&gt;&lt;p&gt;Axios 是一个基于 Promise 的 HTTP 客户端库，可以用于浏览器和 Node.js 环境中发送 HTTP 请求。Axios 提供了拦截器机制，可以在请求发送前和响应返回后对请求和响应进行拦截和处理，从而实现一些通用的功" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="axios的拦截器原理及应用、简单手写核心逻辑？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h3&gt;axios 拦截器的使用&lt;/h3&gt;&lt;p&gt;Axios 是一个基于 Promise 的 HTTP 客户端库，可以用于浏览器和 Node.js 环境中发送 HTTP 请求。Axios 提供了拦截器机制，可以在请求发送前和响应返回后对请求和响应进行拦截和处理，从而实现一些通用的功能，例如：添加请求头、添加认证信息、显示 loading 状态、错误处理等。&lt;/p&gt;&lt;p&gt;Axios 的拦截器机制主要是" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/128" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>axios的拦截器原理及应用、简单手写核心逻辑？</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2023-03-19T14:05:59Z · 更新：2023-03-19T14:06:00Z</div>
+    </div>
+    <article class="content markdown-body"><h3>axios 拦截器的使用</h3><p>Axios 是一个基于 Promise 的 HTTP 客户端库，可以用于浏览器和 Node.js 环境中发送 HTTP 请求。Axios 提供了拦截器机制，可以在请求发送前和响应返回后对请求和响应进行拦截和处理，从而实现一些通用的功能，例如：添加请求头、添加认证信息、显示 loading 状态、错误处理等。</p><p>Axios 的拦截器机制主要是通过 <code>interceptors</code> 属性来实现的，该属性包含了 <code>request</code> 和 <code>response</code> 两个对象，分别代表请求拦截器和响应拦截器。每个对象都包含 <code>use</code> 方法，该方法用于注册拦截器回调函数，拦截器回调函数会在请求发送前或响应返回后被调用。</p><p>下面是一个示例代码，展示了如何使用 Axios 的拦截器：</p><pre class="code-block"><code class="language-javascript">import axios from &#39;axios&#39;
+
+// 添加请求拦截器
+axios.interceptors.request.use(function (config) {
+  // 在发送请求之前做些什么
+  console.log(&#39;请求拦截器&#39;)
+  return config
+}, function (error) {
+  // 对请求错误做些什么
+  return Promise.reject(error)
+})
+
+// 添加响应拦截器
+axios.interceptors.response.use(function (response) {
+  // 对响应数据做点什么
+  console.log(&#39;响应拦截器&#39;)
+  return response
+}, function (error) {
+  // 对响应错误做点什么
+  return Promise.reject(error)
+})
+
+// 发送请求
+axios.get(&#39;/api/user&#39;)
+  .then(function (response) {
+    // 处理响应数据
+  })
+  .catch(function (error) {
+    // 处理请求错误
+  })
+</code></pre><p>在上面的代码中，我们首先通过 <code>import</code> 语句引入了 Axios 库。然后，我们调用 <code>axios.interceptors.request.use</code> 方法注册了一个请求拦截器回调函数，该函数会在发送请求前被调用，可以在该函数中进行一些通用的操作，例如添加请求头、添加认证信息等。接着，我们调用 <code>axios.interceptors.response.use</code> 方法注册了一个响应拦截器回调函数，该函数会在响应返回后被调用，可以在该函数中进行一些通用的操作，例如显示 loading 状态、错误处理等。</p><p>最后，我们使用 <code>axios.get</code> 方法发送请求，并通过 <code>then</code> 和 <code>catch</code> 方法处理响应数据和请求错误。在请求发送前和响应返回后，我们注册的拦截器回调函数会被自动调用，可以对请求和响应进行拦截和处理。</p><p>Axios 的拦截器机制非常强大，可以用于实现一些通用的功能，例如添加请求头、添加认证信息、显示 loading 状态、错误处理等。在实际开发中，我们经常会使用 Axios 的拦截器来提高代码的复用性和可维护性。</p><h3>axios 拦截器原理</h3><p>Axios 的拦截器机制是通过 <code>interceptors</code> 属性来实现的，该属性包含了 <code>request</code> 和 <code>response</code> 两个对象，分别代表请求拦截器和响应拦截器。每个对象都包含 <code>use</code> 方法，该方法用于注册拦截器回调函数，拦截器回调函数会在请求发送前或响应返回后被调用。</p><p>具体来说，当我们使用 <code>axios</code> 发送请求时，会先调用请求拦截器的回调函数，该函数会在请求发送前被调用，可以在该函数中进行一些通用的操作，例如添加请求头、添加认证信息等。如果请求拦截器返回的不是一个 Promise 对象，则会自动将其封装为一个 Promise 对象。</p><p>接着，Axios 会使用 XMLHTTPRequest 对象发送请求，并监听其状态变化事件。当响应返回后，Axios 会调用响应拦截器的回调函数，该函数会在响应返回后被调用，可以在该函数中进行一些通用的操作，例如显示 loading 状态、错误处理等。如果响应拦截器返回的不是一个 Promise 对象，则会自动将其封装为一个 Promise 对象。</p><p>需要注意的是，Axios 的拦截器是按照添加顺序依次执行的，也就是说，先添加的拦截器回调函数先执行，后添加的拦截器回调函数后执行。如果一个拦截器回调函数中没有调用 <code>next</code> 方法，则后面的拦截器回调函数将不会被执行。</p><p>下面是一个示例代码，展示了如何使用 Axios 的拦截器：</p><pre class="code-block"><code class="language-javascript">import axios from &#39;axios&#39;
+
+// 添加请求拦截器
+axios.interceptors.request.use(function (config) {
+  // 在发送请求之前做些什么
+  console.log(&#39;请求拦截器&#39;)
+  return config
+}, function (error) {
+  // 对请求错误做些什么
+  return Promise.reject(error)
+})
+
+// 添加响应拦截器
+axios.interceptors.response.use(function (response) {
+  // 对响应数据做点什么
+  console.log(&#39;响应拦截器&#39;)
+  return response
+}, function (error) {
+  // 对响应错误做点什么
+  return Promise.reject(error)
+})
+
+// 发送请求
+axios.get(&#39;/api/user&#39;)
+  .then(function (response) {
+    // 处理响应数据
+  })
+  .catch(function (error) {
+    // 处理请求错误
+  })
+</code></pre><p>在上面的代码中，我们首先通过 <code>import</code> 语句引入了 Axios 库。然后，我们调用 <code>axios.interceptors.request.use</code> 方法注册了一个请求拦截器回调函数，该函数会在发送请求前被调用，可以在该函数中进行一些通用的操作，例如添加请求头、添加认证信息等。接着，我们调用 <code>axios.interceptors.response.use</code> 方法注册了一个响应拦</p><h3>axios 拦截器核心逻辑代码实现</h3><p>下面是一个简单实现 Axios 拦截器核心逻辑的示例代码：</p><pre class="code-block"><code class="language-javascript">class Axios {
+  constructor() {
+    // 请求拦截器
+    this.requestInterceptors = []
+    // 响应拦截器
+    this.responseInterceptors = []
+  }
+
+  // 注册请求拦截器
+  useRequestInterceptor(callback) {
+    this.requestInterceptors.push(callback)
+  }
+
+  // 注册响应拦截器
+  useResponseInterceptor(callback) {
+    this.responseInterceptors.push(callback)
+  }
+
+  // 发送请求
+  async request(config) {
+    // 执行请求拦截器
+    for (const interceptor of this.requestInterceptors) {
+      config = await interceptor(config)
+    }
+
+    // 发送请求
+    const response = await fetch(config.url, {
+      method: config.method,
+      headers: config.headers,
+      body: config.data
+    })
+
+    // 执行响应拦截器
+    for (const interceptor of this.responseInterceptors) {
+      response = await interceptor(response)
+    }
+
+    return response
+  }
+}
+
+// 创建 Axios 实例
+const axios = new Axios()
+
+// 注册请求拦截器
+axios.useRequestInterceptor(config =&gt; {
+  // 在请求头中添加认证信息
+  config.headers[&#39;Authorization&#39;] = &#39;Bearer xxx&#39;
+  return config
+})
+
+// 注册响应拦截器
+axios.useResponseInterceptor(response =&gt; {
+  // 处理响应数据
+  return response.json()
+})
+
+// 发送请求
+axios.request({
+  url: &#39;/api/user&#39;,
+  method: &#39;GET&#39;
+}).then(data =&gt; {
+  // 处理响应数据
+  console.log(data)
+}).catch(error =&gt; {
+  // 处理请求错误
+  console.error(error)
+})
+</code></pre><p>在上面的代码中，我们首先定义了一个 <code>Axios</code> 类，该类包含了请求拦截器和响应拦截器两个属性，分别用于保存注册的拦截器回调函数。然后，我们定义了 <code>useRequestInterceptor</code> 和 <code>useResponseInterceptor</code> 两个方法，用于注册请求拦截器和响应拦截器回调函数。在这两个方法中，我们将回调函数保存到对应的属性中。</p><p>接着，我们定义了 <code>request</code> 方法，该方法用于发送请求。在 <code>request</code> 方法中，我们首先执行请求拦截器回调函数，将请求配置传递给回调函数，并将回调函数返回的结果赋值给请求配置。接着，我们使用 <code>fetch</code> 函数发送请求，并将响应保存到 <code>response</code> 变量中。然后，我们执行响应拦截器回调函数，将响应对象传递给回调函数，并将回调函数返回的结果赋值给响应对象。最后，我们返回响应对象。</p><p>在最后几行代码中，我们创建了一个 <code>axios</code> 实例，并使用 <code>useRequestInterceptor</code> 方法和 <code>useResponseInterceptor</code> 方法注册了请求拦截器和响应拦截器回调函数。然后，我们调用 <code>request</code> 方法发送请求，并使用 <code>then</code> 方法处理响应数据，使用 <code>catch</code> 方法处理请求错误。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>排查谁在修改对象【热度: 500】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;blockquote&gt;这是一个话题性值得问题：&lt;/blockquote&gt;&lt;blockquote&gt;&lt;/blockquote&gt;&lt;blockquote&gt;例如：redux 申请了一份数据 store , 整个应用有特别多的地方在修改这个 store , 现在数据出现异常， 如何排查是哪" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="排查谁在修改对象【热度: 500】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;blockquote&gt;这是一个话题性值得问题：&lt;/blockquote&gt;&lt;blockquote&gt;&lt;/blockquote&gt;&lt;blockquote&gt;例如：redux 申请了一份数据 store , 整个应用有特别多的地方在修改这个 store , 现在数据出现异常， 如何排查是哪儿场景修改的这份 store 导致的异常;&lt;/blockquote&gt;&lt;blockquote&gt;&lt;/blockquote&gt;&lt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1055" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>排查谁在修改对象【热度: 500】</h1>
+      <div class="subtitle">web应用场景 · web应用场景</div>
+      <div class="meta">创建：2024-11-06T16:06:23Z · 更新：2024-11-06T16:06:23Z</div>
+    </div>
+    <article class="content markdown-body"><blockquote>这是一个话题性值得问题：</blockquote><blockquote></blockquote><blockquote>例如：redux 申请了一份数据 store , 整个应用有特别多的地方在修改这个 store , 现在数据出现异常， 如何排查是哪儿场景修改的这份 store 导致的异常;</blockquote><blockquote></blockquote><blockquote>不仅仅是针对 redux ， 我们面临可能是全局对象等场景，对被多个调用方修改的现象。</blockquote><p>这个没有一个标准答案， 可以咨询去探索。</p><p>作者给几个意见：</p><ol><li>首先不允许直接修改对象， 必须要经过一个封装函数去修改， 修改的时候， 必须要传递 <code>actionUser</code> 信息， 这个 <code>actionUser</code> 表示调用方是谁；</li></ol><ol><li>怎么约束这个事儿呢？就比如我封装了一个函数去修改全局对象，但是就是有人要手动去改这个全局对象。 那么处理方式就是将这个全局对象冻结， 或者 proxy 劫持。 例如 formily 表单里面的 value 就是 proxy 劫持的， 只能允许用户去通过 onChange 修改。</li></ol><ol><li>那如何保证调用方就一定会传递 <code>actionUser</code> 信息呢；因为是一个函数， 所以要是调用方不传递这个会咋样； 解决办法最强硬的就是， 如果不传递 <code>actionUser</code> 就直接不执行， 同时 <code>throw error</code>；稍微温和一点儿就是写一个 eslint 插件， 给予 error 提示；最温和的方式， 就是用 TS interface 去约束入参；</li></ol></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

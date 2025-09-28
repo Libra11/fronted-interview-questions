@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Vue] 解释一下 @submit.prevent=&quot;onSubmit&quot; 这个指令【热度: 590】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：指令的含义&lt;/p&gt;&lt;p&gt;直接上图：&lt;/p&gt;&lt;p&gt;&lt;img alt=&quot;directive.DtZKvoAo.png&quot; src=&quot;https://p0-xtjj-private.juejin.cn/tos-cn-i-73owjymdk6" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Vue] 解释一下 @submit.prevent=&quot;onSubmit&quot; 这个指令【热度: 590】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：指令的含义&lt;/p&gt;&lt;p&gt;直接上图：&lt;/p&gt;&lt;p&gt;&lt;img alt=&quot;directive.DtZKvoAo.png&quot; src=&quot;https://p0-xtjj-private.juejin.cn/tos-cn-i-73owjymdk6/9d7bd9b5ac9245f29fc6b5fe0e65f4d1~tplv-73owjymdk6-jj-mark-v1" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/900" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Vue] 解释一下 @submit.prevent=&quot;onSubmit&quot; 这个指令【热度: 590】</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2024-09-17T06:22:51Z · 更新：2024-09-17T06:22:52Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：指令的含义</p><p>直接上图：</p><p><img alt="directive.DtZKvoAo.png" src="https://p0-xtjj-private.juejin.cn/tos-cn-i-73owjymdk6/9d7bd9b5ac9245f29fc6b5fe0e65f4d1~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5pm05bCP56-G:q75.awebp?policy=eyJ2bSI6MywidWlkIjoiNDEyNTAyMzM1Nzg5OTM2NyJ9&amp;rk3s=e9ecf3d6&amp;x-orig-authkey=f32326d3454f2ac7e96d3d06cdbb035152127018&amp;x-orig-expires=1726640513&amp;x-orig-sign=qOuHSrsmLnAlyBuGcjPCxflvsOg%3D" /></p><p>在 Vue 中，<code>@submit.prevent=&quot;onSubmit&quot;</code> 是一个指令修饰符的示例，它结合了事件侦听和事件修饰符的概念来提供一种声明式的方式处理表单提交事件，并自动阻止其默认行为。</p><p>这个指令可以分为几个部分来解释：</p><h3><code>@submit</code></h3><ul><li><code>@</code> 是一个简写符号，用于标识事件侦听器。它是 <code>v-on:</code> 的简写，因此 <code>@submit</code> 等同于 <code>v-on:submit</code>。</li><li><code>submit</code> 是要侦听的事件名称。在这里，它指的是 HTML 表单的提交事件。</li></ul><h3><code>.prevent</code></h3><ul><li><code>.prevent</code> 是一个事件修饰符。事件修饰符用于指示 Vue 对触发的事件进行特定的处理。</li><li>在这种情况下，<code>.prevent</code> 修饰符告诉 Vue 阻止事件的默认行为。对于 <code>submit</code> 事件，其默认行为通常是将表单数据发送到服务器（根据 <code>action</code> 属性的值）并重新加载页面。使用 <code>.prevent</code> 可以防止这种默认行为，允许你通过 JavaScript 手动处理表单提交。</li></ul><h3><code>&quot;onSubmit&quot;</code></h3><ul><li>这部分是对应的方法名称，当事件被触发时应该调用。在这个例子中，当表单提交事件被触发（同时默认行为被 <code>.prevent</code> 阻止）时，Vue 会调用组件中名为 <code>onSubmit</code> 的方法。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

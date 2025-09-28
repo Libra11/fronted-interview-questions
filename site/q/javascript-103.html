@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>箭头函数和普通函数的区别？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;箭头函数和普通函数是 JavaScript 中两种不同的函数定义方式，它们有以下的区别：&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;语法不同&lt;/strong&gt;：箭头函数使用箭头 =&gt; 来定义函数，而普通函数使用 function 关键字来定义函数。&lt;/li&gt;&lt;/ul&gt;&lt;ul&gt;&lt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="箭头函数和普通函数的区别？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;箭头函数和普通函数是 JavaScript 中两种不同的函数定义方式，它们有以下的区别：&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;语法不同&lt;/strong&gt;：箭头函数使用箭头 =&gt; 来定义函数，而普通函数使用 function 关键字来定义函数。&lt;/li&gt;&lt;/ul&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;箭头函数没有自己的 this&lt;/strong&gt;，它会继承其所在作用域的 this 值。而普通函数的" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/103" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>箭头函数和普通函数的区别？</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-14T15:26:17Z · 更新：2023-03-28T15:21:58Z</div>
+    </div>
+    <article class="content markdown-body"><p>箭头函数和普通函数是 JavaScript 中两种不同的函数定义方式，它们有以下的区别：</p><ul><li><strong>语法不同</strong>：箭头函数使用箭头 => 来定义函数，而普通函数使用 function 关键字来定义函数。</li></ul><ul><li><strong>箭头函数没有自己的 this</strong>，它会继承其所在作用域的 this 值。而普通函数的 this 则由函数调用时的上下文所决定，可以通过 call、apply、bind 方法来改变。</li></ul><ul><li><strong>箭头函数没有自己的 arguments 对象</strong>，它可以通过 rest 参数语法来接收不定数量的参数。而普通函数则有自己的 arguments 对象，它可以接收任意数量的参数。</li></ul><ul><li><strong>箭头函数不能作为构造函数使用</strong>，不能使用 new 来实例化，因为它没有自己的 this，而普通函数可以用 new 来创建新的对象。</li></ul><ul><li><strong>箭头函数不能使用 yield 关键字</strong>来定义生成器函数，而普通函数可以。</li></ul><ul><li><strong>箭头函数不支持call()/apply()函数特性</strong></li></ul><ul><li><strong>箭头函数没有prototype属性</strong></li></ul><ul><li><strong>原型函数不能定义成箭头函数</strong></li></ul><p>比如下面这个例子：</p><pre class="code-block"><code class="language-js">function Person(name){
+  this.name = name
+}
+
+// 原型函数使用箭头函数，其中的this指向全局对象，而不会指向构造函数
+// 因此访问不到构造函数本身，也就访问不到实例属性
+Person.prototype.say = ()=&gt;{console.log(this.name)}
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

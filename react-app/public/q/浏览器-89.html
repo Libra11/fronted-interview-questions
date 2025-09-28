@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>从哪些方面可以对网站性能优化？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;ul&gt;&lt;li&gt;content方面&lt;/li&gt;&lt;/ul&gt;&lt;ol&gt;&lt;li&gt;减少HTTP请求：合并文件、CSS精灵、inline Image&lt;/li&gt;&lt;li&gt;减少DNS查询：DNS查询完成之前浏览器不能从这个主机下载任何任何文件。方法：DNS缓存、将资源分布到恰当数量的主机名，平衡并行" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="从哪些方面可以对网站性能优化？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;ul&gt;&lt;li&gt;content方面&lt;/li&gt;&lt;/ul&gt;&lt;ol&gt;&lt;li&gt;减少HTTP请求：合并文件、CSS精灵、inline Image&lt;/li&gt;&lt;li&gt;减少DNS查询：DNS查询完成之前浏览器不能从这个主机下载任何任何文件。方法：DNS缓存、将资源分布到恰当数量的主机名，平衡并行下载和DNS查询&lt;/li&gt;&lt;li&gt;避免重定向：多余的中间访问&lt;/li&gt;&lt;li&gt;使Ajax可缓存&lt;/li&gt;&lt;li&gt;非必须组" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/89" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>从哪些方面可以对网站性能优化？</h1>
+      <div class="subtitle">浏览器 · 浏览器</div>
+      <div class="meta">创建：2023-03-11T12:33:20Z · 更新：2023-03-11T12:33:21Z</div>
+    </div>
+    <article class="content markdown-body"><ul><li>content方面</li></ul><ol><li>减少HTTP请求：合并文件、CSS精灵、inline Image</li><li>减少DNS查询：DNS查询完成之前浏览器不能从这个主机下载任何任何文件。方法：DNS缓存、将资源分布到恰当数量的主机名，平衡并行下载和DNS查询</li><li>避免重定向：多余的中间访问</li><li>使Ajax可缓存</li><li>非必须组件延迟加载</li><li>未来所需组件预加载</li><li>减少DOM元素数量</li><li>将资源放到不同的域下：浏览器同时从一个域下载资源的数目有限，增加域可以提高并行下载量</li><li>减少iframe数量</li><li>不要404</li></ol><ul><li>Server方面</li></ul><ol><li>使用CDN</li><li>添加Expires或者Cache-Control响应头</li><li>对组件使用Gzip压缩</li><li>配置ETag</li><li>Flush Buffer Early</li><li>Ajax使用GET进行请求</li><li>避免空src的img标签</li></ol><ul><li>Cookie方面</li></ul><ol><li>减小cookie大小</li><li>引入资源的域名不要包含cookie</li></ol><ul><li>css方面</li></ul><ol><li>将样式表放到页面顶部</li><li>不使用CSS表达式</li><li>使用<link>不使用@import</li><li>不使用IE的Filter</li></ol><ul><li>Javascript方面</li></ul><ol><li>将脚本放到页面底部</li><li>将javascript和css从外部引入</li><li>压缩javascript和css</li><li>删除不需要的脚本</li><li>减少DOM访问</li><li>合理设计事件监听器</li></ol><ul><li>图片方面</li></ul><ol><li>优化图片：根据实际颜色需要选择色深、压缩</li><li>优化css精灵</li><li>不要在HTML中拉伸图片</li><li>保证favicon.ico小并且可缓存</li></ol><ul><li>移动方面</li></ul><ol><li>保证组件小于25k</li><li>Pack Components into a Multipart Document</li></ol></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

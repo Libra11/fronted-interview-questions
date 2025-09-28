@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>weakSet 是什么数据结构， 有什么应用场景【热度: 161】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：weakSet 数据、weakSet 结构、weakSet 作用&lt;/p&gt;&lt;p&gt;WeakSet 是一种特殊的集合数据结构，它只能存储对象引用，并且这些对象是弱引用。WeakSet 中的对象是被弱引用的，意味着如果没有其他引用指向这个对" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="weakSet 是什么数据结构， 有什么应用场景【热度: 161】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：weakSet 数据、weakSet 结构、weakSet 作用&lt;/p&gt;&lt;p&gt;WeakSet 是一种特殊的集合数据结构，它只能存储对象引用，并且这些对象是弱引用。WeakSet 中的对象是被弱引用的，意味着如果没有其他引用指向这个对象，垃圾回收机制就会自动将其回收，即使该对象存在于 WeakSet 中。与 Set 不同，WeakSet 不支持迭代和遍" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/561" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>weakSet 是什么数据结构， 有什么应用场景【热度: 161】</h1>
+      <div class="subtitle">阿里巴巴 · JavaScript · 阿里巴巴</div>
+      <div class="meta">创建：2023-09-16T08:46:05Z · 更新：2023-09-16T08:46:18Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：weakSet 数据、weakSet 结构、weakSet 作用</p><p>WeakSet 是一种特殊的集合数据结构，它只能存储对象引用，并且这些对象是弱引用。WeakSet 中的对象是被弱引用的，意味着如果没有其他引用指向这个对象，垃圾回收机制就会自动将其回收，即使该对象存在于 WeakSet 中。与 Set 不同，WeakSet 不支持迭代和遍历。</p><p><strong>API</strong></p><p>WeakSet 提供了以下几个常用的 API：</p><ol><li><code>add(value)</code>：向 WeakSet 中添加一个值。</li></ol><ol><li><code>delete(value)</code>：从 WeakSet 中删除指定的值。</li></ol><ol><li><code>has(value)</code>：判断 WeakSet 中是否存在指定的值，返回一个布尔值。</li></ol><p>需要注意的是，WeakSet 不支持迭代和遍历操作，所以没有类似于 Set 的 <code>keys()</code>、<code>values()</code>、<code>entries()</code> 或 <code>forEach()</code> 等方法。同时，WeakSet 也没有类似于 Set 的 <code>size</code> 属性来获取 WeakSet 中的元素个数。</p><p>另外，WeakSet 是一个构造函数，可以使用 <code>new WeakSet()</code> 来创建一个空的 WeakSet。</p><p><strong>使用场景</strong></p><p>WeakSet 的主要应用场景是在需要存储对象集合，并且不希望这些对象的存在阻止它们被垃圾回收时使用。一些常见的使用场景包括：</p><ol><li>对象存储：WeakSet 可以用来存储一组对象，并且不会阻止这些对象被垃圾回收。这在需要跟踪一组对象，但又不希望这些对象阻止被释放时很有用。</li></ol><ol><li>数据缓存：由于 WeakSet 中的对象是弱引用的，当对象从其他地方被删除时，它们会自动从 WeakSet 中移除。这在需要缓存一些对象，但又希望能够自动清理不再需要的对象时很有用。</li></ol><p>需要注意的是，由于 WeakSet 中的对象是弱引用的，所以不能通过遍历或迭代来访问 WeakSet 中的对象。同时，WeakSet 也不提供像 Set 那样的方法，无法判断对象是否存在于 WeakSet 中。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

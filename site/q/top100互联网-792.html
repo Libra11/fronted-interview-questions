@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>css 实现打字机效果【热度: 96】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：animation 帧动画、animation steps 属性&lt;/p&gt;&lt;p&gt;主要是对 css 动画的一个实际应用考察&lt;/p&gt;&lt;p&gt;以下是一个使用 CSS 实现简单打字机效果的示例代码：&lt;/p&gt;&lt;pre class=&quot;code-bl" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="css 实现打字机效果【热度: 96】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：animation 帧动画、animation steps 属性&lt;/p&gt;&lt;p&gt;主要是对 css 动画的一个实际应用考察&lt;/p&gt;&lt;p&gt;以下是一个使用 CSS 实现简单打字机效果的示例代码：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;!DOCTYPE html&amp;gt; &amp;lt;h" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/792" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>css 实现打字机效果【热度: 96】</h1>
+      <div class="subtitle">TOP100互联网 · CSS · TOP100互联网</div>
+      <div class="meta">创建：2024-07-12T13:03:53Z · 更新：2024-07-12T13:03:53Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：animation 帧动画、animation steps 属性</p><p>主要是对 css 动画的一个实际应用考察</p><p>以下是一个使用 CSS 实现简单打字机效果的示例代码：</p><pre class="code-block"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    &lt;style&gt;
+      .typewriter {
+        width: 300px;
+        border-right: 4px solid black;
+        animation: typing 4s steps(30), blink 0.5s step-end infinite;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+
+      @keyframes typing {
+        from {
+          width: 0;
+        }
+        to {
+          width: 300px;
+        }
+      }
+
+      @keyframes blink {
+        50% {
+          border-color: transparent;
+        }
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+
+  &lt;body&gt;
+    &lt;p class=&quot;typewriter&quot;&gt;这是一个打字机效果的文本&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>在上述代码中，<code>.typewriter</code> 类的元素用于实现打字机效果。</p><p><code>animation: typing 4s steps(30), blink 0.5s step-end infinite;</code> 定义了两个动画：</p><ul><li><code>typing</code> 动画用于模拟文字逐个出现的效果，从宽度为 <code>0</code> 逐渐增加到 <code>300px</code>，<code>steps(30)</code> 表示分 30 步完成动画，使文字出现有逐个显示的效果。</li></ul><ul><li><code>blink</code> 动画用于模拟光标闪烁效果，每 <code>0.5s</code> 闪烁一次，在 <code>50%</code> 进度时，光标（通过右边框实现）变为透明来模拟闪烁。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

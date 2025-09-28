@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>css 中 三栏布局的实现方案 的实现方案有哪些？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;三栏布局指的是在一个页面中，将内容分为左、中、右三栏，并使它们具有相应的宽度和高度。实现三栏布局有多种方案，以下是其中的几种：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;使用浮动&lt;/li&gt;&lt;/ol&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-cs" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="css 中 三栏布局的实现方案 的实现方案有哪些？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;三栏布局指的是在一个页面中，将内容分为左、中、右三栏，并使它们具有相应的宽度和高度。实现三栏布局有多种方案，以下是其中的几种：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;使用浮动&lt;/li&gt;&lt;/ol&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-css&quot;&gt;cssCopy code.left { float: left; width: 200px; height: 10" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/117" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>css 中 三栏布局的实现方案 的实现方案有哪些？</h1>
+      <div class="subtitle">CSS · CSS</div>
+      <div class="meta">创建：2023-03-15T15:33:31Z · 更新：2023-03-15T15:33:32Z</div>
+    </div>
+    <article class="content markdown-body"><p>三栏布局指的是在一个页面中，将内容分为左、中、右三栏，并使它们具有相应的宽度和高度。实现三栏布局有多种方案，以下是其中的几种：</p><ol><li>使用浮动</li></ol><pre class="code-block"><code class="language-css">cssCopy code.left {
+  float: left;
+  width: 200px;
+  height: 100%;
+  background-color: #ccc;
+}
+
+.right {
+  float: right;
+  width: 200px;
+  height: 100%;
+  background-color: #ccc;
+}
+
+.middle {
+  margin: 0 200px;
+  height: 100%;
+  background-color: #eee;
+}
+</code></pre><p>在这个方案中，左栏和右栏使用浮动来实现，中间栏使用 <code>margin</code> 来占据剩余的宽度。</p><ol><li>使用绝对定位</li></ol><pre class="code-block"><code class="language-css">cssCopy code.container {
+  position: relative;
+  height: 100%;
+}
+
+.left {
+  position: absolute;
+  left: 0;
+  width: 200px;
+  height: 100%;
+  background-color: #ccc;
+}
+
+.right {
+  position: absolute;
+  right: 0;
+  width: 200px;
+  height: 100%;
+  background-color: #ccc;
+}
+
+.middle {
+  position: absolute;
+  left: 200px;
+  right: 200px;
+  height: 100%;
+  background-color: #eee;
+}
+</code></pre><p>在这个方案中，左栏和右栏使用绝对定位来实现，中间栏使用左右 <code>padding</code> 来占据剩余的宽度。</p><ol><li>使用Flexbox布局</li></ol><pre class="code-block"><code class="language-css">cssCopy code.container {
+  display: flex;
+  height: 100%;
+}
+
+.left {
+  width: 200px;
+  height: 100%;
+  background-color: #ccc;
+}
+
+.right {
+  width: 200px;
+  height: 100%;
+  background-color: #ccc;
+}
+
+.middle {
+  flex: 1;
+  height: 100%;
+  background-color: #eee;
+}
+</code></pre><p>在这个方案中，父容器使用Flexbox布局，左、中、右三栏都是Flex项，中间栏使用 <code>flex: 1</code> 来占据剩余的宽度。</p><p>这些方案都可以实现三栏布局，但每种方案都有自己的优缺点。在选择方案时，需要考虑浏览器兼容性、性能、可维护性和可扩展性等因素。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

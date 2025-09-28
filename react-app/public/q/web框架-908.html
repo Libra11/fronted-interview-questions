@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Vue] 输入绑定修饰符 .lazy 作用是啥【热度: 95】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：输入绑定修饰符&lt;/p&gt;&lt;p&gt;在 Vue 中，&lt;code&gt;.lazy&lt;/code&gt; 是一个输入绑定修饰符，用于 &lt;code&gt;v-model&lt;/code&gt; 指令。它的主要作用是改变数据同步的时机：默认情况下，使用 &lt;code&gt;v-mod" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Vue] 输入绑定修饰符 .lazy 作用是啥【热度: 95】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：输入绑定修饰符&lt;/p&gt;&lt;p&gt;在 Vue 中，&lt;code&gt;.lazy&lt;/code&gt; 是一个输入绑定修饰符，用于 &lt;code&gt;v-model&lt;/code&gt; 指令。它的主要作用是改变数据同步的时机：默认情况下，使用 &lt;code&gt;v-model&lt;/code&gt; 绑定的输入字段会在每次 &lt;code&gt;input&lt;/code&gt; 事件触发时同步数据（即用户输入时实时同" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/908" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Vue] 输入绑定修饰符 .lazy 作用是啥【热度: 95】</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2024-09-17T08:55:29Z · 更新：2024-09-17T08:55:30Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：输入绑定修饰符</p><p>在 Vue 中，<code>.lazy</code> 是一个输入绑定修饰符，用于 <code>v-model</code> 指令。它的主要作用是改变数据同步的时机：默认情况下，使用 <code>v-model</code> 绑定的输入字段会在每次 <code>input</code> 事件触发时同步数据（即用户输入时实时同步），而通过添加 <code>.lazy</code> 修饰符后，数据同步会改为在 <code>change</code> 事件发生时才进行，通常这意味着在输入字段失去焦点或按下回车键后。</p><h3>使用 <code>.lazy</code> 修饰符的好处</h3><ul><li><strong>性能优化</strong>：对于一些性能敏感的应用，或者当输入操作导致重度计算时，减少数据同步的频率可以提升性能。</li><li><strong>用户体验</strong>：在一些场景下，可能希望用户完成输入后（例如填写完整的表单字段后）再收集数据，使用 <code>.lazy</code> 可以提升这类体验。</li><li><strong>减少数据校验</strong>：如果你在输入数据时进行校验或处理，使用 <code>.lazy</code> 可以减少这种校验的频率，仅在用户完成输入时执行。</li></ul><h3>示例</h3><pre class="code-block"><code class="language-html">&lt;!-- 在输入框失去焦点或用户按下回车后，才更新 data 的 message 属性 --&gt;
+&lt;input v-model.lazy=&quot;message&quot; /&gt;
+</code></pre><p>在这个例子中，不会在每次用户输入时同步 <code>message</code> 的值，而是在输入框失去焦点，或用户按下回车键时同步，这可以减少数据同步的次数，适用于不需要实时更新数据，或更新操作比较昂贵的场景。</p><p>总之，<code>.lazy</code> 修饰符提供了一种简便的方式来优化数据绑定的行为，尤其是在你希望控制数据更新频率，或者当实时更新不是必要时非常有用。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>介绍一下 MutationObserver【热度: 632】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：MutationObserver api&lt;/p&gt;&lt;p&gt;&lt;code&gt;MutationObserver&lt;/code&gt; 是一种能够响应 DOM 树变动的 Web API，它可以监听几乎所有类型的 DOM 变动，比如元素被添加、删除或修改。" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="介绍一下 MutationObserver【热度: 632】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：MutationObserver api&lt;/p&gt;&lt;p&gt;&lt;code&gt;MutationObserver&lt;/code&gt; 是一种能够响应 DOM 树变动的 Web API，它可以监听几乎所有类型的 DOM 变动，比如元素被添加、删除或修改。你可以通过它执行 callback 来应对这些变化。&lt;/p&gt;&lt;p&gt;下面是 &lt;code&gt;MutationObserver&lt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/727" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>介绍一下 MutationObserver【热度: 632】</h1>
+      <div class="subtitle">浏览器 · 浏览器 · 阿里巴巴</div>
+      <div class="meta">创建：2024-04-26T15:56:30Z · 更新：2024-05-10T14:12:11Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：MutationObserver api</p><p><code>MutationObserver</code> 是一种能够响应 DOM 树变动的 Web API，它可以监听几乎所有类型的 DOM 变动，比如元素被添加、删除或修改。你可以通过它执行 callback 来应对这些变化。</p><p>下面是 <code>MutationObserver</code> 的基本用法：</p><h3>创建 <code>MutationObserver</code> 实例</h3><pre class="code-block"><code class="language-javascript">var observer = new MutationObserver(callback);
+</code></pre><h3>配置观察者</h3><p>你可以指定要观察的 DOM 变动的类型和具体的目标节点：</p><pre class="code-block"><code class="language-javascript">var config = {
+  attributes: true, // 观察属性变动
+  childList: true, // 观察子列表变动
+  subtree: true, // 观察后代节点
+};
+
+observer.observe(targetNode, config);
+</code></pre><p>这里的 <code>callback</code> 是一个在观察到变动时执行的函数，它有两个参数：<code>mutationsList</code> 是一个变动列表，<code>observer</code> 是观察者实例。</p><h3>回调函数</h3><p><code>MutationCallback</code> 函数会被调用，它有两个参数：</p><ol><li><code>mutationsList</code>：一个 <code>MutationRecord</code> 对象的数组，每个对象都描述了一个变动。</li><li><code>observer</code>：触发通知的 <code>MutationObserver</code> 实例。</li></ol><pre class="code-block"><code class="language-javascript">function callback(mutationsList) {
+  for (var mutation of mutationsList) {
+    if (mutation.type === &quot;childList&quot;) {
+      console.log(&quot;A child node has been added or removed.&quot;);
+    } else if (mutation.type === &quot;attributes&quot;) {
+      console.log(`The ${mutation.attributeName} attribute was modified.`);
+    }
+  }
+}
+</code></pre><h3>停止观察</h3><p>你可以通过调用 <code>disconnect</code> 方法来停止观察：</p><pre class="code-block"><code class="language-javascript">observer.disconnect();
+</code></pre><p>这将停止观察并且清除之前的记录。</p><h3>注意</h3><ul><li>使用 <code>MutationObserver</code> 应该谨慎，因为它可能对页面性能产生影响，尤其是在观察大型 DOM 树或频繁变动时。</li><li>尽量不要过度使用 <code>MutationObserver</code> 或过度指定需要它观察的变动种类和节点。</li></ul><p>比如，如果你只想监听某个特定属性的变动，那么就不应该打开 <code>childList</code> 或者 <code>attributes</code>（如果不需要观察它们）。</p><p><code>MutationObserver</code> 非常适用于响应 DOM 的动态变动来执行特定的 JavaScript 代码，而且是现代前端开发中的一个重要工具。在使用它时，考虑使用最严格的选项来优化性能并减少不必要的性能损耗。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

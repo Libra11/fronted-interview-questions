@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Vue] 介绍一下动态插槽名 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：vue3 动态插槽名&lt;/p&gt;&lt;p&gt;在 Vue 3 中，动态插槽名允许在运行时根据特定的条件动态地确定插槽的名称，从而为组件的渲染提供了更大的灵活性。&lt;/p&gt;&lt;h3&gt;&lt;strong&gt;一、基本概念&lt;/strong&gt;&lt;/h3&gt;&lt;p&gt;通常情" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Vue] 介绍一下动态插槽名" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：vue3 动态插槽名&lt;/p&gt;&lt;p&gt;在 Vue 3 中，动态插槽名允许在运行时根据特定的条件动态地确定插槽的名称，从而为组件的渲染提供了更大的灵活性。&lt;/p&gt;&lt;h3&gt;&lt;strong&gt;一、基本概念&lt;/strong&gt;&lt;/h3&gt;&lt;p&gt;通常情况下，插槽名在组件定义时是固定的。但在某些场景中，可能需要根据不同的情况动态地选择要渲染的插槽。Vue 3 引入了动态插" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/924" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Vue] 介绍一下动态插槽名</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2024-09-22T04:22:41Z · 更新：2024-09-22T04:22:41Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：vue3 动态插槽名</p><p>在 Vue 3 中，动态插槽名允许在运行时根据特定的条件动态地确定插槽的名称，从而为组件的渲染提供了更大的灵活性。</p><h3><strong>一、基本概念</strong></h3><p>通常情况下，插槽名在组件定义时是固定的。但在某些场景中，可能需要根据不同的情况动态地选择要渲染的插槽。Vue 3 引入了动态插槽名的特性，使得可以在运行时动态地确定插槽的名称。</p><h3><strong>二、使用方法</strong></h3><ol><li>在子组件中接收动态插槽：</li></ol><p>```vue</p><p><template></p><p><div></p><p><slot :name="dynamicSlotName"></slot></p><p></div></p><p></template></p><p><script setup></p><p>import { ref } from "vue";</p><p>const dynamicSlotName = ref("defaultSlot");</p><p></script></p><p>```</p><p>在这个子组件中，通过<code>ref</code>定义了一个名为<code>dynamicSlotName</code>的响应式变量，用于动态确定插槽的名称。</p><ol><li>在父组件中使用动态插槽名：</li></ol><p>```vue</p><p><template></p><p><ChildComponent></p><p><template v-for="slotName in slotNames" :key="slotName" #[slotName]></p><p><!-- 根据不同的插槽名渲染不同的内容 --></p><p><p v-if="slotName === 'slot1'">Content for slot1</p></p><p><p v-else-if="slotName === 'slot2'">Content for slot2</p></p><p></template></p><p></ChildComponent></p><p></template></p><p><script setup></p><p>import { ref } from "vue";</p><p>const slotNames = ref(["slot1", "slot2"]);</p><p></script></p><p>```</p><p>在父组件中，使用<code>v-for</code>循环遍历一个包含插槽名的数组，并根据不同的插槽名渲染不同的内容。通过这种方式，可以动态地将内容传递给子组件的不同插槽。</p><h3><strong>三、优势</strong></h3><ol><li>灵活性：可以根据不同的条件动态地选择要渲染的插槽，使得组件能够适应各种复杂的场景。</li><li>可扩展性：在需要根据不同的情况展示不同的内容时，动态插槽名提供了一种简洁而强大的方式，无需为每个可能的情况创建单独的组件。</li><li>代码复用：通过动态插槽名，可以在不同的组件中复用相同的逻辑，只需要在父组件中根据不同的需求传递不同的插槽名即可。</li></ol></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

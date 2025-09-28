@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Vue] computed 和 watch 有啥区别?【热度: 876】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：computed 和 watch 区别&lt;/p&gt;&lt;p&gt;在 Vue 中，&lt;code&gt;computed&lt;/code&gt; 和 &lt;code&gt;watch&lt;/code&gt; 是两种用于监听和响应数据变化的方式。&lt;/p&gt;&lt;p&gt;&lt;code&gt;computed" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Vue] computed 和 watch 有啥区别?【热度: 876】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：computed 和 watch 区别&lt;/p&gt;&lt;p&gt;在 Vue 中，&lt;code&gt;computed&lt;/code&gt; 和 &lt;code&gt;watch&lt;/code&gt; 是两种用于监听和响应数据变化的方式。&lt;/p&gt;&lt;p&gt;&lt;code&gt;computed&lt;/code&gt; 是计算属性，它是基于响应式数据进行计算得到的一个新的派生属性。计算属性可以接收其他响应式数据作为依赖，并" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/617" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Vue] computed 和 watch 有啥区别?【热度: 876】</h1>
+      <div class="subtitle">美团 · web框架 · 美团</div>
+      <div class="meta">创建：2023-11-09T15:16:25Z · 更新：2023-11-09T15:16:25Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：computed 和 watch 区别</p><p>在 Vue 中，<code>computed</code> 和 <code>watch</code> 是两种用于监听和响应数据变化的方式。</p><p><code>computed</code> 是计算属性，它是基于响应式数据进行计算得到的一个新的派生属性。计算属性可以接收其他响应式数据作为依赖，并且只有当依赖数据发生变化时，计算属性才会重新计算。计算属性的值会被缓存，只有在依赖数据变化时才会重新计算，这样可以提高性能。计算属性的定义方式是使用 <code>computed</code> 函数或者在 Vue 组件中使用 <code>get</code> 和 <code>set</code> 方法。</p><p>下面是一个使用计算属性的示例：</p><pre class="code-block"><code class="language-javascript">import { reactive, computed } from &#39;vue&#39;;
+
+const state = reactive({
+  firstName: &#39;John&#39;,
+  lastName: &#39;Doe&#39;
+});
+
+const fullName = computed(() =&gt; {
+  return `${state.firstName} ${state.lastName}`;
+});
+
+console.log(fullName.value); // 输出: &quot;John Doe&quot;
+
+state.firstName = &#39;Mike&#39;; // 修改firstName
+console.log(fullName.value); // 输出: &quot;Mike Doe&quot;
+</code></pre><p><code>watch</code> 是用于监听特定响应式数据的变化，并在数据变化时执行相应的操作。<code>watch</code> 可以监听单个数据的变化，也可以监听多个数据的变化。当被监听的数据发生变化时，<code>watch</code> 的回调函数会被执行。<code>watch</code> 还支持深度监听对象的变化以及异步操作。</p><p>下面是一个使用 <code>watch</code> 的示例：</p><pre class="code-block"><code class="language-javascript">import { reactive, watch } from &#39;vue&#39;;
+
+const state = reactive({
+  count: 0
+});
+
+watch(() =&gt; state.count, (newVal, oldVal) =&gt; {
+  console.log(`count 从 ${oldVal} 变为 ${newVal}`);
+});
+
+state.count++; // 输出: &quot;count 从 0 变为 1&quot;
+</code></pre><p>以上是 <code>computed</code> 和 <code>watch</code> 的基本用法。通过使用这两种方式，我们可以根据需要监听和响应数据的变化，实现更加灵活的逻辑和交互。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

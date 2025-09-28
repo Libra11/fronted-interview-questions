@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>git pull 和 git fetch 有啥区别？【热度: 355】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：git pull 和 git fetch&lt;/p&gt;&lt;p&gt;&lt;code&gt;git pull&lt;/code&gt; 和 &lt;code&gt;git fetch&lt;/code&gt; 是 Git 版本控制系统中的两个基本命令，它们都用于从远程仓库更新本地仓库的信息，但" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="git pull 和 git fetch 有啥区别？【热度: 355】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：git pull 和 git fetch&lt;/p&gt;&lt;p&gt;&lt;code&gt;git pull&lt;/code&gt; 和 &lt;code&gt;git fetch&lt;/code&gt; 是 Git 版本控制系统中的两个基本命令，它们都用于从远程仓库更新本地仓库的信息，但执行的具体操作不同。&lt;/p&gt;&lt;h3&gt;git fetch&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;code&gt;git fetch&lt;/cod" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/735" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>git pull 和 git fetch 有啥区别？【热度: 355】</h1>
+      <div class="subtitle">web应用场景 · web应用场景 · 百度</div>
+      <div class="meta">创建：2024-05-05T14:49:06Z · 更新：2024-05-05T14:49:06Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：git pull 和 git fetch</p><p><code>git pull</code> 和 <code>git fetch</code> 是 Git 版本控制系统中的两个基本命令，它们都用于从远程仓库更新本地仓库的信息，但执行的具体操作不同。</p><h3>git fetch</h3><ul><li><code>git fetch</code> 下载远程仓库最新的内容到你的本地仓库，但它并不自动合并或修改你当前的工作。它取回了远程仓库的所有分支和标签（tags）。</li><li>运行 <code>git fetch</code> 后，你可以在需要时手动执行合并操作（使用 <code>git merge</code>）或者重新基于远程仓库的内容进行修改。</li></ul><ul><li><code>fetch</code> 只是将远程变更下载到本地的远程分支跟踪副本中，例如 <code>origin/master</code>。</li></ul><h3>git pull</h3><ul><li><code>git pull</code> 实际上是 <code>git fetch</code> 操作之后紧跟一个 <code>git merge</code> 操作，它会自动拉取远程仓库的新变更，并尝试合并到当前所在的本地分支中。</li></ul><ul><li>当你使用 <code>git pull</code>，Git 会尝试自动合并变更。这可能会引起冲突（conflicts），当然冲突需要手动解决。</li></ul><ul><li><code>git pull</code> 等价于执行了 <code>git fetch</code> 和 <code>git merge FETCH_HEAD</code> 的组合。</li></ul><h3>使用场景</h3><ul><li>当你仅仅想要查看远程仓库的变动而不立即合并到你的工作，可以使用 <code>git fetch</code>。</li></ul><ul><li>而当你想要立即获取远程的最新变动并快速合并到你的工作中，则可以使用 <code>git pull</code>。</li></ul><p><strong>总之，<code>git pull</code> 是一个更加「激进」的命令，因为它自动将远程变更合并到你的当前分支，而 <code>git fetch</code> 更加「谨慎」，它只下载变更到本地，不做任何合并操作。</strong></p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Webpack] 有哪些优化项目的手段？【热度: 1,163】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：打包优化&lt;/p&gt;&lt;p&gt;围绕 &lt;code&gt;webpack&lt;/code&gt; 做性能优化，分为两个方面：&lt;code&gt;构建时间优化&lt;/code&gt;、&lt;code&gt;构建产物优化&lt;/code&gt;&lt;/p&gt;&lt;p&gt;&lt;!-- toc --&gt;&lt;/p&gt;&lt;ul&gt;&lt;l" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Webpack] 有哪些优化项目的手段？【热度: 1,163】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：打包优化&lt;/p&gt;&lt;p&gt;围绕 &lt;code&gt;webpack&lt;/code&gt; 做性能优化，分为两个方面：&lt;code&gt;构建时间优化&lt;/code&gt;、&lt;code&gt;构建产物优化&lt;/code&gt;&lt;/p&gt;&lt;p&gt;&lt;!-- toc --&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;优化构建时间&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#%E7%BC%A9%E5%B0%8F%E8%8C%83%E5%9B" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/622" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Webpack] 有哪些优化项目的手段？【热度: 1,163】</h1>
+      <div class="subtitle">工程化 · 工程化 · 阿里巴巴</div>
+      <div class="meta">创建：2023-11-09T15:53:05Z · 更新：2023-11-09T15:55:08Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：打包优化</p><p>围绕 <code>webpack</code> 做性能优化，分为两个方面：<code>构建时间优化</code>、<code>构建产物优化</code></p><p><!-- toc --></p><ul><li>优化构建时间</li><li><a href="#%E7%BC%A9%E5%B0%8F%E8%8C%83%E5%9B%B4" target="_blank" rel="noopener">缩小范围</a></li><li><a href="#%E6%96%87%E4%BB%B6%E5%90%8E%E7%BC%80" target="_blank" rel="noopener">文件后缀</a></li><li><a href="#%E5%88%AB%E5%90%8D" target="_blank" rel="noopener">别名</a></li><li><a href="#%E7%BC%93%E5%AD%98" target="_blank" rel="noopener">缓存</a></li><li><a href="#%E5%B9%B6%E8%A1%8C%E6%9E%84%E5%BB%BA" target="_blank" rel="noopener">并行构建</a></li><li><a href="#%E5%AE%9A%E5%90%91%E6%9F%A5%E6%89%BE%E7%AC%AC%E4%B8%89%E6%96%B9%E6%A8%A1%E5%9D%97" target="_blank" rel="noopener">定向查找第三方模块</a></li><li><a href="#%E6%9E%84%E5%BB%BA%E7%BB%93%E6%9E%9C%E4%BC%98%E5%8C%96" target="_blank" rel="noopener">构建产物</a></li><li><a href="#%E5%8E%8B%E7%BC%A9-js" target="_blank" rel="noopener">压缩 js</a></li><li><a href="#%E5%8E%8B%E7%BC%A9-css" target="_blank" rel="noopener">压缩 css</a></li><li><a href="#%E5%8E%8B%E7%BC%A9-html" target="_blank" rel="noopener">压缩 html</a></li><li><a href="#%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87" target="_blank" rel="noopener">压缩图片</a></li><li><a href="#%E6%8C%89%E9%9C%80%E5%8A%A0%E8%BD%BD" target="_blank" rel="noopener">按需加载</a></li><li><a href="#prloadprefetch" target="_blank" rel="noopener">prload、prefetch</a></li><li><a href="#%E4%BB%A3%E7%A0%81%E5%88%86%E5%89%B2" target="_blank" rel="noopener">代码分割</a></li><li><a href="#tree-shaking" target="_blank" rel="noopener">tree shaking</a></li><li><a href="#gzip" target="_blank" rel="noopener">gzip</a></li><li><a href="#%E4%BD%9C%E7%94%A8%E5%9F%9F%E6%8F%90%E5%8D%87" target="_blank" rel="noopener">作用域提升</a></li></ul><p><!-- tocstop --></p><h3>构建时间优化</h3><h4>缩小范围</h4><p>我们在使用 loader 时，可以配置 <code>include</code>、<code>exclude</code>缩小 loader 对文件的搜索范围，以此来提高构建速率。</p><p>像 <code>/node_moudles</code> 目录下的体积辣么大，又是第三方包的存储目录，直接 <code>exclude</code> 掉可以节省一定的时间的。</p><p>当然 <code>exclude</code> 和 <code>include</code> 可以一起配置，大部分情况下都是只需要使用 loader 编译 src 目录下的代码</p><pre class="code-block"><code class="language-js">module.exports = {
+    module: {
+        rules: [
+            {
+                test: /\.(|ts|tsx|js|jsx)$/,
+                // 只解析 src 文件夹下的 ts、tsx、js、jsx 文件
+                // include 可以是数组，表示多个文件夹下的模块都要解析
+                include: path.resolve(__dirname, &#39;../src&#39;), 
+                use: [ &#39;thread-loader&#39;, &#39;babel-loader&#39;],
+                
+                //当然也可以配置 exclude，表示 loader 解析时不会编译这部分文件
+                //同样 exclude 也可以是数组
+                exclude: /node_modules/,
+            }
+        ]
+    }
+}
+</code></pre><p>还需注意一个点就是要确保 loader 的<code>准确性</code>，<strong>比如不要使用 less-loader 去解析 css 文件</strong></p><h4>文件后缀</h4><p><code>resolve.extensions</code> 是我们常用的一个配置，他可以在导入语句没有带文件后缀时，可以按照配置的列表，自动补上后缀。<strong>我们应该根据我们项目中文件的实际使用情况设置后缀列表，将使用频率高的放在前面、同时后缀列表也要尽可能的少，减少没有必要的匹配</strong>。同时，我们在源码中写导入语句的时候，尽量带上后缀，避免查找匹配浪费时间。</p><pre class="code-block"><code class="language-js">module.export = {
+  resolve: {
+    // 按照 tsx、ts、jsx、js 的顺序匹配，若没匹配到则报错
+    extensions: [&#39;.tsx&#39;, &#39;.ts&#39;, &#39;.jsx&#39;, &#39;.js&#39;],
+  }
+}
+</code></pre><h4>别名</h4><p>通过配置 <code>resolve.alias</code> 别名的方式，减少引用文件的路径复杂度</p><pre class="code-block"><code class="language-js">module.exports = {
+    resolve: {
+        alias: {
+            //把 src 文件夹别名为 @
+            //引入 src 下的文件就可以 import xxx from &#39;@/xxx&#39;
+            &#39;@&#39;: path.join(__dirname, &#39;../src&#39;)
+        }
+    }
+}
+
+// 引入 src 下的某个模块时
+import XXX from &#39;@/xxx/xxx.tsx&#39;
+</code></pre><h4>缓存</h4><p>在优化的方案中，缓存也是其中重要的一环。在构建过程中，开启缓存提升二次打包速度。</p><p>在项目中，js 文件是占大头的，当项目越来越大时，如果每次都需要去编译 JS 代码，那么构建的速度肯定会很慢的，所以我们可以配置 <code>babel-loader</code> 的缓存配置项 <code>cacheDirectory</code> 来缓存没有变过的 js 代码</p><pre class="code-block"><code class="language-js">module.exports = {
+  module: {
+    rules: [
+      {
+        test: /.jsx?$/,
+        use: [
+          {
+            loader: &#39;babel-loader&#39;,
+            options: {
+              cacheDirectory: true,
+            },
+          }
+        ]
+      }
+    ]
+  }
+}
+</code></pre><p>上面的缓存优化只是针对像 <code>babel-loader</code> 这样可以配置缓存的 loader，那没有缓存配置的 loader 该怎么使用缓存呢，此时需要 <code>cache-loader</code></p><pre class="code-block"><code class="language-js">module.exports = {
+  module: {
+    rules: [
+      {
+        test: /.jsx?$/,
+        use: [
+          &#39;cache-loader&#39;, 
+          &quot;babel-loader&quot;
+        ],
+      }
+    ]
+  }
+}
+</code></pre><p>编译后同样多一个 <code>/node_modules/.cache/cache-loader</code> 缓存目录</p><p>当然还有一种方式，<code>webpack5</code>直接提供了 <code>cache</code> 配置项，开启后即可缓存</p><pre class="code-block"><code class="language-js">module.exports = {
+  cache: {
+    type: &#39;filesystem&#39;
+  }
+}
+</code></pre><p>编译后会多出 <code>/node_modules/.cache/webpack</code> 缓存目录</p><h4>并行构建</h4><p>首先，运行在<code>Node</code>里的<code>webpack</code>是单线程的，所以一次性只能干一件事，那如果利用电脑的多核优势，也能提高构建速度 ？<a href="https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fwebpack-contrib%2Fthread-loader %22https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fwebpack-contrib%2Fthread-loader%22" target="_blank" rel="noopener">thread-loader</a>可以开启多进程打包</p><pre class="code-block"><code class="language-js">module.exports = {
+  module: {
+    rules: [
+      {
+        test: /.jsx?$/,
+        use: [
+          // 开启多进程打包。 
+          {
+            loader: &#39;thread-loader&#39;, 
+            options: {
+              workers: 3 // 开启 3个 进程
+            }
+          },
+          {
+            loader: &#39;babel-loader&#39;,
+          }
+        ]
+      }
+    ]
+  }
+}
+</code></pre><p>放置在这个 <code>thread-loader</code> 之后的 loader 就会在一个单独的 worker 池(worker pool) 中运行。</p><p>每个 worker 都是一个单独的有 600ms 限制的 <code>node.js</code> 进程。同时跨进程的数据交换也会被限制。所以建议仅在耗时的 loader 上使用。若项目文件不算多就不要使用，毕竟开启多个线程也会存在性能开销。</p><h4>定向查找第三方模块</h4><p><code>resolve.modules</code> 配置用于指定 <code>webpack</code> 去哪些目录下寻找第三方模块。默认值是 <code>[&#39;node_modules&#39;]</code>。而在引入模块的时候，会以 <code>node 核心模块 -----&gt; node_modules ------&gt; node全局模块</code> 的顺序查找模块。</p><p>我们通过配置 resolve.modules 指定 webpack 搜索第三方模块的范围，提高构建速率</p><pre class="code-block"><code class="language-js">module.export = {
+  resolve: {
+    modules: [path.resolve(__dirname, &#39;node_modules&#39;)]
+  }
+}
+</code></pre><h3>构建产物优化</h3><h4>压缩 js</h4><p>webpack5的话通过 <code>terser-webpack-plugin</code> 来压缩 JS，但在配置了 <code>mode: production</code> 时，会默认开启</p><pre class="code-block"><code class="language-js">const TerserPlugin = require(&#39;terser-webpack-plugin&#39;);
+
+module.exports = {
+  optimization: {
+    // 开启压缩
+    minimize: true,
+    // 压缩工具
+    minimizer: [
+      new TerserPlugin({}),
+    ],
+  },
+}
+</code></pre><p>需要注意一个地方：生产环境会默认配置<code>terser-webpack-plugin</code>，所以如果你还有其它压缩插件使用的话需要将<code>TerserPlugin</code>显示配置或者使用<code>...</code>，否则<code>terser-webpack-plugin</code>会被覆盖。</p><pre class="code-block"><code class="language-js">const TerserPlugin = require(&quot;terser-webpack-plugin&quot;); 
+
+optimization: {
+  minimize: true,
+  minimizer: [
+    new TerserPlugin({}), // 显示配置
+    // &quot;...&quot;, // 或者使用展开符，启用默认插件
+    // 其它压缩插件
+    new CssMinimizerPlugin(),
+  ],
+},
+</code></pre><h4>压缩 css</h4><p>压缩 css 我们使用 <code>css-minimizer-webpack-plugin</code></p><p>同时，应该把 css 提取成单独的文件，使用 <code>mini-css-extract-plugin</code></p><pre class="code-block"><code class="language-js">const MiniCssExtractPlugin = require(&quot;mini-css-extract-plugin&quot;);
+const CssMinimizerPlugin = require(&quot;css-minimizer-webpack-plugin&quot;);
+
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+           // 提取成单独的文件
+           MiniCssExtractPlugin.loader,
+           &quot;css-loader&quot;
+        ],
+        exclude: /node_modules/, 
+      },
+    ]
+  },
+  plugins: [
+    new MiniCssExtractPlugin({
+      // 定义输出文件名和目录
+      filename: &quot;asset/css/main.css&quot;,
+    })
+  ],
+  optimization: {
+    minimize: true,
+    minimizer: [
+      // 压缩 css
+      new CssMinimizerPlugin({}),
+    ],
+  },
+}
+</code></pre><h4>压缩 html</h4><p>压缩 <code>html</code> 使用的还是 <code>html-webpack-plugin</code> 插件。该插件支持配置一个 <a href="https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fkangax%2Fhtml-minifier%23options-quick-reference %22https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fkangax%2Fhtml-minifier%23options-quick-reference%22" target="_blank" rel="noopener">minify</a> 对象，用来配置压缩 <code>html</code>。</p><pre class="code-block"><code class="language-js">module.export = {
+  plugins: [
+    new HtmlWebpackPlugin({
+      // 动态生成 html 文件
+      template: &quot;./index.html&quot;,
+      minify: {
+        // 压缩HTML
+        removeComments: true, // 移除HTML中的注释
+        collapseWhitespace: true, // 删除空⽩符与换⾏符
+        minifyCSS: true // 压缩内联css
+      },
+    })
+  ]
+}
+</code></pre><h4>压缩图片</h4><p>可以通过 <code>image-webpack-loader</code> 来实现</p><pre class="code-block"><code class="language-js">module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.(png|jpg|gif|jpeg|webp|svg)$/,
+        use: [
+          &quot;file-loader&quot;,
+          {
+            loader: &quot;image-webpack-loader&quot;,
+            options: {
+              mozjpeg: {
+                progressive: true,
+              },
+              optipng: {
+                enabled: false,
+              },
+              pngquant: {
+                quality: [0.65, 0.9],
+                speed: 4,
+              },
+              gifsicle: {
+                interlaced: false,
+              },
+            },
+          },
+        ],
+        exclude: /node_modules/, //排除 node_modules 目录
+      },
+    ]
+  },
+}
+</code></pre><h4>按需加载</h4><p>很多时候我们不需要一次性加载所有的<code>JS</code>文件，而应该在不同阶段去加载所需要的代码。</p><p><strong>将路由页面/触发性功能单独打包为一个文件，使用时才加载</strong>，好处是<code>减轻首屏渲染的负担</code>。因为项目功能越多其打包体积越大，导致首屏渲染速度越慢。</p><p>实际项目中大部分是对懒加载路由，而懒加载路由可以打包到一个 chunk 里面。比如某个列表页和编辑页它们之间存在相互跳转，如果对它们拆分成两个 <code>import()</code> js 资源加载模块，在跳转过程中视图会出现白屏切换过程。</p><p>因为在跳转期间，浏览器会动态创建 script 标签来加载这个 <code>chunk</code> 文件，在这期间，页面是没有任何内容的。</p><p>所以一般会把路由懒加载打包到一个 chunk 里面</p><pre class="code-block"><code class="language-js">const List = lazyComponent(&#39;list&#39;, () =&gt; import(/* webpackChunkName: &quot;list&quot; */ &#39;@/pages/list&#39;));
+const Edit = lazyComponent(&#39;edit&#39;, () =&gt; import(/* webpackChunkName: &quot;list&quot; */ &#39;@/pages/edit&#39;));
+</code></pre><p>但需要注意一点：<strong>动态导入 import() 一个模块，这个模块就不能再出现被其他模块使用 <code>同步 import</code> 方式导入。</strong></p><p>比如，一个路由模块在注册 <code>&lt;Route /&gt;</code> 时采用动态 import() 导入，但在这个模块对外暴露了一些变量方法供其他子模块使用，在这些子模块中使用了同步 ESModule import 方式引入，这就造成了 <code>动态 import()</code> 的失效。</p><h4>prload、prefetch</h4><p>对于某些较大的模块，如果点击时再加载，那可能响应的时间反而延长。我们可以使用 <code>prefetch</code>、<code>preload</code> 去加载这些模块</p><p><code>prefetch</code>：将来可能需要一些模块资源（一般是其他页面的代码），在核心代码加载完成之后<code>带宽空闲</code>的时候再去加载需要用到的模块代码。</p><p><code>preload</code>：当前核心代码加载期间可能需要模块资源（<strong>当前页面需要的但暂时还没使用到的</strong>），其是和核心代码文件一起去加载的。</p><p>只需要通过<code>魔法注释</code>即可实现，以 <code>prefetch</code> 为例：</p><pre class="code-block"><code class="language-js">document.getElementById(&#39;btn1&#39;).onclick = function() {
+  import(
+  /* webpackChunkName: &quot;btnChunk&quot; */
+  /* webpackPrefetch: true*/
+  &#39;./module1.js&#39;
+  ).then(fn =&gt; fn.default());
+}
+</code></pre><p>这行代码表示在浏览器空闲时加载 module1.js 模块，并且单独拆一个 chunk，叫做 btnChunk</p><p><img alt="image.png" src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c2e2b2771db547138ed818cd33d23139~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp?" /></p><p>可以看到，在<code>head</code>里面，我们的懒加载模块被直接引入了，并且加上了<code>rel=&#39;prefetch&#39;</code>。</p><p>这样，页面首次加载的时候，浏览器空闲的会后会提前加载<code>module1.js</code>。当我们点击按钮的时候，会直接从缓存中读取该文件，因此速度非常快。</p><p><img alt="image.png" src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/95cd9e7ee4b345ec8ef5eca12947f650~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp?" /></p><h4>代码分割</h4><p>在项目中，一般是使用同一套技术栈和公共资源。<strong>如果每个页面的代码中都有这些公开资源，就会导致资源的浪费</strong>。在每一个页面下都会加载重复的公共资源，一是会浪费用户的流量，二是不利于项目的性能，造成页面加载缓慢，影响用户体验。</p><p>一般是把不变的<strong>第三方库</strong>、<strong>一些公共模块</strong>（比如 util.js）这些单独拆成一个 chunk，在访问页面的时候，就可以一直使用浏览器缓存中的资源</p><p>webpack 里面通过 <code>splitChunks</code> 来分割代码</p><pre class="code-block"><code class="language-js">module.exports = {
+  //...
+  optimization: {
+    splitChunks: {
+      chunks: &#39;async&#39;, // 值有 `all`，`async` 和 `initial`
+      minSize: 20000, // 生成 chunk 的最小体积（以 bytes 为单位）。
+      minRemainingSize: 0,
+      minChunks: 1, // 拆分前必须共享模块的最小 chunks 数。
+      maxAsyncRequests: 30, // 按需加载时的最大并行请求数。
+      maxInitialRequests: 30, // 入口点的最大并行请求数。
+      enforceSizeThreshold: 50000,
+      cacheGroups: {
+        defaultVendors: {
+          test: /[\/]node_modules[\/]/,  //第三方模块拆出来
+          priority: -10,
+          reuseExistingChunk: true,
+        },
+        util.vendors: {
+          test: /[\/]utils[\/]/, //公共模块拆出来
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true,
+        },
+      },
+    },
+  },
+};
+</code></pre><h4>tree shaking</h4><p>tree shaking 的原理细节可以看这篇文章<a href="https://juejin.cn/post/7246219936594821180 %22https://juejin.cn/post/7246219936594821180%22" target="_blank" rel="noopener">：# webpack tree-shaking解析</a></p><p><code>tree shaking</code>在<strong>生产模式下已经默认开启了</strong></p><p>只是需要注意下面几点：</p><ol><li>只对<code>ESM</code>生效</li><li>只能是静态声明和引用的 <code>ES6</code> 模块，不能是动态引入和声明的。</li><li>只能处理模块级别，不能处理函数级别的冗余。</li><li>只能处理 <code>JS</code> 相关冗余代码，不能处理 <code>CSS</code> 冗余代码。</li></ol><p>而可能样式文件里面有些代码我们也没有使用，我们可以通过<code>purgecss-webpack-plugin</code> 插件来对 css 进行 tree shaking</p><pre class="code-block"><code class="language-js">const path = require(&quot;path&quot;);
+const PurgecssPlugin = require(&quot;purgecss-webpack-plugin&quot;);
+const glob = require(&quot;glob&quot;); // 文件匹配模式
+
+module.exports = {
+  //...
+  plugins: [
+    ...
+    new PurgeCSSPlugin({
+      paths: glob.sync(`${PATH.src}/**/*`, { nodir: true }),
+    })
+
+    // Add your plugins here
+    // Learn more about plugins from https://webpack.js.org/configuration/plugins/
+  ],
+};
+</code></pre><h4>gzip</h4><p>前端除了在打包的时候将无用的代码或者 <code>console</code>、注释剔除之外。我们还可以使用 <code>Gzip</code> 对资源进行进一步压缩。那么浏览器和服务端是如何通信来支持 <code>Gzip</code> 呢？</p><ol><li>当用户访问 web 站点的时候，会在 <code>request header</code> 中设置 <code>accept-encoding:gzip</code>，表明浏览器是否支持 <code>Gzip</code>。</li><li>服务器在收到请求后，判断如果需要返回 <code>Gzip</code> 压缩后的文件那么服务器就会先将我们的 <code>JS\CSS</code> 等其他资源文件进行 <code>Gzip</code> 压缩后再传输到客户端，同时将 <code>response headers</code> 设置 <code>content-encoding:gzip</code>。反之，则返回源文件。</li><li>浏览器在接收到服务器返回的文件后，判断服务端返回的内容是否为压缩过的内容，是的话则进行解压操作。</li></ol><p>一般情况下我们并不会让服务器实时 <code>Gzip</code> 压缩，而是利用<code>webpack</code>提前将静态资源进行<code>Gzip</code> 压缩，然后将<code>Gzip</code> 资源放到服务器，当请求需要的时候直接将<code>Gzip</code> 资源发送给客户端。</p><p>我们只需要安装 <code>compression-webpack-plugin</code> 并在<code>plugins</code>配置就可以了</p><pre class="code-block"><code class="language-js">const CompressionWebpackPlugin = require(&quot;compression-webpack-plugin&quot;); // 需要安装
+
+module.exports = {
+  plugins: [
+    new CompressionWebpackPlugin()
+  ]
+}
+</code></pre><h4>作用域提升</h4><p><code>Scope Hoisting</code> 可以让 <code>webpack</code> 打包出来的代码文件体积更小，运行更快。</p><p>在开启 <code>Scope Hoisting</code>后，<strong>构建后的代码会按照引入顺序放到一个函数作用域里，通过适当重命名某些变量以防止变量名冲突</strong>，从而减少函数声明和内存花销。</p><p>需要注意：<code>Scope Hoisting</code> 需要分析模块之间的依赖关系，所以源码必须采用 ES6 模块化语法</p><p><code>Scope Hoisting</code> 是 webpack 内置功能，只需要在<code>plugins</code>里面使用即可，或者直接开启生产环境也可以让作用域提升生效。</p><pre class="code-block"><code class="language-js">module.exports = {
+  //方式1
+  mode: &#39;production&#39;,
+
+  //方式2
+  plugins: [
+    // 开启 Scope Hoisting 功能
+    new webpack.optimize.ModuleConcatenationPlugin()
+  ]
+}
+</code></pre><h2>Comments / Answers</h2><hr /><p><strong>yanlele</strong> at 2023-11-09T15:55:08Z</p><p>参考文档： https://juejin.cn/post/7252569524029227069?searchId=2023110923441498A72EEA590B11ADAAC1</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

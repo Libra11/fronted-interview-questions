@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[koa] 中间件的异常处理是怎么做的？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;在 Koa 中，中间件函数的异常处理可以通过两种方式来实现：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;使用 &lt;code&gt;try...catch&lt;/code&gt; 捕获异常：在中间件函数中使用 &lt;code&gt;try...catch&lt;/code&gt; 语句来捕获异常，然后通过 &lt;code&gt;ctx.thro" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[koa] 中间件的异常处理是怎么做的？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;在 Koa 中，中间件函数的异常处理可以通过两种方式来实现：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;使用 &lt;code&gt;try...catch&lt;/code&gt; 捕获异常：在中间件函数中使用 &lt;code&gt;try...catch&lt;/code&gt; 语句来捕获异常，然后通过 &lt;code&gt;ctx.throw()&lt;/code&gt; 方法抛出异常信息，例如：&lt;/li&gt;&lt;/ol&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;co" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/164" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[koa] 中间件的异常处理是怎么做的？</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2023-03-26T07:34:30Z · 更新：2023-03-26T07:34:30Z</div>
+    </div>
+    <article class="content markdown-body"><p>在 Koa 中，中间件函数的异常处理可以通过两种方式来实现：</p><ol><li>使用 <code>try...catch</code> 捕获异常：在中间件函数中使用 <code>try...catch</code> 语句来捕获异常，然后通过 <code>ctx.throw()</code> 方法抛出异常信息，例如：</li></ol><pre class="code-block"><code class="language-vbnet">vbnetCopy codeasync function myMiddleware(ctx, next) {
+  try {
+    await next();
+  } catch (err) {
+    ctx.throw(500, &#39;Internal Server Error&#39;);
+  }
+}
+</code></pre><p>在这个例子中，<code>await next()</code> 表示调用下一个中间件函数，如果这个函数抛出异常，就会被捕获到，然后通过 <code>ctx.throw()</code> 方法抛出一个包含错误状态码和错误信息的异常。</p><ol><li>使用 Koa 的错误处理中间件：Koa 提供了一个错误处理中间件 <code>koa-json-error</code>，可以通过在应用程序中使用该中间件来处理异常。这个中间件会自动捕获应用程序中未被处理的异常，并将错误信息以 JSON 格式返回给客户端。例如：</li></ol><pre class="code-block"><code class="language-javascript">const Koa = require(&#39;koa&#39;);
+const jsonError = require(&#39;koa-json-error&#39;);
+
+const app = new Koa();
+
+// 注册错误处理中间件
+app.use(jsonError());
+
+// 中间件函数
+async function myMiddleware(ctx, next) {
+  await next();
+  throw new Error(&#39;Internal Server Error&#39;);
+}
+
+// 应用中间件
+app.use(myMiddleware);
+
+// 启动服务器
+app.listen(3000);
+</code></pre><p>在这个例子中，<code>koa-json-error</code> 中间件会自动捕获应用程序中未被处理的异常，并将错误信息以 JSON 格式返回给客户端。开发人员可以通过自定义错误处理函数来处理异常，例如：</p><pre class="code-block"><code class="language-javascript">const Koa = require(&#39;koa&#39;);
+const jsonError = require(&#39;koa-json-error&#39;);
+
+const app = new Koa();
+
+// 自定义错误处理函数
+function errorHandler(err, ctx) {
+  ctx.status = err.status || 500;
+  ctx.body = {
+    message: err.message,
+    status: ctx.status
+  };
+}
+
+// 注册错误处理中间件
+app.use(jsonError(errorHandler));
+
+// 中间件函数
+async function myMiddleware(ctx, next) {
+  await next();
+  throw new Error(&#39;Internal Server Error&#39;);
+}
+
+// 应用中间件
+app.use(myMiddleware);
+
+// 启动服务器
+app.listen(3000);
+</code></pre><p>在这个例子中，我们自定义了一个错误处理函数 <code>errorHandler</code>，将错误信息格式化为 JSON 格式，并设置响应状态码。然后将这个函数作为参数传递给 <code>koa-json-error</code> 中间件，用于处理异常。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

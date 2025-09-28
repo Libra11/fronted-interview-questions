@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CSS 中 position 常见属性有哪些，大概讲一下？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;CSS 中 &lt;code&gt;position&lt;/code&gt; 属性用于指定元素的定位方式，它有以下常见的属性值：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;code&gt;static&lt;/code&gt;：默认值，元素在文档流中正常排列。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li&gt;&lt;code&gt;relative&lt;/co" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="CSS 中 position 常见属性有哪些，大概讲一下？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;CSS 中 &lt;code&gt;position&lt;/code&gt; 属性用于指定元素的定位方式，它有以下常见的属性值：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;code&gt;static&lt;/code&gt;：默认值，元素在文档流中正常排列。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li&gt;&lt;code&gt;relative&lt;/code&gt;：元素在文档流中正常排列，但是可以通过设置 &lt;code&gt;top&lt;/code&gt;、&lt;code&gt;right&lt;/code&gt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/158" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>CSS 中 position 常见属性有哪些，大概讲一下？</h1>
+      <div class="subtitle">CSS · CSS</div>
+      <div class="meta">创建：2023-03-26T06:29:30Z · 更新：2023-03-26T06:29:31Z</div>
+    </div>
+    <article class="content markdown-body"><p>CSS 中 <code>position</code> 属性用于指定元素的定位方式，它有以下常见的属性值：</p><ol><li><code>static</code>：默认值，元素在文档流中正常排列。</li></ol><ol><li><code>relative</code>：元素在文档流中正常排列，但是可以通过设置 <code>top</code>、<code>right</code>、<code>bottom</code>、<code>left</code> 属性相对于其正常位置进行偏移，不会影响其它元素的位置。</li></ol><ol><li><code>absolute</code>：元素脱离文档流，相对于最近的非 <code>static</code> 定位的祖先元素进行定位，如果没有则相对于 <code>&lt;html&gt;</code> 元素进行定位。通过设置 <code>top</code>、<code>right</code>、<code>bottom</code>、<code>left</code> 属性进行偏移，如果祖先元素发生位置变化，则元素的位置也会发生相应的变化。</li></ol><ol><li><code>fixed</code>：元素脱离文档流，相对于浏览器窗口进行定位，始终保持在窗口的固定位置，不会随页面滚动而滚动。通过设置 <code>top</code>、<code>right</code>、<code>bottom</code>、<code>left</code> 属性进行偏移。</li></ol><ol><li><code>sticky</code>：元素在文档流中正常排列，当元素滚动到指定的位置时，停止滚动并固定在该位置，直到其祖先元素发生滚动时才会取消固定。通过设置 <code>top</code>、<code>right</code>、<code>bottom</code>、<code>left</code> 属性和 <code>z-index</code> 属性进行设置。</li></ol><p>以上是 <code>position</code> 属性的常见属性值和简单说明，不同的值会对元素进行不同的定位方式，开发人员可以根据需要选择合适的值来实现页面布局。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

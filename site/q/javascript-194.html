@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JavaScript 异步解决方案的发展历程主要有哪些阶段？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;JavaScript异步解决方案的发展历程主要有以下几个阶段：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;回调函数&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;最初，JavaScript采用回调函数的方式来解决异步编程问题。回调函数即在异步任务完成后调用的回调函数。例如，&lt;code&gt;setTimeout&lt;/cod" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="JavaScript 异步解决方案的发展历程主要有哪些阶段？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;JavaScript异步解决方案的发展历程主要有以下几个阶段：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;回调函数&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;最初，JavaScript采用回调函数的方式来解决异步编程问题。回调函数即在异步任务完成后调用的回调函数。例如，&lt;code&gt;setTimeout&lt;/code&gt;函数就是一个使用回调函数的例子。&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;l" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/194" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>JavaScript 异步解决方案的发展历程主要有哪些阶段？</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-26T10:24:28Z · 更新：2023-03-26T10:24:29Z</div>
+    </div>
+    <article class="content markdown-body"><p>JavaScript异步解决方案的发展历程主要有以下几个阶段：</p><ol><li>回调函数</li></ol><p>最初，JavaScript采用回调函数的方式来解决异步编程问题。回调函数即在异步任务完成后调用的回调函数。例如，<code>setTimeout</code>函数就是一个使用回调函数的例子。</p><pre class="code-block"><code class="language-javascript">setTimeout(() =&gt; {
+  console.log(&#39;Hello, world!&#39;);
+}, 1000);
+</code></pre><p>回调函数的优点是简单易懂，缺点是嵌套层次多、代码难以维护。</p><ol><li>jQuery.Deferred()</li></ol><p>jQuery.Deferred()是jQuery提供的一种异步编程解决方案。它是一种Promise风格的API，使得异步操作可以更加简单和可读性更高。</p><p>jQuery.Deferred()可以用于串行和并行异步操作的组织和控制，避免了回调地狱和代码复杂性。</p><p>在使用过程中，通过使用jQuery.Deferred()的resolve()和reject()方法来决定异步操作的成功或失败，并且可以使用then()方法添加成功和失败的回调函数。</p><p>jQuery.Deferred()主要的优点包括：</p><ul><li>简单易用：可以通过链式操作来组织和控制异步操作。</li><li>可读性高：可以使用then()方法添加成功和失败的回调函数，使代码的意图更加明确。</li><li>良好的兼容性：jQuery.Deferred()已经成为了jQuery的一部分，可以与其他jQuery的功能和插件良好地协作。</li></ul><p>而缺点则包括：</p><ul><li>jQuery.Deferred()不能被取消，且对于异步操作的结果状态只能被设置一次。</li><li>依赖于jQuery库：因为jQuery.Deferred()是jQuery的一部分，所以需要依赖于jQuery库，不适合非jQuery项目。</li></ul><ol><li>Promise</li></ol><p>Promise是ES6引入的一种异步编程解决方案，用于解决回调函数的嵌套问题。Promise是一个对象，表示异步操作的最终完成或失败。它有三种状态：pending（进行中）、fulfilled（已成功）和rejected（已失败）。</p><p>Promise的优点是解决了回调函数嵌套的问题，使得代码可读性和可维护性更好。缺点是语法相对复杂。</p><pre class="code-block"><code class="language-javascript">// Promise示例
+function fetchData() {
+  return new Promise((resolve, reject) =&gt; {
+    setTimeout(() =&gt; {
+      resolve(&#39;Hello, world!&#39;);
+    }, 1000);
+  });
+}
+
+fetchData().then((data) =&gt; {
+  console.log(data);
+}).catch((error) =&gt; {
+  console.log(error);
+});
+</code></pre><ol><li>Generator</li></ol><p>Generator 可以使用 yield 语句来暂停函数执行，并返回一个 Generator 对象，通过这个对象可以控制函数的继续执行和结束。</p><ol><li>Async/Await</li></ol><p>ES8引入了Async/Await语法，使得异步编程更加简单和可读。Async/Await是基于Promise实现的，可以看作是对Promise的一种封装。Async/Await语法可以让异步代码像同步代码一样书写，让代码的可读性更高。</p><pre class="code-block"><code class="language-javascript">// Async/Await示例
+async function fetchData() {
+  return new Promise((resolve, reject) =&gt; {
+    setTimeout(() =&gt; {
+      resolve(&#39;Hello, world!&#39;);
+    }, 1000);
+  });
+}
+
+async function run() {
+  try {
+    const data = await fetchData();
+    console.log(data);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+run();
+</code></pre><p>Async/Await 的优点是语法简单易懂、可读性好，缺点是需要掌握Promise的基本用法。</p><p>综上，JavaScript 异步编程方案的发展历程从最初的回调函数到Promise再到Async/Await，每个阶段都解决了前一阶段存在的问题，使得异步编程更加方便和易读。但是，不同方案都有自己的优缺点，需要根据实际情况选择使用。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

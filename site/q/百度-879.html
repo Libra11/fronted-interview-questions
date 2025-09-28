@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JS 如何计算一段文本渲染之后的长度【热度: 648】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：计算文本长度&lt;/p&gt;&lt;blockquote&gt;追加描述 &lt;/blockquote&gt;&lt;blockquote&gt;需要根据这个长度来动态计算文本是否折叠， 所以这个文本没有计算出长度是否折叠之前，还不能在用户可视区域渲染出来&lt;/blockqu" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="JS 如何计算一段文本渲染之后的长度【热度: 648】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：计算文本长度&lt;/p&gt;&lt;blockquote&gt;追加描述 &lt;/blockquote&gt;&lt;blockquote&gt;需要根据这个长度来动态计算文本是否折叠， 所以这个文本没有计算出长度是否折叠之前，还不能在用户可视区域渲染出来&lt;/blockquote&gt;&lt;p&gt;要在 JavaScript 中计算一段文本渲染之后的长度，可以通过几种方法来实现。这里的“长度”可以是文本" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/879" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>JS 如何计算一段文本渲染之后的长度【热度: 648】</h1>
+      <div class="subtitle">百度 · JavaScript · 百度</div>
+      <div class="meta">创建：2024-09-15T07:11:55Z · 更新：2024-09-17T12:31:32Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：计算文本长度</p><blockquote>追加描述  </blockquote><blockquote>需要根据这个长度来动态计算文本是否折叠， 所以这个文本没有计算出长度是否折叠之前，还不能在用户可视区域渲染出来</blockquote><p>要在 JavaScript 中计算一段文本渲染之后的长度，可以通过几种方法来实现。这里的“长度”可以是文本渲染后的像素宽度，它取决于具体的字体、字号、文本内容等因素。以下是一些可行的方法：</p><h3>1. 创建一个临时元素来计算文本尺寸</h3><p>这个方法涉及到创建一个与目标文本拥有相同样式（字体、字号等）的临时 DOM 元素，将目标文本内容设置到临时元素中，然后插入到文档流（不可见状态下）来测量其尺寸。测量完成后，再从文档中移除该临时元素。</p><pre class="code-block"><code class="language-javascript">function getTextWidth(text, font) {
+  // 创建一个临时的span元素
+  let tempEl = document.createElement(&quot;span&quot;);
+  tempEl.style.visibility = &quot;hidden&quot;; // 确保元素不可见
+  tempEl.style.whiteSpace = &quot;nowrap&quot;; // 防止文本换行
+  tempEl.style.font = font; // 应用字体样式
+  tempEl.textContent = text;
+
+  document.body.appendChild(tempEl);
+  let width = tempEl.offsetWidth; // 获取元素的宽度
+  document.body.removeChild(tempEl);
+
+  return width;
+}
+
+// 示例用法
+const font = &quot;16px Arial&quot;;
+const text = &quot;这是一段测试文本&quot;;
+console.log(getTextWidth(text, font));
+</code></pre><h3>2. 使用 Canvas 的 measureText 方法</h3><p>如果你不想与 DOM 打交道，也可以使用 Canvas 的 API 来测量文本宽度。<code>CanvasRenderingContext2D.measureText()</code> 方法返回一个对象，该对象包含了给定文本渲染后的宽度（以像素为单位）。</p><pre class="code-block"><code class="language-javascript">function measureTextWidth(text, font) {
+  let canvas = document.createElement(&quot;canvas&quot;);
+  let ctx = canvas.getContext(&quot;2d&quot;);
+  ctx.font = font; // 应用字体样式，格式与 CSS font 属性相同
+  let metrics = ctx.measureText(text);
+  return metrics.width;
+}
+
+// 示例用法
+const font = &quot;16px Arial&quot;;
+const text = &quot;这是一段测试文本&quot;;
+console.log(measureTextWidth(text, font));
+</code></pre><h3>注意事项</h3><ul><li>尽量在文档加载完毕后使用这些方法，特别是如果你依赖于页面上的样式信息时。</li><li>如果文本在页面上多次出现且样式一致，可以考虑缓存测量结果来提升性能。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>typeof 与 instanceof 的区别【热度: 906】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：typeof 与 instanceof、typeof 作用、instanceof 作用&lt;/p&gt;&lt;p&gt;在JavaScript中，typeof和instanceof是两个用于检查变量类型的操作符，但它们具有不同的用途和区别。&lt;/p&gt;&lt;p" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="typeof 与 instanceof 的区别【热度: 906】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：typeof 与 instanceof、typeof 作用、instanceof 作用&lt;/p&gt;&lt;p&gt;在JavaScript中，typeof和instanceof是两个用于检查变量类型的操作符，但它们具有不同的用途和区别。&lt;/p&gt;&lt;p&gt;typeof是一个一元操作符，用于确定给定变量的数据类型。它返回一个字符串，表示变量的数据类型。typeof可以用于任" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/537" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>typeof 与 instanceof 的区别【热度: 906】</h1>
+      <div class="subtitle">JavaScript · JavaScript · Shopee</div>
+      <div class="meta">创建：2023-08-31T15:15:24Z · 更新：2023-08-31T15:15:25Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：typeof 与 instanceof、typeof 作用、instanceof 作用</p><p>在JavaScript中，typeof和instanceof是两个用于检查变量类型的操作符，但它们具有不同的用途和区别。</p><p>typeof是一个一元操作符，用于确定给定变量的数据类型。它返回一个字符串，表示变量的数据类型。typeof可以用于任何变量，包括基本数据类型（如字符串、数字、布尔值）和引用数据类型（如对象、数组、函数等）。</p><p>例如：</p><pre class="code-block"><code class="language-ts">typeof 42; // &quot;number&quot;
+typeof &quot;Hello&quot;; // &quot;string&quot;
+typeof true; // &quot;boolean&quot;
+typeof undefined; // &quot;undefined&quot;
+typeof null; // &quot;object&quot;
+typeof [1, 2, 3]; // &quot;object&quot;
+typeof {name: &quot;John&quot;, age: 30}; // &quot;object&quot;
+typeof function() {} // &quot;function&quot;
+</code></pre><p>注意，typeof null返回的是"object"，这是一个历史遗留问题。</p><p>instanceof是一个二元操作符，用于检查对象是否属于指定的构造函数的实例。它返回一个布尔值，表示对象是否是特定构造函数的实例或其子类的实例。</p><p>例如：</p><pre class="code-block"><code class="language-ts">var arr = [1, 2, 3];
+arr instanceof Array; // true
+
+var obj = {name: &quot;John&quot;, age: 30};
+obj instanceof Object; // true
+
+function Person(name) {
+this.name = name;
+}
+var john = new Person(&quot;John&quot;);
+john instanceof Person; // true
+</code></pre><p>typeof用于确定变量的数据类型，而instanceof用于确定对象是否为某个构造函数的实例。虽然typeof可以检查基本数据类型和引用数据类型，但无法检查对象的具体类型。而instanceof可以在对象的继承链上进行检查，可以明确对象是否为某个类的实例或其子类的实例。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>typeof null 的输出结果是什么，为什么？【热度: 93】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：typeof null 输出结果&lt;/p&gt;&lt;p&gt;在 JavaScript 中，&lt;code&gt;typeof null&lt;/code&gt; 的输出结果是 &lt;code&gt;&amp;quot;object&amp;quot;&lt;/code&gt;。&lt;/p&gt;&lt;p&gt;这是因为在 J" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="typeof null 的输出结果是什么，为什么？【热度: 93】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：typeof null 输出结果&lt;/p&gt;&lt;p&gt;在 JavaScript 中，&lt;code&gt;typeof null&lt;/code&gt; 的输出结果是 &lt;code&gt;&amp;quot;object&amp;quot;&lt;/code&gt;。&lt;/p&gt;&lt;p&gt;这是因为在 JavaScript 中，&lt;code&gt;null&lt;/code&gt; 被视为一个特殊的空值对象。尽管 &lt;code&gt;null&lt;/co" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/487" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>typeof null 的输出结果是什么，为什么？【热度: 93】</h1>
+      <div class="subtitle">Shopee · JavaScript · Shopee</div>
+      <div class="meta">创建：2023-07-26T14:52:56Z · 更新：2023-07-26T14:52:56Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：typeof null 输出结果</p><p>在 JavaScript 中，<code>typeof null</code> 的输出结果是 <code>&quot;object&quot;</code>。</p><p>这是因为在 JavaScript 中，<code>null</code> 被视为一个特殊的空值对象。尽管 <code>null</code> 实际上不是一个对象，它是一个原始类型的值，但 <code>typeof null</code> 返回 <code>&quot;object&quot;</code> 是由于历史原因以及 JavaScript 的设计缺陷。</p><p>在 JavaScript 的早期版本中，<code>null</code> 被错误地标记为一个 <code>&quot;object&quot;</code> 类型，这个错误一直延续至今，以保持与早期版本的兼容性。所以，当我们使用 <code>typeof</code> 操作符来检查 <code>null</code> 时，它会返回 <code>&quot;object&quot;</code>。</p><p>需要注意的是，这个返回值是一个历史遗留问题，不应该用来判断一个变量是否为 <code>null</code>。为了准确地检查一个变量是否为 <code>null</code>，我们应该使用严格相等运算符 <code>===</code>，如 <code>myVariable === null</code>。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

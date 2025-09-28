@@ -1,0 +1,111 @@
+# is 作用是什么【热度: 458】
+
+**关键词**：is 谓词语法、is 语法作用
+
+在 TypeScript 中，`is` 是一种类型谓词（type predicate）语法。它用于在运行时对一个值的类型进行检查，并返回一个布尔值。
+
+`is` 通常与条件类型和类型保护（type guards）一起使用。条件类型可以基于类型谓词 `is` 的结果来进行类型细化，从而在编译时获取更准确的类型推断。
+
+以下是一个示例，展示了如何使用 `is` 进行类型谓词检查：
+
+```typescript
+function isString(value: unknown): value is string {
+  return typeof value === 'string';
+}
+
+function processValue(value: unknown): void {
+  if (isString(value)) {
+    console.log(value.toUpperCase());
+  } else {
+    console.log('Value is not a string.');
+  }
+}
+
+processValue('hello'); // 输出: HELLO
+processValue(42); // 输出: Value is not a string.
+```
+
+在上述示例中，我们定义了一个 `isString` 函数，它接受一个 `unknown` 类型的值，并使用 `typeof` 运算符检查该值是否为字符串类型。函数返回一个布尔值，指示值是否为字符串类型。
+
+然后，我们定义了一个 `processValue` 函数，它接受一个 `unknown` 类型的值，并通过调用 `isString` 函数进行类型谓词检查。如果值是字符串类型，就将其转换为大写并打印出来；否则，打印出值不是字符串类型的消息。
+
+最后，我们调用 `processValue` 函数两次，一次传入字符串 `'hello'`，一次传入数值 `42`。第一次调用输出 `HELLO`，表示字符串类型的值通过了类型谓词检查；第二次调用输出 `Value is not a string.`，表示数值类型的值未通过类型谓词检查。
+
+因此，`is` 是 TypeScript 中用于类型谓词检查的关键字，用于在运行时对一个值的类型进行判断，并返回一个布尔值。
+
+
+## Comments / Answers
+
+---
+
+**yanlele** at 2023-08-03T16:27:20Z
+
+**补充**
+
+is 关键字用在函数的返回值上，用来表示对于函数返回值的类型保护。
+
+```typescript
+function isString (value) {
+  return Object.prototype.toString.call(value) === '[object String]'
+}
+
+function fn (x: string | number) {
+  if (isString(x)) {
+    return x.length // error 类型“string | number”上不存在属性“length”。
+  } else {
+    // .....
+  }
+}
+
+// =>
+function isString (value: unknown): value is string {
+  return Object.prototype.toString.call(value) === '[object String]'
+}
+
+function fn (x: string | number) {
+  if (isString(x)) {
+    return x.length
+  } else {
+    // .....
+  }
+}
+```
+
+上面的例子还不明显，毕竟是因为ts解析器对Object.prototype.toString没有实现类型推断，我们要是用 `typeof x === 'string'`，利用typeof具有类型推断的能力一样达到效果
+
+但总有些类型是不能依靠typeof的能力的，譬如朋友提出的这个：
+
+```typescript
+interface TA {
+  a: number
+}
+
+interface TB {
+  b: number;
+}
+
+function cookTest(val: TA | TB) {
+  if (val.a) { // error: Property 'a' does not exist on type 'TA | TB'.
+  }
+}
+```
+
+这时候is就可以用起来了：
+
+```typescript
+interface TA {
+  a: number
+}
+
+interface TB {
+  b: number;
+}
+
+function getA(params: TA | TB): params is TA {
+  return "a" in params;
+}
+
+function cookTest(val: TA | TB) {
+  const a = getA(val) ? val.a : ''; // 安全
+}
+```

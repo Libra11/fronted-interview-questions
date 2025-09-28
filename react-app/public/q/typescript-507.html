@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>unknown 是什么类型，详细讲一下【热度: 801】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：unknown类型、unknown类型应用&lt;/p&gt;&lt;p&gt;&lt;code&gt;unknown&lt;/code&gt;指的是&lt;strong&gt;不可预先定义的类型&lt;/strong&gt;，在很多场景下，它可以替代any的功能同时保留静态检查的能力。&lt;/p&gt;&lt;pre" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="unknown 是什么类型，详细讲一下【热度: 801】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：unknown类型、unknown类型应用&lt;/p&gt;&lt;p&gt;&lt;code&gt;unknown&lt;/code&gt;指的是&lt;strong&gt;不可预先定义的类型&lt;/strong&gt;，在很多场景下，它可以替代any的功能同时保留静态检查的能力。&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-typescript&quot;&gt;const " />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/507" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>unknown 是什么类型，详细讲一下【热度: 801】</h1>
+      <div class="subtitle">TypeScript · TypeScript</div>
+      <div class="meta">创建：2023-08-03T15:13:18Z · 更新：2024-01-07T12:44:55Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：unknown类型、unknown类型应用</p><p><code>unknown</code>指的是<strong>不可预先定义的类型</strong>，在很多场景下，它可以替代any的功能同时保留静态检查的能力。</p><pre class="code-block"><code class="language-typescript">const num: number = 10;
+(num as unknown as string).split(&#39;&#39;);          // 注意，这里和any一样完全可以通过静态检查
+</code></pre><p>这个时候unknown的作用就跟any高度类似了，你可以把它转化成任何类型，不同的地方是，在静态编译的时候，unknown不能调用任何方法，而any可以。</p><pre class="code-block"><code class="language-typescript">const foo: unknown = &#39;string&#39;;
+foo.substr(1);           // Error: 静态检查不通过报错
+const bar: any = 10;
+bar.substr(1); 
+</code></pre><p>unknown的一个使用场景是，避免使用any作为函数的参数类型而导致的静态类型检查bug：</p><pre class="code-block"><code class="language-typescript">function test(input: unknown): number {
+  if (Array.isArray(input)) {
+    return input.length;    // Pass: 这个代码块中，类型守卫已经将input识别为array类型
+  }
+  return input.length;      // Error: 这里的input还是unknown类型，静态检查报错。如果入参是any，则会放弃检查直接成功，带来报错风险
+}
+</code></pre><p>我们在一些无法确定函数参数（返回值）类型中 unknown 使用的场景非常多</p><pre class="code-block"><code class="language-typescript">// 在不确定函数参数的类型时
+// 将函数的参数声明为unknown类型而非any
+// TS同样会对于unknown进行类型检测，而any就不会
+function resultValueBySome(val:unknown) { 
+  if (typeof val === &#39;string&#39;) {  
+    // 此时 val 是string类型   
+    // do someThing 
+  } else if (typeof val === &#39;number&#39;) { 
+    // 此时 val 是number类型   
+    // do someThing  
+  } 
+  // ...
+}
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

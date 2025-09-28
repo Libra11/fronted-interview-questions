@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] 如何实现vue 中 keep-alive 的功能？【热度: 255】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：keep-alive组件缓存、keep-alive实现、keep-alive原理&lt;/p&gt;&lt;p&gt;&lt;strong&gt;keep-alive 原理&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;可以参考这个文章： https://github.com/pro" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] 如何实现vue 中 keep-alive 的功能？【热度: 255】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：keep-alive组件缓存、keep-alive实现、keep-alive原理&lt;/p&gt;&lt;p&gt;&lt;strong&gt;keep-alive 原理&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;可以参考这个文章： https://github.com/pro-collection/interview-question/issues/119&lt;/p&gt;&lt;p&gt;&lt;strong&gt;实现&lt;/" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/580" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] 如何实现vue 中 keep-alive 的功能？【热度: 255】</h1>
+      <div class="subtitle">网易 · web框架 · 网易</div>
+      <div class="meta">创建：2023-10-01T13:48:54Z · 更新：2023-10-01T13:48:55Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：keep-alive组件缓存、keep-alive实现、keep-alive原理</p><p><strong>keep-alive 原理</strong></p><p>可以参考这个文章： https://github.com/pro-collection/interview-question/issues/119</p><p><strong>实现</strong></p><p>当使用函数式组件时，可以使用React的Hooks来实现类似Vue的<code>&lt;keep-alive&gt;</code>功能。下面是一个使用React函数式组件和Hooks实现类似Vue的<code>&lt;keep-alive&gt;</code>功能的示例：</p><pre class="code-block"><code class="language-jsx">import React, { useEffect, useRef } from &#39;react&#39;;
+
+const withKeepAlive = (WrappedComponent) =&gt; {
+  const cache = new Map(); // 使用Map来存储缓存的组件实例
+
+  return (props) =&gt; {
+    const { id } = props;
+    const componentRef = useRef(null);
+
+    useEffect(() =&gt; {
+      if (!cache.has(id)) {
+        cache.set(id, componentRef.current); // 缓存组件实例
+      }
+
+      return () =&gt; {
+        cache.delete(id); // 组件销毁时从缓存中移除
+      };
+    }, [id]);
+
+    const cachedInstance = cache.get(id); // 获取缓存的组件实例
+
+    if (cachedInstance) {
+      return React.cloneElement(cachedInstance.props.children, props); // 渲染缓存的组件实例的子组件
+    }
+
+    return &lt;WrappedComponent ref={componentRef} {...props} /&gt;; // 初次渲染时渲染原始组件
+  };
+};
+</code></pre><p>使用这个高阶函数组件来包裹需要缓存的函数式组件：</p><pre class="code-block"><code class="language-jsx">const SomeComponent = (props) =&gt; {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Some Component&lt;/h1&gt;
+      &lt;p&gt;{props.message}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+};
+
+const KeepAliveSomeComponent = withKeepAlive(SomeComponent);
+</code></pre><p>在父组件中使用<code>KeepAliveSomeComponent</code>来实现缓存功能：</p><pre class="code-block"><code class="language-jsx">const ParentComponent = () =&gt; {
+  const [showComponent, setShowComponent] = useState(false);
+
+  const toggleComponent = () =&gt; {
+    setShowComponent(!showComponent);
+  };
+
+  return (
+    &lt;div&gt;
+      &lt;button onClick={toggleComponent}&gt;Toggle Component&lt;/button&gt;
+      {showComponent &amp;&amp; (
+        &lt;KeepAliveSomeComponent id=&quot;some-component&quot; message=&quot;Hello, World!&quot; /&gt;
+      )}
+    &lt;/div&gt;
+  );
+};
+</code></pre><p>在上述示例中，<code>ParentComponent</code>包含一个按钮，点击按钮时切换<code>KeepAliveSomeComponent</code>的显示与隐藏。每次切换时，<code>KeepAliveSomeComponent</code>的状态将保留，因为它被缓存并在需要时重新渲染。</p><p>同样地，这个示例只实现了最基本的缓存功能，并没有处理更复杂的场景。如果需要更复杂的缓存功能，可以考虑使用状态管理库来管理组件的状态和缓存。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>请实现一个 add 函数，满足以下功能 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h3&gt;题目如下&lt;/h3&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code&gt;add(1).getValue(); // 1 add(1)(2).getValue(); // 3 add(1)(2)(3).getValue()； // 6 add(1)(2, 3).get" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="请实现一个 add 函数，满足以下功能" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h3&gt;题目如下&lt;/h3&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code&gt;add(1).getValue(); // 1 add(1)(2).getValue(); // 3 add(1)(2)(3).getValue()； // 6 add(1)(2, 3).getValue(); // 6 add(1, 2)(3).getValue(); // 6 add(1, 2, 3).get" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/264" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>请实现一个 add 函数，满足以下功能</h1>
+      <div class="subtitle">JavaScript · JavaScript · 代码实现/算法</div>
+      <div class="meta">创建：2023-04-08T15:42:13Z · 更新：2023-10-13T04:25:20Z</div>
+    </div>
+    <article class="content markdown-body"><h3>题目如下</h3><pre class="code-block"><code>add(1).getValue(); 	// 1
+add(1)(2).getValue();  	// 3
+add(1)(2)(3).getValue()；  // 6
+add(1)(2, 3).getValue();   // 6
+add(1, 2)(3).getValue();   // 6
+add(1, 2, 3).getValue();   // 6
+</code></pre><h3>解法</h3><pre class="code-block"><code class="language-js">function add(...args) {
+  function innerAdd(...innerArgs) {
+    args.push(...innerArgs);
+    return innerAdd;
+  }
+
+  innerAdd.getValue = function() {
+    return args.reduce((acc, curr) =&gt; acc + curr, 0);
+  };
+
+  return innerAdd;
+}
+
+
+// console.log(add(1)(2).getValue()); // 输出: 3
+</code></pre><h2>Comments / Answers</h2><hr /><p><strong>wuhuaizai</strong> at 2023-09-14T06:59:56Z</p><p>解法1，2只是柯里化的话，不能实现add(1) // 1这种操作吧，只是柯里化的话add(1)得到的应该还是函数，是不是漏了些代码了？</p><hr /><p><strong>wuhuaizai</strong> at 2023-09-14T07:24:15Z</p><p>这个题目的意思是想要在console.log里显示注释后的结果？所以利用console.log会隐式调用toString来重写toString方法实现？</p><hr /><p><strong>yanlele</strong> at 2023-09-15T03:21:41Z</p><blockquote>解法1，2只是柯里化的话，不能实现add(1) // 1这种操作吧，只是柯里化的话add(1)得到的应该还是函数，是不是漏了些代码了？</blockquote><p>@wuhuaizai 应该是乱入了；</p><hr /><p><strong>yanlele</strong> at 2023-09-15T03:28:06Z</p><blockquote>这个题目的意思是想要在console.log里显示注释后的结果？所以利用console.log会隐式调用toString来重写toString方法实现？</blockquote><p>@wuhuaizai 感觉问题的，问法有问题；</p><pre class="code-block"><code>add(1)(2);  	// 3
+add(1)(2)(3)；  // 6
+add(1)(2, 3);   // 6
+add(1, 2)(3);   // 6
+</code></pre><p>明显是一个链式调用， 返回的肯定是一个函数才支持链式调用；但是又要得到输出值， 只能有一个 获取值的办法； toString 本意确实是想通过隐式调用来实现， 但是不知道为何， 还是输出的是函数；</p><p>可以改为这样：</p><pre class="code-block"><code class="language-js">function add(...args) {
+  function innerAdd(...innerArgs) {
+    args.push(...innerArgs);
+    return innerAdd;
+  }
+
+  innerAdd.getValue = function() {
+    return args.reduce((acc, curr) =&gt; acc + curr, 0);
+  };
+
+  return innerAdd;
+}
+
+
+// console.log(add(1)(2).getValue()); // 输出: 3
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

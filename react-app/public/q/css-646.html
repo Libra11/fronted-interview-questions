@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>css加载会造成阻塞吗【热度: 373】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：css 加载阻塞渲染&lt;/p&gt;&lt;h1&gt;css加载会造成阻塞吗？&lt;/h1&gt;&lt;p&gt;js执行会阻塞DOM树的解析和渲染，那么css加载会阻塞DOM树的解析和渲染吗？&lt;/p&gt;&lt;p&gt;为了完成本次测试，先来科普一下，如何利用chrome来设置下载" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="css加载会造成阻塞吗【热度: 373】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：css 加载阻塞渲染&lt;/p&gt;&lt;h1&gt;css加载会造成阻塞吗？&lt;/h1&gt;&lt;p&gt;js执行会阻塞DOM树的解析和渲染，那么css加载会阻塞DOM树的解析和渲染吗？&lt;/p&gt;&lt;p&gt;为了完成本次测试，先来科普一下，如何利用chrome来设置下载速度&lt;/p&gt;&lt;p&gt;打开chrome控制台(按下F12),可以看到下图，重点在我画红圈的地方&lt;/p&gt;&lt;p&gt;&lt;img alt" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/646" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>css加载会造成阻塞吗【热度: 373】</h1>
+      <div class="subtitle">CSS · CSS · TOP100互联网</div>
+      <div class="meta">创建：2023-12-06T15:07:54Z · 更新：2023-12-06T15:07:54Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：css 加载阻塞渲染</p><h1>css加载会造成阻塞吗？</h1><p>js执行会阻塞DOM树的解析和渲染，那么css加载会阻塞DOM树的解析和渲染吗？</p><p>为了完成本次测试，先来科普一下，如何利用chrome来设置下载速度</p><p>打开chrome控制台(按下F12),可以看到下图，重点在我画红圈的地方</p><p><img alt="01" src="https://pic1.zhimg.com/v2-00bec3ea167ad4320a7e60fa0e405978_r.jpg" /></p><ol><li>点击我画红圈的地方(No throttling),会看到下图,我们选择GPRS这个选项</li></ol><p><img alt="02" src="https://pic2.zhimg.com/v2-3b76909c0db211e6def82107ddaaabc9_r.jpg" /></p><ol><li>这样，我们对资源的下载速度上限就会被限制成20kb/s，好，那接下来就进入我们的正题</li></ol><h3>css加载会阻塞DOM树的解析渲染吗？</h3><pre class="code-block"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    &lt;title&gt;css阻塞&lt;/title&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+    &lt;style&gt;
+      h1 {
+        color: red !important
+      }
+    &lt;/style&gt;
+    &lt;script&gt;
+      function h () {
+        console.log(document.querySelectorAll(&#39;h1&#39;))
+      }
+      setTimeout(h, 0)
+    &lt;/script&gt;
+    &lt;link href=&quot;https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css&quot; rel=&quot;stylesheet&quot;&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;这是红色的&lt;/h1&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>假设： css加载会阻塞DOM树解析和渲染</p><p>假设下的结果: 在bootstrap.css还没加载完之前，下面的内容不会被解析渲染。那么我们一开始看到的应该是白屏，h1不会显示出来。</p><p>并且此时console.log的结果应该是一个空数组。</p><p>实际结果:如下图</p><p><img alt="03" src="https://pic2.zhimg.com/v2-d27c590e677526132cc102b967cb06b9_b.gif" /></p><h4>css会阻塞DOM树解析？</h4><p>由上图我们可以看到，当bootstrap.css还没加载完成的时候，h1并没有显示，但是此时控制台输出如下</p><p><img alt="04" src="https://pic1.zhimg.com/80/v2-655b4eabed2a09aaa75662cd971cb7fc_hd.jpg" /></p><p>可以得知，此时DOM树至少已经解析完成到了h1那里，而此时css还没加载完成，也就说明，<strong>css并不会阻塞DOM树的解析</strong>。</p><h4>css加载会阻塞DOM树渲染？</h4><p>由上图，我们也可以看到，当css还没加载出来的时候，页面显示白屏，直到css加载完成之后，红色字体才显示出来，也就是说，</p><p>下面的内容虽然解析了，但是并没有被渲染出来。所以，<strong>css加载会阻塞DOM树渲染</strong>。</p><h4>个人对这种机制的评价</h4><p>其实我觉得，这可能也是浏览器的一种优化机制。因为你加载css的时候，</p><p>可能会修改下面DOM节点的样式，如果css加载不阻塞DOM树渲染的话，那么当css加载完之后，</p><p>DOM树可能又得重新重绘或者回流了，这就造成了一些没有必要的损耗。所以干脆就先把DOM树的结构先解析完，把可以做的工作做完，</p><p>然后等你css加载完之后，在根据最终的样式来渲染DOM树，这种做法性能方面确实会比较好一点。</p><h3>css加载会阻塞js运行吗？</h3><p>由上面的推论，我们可以得出，css加载不会阻塞DOM树解析，但是会阻塞DOM树渲染。那么，css加载会不会阻塞js执行呢?</p><pre class="code-block"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    &lt;title&gt;css阻塞&lt;/title&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+    &lt;script&gt;
+      console.log(&#39;before css&#39;)
+      var startDate = new Date()
+    &lt;/script&gt;
+    &lt;link href=&quot;https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css&quot; rel=&quot;stylesheet&quot;&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;这是红色的&lt;/h1&gt;
+    &lt;script&gt;
+      var endDate = new Date()
+      console.log(&#39;after css&#39;)
+      console.log(&#39;经过了&#39; + (endDate -startDate) + &#39;ms&#39;)
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>假设: css加载会阻塞后面的js运行</p><p>预期结果: 在link后面的js代码，应该要在css加载完成后才会运行</p><p>实际结果:</p><p><img alt="05" src="https://pic1.zhimg.com/v2-08c57cc17672558749803febff606468_b.gif" /></p><p>由上图我们可以看出，位于css加载语句前的那个js代码先执行了，</p><p>但是位于css加载语句后面的代码迟迟没有执行，直到css加载完成后，它才执行。</p><p>这也就说明了，<strong>css加载会阻塞后面的js语句的执行</strong>。详细结果看下图(css加载用了5600+ms):</p><p><img alt="06" src="https://pic3.zhimg.com/80/v2-00254fb0bd3edd4f25fcc093681a2006_hd.jpg" /></p><h3>结论</h3><p>由上所述，我们可以得出以下结论:</p><ul><li>css加载不会阻塞DOM树的解析</li><li>css加载会阻塞DOM树的渲染</li><li>css加载会阻塞后面js语句的执行</li></ul><p>因此，为了避免让用户看到长时间的白屏时间，我们应该尽可能的提高css加载速度，比如可以使用以下几种方法:</p><ul><li>使用CDN(因为CDN会根据你的网络状况，替你挑选最近的一个具有缓存内容的节点为你提供资源，因此可以减少加载时间)</li><li>对css进行压缩(可以用很多打包工具，比如webpack,gulp等，也可以通过开启gzip压缩)</li><li>合理的使用缓存(设置cache-control,expires,以及E-tag都是不错的，不过要注意一个问题，就是文件更新后，你要避免缓存而带来的影响。其中一个解决防范是在文件名字后面加一个版本号)</li><li>减少http请求数，将多个css文件合并，或者是干脆直接写成内联样式(内联样式的一个缺点就是不能缓存)</li></ul><h3>其他补充</h3><p>浏览器渲染是合并dom和cssom的过程，和js完全不一样。</p><p>浏览器实现是，尽量等待dom和cssom解析完成，再开始合并渲染。</p><p>如果dom解析完成但是css文件超时，或者css太慢，浏览器也会先渲染dom，等css下载完成再另一次渲染。</p><p>而为什么会阻塞js，大部分原因都是因为js一般是在页面load完成之后才执行。</p><p>如果css都没加载完成js自然不会执行。以上属个人见解，实际情况自行测试。</p><p>浏览器对CSS阻塞渲染有两种处理方式，要么等css解析完一起渲染，chrome就是这么做的，但是会造成白屏；</p><p>要么先把无样式的dom渲染出来等css解析好了再渲染一次，Firefox就是这么做的，但是会造成无样式内容闪烁。</p><p>参考文章</p><ul><li><a href="https://zhuanlan.zhihu.com/p/43282197?utm_source=qq&amp;utm_medium=social&amp;utm_oi=746007294986174464" target="_blank" rel="noopener">css加载会造成阻塞吗？</a></li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

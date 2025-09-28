@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>单测中，如果有一些三方依赖，想排除这个三方依赖进行测试，该如何做？【热度: 387】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：前端单测，如何排除三方依赖&lt;/p&gt;&lt;p&gt;在单元测试里，当存在三方依赖时，为保证测试的独立性与稳定性，你可以采用模拟（Mock）或桩（Stub）的方式排除这些三方依赖。下面结合不同的测试框架和场景，介绍具体的实现方法。&lt;/p&gt;&lt;h3&gt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="单测中，如果有一些三方依赖，想排除这个三方依赖进行测试，该如何做？【热度: 387】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：前端单测，如何排除三方依赖&lt;/p&gt;&lt;p&gt;在单元测试里，当存在三方依赖时，为保证测试的独立性与稳定性，你可以采用模拟（Mock）或桩（Stub）的方式排除这些三方依赖。下面结合不同的测试框架和场景，介绍具体的实现方法。&lt;/p&gt;&lt;h3&gt;使用 Jest 进行模拟&lt;/h3&gt;&lt;p&gt;Jest 是一个功能强大的 JavaScript 测试框架，它内置了模拟功能，可" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1106" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>单测中，如果有一些三方依赖，想排除这个三方依赖进行测试，该如何做？【热度: 387】</h1>
+      <div class="subtitle">工程化 · 工程化</div>
+      <div class="meta">创建：2025-03-25T15:44:31Z · 更新：2025-03-25T15:44:32Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：前端单测，如何排除三方依赖</p><p>在单元测试里，当存在三方依赖时，为保证测试的独立性与稳定性，你可以采用模拟（Mock）或桩（Stub）的方式排除这些三方依赖。下面结合不同的测试框架和场景，介绍具体的实现方法。</p><h3>使用 Jest 进行模拟</h3><p>Jest 是一个功能强大的 JavaScript 测试框架，它内置了模拟功能，可方便地模拟三方依赖。</p><h4>模拟模块</h4><p>若三方依赖以模块形式引入，可使用 <code>jest.mock</code> 方法模拟该模块。</p><p><strong>示例代码</strong>：</p><pre class="code-block"><code class="language-javascript">// api.js （三方依赖模块）
+export const fetchData = async () =&gt; {
+  const response = await fetch(&quot;https://example.com/api/data&quot;);
+  return response.json();
+};
+
+// myModule.js （使用三方依赖的模块）
+import { fetchData } from &quot;./api&quot;;
+
+export const processData = async () =&gt; {
+  const data = await fetchData();
+  return data.length;
+};
+
+// myModule.test.js （测试文件）
+import { processData } from &quot;./myModule&quot;;
+jest.mock(&quot;./api&quot;);
+import { fetchData } from &quot;./api&quot;;
+
+describe(&quot;processData&quot;, () =&gt; {
+  test(&quot;should return the length of the data&quot;, async () =&gt; {
+    const mockData = [&quot;item1&quot;, &quot;item2&quot;, &quot;item3&quot;];
+    fetchData.mockResolvedValue(mockData);
+
+    const result = await processData();
+    expect(result).toBe(mockData.length);
+  });
+});
+</code></pre><p>在上述示例中，<code>jest.mock(&#39;./api&#39;)</code> 模拟了 <code>api.js</code> 模块，<code>fetchData.mockResolvedValue(mockData)</code> 指定了 <code>fetchData</code> 函数的返回值。</p><h4>模拟全局对象或函数</h4><p>若三方依赖是全局对象或函数，可使用 <code>jest.spyOn</code> 或直接覆盖该对象或函数。</p><p><strong>示例代码</strong>：</p><pre class="code-block"><code class="language-javascript">// myFunction.js
+export const myFunction = () =&gt; {
+  return Math.random();
+};
+
+// myFunction.test.js
+import { myFunction } from &quot;./myFunction&quot;;
+
+describe(&quot;myFunction&quot;, () =&gt; {
+  test(&quot;should return a mocked value&quot;, () =&gt; {
+    const originalMathRandom = Math.random;
+    Math.random = () =&gt; 0.5;
+
+    const result = myFunction();
+    expect(result).toBe(0.5);
+
+    Math.random = originalMathRandom;
+  });
+});
+</code></pre><p>此例中，通过覆盖 <code>Math.random</code> 函数来模拟其返回值，测试结束后恢复原始函数。</p><h3>使用 Sinon 进行模拟</h3><p>Sinon 是一个流行的 JavaScript 测试工具，可创建间谍（spy）、存根（stub）和模拟（mock）对象。</p><h4>安装 Sinon</h4><pre class="code-block"><code class="language-bash">npm install --save-dev sinon
+</code></pre><h4>使用 Sinon 存根函数</h4><pre class="code-block"><code class="language-javascript">// api.js
+export const fetchData = async () =&gt; {
+  const response = await fetch(&quot;https://example.com/api/data&quot;);
+  return response.json();
+};
+
+// myModule.js
+import { fetchData } from &quot;./api&quot;;
+
+export const processData = async () =&gt; {
+  const data = await fetchData();
+  return data.length;
+};
+
+// myModule.test.js
+import sinon from &quot;sinon&quot;;
+import { processData } from &quot;./myModule&quot;;
+import { fetchData } from &quot;./api&quot;;
+
+describe(&quot;processData&quot;, () =&gt; {
+  let stub;
+  beforeEach(() =&gt; {
+    stub = sinon.stub();
+    stub.resolves([&quot;item1&quot;, &quot;item2&quot;, &quot;item3&quot;]);
+    sinon.replace(fetchData, &quot;fetchData&quot;, stub);
+  });
+
+  afterEach(() =&gt; {
+    sinon.restore();
+  });
+
+  test(&quot;should return the length of the data&quot;, async () =&gt; {
+    const result = await processData();
+    expect(result).toBe(3);
+  });
+});
+</code></pre><p>在这个示例中，使用 <code>sinon.stub</code> 创建一个存根函数，使用 <code>sinon.replace</code> 替换 <code>fetchData</code> 函数，测试结束后使用 <code>sinon.restore</code> 恢复原始函数。</p><p>通过以上方法，你可以在单元测试中排除三方依赖，确保测试的独立性和稳定性。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>splice 和 slice 有什么区别？【热度: 282】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：Array 方法 splice、Array 方法 slice、splice 和 slice 区别&lt;/p&gt;&lt;p&gt;&lt;code&gt;splice()&lt;/code&gt; 和 &lt;code&gt;slice()&lt;/code&gt; 是 JavaScript 中用于" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="splice 和 slice 有什么区别？【热度: 282】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：Array 方法 splice、Array 方法 slice、splice 和 slice 区别&lt;/p&gt;&lt;p&gt;&lt;code&gt;splice()&lt;/code&gt; 和 &lt;code&gt;slice()&lt;/code&gt; 是 JavaScript 中用于操作数组的两个方法，它们的功能和用法有一些区别。&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;code&gt;splice()&lt;/code&gt; 方法" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/560" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>splice 和 slice 有什么区别？【热度: 282】</h1>
+      <div class="subtitle">滴滴 · JavaScript · 滴滴</div>
+      <div class="meta">创建：2023-09-16T08:36:55Z · 更新：2023-09-16T08:36:56Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：Array 方法 splice、Array 方法 slice、splice 和 slice 区别</p><p><code>splice()</code> 和 <code>slice()</code> 是 JavaScript 中用于操作数组的两个方法，它们的功能和用法有一些区别。</p><ol><li><code>splice()</code> 方法：</li></ol><ul><li>功能：从数组中添加、删除或替换元素。</li><li>用法：<code>array.splice(start, deleteCount, item1, item2, ...)</code>。</li><li>参数：</li><li><code>start</code>：表示修改的起始位置的下标。</li><li><code>deleteCount</code>：可选参数，表示要删除的元素数量。</li><li><code>item1, item2, ...</code>：可选参数，表示要添加到数组的元素。</li><li>返回值：返回一个被删除元素组成的数组。</li></ul><ol><li><code>slice()</code> 方法：</li></ol><ul><li>功能：从数组中提取指定范围内的元素，返回一个新的数组。</li><li>用法：<code>array.slice(start, end)</code>。</li><li>参数：</li><li><code>start</code>：可选参数，表示提取的起始位置的下标。</li><li><code>end</code>：可选参数，表示提取的结束位置的下标（不包含该位置的元素）。</li><li>返回值：返回一个新的数组，包含提取出的元素。</li></ul><p>主要区别：</p><ul><li><code>splice()</code> 方法会对原数组进行修改，而 <code>slice()</code> 方法不会修改原数组，而是返回一个新的数组。</li><li><code>splice()</code> 方法可以在指定位置添加、删除或替换元素，而 <code>slice()</code> 方法只能提取指定范围内的元素。</li><li><code>splice()</code> 方法返回被删除的元素组成的数组，而 <code>slice()</code> 方法返回一个新的数组。</li></ul><p>总结：</p><ul><li>如果需要修改原数组，并且需要添加、删除或替换元素，可以使用 <code>splice()</code> 方法。</li><li>如果只是需要提取指定范围内的元素，并且不想修改原数组，可以使用 <code>slice()</code> 方法。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

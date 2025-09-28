@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>常见的登录鉴权方式有哪些？【热度: 557】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：登录鉴权方式&lt;/p&gt;&lt;p&gt;前端登录鉴权的方式主要有以下几种：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;基于Session Cookie的鉴权：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;cookie: 用户在登录成功后，服务器会生成一个包含用户信息的Cook" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="常见的登录鉴权方式有哪些？【热度: 557】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：登录鉴权方式&lt;/p&gt;&lt;p&gt;前端登录鉴权的方式主要有以下几种：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;基于Session Cookie的鉴权：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;cookie: 用户在登录成功后，服务器会生成一个包含用户信息的Cookie，并返回给前端。前端在后续的请求中会自动携带这个Cookie，在服务器端进行验证和识别用户身份。&lt;/li&gt;&lt;li&gt;S" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/656" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>常见的登录鉴权方式有哪些？【热度: 557】</h1>
+      <div class="subtitle">TOP100互联网 · web应用场景 · TOP100互联网</div>
+      <div class="meta">创建：2023-12-26T15:27:29Z · 更新：2023-12-26T15:27:30Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：登录鉴权方式</p><p>前端登录鉴权的方式主要有以下几种：</p><ol><li>基于Session Cookie的鉴权：</li></ol><ul><li>cookie: 用户在登录成功后，服务器会生成一个包含用户信息的Cookie，并返回给前端。前端在后续的请求中会自动携带这个Cookie，在服务器端进行验证和识别用户身份。</li><li>Session: 用户登录成功后，服务器会在后端保存用户的登录状态信息，并生成一个唯一的Session ID，将这个Session ID 返回给前端。前端在后续的请求中需要携带这个Session ID，服务器通过Session ID 来验证用户身份。</li></ul><ol><li>单点登录（Single Sign-On，SSO）：单点登录是一种将多个应用系统进行集成的认证方式。用户只需登录一次，即可在多个系统中完成认证，避免了重复登录的麻烦。常见的单点登录协议有CAS（Central Authentication Service）、SAML（Security Assertion Markup Language）等。</li></ol><ol><li>OpenID Connect（OIDC）：OIDC是基于OAuth2.0的身份验证协议，通过在认证和授权过程中引入身份提供者，使得用户可以使用第三方身份提供者（如Google、Facebook等）进行登录和授权，从而实现用户身份验证和授权的功能。</li></ol><ol><li>OAuth2.0：OAuth2.0是一个授权框架，用于授权第三方应用访问用户的资源。它通过授权服务器颁发令牌（Token），使得第三方应用可以代表用户获取资源的权限，而无需知道用户的真实凭证。</li></ol><ol><li>LDAP（Lightweight Directory Access Protocol）：LDAP是一种用于访问和维护分布式目录服务的协议。在登录鉴权中，LDAP常用于验证用户的身份信息，如用户名和密码，通过与LDAP服务器进行通信来进行用户身份验证。</li></ol><ol><li>2FA（Two-Factor Authentication）：二次验证是一种提供额外安全层的身份验证方式。与传统的用户名和密码登录不同，2FA需要用户提供第二个验证因素，如手机验证码、指纹识别、硬件令牌等，以提高账户的安全性。</li></ol></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

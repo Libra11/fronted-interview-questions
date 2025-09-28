@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Vue] vue 如何配置全局使用的定义或者常量【热度: 337】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：vue 全局配置&lt;/p&gt;&lt;p&gt;在 Vue 中，可以通过以下几种方式配置全局使用的定义或常量：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、使用 Vue 原型（不推荐在 Vue 3 中使用）&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;在 Vue 2 中，可以" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Vue] vue 如何配置全局使用的定义或者常量【热度: 337】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：vue 全局配置&lt;/p&gt;&lt;p&gt;在 Vue 中，可以通过以下几种方式配置全局使用的定义或常量：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、使用 Vue 原型（不推荐在 Vue 3 中使用）&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;在 Vue 2 中，可以通过在&lt;code&gt;main.js&lt;/code&gt;文件中向 Vue 的原型上添加属性来实现全局定义或常量的访问。但在 Vue" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/929" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Vue] vue 如何配置全局使用的定义或者常量【热度: 337】</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2024-09-22T05:12:47Z · 更新：2024-09-22T05:12:47Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：vue 全局配置</p><p>在 Vue 中，可以通过以下几种方式配置全局使用的定义或常量：</p><p><strong>一、使用 Vue 原型（不推荐在 Vue 3 中使用）</strong></p><p>在 Vue 2 中，可以通过在<code>main.js</code>文件中向 Vue 的原型上添加属性来实现全局定义或常量的访问。但在 Vue 3 中不推荐这种方式，因为它可能会导致一些潜在的问题。</p><pre class="code-block"><code class="language-javascript">// Vue 2 示例
+Vue.prototype.$globalConstant = &quot;This is a global constant&quot;;
+</code></pre><p><strong>二、使用 provide/inject（推荐）</strong></p><ol><li>在根组件中提供全局定义或常量：</li></ol><p>```javascript</p><p>import { createApp } from "vue";</p><p>const app = createApp({</p><p>setup() {</p><p>return {</p><p>globalValue: "Global value",</p><p>};</p><p>},</p><p>provide() {</p><p>return {</p><p>global: this.globalValue,</p><p>};</p><p>},</p><p>});</p><p>app.mount("#app");</p><p>```</p><ol><li>在子组件中注入并使用：</li></ol><p>```vue</p><p><script setup></p><p>import { inject } from "vue";</p><p>const global = inject("global");</p><p></script></p><p><template></p><p><div>{{ global }}</div></p><p></template></p><p>```</p><p><strong>三、创建全局变量文件并导入</strong></p><ol><li>创建一个专门的文件用于存储全局定义或常量，例如<code>globals.js</code>：</li></ol><p>```javascript</p><p>export const globalConstant = "This is a global constant";</p><p>```</p><ol><li>在需要使用的地方导入：</li></ol><p>```javascript</p><p>import { globalConstant } from "./globals.js";</p><p>```</p><p><strong>四、使用 Vuex（状态管理）</strong></p><p>如果你的全局定义或常量需要在多个组件之间共享并且可能会发生变化，可以考虑使用 Vuex 进行状态管理。</p><ol><li>安装和设置 Vuex：</li></ol><p>```bash</p><p>npm install vuex@next</p><p>```</p><p>创建一个<code>store.js</code>文件：</p><p>```javascript</p><p>import { createStore } from "vuex";</p><p>const store = createStore({</p><p>state: {</p><p>globalValue: "Global value from Vuex",</p><p>},</p><p>mutations: {},</p><p>actions: {},</p><p>modules: {},</p><p>});</p><p>export default store;</p><p>```</p><ol><li>在<code>main.js</code>中引入并挂载 Vuex：</li></ol><p>```javascript</p><p>import { createApp } from "vue";</p><p>import App from "./App.vue";</p><p>import store from "./store";</p><p>const app = createApp(App);</p><p>app.use(store);</p><p>app.mount("#app");</p><p>```</p><ol><li>在组件中使用：</li></ol><p>```vue</p><p><script setup></p><p>import { useStore } from "vuex";</p><p>const store = useStore();</p><p></script></p><p><template></p><p><div>{{ store.state.globalValue }}</div></p><p></template></p><p>```</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

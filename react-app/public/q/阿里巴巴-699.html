@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>你在开发过程中， 使用过哪些 TS 的特性或者能力？【热度: 670】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：TS 特性和能力&lt;/p&gt;&lt;blockquote&gt;这个为何被作者列为了高阶范围的问题 &lt;/blockquote&gt;&lt;blockquote&gt;原因如下：大多数纯写业务的同学， 可能就用到了 &lt;code&gt;interface&lt;/code&gt; 和 " />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="你在开发过程中， 使用过哪些 TS 的特性或者能力？【热度: 670】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：TS 特性和能力&lt;/p&gt;&lt;blockquote&gt;这个为何被作者列为了高阶范围的问题 &lt;/blockquote&gt;&lt;blockquote&gt;原因如下：大多数纯写业务的同学， 可能就用到了 &lt;code&gt;interface&lt;/code&gt; 和 &lt;code&gt;type&lt;/code&gt; 最多加上 &lt;code&gt;enum&lt;/code&gt; 和 &lt;code&gt;泛型&lt;/code&gt;； " />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/699" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>你在开发过程中， 使用过哪些 TS 的特性或者能力？【热度: 670】</h1>
+      <div class="subtitle">阿里巴巴 · TypeScript · 阿里巴巴</div>
+      <div class="meta">创建：2024-04-14T02:11:46Z · 更新：2024-04-14T02:11:47Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：TS 特性和能力</p><blockquote>这个为何被作者列为了高阶范围的问题  </blockquote><blockquote>原因如下：大多数纯写业务的同学， 可能就用到了 <code>interface</code> 和 <code>type</code> 最多加上 <code>enum</code> 和 <code>泛型</code>；  </blockquote><blockquote>TS 很多牛掰的特性， 是伴随做复杂的工具库， 或者处理复杂业务场景来的。</blockquote><p>这里直接上干货：</p><ol><li><strong>Utility Types（工具类型）</strong>：</li></ol><ul><li><strong>Partial\<T></strong>: 将类型 T 的所有属性变为可选。</li><li><strong>Required\<T></strong>: 将类型 T 的所有属性变为必选。</li><li><strong>Readonly\<T></strong>: 将类型 T 的所有属性变为只读。</li><li><strong>Record\<K, T></strong>: 创建一个具有指定键类型 K 和值类型 T 的新对象类型。</li><li><strong>Pick\<T, K></strong>: 从类型 T 中选择指定属性 K 形成新类型。</li><li><strong>Omit\<T, K></strong>: 从类型 T 中排除指定属性 K 形成新类型。</li><li><strong>Exclude\<T, U></strong>: 从类型 T 中排除可以赋值给类型 U 的类型。</li><li><strong>Extract\<T, U></strong>: 从类型 T 中提取可以赋值给类型 U 的类型。</li><li><strong>NonNullable\<T></strong>: 从类型 T 中排除 null 和 undefined 类型。</li><li><strong>ReturnType\<T></strong>: 获取函数类型 T 的返回类型。</li><li><strong>Parameters\<T></strong>: 获取函数类型 T 的参数类型组成的元组类型。</li></ul><ol><li><strong>条件判定类型</strong>：</li></ol><ul><li><strong>Conditional Types（条件类型）</strong>: 根据类型关系进行条件判断生成不同的类型。</li><li><strong>Distribute Conditional Types（分布式条件类型）</strong>: 分发条件类型，允许条件类型在联合类型上进行分发。</li></ul><ol><li><strong>Mapped Types（映射类型）</strong>：根据已有类型创建新类型，通过映射类型可以生成新的类型结构。</li></ol><ol><li><strong>Template Literal Types（模板文字类型）</strong>：使用字符串模板创建新类型。</li></ol><ol><li><strong>类型推断关键字</strong>：</li></ol><ul><li><strong>keyof 关键字</strong>：关键字允许在泛型条件类型中推断类型变量。</li><li><strong>instanceof</strong>：运算符用于检查对象是否是特定类的实例。</li><li><strong>in</strong>：用于检查对象是否具有特定属性。</li><li><strong>type guards</strong>：类型守卫是自定义的函数或条件语句，用于在代码块内缩小变量的类型范围。</li><li><strong>as</strong>：用于类型断言，允许将一个变量断言为特定的类型。</li></ul><p>详细内容请参考这个文档： https://github.com/yanlele/node-index/issues/75</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

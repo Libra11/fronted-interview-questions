@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>前端如何防止加载外域脚本？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;前端可以通过以下方式防止加载外域脚本：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;使用 Content Security Policy (CSP)：CSP 是一个 HTTP 头，可以限制页面可以从哪些源加载资源。通过 CSP，可以禁止加载外域脚本，从而防止 XSS 攻击等安全问题。&lt;/li&gt;&lt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="前端如何防止加载外域脚本？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;前端可以通过以下方式防止加载外域脚本：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;使用 Content Security Policy (CSP)：CSP 是一个 HTTP 头，可以限制页面可以从哪些源加载资源。通过 CSP，可以禁止加载外域脚本，从而防止 XSS 攻击等安全问题。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li&gt;使用 Subresource Integrity (SRI)：SRI 是一个浏览器功能，可以确保" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/184" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>前端如何防止加载外域脚本？</h1>
+      <div class="subtitle">网络 · 网络</div>
+      <div class="meta">创建：2023-03-26T09:24:28Z · 更新：2023-03-26T09:24:29Z</div>
+    </div>
+    <article class="content markdown-body"><p>前端可以通过以下方式防止加载外域脚本：</p><ol><li>使用 Content Security Policy (CSP)：CSP 是一个 HTTP 头，可以限制页面可以从哪些源加载资源。通过 CSP，可以禁止加载外域脚本，从而防止 XSS 攻击等安全问题。</li></ol><ol><li>使用 Subresource Integrity (SRI)：SRI 是一个浏览器功能，可以确保在加载外部资源时，它们的内容没有被篡改过。通过在 script 标签中添加 integrity 属性，可以指定资源的校验和，浏览器会校验资源是否与 integrity 值匹配，从而确保资源没有被篡改过。</li></ol><ol><li>避免使用动态脚本加载：使用 document.createElement('script') 创建 script 元素，并手动设置其 src 属性，可以避免使用 eval() 动态执行脚本。动态加载脚本的方式可能会受到中间人攻击，从而加载恶意脚本。</li></ol><ol><li>避免使用不安全的协议加载资源：使用 HTTPS 加载资源可以确保资源在传输过程中不会被篡改。避免使用 HTTP 或者 file 协议加载资源，这些协议容易受到中间人攻击。</li></ol><p>综上，前端可以通过以上方式防止加载外域脚本，提高应用程序的安全性。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

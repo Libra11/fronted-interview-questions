@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>动画性能如何检测【热度: 262】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：动画性能&lt;/p&gt;&lt;blockquote&gt;作者备注， 这个问题其实没有啥太大的价值， 可以当做科普看看即可&lt;/blockquote&gt;&lt;p&gt;&lt;strong&gt;一、使用浏览器开发者工具&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Chrome " />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="动画性能如何检测【热度: 262】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：动画性能&lt;/p&gt;&lt;blockquote&gt;作者备注， 这个问题其实没有啥太大的价值， 可以当做科普看看即可&lt;/blockquote&gt;&lt;p&gt;&lt;strong&gt;一、使用浏览器开发者工具&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Chrome 开发者工具：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;打开 Chrome 浏览器，进入要检测动画性能的页面。&lt;/li&gt;&lt;li&gt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/941" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>动画性能如何检测【热度: 262】</h1>
+      <div class="subtitle">web应用场景 · web应用场景</div>
+      <div class="meta">创建：2024-09-28T01:41:16Z · 更新：2024-09-28T01:46:31Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：动画性能</p><blockquote>作者备注， 这个问题其实没有啥太大的价值， 可以当做科普看看即可</blockquote><p><strong>一、使用浏览器开发者工具</strong></p><ol><li>Chrome 开发者工具：</li></ol><ul><li>打开 Chrome 浏览器，进入要检测动画性能的页面。</li><li>按下 F12 打开开发者工具，切换到“Performance”（性能）选项卡。</li><li>点击“Record”（录制）按钮开始录制页面的交互和动画。</li><li>进行页面上的动画操作，如滚动、拖动、动画播放等。</li><li>停止录制后，开发者工具会生成一个性能分析报告，其中包括 CPU 使用率、FPS（每秒帧数）、帧时间线等信息，可以帮助你分析动画的性能瓶颈。</li></ul><p><strong>二、使用 JavaScript 性能分析工具</strong></p><p>Frame Timing API 可以用于检测动画性能。</p><p><strong>2.1、Frame Timing API 的作用</strong></p><p>Frame Timing API 提供了一种方式来测量浏览器渲染每一帧所花费的时间。这对于分析动画性能非常有用，因为它可以帮助你确定动画是否流畅，是否存在卡顿或掉帧的情况。</p><p><strong>2.2、如何使用 Frame Timing API 进行性能检测</strong></p><ol><li>获取帧时间数据：</li></ol><ul><li>使用 <code>performance.getEntriesByType(&#39;frame&#39;)</code> 方法可以获取帧时间数据的数组。每个条目代表一帧的信息，包括帧的开始时间、持续时间等。</li></ul><p>```javascript</p><p>const frameEntries = performance.getEntriesByType("frame");</p><p>frameEntries.forEach((entry) => {</p><p>console.log(<code>Frame start time: ${entry.startTime}</code>);</p><p>console.log(<code>Frame duration: ${entry.duration}</code>);</p><p>});</p><p>```</p><ol><li>分析帧时间数据：</li></ol><ul><li>通过分析帧的持续时间，可以判断动画是否在预期的时间内渲染。如果帧的持续时间过长，可能表示动画出现了卡顿。</li><li>可以计算平均帧时间、最大帧时间等指标，以评估动画的整体性能。</li></ul><ol><li>结合其他性能指标：</li></ol><ul><li>Frame Timing API 可以与其他性能指标一起使用，如 FPS（每秒帧数）、CPU 使用率等，以全面了解动画性能。</li><li>例如，可以使用 <code>requestAnimationFrame</code> 来计算 FPS，并结合帧时间数据来确定动画的流畅度。</li></ul><p><strong>2.3、优势和局限性</strong></p><ol><li>优势：</li></ol><ul><li>提供精确的帧时间信息，有助于深入了解动画的性能细节。</li><li>可以在浏览器中直接使用，无需安装额外的工具。</li></ul><ol><li>局限性：</li></ol><ul><li>并非所有浏览器都完全支持 Frame Timing API，可能存在兼容性问题。</li><li>仅提供帧时间数据，对于复杂的动画性能问题，可能需要结合其他工具和技术进行分析。</li></ul><p><strong>三、使用在线性能检测工具</strong></p><ol><li>WebPageTest：</li></ol><ul><li>WebPageTest 是一个在线工具，可以对网页的性能进行全面的测试，包括加载时间、动画性能、资源加载等。</li><li>输入要测试的网页 URL，选择测试参数，如浏览器类型、地理位置等，然后启动测试。</li><li>测试完成后，会生成详细的报告，包括视频录制、性能指标图表等，可以帮助你分析动画性能问题。</li></ul><ol><li>Lighthouse：</li></ol><ul><li>Lighthouse 是一个由 Google 开发的开源工具，可以作为 Chrome 浏览器的扩展或命令行工具使用。</li><li>运行 Lighthouse 对网页进行审计，它会评估网页的性能、可访问性、最佳实践等方面，并提供详细的报告和建议。</li><li>在性能部分，会包括对动画性能的评估，如 FPS、主线程忙碌时间等指标。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

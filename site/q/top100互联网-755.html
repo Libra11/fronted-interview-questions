@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>less 函数如何使用？【热度: 229】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：less 函数&lt;/p&gt;&lt;p&gt;LESS 是一种基于 JavaScript 的 CSS 预处理器，它扩展了 CSS 的功能，提供了变量、嵌套、混合（Mixins）、函数等功能。LESS 中的函数允许你执行计算、转换和操纵值的操作，使得你" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="less 函数如何使用？【热度: 229】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：less 函数&lt;/p&gt;&lt;p&gt;LESS 是一种基于 JavaScript 的 CSS 预处理器，它扩展了 CSS 的功能，提供了变量、嵌套、混合（Mixins）、函数等功能。LESS 中的函数允许你执行计算、转换和操纵值的操作，使得你的样式表更加灵活和动态。&lt;/p&gt;&lt;h3&gt;使用 LESS 函数的基本步骤：&lt;/h3&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;定义函" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/755" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>less 函数如何使用？【热度: 229】</h1>
+      <div class="subtitle">TOP100互联网 · CSS · TOP100互联网</div>
+      <div class="meta">创建：2024-05-22T16:05:18Z · 更新：2024-05-22T16:05:19Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：less 函数</p><p>LESS 是一种基于 JavaScript 的 CSS 预处理器，它扩展了 CSS 的功能，提供了变量、嵌套、混合（Mixins）、函数等功能。LESS 中的函数允许你执行计算、转换和操纵值的操作，使得你的样式表更加灵活和动态。</p><h3>使用 LESS 函数的基本步骤：</h3><ol><li><strong>定义函数</strong>：你可以定义一个 LESS 函数，它接受参数并执行代码块。</li></ol><pre class="code-block"><code class="language-less">.my-function(@arg) {
+  .result {
+    width: @arg;
+  }
+}
+</code></pre><ol><li><strong>调用函数</strong>：使用 <code>@</code> 前缀后跟函数名和所需的参数列表来调用函数。</li></ol><pre class="code-block"><code class="language-less">.my-class {
+  .my-function(200px);
+}
+</code></pre><ol><li><strong>传递参数</strong>：函数可以接收一个或多个参数。上面的例子只传递一个参数。</li></ol><h3>示例：简单的 LESS 函数</h3><pre class="code-block"><code class="language-less">// 定义一个 LESS 函数
+.pi(@num) {
+  .pi-box {
+    width: @num * 3.14159;
+  }
+}
+
+// 调用这个函数
+body {
+  .pi(5px);
+}
+</code></pre><p>在该示例中，<code>pi</code> 是一个接受数字参数并返回其圆周长度的 LESS 函数。这个 <code>pi</code> 函数在 <code>body</code> 选择器内部被调用，并设置了宽度为 5 \* 3.14159 像素。</p><h3>LESS 内建函数</h3><p>LESS 还包括多个内建函数，可以直接在 LESS 代码中使用。以下是一些常见的内建函数示例：</p><ul><li><strong><code>percentage()</code></strong>：将值转换成百分比。</li></ul><p>```less</p><p>margin: percentage(20px / 100px); // 输出 20%</p><p>```</p><ul><li><strong><code>round()</code></strong>：四舍五入数字。</li></ul><p>```less</p><p>width: round(23.7px); // 输出 24px</p><p>```</p><ul><li><strong><code>floor()</code></strong> 和 <strong><code>ceil()</code></strong>：向下取整和向上取整。</li></ul><p>```less</p><p>height: ceil(14.2px); // 输出 15px</p><p>```</p><ul><li><strong><code>unit()</code></strong> 和 <strong><code>convert()</code></strong>：分别用来获取值的单位和转换单位。</li></ul><p>```css</p><p>width: convert(10, ms); // 将 10 转换为毫秒</p><p>margin: unit(25, "%"); // 输出 默认单位为 px，这次你却要改成百分比</p><p>```</p><ul><li><strong><code>color-function()</code></strong>：用于操作颜色值的函数，例如 <code>lighten()</code>、<code>darken()</code>、<code>saturate()</code> 等。</li></ul><p>```less</p><p>background: lighten(#800, 10%); // 将颜色 #800 变亮 10%</p><p>```</p><ul><li><strong><code>e()</code></strong>：允许你将 CSS 代码作为参数传递到 <code>&amp;</code> 中，用于可扩展的类选择器。</li></ul><p>```less</p><p>.borderbox {</p><p>*,</p><p>*:before,</p><p>*:after {</p><p>.box-sizing(border-box);</p><p>}</p><p>}</p><p>```</p><h3>注意事项：</h3><ul><li>函数可以返回任意值，包括颜色、数字、字符串和数组。</li><li>如果想要执行的是一个操作而非函数定义，需要注意的是 LESS 并不像 JavaScript 一样需要用 <code>function</code> 关键字声明。</li></ul><p>合理使用函数可以极大增加 CSS 的动态性和灵活性，是构建维护性和复用性更强的 CSS 不可或缺的部分。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

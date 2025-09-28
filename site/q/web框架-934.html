@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Vue] 介绍一下 component 动态组件【热度: 184】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：component 动态组件&lt;/p&gt;&lt;p&gt;在 Vue 中，动态组件是一种强大的特性，可以根据不同的条件在运行时动态地切换组件的显示。&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、基本概念&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;动态组件使用特殊的&lt;cod" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Vue] 介绍一下 component 动态组件【热度: 184】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：component 动态组件&lt;/p&gt;&lt;p&gt;在 Vue 中，动态组件是一种强大的特性，可以根据不同的条件在运行时动态地切换组件的显示。&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、基本概念&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;动态组件使用特殊的&lt;code&gt;&amp;lt;component&amp;gt;&lt;/code&gt;标签结合&lt;code&gt;is&lt;/code&gt;属性来实现。&lt;code&gt;is&lt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/934" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Vue] 介绍一下 component 动态组件【热度: 184】</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2024-09-22T05:23:43Z · 更新：2024-10-07T13:00:59Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：component 动态组件</p><p>在 Vue 中，动态组件是一种强大的特性，可以根据不同的条件在运行时动态地切换组件的显示。</p><p><strong>一、基本概念</strong></p><p>动态组件使用特殊的<code>&lt;component&gt;</code>标签结合<code>is</code>属性来实现。<code>is</code>属性可以接受一个字符串或变量，用于指定要渲染的组件名称或组件选项对象。Vue 会根据<code>is</code>属性的值来动态地加载和渲染相应的组件。</p><p><strong>二、使用方法</strong></p><ol><li><strong>使用字符串指定组件名称</strong>：</li></ol><ul><li>可以直接在<code>is</code>属性中使用字符串来指定组件的名称。例如：</li></ul><p>```html</p><p><template></p><p><div></p><p><component :is="currentComponent"></component></p><p></div></p><p></template></p><p><script setup></p><p>import ComponentA from "./ComponentA.vue";</p><p>import ComponentB from "./ComponentB.vue";</p><p>let currentComponent = "ComponentA";</p><p></script></p><p>```</p><ul><li>在这个例子中，根据<code>currentComponent</code>变量的值，<code>&lt;component&gt;</code>标签会动态地渲染<code>ComponentA</code>或<code>ComponentB</code>组件。</li></ul><ol><li><strong>使用变量指定组件选项对象</strong>：</li></ol><ul><li>也可以使用变量来指定一个组件选项对象。例如：</li></ul><p>```html</p><p><template></p><p><div></p><p><component :is="currentComponent"></component></p><p></div></p><p></template></p><p><script setup></p><p>import ComponentA from "./ComponentA.vue";</p><p>import ComponentB from "./ComponentB.vue";</p><p>let currentComponent = ComponentA;</p><p></script></p><p>```</p><ul><li>这里，<code>currentComponent</code>变量可以在运行时被赋值为<code>ComponentA</code>或<code>ComponentB</code>的组件选项对象，从而实现动态切换组件。</li></ul><ol><li><strong>结合<code>v-if</code>或<code>v-show</code>控制组件显示</strong>：</li></ol><ul><li>可以结合<code>v-if</code>或<code>v-show</code>指令来控制动态组件的显示条件。例如：</li></ul><p>```html</p><p><template></p><p><div></p><p><component :is="currentComponent" v-if="showComponent"></component></p><p></div></p><p></template></p><p><script setup></p><p>import ComponentA from "./ComponentA.vue";</p><p>import ComponentB from "./ComponentB.vue";</p><p>let currentComponent = "ComponentA";</p><p>let showComponent = true;</p><p></script></p><p>```</p><ul><li>在这个例子中，只有当<code>showComponent</code>为<code>true</code>时，动态组件才会被渲染。</li></ul><p><strong>三、优势和应用场景</strong></p><ol><li><strong>优势</strong>：</li></ol><ul><li><strong>灵活性</strong>：可以根据不同的业务逻辑和用户交互动态地切换组件，提高应用的灵活性和可维护性。</li><li><strong>代码复用</strong>：可以在多个地方使用相同的动态组件机制，减少重复代码。</li><li><strong>性能优化</strong>：只在需要的时候加载和渲染特定的组件，可以提高应用的性能。</li></ul><ol><li><strong>应用场景</strong>：</li></ol><ul><li><strong>页面布局切换</strong>：根据用户的操作或应用的状态，动态地切换不同的页面布局组件。例如，在一个管理系统中，根据用户的角色显示不同的菜单栏和功能区域。</li><li><strong>内容展示切换</strong>：根据数据的类型或状态，动态地展示不同的内容组件。例如，在一个新闻应用中，根据新闻的类型显示不同的新闻详情组件。</li><li><strong>步骤向导</strong>：在一个多步骤的向导流程中，使用动态组件来逐步展示不同的步骤组件。用户可以根据向导的进度动态地切换到不同的步骤，提高用户体验。</li></ul><h2>Comments / Answers</h2><hr /><p><strong>huiguangx</strong> at 2024-10-07T12:43:23Z</p><p>有v-if v-show 还出这个动态组件是为了啥呀</p><hr /><p><strong>yanlele</strong> at 2024-10-07T13:00:57Z</p><blockquote>有v-if v-show 还出这个动态组件是为了啥呀</blockquote><p>@huiguangx</p><p>还真的是有场景的， 可以参考官网的说法。</p><p><img alt="image" src="https://github.com/user-attachments/assets/46adf0ef-7f57-4cfc-887c-fadbf51f63fa" /></p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

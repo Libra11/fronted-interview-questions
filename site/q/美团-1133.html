@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ts 有哪些常用的关键词【热度: 178】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：ts 关键词&lt;/p&gt;&lt;blockquote&gt;作者备注&lt;/blockquote&gt;&lt;blockquote&gt;&lt;/blockquote&gt;&lt;blockquote&gt;这个问题主要是对 ts 类型熟悉程度的考察， 比直接问 number、strin" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="ts 有哪些常用的关键词【热度: 178】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：ts 关键词&lt;/p&gt;&lt;blockquote&gt;作者备注&lt;/blockquote&gt;&lt;blockquote&gt;&lt;/blockquote&gt;&lt;blockquote&gt;这个问题主要是对 ts 类型熟悉程度的考察， 比直接问 number、string 等基础类型有意义。&lt;/blockquote&gt;&lt;p&gt;TypeScript 在 JavaScript 基础上扩展了许多用" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1133" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>ts 有哪些常用的关键词【热度: 178】</h1>
+      <div class="subtitle">美团 · TypeScript · 美团</div>
+      <div class="meta">创建：2025-08-31T10:30:33Z · 更新：2025-08-31T10:30:33Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：ts 关键词</p><blockquote>作者备注</blockquote><blockquote></blockquote><blockquote>这个问题主要是对 ts 类型熟悉程度的考察， 比直接问 number、string 等基础类型有意义。</blockquote><p>TypeScript 在 JavaScript 基础上扩展了许多用于类型定义和类型控制的关键字，这些关键字是构建 TypeScript 类型系统的核心。以下是常用的关键词分类及说明：</p><p>以下是 TypeScript 常用关键字的分类汇总表：</p><p>| 分类          | 关键字/操作符                  | 主要用途                                                     |</p><p>| ------------- | ------------------------------ | ------------------------------------------------------------ | ---------------------------- |</p><p>| <strong>基础类型</strong>  | <code>number</code> <code>string</code> <code>boolean</code>    | 定义数字、字符串、布尔值类型                                 |</p><p>|               | <code>null</code> <code>undefined</code>             | 定义空值类型                                                 |</p><p>|               | <code>void</code>                         | 表示函数无返回值                                             |</p><p>|               | <code>any</code> <code>unknown</code>                | <code>any</code> 关闭类型检查；<code>unknown</code> 安全的未知类型（需断言后使用） |</p><p>|               | <code>never</code>                        | 表示永远不会发生的类型（如抛出错误）                         |</p><p>| <strong>复合类型</strong>  | <code>array</code>（<code>T[]</code> 或 <code>Array&lt;T&gt;</code>） | 定义数组类型                                                 |</p><p>|               | <code>interface</code>                    | 定义对象结构（可扩展、继承）                                 |</p><p>|               | <code>type</code>                         | 类型别名（支持联合、交叉等复杂类型）                         |</p><p>|               | <code>enum</code>                         | 定义命名常量集合                                             |</p><p>|               | <code>tuple</code>（<code>[T1, T2]</code>）          | 固定长度和类型的数组                                         |</p><p>| <strong>类型操作</strong>  | <span><code>                        | </code><span/>（联合类型）                                         | 表示“或”关系（类型可选其一） |</p><p>|               | <code>&amp;</code>（交叉类型）                | 表示“且”关系（合并多个类型）                                 |</p><p>|               | <code>extends</code>                      | 泛型约束；接口/类继承                                        |</p><p>|               | <code>infer</code>                        | 条件类型中推断类型（如提取函数返回值）                       |</p><p>|               | <code>keyof</code>                        | 获取对象类型的所有键名组成的联合类型                         |</p><p>|               | <code>typeof</code>                       | 获取变量/属性的类型                                          |</p><p>|               | <code>as</code>                           | 类型断言（指定变量的实际类型）                               |</p><p>| <strong>函数/泛型</strong> | <code>function</code>                     | 定义函数（指定参数和返回值类型）                             |</p><p>|               | 泛型（<code>T</code> <code>U</code> 等）             | 定义通用类型，实现类型复用                                   |</p><p>| <strong>模块/命名</strong> | <code>export</code> <code>import</code>              | 模块导出/导入                                                |</p><p>|               | <code>namespace</code>                    | 定义命名空间（避免全局变量冲突）                             |</p><p>| <strong>其他常用</strong>  | <code>readonly</code>                     | 定义只读属性或数组                                           |</p><p>|               | <code>declare</code>                      | 声明全局变量/模块类型（用于 <code>.d.ts</code> 文件）                   |</p><p>|               | <code>abstract</code>                     | 定义抽象类/抽象方法（需子类实现）                            |</p><p>这个表涵盖了日常开发中最常用的关键字，可根据场景快速查阅。核心重点关注 <strong>类型声明</strong>（<code>number</code>/<code>interface</code> 等）、<strong>类型操作</strong>（<code>extends</code>/<code>keyof</code>/<code>infer</code>）和 <strong>泛型相关</strong> 关键字，它们是 TypeScript 类型系统的核心。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

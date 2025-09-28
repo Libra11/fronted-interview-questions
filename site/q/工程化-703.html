@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[webpack] 打包时 hash 码是如何生成的【热度: 167】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：webpack hash 码的生成&lt;/p&gt;&lt;p&gt;Webpack 在打包过程中生成 hash 码主要用于缓存和版本管理。主要有三种类型的 hash 码：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;hash：是和整个项目的构建相关，只要项目文件有修改，整个" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[webpack] 打包时 hash 码是如何生成的【热度: 167】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：webpack hash 码的生成&lt;/p&gt;&lt;p&gt;Webpack 在打包过程中生成 hash 码主要用于缓存和版本管理。主要有三种类型的 hash 码：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;hash：是和整个项目的构建相关，只要项目文件有修改，整个项目构建的 hash 值就会更改。这意味着任何一个文件的改动都会影响到整体的 hash 值。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/703" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[webpack] 打包时 hash 码是如何生成的【热度: 167】</h1>
+      <div class="subtitle">工程化 · 工程化 · TOP100互联网</div>
+      <div class="meta">创建：2024-04-15T15:59:10Z · 更新：2024-04-15T15:59:10Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：webpack hash 码的生成</p><p>Webpack 在打包过程中生成 hash 码主要用于缓存和版本管理。主要有三种类型的 hash 码：</p><ol><li>hash：是和整个项目的构建相关，只要项目文件有修改，整个项目构建的 hash 值就会更改。这意味着任何一个文件的改动都会影响到整体的 hash 值。</li></ol><ol><li>chunkhash：与 webpack 打包的 chunk 有关，不同的 entry 会生成不同的 chunkhash 值。例如，如果你的配置生成了多个 chunk（例如使用了 code splitting），每个 chunk 的更新只会影响到它自身的 chunkhash。</li></ol><ol><li>contenthash：根据文件内容来定义 hash，内容不变，则 contenthash 不变。这在使用诸如 CSS 提取到单独文件的插件时特别有用，因此只有当文件的内容实际改变时，浏览器才会重新下载文件。</li></ol><p>生成方式：</p><ul><li>hash 和 chunkhash 主要是通过某种 hash 算法（默认 MD5）来对文件名或者 chunk 数据进行编码。</li><li>contenthash 是通过构建时的 webpack 插件（如 mini-css-extract-plugin）来处理的，它会对文件内容进行 hash。</li></ul><p>Hash 码的生成可以被 webpack 配置的 hashFunction，hashDigest，hashDigestLength 等选项影响。例如，你可以选择不同的算法如 SHA256 或者 MD5，以及可以决定 hash 值的长度。</p><p>在 webpack 的配置文件中，可以通过如下方式设定 hash:</p><pre class="code-block"><code class="language-javascript">output: {
+  filename: &#39;[name].[chunkhash].js&#39;,
+  path: __dirname + &#39;/dist&#39;
+}
+</code></pre><p>这会将输出的文件名设置为入口名称加上基于每个 chunk 内容的 hash。在使用 <code>webpack-dev-server</code> 或者 <code>webpack --watch</code> 时，不会生成实际的文件，所以这些 hash 值是在内存中计算并关联的。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

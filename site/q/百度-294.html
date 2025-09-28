@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何实现网页加载进度条？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h3&gt;监听静态资源加载情况&lt;/h3&gt;&lt;p&gt;可以通过 &lt;code&gt;window.performance&lt;/code&gt; 对象来监听页面资源加载进度。该对象提供了各种方法来获取资源加载的详细信息。&lt;/p&gt;&lt;p&gt;可以使用 &lt;code&gt;performance.getEntries()&lt;/" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何实现网页加载进度条？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h3&gt;监听静态资源加载情况&lt;/h3&gt;&lt;p&gt;可以通过 &lt;code&gt;window.performance&lt;/code&gt; 对象来监听页面资源加载进度。该对象提供了各种方法来获取资源加载的详细信息。&lt;/p&gt;&lt;p&gt;可以使用 &lt;code&gt;performance.getEntries()&lt;/code&gt; 方法获取页面上所有的资源加载信息。可以使用该方法来监测每个资源的加载状态，计算加载时间，并据此来实现一个资源" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/294" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何实现网页加载进度条？</h1>
+      <div class="subtitle">百度 · web应用场景 · 百度</div>
+      <div class="meta">创建：2023-04-16T15:57:53Z · 更新：2023-04-16T15:57:53Z</div>
+    </div>
+    <article class="content markdown-body"><h3>监听静态资源加载情况</h3><p>可以通过 <code>window.performance</code> 对象来监听页面资源加载进度。该对象提供了各种方法来获取资源加载的详细信息。</p><p>可以使用 <code>performance.getEntries()</code> 方法获取页面上所有的资源加载信息。可以使用该方法来监测每个资源的加载状态，计算加载时间，并据此来实现一个资源加载进度条。</p><p>下面是一个简单的实现方式：</p><pre class="code-block"><code class="language-javascript">const resources = window.performance.getEntriesByType(&#39;resource&#39;);
+const totalResources = resources.length;
+let loadedResources = 0;
+
+resources.forEach((resource) =&gt; {
+  if (resource.initiatorType !== &#39;xmlhttprequest&#39;) {
+    // 排除 AJAX 请求
+    resource.onload = () =&gt; {
+      loadedResources++;
+      const progress = Math.round((loadedResources / totalResources) * 100);
+      updateProgress(progress);
+    };
+  }
+});
+
+function updateProgress(progress) {
+  // 更新进度条
+}
+</code></pre><p>该代码会遍历所有资源，并注册一个 <code>onload</code> 事件处理函数。当每个资源加载完成后，会更新 <code>loadedResources</code> 变量，并计算当前的进度百分比，然后调用 <code>updateProgress()</code> 函数来更新进度条。需要注意的是，这里排除了 AJAX 请求，因为它们不属于页面资源。</p><p>当所有资源加载完成后，页面就会完全加载。</p><h3>实现进度条</h3><p>网页加载进度条可以通过前端技术实现，一般的实现思路是通过监听浏览器的页面加载事件和资源加载事件，来实时更新进度条的状态。下面介绍两种实现方式。</p><h4>1. 使用原生进度条</h4><p>在 HTML5 中提供了 <code>progress</code> 元素，可以通过它来实现一个原生的进度条。</p><pre class="code-block"><code class="language-html">&lt;progress id=&quot;progressBar&quot; value=&quot;0&quot; max=&quot;100&quot;&gt;&lt;/progress&gt;
+</code></pre><p>然后在 JavaScript 中，监听页面加载事件和资源加载事件，实时更新 <code>progress</code> 元素的 <code>value</code> 属性。</p><pre class="code-block"><code class="language-javascript">const progressBar = document.getElementById(&#39;progressBar&#39;);
+
+window.addEventListener(&#39;load&#39;, () =&gt; {
+  progressBar.value = 100;
+});
+
+document.addEventListener(&#39;readystatechange&#39;, () =&gt; {
+  const progress = Math.floor((document.readyState / 4) * 100);
+  progressBar.value = progress;
+});
+</code></pre><h4>2. 使用第三方库</h4><p>使用第三方库可以更加方便地实现网页加载进度条，下面以 <code>nprogress</code> 库为例：</p><ol><li>安装 <code>nprogress</code> 库</li></ol><pre class="code-block"><code class="language-bash">bashCopy codenpm install nprogress --save
+</code></pre><ol><li>在页面中引入 <code>nprogress.css</code> 和 <code>nprogress.js</code></li></ol><pre class="code-block"><code class="language-html">&lt;link rel=&quot;stylesheet&quot; href=&quot;/node_modules/nprogress/nprogress.css&quot;&gt;
+&lt;script src=&quot;/node_modules/nprogress/nprogress.js&quot;&gt;&lt;/script&gt;
+</code></pre><ol><li>在 JavaScript 中初始化 <code>nprogress</code> 并监听页面加载事件和资源加载事件</li></ol><pre class="code-block"><code class="language-javascript">// 初始化 nprogress
+NProgress.configure({ showSpinner: false });
+
+// 监听页面加载事件
+window.addEventListener(&#39;load&#39;, () =&gt; {
+  NProgress.done();
+});
+
+// 监听资源加载事件
+document.addEventListener(&#39;readystatechange&#39;, () =&gt; {
+  if (document.readyState === &#39;interactive&#39;) {
+    NProgress.start();
+  } else if (document.readyState === &#39;complete&#39;) {
+    NProgress.done();
+  }
+});
+</code></pre><p>使用 <code>nprogress</code> 可以自定义进度条的样式，同时也提供了更多的 API 供我们使用，比如说手动控制进度条的显示和隐藏，以及支持 Promise 和 Ajax 请求的进度条等等。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

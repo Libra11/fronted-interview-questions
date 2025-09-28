@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>浏览器如何解析css选择器？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;浏览器会『从右往左』解析CSS选择器。&lt;/p&gt;&lt;h4&gt;CSS选择器的解析顺序&lt;/h4&gt;&lt;p&gt;相信很多人在一开始接触CSS的时候都会看到一条规则就是尽量少使用层级关系，比如尽量不要写成：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;lang" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="浏览器如何解析css选择器？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;浏览器会『从右往左』解析CSS选择器。&lt;/p&gt;&lt;h4&gt;CSS选择器的解析顺序&lt;/h4&gt;&lt;p&gt;相信很多人在一开始接触CSS的时候都会看到一条规则就是尽量少使用层级关系，比如尽量不要写成：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-css&quot;&gt;#div P.class { color: red; } &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;而是写成：" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/62" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>浏览器如何解析css选择器？</h1>
+      <div class="subtitle">浏览器 · 浏览器</div>
+      <div class="meta">创建：2023-03-11T06:47:36Z · 更新：2023-03-11T08:15:20Z</div>
+    </div>
+    <article class="content markdown-body"><p>浏览器会『从右往左』解析CSS选择器。</p><h4>CSS选择器的解析顺序</h4><p>相信很多人在一开始接触CSS的时候都会看到一条规则就是尽量少使用层级关系，比如尽量不要写成：</p><pre class="code-block"><code class="language-css">#div P.class {
+    color: red;
+}
+</code></pre><p>而是写成：</p><pre class="code-block"><code class="language-css">.class {
+    color: red;
+}
+</code></pre><p>之所以需要这么写，给的解释是这样可以减少选择器匹配的次数。</p><p>初看觉得哦，有点道理啊，但是往细了再想想：</p><p>如果我把层级定的足够的清晰分明，那不是可以直接去掉很多不对应的CSS选择器的索引路径的么？为什么都是建议少使用层级关系呢？</p><p>原因其实很简单，我们犯了一个经验主义错误，默认CSS选择器是从左往右进行解析的，实际上恰恰相反，CSS选择器是从右往左解析的。</p><h4>CSS选择器进行优化的必要性</h4><p>再次看下图：</p><p><img alt="img" src="https://img-blog.csdn.net/20160805094241153" /></p><p>在图中我们可以看到HTML解析出了一颗DOM tree，与此同时样式脚本则解析生成了一个style rules，也可以说是一个CSS tree。</p><p>最后，DOM tree同style rules一同结合解析出一颗Render Tree，</p><p>而Render Tree就是包含了一个dom对象以及为其计算好的样式规则，提供了布局以及显示方法。</p><p>因为不清楚一个DOM对象上究竟对应着哪些样式规则，所以只能选择一个最笨的办法，</p><p>即每一个DOM对象都遍历一遍style rules，DOM对象的数量相信大家也都清楚，</p><p>如果每次遍历style rules都是像一个晒太阳的老大爷一样的悠哉游哉，因此对CSS选择器进行优化就是一个必须的事情了。</p><h4>从右往左解析到底好在哪里</h4><p>假如有如下的一段HTML：</p><pre class="code-block"><code class="language-html">&lt;div id=&quot;div1&quot;&gt;
+    &lt;div class=&quot;a&quot;&gt;
+        &lt;div class=&quot;b&quot;&gt;
+            ...
+        &lt;/div&gt;
+        &lt;div class=&quot;c&quot;&gt;
+            &lt;div class=&quot;d&quot;&gt;
+                ...
+            &lt;/div&gt;
+            &lt;div class=&quot;e&quot;&gt;
+                ...
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;f&quot;&gt;
+        &lt;div class=&quot;c&quot;&gt;
+            &lt;div class=&quot;d&quot;&gt;
+                ...
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre><p>和如下的CSS：</p><pre class="code-block"><code class="language-css">#div1 .c .d {}
+.f .c .d {}
+.a .c .e {}
+#div1 .f {}
+.c .d{}
+</code></pre><p>假如我们的CSS解析器是从左往右进行匹配的，那么会生成如下的style rules：</p><p><img alt="01_47_03" src="https://user-images.githubusercontent.com/22188674/224469670-1156d32e-ea84-4a5a-9323-308d2db320b3.jpg" /></p><p>首先，#div1 .c .d ｛｝ .f .c .d ｛｝.c .d｛｝这三个选择器里面都含有 <strong>.c .d｛｝这么一个公用样式，</strong></p><p>所以哪怕是我们的DOM节点明确了是在#div1下面都必须对style rules进行全部的匹配查找，</p><p>这样一来基本上可以说是<strong>每一个DOM节点都必须完全遍历一遍style rules</strong>，</p><p>不然搞不好就会漏掉一些公用样式之类的，所以想着将层级写的更加详细就能去掉很多不对应的CSS选择器的索引路径的就不要想了，</p><p>不管你写的多细，你总是需要把整个style rules都遍历一遍，不然万一漏掉了某个公用样式不就思密达了？</p><p>那么如果我们换成从右向左进行解析就能够避免这种情况了么？请看下面这个style rules：</p><p><img alt="01_47_04" src="https://user-images.githubusercontent.com/22188674/224469699-0dc5d98b-3995-4cb9-b4ae-375441dcc995.jpeg" /></p><p>别的先不提，<strong>最少这个节点就少了很多</strong>嘛，哪怕我这里同样是需要全部遍历一遍就冲着减少了这么多个节点也要从右往左进行解析啊！</p><p>更重要的是，只要有公用样式，那么选择器最右边的那个类型选择器一定是相同的，如此公共样式就很自然的都集中到一个分支上，</p><p>这个时候我们<strong>完全可以将其他不匹配的路径全部去掉而不用担心会漏掉某些个公用样式了</strong>。</p><p>虽然当这颗CSS树在遍历的时候还有有部分节点会遍历到最后才能确定到底是不是匹配的，</p><p>但总的来说从<strong>右往左进行解析还是会比从左往右解析要少很多次的匹配</strong>，这样带来的效率提升是显而易见的！</p><p>同时，这也是不建议使用*通配符来进行样式匹配的原因：浏览器专门建立了一个反常规思维的从右往左的匹配规则就是为了避免对所有元素进行遍历。</p><p>最后，从右往左进行解析还有一个好处那就是从右往左进行匹配的时候，匹配的全部是DOM元素的父节点，</p><p>而从左往右进行匹配的时候时候，匹配的全部是DOM元素的子节点，这样就<strong>避免了HTML与CSS没有下载完需要进行等待的情形</strong>。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

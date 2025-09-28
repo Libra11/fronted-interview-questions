@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>use strict是什么? 它有什么用？【热度: 758】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：JS 编译指示、JS 严格模式&lt;/p&gt;&lt;p&gt;&lt;code&gt;&amp;quot;use strict&amp;quot;&lt;/code&gt; 是 JavaScript 中的一个编译指示（directive），用于启用严格模式（strict mode）。&lt;/p" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="use strict是什么? 它有什么用？【热度: 758】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：JS 编译指示、JS 严格模式&lt;/p&gt;&lt;p&gt;&lt;code&gt;&amp;quot;use strict&amp;quot;&lt;/code&gt; 是 JavaScript 中的一个编译指示（directive），用于启用严格模式（strict mode）。&lt;/p&gt;&lt;p&gt;严格模式是 JavaScript 的一种执行模式，它增强了代码的健壮性、可维护性和安全性，并减少了一些常见的错误" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/440" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>use strict是什么? 它有什么用？【热度: 758】</h1>
+      <div class="subtitle">JavaScript · JavaScript · PDD</div>
+      <div class="meta">创建：2023-06-08T15:51:48Z · 更新：2023-06-08T15:51:49Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：JS 编译指示、JS 严格模式</p><p><code>&quot;use strict&quot;</code> 是 JavaScript 中的一个编译指示（directive），用于启用严格模式（strict mode）。</p><p>严格模式是 JavaScript 的一种执行模式，它增强了代码的健壮性、可维护性和安全性，并减少了一些常见的错误。启用严格模式后，JavaScript 引擎会执行更严格的语法检查，提供更好的错误检测和提示。</p><p>使用 <code>&quot;use strict&quot;</code> 有以下几个特点和用途：</p><ol><li>严格模式禁止使用一些不安全或不推荐的语法和行为，例如使用未声明的变量、删除变量或函数、对只读属性赋值等。它会抛出更多的错误，帮助开发者发现并修复潜在的问题。</li></ol><ol><li>严格模式禁止使用一些不严谨的语法解析和错误容忍行为，例如不允许在全局作用域中定义变量时省略 <code>var</code> 关键字。</li></ol><ol><li>严格模式对函数的处理更加严格，要求函数内部的 <code>this</code> 值为 <code>undefined</code>，而非在非严格模式下默认指向全局对象。</li></ol><ol><li>严格模式禁止使用一些具有歧义性的特性，例如禁止使用八进制字面量、重复的函数参数名。</li></ol><p>使用严格模式可以提高代码的质量和可靠性，并避免一些常见的错误。为了启用严格模式，只需在 JavaScript 文件或函数的顶部添加 <code>&quot;use strict&quot;</code> 即可。严格模式默认不启用，需要显式地指定。例如：</p><pre class="code-block"><code class="language-javascript">&quot;use strict&quot;;
+
+// 严格模式下的代码
+</code></pre><p>需要注意的是，严格模式不兼容一些旧版本的 JavaScript 代码，可能会导致一些旧有的代码产生错误。因此，在使用严格模式之前，需要确保代码中不会出现与严格模式不兼容的语法和行为。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

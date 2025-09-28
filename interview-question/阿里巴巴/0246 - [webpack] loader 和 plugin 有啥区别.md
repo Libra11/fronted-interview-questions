@@ -1,0 +1,81 @@
+# [webpack] loader 和 plugin 有啥区别
+
+- Issue: #246
+- State: open
+- Labels: 工程化, 阿里巴巴
+- Author: yanlele
+- URL: https://github.com/pro-collection/interview-question/issues/246
+- Created: 2023-04-03T00:55:06Z
+- Updated: 2023-04-03T00:55:06Z
+
+## Body
+
+在Webpack中，Loader和Plugin是两个不同的概念，它们的作用和使用方式也有所不同。
+
+Loader用于对源代码文件进行转换和处理，而Plugin用于对Webpack的编译过程进行扩展和增强。
+
+* **Loader**
+
+Loader是Webpack中的一个核心概念，它用于处理源代码文件，将它们转换成Webpack可处理的模块。Webpack在处理代码模块的过程中，会根据模块的类型来选择相应的Loader进行处理，例如，处理CSS文件需要使用css-loader，处理图片需要使用file-loader等。使用Loader可以实现代码转换、文件处理、代码压缩等功能。
+
+Loader的使用方式是在Webpack的配置文件中定义module.rules属性，它是一个数组，每个元素是一个对象，用于描述如何处理特定类型的文件。一个Loader对象通常包括以下几个属性：
+
+* test：用于匹配需要处理的文件类型，通常是一个正则表达式。
+* use：指定需要使用的Loader，可以是一个字符串或一个数组，数组中的每个元素都是一个Loader。
+* exclude/include：指定需要排除/包含的文件夹。
+
+例如，处理CSS文件需要使用css-loader和style-loader，可以在Webpack配置文件中添加如下配置：
+
+```javascript
+module: {
+  rules: [
+    {
+      test: /\.css$/,
+      use: ["style-loader", "css-loader"]
+    }
+  ]
+}
+```
+
+* **Plugin**
+
+Plugin是Webpack中的另一个核心概念，它用于扩展Webpack的功能。Plugin可以用于执行任意类型的任务，例如，生成HTML文件、压缩代码、提取公共代码等。使用Plugin可以实现Webpack无法处理的复杂任务。
+
+Plugin的使用方式是在Webpack的配置文件中定义plugins属性，它是一个数组，每个元素是一个Plugin实例。Plugin通常包括以下几个方法：
+
+* apply：用于安装插件，接收一个compiler对象作为参数。
+* 一些Webpack钩子函数的实现。
+
+例如，生成HTML文件需要使用HtmlWebpackPlugin，可以在Webpack配置文件中添加如下配置：
+
+```javascript
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+module.exports = {
+  // ...
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: 'My App',
+      template: './src/index.html'
+    })
+  ]
+};
+```
+
+
+**表格对比他们之间的差异和适用范围**
+
+|区别|Loader|Plugin|
+|---|---|---|
+|输入/输出|输入文件，输出处理后的文件|可以在Webpack构建过程中处理输出结果或做额外处理|
+|使用方式|在模块加载时直接调用|在Webpack配置中进行配置|
+|功能|用于处理某些类型的文件|可以处理打包过程的各个环节|
+|实现方式|导出一个函数|导出一个类|
+|配置方式|在Webpack配置中使用|在Webpack配置中使用|
+|作用|转换文件或模块|对整个构建过程进行自定义操作|
+|适用场景|处理各种类型的文件，如css、图片等|执行比较复杂的操作，如代码压缩、代码分割等|
+|使用方式|需要在Webpack中明确的指定|无法单独使用，必须在Webpack中明确的指定使用|
+|作用对象|针对每一个文件进行处理|针对整个构建过程进行处理|
+
+
+总体而言，Loader主要用于针对单个文件进行处理，可以根据不同文件类型来选择对应的Loader；Plugin则是针对整个构建过程进行自定义操作，比如代码压缩、分离CSS文件、创建HTML文件等。
+

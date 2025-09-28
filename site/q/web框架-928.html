@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Vue] 如何自定义指令【热度: 159】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：vue 自定义指令&lt;/p&gt;&lt;p&gt;在 Vue 中，可以通过以下步骤来自定义指令：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、全局自定义指令&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;使用&lt;code&gt;Vue.directive()&lt;/code&gt;方法" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Vue] 如何自定义指令【热度: 159】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：vue 自定义指令&lt;/p&gt;&lt;p&gt;在 Vue 中，可以通过以下步骤来自定义指令：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、全局自定义指令&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;使用&lt;code&gt;Vue.directive()&lt;/code&gt;方法定义全局指令：&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;在模板中使用自定义指令：&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;&lt;/p" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/928" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Vue] 如何自定义指令【热度: 159】</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2024-09-22T05:06:16Z · 更新：2024-09-22T05:06:17Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：vue 自定义指令</p><p>在 Vue 中，可以通过以下步骤来自定义指令：</p><p><strong>一、全局自定义指令</strong></p><ol><li>使用<code>Vue.directive()</code>方法定义全局指令：</li></ol><p>```javascript</p><p>Vue.directive("my-directive", {</p><p>// 指令的定义对象</p><p>bind(el, binding, vnode) {</p><p>// 在元素绑定指令时调用</p><p>// el 是指令所绑定的元素</p><p>// binding 包含指令的信息，如 value、arg、modifiers 等</p><p>// vnode 是虚拟节点</p><p>},</p><p>inserted(el, binding, vnode) {</p><p>// 被绑定元素插入父节点时调用</p><p>},</p><p>update(el, binding, vnode, oldVnode) {</p><p>// 当组件更新时调用，包括数据更新和组件本身的更新</p><p>},</p><p>componentUpdated(el, binding, vnode, oldVnode) {</p><p>// 组件及其子组件的 VNode 更新后调用</p><p>},</p><p>unbind(el, binding, vnode) {</p><p>// 指令与元素解绑时调用</p><p>},</p><p>});</p><p>```</p><ol><li>在模板中使用自定义指令：</li></ol><p>```html</p><p><div v-my-directive="someValue"></div></p><p>```</p><p><strong>二、局部自定义指令</strong></p><ol><li>在组件中定义局部指令：</li></ol><p>```javascript</p><p>export default {</p><p>directives: {</p><p>"my-directive": {</p><p>bind(el, binding, vnode) {</p><p>// 指令定义</p><p>},</p><p>},</p><p>},</p><p>};</p><p>```</p><ol><li>在组件的模板中使用局部自定义指令：</li></ol><p>```html</p><p><template></p><p><div v-my-directive="someValue"></div></p><p></template></p><p>```</p><p><strong>三、指令定义对象的参数说明</strong></p><ol><li><code>el</code>：指令所绑定的元素，可以通过这个参数来操作元素的属性、样式等。</li><li><code>binding</code>：一个对象，包含以下属性：</li></ol><ul><li><code>value</code>：指令的绑定值，例如在<code>v-my-directive=&quot;someValue&quot;</code>中，<code>value</code>就是<code>someValue</code>的值。</li><li><code>arg</code>：指令的参数，如果指令是<code>v-my-directive:argName</code>，那么<code>arg</code>就是<code>argName</code>。</li><li><code>modifiers</code>：一个对象，包含指令的修饰符。</li></ul><ol><li><code>vnode</code>：虚拟节点，代表指令所绑定的元素的虚拟节点。</li><li><code>oldVnode</code>：上一个虚拟节点，仅在<code>update</code>和<code>componentUpdated</code>钩子中可用。</li></ol><p><strong>四、自定义指令的应用场景</strong></p><ol><li>操作 DOM 元素：例如，在特定条件下为元素添加或移除类名、设置样式、监听元素的事件等。</li><li>实现复杂的交互效果：比如拖拽、缩放、滚动监听等。</li><li>数据格式化：在将数据绑定到元素之前对数据进行格式化处理。</li></ol></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

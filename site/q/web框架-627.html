@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] 类组件的生命周期， 映射的 hooks 哪些 api ?【热度: 314】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：生命周期映射 hooks&lt;/p&gt;&lt;p&gt;下面是 React 类组件的生命周期方法和对应的 Hooks API：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;code&gt;constructor&lt;/code&gt;：&lt;code&gt;useState&lt;/code&gt; 可以在" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] 类组件的生命周期， 映射的 hooks 哪些 api ?【热度: 314】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：生命周期映射 hooks&lt;/p&gt;&lt;p&gt;下面是 React 类组件的生命周期方法和对应的 Hooks API：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;code&gt;constructor&lt;/code&gt;：&lt;code&gt;useState&lt;/code&gt; 可以在函数组件中模拟类组件的 &lt;code&gt;constructor&lt;/code&gt;。在函数组件内部使用 &lt;code&gt;useStat" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/627" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] 类组件的生命周期， 映射的 hooks 哪些 api ?【热度: 314】</h1>
+      <div class="subtitle">web框架 · web框架 · 腾讯</div>
+      <div class="meta">创建：2023-11-10T14:03:34Z · 更新：2023-11-10T14:03:35Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：生命周期映射 hooks</p><p>下面是 React 类组件的生命周期方法和对应的 Hooks API：</p><ol><li><code>constructor</code>：<code>useState</code> 可以在函数组件中模拟类组件的 <code>constructor</code>。在函数组件内部使用 <code>useState</code> 声明状态变量，并设置初始值。</li></ol><ol><li><code>componentDidMount</code>：<code>useEffect</code> 用于模拟 <code>componentDidMount</code>。通过在 <code>useEffect</code> 的回调函数中返回一个清理函数，可以模拟 <code>componentWillUnmount</code>。</li></ol><ol><li><code>componentDidUpdate</code>：<code>useEffect</code> 可以在函数组件中模拟 <code>componentDidUpdate</code>。通过使用 <code>useEffect</code> 的第二个参数，可以指定依赖项的数组，当依赖项发生变化时，<code>useEffect</code> 的回调函数会被调用。</li></ol><ol><li><code>componentWillUnmount</code>：<code>useEffect</code> 的清理函数可以模拟 <code>componentWillUnmount</code>。在 <code>useEffect</code> 的回调函数中返回一个清理函数，它会在组件销毁时执行。</li></ol><ol><li><code>shouldComponentUpdate</code>：<code>React.memo</code> 可以用于函数组件的性能优化，类似于 <code>shouldComponentUpdate</code> 的功能。<code>React.memo</code> 可以包裹一个组件，并只在组件的 props 发生变化时重新渲染。</li></ol><ol><li><code>getDerivedStateFromProps</code>：<code>useState</code> 可以通过提供 setter 函数，将 props 的值作为 state 的初始值。在组件重新渲染时，<code>useState</code> 不会重置 state 的值。</li></ol><p>并不是每一个生命周期方法都有与之对应的 Hooks API。</p><p>Hooks 是为了解决函数式组件的状态管理和副作用问题而引入的新特性，因此 Hooks 在某种程度上替换了类组件的生命周期方法。</p><p>下面是一个使用表格方式对比 React 类组件的生命周期方法和对应的 Hooks API：</p><p>| 生命周期方法       | Hooks API                                      |</p><p>|-------------------|-----------------------------------------------|</p><p>| constructor       | useState                                      |</p><p>| componentDidMount | useEffect（第二个参数为空数组）                  |</p><p>| componentDidUpdate | useEffect（包含依赖项的数组）                     |</p><p>| componentWillUnmount | useEffect 的清理函数                          |</p><p>| shouldComponentUpdate | React.memo                                   |</p><p>| getDerivedStateFromProps | useState（通过提供 setter 函数）                |</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

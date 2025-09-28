@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>commonjs 模块引用规范有哪些？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h2&gt;commonjs 模块引用管理规范&lt;/h2&gt;&lt;p&gt;规范定义：&lt;/p&gt;&lt;p&gt;每一个文件是一个模块，有自己的作用域&lt;/p&gt;&lt;p&gt;在模块内部的module变量代表模块本身&lt;/p&gt;&lt;p&gt;module.exports属性代表模块对外接口&lt;/p&gt;&lt;p&gt;require规则：&lt;/p&gt;&lt;p" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="commonjs 模块引用规范有哪些？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h2&gt;commonjs 模块引用管理规范&lt;/h2&gt;&lt;p&gt;规范定义：&lt;/p&gt;&lt;p&gt;每一个文件是一个模块，有自己的作用域&lt;/p&gt;&lt;p&gt;在模块内部的module变量代表模块本身&lt;/p&gt;&lt;p&gt;module.exports属性代表模块对外接口&lt;/p&gt;&lt;p&gt;require规则：&lt;/p&gt;&lt;p&gt;/表示绝路径，./表示相对于当前文件的路径&lt;/p&gt;&lt;p&gt;支持js、json、node扩展名，不写就依次尝试&lt;/p&gt;&lt;p" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/48" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>commonjs 模块引用规范有哪些？</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-09T15:58:10Z · 更新：2023-09-24T13:12:08Z</div>
+    </div>
+    <article class="content markdown-body"><h2>commonjs 模块引用管理规范</h2><p>规范定义：</p><p>每一个文件是一个模块，有自己的作用域</p><p>在模块内部的module变量代表模块本身</p><p>module.exports属性代表模块对外接口</p><p>require规则：</p><p>/表示绝路径，./表示相对于当前文件的路径</p><p>支持js、json、node扩展名，不写就依次尝试</p><p>不写路径名就认为是build-in模块或者各级node_modules内第三方模块</p><p>require特性：</p><p>module被加载的时候执行，加载后缓存；</p><p>一旦出现模块被循环加载，就只输出已经执行的部分，还没有执行的部分就不会输出</p><h2>深入理解module.exports和moudle和exports</h2><h3>01、为什么node需要用module.exports</h3><ul><li>1、Node程序由很多模块组成，每个模块就是一个文件。</li><li>2、并且Node模块采用了个CommonJs规范(下文会详细说明)</li><li>3、根据CommonJs规范一个单独的文件就是一个模块。每个模块都是一个 单独的作用域。也就是说：一个文件中的所有变量、类、方法都是私有的， 别的文件是不可见，不能直接引用的。</li></ul><p>例如：我们创建一个js文件a.js</p><pre class="code-block"><code class="language-javascript">var name1 = &#39;bangbang&#39;; 
+var name2 = function(name){ 
+    return name; 
+} 
+</code></pre><p>上面文件中：变量name1和name2在当前的文件中是私有的，其他文件不 可见。</p><ul><li>4、在javascript中有2种作用域：全局作用域和函数作用域，在浏览器端， 全局作用域就是window对象的属性，函数作用域就是函数内部的对象属性。</li></ul><p>在node中，也有2种作用域：全局作用域和模块作用域，因此要想实现在nodejs中多个文件中分享变量，就必须定义成全局对象 (global)的属性，</p><p>global定义的变量，在任何地方都可以使用，类似于浏览器端定义在全局 范围中的变量。Global可查看<a href="http://www.w3clog.com/20.html" target="_blank" rel="noopener">http://www.w3clog.com/20.html</a></p><h3>02、什么是module.exports对象</h3><ul><li>1、CommonJs规定</li></ul><p>每个文件对外接口是module.exports对象。这个对象 的所有属性和方法都可以被其他文件导入。</p><p>例如：我们创建一个js文件：b1.js</p><pre class="code-block"><code class="language-javascript">var num1 = 6;
+function add(a) {
+  return a + num1;
+}
+module.exports.num1 = num1;
+module.exports.add = add;
+</code></pre><p>再创建一个test2.js</p><pre class="code-block"><code class="language-javascript">var b1 = require(&#39;./b1&#39;);
+console.log(b1.num1);               // 6
+console.log(b1.add(4));             // 10
+</code></pre><p>上面代码中的module.exports对象，定义对外接口，输出变量num1和函数add;</p><ul><li>2、总结如下</li><li>2.1、module.exports对象可以被其他文件导入，其实他就是文件内部与文件外部通信的桥梁。</li><li>2.2、module.exports属性表示当前模块对外输出的接口，其他文件加载该模块，实际上就是读取module.exports变量。</li></ul><h3>03、什么是module对象</h3><ul><li>1、每个模块内部，都有一个module对象，代表当前的模块，他有以下属性：还是test2.js文件，后面加一句console.log(module)</li></ul><pre class="code-block"><code>Module {
+  id: &#39;.&#39;,
+  exports: {},
+  parent: null,
+  filename: &#39;E:\\yanlele\\webProject\\node\\node-index\\18年\\2月\\1、commonjs\\04、test.js&#39;,
+  loaded: false,
+  children: [],
+  paths: 
+   [ &#39;E:\\yanlele\\webProject\\node\\node-index\\18年\\2月\\1、commonjs\\node_modules&#39;,
+     &#39;E:\\yanlele\\webProject\\node\\node-index\\18年\\2月\\node_modules&#39;,
+     &#39;E:\\yanlele\\webProject\\node\\node-index\\18年\\node_modules&#39;,
+     &#39;E:\\yanlele\\webProject\\node\\node-index\\node_modules&#39;,
+     &#39;E:\\yanlele\\webProject\\node\\node_modules&#39;,
+     &#39;E:\\yanlele\\webProject\\node_modules&#39;,
+     &#39;E:\\yanlele\\node_modules&#39;,
+     &#39;E:\\node_modules&#39; ] }
+</code></pre><p>我们分析一下：</p><p>Module.id — 模块的识别符，通常是带有绝对路径的模块文件名；</p><p>Module.filename – 模块的文件名，含有绝对路径；</p><p>Module.loaded – 返回布尔值，代表模块是否已经完成加载；</p><p>Module.parent – 返回一个对象，表示调用该模块的模块；</p><p>Module.children – 返回一个数组，表示该模块要用到的其他模块。</p><h3>04、什么是exports变量</h3><ul><li>1、为了方便，Node为每个模块提供一个exports变量，（即引用赋值）指向module.exports,这等同于在每个模块头部有一行这样的命令：</li></ul><p><code> Var exports = module.exports;</code></p><p>不能直接将exports变量指向一个值，因为这样等于切断了，exports与module.exports的联系。</p><p>下面的代码也是无效的，name函数无法对外输出。但是module.exports却可以直接指定一个值， 这样是有效的。</p><pre class="code-block"><code class="language-javascript">exports.name = function() {
+    return &#39;yanle&#39;
+};
+module.exports = &#39;lele&#39;;
+</code></pre><ul><li>2、module和module.exports不能混用</li></ul><p>这个很重要：因为module.exports被重新赋值了。require返回的是module.exports的值，module.exports才是真正的接口，而不是exports的值；</p><p>因此如果你觉得exports与module.exports很难分清，一个简单的处理方法就是：尽量让他们只出现一种，不要混合使用！推荐使用exports导出方法或者变量。</p><h3>05、CommonJs模块的特点</h3><ul><li>1、 所有代码都运行在模块中，不会污染全局作用域；</li><li>2、 模块可以多次加载，但是只会在第一次加载时运行一次，然后运行结果 就被缓存了，以后再次加载的时候就直接读取缓存结果。要想让模块再次 运行，必须清除缓存。</li></ul><p>在这个地方我找到了一个模块，可以重新加载我们需想要的模块： <a href="https://github.com/fastest963/require-reload" target="_blank" rel="noopener">require-reload</a></p><ul><li>3、 模块加载的顺序，按照其在代码中出现的顺序。</li></ul><h2>Comments / Answers</h2><hr /><p><strong>wuhuaizai</strong> at 2023-09-24T13:12:07Z</p><p>http://www.w3clog.com/20.html点开后差点社死</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

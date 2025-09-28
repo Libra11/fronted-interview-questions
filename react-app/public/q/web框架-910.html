@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Vue] 介绍一下 3.x 侦听器 watch【热度: 671】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：侦听器 watch&lt;/p&gt;&lt;p&gt;Vue 3 提供了一个灵活的响应式系统，其中 &lt;code&gt;watch&lt;/code&gt; 函数是实现细粒度数据观察和响应的重要工具。&lt;code&gt;watch&lt;/code&gt; 能够侦听 Vue 应用中的响应式数据" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Vue] 介绍一下 3.x 侦听器 watch【热度: 671】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：侦听器 watch&lt;/p&gt;&lt;p&gt;Vue 3 提供了一个灵活的响应式系统，其中 &lt;code&gt;watch&lt;/code&gt; 函数是实现细粒度数据观察和响应的重要工具。&lt;code&gt;watch&lt;/code&gt; 能够侦听 Vue 应用中的响应式数据的变化，并在数据变化时执行相应的回调函数。这个功能在 Vue 2 中以 &lt;code&gt;watch&lt;/code&gt; 选项的形式" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/910" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Vue] 介绍一下 3.x 侦听器 watch【热度: 671】</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2024-09-17T09:06:46Z · 更新：2024-12-02T03:25:55Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：侦听器 watch</p><p>Vue 3 提供了一个灵活的响应式系统，其中 <code>watch</code> 函数是实现细粒度数据观察和响应的重要工具。<code>watch</code> 能够侦听 Vue 应用中的响应式数据的变化，并在数据变化时执行相应的回调函数。这个功能在 Vue 2 中以 <code>watch</code> 选项的形式存在，而在 Vue 3 的组合式 API 中，则是作为 <code>watch</code> 函数来使用。</p><h3>使用 <code>watch</code> 侦听 Refs</h3><p><code>watch</code>函数可以用来侦听一个引用类型（ref）的变化：</p><pre class="code-block"><code class="language-javascript">import { ref, watch } from &quot;vue&quot;;
+
+const count = ref(0);
+
+watch(count, (newValue, oldValue) =&gt; {
+  console.log(`新值：${newValue}，旧值：${oldValue}`);
+});
+</code></pre><p>在上面的例子中，当 <code>count</code> 的值变化时，回调函数就会被调用，并打印新旧值。</p><h3>使用 <code>watch</code> 侦听响应式对象</h3><p>除了侦听引用类型，<code>watch</code> 还可以侦听响应式对象的属性变化：</p><pre class="code-block"><code class="language-javascript">import { reactive, watch } from &quot;vue&quot;;
+
+const state = reactive({ count: 0 });
+
+watch(
+  () =&gt; state.count,
+  (newValue, oldValue) =&gt; {
+    console.log(`新值：${newValue}，旧值：${oldValue}`);
+  }
+);
+</code></pre><p>记住，当侦听响应式对象的某个属性时，你需要使用一个函数来返回这个属性的当前值。</p><h3>侦听多个源</h3><p><code>watch</code> 还可以同时侦听多个数据源：</p><pre class="code-block"><code class="language-javascript">watch([ref1, ref2], ([newVal1, newVal2], [oldVal1, oldVal2]) =&gt; {
+  // 处理逻辑
+});
+</code></pre><h3>深度侦听</h3><p>通过设置 <code>watch</code> 的选项 <code>{ deep: true }</code>，可以进行深度侦听，即侦听对象内嵌属性的变化：</p><pre class="code-block"><code class="language-javascript">watch(obj, callback, { deep: true });
+</code></pre><h3>清理和停止监听</h3><p><code>watch</code> 函数返回一个停止监听的函数，可以用来在合适的时机停止侦听：</p><pre class="code-block"><code class="language-javascript">const stopWatching = watch(dataSource, callback);
+// 停止侦听
+stopWatching();
+</code></pre><h3>watchEffect</h3><p>除了 <code>watch</code>，Vue 3 也引入了 <code>watchEffect</code> 函数。<code>watchEffect</code> 自动跟踪其回调函数中使用的响应式引用和响应式对象的属性，并在它们变化时运行回调函数。它不需要显式声明侦听的数据源，这让它更简单易用，但在某些情况下，它可能不如 <code>watch</code> 那么精确控制。</p><h2>Comments / Answers</h2><hr /><p><strong>and826826</strong> at 2024-12-02T03:25:55Z</p><p>深度监听补充：响应式对象强制深度监听，只在监听非响应式数据时需要手动配置depp属性，3.5+支持设置deep层数。</p><p>清理停止监听补充：3.5+增加了暂停、恢复监听器的方法</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

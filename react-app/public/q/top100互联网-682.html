@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CSS 属性值计算 - calc【热度: 320】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;是的，CSS 支持计算值，这可以通过 &lt;code&gt;calc()&lt;/code&gt; 函数实现。&lt;code&gt;calc()&lt;/code&gt; 允许你进行数学运算，计算 CSS 属性值。这个功能非常有力，因为它可以混合使用不同的单位，并且可以用在几乎任何需要数值的地方。&lt;/p&gt;&lt;p&gt;以下是" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="CSS 属性值计算 - calc【热度: 320】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;是的，CSS 支持计算值，这可以通过 &lt;code&gt;calc()&lt;/code&gt; 函数实现。&lt;code&gt;calc()&lt;/code&gt; 允许你进行数学运算，计算 CSS 属性值。这个功能非常有力，因为它可以混合使用不同的单位，并且可以用在几乎任何需要数值的地方。&lt;/p&gt;&lt;p&gt;以下是 &lt;code&gt;calc()&lt;/code&gt; 函数的一些应用示例：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;基本运算&lt;/str" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/682" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>CSS 属性值计算 - calc【热度: 320】</h1>
+      <div class="subtitle">TOP100互联网 · CSS · TOP100互联网</div>
+      <div class="meta">创建：2024-04-13T09:23:48Z · 更新：2024-04-13T09:23:49Z</div>
+    </div>
+    <article class="content markdown-body"><p>是的，CSS 支持计算值，这可以通过 <code>calc()</code> 函数实现。<code>calc()</code> 允许你进行数学运算，计算 CSS 属性值。这个功能非常有力，因为它可以混合使用不同的单位，并且可以用在几乎任何需要数值的地方。</p><p>以下是 <code>calc()</code> 函数的一些应用示例：</p><ol><li><strong>基本运算</strong>：可以执行加 (<code>+</code>)、减 (<code>-</code>)、乘 (<code>*</code>) 和除 (<code>/</code>) 四种基本运算。</li></ol><p>```css</p><p>.element {</p><p>width: calc(100% - 80px);</p><p>}</p><p>```</p><ol><li><strong>混合单位</strong>：<code>calc()</code> 函数可以混合使用像素、百分比、em、rem 等单位。</li></ol><p>```css</p><p>.element {</p><p>margin-top: calc(50vh - 50px);</p><p>}</p><p>```</p><ol><li><strong>嵌套</strong>：你可以在 <code>calc()</code> 里面嵌套另一个 <code>calc()</code>。</li></ol><p>```css</p><p>.element {</p><p>width: calc(100% - calc(50px + 2em));</p><p>}</p><p>```</p><ol><li><strong>环境变量</strong>：结合 CSS 变量 (Custom Properties) 使用。</li></ol><p>```css</p><p>:root {</p><p>--main-padding: 10px;</p><p>}</p><p>.element {</p><p>padding: calc(var(--main-padding) * 2);</p><p>}</p><p>```</p><ol><li><strong>动态值调整</strong>：用于某些动态大小的调整。</li></ol><p>```css</p><p>.element {</p><p>position: absolute;</p><p>bottom: calc(50% - 20px);</p><p>}</p><p>```</p><p>当使用 <code>calc()</code> 时有一些规则需要注意，例如:</p><ul><li>运算符之间需要有空格。<code>calc(50% -50px)</code> 是无效的，而 <code>calc(50% - 50px)</code> 是有效的。</li><li>不能进行 0 除运算，也就是说分母不能为 0。</li><li>在进行乘法和除法时，至少有一个值必须是数值（即不带单元的数字）。</li></ul><p>总的来说，<code>calc()</code> 是一个强大的 CSS 工具，可以在响应式设计和复杂布局管理中提供极大的帮助。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

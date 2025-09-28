@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>用 JS 写一个 cookies 解析函数， 输出结果为一个对象【热度: 137】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：解析 cookies&lt;/p&gt;&lt;p&gt;当然可以，以下是一个简单的 JavaScript 函数，用于解析当前页面的 cookie 并将它们存储到一个对象中：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="用 JS 写一个 cookies 解析函数， 输出结果为一个对象【热度: 137】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：解析 cookies&lt;/p&gt;&lt;p&gt;当然可以，以下是一个简单的 JavaScript 函数，用于解析当前页面的 cookie 并将它们存储到一个对象中：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;function parseCookies() { // 创建一个空对象来存储" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/743" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>用 JS 写一个 cookies 解析函数， 输出结果为一个对象【热度: 137】</h1>
+      <div class="subtitle">web应用场景 · web应用场景 · 网易</div>
+      <div class="meta">创建：2024-05-09T15:03:33Z · 更新：2024-05-09T15:03:33Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：解析 cookies</p><p>当然可以，以下是一个简单的 JavaScript 函数，用于解析当前页面的 cookie 并将它们存储到一个对象中：</p><pre class="code-block"><code class="language-javascript">function parseCookies() {
+  // 创建一个空对象来存储解析后的 cookie
+  var cookiesObj = {};
+
+  // 获取 cookie 字符串，然后分割每个键值对
+  var cookies = document.cookie.split(&quot;;&quot;);
+
+  // 遍历每个键值对
+  cookies.forEach(function (cookie) {
+    // 去除键值对前后的空格
+    var cleanCookie = cookie.trim();
+    // 找到键和值之间的等号位置
+    var separatorIndex = cleanCookie.indexOf(&quot;=&quot;);
+
+    // 如果找不到等号，则不是有效的键值对，跳过当前循环
+    if (separatorIndex === -1) return;
+
+    // 获取键名
+    var key = cleanCookie.substring(0, separatorIndex);
+    // 获取值
+    var value = cleanCookie.substring(separatorIndex + 1);
+
+    // 解码因为 cookie 键和值是编码过的
+    key = decodeURIComponent(key);
+    value = decodeURIComponent(value);
+
+    // 将解析后的值存储到对象中
+    cookiesObj[key] = value;
+  });
+
+  // 返回解析后的 cookie 对象
+  return cookiesObj;
+}
+
+// 使用示例
+var cookies = parseCookies();
+console.log(cookies);
+</code></pre><p>这个函数首先会以分号 <code>;</code> 分割 <code>document.cookie</code> 字符串来得到各个 cookie 键值对，然后移除键值对前后的任何空格。接着寻找每个键值对中的等号 <code>=</code> 位置，以此来分割键和值。最后，它会使用 <code>decodeURIComponent</code> 函数来解码键名和键值，因为通过 <code>document.cookie</code> 读取的键名和键值通常是编码过的。</p><p>调用 <code>parseCookies</code> 函数将返回一个对象，其中包含了当前页面的所有 cookie，键名和值都已被解码。然后你可以像访问普通对象一样访问这些值，例如 <code>cookies[&#39;username&#39;]</code> 来获取 'username' 键对应的值。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

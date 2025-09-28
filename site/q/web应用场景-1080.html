@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>代码里console.log比较多，该怎么办【热度: 340】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;ol&gt;&lt;li&gt;&lt;strong&gt;&lt;code&gt;ESLint&lt;/code&gt;配置规则软性禁止&lt;/strong&gt;：通过配置&lt;code&gt;.eslintrc.json&lt;/code&gt;文件，添加&lt;code&gt;&amp;quot;no-console&amp;quot;: &amp;quot;warn&amp;quot;&lt;/cod" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="代码里console.log比较多，该怎么办【热度: 340】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;ol&gt;&lt;li&gt;&lt;strong&gt;&lt;code&gt;ESLint&lt;/code&gt;配置规则软性禁止&lt;/strong&gt;：通过配置&lt;code&gt;.eslintrc.json&lt;/code&gt;文件，添加&lt;code&gt;&amp;quot;no-console&amp;quot;: &amp;quot;warn&amp;quot;&lt;/code&gt;规则，使代码中使用&lt;code&gt;console&lt;/code&gt;的地方会划上黄色波浪线警示，能一定程度削减&lt;code&gt;co" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1080" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>代码里console.log比较多，该怎么办【热度: 340】</h1>
+      <div class="subtitle">web应用场景 · web应用场景</div>
+      <div class="meta">创建：2025-01-02T15:00:46Z · 更新：2025-01-02T15:00:47Z</div>
+    </div>
+    <article class="content markdown-body"><ol><li><strong><code>ESLint</code>配置规则软性禁止</strong>：通过配置<code>.eslintrc.json</code>文件，添加<code>&quot;no-console&quot;: &quot;warn&quot;</code>规则，使代码中使用<code>console</code>的地方会划上黄色波浪线警示，能一定程度削减<code>console.log</code>数量，但无法真正阻止其使用。</li><li><strong><code>git commit</code>编写规则限制提交</strong>：找到项目中的<code>.git/hooks</code>文件夹下的<code>pre-commit.sample</code>文件，将其内容修改为若提交代码中包含<code>console.log</code>则报错提交失败，并将文件重命名为<code>pre-commit</code>。但该规则可被<code>git commit -m &#39;xxx&#39; --no-verify</code>指令绕过。</li><li><strong>依托于 cicd 的自动检测</strong>: 在流水线部署的时候跑 eslint, 如果 console.log 代码增加， 就 拒绝部署即可；</li><li><strong>使用插件删除</strong></li></ol><ul><li><strong><code>VSCODE</code>插件</strong>：可在插件商店搜索<code>remove-console</code>并安装，找到有<code>console.log</code>的文件使用插件删除，但效果可能不太理想。</li><li><strong><code>Webpack</code>插件</strong></li><li>可使用<code>terser-webpack-plugin</code>，在项目基于<code>create-react-app</code>脚手架时可直接搜到，在使用处配置<code>drop_console: true</code>，能在打包后去除全部<code>console.log</code>。</li></ul><p>参考文档：</p><ul><li>https://juejin.cn/post/7417710863711649832</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何判断用户设备【热度: 551】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：判断设备&lt;/p&gt;&lt;p&gt;在 Web 前端开发中，判断用户设备类型（如手机、平板、桌面电脑）主要依赖于用户代理字符串（User-Agent）和/或视口（Viewport）的尺寸。以下是一些常用方法：&lt;/p&gt;&lt;h3&gt;使用用户代理字符串（U" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何判断用户设备【热度: 551】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：判断设备&lt;/p&gt;&lt;p&gt;在 Web 前端开发中，判断用户设备类型（如手机、平板、桌面电脑）主要依赖于用户代理字符串（User-Agent）和/或视口（Viewport）的尺寸。以下是一些常用方法：&lt;/p&gt;&lt;h3&gt;使用用户代理字符串（User-Agent）&lt;/h3&gt;&lt;p&gt;用户代理字符串包含了浏览器类型、版本、操作系统等信息，可以通过分析这些信息来大致判断" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/850" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何判断用户设备【热度: 551】</h1>
+      <div class="subtitle">阿里巴巴 · web应用场景 · 阿里巴巴</div>
+      <div class="meta">创建：2024-08-25T06:29:29Z · 更新：2024-08-25T06:29:29Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：判断设备</p><p>在 Web 前端开发中，判断用户设备类型（如手机、平板、桌面电脑）主要依赖于用户代理字符串（User-Agent）和/或视口（Viewport）的尺寸。以下是一些常用方法：</p><h3>使用用户代理字符串（User-Agent）</h3><p>用户代理字符串包含了浏览器类型、版本、操作系统等信息，可以通过分析这些信息来大致判断用户的设备类型。<code>navigator.userAgent</code> 属性用于获取用户代理字符串。</p><pre class="code-block"><code class="language-javascript">function detectDevice() {
+  const userAgent = navigator.userAgent;
+
+  if (/mobile/i.test(userAgent)) {
+    return &quot;Mobile&quot;;
+  }
+  if (/tablet/i.test(userAgent)) {
+    return &quot;Tablet&quot;;
+  }
+  if (/iPad|iPhone|iPod/.test(userAgent) &amp;&amp; !window.MSStream) {
+    return &quot;iOS Device&quot;;
+  }
+  // Android, Windows Phone, BlackBerry 识别可以类似添加
+
+  return &quot;Desktop&quot;;
+}
+
+console.log(detectDevice());
+</code></pre><h3>使用视口尺寸</h3><p>有时候用户代理字符串可能不够准确或被修改，此时可以根据视口尺寸作为补充手段。通过检测屏幕的宽度，你可以推断出设备的大致类别。</p><pre class="code-block"><code class="language-javascript">function detectDeviceByViewport() {
+  const width = window.innerWidth;
+
+  if (width &lt; 768) {
+    return &quot;Mobile&quot;;
+  }
+  if (width &gt;= 768 &amp;&amp; width &lt; 992) {
+    return &quot;Tablet&quot;;
+  }
+  return &quot;Desktop&quot;;
+}
+
+console.log(detectDeviceByViewport());
+</code></pre><h3>使用 CSS 媒体查询</h3><p>虽然 CSS 媒体查询主要用于响应式设计，但你也可以在 JavaScript 中使用 <code>window.matchMedia()</code> 方法来判断设备类型。这提供了一种基于 CSS 媒体查询语法来检测设备/视口特性的方式。</p><pre class="code-block"><code class="language-javascript">function detectDeviceByMediaQuery() {
+  if (window.matchMedia(&quot;(max-width: 767px)&quot;).matches) {
+    return &quot;Mobile&quot;;
+  } else if (window.matchMedia(&quot;(min-width: 768px) and (max-width: 991px)&quot;).matches) {
+    return &quot;Tablet&quot;;
+  } else {
+    return &quot;Desktop&quot;;
+  }
+}
+
+console.log(detectDeviceByMediaQuery());
+</code></pre><h3>注意</h3><ul><li><strong>用户代理字符串被视为不可靠</strong>：由于用户代理字符串可以被修改，某些情况下可能不能准确反映用户的设备信息。</li><li><strong>响应式设计原则</strong>：在进行设备检测时，最佳实践是根据内容和功能的需要来适应不同设备，而不是针对特定设备进行优化或限制。</li></ul><p>综上，设备检测方法多种多样，选择合适的方法取决于你的具体需求和场景。在可能的情况下，优先考虑使用响应式设计原则，来创建能够在不同设备上良好工作的网页。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

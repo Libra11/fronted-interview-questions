@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[代码实现] 实现一个可以用for...of遍历的对象【热度: 653】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：for...in遍历、for...of遍历&lt;/p&gt;&lt;p&gt;普通对象因为没有迭代器，所以无法使用for...of遍历，一般使用for...in或者Object.keys()来遍历&lt;/p&gt;&lt;p&gt;但是如果我们手动给对象设置一个迭代器，对象也" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[代码实现] 实现一个可以用for...of遍历的对象【热度: 653】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：for...in遍历、for...of遍历&lt;/p&gt;&lt;p&gt;普通对象因为没有迭代器，所以无法使用for...of遍历，一般使用for...in或者Object.keys()来遍历&lt;/p&gt;&lt;p&gt;但是如果我们手动给对象设置一个迭代器，对象也是可以使用for...of来遍历的;&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;l" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/521" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[代码实现] 实现一个可以用for...of遍历的对象【热度: 653】</h1>
+      <div class="subtitle">腾讯 · 腾讯 · 代码实现/算法</div>
+      <div class="meta">创建：2023-08-20T14:41:49Z · 更新：2023-09-06T15:51:38Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：for...in遍历、for...of遍历</p><p>普通对象因为没有迭代器，所以无法使用for...of遍历，一般使用for...in或者Object.keys()来遍历</p><p>但是如果我们手动给对象设置一个迭代器，对象也是可以使用for...of来遍历的;</p><pre class="code-block"><code class="language-js">var obj = {
+  a:1,
+  b:2,
+  c:3
+}
+
+obj.__proto__[Symbol.iterator] = function* objectIterator() {
+  for (let key in this) {
+    if (obj.hasOwnProperty(key)) {
+      yield [key, this[key]]
+    }
+  }
+}
+
+for(let v of obj){
+  console.log(v);
+}
+//[&#39;a&#39;,1]
+//[&#39;b&#39;,2]
+//[&#39;c&#39;,3]
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

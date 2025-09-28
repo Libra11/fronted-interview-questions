@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>http3 有哪些核心的新特性【热度: 313】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：http3 新特性&lt;/p&gt;&lt;p&gt;HTTP/3 带来了以下一些核心新特性：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、基于 QUIC 协议&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;多路复用无队头阻塞&lt;/strong&gt;：&lt;/li&gt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="http3 有哪些核心的新特性【热度: 313】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：http3 新特性&lt;/p&gt;&lt;p&gt;HTTP/3 带来了以下一些核心新特性：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、基于 QUIC 协议&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;多路复用无队头阻塞&lt;/strong&gt;：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;HTTP/3 基于 QUIC（Quick UDP Internet Connections）协" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/995" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>http3 有哪些核心的新特性【热度: 313】</h1>
+      <div class="subtitle">网络 · 网络</div>
+      <div class="meta">创建：2024-10-13T02:46:53Z · 更新：2024-10-13T02:46:53Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：http3 新特性</p><p>HTTP/3 带来了以下一些核心新特性：</p><p><strong>一、基于 QUIC 协议</strong></p><ol><li><strong>多路复用无队头阻塞</strong>：</li></ol><ul><li>HTTP/3 基于 QUIC（Quick UDP Internet Connections）协议，它继承了 QUIC 的多路复用特性。在 HTTP/2 中，虽然也有多路复用，但由于底层使用 TCP 协议，可能会出现队头阻塞问题。而 QUIC 的多路复用在一个连接上可以同时处理多个独立的流，并且各个流之间不会相互影响，即使某个流出现丢包，也不会阻塞其他流的传输。</li><li>例如，当同时加载一个网页的多个资源时，如果其中一个资源的数据包丢失，在 HTTP/2 中可能会导致整个连接的传输受阻，直到丢失的数据包被重传成功。而在 HTTP/3 中，其他资源的传输不受影响，大大提高了传输效率。</li></ul><ol><li><strong>快速连接建立</strong>：</li></ol><ul><li>QUIC 协议在连接建立方面比传统的 TCP 和 TLS 握手更快。它将 TLS 加密层整合到 QUIC 协议内部，减少了连接建立的往返次数。在首次连接时，虽然也需要一些时间进行密钥交换等操作，但后续连接可以利用之前的连接状态进行快速恢复，实现 0-RTT（Round-Trip Time）或 1-RTT 的连接建立时间。</li><li>例如，在移动网络环境下，用户频繁切换网络或重新打开应用时，HTTP/3 可以更快地建立连接，减少用户等待时间，提供更流畅的体验。</li></ul><p><strong>二、改进的拥塞控制</strong></p><ol><li><strong>可插拔的拥塞控制算法</strong>：</li></ol><ul><li>HTTP/3 允许使用不同的拥塞控制算法，并且可以根据网络环境动态切换。这使得它能够更好地适应各种网络条件，如高延迟、高丢包率的网络环境。</li><li>例如，在无线网络环境下，可以选择更适合这种环境的拥塞控制算法，提高数据传输的效率和稳定性。</li></ul><ol><li><strong>更精准的拥塞控制</strong>：</li></ol><ul><li>QUIC 协议的拥塞控制机制比 TCP 更加精细。它可以更好地感知网络的拥塞状态，及时调整发送速率，避免网络拥塞的发生。同时，它还可以对不同的流进行独立的拥塞控制，提高整体的网络利用率。</li><li>例如，当网络出现拥塞时，HTTP/3 可以更快地降低发送速率，避免拥塞进一步恶化。而在网络状况好转时，又能迅速提高发送速率，充分利用网络带宽。</li></ul><p><strong>三、增强的安全性</strong></p><ol><li><strong>内置加密</strong>：</li></ol><ul><li>QUIC 协议在设计上就内置了加密功能，从一开始就对数据进行加密传输，提供了更好的安全性。这避免了像 TCP 那样在连接建立后再进行加密协商的过程，减少了安全风险。</li><li>例如，在网络中传输的数据更难被窃听或篡改，保护用户的隐私和数据安全。</li></ul><ol><li><strong>前向安全</strong>：</li></ol><ul><li>HTTP/3 继承了 QUIC 的前向安全特性。即使一个密钥被泄露，也不会影响之前的通信安全。这意味着攻击者无法通过破解当前的密钥来获取之前的通信内容。</li><li>例如，如果一个服务器的密钥在某个时间点被泄露，之前通过 HTTP/3 传输的通信内容仍然是安全的，不会被攻击者窃取。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

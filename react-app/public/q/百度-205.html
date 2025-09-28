@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>全局作用域中，用 const 和 let 声明的变量不在 window 上，那到底在哪里？如何去获取？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;用 &lt;code&gt;const&lt;/code&gt; 或 &lt;code&gt;let&lt;/code&gt; 声明的变量不会挂在在 &lt;code&gt;window&lt;/code&gt; 对象上，而是在一个称为块级作用域（block scope）的作用域内。这个作用域可以是一个函数、一个代码块（比如 &lt;code&gt;{}&lt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="全局作用域中，用 const 和 let 声明的变量不在 window 上，那到底在哪里？如何去获取？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;用 &lt;code&gt;const&lt;/code&gt; 或 &lt;code&gt;let&lt;/code&gt; 声明的变量不会挂在在 &lt;code&gt;window&lt;/code&gt; 对象上，而是在一个称为块级作用域（block scope）的作用域内。这个作用域可以是一个函数、一个代码块（比如 &lt;code&gt;{}&lt;/code&gt; 之间的语句），或者全局作用域。&lt;/p&gt;&lt;p&gt;在块级作用域中声明的变量无法通过 &lt;code&gt;window&lt;/" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/205" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>全局作用域中，用 const 和 let 声明的变量不在 window 上，那到底在哪里？如何去获取？</h1>
+      <div class="subtitle">百度 · JavaScript · 百度</div>
+      <div class="meta">创建：2023-03-26T14:10:46Z · 更新：2023-03-26T14:11:39Z</div>
+    </div>
+    <article class="content markdown-body"><p>用 <code>const</code> 或 <code>let</code> 声明的变量不会挂在在 <code>window</code> 对象上，而是在一个称为块级作用域（block scope）的作用域内。这个作用域可以是一个函数、一个代码块（比如 <code>{}</code> 之间的语句），或者全局作用域。</p><p>在块级作用域中声明的变量无法通过 <code>window</code> 对象访问，只能在当前作用域内访问。如果要在全局作用域中访问这个变量，需要显式地将它添加到 <code>window</code> 对象上。</p><p>以下是一个例子：</p><pre class="code-block"><code class="language-javascript">{
+  const foo = &#39;bar&#39;;
+  let baz = &#39;qux&#39;;
+  var quux = &#39;corge&#39;;
+}
+
+console.log(window.foo); // undefined
+console.log(window.baz); // undefined
+console.log(window.quux); // &#39;corge&#39;
+</code></pre><p>在上面的例子中，<code>foo</code> 和 <code>baz</code> 声明在一个代码块内，因此它们不会挂在在 <code>window</code> 对象上。而 <code>quux</code> 声明使用了 <code>var</code>，因此它会被挂在在 <code>window</code> 对象上。</p><p>如果我们希望在全局作用域中访问 <code>foo</code> 和 <code>baz</code>，可以将它们手动添加到 <code>window</code> 对象上：</p><pre class="code-block"><code class="language-javascript">{
+  const foo = &#39;bar&#39;;
+  let baz = &#39;qux&#39;;
+  var quux = &#39;corge&#39;;
+
+  window.foo = foo;
+  window.baz = baz;
+}
+
+console.log(window.foo); // &#39;bar&#39;
+console.log(window.baz); // &#39;qux&#39;
+console.log(window.quux); // &#39;corge&#39;
+</code></pre><p>但是，在实际编程中，最好尽量避免将变量挂在在 <code>window</code> 对象上，以避免命名冲突和污染全局命名空间。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] react-router 和 原生路由区别【热度: 434】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：react router 路由、浏览器原生路由能力&lt;/p&gt;&lt;p&gt;React Router 和浏览器原生 history API 在路由管理上主要有以下几个区别：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;抽象级别&lt;/strong&gt;:&lt;/" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] react-router 和 原生路由区别【热度: 434】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：react router 路由、浏览器原生路由能力&lt;/p&gt;&lt;p&gt;React Router 和浏览器原生 history API 在路由管理上主要有以下几个区别：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;抽象级别&lt;/strong&gt;:&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;React Router&lt;/strong&gt; 提供了更高层次的抽象，如 &lt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/711" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] react-router 和 原生路由区别【热度: 434】</h1>
+      <div class="subtitle">web应用场景 · web框架 · web应用场景 · TOP100互联网</div>
+      <div class="meta">创建：2024-04-20T02:36:56Z · 更新：2024-04-20T04:51:14Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：react router 路由、浏览器原生路由能力</p><p>React Router 和浏览器原生 history API 在路由管理上主要有以下几个区别：</p><ol><li><strong>抽象级别</strong>:</li></ol><ul><li><strong>React Router</strong> 提供了更高层次的抽象，如 <code>&lt;Router&gt;</code>、<code>&lt;Route&gt;</code>、和 <code>&lt;Link&gt;</code> 等组件，这些都是专门为了在 React 中更方便地管理路由而设计的。它处理了底层 history API 的很多细节，把操作抽象成了 React 组件和 hooks。</li><li><strong>原生 history API</strong> 更底层，直接作用于浏览器的历史记录栈。使用原生 history API 需要开发者自己编写更多的代码来管理 history 栈和渲染相应的组件。</li></ul><ol><li><strong>便利性</strong>:</li></ol><ul><li><strong>React Router</strong> 提供了声明式导航和编程式导航的选项，并且有大量的社区支持和文档，易于使用和学习。</li><li><strong>原生 history API</strong> 需要开发者自己处理 URL 与组件之间的关系映射，以及页面渲染的逻辑。</li></ul><ol><li><strong>功能</strong>:</li></ol><ul><li><strong>React Router</strong> 除了包含对原生 history API 的基本封装外，还提供了如路由守卫、路由懒加载、嵌套路由、重定向等高级功能。</li><li><strong>原生 history API</strong> 提供基本的历史记录管理功能，但是不包含上述 React Router 提供的高级应用路由需求。</li></ul><ol><li><strong>集成</strong>:</li></ol><ul><li><strong>React Router</strong> 是专为 React 设计的，与 React 的生命周期、状态管理等密切集成。</li><li><strong>原生 history API</strong> 与 React 没有直接关联，需要用户手动实现整合。</li></ul><ol><li><strong>状态管理</strong>:</li></ol><ul><li><strong>React Router</strong> 可以将路由状态管理与应用的状态管理（如使用 Redux）结合起来，使路由状态可预测和可管理。</li><li><strong>原生 history API</strong> 通常需要额外的状态管理逻辑来同步 UI 和 URL。</li></ul><ol><li><strong>服务器渲染</strong>:</li></ol><ul><li><strong>React Router</strong> 可以与服务器渲染一起使用，支持同构应用程序，即客户端和服务器都可以进行路由渲染。</li><li><strong>原生 history API</strong> 主要是针对客户端的，因此在服务器端渲染中需要额外的处理来模拟 routing 行为。</li></ul><p>在考虑是否使用 React Router 或者原生 history API 时，通常需要考虑项目的复杂性、团队的熟悉度以及项目对路由的特定需求。对于大多数 React 项目而言，React Router 的便利性和其附加的高级特性通常使得它成为首选的路由解决方案。</p><p><strong>表格对比</strong></p><p>| 特性         | React Router                                                   | 原生 History API                           |</p><p>| ------------ | -------------------------------------------------------------- | ------------------------------------------ |</p><p>| 抽象级别     | 高层次抽象，提供了组件和 hooks                                 | 底层 API，直接操作历史记录栈               |</p><p>| 便利性       | 声明式和编程式导航，社区支持和文档齐全                         | 手动处理 URL 和组件映射，以及渲染逻辑      |</p><p>| 功能         | 路由守卫、懒加载、嵌套路由、重定向等                           | 基本的历史记录管理                         |</p><p>| 集成         | 与 React 生命周期和状态管理紧密集成                            | 需要手动整合到 React 中                    |</p><p>| 状态管理     | 与应用的状态管理系统（如 Redux）可集成，路由状态可预测和可管理 | 需要额外实现状态管理逻辑                   |</p><p>| 服务器渲染   | 支持同构应用程序，客户端和服务器都能渲染                       | 主要用于客户端，服务器端需要模拟           |</p><p>| 开发者工作量 | 由库处理大部分的路由逻辑，简化开发者工作                       | 需要开发者手动编写代码管理路由             |</p><p>| 社区和资源   | 广泛的社区和资源，易于获取帮助和解决方案                       | 相对较少的社区资源，通常需求独立解决       |</p><p>| 用户体验     | 通常能提供更顺畅的用户体验                                     | 可能因为实现不当导致的复杂性和用户体验问题 |</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

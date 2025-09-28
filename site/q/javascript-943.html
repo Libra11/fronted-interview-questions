@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>数组里面有 10 万个数据，取第一个元素和第 10 万个元素的时间相差多少【热度: 775】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：数组访问&lt;/p&gt;&lt;p&gt;在 JavaScript 中，从数组中获取第一个元素和获取最后一个元素（假设这里你说的第 10 万个元素相当于数组的最后一个元素）的时间差异通常非常小，几乎可以忽略不计。&lt;/p&gt;&lt;p&gt;数组在内存中通常是连续存储" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="数组里面有 10 万个数据，取第一个元素和第 10 万个元素的时间相差多少【热度: 775】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：数组访问&lt;/p&gt;&lt;p&gt;在 JavaScript 中，从数组中获取第一个元素和获取最后一个元素（假设这里你说的第 10 万个元素相当于数组的最后一个元素）的时间差异通常非常小，几乎可以忽略不计。&lt;/p&gt;&lt;p&gt;数组在内存中通常是连续存储的，访问数组中的元素可以通过索引快速定位。无论是访问第一个元素还是最后一个元素，时间复杂度都是 O(1)，即可以在常数时" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/943" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>数组里面有 10 万个数据，取第一个元素和第 10 万个元素的时间相差多少【热度: 775】</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2024-09-28T01:55:46Z · 更新：2024-09-28T01:55:47Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：数组访问</p><p>在 JavaScript 中，从数组中获取第一个元素和获取最后一个元素（假设这里你说的第 10 万个元素相当于数组的最后一个元素）的时间差异通常非常小，几乎可以忽略不计。</p><p>数组在内存中通常是连续存储的，访问数组中的元素可以通过索引快速定位。无论是访问第一个元素还是最后一个元素，时间复杂度都是 O(1)，即可以在常数时间内完成。</p><p>然而，在实际情况中，可能会有一些微小的差异，这取决于以下因素：</p><ol><li>数组的存储方式和实现细节：不同的 JavaScript 引擎可能在内部实现上有一些差异，但这些差异通常非常小。</li><li>计算机的内存和处理器性能：如果计算机的内存或处理器性能较低，可能会导致一些微小的延迟，但这种延迟不太可能在获取不同位置的元素之间有明显差异。</li></ol><p>以下是一个简单的测试示例：</p><pre class="code-block"><code class="language-javascript">const largeArray = Array.from({ length: 100000 }, (_, index) =&gt; index);
+
+console.time(&quot;accessFirstElement&quot;);
+const firstElement = largeArray[0];
+console.timeEnd(&quot;accessFirstElement&quot;);
+
+console.time(&quot;accessLastElement&quot;);
+const lastElement = largeArray[99999];
+console.timeEnd(&quot;accessLastElement&quot;);
+</code></pre><p>在大多数情况下，你会发现这两个操作的时间非常接近，甚至可能在同一毫秒内完成。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

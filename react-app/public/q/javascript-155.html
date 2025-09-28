@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>常见的前端检测内存泄露的方法有哪些？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h3&gt;怎么检测内存泄漏&lt;/h3&gt;&lt;p&gt;内存泄漏主要是指的是内存持续升高，但是如果是正常的内存增长的话，不应该被当作内存泄漏来排查。排查内存泄漏，我们可以借助&lt;code&gt;Chrome DevTools&lt;/code&gt;的&lt;code&gt;Performance&lt;/code&gt;和&lt;code&gt;M" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="常见的前端检测内存泄露的方法有哪些？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h3&gt;怎么检测内存泄漏&lt;/h3&gt;&lt;p&gt;内存泄漏主要是指的是内存持续升高，但是如果是正常的内存增长的话，不应该被当作内存泄漏来排查。排查内存泄漏，我们可以借助&lt;code&gt;Chrome DevTools&lt;/code&gt;的&lt;code&gt;Performance&lt;/code&gt;和&lt;code&gt;Memory&lt;/code&gt;选项。举个栗子：&lt;/p&gt;&lt;p&gt;我们新建一个&lt;code&gt;memory.html&lt;/code&gt;的文件" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/155" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>常见的前端检测内存泄露的方法有哪些？</h1>
+      <div class="subtitle">JavaScript · JavaScript · 浏览器</div>
+      <div class="meta">创建：2023-03-26T06:20:42Z · 更新：2023-03-26T06:21:50Z</div>
+    </div>
+    <article class="content markdown-body"><h3>怎么检测内存泄漏</h3><p>内存泄漏主要是指的是内存持续升高，但是如果是正常的内存增长的话，不应该被当作内存泄漏来排查。排查内存泄漏，我们可以借助<code>Chrome DevTools</code>的<code>Performance</code>和<code>Memory</code>选项。举个栗子：</p><p>我们新建一个<code>memory.html</code>的文件，完整代码如下：</p><pre class="code-block"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;title&gt;Document&lt;/title&gt;
+  &lt;style&gt;
+    body {
+      text-align: center;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;p&gt;检测内存变化&lt;/p&gt;
+  &lt;button id=&quot;btn&quot;&gt;开始&lt;/button&gt;
+  &lt;script&gt;
+    const arr = [];
+    // 数组中添加100万个数据
+    for (let i = 0; i &lt; 100 * 10000; i++) {
+      arr.push(i)
+    }
+    function bind() {
+      const obj = {
+        str: JSON.stringify(arr) // 浅拷贝的方式创建一个比较大的字符串
+      }
+      // 每次调用bind函数，都在全局绑定一个onclick监听事件，不一定非要执行
+      // 使用绑定事件，主要是为了保持obj被全局标记
+      window.addEventListener(&#39;click&#39;, () =&gt; {
+        // 引用对象obj
+        console.log(obj);
+      })
+    }
+    let n = 0;
+    function start() {
+      setTimeout(() =&gt; {
+        bind(); // 调用bind函数
+        n++; // 循环次数增加
+        if (n &lt; 50) {
+          start(); // 循环执行50次，注意这里并没有使用setInterval定时器
+        } else {
+          alert(&#39;done&#39;);
+        }
+      }, 200);
+    }
+    document.getElementById(&#39;btn&#39;).addEventListener(&#39;click&#39;, () =&gt; {
+      start();
+    })
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+</code></pre><p>页面上有一个按钮用来开始函数调用，方便我们控制。点击按钮，每个200毫秒执行一次bind函数，即在全局监听click事件，循环次数为50次。</p><p>在无法确定是否发生内存泄漏时，我们可以先使用Performance来录制一段页面加载的性能变化，先判断是否有内存泄漏发生。</p><h3>Performance</h3><p>本次案例仅以Chrome浏览器展开描述，其他浏览器可能会有些许差异。首先我们鼠标右键选择检查或者直接F12进入DevTools页面，面板上选择<code>Performance</code>，选择后应该是如下页面：</p><p>在开始之前，我们先点击一下<code>Collect garbage</code>和<code>clear</code>来保证内存干净，没有其他遗留内存的干扰。然后我们点击<code>Record</code>来开始录制，并且同时我们也要点击页面上的<code>开始</code>按钮，让我们的代码跑起来。等到代码结束后，我们再点击<code>Record</code>按钮以停止录制，录制的时间跟代码执行的时间相比会有出入，只要保证代码是完全执行完毕的即可。停止录制后，我们会得到如下的结果：</p><p><code>Performance</code>的内容很多，我们只需要关注内存的变化，由此图可见，内存这块区域的曲线是在一直升高的并且到达顶点后并没有回落，这就有可能发生了内存泄漏。因为正常的内存变化曲线应该是类似于“锯齿”，也就是有上有下，正常增长后会有一定的回落，但不一定回落到和初始值一样。而且我们还可以隐约看到程序运行结束后，内存从初始的6.2MB增加到了差不多351MB，这个数量级的增加还是挺明显的。我们只是执行了50次循环，如果执行的次数更多，将会耗尽浏览器的内存空间，导致页面卡死。</p><p>虽然是有内存泄漏，但是如果我们想进一步看内存泄漏发生的地方，那么<code>Performance</code>就不够用了，这个时候我们就需要使用<code>Memory</code>面板。</p><h3>Memory</h3><p>DevTools的Memory选项主要是用来录制堆内存的快照，为的是进一步分析内存泄漏的详细信息。有人可能会说，为啥不一开始就直接使用<code>Memory</code>呢，反而是先使用<code>Performance</code>。因为我们刚开始就说了，内存增长不表示就一定出现了内存泄漏，有可能是正常的增长，直接使用Memory来分析可能得不到正确的结果。</p><p>我们先来看一下怎么使用<code>Memory</code>：</p><p>首先选择<code>Memory</code>选项，然后清除缓存，在配置选项中选择堆内存快照。内存快照每次点击录制按钮都会记录当前的内存使用情况，我们可以在程序开始前点击一下记录初始的内存使用，代码结束后再点一下记录最终的内存使用，中间可以点击也可以不点击。最后在快照列表中至少可以得到两个内存记录：</p><p>初始内存我们暂时不深究，我们选择列表的最后一条记录，然后在筛选下拉框选择最后一个，即第一个快照和第二个快照的差异。</p><p>这里我们重点说一下<code>Shallow Size</code>和<code>Retained Size</code>的区别：</p><ul><li>Shallow Size：对象自身占用的内存大小，一般来说字符串、数组的Shallow Size都会比较大</li><li>Retained Size：这个是对象自身占用的内存加上无法被GC释放的内存的大小，如果Retained Size和Shallow Size相差不大，基本上可以判定没有发生内存泄漏，但是<strong>如果相差很大</strong>，例如上图的<code>Object</code>，这就表明发生了内存泄漏。</li></ul><p>我们再来细看一下<code>Object</code>，任意展开一个对象，可以在树结构中发现每一个对象都有一个全局事件绑定，并且占用了较大的内存空间。解决本案例涉及的内存泄漏也比较简单，就是及时释放绑定的全局事件。</p><p>关于<code>Performance</code>和<code>Memory</code>的详细使用可以参考：<a href="https://link.juejin.cn?target=https%3A%2F%2Fzhuanlan.zhihu.com%2Fp%2F322356761 %22https://zhuanlan.zhihu.com/p/322356761%22" target="_blank" rel="noopener">手把手教你排查Javascript内存泄漏</a></p><h2>Comments / Answers</h2><hr /><p><strong>yanlele</strong> at 2023-03-26T06:21:49Z</p><p>参考文档：https://juejin.cn/post/7110091082813145119</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

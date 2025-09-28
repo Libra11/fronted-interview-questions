@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Vue] 对比一下 vuex 和 Pinia 两个状态库【热度: 300】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：vue 状态库对比&lt;/p&gt;&lt;p&gt;Vuex 和 Pinia 都是用于 Vue 应用程序的状态管理库，它们有一些相似之处，但也存在一些差异。以下是它们的对比：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、相似之处&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Vue] 对比一下 vuex 和 Pinia 两个状态库【热度: 300】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：vue 状态库对比&lt;/p&gt;&lt;p&gt;Vuex 和 Pinia 都是用于 Vue 应用程序的状态管理库，它们有一些相似之处，但也存在一些差异。以下是它们的对比：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、相似之处&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;集中式状态管理&lt;/strong&gt;：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;两者都提供了一种集中式的方式" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/936" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Vue] 对比一下 vuex 和 Pinia 两个状态库【热度: 300】</h1>
+      <div class="subtitle">小米 · web框架 · 小米</div>
+      <div class="meta">创建：2024-09-22T06:11:54Z · 更新：2024-09-22T06:11:55Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：vue 状态库对比</p><p>Vuex 和 Pinia 都是用于 Vue 应用程序的状态管理库，它们有一些相似之处，但也存在一些差异。以下是它们的对比：</p><p><strong>一、相似之处</strong></p><ol><li><strong>集中式状态管理</strong>：</li></ol><ul><li>两者都提供了一种集中式的方式来管理应用程序的状态。这使得状态可以在不同的组件之间共享，并且可以更容易地跟踪和调试状态的变化。</li><li>例如，在一个电商应用中，用户的购物车状态可以存储在状态管理库中，以便在不同的页面和组件中访问和更新。</li></ul><ol><li><strong>响应式状态</strong>：</li></ol><ul><li>Vuex 和 Pinia 都与 Vue 的响应式系统集成，使得状态的变化可以自动触发相关组件的重新渲染。</li><li>当购物车中的商品数量发生变化时，相关的组件可以自动更新以反映这个变化。</li></ul><p><strong>二、不同之处</strong></p><ol><li><strong>语法和 API</strong>：</li></ol><ul><li><strong>Pinia</strong>：</li></ul><ul><li>Pinia 提供了一种更加简洁和直观的 API。它使用类似于 Vue 组件的语法来定义状态和操作，使得代码更加易读和易于维护。</li><li>例如，定义一个 store 可以像这样：</li></ul><p>```javascript</p><p>import { defineStore } from "pinia";</p><p>export const useCartStore = defineStore("cart", {</p><p>state: () => ({</p><p>items: [],</p><p>}),</p><p>actions: {</p><p>addItem(item) {</p><p>this.items.push(item);</p><p>},</p><p>},</p><p>});</p><p>```</p><ul><li><strong>Vuex</strong>：</li></ul><ul><li>Vuex 的语法相对较为复杂，需要定义 mutations、actions 和 getters 等不同的概念来管理状态。</li><li>例如，定义一个 store 可能如下所示：</li></ul><p>```javascript</p><p>import Vuex from "vuex";</p><p>const store = new Vuex.Store({</p><p>state: {</p><p>items: [],</p><p>},</p><p>mutations: {</p><p>ADD_ITEM(state, item) {</p><p>state.items.push(item);</p><p>},</p><p>},</p><p>actions: {</p><p>addItem({ commit }, item) {</p><p>commit("ADD_ITEM", item);</p><p>},</p><p>},</p><p>getters: {</p><p>cartItems: (state) => state.items,</p><p>},</p><p>});</p><p>```</p><ol><li><strong>模块系统</strong>：</li></ol><ul><li><strong>Pinia</strong>：</li></ul><ul><li>Pinia 的模块系统更加灵活和易于使用。可以轻松地将 store 拆分为多个模块，并且可以在不同的模块之间共享状态和操作。</li><li>例如，可以创建一个名为<code>user</code>的模块和一个名为<code>cart</code>的模块，并在它们之间共享一些状态和操作：</li></ul><p>```javascript</p><p>import { defineStore } from "pinia";</p><p>const useUserStore = defineStore("user", {</p><p>//...</p><p>});</p><p>const useCartStore = defineStore("cart", {</p><p>state: () => ({</p><p>//...</p><p>}),</p><p>actions: {</p><p>addItem(item) {</p><p>// 可以访问 userStore 的状态</p><p>if (useUserStore().isLoggedIn) {</p><p>//...</p><p>}</p><p>},</p><p>},</p><p>});</p><p>```</p><ul><li><strong>Vuex</strong>：</li><li>Vuex 的模块系统也很强大，但相对来说更加复杂。需要使用命名空间来区分不同模块的 actions、mutations 和 getters，并且在模块之间共享状态和操作需要一些额外的配置。</li></ul><ol><li><strong>类型支持</strong>：</li></ol><ul><li><strong>Pinia</strong>：</li></ul><ul><li>Pinia 对 TypeScript 的支持非常好，可以轻松地为 store 定义类型，并且在开发过程中可以获得更好的类型提示和错误检查。</li><li>例如，可以使用 TypeScript 来定义一个 store 的类型：</li></ul><p>```javascript</p><p>import { defineStore } from 'pinia';</p><p>interface CartItem {</p><p>id: number;</p><p>name: string;</p><p>price: number;</p><p>}</p><p>export const useCartStore = defineStore('cart', {</p><p>state: () => ({</p><p>items: [] as CartItem[],</p><p>}),</p><p>//...</p><p>});</p><p>```</p><ul><li><strong>Vuex</strong>：</li><li>Vuex 也支持 TypeScript，但相对来说需要一些额外的配置和类型定义文件来获得更好的类型支持。</li></ul><ol><li><strong>开发体验</strong>：</li></ol><ul><li><strong>Pinia</strong>：</li><li>Pinia 提供了一些开发工具，如 Pinia Devtools，可以方便地调试和检查 store 的状态和操作。它还与 Vue Devtools 集成，使得在开发过程中可以更好地跟踪状态的变化。</li><li>Pinia 的 API 更加简洁，使得开发过程更加高效和愉快。</li><li><strong>Vuex</strong>：</li><li>Vuex 也有一些开发工具，如 Vuex Devtools，但相对来说功能可能没有 Pinia Devtools 那么强大。</li><li>Vuex 的语法相对较为复杂，可能需要一些时间来适应和掌握。</li></ul><p>总的来说，Pinia 和 Vuex 都是强大的状态管理库，选择哪一个取决于你的具体需求和个人偏好。如果你喜欢简洁和直观的 API，并且对 TypeScript 有较好的支持需求，那么 Pinia 可能是一个更好的选择。如果你已经熟悉 Vuex 并且对其功能和模块系统有特定的需求，那么 Vuex 也是一个可靠的选择。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

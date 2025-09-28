@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[react] 数组用useState做状态管理的时候，使用push，pop，splice等直接更改数组对象，会引起页面渲染吗？【热度: 488】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：useState状态管理、push 直接更改数组对象、pop 直接更改数组对象、splice 直接更改数组对象&lt;/p&gt;&lt;p&gt;在React中，使用useState时使用&lt;code&gt;push&lt;/code&gt;，&lt;code&gt;pop&lt;/code" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[react] 数组用useState做状态管理的时候，使用push，pop，splice等直接更改数组对象，会引起页面渲染吗？【热度: 488】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：useState状态管理、push 直接更改数组对象、pop 直接更改数组对象、splice 直接更改数组对象&lt;/p&gt;&lt;p&gt;在React中，使用useState时使用&lt;code&gt;push&lt;/code&gt;，&lt;code&gt;pop&lt;/code&gt;，&lt;code&gt;splice&lt;/code&gt;等直接更改数组对象是不推荐的做法，因为这种直接更改数组的方式会改变原始状态，R" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/464" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[react] 数组用useState做状态管理的时候，使用push，pop，splice等直接更改数组对象，会引起页面渲染吗？【热度: 488】</h1>
+      <div class="subtitle">web框架 · web框架 · 快手</div>
+      <div class="meta">创建：2023-06-21T00:41:28Z · 更新：2023-06-21T00:41:28Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：useState状态管理、push 直接更改数组对象、pop 直接更改数组对象、splice 直接更改数组对象</p><p>在React中，使用useState时使用<code>push</code>，<code>pop</code>，<code>splice</code>等直接更改数组对象是不推荐的做法，因为这种直接更改数组的方式会改变原始状态，React不会检测到这种状态变化，从而无法正确地渲染页面。因此，在React中更新数组状态的正确方式是创建一个新的数组对象，然后使用<code>set</code>函数来更新状态，这样React就能够正确地检测到状态变化，并重新渲染页面。</p><p>例如，在使用useState管理数组状态时，如果想要向数组中添加一个新元素，可以使用以下方式：</p><pre class="code-block"><code class="language-javascript">const [list, setList] = useState([]);
+
+function handleAdd() {
+  // 创建一个新的数组对象
+  const newList = [...list];
+  // 向新数组中添加新元素
+  newList.push(&#39;new item&#39;);
+  // 更新状态
+  setList(newList);
+}
+</code></pre><p>在这个例子中，我们首先创建了一个新的数组对象newList，然后向这个新数组中添加新元素，最后使用setList函数更新状态。这样，React就能够正确地检测到状态变化，并重新渲染页面。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何拦截 web 应用的请求【热度: 487】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：web前端监听请求、前端拦截请求&lt;/p&gt;&lt;p&gt;在前端拦截和处理 Web 应用的所有请求，可以使用以下方法：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;使用 Fetch 或 XMLHttpRequest&lt;/strong&gt;：在前端代码中使用" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何拦截 web 应用的请求【热度: 487】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：web前端监听请求、前端拦截请求&lt;/p&gt;&lt;p&gt;在前端拦截和处理 Web 应用的所有请求，可以使用以下方法：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;使用 Fetch 或 XMLHttpRequest&lt;/strong&gt;：在前端代码中使用 Fetch API 或 XMLHttpRequest 对象发送请求。通过拦截 Fetch 或 XMLHttpReque" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/572" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何拦截 web 应用的请求【热度: 487】</h1>
+      <div class="subtitle">快手 · 网络 · 快手</div>
+      <div class="meta">创建：2023-10-01T08:33:19Z · 更新：2023-10-01T08:34:35Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：web前端监听请求、前端拦截请求</p><p>在前端拦截和处理 Web 应用的所有请求，可以使用以下方法：</p><ol><li><strong>使用 Fetch 或 XMLHttpRequest</strong>：在前端代码中使用 Fetch API 或 XMLHttpRequest 对象发送请求。通过拦截 Fetch 或 XMLHttpRequest 对象的 open 和 send 方法，可以在请求发出前进行拦截和修改。这样可以捕获请求的相关信息，并进行相应的处理。</li></ol><p>示例代码（使用 Fetch API）：</p><pre class="code-block"><code class="language-javascript">const originalFetch = window.fetch;
+window.fetch = function (url, options) {
+  // 在请求发出前进行拦截和处理
+  console.log(&#39;拦截到请求:&#39;, url);
+  
+  // 可以修改请求的相关信息
+  // options.headers[&#39;Authorization&#39;] = &#39;Bearer token&#39;;
+  
+  return originalFetch.apply(this, arguments);
+};
+</code></pre><ol><li><strong>使用 Service Worker：Service Worker</strong> 是一种在浏览器背后运行的脚本，可以拦截和处理网络请求。通过注册一个 Service Worker，可以在其中监听和处理请求事件。从而实现拦截和处理 Web 应用的所有请求。</li></ol><p>示例代码：</p><pre class="code-block"><code class="language-javascript">self.addEventListener(&#39;fetch&#39;, function(event) {
+  // 在请求发出前进行拦截和处理
+  console.log(&#39;拦截到请求:&#39;, event.request.url);
+  
+  // 可以修改请求的相关信息
+  // event.request.headers.set(&#39;Authorization&#39;, &#39;Bearer token&#39;);
+  
+  event.respondWith(fetch(event.request));
+});
+</code></pre><p>需要注意的是，前端拦截和处理请求只能在客户端进行，对于服务器端的请求无法拦截。此外，拦截和处理请求可能会对性能产生一定的影响，因此要根据实际情况进行权衡和调优。同时，对于一些敏感信息（如密码、个人信息等），应该谨慎处理，确保安全性。</p><ol><li><strong>如果是使用是三方请求库， 比如 aixos</strong> ， 可以直接使用三方库提供的能力</li></ol><p>是的，使用 axios 也可以拦截请求。axios 提供了拦截器（interceptors）的功能，可以在请求发出前进行拦截和处理。</p><p>示例代码：</p><pre class="code-block"><code class="language-javascript">import axios from &#39;axios&#39;;
+
+// 请求拦截器
+axios.interceptors.request.use(function (config) {
+  // 在请求发出前进行拦截和处理
+  console.log(&#39;拦截到请求:&#39;, config.url);
+  
+  // 可以修改请求的相关信息
+  // config.headers[&#39;Authorization&#39;] = &#39;Bearer token&#39;;
+  
+  return config;
+}, function (error) {
+  return Promise.reject(error);
+});
+
+// 发送请求
+axios.get(&#39;/api/data&#39;)
+  .then(function (response) {
+    console.log(response.data);
+  })
+  .catch(function (error) {
+    console.error(error);
+  });
+</code></pre><p>在上述代码中，通过使用 <code>interceptors.request</code> 方法，可以对请求进行拦截和处理。在拦截器函数中，可以修改请求的相关信息，并返回修改后的配置对象。</p><p>使用 axios 拦截请求只能在客户端进行，对服务器端的请求无法拦截。同样需要谨慎处理敏感信息，并确保安全性。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[代码实现] 根据 path 来解析数组，生成多维度的数组对象 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;请手写一个函数， 将下面的树形结构， 进行转换：&lt;/p&gt;&lt;p&gt;输入数据结构&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;const data = [ { id: 0, label: &amp;#39;测试 - 0&amp;#39" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[代码实现] 根据 path 来解析数组，生成多维度的数组对象" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;请手写一个函数， 将下面的树形结构， 进行转换：&lt;/p&gt;&lt;p&gt;输入数据结构&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;const data = [ { id: 0, label: &amp;#39;测试 - 0&amp;#39;, path: &amp;#39;demo.info&amp;#39; }, { id: 1, label: &amp;#39;测试 - 1&amp;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/500" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[代码实现] 根据 path 来解析数组，生成多维度的数组对象</h1>
+      <div class="subtitle">代码实现 · 代码实现/算法</div>
+      <div class="meta">创建：2023-07-27T14:18:05Z · 更新：2023-09-06T15:51:41Z</div>
+    </div>
+    <article class="content markdown-body"><p>请手写一个函数， 将下面的树形结构， 进行转换：</p><p>输入数据结构</p><pre class="code-block"><code class="language-js">const data = [
+  { id: 0, label: &#39;测试 - 0&#39;, path: &#39;demo.info&#39; },
+  { id: 1, label: &#39;测试 - 1&#39;, path: &#39;demo.info&#39; },
+  { id: 2, label: &#39;测试 - 2&#39;, path: &#39;common.base&#39; },
+  { id: 3, label: &#39;测试 - 3&#39;, path: &#39;common.base&#39; },
+  { id: 4, label: &#39;测试 - 4&#39;, path: &#39;demo.info&#39; },
+  { id: 5, label: &#39;测试 - 5&#39;, path: &#39;demo.info&#39; },
+  { id: 6, label: &#39;测试 - 6&#39;, path: &#39;common&#39; },
+  { id: 7, label: &#39;测试 - 7&#39;, path: &#39;common&#39; },
+  { id: 8, label: &#39;测试 - 8&#39;, path: &#39;common.address&#39; },
+  { id: 9, label: &#39;测试 - 9&#39;, path: &#39;common.address&#39; },
+  { id: 10, label: &#39;测试 - 10&#39;, path: &#39;demo.info&#39; },
+  { id: 11, label: &#39;测试 - 11&#39;, path: &#39;demo.sence&#39; },
+  { id: 12, label: &#39;测试 - 12&#39;, path: &#39;demo.sence&#39; },
+  { id: 13, label: &#39;测试 - 13&#39;, path: &#39;demo.hash&#39; },
+  { id: 14, label: &#39;测试 - 14&#39;, path: &#39;demo.hash&#39; },
+  { id: 15, label: &#39;测试 - 15&#39;, path: &#39;demo.hash&#39; },
+  { id: 16, label: &#39;测试 - 16&#39;, path: &#39;demo&#39; },
+  { id: 17, label: &#39;测试 - 17&#39;, path: &#39;demo&#39; },
+  { id: 18, label: &#39;测试 - 18&#39;, path: &#39;demo.info&#39; },
+  { id: 19, label: &#39;测试 - 19&#39;, path: &#39;demo.info&#39; }
+];
+</code></pre><p>输出数据结构</p><pre class="code-block"><code class="language-json">[
+    {
+        &quot;value&quot;: &quot;demo&quot;,
+        &quot;label&quot;: &quot;Demo&quot;,
+        &quot;children&quot;: [
+            {
+                &quot;value&quot;: &quot;info&quot;,
+                &quot;label&quot;: &quot;Info&quot;,
+                &quot;children&quot;: [
+                    {
+                        &quot;value&quot;: 0,
+                        &quot;label&quot;: &quot;测试 - 0&quot;
+                    },
+                    {
+                        &quot;value&quot;: 1,
+                        &quot;label&quot;: &quot;测试 - 1&quot;
+                    },
+                    {
+                        &quot;value&quot;: 4,
+                        &quot;label&quot;: &quot;测试 - 4&quot;
+                    },
+                    {
+                        &quot;value&quot;: 5,
+                        &quot;label&quot;: &quot;测试 - 5&quot;
+                    },
+                    {
+                        &quot;value&quot;: 10,
+                        &quot;label&quot;: &quot;测试 - 10&quot;
+                    },
+                    {
+                        &quot;value&quot;: 18,
+                        &quot;label&quot;: &quot;测试 - 18&quot;
+                    },
+                    {
+                        &quot;value&quot;: 19,
+                        &quot;label&quot;: &quot;测试 - 19&quot;
+                    }
+                ]
+            },
+            {
+                &quot;value&quot;: &quot;sence&quot;,
+                &quot;label&quot;: &quot;Sence&quot;,
+                &quot;children&quot;: [
+                    {
+                        &quot;value&quot;: 11,
+                        &quot;label&quot;: &quot;测试 - 11&quot;
+                    },
+                    {
+                        &quot;value&quot;: 12,
+                        &quot;label&quot;: &quot;测试 - 12&quot;
+                    }
+                ]
+            },
+            {
+                &quot;value&quot;: &quot;hash&quot;,
+                &quot;label&quot;: &quot;Hash&quot;,
+                &quot;children&quot;: [
+                    {
+                        &quot;value&quot;: 13,
+                        &quot;label&quot;: &quot;测试 - 13&quot;
+                    },
+                    {
+                        &quot;value&quot;: 14,
+                        &quot;label&quot;: &quot;测试 - 14&quot;
+                    },
+                    {
+                        &quot;value&quot;: 15,
+                        &quot;label&quot;: &quot;测试 - 15&quot;
+                    }
+                ]
+            },
+            {
+                &quot;value&quot;: 16,
+                &quot;label&quot;: &quot;测试 - 16&quot;
+            },
+            {
+                &quot;value&quot;: 17,
+                &quot;label&quot;: &quot;测试 - 17&quot;
+            }
+        ]
+    },
+    {
+        &quot;value&quot;: &quot;common&quot;,
+        &quot;label&quot;: &quot;Common&quot;,
+        &quot;children&quot;: [
+            {
+                &quot;value&quot;: &quot;base&quot;,
+                &quot;label&quot;: &quot;Base&quot;,
+                &quot;children&quot;: [
+                    {
+                        &quot;value&quot;: 2,
+                        &quot;label&quot;: &quot;测试 - 2&quot;
+                    },
+                    {
+                        &quot;value&quot;: 3,
+                        &quot;label&quot;: &quot;测试 - 3&quot;
+                    }
+                ]
+            },
+            {
+                &quot;value&quot;: 6,
+                &quot;label&quot;: &quot;测试 - 6&quot;
+            },
+            {
+                &quot;value&quot;: 7,
+                &quot;label&quot;: &quot;测试 - 7&quot;
+            },
+            {
+                &quot;value&quot;: &quot;address&quot;,
+                &quot;label&quot;: &quot;Address&quot;,
+                &quot;children&quot;: [
+                    {
+                        &quot;value&quot;: 8,
+                        &quot;label&quot;: &quot;测试 - 8&quot;
+                    },
+                    {
+                        &quot;value&quot;: 9,
+                        &quot;label&quot;: &quot;测试 - 9&quot;
+                    }
+                ]
+            }
+        ]
+    }
+]
+</code></pre><p><strong>实现如下</strong>：</p><pre class="code-block"><code class="language-js">function convertToThreeDimensionalArray(data) {
+  const result = [];
+
+  // Create a map to store the path hierarchy
+  const pathMap = new Map();
+
+  // Iterate through the data
+  for (let i = 0; i &lt; data.length; i++) {
+    const item = data[i];
+    const pathArr = item.path.split(&#39;.&#39;); // Split the path into an array of sub-paths
+
+    let parent = result;
+    for (let j = 0; j &lt; pathArr.length; j++) {
+      const subPath = pathArr[j];
+
+      // Check if the subPath exists in the parent
+      let child = parent.find(obj =&gt; obj.value === subPath);
+
+      if (!child) {
+        // Create a new child object
+        child = {
+          value: subPath,
+          label: capitalizeFirstLetter(subPath),
+          children: [],
+        };
+
+        // Add the child object to the parent
+        parent.push(child);
+      }
+
+      // Update the parent to be the child&#39;s children array
+      parent = child.children;
+    }
+
+    // Add the item to the final child array
+    parent.push({
+      value: item.id,
+      label: item.label,
+    });
+  }
+
+  return result;
+}
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+const threeDimensionalArray = convertToThreeDimensionalArray(data);
+console.log(threeDimensionalArray);
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

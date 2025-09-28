@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何解决页面请求接口大规模并发问题 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;如何解决页面请求接口大规模并发问题， 不仅仅是包含了接口并发， 还有前端资源下载的请求并发。&lt;/p&gt;&lt;p&gt;应该说这是一个话题讨论了；&lt;/p&gt;&lt;p&gt;&lt;strong&gt;个人认为可以从以下几个方面来考虑如何解决这个并发问题:&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;后端优化：可以对" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何解决页面请求接口大规模并发问题" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;如何解决页面请求接口大规模并发问题， 不仅仅是包含了接口并发， 还有前端资源下载的请求并发。&lt;/p&gt;&lt;p&gt;应该说这是一个话题讨论了；&lt;/p&gt;&lt;p&gt;&lt;strong&gt;个人认为可以从以下几个方面来考虑如何解决这个并发问题:&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;后端优化：可以对接口进行优化，采用缓存技术，对数据进行预处理，减少数据库操作等。使用集群技术，将请求分散到不同的服务器上，提高并发量。另" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/250" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何解决页面请求接口大规模并发问题</h1>
+      <div class="subtitle">web应用场景 · web应用场景 · 美团</div>
+      <div class="meta">创建：2023-04-03T01:31:39Z · 更新：2023-04-03T01:31:40Z</div>
+    </div>
+    <article class="content markdown-body"><p>如何解决页面请求接口大规模并发问题， 不仅仅是包含了接口并发， 还有前端资源下载的请求并发。</p><p>应该说这是一个话题讨论了；</p><p><strong>个人认为可以从以下几个方面来考虑如何解决这个并发问题:</strong></p><ol><li>后端优化：可以对接口进行优化，采用缓存技术，对数据进行预处理，减少数据库操作等。使用集群技术，将请求分散到不同的服务器上，提高并发量。另外可以使用反向代理、负载均衡等技术，分担服务器压力。</li></ol><ol><li>做 BFF 聚合：把所有首屏需要依赖的接口， 利用服务中间层给聚合为一个接口。</li></ol><ol><li>CDN加速：使用CDN缓存技术可以有效减少服务器请求压力，提高网站访问速度。CDN缓存可以将接口的数据存储在缓存服务器中，减少对原始服务器的访问，加速数据传输速度。</li></ol><ol><li>使用 WebSocket：使用 WebSocket 可以建立一个持久的连接，避免反复连接请求。WebSocket 可以实现双向通信，大幅降低服务器响应时间。</li></ol><ol><li>使用 HTTP2 及其以上版本， 使用多路复用。</li></ol><ol><li>使用浏览器缓存技术：强缓存、协商缓存、离线缓存、Service Worker 缓存 等方向。</li></ol><ol><li>聚合一定量的静态资源： 比如提取页面公用复用部分代码打包到一个文件里面、对图片进行雪碧图处理， 多个图片只下载一个图片。</li></ol><ol><li>采用微前端工程架构： 只是对当前访问页面的静态资源进行下载， 而不是下载整站静态资源。</li></ol><ol><li>使用服务端渲染技术： 从服务端把页面首屏直接渲染好返回， 就可以避免掉首屏需要的数据再做额外加载和执行。</li></ol></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

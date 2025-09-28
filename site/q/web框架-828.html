@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[vue] 第一次页面加载会触发哪几个钩子【热度: 112】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：vue 钩子出发&lt;/p&gt;&lt;p&gt;在 Vue.js 中，页面首次加载时，会按照以下顺序触发一系列的生命周期钩子：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;beforeCreate&lt;/strong&gt;: 实例刚在内存中被创建时调用，此时还未初" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[vue] 第一次页面加载会触发哪几个钩子【热度: 112】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：vue 钩子出发&lt;/p&gt;&lt;p&gt;在 Vue.js 中，页面首次加载时，会按照以下顺序触发一系列的生命周期钩子：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;beforeCreate&lt;/strong&gt;: 实例刚在内存中被创建时调用，此时还未初始化响应式数据和事件。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;created&lt;/strong&gt;: 实例创建完" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/828" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[vue] 第一次页面加载会触发哪几个钩子【热度: 112】</h1>
+      <div class="subtitle">web框架 · web框架 · 网易</div>
+      <div class="meta">创建：2024-08-17T11:26:27Z · 更新：2024-08-17T11:26:28Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：vue 钩子出发</p><p>在 Vue.js 中，页面首次加载时，会按照以下顺序触发一系列的生命周期钩子：</p><ol><li><strong>beforeCreate</strong>: 实例刚在内存中被创建时调用，此时还未初始化响应式数据和事件。</li></ol><ol><li><strong>created</strong>: 实例创建完成后被调用，此时已完成数据观测（即数据响应式）、属性和方法的运算，<code>$el</code>属性还未显示出来。</li></ol><ol><li><strong>beforeMount</strong>: 在挂载开始之前被调用，相关的 <code>render</code> 函数首次被调用。此时 <code>$el</code> 属性还未被创建。</li></ol><ol><li><strong>mounted</strong>: <code>el</code> 被新创建的 <code>vm.$el</code> 替换，并挂载到实例上去之后调用该钩子。如果根实例挂载了一个文档内元素，当 <code>mounted</code> 被调用时，组件已经在文档内。</li></ol><p>在这个过程中，<code>beforeCreate</code> 和 <code>created</code> 钩子在服务端渲染过程中也会被调用，而 <code>beforeMount</code> 和 <code>mounted</code> 只会在客户端被调用。需要特别注意的是，<code>mounted</code> 不会保证所有的子组件也都一起被挂载。如果你希望等待整个视图都渲染完毕，可以在 <code>mounted</code> 钩子内部使用 <code>Vue.nextTick</code> 或 <code>vm.$nextTick</code>。</p><p>简而言之，首次加载页面时，Vue 会按顺序触发 <code>beforeCreate</code>, <code>created</code>, <code>beforeMount</code>, 和 <code>mounted</code> 生命周期钩子。这些钩子提供了在不同阶段介入组件行为的机会，使得我们可以执行如访问数据、修改 DOM 等操作。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

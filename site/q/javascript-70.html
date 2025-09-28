@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>前端做错误监控？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h2&gt;错误监控&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;错误分类&lt;/strong&gt;：即时运行错误（代码错误）、资源加载错误&lt;/p&gt;&lt;h3&gt;错误的捕获方式：&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;即时运行错误:&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;try...catch&lt;/p&gt;&lt;p&gt;window.one" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="前端做错误监控？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h2&gt;错误监控&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;错误分类&lt;/strong&gt;：即时运行错误（代码错误）、资源加载错误&lt;/p&gt;&lt;h3&gt;错误的捕获方式：&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;即时运行错误:&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;try...catch&lt;/p&gt;&lt;p&gt;window.onerror&lt;/p&gt;&lt;p&gt;&lt;strong&gt;资源加载错误:&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;1)、object.onerror&lt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/70" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>前端做错误监控？</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-11T08:09:14Z · 更新：2023-03-11T08:15:21Z</div>
+    </div>
+    <article class="content markdown-body"><h2>错误监控</h2><p><strong>错误分类</strong>：即时运行错误（代码错误）、资源加载错误</p><h3>错误的捕获方式：</h3><p><strong>即时运行错误:</strong></p><p>try...catch</p><p>window.onerror</p><p><strong>资源加载错误:</strong></p><p>1)、object.onerror</p><p>2)、performance.getEntries()</p><p>3)、Error事件捕获</p><p>performance.getEntries()这个是可以获取到所有的家已经加载的资源</p><p>Error事件捕获使用方式:</p><pre class="code-block"><code class="language-javascript">window.addEventListener(&#39;error&#39;,function(e){
+    console.log(&#39;捕获&#39;,e)
+},true)
+</code></pre><p>跨域是可以捕获的:</p><p>1）、在script标签添加crossorigin属性</p><p>2)、在js响应头添加Access-Control-Allow-Origin:*;</p><p>上报错误：ajax通信方式上报、通过Image对象上报,非常简单</p><p>(new Image()).src='http://baidu.com/test/sdflijsd?=sdlfkj';</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

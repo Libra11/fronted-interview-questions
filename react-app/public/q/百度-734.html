@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>站点如何防止爬虫？【热度: 554】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：反爬虫&lt;/p&gt;&lt;p&gt;站点防止爬虫通常涉及一系列技术和策略的组合。以下是一些常用的方法：&lt;/p&gt;&lt;h3&gt;1. 修改 &lt;code&gt;robots.txt&lt;/code&gt;&lt;/h3&gt;&lt;p&gt;在站点的根目录下创建或修改 &lt;code&gt;robots.t" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="站点如何防止爬虫？【热度: 554】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：反爬虫&lt;/p&gt;&lt;p&gt;站点防止爬虫通常涉及一系列技术和策略的组合。以下是一些常用的方法：&lt;/p&gt;&lt;h3&gt;1. 修改 &lt;code&gt;robots.txt&lt;/code&gt;&lt;/h3&gt;&lt;p&gt;在站点的根目录下创建或修改 &lt;code&gt;robots.txt&lt;/code&gt; 文件，用来告知遵守该协议的爬虫应该爬取哪些页面，哪些不应该爬取。例如：&lt;/p&gt;&lt;pre class=" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/734" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>站点如何防止爬虫？【热度: 554】</h1>
+      <div class="subtitle">百度 · web应用场景 · 百度</div>
+      <div class="meta">创建：2024-05-05T14:47:30Z · 更新：2024-05-05T14:47:30Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：反爬虫</p><p>站点防止爬虫通常涉及一系列技术和策略的组合。以下是一些常用的方法：</p><h3>1. 修改 <code>robots.txt</code></h3><p>在站点的根目录下创建或修改 <code>robots.txt</code> 文件，用来告知遵守该协议的爬虫应该爬取哪些页面，哪些不应该爬取。例如：</p><pre class="code-block"><code class="language-txt">User-agent: *
+Disallow: /
+</code></pre><p>然而，需要注意的是遵守 <code>robots.txt</code> 不是强制性的，恶意爬虫可以忽视这些规则。</p><h3>2. 使用 CAPTCHA</h3><p>对于表单提交、登录页面等，使用验证码（CAPTCHA）可以防止自动化脚本或机器人执行操作。</p><h3>3. 检查用户代理字符串</h3><p>服务器可以根据请求的用户代理（User-Agent）字符串来决定是否屏蔽某些爬虫。但用户代理字符串可以伪造，所以这不是一个完全可靠的方法。</p><h3>4. 分析流量行为</h3><p>分析访问者的行为，比如访问频率、访问页数、访问时长，并与正常用户的行为进行对比，从而尝试检测和屏蔽爬虫。</p><h3>5. 使用 Web 应用防火墙（WAF）</h3><p>许多 Web 应用防火墙提供自动化的爬虫和机器人检测功能，可以帮助防止爬虫。</p><h3>6. 服务端渲染和动态 Token</h3><p>一些网站使用 JavaScript 服务端渲染，或将关键内容（比如令牌）动态地插入到页面中，这可以使得非浏览器的自动化工具获取网站内容变得更加困难。</p><h3>7. 添加额外的 HTTP 头</h3><p>一些站点要求每个请求都包括特定的 HTTP 头，这些头信息不是常规爬虫会添加的，而是通过 JavaScript 动态添加的。</p><h3>8. IP 黑名单</h3><p>如果探测到某个 IP 地址的不正常行为，就可以将该 IP 地址加入黑名单，阻止其进一步的访问。</p><h3>9. 限制访问速度</h3><p>通过限制特定时间内允许的请求次数来禁止爬虫执行大量快速的页面抓取。</p><h3>10. API 限流</h3><p>对 API 使用率进行限制，比如基于用户、IP 地址等实施限速和配额。</p><h3>11. 使用 HTTPS</h3><p>使用 HTTPS 加密您的网站，这可以避免中间人攻击，并增加爬虫的抓取难度。</p><h3>12. 更改网站结构和内容</h3><p>定期更改网站的 URL 结构、内容排版等，使得爬虫开发人员需要不断更新爬虫程序来跟进网站的改动。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

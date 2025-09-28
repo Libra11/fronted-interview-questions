@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[webpack] 如何优化产物大小【热度: 521】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：webpack 产物大小优化&lt;/p&gt;&lt;p&gt;在使用 Webpack 进行项目构建时，减少包体积是提升加载速度、改善用户体验的关键措施之一。以下是一些通用的方法和技巧来减小构建结果的包体积：&lt;/p&gt;&lt;h3&gt;1. &lt;strong&gt;使用 T" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[webpack] 如何优化产物大小【热度: 521】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：webpack 产物大小优化&lt;/p&gt;&lt;p&gt;在使用 Webpack 进行项目构建时，减少包体积是提升加载速度、改善用户体验的关键措施之一。以下是一些通用的方法和技巧来减小构建结果的包体积：&lt;/p&gt;&lt;h3&gt;1. &lt;strong&gt;使用 Tree Shaking&lt;/strong&gt;&lt;/h3&gt;&lt;p&gt;Tree Shaking 是一个通过清除未引用代码（dead-c" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/887" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[webpack] 如何优化产物大小【热度: 521】</h1>
+      <div class="subtitle">阿里巴巴 · 工程化 · 阿里巴巴</div>
+      <div class="meta">创建：2024-09-15T09:55:41Z · 更新：2024-09-17T02:39:57Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：webpack 产物大小优化</p><p>在使用 Webpack 进行项目构建时，减少包体积是提升加载速度、改善用户体验的关键措施之一。以下是一些通用的方法和技巧来减小构建结果的包体积：</p><h3>1. <strong>使用 Tree Shaking</strong></h3><p>Tree Shaking 是一个通过清除未引用代码（dead-code）的过程，可以有效减少最终包的大小。确保你的代码使用 ES6 模块语法（import 和 export），因为这允许 Webpack 更容易地识别并删除未被使用的代码。</p><p>在 <code>webpack.config.js</code> 中设置 <code>mode</code> 为 <code>production</code> 可自动启用 Tree Shaking。</p><h3>2. <strong>启用压缩(Uglification)</strong></h3><p>Webpack 通过压缩输出文件来减小包大小，如删除未使用的代码、缩短变量名等。确保在生产环境中启用了 UglifyJS 插件或 TerserPlugin。</p><pre class="code-block"><code class="language-javascript">const TerserPlugin = require(&quot;terser-webpack-plugin&quot;);
+
+module.exports = {
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        /* 附加选项 */
+      }),
+    ],
+  },
+};
+</code></pre><h3>3. <strong>代码分割(Code Splitting)</strong></h3><p>通过代码分割，你可以把代码分成多个 bundle，然后按需加载，从而减少初始加载时间。Webpack 提供了多种分割代码的方式，最常见的是动态导入（Dynamic Imports）。</p><pre class="code-block"><code class="language-javascript">import(/* webpackChunkName: &quot;my-chunk-name&quot; */ &quot;path/to/myModule&quot;).then((module) =&gt; {
+  // 使用module
+});
+</code></pre><h3>4. <strong>使用 Externals 减轻体积</strong></h3><p>通过配置 externals 选项，可以阻止 Webpack 将某些 import 的包打包到 bundle 中，而是在运行时(runtime)再去从外部获取这些扩展依赖。</p><pre class="code-block"><code class="language-javascript">module.exports = {
+  externals: {
+    jquery: &quot;jQuery&quot;,
+  },
+};
+</code></pre><h3>5. <strong>利用缓存(Caching)</strong></h3><p>使用 <code>[contenthash]</code> 替换 <code>[hash]</code> 或 <code>[chunkhash]</code> 来为输出文件命名，这确保了只有当文件内容改变时，文件名称才会改变，可以更好地利用浏览器缓存。</p><pre class="code-block"><code class="language-javascript">output: {
+  filename: &#39;[name].[contenthash].js&#39;,
+}
+</code></pre><h3>6. <strong>移除未使用的 CSS</strong></h3><p>使用 PurgeCSS 或<code>purify-css</code>等工具检查你的 CSS 文件，自动去除未使用的 CSS，可以极大地压缩 CSS 的体积。</p><pre class="code-block"><code class="language-javascript">const PurgecssPlugin = require(&quot;purgecss-webpack-plugin&quot;);
+</code></pre><h3>7. <strong>优化图片</strong></h3><p>使用<code>image-webpack-loader</code>等图片压缩插件，可以减小图片文件的体积。</p><pre class="code-block"><code class="language-javascript">module: {
+  rules: [
+    {
+      test: /\.(png|svg|jpg|jpeg|gif)$/i,
+      use: [
+        &#39;file-loader&#39;,
+        {
+          loader: &#39;image-webpack-loader&#39;,
+          options: {
+            // 配置选项
+          },
+        },
+      ],
+    },
+  ],
+}
+</code></pre><h3>8. <strong>使用动态 Polyfills</strong></h3><p>只为那些实际需要它们的浏览器提供 polyfills，而不是所有浏览器都提供。</p><p>以上方法和技巧可以根据项目的具体需求和情况灵活使用，有的方法可能会对构建和重构现有代码产生较大影响，因此在采用前应评估其必要性和影响。</p><h3>9. <strong>高版本浏览器直接使用 es6 代码</strong></h3><p>将代码编译（或者说不编译）为 ES6（ECMAScript 2015）或更高版本的 JavaScript 代码，确实可以减少产物体积。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

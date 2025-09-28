@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>微前端通过 Nginx 实现主 / 子应用路由分发，如何配置 location 和 try_files？需处理哪些资源路径问题？【热度: 120】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;微前端通过 Nginx 实现主/子应用路由分发时，核心是通过 &lt;code&gt;location&lt;/code&gt; 匹配不同应用的路由路径，并结合 &lt;code&gt;try_files&lt;/code&gt; 处理 SPA 路由刷新 404 问题。同时需解决子应用资源路径、主/子应用路由冲突等关键问" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="微前端通过 Nginx 实现主 / 子应用路由分发，如何配置 location 和 try_files？需处理哪些资源路径问题？【热度: 120】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;微前端通过 Nginx 实现主/子应用路由分发时，核心是通过 &lt;code&gt;location&lt;/code&gt; 匹配不同应用的路由路径，并结合 &lt;code&gt;try_files&lt;/code&gt; 处理 SPA 路由刷新 404 问题。同时需解决子应用资源路径、主/子应用路由冲突等关键问题。以下是具体实现方案：&lt;/p&gt;&lt;h3&gt;一、基础场景：主应用与子应用通过路径前缀区分&lt;/h3&gt;&lt;p&gt;假设：&lt;/p&gt;&lt;ul" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1145" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>微前端通过 Nginx 实现主 / 子应用路由分发，如何配置 location 和 try_files？需处理哪些资源路径问题？【热度: 120】</h1>
+      <div class="subtitle">web应用场景 · web应用场景</div>
+      <div class="meta">创建：2025-09-07T06:09:50Z · 更新：2025-09-07T06:19:28Z</div>
+    </div>
+    <article class="content markdown-body"><p>微前端通过 Nginx 实现主/子应用路由分发时，核心是通过 <code>location</code> 匹配不同应用的路由路径，并结合 <code>try_files</code> 处理 SPA 路由刷新 404 问题。同时需解决子应用资源路径、主/子应用路由冲突等关键问题。以下是具体实现方案：</p><h3>一、基础场景：主应用与子应用通过路径前缀区分</h3><p>假设：</p><ul><li>主应用路由：<code>https://example.com/</code>（根路径）</li><li>子应用 A 路由：<code>https://example.com/app1/</code>（前缀 <code>/app1</code>）</li><li>子应用 B 路由：<code>https://example.com/app2/</code>（前缀 <code>/app2</code>）</li></ul><h4>1. 目录结构（前端资源存放）</h4><pre class="code-block"><code>/var/www/
+├── main-app/          # 主应用打包文件
+│   ├── index.html
+│   ├── static/
+│   └── ...
+├── app1/              # 子应用 A 打包文件
+│   ├── index.html
+│   ├── static/
+│   └── ...
+└── app2/              # 子应用 B 打包文件
+    ├── index.html
+    └── ...
+</code></pre><h4>2. Nginx 核心配置（location + try_files）</h4><pre class="code-block"><code class="language-nginx">server {
+    listen 80;
+    server_name example.com;
+    root /var/www;  # 父目录（包含所有应用）
+
+    # 1. 主应用路由（根路径 /）
+    location / {
+        # 主应用实际目录为 /var/www/main-app
+        alias /var/www/main-app/;
+        index index.html;
+
+        # 解决主应用 History 路由刷新 404
+        # 逻辑：优先匹配物理文件，匹配不到则返回主应用 index.html
+        try_files $uri $uri/ /main-app/index.html;
+    }
+
+    # 2. 子应用 A 路由（/app1 前缀）
+    location /app1 {
+        # 子应用 A 实际目录为 /var/www/app1
+        alias /var/www/app1/;
+        index index.html;
+
+        # 解决子应用 A History 路由刷新 404
+        # 注意：try_files 最后需指向子应用自己的 index.html
+        try_files $uri $uri/ /app1/index.html;
+    }
+
+    # 3. 子应用 B 路由（/app2 前缀）
+    location /app2 {
+        alias /var/www/app2/;
+        index index.html;
+        try_files $uri $uri/ /app2/index.html;
+    }
+}
+</code></pre><h3>二、关键配置解析</h3><h4>1. <code>alias</code> 与 <code>root</code> 的选择</h4><ul><li><strong>必须使用 <code>alias</code></strong>：子应用路径（如 <code>/app1</code>）与实际目录（<code>/var/www/app1</code>）是“映射关系”，<code>alias</code> 会将 <code>/app1</code> 直接替换为实际目录（如请求 <code>/app1/static.js</code> 映射到 <code>/var/www/app1/static.js</code>）。</li><li>若误用 <code>root</code>：<code>root /var/www</code> 会在请求路径后拼接目录（<code>/app1/static.js</code> 会映射到 <code>/var/www/app1/static.js</code>，看似可行，但子应用内路由跳转可能出现异常）。</li></ul><h4>2. <code>try_files</code> 的路径规则</h4><ul><li>主应用：<code>try_files $uri $uri/ /main-app/index.html</code></li></ul><p>最后一个参数必须是主应用 <code>index.html</code> 的<strong>绝对路径</strong>（相对于 Nginx 根目录），确保主应用路由（如 <code>/home</code>）刷新时返回主应用入口。</p><ul><li>子应用：<code>try_files $uri $uri/ /app1/index.html</code></li></ul><p>最后一个参数必须是子应用自己的 <code>index.html</code>（如 <code>/app1/index.html</code>），否则子应用路由（如 <code>/app1/detail</code>）刷新会返回主应用入口，导致路由错乱。</p><h3>三、需处理的资源路径问题</h3><p>微前端路由分发的核心坑点是<strong>资源路径引用错误</strong>，需从 Nginx 配置和前端打包两方面协同解决：</p><h4>1. 子应用静态资源路径错误（404）</h4><p><strong>问题</strong>：子应用打包时若使用绝对路径（如 <code>src=&quot;/static/js/app1.js&quot;</code>），会被解析为 <code>https://example.com/static/js/app1.js</code>，但实际路径应为 <code>https://example.com/app1/static/js/app1.js</code>，导致 404。</p><p><strong>解决方案</strong>：</p><ul><li><strong>前端打包配置</strong>：子应用需设置 <code>publicPath</code> 为自身路径前缀（如 <code>/app1/</code>）：</li><li>Vue 项目：<code>vue.config.js</code> 中 <code>publicPath: &#39;/app1/&#39;</code></li><li>React 项目：<code>package.json</code> 中 <code>homepage: &#39;/app1&#39;</code> 或 <code>webpack.config.js</code> 中 <code>output.publicPath: &#39;/app1/&#39;</code></li><li><strong>效果</strong>：资源引用会自动添加 <code>/app1</code> 前缀（如 <code>src=&quot;/app1/static/js/app1.js&quot;</code>），匹配 Nginx 配置的 <code>alias</code> 路径。</li></ul><h4>2. 主/子应用路由冲突</h4><p><strong>问题</strong>：若主应用存在 <code>/app1</code> 路由，会与子应用的 <code>/app1</code> 路径冲突，导致主应用路由被 Nginx 拦截并转发到子应用。</p><p><strong>解决方案</strong>：</p><ul><li><strong>路由命名规范</strong>：子应用路径前缀需全局唯一（如 <code>/micro-app1</code>、<code>/micro-app2</code>），避免与主应用路由重名。</li><li><strong>Nginx 优先级控制</strong>：若必须使用相同前缀，可通过 <code>location</code> 精确匹配优先处理主应用路由：</li></ul><p>```nginx</p><p># 主应用的 /app1 路由（精确匹配，优先级高于子应用的 /app1 前缀匹配）</p><p>location = /app1 {</p><p>alias /var/www/main-app/;</p><p>try_files $uri $uri/ /main-app/index.html;</p><p>}</p><p># 子应用 /app1 前缀路由（优先级低）</p><p>location /app1/ {</p><p>alias /var/www/app1/;</p><p>try_files $uri $uri/ /app1/index.html;</p><p>}</p><p>```</p><h4>3. 子应用接口请求路径错误</h4><p><strong>问题</strong>：子应用接口请求（如 <code>/api/data</code>）会被发送到 <code>https://example.com/api/data</code>，若需区分子应用接口（如 <code>https://example.com/app1/api/data</code>），需调整代理规则。</p><p><strong>解决方案</strong>：</p><ul><li><strong>前端统一前缀</strong>：子应用接口请求添加自身路径前缀（如 <code>axios.defaults.baseURL = &#39;/app1/api&#39;</code>）。</li><li><strong>Nginx 代理转发</strong>：</li></ul><p>```nginx</p><p># 子应用 A 的接口代理</p><p>location /app1/api {</p><p># 移除 /app1 前缀后转发到后端（如后端接口实际路径为 /api）</p><p>proxy_pass http://backend-server/api;</p><p>proxy_set_header Host $host;</p><p>}</p><p>```</p><h4>4. 子应用懒加载路由资源 404</h4><p><strong>问题</strong>：子应用使用路由懒加载时（如 Vue/React 的 <code>import(&#39;./page.vue&#39;)</code>），打包后的 chunk 文件路径可能未包含子应用前缀，导致加载失败。</p><p><strong>解决方案</strong>：</p><ul><li>确保懒加载的 chunk 路径也使用 <code>publicPath</code> 配置的前缀，现代打包工具（Webpack 5+、Vite）会自动处理，只需正确设置 <code>publicPath</code> 即可。</li></ul><h3>四、复杂场景：子应用嵌套或动态路径</h3><p>若子应用包含动态路由（如 <code>/app1/user/:id</code>）或嵌套路由（如 <code>/app1/dashboard/settings</code>），Nginx 配置无需额外调整，因为 <code>location /app1</code> 会匹配所有以 <code>/app1</code> 开头的路径，<code>try_files</code> 会统一指向子应用 <code>index.html</code>，路由解析由子应用前端框架完成。</p><h3>五、总结</h3><p>微前端 Nginx 路由分发的核心配置要点：</p><ol><li>用 <code>location /app1</code> 匹配子应用路径，<code>alias</code> 指向实际目录。</li><li>用 <code>try_files $uri $uri/ /app1/index.html</code> 解决子应用 History 路由刷新 404。</li><li>必须处理的资源问题：</li></ol><ul><li>子应用打包设置 <code>publicPath</code> 为路径前缀（如 <code>/app1/</code>）。</li><li>避免主/子应用路由重名，接口请求添加子应用前缀。</li></ul><p>通过以上配置，可实现主/子应用路由的无冲突分发，确保静态资源和路由正常访问。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

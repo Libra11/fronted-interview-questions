@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Server-sent events(SSE) 了解多少（服务端推送） - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;一个网页获取新的数据通常需要发送一个请求到服务器，也就是向服务器请求的页面。使用 server-sent 事件，服务器可以在任何时刻向我们的 Web 页面推送数据和信息。这些被推送进来的信息可以在这个页面上作为 Events + data 的形式来处理。&lt;/p&gt;&lt;h3&gt;从服" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Server-sent events(SSE) 了解多少（服务端推送）" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;一个网页获取新的数据通常需要发送一个请求到服务器，也就是向服务器请求的页面。使用 server-sent 事件，服务器可以在任何时刻向我们的 Web 页面推送数据和信息。这些被推送进来的信息可以在这个页面上作为 Events + data 的形式来处理。&lt;/p&gt;&lt;h3&gt;从服务器接受事件&lt;/h3&gt;&lt;p&gt;服务器发送事件 API 也就是 EventSource 接口，在你创建一个新的 EventS" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/256" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>Server-sent events(SSE) 了解多少（服务端推送）</h1>
+      <div class="subtitle">web应用场景 · web应用场景 · 京东</div>
+      <div class="meta">创建：2023-04-05T15:19:25Z · 更新：2023-10-11T03:02:24Z</div>
+    </div>
+    <article class="content markdown-body"><p>一个网页获取新的数据通常需要发送一个请求到服务器，也就是向服务器请求的页面。使用 server-sent 事件，服务器可以在任何时刻向我们的 Web 页面推送数据和信息。这些被推送进来的信息可以在这个页面上作为 Events + data 的形式来处理。</p><h3>从服务器接受事件</h3><p>服务器发送事件 API 也就是 EventSource 接口，在你创建一个新的 EventSource 对象的同时，你可以指定一个接受事件的 URI。例如：</p><pre class="code-block"><code class="language-js">const evtSource = new EventSource(&quot;ssedemo.php&quot;);
+</code></pre><p>如果发送事件的脚本不同源，应该创建一个新的包含 URL 和 options 参数的EventSource对象。例如，假设客户端脚本在 example.com 上：</p><pre class="code-block"><code class="language-js">const evtSource = new EventSource(&quot;//api.example.com/ssedemo.php&quot;, { withCredentials: true } );
+</code></pre><p>一旦你成功初始化了一个事件源，就可以对 message 事件添加一个处理函数开始监听从服务器发出的消息了：</p><pre class="code-block"><code class="language-js">evtSource.onmessage = function(event) {
+  const newElement = document.createElement(&quot;li&quot;);
+  const eventList = document.getElementById(&quot;list&quot;);
+
+  newElement.innerHTML = &quot;message: &quot; + event.data;
+  eventList.appendChild(newElement);
+}
+</code></pre><p>你也可以使用addEventListener()方法来监听其他类型的事件：</p><pre class="code-block"><code class="language-js">evtSource.addEventListener(&quot;ping&quot;, function(event) {
+  const newElement = document.createElement(&quot;li&quot;);
+  const time = JSON.parse(event.data).time;
+  newElement.innerHTML = &quot;ping at &quot; + time;
+  eventList.appendChild(newElement);
+});
+</code></pre><blockquote>警告： 当不通过 HTTP / 2 使用时，SSE（server-sent events）会受到最大连接数的限制，这在打开各种选项卡时特别麻烦，因为该限制是针对每个浏览器的，并且被设置为一个非常低的数字（6）。该问题在 Chrome 和 Firefox中被标记为“无法解决”。此限制是针对每个浏览器 + 域的，因此这意味着您可以跨所有选项卡打开 6 个 SSE 连接到 www.example1.com，并打开 6 个 SSE 连接到 www.example2.com。（来自 Stackoverflow）。使用 HTTP / 2 时，HTTP 同一时间内的最大连接数由服务器和客户端之间协商（默认为 100）。</blockquote><h3>SSE 的 API</h3><p><strong>属性（只读）</strong></p><p>|名称|作用|类型|备注|</p><p>|:---|:---|:---|:---|</p><p>|readyState|当前状态|Number|<code>0</code> — connecting<code>1</code> — open<code>2</code> — closed|</p><p>|url|当前连接的地址|String||</p><p>|withCredentials|是否开启凭据收集|Boolean||</p><p><strong>方法</strong></p><p>|名称|作用|返回值|</p><p>|:---|:---|:---|</p><p>|close|客户端主动关闭连接|\-|</p><p><strong>事件</strong></p><p>|名称|作用|返回值|</p><p>|:---|:---|:---|</p><p>|onclose|连接关闭触发|event|</p><p>|onopen|连接开启触发|event|</p><p>|onmessage|服务端消息推动消息触发|event|</p><h3>服务端 API</h3><p>|名称|作用|类型|备注|</p><p>|:---|:---|:---|:---|</p><p>|data|传输的文本|String（默认）. 可以传输JSON|可以多行累加|</p><p>|event|事件名称|String|可自定义|</p><p>|id|当前推送 id|String|作为消息的标识|</p><p>|retry|超时重试时间|Number|客户端在感知 server 连接异常后。会通过 retry 设定时间进行重新连接|</p><h3>补充： SSE 与 WS 有什么区别？</h3><p>|方式|协议|交互通道|内容编码|重连|事件类型|总结|</p><p>|:---|:---|:---|:---|:---|:---|:---|</p><p>|SSE|HTTP|服务端单向推送|默认文本|默认支持断线重连|支持自定义消息类型|轻量级|</p><p>|WebSocket|WS（基于 TCP 传输层的应用层协议，<a href="https://link.juejin.cn?target=https%3A%2F%2Ftools.ietf.org%2Fhtml%2Frfc6455 %22https://tools.ietf.org/html/rfc6455%22" target="_blank" rel="noopener">RFC6455</a> <code>[1]</code> 对于它的定义标准）|双向推送|默认二进制|手动实现|NO|扩展性、功能性强大|</p><h3>参考文档</h3><ul><li>https://developer.mozilla.org/zh-CN/docs/Web/API/Server-sent_events/Using_server-sent_events</li><li>https://juejin.cn/post/7148762958470381575</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

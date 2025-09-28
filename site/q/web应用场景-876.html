@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>eslint 如何设置只校验本次 MR 变更的文件内容【热度: 200】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：eslint 和 git 结合校验&lt;/p&gt;&lt;p&gt;要让 ESLint 只校验在 Merge Request (MR)、Pull Request (PR)或代码提交中变更的文件，可以采用几种方法。下面是几个可能的方案：&lt;/p&gt;&lt;h3&gt;1" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="eslint 如何设置只校验本次 MR 变更的文件内容【热度: 200】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：eslint 和 git 结合校验&lt;/p&gt;&lt;p&gt;要让 ESLint 只校验在 Merge Request (MR)、Pull Request (PR)或代码提交中变更的文件，可以采用几种方法。下面是几个可能的方案：&lt;/p&gt;&lt;h3&gt;1. 命令行 Git 和 ESLint 组合使用&lt;/h3&gt;&lt;p&gt;通过组合&lt;code&gt;git&lt;/code&gt;命令和&lt;code&gt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/876" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>eslint 如何设置只校验本次 MR 变更的文件内容【热度: 200】</h1>
+      <div class="subtitle">web应用场景 · web应用场景 · 小米</div>
+      <div class="meta">创建：2024-09-15T06:58:14Z · 更新：2024-09-15T06:58:14Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：eslint 和 git 结合校验</p><p>要让 ESLint 只校验在 Merge Request (MR)、Pull Request (PR)或代码提交中变更的文件，可以采用几种方法。下面是几个可能的方案：</p><h3>1. 命令行 Git 和 ESLint 组合使用</h3><p>通过组合<code>git</code>命令和<code>eslint</code>命令来实现。首先，使用<code>git diff</code>获取变更的文件列表，然后将这些文件传递给<code>eslint</code>进行校验。</p><pre class="code-block"><code class="language-bash"># 获取master分支与当前分支变更的文件列表，然后对这些文件执行eslint校验
+git diff --name-only --diff-filter=d master | grep &#39;\.js$&#39; | xargs eslint
+</code></pre><p>这里的命令解释：</p><ul><li><code>git diff --name-only --diff-filter=d master</code>：获取相对于<code>master</code>分支变更的文件列表，<code>--diff-filter=d</code>表示排除已删除的文件。</li><li><code>grep &#39;\.js$&#39;</code>：过滤出<code>.js</code>结尾的文件。</li><li><code>xargs eslint</code>：将过滤后的文件列表作为参数传递给<code>eslint</code>命令。</li></ul><p>注意：这个命令以<code>master</code>分支作为对比对象，如果你需要对比其他分支，请将<code>master</code>替换为相应的分支名。</p><h3>2. 使用 lint-staged 运行 ESLint</h3><p><a href="https://github.com/okonet/lint-staged" target="_blank" rel="noopener">lint-staged</a> 是一个在 git 暂存文件上运行 linters 的工具，它非常适合与 pre-commit 钩子结合使用，确保只有符合代码规范的代码才能被提交。</p><p>首先，安装<code>lint-staged</code>和<code>husky</code>（用于管理 git 钩子的工具）：</p><pre class="code-block"><code class="language-bash">npm install lint-staged husky --save-dev
+</code></pre><p>然后，你可以在项目的<code>package.json</code>文件中配置<code>lint-staged</code>：</p><pre class="code-block"><code class="language-json">{
+  &quot;husky&quot;: {
+    &quot;hooks&quot;: {
+      &quot;pre-commit&quot;: &quot;lint-staged&quot;
+    }
+  },
+  &quot;lint-staged&quot;: {
+    &quot;*.js&quot;: [&quot;eslint --fix&quot;, &quot;git add&quot;]
+  }
+}
+</code></pre><p>这样配置后，每次执行<code>git commit</code>操作时，<code>husky</code>会触发<code>pre-commit</code>钩子，运行<code>lint-staged</code>，再由<code>lint-staged</code>运行 ESLint 检查所有暂存的<code>.js</code>文件。通过这种方式，只有变更的并且被 git track 的文件会被 ESLint 校验。</p><h3>3. CI/CD 中集成 ESLint</h3><p>在持续集成/持续部署 (CI/CD) 流程中，你也可以配置脚本使用类似于第一个方案的命令，只校验在 MR/PR 中变更的文件。具体实现方式会依赖于你使用的 CI/CD 工具（如 GitLab CI、GitHub Actions、Jenkins 等）。</p><p>通过在 CI/CD 流程中加入这一步，可以确保只有通过 ESLint 校验的代码变更才能合并到主分支。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>设计一套全站请求耗时统计工具 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h3&gt;首先我们要知道有哪些方式可以统计前端请求耗时&lt;/h3&gt;&lt;p&gt;从代码层面上统计全站所有请求的耗时方式主要有以下几种：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Performance API：Performance API 是浏览器提供的一组 API，可以用于测量网页性能。通过 Perform" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="设计一套全站请求耗时统计工具" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h3&gt;首先我们要知道有哪些方式可以统计前端请求耗时&lt;/h3&gt;&lt;p&gt;从代码层面上统计全站所有请求的耗时方式主要有以下几种：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Performance API：Performance API 是浏览器提供的一组 API，可以用于测量网页性能。通过 Performance API，可以获取页面各个阶段的时间、资源加载时间等。其中，Performance Timing API 可以获" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/252" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>设计一套全站请求耗时统计工具</h1>
+      <div class="subtitle">web应用场景 · web应用场景 · 阿里巴巴</div>
+      <div class="meta">创建：2023-04-03T01:44:12Z · 更新：2023-04-03T15:32:35Z</div>
+    </div>
+    <article class="content markdown-body"><h3>首先我们要知道有哪些方式可以统计前端请求耗时</h3><p>从代码层面上统计全站所有请求的耗时方式主要有以下几种：</p><ol><li>Performance API：Performance API 是浏览器提供的一组 API，可以用于测量网页性能。通过 Performance API，可以获取页面各个阶段的时间、资源加载时间等。其中，Performance Timing API 可以获取到每个资源的加载时间，从而计算出所有请求的耗时。</li></ol><ol><li>XMLHttpRequest 的 load 事件：在发送 XMLHttpRequest 请求时，可以为其添加 load 事件，在请求完成时执行回调函数，从而记录请求的耗时。</li></ol><ol><li>fetch 的 Performance API：类似 XMLHttpRequest，fetch 也提供了 Performance API，可以通过 Performance API 获取请求耗时。</li></ol><ol><li>自定义封装的请求函数：可以自己封装一个请求函数，在请求开始和结束时记录时间，从而计算请求耗时。</li></ol><h3>设计一套前端全站请求耗时统计工具</h3><p>可以遵循以下步骤：</p><ol><li>实现一个性能监控模块，用于记录每个请求的开始时间和结束时间，并计算耗时。</li></ol><ol><li>在应用入口处引入该模块，将每个请求的开始时间记录下来。</li></ol><ol><li>在每个请求的响应拦截器中，记录响应结束时间，并计算请求耗时。</li></ol><ol><li>将每个请求的耗时信息发送到服务端，以便进行进一步的统计和分析。</li></ol><ol><li>在服务端实现数据存储和展示，可以使用图表等方式展示请求耗时情况。</li></ol><ol><li>对于请求耗时较长的接口，可以进行优化和分析，如使用缓存、使用异步加载、优化查询语句等。</li></ol><ol><li>在前端应用中可以提供开关，允许用户自主开启和关闭全站请求耗时统计功能。</li></ol><p>以下是一个简单的实现示例：</p><pre class="code-block"><code class="language-js">// performance.js
+
+const performance = {
+  timings: {},
+  config: {
+    reportUrl: &#39;/report&#39;,
+  },
+  init() {
+    // 监听所有请求的开始时间
+    window.addEventListener(&#39;fetchStart&#39;, (event) =&gt; {
+      this.timings[event.detail.id] = {
+        startTime: Date.now(),
+      };
+    });
+
+    // 监听所有请求的结束时间，并计算请求耗时
+    window.addEventListener(&#39;fetchEnd&#39;, (event) =&gt; {
+      const id = event.detail.id;
+      if (this.timings[id]) {
+        const timing = this.timings[id];
+        timing.endTime = Date.now();
+        timing.duration = timing.endTime - timing.startTime;
+
+        // 将耗时信息发送到服务端
+        const reportData = {
+          url: event.detail.url,
+          method: event.detail.method,
+          duration: timing.duration,
+        };
+        this.report(reportData);
+      }
+    });
+  },
+  report(data) {
+    // 将耗时信息发送到服务端
+    const xhr = new XMLHttpRequest();
+    xhr.open(&#39;POST&#39;, this.config.reportUrl);
+    xhr.setRequestHeader(&#39;Content-Type&#39;, &#39;application/json&#39;);
+    xhr.send(JSON.stringify(data));
+  },
+};
+
+export default performance;
+</code></pre><p>在应用入口处引入该模块：</p><pre class="code-block"><code class="language-js">// main.js
+
+import performance from &#39;./performance&#39;;
+
+performance.init();
+</code></pre><p>在每个请求的响应拦截器中触发 <code>fetchEnd</code> 事件：</p><pre class="code-block"><code class="language-js">// fetch.js
+
+import EventBus from &#39;./EventBus&#39;;
+
+const fetch = (url, options) =&gt; {
+  const id = Math.random().toString(36).slice(2);
+  const fetchStartEvent = new CustomEvent(&#39;fetchStart&#39;, {
+    detail: {
+      id,
+      url,
+      method: options.method || &#39;GET&#39;,
+    },
+  });
+  EventBus.dispatchEvent(fetchStartEvent);
+
+  return window.fetch(url, options)
+    .then((response) =&gt; {
+      const fetchEndEvent = new CustomEvent(&#39;fetchEnd&#39;, {
+        detail: {
+          id,
+          url,
+          method: options.method || &#39;GET&#39;,
+        },
+      });
+      EventBus.dispatchEvent(fetchEndEvent);
+
+      return response;
+    });
+};
+
+export default fetch;
+</code></pre><p>在服务端实现数据存储和展示，可以使用图表等方式展示请求耗</p><h2>Comments / Answers</h2><hr /><p><strong>yanlele</strong> at 2023-04-03T15:32:35Z</p><p>参考文档： https://developer.mozilla.org/zh-CN/docs/Web/API/Resource_Timing_API/Using_the_Resource_Timing_API</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

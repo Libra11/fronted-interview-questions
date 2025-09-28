@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[ES6]模块与[CommonJS]模块的差异有哪些？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;差异主要有如下几点：&lt;/p&gt;&lt;ul&gt;&lt;li&gt;CommonJS 输出是值的拷贝，即原来模块中的值改变不会影响已经加载的该值，ES6静态分析，动态引用，输出的是值的引用，值改变，引用也改变，即原来模块中的值改变则该加载的值也改变。&lt;/li&gt;&lt;li&gt;CommonJS 模块是运行时" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[ES6]模块与[CommonJS]模块的差异有哪些？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;差异主要有如下几点：&lt;/p&gt;&lt;ul&gt;&lt;li&gt;CommonJS 输出是值的拷贝，即原来模块中的值改变不会影响已经加载的该值，ES6静态分析，动态引用，输出的是值的引用，值改变，引用也改变，即原来模块中的值改变则该加载的值也改变。&lt;/li&gt;&lt;li&gt;CommonJS 模块是运行时加载，ES6 模块是编译时输出接口。&lt;/li&gt;&lt;li&gt;CommonJS 加载的是整个模块，即将所有的接口全部加载进来，E" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/56" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[ES6]模块与[CommonJS]模块的差异有哪些？</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-10T15:14:01Z · 更新：2025-03-08T14:54:06Z</div>
+    </div>
+    <article class="content markdown-body"><p>差异主要有如下几点：</p><ul><li>CommonJS 输出是值的拷贝，即原来模块中的值改变不会影响已经加载的该值，ES6静态分析，动态引用，输出的是值的引用，值改变，引用也改变，即原来模块中的值改变则该加载的值也改变。</li><li>CommonJS 模块是运行时加载，ES6 模块是编译时输出接口。</li><li>CommonJS 加载的是整个模块，即将所有的接口全部加载进来，ES6 可以单独加载其中的某个接口（方法），</li><li>CommonJS this 指向当前模块，ES6 this 指向undefined</li></ul><p>CommonJS 模块输出的是值的拷贝，也就是说，一旦输出一个值，模块内部的变化就影响不到这个值。</p><p>ES6 模块的运行机制与 CommonJS 不一样。</p><p>JS 引擎对脚本静态分析的时候，遇到模块加载命令import，就会生成一个只读引用。</p><p>等到脚本真正执行时，再根据这个只读引用，到被加载的那个模块里面去取值。</p><p>ES6 模块不会缓存运行结果，而是动态地去被加载的模块取值，并且变量总是绑定其所在的模块。</p><hr /><blockquote>2023.08.23 补充</blockquote><p>下面是一个表格，展示了ES6模块与CommonJS模块之间的差异：</p><p>| 特点                         | ES6模块                                      | CommonJS模块                                      |</p><p>|------------------------------|-------------------------------------------|-------------------------------------------|</p><p>| 语法                       | 使用<code>import</code>和<code>export</code>语法                       | 使用<code>require</code>和<code>module.exports</code>语法                     |</p><p>| 动态导入                    | 支持动态导入，可以根据条件导入不同的模块                   | 不支持动态导入，导入的模块在脚本加载时确定                      |</p><p>| 导入和导出的类型               | 可以导入和导出变量、函数、类、默认导出等多种类型             | 只能导入和导出整个模块对象                            |</p><p>| 导入方式                     | 可以使用命名导入和默认导入方式                      | 只支持命名导入方式                                   |</p><p>| 导出方式                     | 可以使用命名导出和默认导出方式                      | 只支持命名导出方式                                   |</p><p>| 模块加载时机                  | 在编译时就会生成所有模块的依赖关系，可以进行静态分析             | 在运行时加载模块，无法进行静态分析                       |</p><p>| 模块间的关系                   | 每个ES6模块都有自己的作用域，相互之间没有依赖关系             | 模块之间共享相同的作用域，可以直接访问和修改导出的变量和函数 |</p><p>| 浏览器支持                    | 部分浏览器原生支持，可以使用Babel转译实现兼容性               | 不支持，需要使用工具如Browserify、Webpack进行转译和打包    |</p><p>| Node.js使用                  | 需要使用<code>--experimental-modules</code>标志启用ES模块支持        | 原生支持CommonJS模块                               |</p><p>请注意，这些是一般规则，具体的差异可能因为不同的运行环境和工具而有所不同。</p><h2>Comments / Answers</h2><hr /><p><strong>BruceYuj</strong> at 2025-03-08T09:34:07Z</p><p>commonjs 模块之间的关系说的不正确，commonjs 的模块也是独立作用域的，和 es module 没差</p><hr /><p><strong>BruceYuj</strong> at 2025-03-08T14:54:05Z</p><p>”另外说 commonjs 输出的是值的拷贝，模块中原来值的改变不会影响已经加载的值“，不完全正确。</p><pre class="code-block"><code class="language-javascript">// a.js
+module.exports = {value: 1};
+setTimeout(() =&gt; module.exports.value = 2, 1000);
+
+
+// b.js
+const a = require(&#39;./a.js&#39;);
+console.log(a.value); // 1
+setTimeout(()=&gt;a.value, 2000); // 输出 2
+
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

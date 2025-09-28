@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CSR、SSR、SSG、NSR、ESR、ISR 都是啥？【热度: 3,492】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;CSR、SSR、SSG、NSR、ESR、ISR 都是啥？&lt;/p&gt;&lt;p&gt;根据不同的构建、渲染过程有不同的优劣势和适用情况。&lt;/p&gt;&lt;ul&gt;&lt;li&gt;现代 UI 库加持下常用的 &lt;code&gt;CSR&lt;/code&gt;、&lt;/li&gt;&lt;li&gt;具有更好 &lt;code&gt;SEO&lt;/code&gt; 效果的" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="CSR、SSR、SSG、NSR、ESR、ISR 都是啥？【热度: 3,492】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;CSR、SSR、SSG、NSR、ESR、ISR 都是啥？&lt;/p&gt;&lt;p&gt;根据不同的构建、渲染过程有不同的优劣势和适用情况。&lt;/p&gt;&lt;ul&gt;&lt;li&gt;现代 UI 库加持下常用的 &lt;code&gt;CSR&lt;/code&gt;、&lt;/li&gt;&lt;li&gt;具有更好 &lt;code&gt;SEO&lt;/code&gt; 效果的 &lt;code&gt;SSR&lt;/code&gt; (&lt;code&gt;SPR&lt;/code&gt;)、&lt;/li&gt;&lt;li&gt;转换思路主打&lt;strong&gt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/307" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>CSR、SSR、SSG、NSR、ESR、ISR 都是啥？【热度: 3,492】</h1>
+      <div class="subtitle">web应用场景 · web应用场景</div>
+      <div class="meta">创建：2023-04-23T15:02:29Z · 更新：2023-04-23T15:02:30Z</div>
+    </div>
+    <article class="content markdown-body"><p>CSR、SSR、SSG、NSR、ESR、ISR 都是啥？</p><p>根据不同的构建、渲染过程有不同的优劣势和适用情况。</p><ul><li>现代 UI 库加持下常用的 <code>CSR</code>、</li><li>具有更好 <code>SEO</code> 效果的 <code>SSR</code> (<code>SPR</code>)、</li><li>转换思路主打<strong>构建时生成</strong>的 <code>SSG</code>、</li><li>大架构视野之上的 <code>ISR</code>、<code>DPR</code>，</li><li>还有更少听到的 <code>NSR</code>、<code>ESR</code>。</li></ul><h3>CSR(Client Side Rendering)</h3><blockquote>页面托管服务器只需要对页面的<strong>访问请求响应</strong>一个如下的<strong>空页面</strong></blockquote><pre class="code-block"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot; /&gt;
+    &lt;!-- metas --&gt;
+    &lt;title&gt;&lt;/title&gt;
+    &lt;link rel=&quot;shortcut icon&quot; href=&quot;xxx.png&quot; /&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;xxx.css&quot; /&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id=&quot;root&quot;&gt;&lt;!-- page content --&gt;&lt;/div&gt;
+    &lt;script src=&quot;xxx/filterXss.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;xxx/x.chunk.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;xxx/main.chunk.js&quot;&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+
+</code></pre><p>页面中留出一个用于填充渲染内容的视图节点 (<code>div#root</code>)，并插入指向项目<strong>编译压缩后</strong>的</p><ul><li><code>JS Bundle</code> 文件的 <code>script</code> 节点</li><li>指向 <code>CSS</code> 文件的 <code>link.stylesheet</code> 节点等。</li></ul><p>浏览器接收到这样的文档响应之后，会根据文档内的链接加载脚本与样式资源，并完成以下几方面主要工作：</p><blockquote>1. <strong>执行脚本</strong></blockquote><blockquote>2. 进行<strong>网络访问以获取在线数据</strong></blockquote><blockquote>3. 使用 DOM API <strong>更新页面结构</strong></blockquote><blockquote>4. <strong>绑定交互事件</strong></blockquote><blockquote>5. <strong>注入样式</strong></blockquote><p>以此完成整个渲染过程。</p><p>CSR 模式有以下几方面优点：</p><ul><li>UI 库支持</li><li><strong>前后端分离</strong></li><li><strong>服务器负担轻</strong></li></ul><h3>SSR (Server Side Rendering)</h3><p>SSR 的概念，即与 <code>CSR</code> 相对地，在服务端完成大部分渲染工作， 服务器在响应站点访问请求的时候，就已经渲染好可供呈现的页面。</p><p>像 <code>React</code>、<code>Vue</code> 这样的 UI 生态巨头，其实都有一个关键的 <code>Virtual DOM</code> (or VDOM) 概念,先自己<strong>建模处理视图表现与更新</strong>、再批量调 <code>DOM API</code> 完成视图渲染更新。这就带来了一种 <code>SSR</code> 方案：</p><p><code>VDOM</code> 是<strong>自建模型</strong>，是一种抽象的嵌套数据结构，也就可以在 <code>Node</code> 环境（或者说一切服务端环境）下跑起来，<strong>把原来的视图代码拿来在服务端跑</strong>，通过 <code>VDOM</code> 维护，再在最后<strong>拼接好字符串作为页面响应</strong>，生成文档作为响应页面，此时的页面内容已经基本生成完毕，把逻辑代码、样式代码附上，则可以实现完整的、可呈现页面的响应。</p><h3>SSR优点</h3><ul><li>呈现速度和用户体验佳</li><li><code>SEO</code> 友好</li></ul><h3>SSR缺点</h3><ol><li>引入成本高</li></ol><ul><li>将视图渲染的工作交给了服务器做，引入了新的概念和技术栈（如 Node）</li></ul><ol><li>响应时间长</li></ol><ul><li>SSR 在完成访问响应的时候需要做更多的计算和生成工作</li><li>关键指标 <code>TTFB</code> (<code>Time To First Byte</code>) 将变得更大</li></ul><ol><li>首屏交互不佳</li></ol><ul><li>虽然 SSR 可以让页面请求响应后更快在浏览器上渲染出来</li><li>但在首帧出现，需要客户端加载激活的逻辑代码（如事件绑定）还没有初始化完毕的时候，其实是不可交互的状态</li></ul><h3>SSR-React 原理</h3><ol><li>VDOM</li><li>同构</li><li>双端对比</li></ol><p>几大概念：</p><ul><li>VDOM</li><li>同构</li><li>双端对比</li><li>renderToString()</li><li>renderToStaticMarkup()</li></ul><pre class="code-block"><code class="language-javascript">ReactDOMServer.renderToStaticMarkup(element)
+
+</code></pre><p>仅仅是为了将组件渲染为html字符串，不会带有<code>data-react-checksum</code>属性</p><h3>SPR (Serverless Pre-Rendering)</h3><p>无服务预渲染，这是 <code>Serverless</code> 话题之下的一项渲染技术。<code>SPR</code> 是指在 <code>SSR</code> 架构下通过预渲染与缓存能力，将部分页面转化为静态页面，以避免其在服务器接收到请求的时候频繁被渲染的能力，同时一些框架还支持<strong>设置静态资源过期时间</strong>，以确保这部分“静态页面”也能有一定的即时性。</p><h3>SSG (Static Site Generation)</h3><ul><li>它与 <code>CSR</code> 一样，只需要<strong>页面托管</strong>，不需要真正编写并部署服务端，页面资源在编译完成部署之前就已经确定；</li><li>但它又与 <code>SSR</code> 一样，属于一种 <code>Prerender</code> 预渲染操作，即在用户浏览器得到页面响应之前，页面内容和结构就已经渲染好了。</li><li>当然形式和特征来看，它更接近 SSR。</li></ul><blockquote><code>SSG</code> 模式，把原本日益动态化、交互性增强的页面，变成了大部分已经填充好，托管在页面服务 / CDN 上的<strong>静态页面</strong></blockquote><h3>NSR (Native Side Rendering)</h3><p><code>Native</code> 就是客户端，万物皆可<strong>分布式</strong>，可以理解为这就是一种分布式的 <code>SSR</code>，不过这里的渲染工作交给了客户端去做而不是远端服务器。在用户即将访问页面的<strong>上级页面预取页面数据，由客户端缓存 HTML 结构，以达到用户真正访问时快速响应的效果</strong>。</p><p>NSR 见于各种移动端 + <code>Webview</code> 的 <code>Hybrid</code> 场景，是需要页面与客户端研发协作的一种优化手段。</p><h3>ESR (Edge Side Rendering)</h3><p><code>Edge</code> 就是边缘，类比前面的各种 <code>XSR</code>，<code>ESR</code> 就是将渲染工作交给边缘服务器节点，常见的就是 <code>CDN</code> 的边缘节点。这个方案主打的是<strong>边缘节点相比核心服务器与用户的距离优势</strong>，利用了 <code>CDN</code> 分级缓存的概念，渲染和内容填充也可以是分级进行并缓存下来的。</p><p><code>ESR</code> 之下静态内容与动态内容是分流的，</p><ol><li>边缘 CDN 节点可以将静态页面内容先响应给用户</li><li>然后再自己发起动态内容请求，得到核心服务器响应之后再返回给用户</li></ol><p>是在大型网络架构下非常极致的一种优化，但这也就依赖更庞大的技术基建体系了。</p><h3>ISR (Incremental Site Rendering)</h3><p><strong>增量式网站渲染</strong>，就是对待页面内容小刀切，<strong>有更细的差异化渲染粒度</strong>，能渐进、分层地进行渲染。</p><p>常见的选择是：</p><ul><li>对于重要页面如首屏、访问量较大的直接落地页，进行<strong>预渲染并添加缓存</strong>，保证最佳的访问性能；</li><li>对于次要页面，则确保有兜底内容可以即时 <code>fallback</code>，再将其实时数据的渲染留到 CSR 层次完成，同时触发异步缓存更新。</li></ul><p>对于“异步缓存更新”，则需要提到一个常见的内容缓存策略：<code>Stale While Revalidate</code>，CDN 对于数据请求始终首先响应缓存内容，如果这份内容已经过期，则<strong>在响应之后再触发异步更新</strong>——这也是对于次要元素或页面的缓存处理方式。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>http的请求和响应报文 有啥区别 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;blockquote&gt;作者备注 &lt;/blockquote&gt;&lt;blockquote&gt;可以当做一个科普来看， 单纯的八股， 没有实际价值， 所以不做评分&lt;/blockquote&gt;&lt;p&gt;HTTP 请求和响应报文都遵循类似的结构，但它们服务于通信过程中的不同阶段，并具有一些关键的区别。" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="http的请求和响应报文 有啥区别" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;blockquote&gt;作者备注 &lt;/blockquote&gt;&lt;blockquote&gt;可以当做一个科普来看， 单纯的八股， 没有实际价值， 所以不做评分&lt;/blockquote&gt;&lt;p&gt;HTTP 请求和响应报文都遵循类似的结构，但它们服务于通信过程中的不同阶段，并具有一些关键的区别。下面是请求和响应报文之间的主要区别：&lt;/p&gt;&lt;h3&gt;结构上的区别&lt;/h3&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;请求行 vs " />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/894" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>http的请求和响应报文 有啥区别</h1>
+      <div class="subtitle">TOP100互联网 · 网络 · TOP100互联网</div>
+      <div class="meta">创建：2024-09-17T03:03:24Z · 更新：2024-09-17T03:03:25Z</div>
+    </div>
+    <article class="content markdown-body"><blockquote>作者备注  </blockquote><blockquote>可以当做一个科普来看， 单纯的八股， 没有实际价值， 所以不做评分</blockquote><p>HTTP 请求和响应报文都遵循类似的结构，但它们服务于通信过程中的不同阶段，并具有一些关键的区别。下面是请求和响应报文之间的主要区别：</p><h3>结构上的区别</h3><ol><li><strong>请求行 vs 状态行</strong>：</li></ol><ul><li><strong>请求报文</strong>的第一行是<strong>请求行</strong>，包含了方法（如 GET、POST）、请求的 URI 和 HTTP 版本。</li><li><strong>响应报文</strong>的第一行是<strong>状态行</strong>，包含了 HTTP 版本、状态码（如 200、404）和原因短语（如 OK、Not Found）。</li></ul><ol><li><strong>头部（Headers）</strong>：</li></ol><ul><li><strong>请求和响应报文</strong>都包含头部（Headers），但具体的头部字段会有所不同。请求头部含有客户端环境信息、请求主体的类型等，而响应头部含有服务器信息、响应主体的类型等。</li></ul><ol><li><strong>消息主体（Body）</strong>：</li></ol><ul><li><strong>请求报文</strong>的消息主体（如果有）包含了发送给服务器的数据，比如 POST 请求提交的表单数据。</li><li><strong>响应报文</strong>的消息主体包含了返回给客户端的数据，比如请求的 HTML 页面或是 API 调用的 JSON 数据。</li></ul><h3>功能上的区别</h3><ul><li><strong>请求报文</strong>的目的在于告诉服务器客户端想要执行什么操作（比如获取、提交、删除数据等），以及传递必要的数据给服务器（如表单数据）。</li><li><strong>响应报文</strong>的目的在于告诉客户端请求的结果（请求成功、失败、需要进一步操作等），并且可以返回请求的数据（如网页内容）。</li></ul><h3>如何识别的区别</h3><ul><li><strong>请求报文</strong>由客户端（如浏览器、API 客户端）发起，直接指向服务器，请求特定的资源或操作。</li><li><strong>响应报文</strong>由服务器发起，作为对请求的直接回复，返回数据到客户端。</li></ul><h3>典型头部字段的区别</h3><ul><li><strong>请求报文头部</strong>可能包括<code>User-Agent</code>（客户端信息）、<code>Accept</code>（可接受的响应内容类型）、<code>Content-Type</code>（请求体的类型）等。</li><li><strong>响应报文头部</strong>可能包含<code>Server</code>（服务器信息）、<code>Content-Type</code>（响应体的类型）、<code>Set-Cookie</code>（设置 Cookie）、<code>Content-Length</code>（响应体长度）等。</li></ul><h3>总结</h3><p>尽管 HTTP 请求和响应报文在结构上有很多相似之处，但它们在报文开始行的内容、头部字段以及携带数据的目的方面都存在明显区别。通过了解这些区别，开发者可以更好地理解 HTTP 协议的工作原理，从而更有效地设计和调试 Web 应用。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

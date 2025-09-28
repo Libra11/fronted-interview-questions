@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>vite 开发过程是直接将文件给浏览器【热度: 107】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：vite 与 esbuild&lt;/p&gt;&lt;p&gt;那比如我使用的是 比如我开发是使用的 less + ts + react 他是怎么处理的&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;Vite 不是直接将原始文件给浏览器&lt;/strong&gt;&lt;/li" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="vite 开发过程是直接将文件给浏览器【热度: 107】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：vite 与 esbuild&lt;/p&gt;&lt;p&gt;那比如我使用的是 比如我开发是使用的 less + ts + react 他是怎么处理的&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;Vite 不是直接将原始文件给浏览器&lt;/strong&gt;&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;Vite 是一个基于原生 ES 模块的前端构建工具。在开发过程中，它利用浏览器对原生 ES " />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1090" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>vite 开发过程是直接将文件给浏览器【热度: 107】</h1>
+      <div class="subtitle">工程化 · 工程化</div>
+      <div class="meta">创建：2025-01-09T16:20:09Z · 更新：2025-01-09T16:20:10Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：vite 与 esbuild</p><p>那比如我使用的是 比如我开发是使用的 less + ts + react 他是怎么处理的</p><ol><li><strong>Vite 不是直接将原始文件给浏览器</strong></li></ol><ul><li>Vite 是一个基于原生 ES 模块的前端构建工具。在开发过程中，它利用浏览器对原生 ES 模块的支持来提供快速的开发服务器。当你启动 Vite 开发服务器时，它会将你的项目文件作为模块加载。</li><li>对于像<code>less</code>、<code>ts</code>、<code>react</code>这样的文件类型，Vite 有相应的处理机制。</li></ul><ol><li><strong>处理 Less 文件</strong></li></ol><ul><li>Vite 使用插件来处理 Less 文件。它会通过<code>vite - less</code>插件（在 Vite 生态中用于处理 Less）来将 Less 文件编译成 CSS。</li><li>当浏览器请求一个 Less 文件对应的模块时，Vite 开发服务器会拦截这个请求。例如，如果你在一个 JavaScript 文件中导入了一个 Less 文件，像<code>import &#39;./styles.less&#39;;</code>。</li><li>Vite 会使用<code>vite - less</code>插件将 Less 文件编译成 CSS，然后通过<code>style</code>标签或者<code>link</code>标签（根据配置）将生成的 CSS 注入到 HTML 页面中，使得样式能够生效。这个编译过程是基于 Less 的语法规则，将 Less 中的变量、嵌套规则等编译成浏览器能够理解的普通 CSS 样式。</li></ul><ol><li><strong>处理 TypeScript 文件</strong></li></ol><ul><li>Vite 本身对 TypeScript 有很好的支持。它利用浏览器原生的 ES 模块加载能力，在开发过程中，对于<code>.ts</code>和<code>.tsx</code>文件，Vite 会将它们视为 ES 模块。</li><li>当浏览器请求一个 TypeScript 文件对应的模块时，Vite 会进行即时编译（Just - in - Time，JIT）。它会根据 TypeScript 的语法规则将 TypeScript 代码编译成 JavaScript 代码。</li><li>例如，对于一个简单的 TypeScript 文件<code>main.ts</code>：</li></ul><p>```typescript</p><p>let myVariable: number = 10;</p><p>console.log(myVariable);</p><p>```</p><p>Vite 会在内存中即时将其编译成等价的 JavaScript 代码：</p><p>```javascript</p><p>let myVariable = 10;</p><p>console.log(myVariable);</p><p>```</p><p>然后将编译后的 JavaScript 代码发送给浏览器，浏览器就能够正常执行这些代码了。而且 Vite 会根据 TypeScript 的模块导入和导出规则正确地处理模块之间的关系。</p><ol><li><strong>处理 React 文件（<code>.tsx</code>文件)</strong></li></ol><ul><li>对于 React + TypeScript（<code>.tsx</code>文件），Vite 同样利用上述 TypeScript 的即时编译机制。</li><li>例如，对于一个简单的 React 组件文件<code>App.tsx</code>：</li></ul><p>```typescript</p><p>import React from "react";</p><p>const App: React.FC = () => {</p><p>return <div>Hello, Vite with React and TS!</div>;</p><p>};</p><p>export default App;</p><p>```</p><ul><li>Vite 会先将<code>tsx</code>文件中的 TypeScript 部分编译成 JavaScript，同时会保留 React 的 JSX 语法。因为现代浏览器虽然不能直接理解 JSX 语法，但是 Vite 会通过<code>@vitejs/plugin - react</code>插件等手段来处理 JSX。</li><li>这个插件会将 JSX 语法在发送给浏览器之前转换为浏览器能够理解的<code>React.createElement</code>函数调用形式（或者其他等价的高效形式，比如使用<code>jsx - runtime</code>）。例如，上面的<code>App.tsx</code>中的 JSX 部分可能会被转换为类似以下的 JavaScript 代码：</li></ul><p>```javascript</p><p>import React from "react";</p><p>const App = () => {</p><p>return React.createElement("div", null, "Hello, Vite with React and TS!");</p><p>};</p><p>export default App;</p><p>```</p><ul><li>这样转换后的代码就可以在浏览器中正常运行，并且能够正确地渲染 React 组件。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

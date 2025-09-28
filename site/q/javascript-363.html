@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>模版引擎实现原理【热度: 1,241】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：模版引擎&lt;/p&gt;&lt;h3&gt;前端模板引擎实现原理&lt;/h3&gt;&lt;p&gt;前端模板引擎是一种用于处理 HTML 字符串的工具，它允许开发人员在 HTML 中嵌入特殊语法，然后使用模板引擎把数据与这些语法结合，生成最终的 HTML 字符串。这种方式" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="模版引擎实现原理【热度: 1,241】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：模版引擎&lt;/p&gt;&lt;h3&gt;前端模板引擎实现原理&lt;/h3&gt;&lt;p&gt;前端模板引擎是一种用于处理 HTML 字符串的工具，它允许开发人员在 HTML 中嵌入特殊语法，然后使用模板引擎把数据与这些语法结合，生成最终的 HTML 字符串。这种方式有助于实现数据与表示的分离，使得代码更易于维护。&lt;/p&gt;&lt;p&gt;前端模板引擎的实现原理通常包括以下几个步骤：&lt;/p&gt;&lt;ol" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/363" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>模版引擎实现原理【热度: 1,241】</h1>
+      <div class="subtitle">JavaScript · JavaScript · 阿里巴巴</div>
+      <div class="meta">创建：2023-05-22T14:15:21Z · 更新：2023-05-22T14:15:22Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：模版引擎</p><h3>前端模板引擎实现原理</h3><p>前端模板引擎是一种用于处理 HTML 字符串的工具，它允许开发人员在 HTML 中嵌入特殊语法，然后使用模板引擎把数据与这些语法结合，生成最终的 HTML 字符串。这种方式有助于实现数据与表示的分离，使得代码更易于维护。</p><p>前端模板引擎的实现原理通常包括以下几个步骤：</p><ol><li><strong>编译模板</strong>：将模板字符串解析成模板语法（如变量、循环、条件等）和普通文本。这个过程通常涉及到词法分析和语法分析两个阶段。词法分析将模板字符串切分成多个标记（Token），再通过语法分析将这些标记组织成抽象语法树（AST）。</li></ol><ol><li><strong>生成代码</strong>：将抽象语法树转换成 JavaScript 代码。这个过程通常包括将语法节点（AST Nodes）转换成相应的 JavaScript 语句，以渲染数据的形式。</li></ol><ol><li><strong>执行代码</strong>：对生成的 JavaScript 代码进行求值，通过传入模板数据，渲染最终的 HTML 字符串。</li></ol><p>下面是一个简单的模板引擎实现示例：</p><pre class="code-block"><code class="language-javascript">function simpleTemplateEngine(template, data) {
+const variableRegex = /{{\s*([\w]+)\s*}}/g; // 匹配变量插值
+
+let match;
+let lastIndex = 0;
+let result = &#39;&#39;;
+
+while ((match = variableRegex.exec(template)) !== null) {
+result += template.slice(lastIndex, match.index); // 添加文本
+result += data[match[1]]; // 添加变量值
+lastIndex = match.index + match[0].length;
+}
+
+result += template.slice(lastIndex); // 添加尾部文本
+return result;
+}
+
+// 使用示例
+const template = &#39;Hello, {{name}}! Today is {{day}}.&#39;;
+const data = {
+name: &#39;John&#39;,
+day: &#39;Monday&#39;,
+};
+
+console.log(simpleTemplateEngine(template, data)); // 输出：Hello, John! Today is Monday.
+</code></pre><p>这个简化的示例仅支持变量插值，完整的模板引擎需要考虑循环、条件、自定义函数等更复杂的语法和性能优化。在实际项目中，可以选择成熟的模板引擎库，例如 Handlebars、Mustache 或者 Lodash 的 <code>template</code> 函数。</p><h3>如何在模板引擎中实现条件判断</h3><p>要在模板引擎中实现条件判断，你需要扩展模板引擎的语法支持和解析能力。以 Handlebars 为例，其中的 <code>if</code> 和 <code>else</code> 助手语法可以实现条件判断。首先，我们需要修改匹配变量的正则表达式以识别条件判断语句。接着，在解析过程中，根据条件判断结果添加相应的内容。</p><p>以下代码实现了一个简化的模板引擎，支持条件判断：</p><pre class="code-block"><code class="language-javascript">function parseTemplate(template, data) {
+  const tokenRegex = /{{\s*(\/?[\w\s]+\/?)\s*}}/g; // 匹配模板语法 token
+  const keywords = /^(if|\/if|else)$/;
+  let result = &#39;&#39;;
+  const stack = [];
+
+  let lastIndex = 0;
+  let match;
+
+  while ((match = tokenRegex.exec(template)) !== null) {
+    let staticContent = template.substring(lastIndex, match.index);
+    result += staticContent;
+    lastIndex = match.index + match[0].length;
+
+    const token = match[1].trim();
+    const keywordMatch = token.match(keywords);
+
+    if (!keywordMatch) { // 处理变量插值
+      result += data[token];
+      continue;
+    }
+
+    switch (keywordMatch[0]) {
+    case &#39;if&#39;:
+      stack.push(&#39;if&#39;);
+      const ifCondition = data[token.split(&#39; &#39;)[1]];
+      if (ifCondition) {
+        tokenRegex.lastIndex += processSubTemplate(stack, tokenRegex, template, data);
+      }
+      break;
+    case &#39;else&#39;:
+      stack.push(&#39;else&#39;);
+      tokenRegex.lastIndex += processSubTemplate(stack, tokenRegex, template, data);
+      break;
+    case &#39;/if&#39;:
+      stack.pop();
+      break;
+    }
+  }
+
+  result += template.substring(lastIndex);
+  return result;
+}
+
+function processSubTemplate(stack, tokenRegex, template, data) {
+  let subTemplate = &#39;&#39;;
+  let cursor = tokenRegex.lastIndex;
+
+  while (stack.length &amp;&amp; cursor &lt; template.length) {
+    cursor++;
+    const char = template[cursor];
+    subTemplate += char;
+
+    if (char === &#39;}&#39; &amp;&amp; template[cursor - 1] === &#39;}&#39;) {
+      const lastTwo = template.substring(cursor - 2, cursor);
+      if (lastTwo === &#39;{{&#39;) {
+        const match = subTemplate.match(/{{\s*(\/?[\w\s]+\/?)\s*}}/);
+        if (match) {
+          const token = match[1].trim();
+          const keywordMatch = token.match(/^(if|\/if|else)$/);
+          if (keywordMatch) {
+            if (keywordMatch[0] === stack[stack.length - 1]) {
+              stack.pop();
+            } else {
+              stack.push(keywordMatch[0]);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  if (stack[stack.length - 1] === &#39;else&#39;) {
+    stack.pop();
+  }
+
+  return subTemplate.length;
+}
+
+// 使用示例
+const template = `
+  {{name}},
+  {{if isMember}}
+    Welcome back, {{name}}!
+  {{else}}
+    Please join us!
+  {{/if}}
+`;
+
+const data = {
+  name: &quot;John&quot;,
+  isMember: true,
+};
+
+console.log(parseTemplate(template, data).trim());
+</code></pre><p>这个简化示例说明了如何在模板中实现条件判断。不过请注意，这个实现并没有经过优化，性能可能不佳。在实际项目中，推荐使用成熟的模板引擎库，如 Handlebars、Mustache 等。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

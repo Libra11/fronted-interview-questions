@@ -1,0 +1,35 @@
+# [React] useRef 是如何实现的【热度: 299】
+
+- Issue: #813
+- State: open
+- Labels: web框架, TOP100互联网
+- Author: yanlele
+- URL: https://github.com/pro-collection/interview-question/issues/813
+- Created: 2024-08-10T03:44:14Z
+- Updated: 2024-08-10T03:44:14Z
+
+## Body
+
+**关键词**：useRef 实现
+
+该问题也是非常复杂， 需要深入源码， 可以看下面文章解析：
+
+https://juejin.cn/post/7341757372188065792
+
+> 以下是题库作者对上面文档的一些提炼总结
+
+- 什么是数据共享层
+- hooks
+  - 如何确定 fiber 对应的 hook 上下文？
+  - hook 是如何存在的？保存在什么地方？
+  - 多个 hook 如何处理？
+- useRef
+  - 实现原理
+  - 标记 Ref​
+  - 执行 Ref​ 操作
+- mount 该如何操作
+- update 的时候该如何操作
+- 整体执行流程
+  - 标记
+  - 执行
+

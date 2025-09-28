@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>node 里面可以使用 es module 吗【热度: 187】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：node 使用 es module&lt;/p&gt;&lt;p&gt;是的，从 Node.js 的较新版本开始，你可以在 Node.js 中使用 ES Modules（ESM）。&lt;/p&gt;&lt;h3&gt;如何启用 ES Modules&lt;/h3&gt;&lt;p&gt;要在 Node" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="node 里面可以使用 es module 吗【热度: 187】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：node 使用 es module&lt;/p&gt;&lt;p&gt;是的，从 Node.js 的较新版本开始，你可以在 Node.js 中使用 ES Modules（ESM）。&lt;/p&gt;&lt;h3&gt;如何启用 ES Modules&lt;/h3&gt;&lt;p&gt;要在 Node.js 中使用 ES Modules，你可以采取以下几种方式之一：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;使用 &lt;cod" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/830" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>node 里面可以使用 es module 吗【热度: 187】</h1>
+      <div class="subtitle">腾讯 · Nodejs · 腾讯</div>
+      <div class="meta">创建：2024-08-17T11:33:56Z · 更新：2024-08-17T11:33:57Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：node 使用 es module</p><p>是的，从 Node.js 的较新版本开始，你可以在 Node.js 中使用 ES Modules（ESM）。</p><h3>如何启用 ES Modules</h3><p>要在 Node.js 中使用 ES Modules，你可以采取以下几种方式之一：</p><ol><li><strong>使用 <code>.mjs</code> 扩展名</strong>:</li></ol><p>你可以将你的模块文件保存为 <code>.mjs</code> 文件。Node.js 会将 <code>.mjs</code> 文件自动识别为 ES Modules。你可以直接使用 <code>import</code> 和 <code>export</code> 语法。</p><ol><li><strong>在 <code>package.json</code> 中设置 <code>&quot;type&quot;: &quot;module&quot;</code></strong>:</li></ol><p>如果你更倾向于使用 <code>.js</code> 扩展名，你可以在 <code>package.json</code> 文件中添加 <code>&quot;type&quot;: &quot;module&quot;</code>。这会使得 Node.js 将<code>.js</code> 文件当作 ES Modules 来处理。注意，这样设置后，如果你需要使用 CommonJS 模块，那么 CommonJS 文件必须采用 <code>.cjs</code> 扩展名。</p><pre class="code-block"><code class="language-json">{
+  &quot;type&quot;: &quot;module&quot;
+}
+</code></pre><p>这样，你的 <code>.js</code> 文件中就可以使用 <code>import</code> 和 <code>export</code> 语句了。</p><h3>补充知识 - node 是从什么时候开始支持 esm 的？</h3><p>Node.js 对 ES Modules (ESM) 的支持始于 Node.js 8.5.0（发布于 2017 年 9 月），但当时这一特性处于实验阶段，使用时需要通过 <code>--experimental-modules</code> 标志来启用。</p><p>Node.js 12 版本（具体地，12.17.0 及更高版本）中，ES Module (ESM) 支持进入了稳定状态，使得开发者可以在不需要任何标志的情况下直接使用 ESM。</p><p>随后的 Node.js 版本继续改进和增强对 ESM 的支持，包括改善与 CommonJS 模块互操作性等方面，从而提供更加稳定和完整的模块系统支持。</p><p>因此，如果您想使用不需要任何实验性标志的 ESM，应该使用 Node.js 12.17.0 或更高的版本。但要获得最佳的支持和最新的功能，推荐使用 Node.js 的最新稳定版本。</p><h3>注意事项</h3><ul><li>当使用 ES Modules 时，<code>import</code> 语句必须使用完整的文件路径，包括文件扩展名，或者指向存在 <code>package.json</code> 的模块。这与 CommonJS 的 <code>require()</code> 有所不同，后者可以省略文件扩展名。</li><li>在使用 ES Modules 时，一些 Node.js 的全局变量和方法有所不同，比如，代替 <code>__dirname</code> 和 <code>__filename</code>，你可能需要通过 <code>import.meta.url</code> 来获取当前文件的 URL。</li><li>如果你的项目中同时使用了 ES Modules 和 CommonJS 模块，需要注意模块间的导入导出兼容性问题。</li></ul><p>截止到我的知识更新日期（2023 年 4 月），Node.js 已经良好地支持 ES Modules，并且社区和生态系统也在不断地改进和适配这一新特性。实际使用中，应当关注你所使用的 Node.js 版本文档，查看关于 ES Modules 的最新支持情况和最佳实践。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

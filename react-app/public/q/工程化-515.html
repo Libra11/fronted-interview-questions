@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[性能] 衡量页面性能的指标有哪些？【热度: 1,045】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：web性能指标&lt;/p&gt;&lt;h3&gt;性能的核心问题&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;什么样的性能指标最能度量人的感觉？&lt;/li&gt;&lt;li&gt;怎样才能从我们的真实用户中获取这些指标？&lt;/li&gt;&lt;li&gt;如何用我们所获取的指标来确定一个页面表现得是否「快」" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[性能] 衡量页面性能的指标有哪些？【热度: 1,045】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：web性能指标&lt;/p&gt;&lt;h3&gt;性能的核心问题&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;什么样的性能指标最能度量人的感觉？&lt;/li&gt;&lt;li&gt;怎样才能从我们的真实用户中获取这些指标？&lt;/li&gt;&lt;li&gt;如何用我们所获取的指标来确定一个页面表现得是否「快」？&lt;/li&gt;&lt;li&gt;当我们得知用户所感知的真实性能表现后，我们应该如何做才能避免重蹈覆辙，并在未来提高性能表现？&lt;/li" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/515" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[性能] 衡量页面性能的指标有哪些？【热度: 1,045】</h1>
+      <div class="subtitle">工程化 · 工程化 · 美团</div>
+      <div class="meta">创建：2023-08-20T08:53:36Z · 更新：2023-08-20T08:53:37Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：web性能指标</p><h3>性能的核心问题</h3><ul><li>什么样的性能指标最能度量人的感觉？</li><li>怎样才能从我们的真实用户中获取这些指标？</li><li>如何用我们所获取的指标来确定一个页面表现得是否「快」？</li><li>当我们得知用户所感知的真实性能表现后，我们应该如何做才能避免重蹈覆辙，并在未来提高性能表现？</li></ul><h3>以用户为中心的性能指标</h3><p><strong>开始了吗？</strong></p><p>页面开始加载了吗？得到了服务端的回应吗？</p><p><strong>有用吗？</strong></p><p>有足够用户期望看到的内容被渲染出来了吗？</p><p><strong>能用吗？</strong></p><p>用户能够与我们的页面交互了吗？还是依然在加载？</p><p><strong>好用吗？</strong></p><p>交互是否流畅、自然、没有延迟与其他的干扰？</p><h4>首次绘制（First Paint）和首次内容绘制（First Contentful Paint）</h4><p>首次绘制（FP）和首次内容绘制（FCP）。在浏览器导航并渲染出像素点后，这些指标点立即被标记。 这些点对于用户而言十分重要，因为它回答了我们的第一个问题问题：<strong>开始了吗</strong>？</p><p>FP与FCP的主要区别在于，FP标记浏览器所渲染的任何与导航前内容不同的点，而FCP所标记的是来自于DOM中的内容，可能是文本、图片、SVG，甚至是canvas元素。</p><h4>首次有效绘制（First Meaningful Pain）和主要元素时间点（Hero Element Timing）</h4><p>首次有效绘制（FMP）回答了我们的问题：<strong>有用吗</strong>？对于现存的所有网页而言，我们不能去清晰地界定哪些元素的加载是「有用」的（因此目前尚无规范），</p><p>但是对于开发者他们自己而言，他们很容易知道页面的哪些部分对于用户而言是最为有用的。</p><p><img alt="image" src="https://github.com/pro-collection/interview-question/assets/22188674/613b9446-c386-47c9-84fd-ce53e9e2f2b2" /></p><p>这些页面中「最重要的部分」通常被称为<strong>主要元素</strong>。举一些例子，在YouTube的播放页面，播放器就是主要元素。在Twitter中可能是通知的图标，或者是第一条推文。在 天气应用中，主要元素应是指定位置的预测信息。在一个新闻站点中，它可能是摘要，或者是第一张插图。</p><p>网页中总有一部分内容的重要性大于其余的部分。如果这部分的内容能够很快地被加载出来，用户甚至都不会在意其余部分的加载情况。</p><h4>可交互时间（TTI）</h4><p>可交互时间（TTI）标记了你的页面已经呈现了画面，并且能够响应用户输入的时间点。页面不能响应用户输入有以下常见的原因：</p><ul><li>将被JavaScript所操作的元素还未被加载出来；</li><li>一些慢会话阻塞了浏览器的主线程（如我们在上一部分所描述的）</li></ul><p>TTI所记录实际上是页面的JavaScript完成了初始化，主线程处于空闲的时间点。</p><h4>long tasks</h4><p>浏览器像是单线程的。 某些情况下，一些任务将可能会花费很长的时间来执行，如果这种情况发生了，主线程阻塞，剩下的任务只能在队列中等待。</p><p>用户所感知到的可能是输入的延迟，或者是哐当一下全部出现。这些是当今网页糟糕体验的主要来源。</p><p>Long Tasks API认为任何超过50毫秒的任务都可能存在潜在的问题，并将这些任务揭露给开发者。既然能够满足50毫秒内完成任务，也就能够符合RAIL在100毫秒内相应用户输入的要求。</p><h4>指标所反映的用户体验</h4><p>下表概述了我们的性能指标如何对应到我们的问题之上：</p><p><strong>开始了吗</strong>？</p><ul><li>首次绘制、首次内容绘制 First Paint (FP) / First Contentful Paint (FCP)</li></ul><p><strong>有用吗</strong>？</p><ul><li>首次有效绘制、主要元素时间点 First Meaningful Paint (FMP) / Hero Element Timing</li></ul><p><strong>能用吗</strong>？</p><ul><li>可交互时间点 Time to Interactive (TTI)</li></ul><p><strong>好用吗</strong>？</p><ul><li>慢会话 Long Tasks (从技术上来讲应该是：没有慢会话)</li></ul><h3>获取指标</h3><p>主要依赖浏览器提供的 api</p><ul><li><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/PerformanceObserver" target="_blank" rel="noopener">PerformanceObserver</a></li><li><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/PerformanceEntry" target="_blank" rel="noopener">PerformanceEntry</a></li><li><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/DOMHighResTimeStamp" target="_blank" rel="noopener">DOMHighResTimeStamp</a></li></ul><h4>PerformanceObserver 使用示范</h4><p>要使用 PerformanceObserver，首先需要创建一个 PerformanceObserver 实例，并指定一个回调函数作为参数。回调函数将在性能事件触发时被调用。然后，通过 PerformanceObserver 的 observe() 方法去监听所关注的性能事件类型。</p><p>以下是一个使用 PerformanceObserver 的示例代码：</p><pre class="code-block"><code class="language-javascript">// 创建回调函数
+function performanceCallback(list, observer) {
+  list.getEntries().forEach(entry =&gt; {
+    console.log(entry.name + &quot;：&quot; + entry.startTime);
+  });
+}
+
+// 创建 PerformanceObserver 实例
+const observer = new PerformanceObserver(performanceCallback);
+
+// 监听性能事件类型
+observer.observe({ entryTypes: [&quot;measure&quot;, &quot;paint&quot;] });
+</code></pre><p>在上面的代码中，定义了一个名为 <code>performanceCallback</code> 的回调函数，它接收两个参数：<code>list</code> 和 <code>observer</code>。<code>list</code> 参数是一个 PerformanceEntryList 对象，包含了所有触发的性能事件，可以通过 <code>getEntries()</code> 方法获取详细信息。<code>observer</code> 参数表示 PerformanceObserver 实例本身。</p><p>然后，通过 <code>new PerformanceObserver(performanceCallback)</code> 创建了一个 PerformanceObserver 实例，并将 <code>performanceCallback</code> 作为回调函数传递进去。</p><p>最后，通过 <code>observer.observe({ entryTypes: [&quot;measure&quot;, &quot;paint&quot;] })</code> 方法，指定了要监听的性能事件类型，这里监听了 "measure" 和 "paint" 两种类型的事件。</p><p>当指定的性能事件类型发生时，回调函数将被调用，并传递触发事件的 PerformanceEntry 对象作为参数。开发者可以在回调函数中进一步处理和分析这些对象，以获取性能数据并进行优化。</p><p>需要注意的是，观察者模式是异步的，因此回调函数可能不会立即执行。另外，一旦创建了 PerformanceObserver 实例，需要调用其 <code>disconnect()</code> 方法来停止监听性能事件，避免内存泄漏。</p><p>以上是 PerformanceObserver 的基本用法，开发者可以根据实际需求和业务场景来灵活运用。</p><h3>PerformanceObserver 如何统计FP、FCP</h3><p>要使用 PerformanceObserver 统计 FP（First Paint）和 FCP（First Contentful Paint），可以按照以下步骤进行：</p><ol><li>创建 PerformanceObserver 实例，并指定一个回调函数作为参数。</li></ol><pre class="code-block"><code class="language-javascript">const observer = new PerformanceObserver((list) =&gt; {
+  const entries = list.getEntries();
+  entries.forEach((entry) =&gt; {
+    if (entry.name === &#39;first-paint&#39;) {
+      console.log(&#39;FP:&#39;, entry.startTime);
+    } else if (entry.name === &#39;first-contentful-paint&#39;) {
+      console.log(&#39;FCP:&#39;, entry.startTime);
+    }
+  });
+});
+</code></pre><ol><li>使用 PerformanceObserver 的 observe() 方法监听 'paint' 类型的性能事件。</li></ol><pre class="code-block"><code class="language-javascript">observer.observe({ entryTypes: [&#39;paint&#39;] });
+</code></pre><ol><li>在回调函数中，通过遍历 PerformanceEntryList 对象的 getEntries() 方法获取所有触发的性能事件，然后根据 entry.name 来判断是否是 FP 或 FCP。</li></ol><ol><li>如果是 FP，可以通过 entry.startTime 获取其开始的时间戳，进行相应的处理。同样，如果是 FCP，也可以通过 entry.startTime 获取其开始的时间戳。</li></ol><p>完整的示例代码如下：</p><pre class="code-block"><code class="language-javascript">const observer = new PerformanceObserver((list) =&gt; {
+  const entries = list.getEntries();
+  entries.forEach((entry) =&gt; {
+    if (entry.name === &#39;first-paint&#39;) {
+      console.log(&#39;FP:&#39;, entry.startTime);
+    } else if (entry.name === &#39;first-contentful-paint&#39;) {
+      console.log(&#39;FCP:&#39;, entry.startTime);
+    }
+  });
+});
+
+observer.observe({ entryTypes: [&#39;paint&#39;] });
+</code></pre><p>在上述代码中，创建了一个 PerformanceObserver 实例，并指定一个回调函数。在回调函数中，根据 entry.name 的值判断是否是 FP 或 FCP，并打印出对应的开始时间戳。然后通过调用 observer.observe() 方法监听 'paint' 类型的性能事件。</p><p>通过以上步骤，就可以使用 PerformanceObserver 统计 FP 和 FCP，并对这些性能指标进行进一步的处理和分析。</p><h4>PerformanceObserver 如何统计 long tasks</h4><p>要使用 PerformanceObserver 统计长任务（Long Tasks），可以按照以下步骤进行：</p><ol><li>创建 PerformanceObserver 实例，并指定一个回调函数作为参数。</li></ol><pre class="code-block"><code class="language-javascript">const observer = new PerformanceObserver((list) =&gt; {
+  const entries = list.getEntries();
+  entries.forEach((entry) =&gt; {
+    console.log(&#39;Long Task:&#39;, entry);
+  });
+});
+</code></pre><ol><li>使用 PerformanceObserver 的 observe() 方法监听 'longtask' 类型的性能事件。</li></ol><pre class="code-block"><code class="language-javascript">observer.observe({ entryTypes: [&#39;longtask&#39;] });
+</code></pre><ol><li>在回调函数中，通过遍历 PerformanceEntryList 对象的 getEntries() 方法获取所有触发的长任务事件。</li></ol><ol><li>可以通过遍历获得的长任务事件数据，并进行进一步的处理和分析。</li></ol><p>完整的示例代码如下：</p><pre class="code-block"><code class="language-javascript">const observer = new PerformanceObserver((list) =&gt; {
+  const entries = list.getEntries();
+  entries.forEach((entry) =&gt; {
+    console.log(&#39;Long Task:&#39;, entry);
+  });
+});
+
+observer.observe({ entryTypes: [&#39;longtask&#39;] });
+</code></pre><p>在上述代码中，创建了一个 PerformanceObserver 实例，并指定一个回调函数。在回调函数中，遍历 PerformanceEntryList 对象的 getEntries() 方法获取所有长任务事件，并打印出相关的长任务数据。</p><p>通过以上步骤，就可以使用 PerformanceObserver 统计长任务，并对这些长任务进行进一步的处理和分析。</p><h3>补充： 页面性能指标有哪些？</h3><p>以下是常见的页面性能指标，按照阶段顺序进行表述：</p><p>| 阶段              | 指标名称                       | 描述                                                                                         |</p><p>|------------------|--------------------------------|----------------------------------------------------------------------------------------------|</p><p>| 导航阶段          | DNS 解析时间                   | 浏览器解析域名并获取目标服务器IP地址所花费的时间                                            |</p><p>| 导航阶段          | TCP 连接时间                   | 浏览器与服务器建立 TCP 连接所花费的时间                                                     |</p><p>| 导航阶段          | SSL/TLS 握手时间                | 如果网站启用了 HTTPS，浏览器与服务器进行 SSL/TLS 握手所花费的时间                          |</p><p>| 导航阶段          | 请求时间                       | 浏览器发送 HTTP 请求并等待服务器响应的时间                                                  |</p><p>| 导航阶段          | 首字节时间（TTFB）              | 浏览器收到服务器响应的第一个字节所花费的时间                                                |</p><p>| 渲染阶段          | DOM 解析时间                   | 浏览器将 HTML 文档解析为 DOM 树的时间                                                      |</p><p>| 渲染阶段          | CSS 解析时间                   | 浏览器将 CSS 样式表解析为 CSSOM 树的时间                                                    |</p><p>| 渲染阶段          | 首次渲染时间（FP）              | 浏览器将 DOM 树和 CSSOM 树合并，开始绘制页面的时间                                          |</p><p>| 渲染阶段          | 首次内容绘制时间（FCP）         | 页面首次有可见内容被绘制的时间                                                              |</p><p>| 渲染阶段          | 首次有意义绘制时间（FMP）       | 页面首次有有意义的内容被绘制的时间                                                          |</p><p>| 交互阶段          | 首次输入延迟时间（FID）         | 用户首次与页面进行交互（点击按钮、输入框等）后，页面响应交互的时间                           |</p><p>| 交互阶段          | 首次可交互时间（TTI）           | 页面变得完全可交互（用户可以进行大部分常规操作）所花费的时间                                 |</p><p>| 交互阶段          | 页面完全加载时间（Page Load）  | 页面所有资源（包括图片、CSS、JavaScript等）加载完成、渲染完毕并且可交互的时间                  |</p><p>| 用户体验阶段      | 页面响应时间                   | 用户发起请求后，页面完成响应所花费的时间                                                    |</p><p>| 用户体验阶段      | 页面加载时间                   | 用户打开页面到页面加载完成所花费的时间                                                      |</p><p>| 用户体验阶段      | 页面交互性能                   | 页面响应用户交互（点击、滚动等）的流畅程度                                                  |</p><p>请注意，以上仅为常见的页面性能指标，并非所有指标都适用于每个网站。具体的指标选择取决于你的应用的特点和需求。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

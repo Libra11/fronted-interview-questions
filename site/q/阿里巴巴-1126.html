@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JS 里面， 对于对象的读写， 是使用 object 好，还是 Map，性能差异如何？【热度: 610】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：Object 与 Map&lt;/p&gt;&lt;p&gt;在 JavaScript 中，&lt;code&gt;Object&lt;/code&gt; 和 &lt;code&gt;Map&lt;/code&gt; 都可以用于存储键值对，但它们的设计目标和性能特性存在差异，选择哪一种取决于具体使用场景" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="JS 里面， 对于对象的读写， 是使用 object 好，还是 Map，性能差异如何？【热度: 610】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：Object 与 Map&lt;/p&gt;&lt;p&gt;在 JavaScript 中，&lt;code&gt;Object&lt;/code&gt; 和 &lt;code&gt;Map&lt;/code&gt; 都可以用于存储键值对，但它们的设计目标和性能特性存在差异，选择哪一种取决于具体使用场景。&lt;/p&gt;&lt;h3&gt;&lt;strong&gt;核心差异与性能对比&lt;/strong&gt;&lt;/h3&gt;&lt;h4&gt;1. &lt;strong&gt;内存占用&lt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1126" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>JS 里面， 对于对象的读写， 是使用 object 好，还是 Map，性能差异如何？【热度: 610】</h1>
+      <div class="subtitle">阿里巴巴 · JavaScript · 阿里巴巴</div>
+      <div class="meta">创建：2025-08-31T10:15:26Z · 更新：2025-08-31T10:15:26Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：Object 与 Map</p><p>在 JavaScript 中，<code>Object</code> 和 <code>Map</code> 都可以用于存储键值对，但它们的设计目标和性能特性存在差异，选择哪一种取决于具体使用场景。</p><h3><strong>核心差异与性能对比</strong></h3><h4>1. <strong>内存占用</strong></h4><ul><li><strong><code>Object</code></strong>：</li></ul><p>本质是原型链继承的对象，会默认一些额外属性（如 <code>__proto__</code>、<code>constructor</code>），且键只能是字符串或 Symbol。</p><p>对于少量键值对，内存开销较小，但键名会被强制转换为字符串（如数字 <code>1</code> 会转为 <code>&quot;1&quot;</code>）。</p><ul><li><strong><code>Map</code></strong>：</li></ul><p>专为键值对存储设计，无原型链开销，键可以是任意类型（包括对象、函数等）。</p><p>但内部实现会维护哈希表结构，存储相同数量的键值对时，内存占用通常比 <code>Object</code> 略高（尤其键值对较少时）。</p><h4>2. <strong>读写性能</strong></h4><ul><li><strong><code>Object</code></strong>：</li></ul><ul><li><strong>读取/写入速度</strong>：对于静态键（提前确定的键名），访问速度极快，因为 JavaScript 引擎会对对象属性进行优化（如静态属性的偏移量缓存）。</li><li><strong>动态键场景</strong>：如果键名是动态生成的（如通过变量拼接），性能会略有下降（需哈希计算），但仍优于 <code>Map</code> 对非字符串键的处理。</li></ul><ul><li><strong><code>Map</code></strong>：</li><li><strong>读取/写入速度</strong>：对于频繁的增删改查（尤其是动态键或非字符串键），性能更稳定。</li><li>优势体现在：键可以是任意类型（无需转换）、内部哈希表优化更适合高频动态操作。</li><li>劣势：对于静态字符串键，访问速度通常比 <code>Object</code> 慢 10%-30%（不同引擎优化不同）。</li></ul><h4>3. <strong>遍历性能</strong></h4><ul><li><strong><code>Object</code></strong>：</li></ul><p>遍历需要先获取键名（<code>Object.keys()</code> 等），再迭代访问，步骤较多。</p><p>且会遍历自身可枚举属性（需注意原型链污染问题），额外消耗性能。</p><ul><li><strong><code>Map</code></strong>：</li></ul><p>原生支持迭代器（<code>for...of</code> 直接遍历），遍历速度通常比 <code>Object</code> 快，尤其是键值对数量较多时。</p><p>且 <code>Map</code> 的 <code>size</code> 属性可直接获取长度（<code>Object</code> 需要 <code>keys().length</code> 计算），更高效。</p><h4>4. <strong>极端场景测试</strong></h4><ul><li><strong>小规模数据（<100 键值对）</strong>：</li></ul><p><code>Object</code> 性能略优，内存占用更低，适合简单配置、数据存储。</p><ul><li><strong>大规模数据（>1000 键值对）</strong>：</li></ul><p><code>Map</code> 在频繁增删、动态键、遍历场景下性能更稳定，<code>Object</code> 可能因哈希冲突导致性能波动。</p><ul><li><strong>非字符串键</strong>：</li></ul><p><code>Map</code> 优势明显（无需转换键类型），<code>Object</code> 需要手动处理键名转换（如将对象转为字符串标识），既麻烦又影响性能。</p><h3><strong>使用建议</strong></h3><p>| 场景                           | 推荐选择 | 理由                                                              |</p><p>| ------------------------------ | -------- | ----------------------------------------------------------------- |</p><p>| 静态键名（如 <code>{ name: &#39;a&#39; }</code>） | <code>Object</code> | 访问速度快，语法简洁，适合数据结构固定的场景（如配置、DTO）。     |</p><p>| 动态键名（如变量作为键）       | <code>Map</code>    | 无需处理键名转换，增删改查性能更稳定。                            |</p><p>| 非字符串键（对象、函数等）     | <code>Map</code>    | 原生支持任意类型键，<code>Object</code> 会强制转换键为字符串，可能导致冲突。 |</p><p>| 频繁增删或遍历                 | <code>Map</code>    | 迭代器优化更好，<code>size</code> 属性获取高效，适合缓存、集合类场景。       |</p><p>| 序列化需求（<code>JSON.stringify</code>） | <code>Object</code> | <code>Map</code> 无法直接序列化，需手动转换为对象，<code>Object</code> 原生支持。       |</p><h3><strong>总结</strong></h3><ul><li><strong><code>Object</code></strong> 适合静态、简单的键值对存储，语法简洁，内存占用低，静态访问速度快。</li><li><strong><code>Map</code></strong> 适合动态、复杂的键值对场景（尤其是非字符串键、高频增删遍历），性能更稳定。</li></ul><p>性能差异在大多数业务场景中不明显，优先根据代码可读性和功能需求选择，极端性能敏感场景（如大数据处理）再针对性优化。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Webpack] 如何将一些通用的依赖打包成一个独立的 bundle【热度: 643】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：依赖打包&lt;/p&gt;&lt;p&gt;在 Webpack 中，将一些通用的依赖，如 React、React DOM、React Router 等库和框架，打包成一个独立的 bundle，通常是为了长期缓存和减少每次部署更新的下载量。这可以通过 &quot;代" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Webpack] 如何将一些通用的依赖打包成一个独立的 bundle【热度: 643】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：依赖打包&lt;/p&gt;&lt;p&gt;在 Webpack 中，将一些通用的依赖，如 React、React DOM、React Router 等库和框架，打包成一个独立的 bundle，通常是为了长期缓存和减少每次部署更新的下载量。这可以通过 &quot;代码分割&quot; (code splitting) 和 &quot;优化&quot; (optimization) 配置来实现。&lt;/p&gt;&lt;p&gt;以下是" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/766" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Webpack] 如何将一些通用的依赖打包成一个独立的 bundle【热度: 643】</h1>
+      <div class="subtitle">工程化 · 工程化 · TOP100互联网</div>
+      <div class="meta">创建：2024-05-26T02:58:52Z · 更新：2024-07-04T14:22:30Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：依赖打包</p><p>在 Webpack 中，将一些通用的依赖，如 React、React DOM、React Router 等库和框架，打包成一个独立的 bundle，通常是为了长期缓存和减少每次部署更新的下载量。这可以通过 "代码分割" (code splitting) 和 "优化" (optimization) 配置来实现。</p><p>以下是 Webpack 中分离通用依赖的几个步骤：</p><ol><li><strong>使用 <code>entry</code> 来定义不同的入口点</strong>: 可以通过配置一个额外的入口来创建一个只包含通用库的 bundle，也就是所谓的 "vendor" bundle。</li></ol><pre class="code-block"><code class="language-javascript">module.exports = {
+  entry: {
+    main: &quot;./src/index.js&quot;, // 你的应用代码
+    vendor: [&quot;react&quot;, &quot;react-dom&quot;, &quot;react-router&quot;], // 指定共享库
+  },
+  // ...
+};
+</code></pre><ol><li><strong>使用 <code>SplitChunksPlugin</code></strong>: 这个插件可以将共享代码分割成不同的 chunks，并可以通过配置将其从业务代码中分离出来。在 Webpack 4 及之后的版本中，默认内置了 <code>optimization.splitChunks</code>，就是这个插件的配置方法。</li></ol><pre class="code-block"><code class="language-javascript">module.exports = {
+  // ...
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/, // 指定是 node_modules 下的第三方包
+          name: &quot;vendors&quot;, // 打包后的文件名，任意命名
+          chunks: &quot;all&quot;, // 对所有的 chunk 生效
+        },
+      },
+    },
+  },
+};
+</code></pre><ol><li><strong>配置 <code>output</code></strong>: 虽然不是必须的，你还可以在 output 中定义 <code>filename</code> 和 <code>chunkFilename</code>，来控制主入口和非主入口 chunks 的文件名。</li></ol><pre class="code-block"><code class="language-javascript">output: {
+  filename: &#39;[name].[contenthash].js&#39;,
+  chunkFilename: &#39;[name].[contenthash].js&#39;
+}
+</code></pre><p>通过这样的配置，Webpack 在打包时会自动将 node_modules 中的依赖和业务代码分离开来，业务代码会被打包到 <code>main</code> chunk 中，而第三方库则会打包到 <code>vendors</code> chunk。</p><h2>Comments / Answers</h2><hr /><p><strong>liam61</strong> at 2024-07-04T14:22:29Z</p><p>dll</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

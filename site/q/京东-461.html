@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[代码实现] 实现数组的flat方法，支持深度层级参数 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;可以通过传入一个深度参数来限制 flat 方法的递归深度。实现如下：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code&gt;function flat(arr, depth = 1) { let res = []; for (let i = 0; i &amp;lt; " />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[代码实现] 实现数组的flat方法，支持深度层级参数" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;可以通过传入一个深度参数来限制 flat 方法的递归深度。实现如下：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code&gt;function flat(arr, depth = 1) { let res = []; for (let i = 0; i &amp;lt; arr.length; i++) { if (Array.isArray(arr[i]) &amp;amp;&amp;amp; dept" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/461" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[代码实现] 实现数组的flat方法，支持深度层级参数</h1>
+      <div class="subtitle">京东 · 京东 · 代码实现/算法</div>
+      <div class="meta">创建：2023-06-14T15:13:38Z · 更新：2023-09-06T15:52:11Z</div>
+    </div>
+    <article class="content markdown-body"><p>可以通过传入一个深度参数来限制 flat 方法的递归深度。实现如下：</p><pre class="code-block"><code>function flat(arr, depth = 1) {
+  let res = [];
+  for (let i = 0; i &lt; arr.length; i++) {
+    if (Array.isArray(arr[i]) &amp;&amp; depth &gt; 0) {
+      res = res.concat(flat(arr[i], depth - 1));
+    } else {
+      res.push(arr[i]);
+    }
+  }
+  return res;
+}
+</code></pre><p>这里在原有的 flat 方法基础上增加了一个 depth 参数，每递归一层，深度就减一，当深度为 0 时就不再递归。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

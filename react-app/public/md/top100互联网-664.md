@@ -1,0 +1,71 @@
+# 递归和尾递归是什么概念?【热度: 649】
+
+**关键词**：递归和尾递归
+
+递归和尾递归都是指在函数内部调用自身的方式，但它们有一些关键的区别。
+
+**概念**
+
+递归是一种函数调用自身的方式。在递归中，函数会不断地调用自身，直到满足某个终止条件才停止递归。递归通常使用在解决可以通过重复拆分为更小的子问题来解决的问题上。但是，递归可能会导致函数调用的层级过深，消耗大量的内存，因为每次递归调用都会在内存中创建一个新的函数调用帧。如果没有正确的终止条件，递归可能会导致无限循环。
+
+尾递归是一种特殊的递归形式，在尾递归中，递归调用是函数的最后一个操作，并且递归调用的结果直接返回，没有进行任何额外的操作。因此，尾递归不会导致函数调用栈的增长，每次递归调用都会覆盖当前的函数帧。尾递归可以避免函数调用栈溢出的问题，因为它在递归调用时不会导致函数调用栈的增长。尾递归通常使用在需要迭代大量数据的情况下，可以有效地优化性能。
+
+要注意，不是所有的递归都可以被优化为尾递归，只有当递归调用是函数的最后一个操作时，才可以进行尾递归优化。在一些编程语言中，编译器或解释器可以自动进行尾递归优化，将尾递归转换为迭代循环，从而提高性能。但在一些语言中，需要显示地使用尾递归优化的技巧，如使用尾递归函数的辅助参数来保存中间结果。
+
+**示例**
+
+下面是一个递归函数的例子，用于计算一个正整数的阶乘：
+
+```javascript
+function factorial(n) {
+  if (n === 0) { // 终止条件
+    return 1;
+  } else {
+    return n * factorial(n - 1); // 递归调用
+  }
+}
+
+console.log(factorial(5)); // 输出 120
+```
+
+现在，我们将对上述递归函数进行尾递归优化。在这个例子中，我们使用一个辅助参数`result`来保存每次递归调用的结果，并将其作为参数传递给下一次递归调用。这样，递归调用不会导致函数调用栈的增长。
+
+```javascript
+function factorialTail(n, result = 1) {
+  if (n === 0) { // 终止条件
+    return result;
+  } else {
+    return factorialTail(n - 1, n * result); // 尾递归调用
+  }
+}
+
+console.log(factorialTail(5)); // 输出 120
+```
+
+通过使用尾递归优化，我们可以避免函数调用栈的溢出，并提高函数的性能。
+
+**如何理解：只有当递归调用是函数的最后一个操作时，才可以进行尾递归优化**
+
+在一个函数中，如果递归调用之后还有其他的操作或表达式需要执行，那么这个递归调用就不是尾递归。在这种情况下，函数需要等待递归调用的返回值，然后才能进行下一步操作。
+
+而尾递归是指在函数的最后一步操作中进行的递归调用。这意味着函数在调用自身之后没有其他操作或表达式需要执行，直接返回递归调用的结果。这种情况下，函数可以被优化为尾递归形式，避免函数调用栈的溢出和性能问题。
+
+在尾递归优化的代码示例中，递归调用factorialTail(n - 1, n * result)是函数factorialTail的最后一步操作，它的返回值直接作为函数的返回值，没有其他操作需要执行。因此，这个递归调用是尾递归，可以进行尾递归优化。
+
+
+## Comments / Answers
+
+---
+
+**java6688** at 2024-03-21T08:39:45Z
+
+递归尾调用在debugger时也会导致函数调用栈的增长，为啥？求解惑
+![image](https://github.com/pro-collection/interview-question/assets/50446562/acd52f30-7e31-4e75-bce6-132bffc3ff89)
+
+---
+
+**wshhxyz** at 2024-07-07T05:41:43Z
+
+> 递归尾调用在debugger时也会导致函数调用栈的增长，为啥？求解惑 ![image](https://private-user-images.githubusercontent.com/50446562/315213013-acd52f30-7e31-4e75-bce6-132bffc3ff89.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MjAzMzExMjYsIm5iZiI6MTcyMDMzMDgyNiwicGF0aCI6Ii81MDQ0NjU2Mi8zMTUyMTMwMTMtYWNkNTJmMzAtN2UzMS00ZTc1LWJjZTYtMTMyYmZmYzNmZjg5LnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDA3MDclMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQwNzA3VDA1NDAyNlomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTQ5NWM3MzVmODRhZTM1ZTZiNDU4NTM0NmEzMGZlN2VhZGVhMDUyNzVjODllZDNmZWFkMTY3OTRjNDlkNGRlYjAmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD0wIn0.3PsKUQGKacUHcowrYuGc1WOw1hACxqXCkT6qTZ9ndRQ)
+
+尾递归优化已经普遍取消了，现在可能只有safari浏览器还支持

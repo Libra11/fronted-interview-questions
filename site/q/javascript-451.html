@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>函数声明与函数表达式的区别【热度: 551】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：函数声明、函数表达式&lt;/p&gt;&lt;p&gt;JavaScript中有两种主要的方式来定义函数：函数声明（Function Declaration）和函数表达式（Function Expression）。&lt;/p&gt;&lt;ol&gt;&lt;li&gt;函数声明（Fun" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="函数声明与函数表达式的区别【热度: 551】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：函数声明、函数表达式&lt;/p&gt;&lt;p&gt;JavaScript中有两种主要的方式来定义函数：函数声明（Function Declaration）和函数表达式（Function Expression）。&lt;/p&gt;&lt;ol&gt;&lt;li&gt;函数声明（Function Declaration）：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;函数声明是通过使用 &lt;code&gt;functio" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/451" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>函数声明与函数表达式的区别【热度: 551】</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-06-12T15:59:38Z · 更新：2023-06-12T15:59:38Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：函数声明、函数表达式</p><p>JavaScript中有两种主要的方式来定义函数：函数声明（Function Declaration）和函数表达式（Function Expression）。</p><ol><li>函数声明（Function Declaration）：</li></ol><ul><li>函数声明是通过使用 <code>function</code> 关键字后面跟着函数名称来创建的，通常位于作用域的顶部。</li><li>函数声明会被提升（Hoisting），即在执行代码之前就可以使用。这意味着可以在函数声明之前调用该函数。</li><li>函数声明创建的函数可以在整个作用域内部访问。</li></ul><p>示例：</p><pre class="code-block"><code class="language-javascript">function sayHello() {
+  console.log(&quot;Hello!&quot;);
+}
+
+sayHello(); // 可以在函数声明之后调用
+</code></pre><ol><li>函数表达式（Function Expression）：</li></ol><ul><li>函数表达式是将函数赋值给变量或作为其他表达式的一部分创建的。</li><li>函数表达式通常是匿名函数，即没有指定函数名称。但也可以使用具名函数表达式，为函数表达式指定一个名称。</li><li>函数表达式不会被提升，必须在定义之后才能使用。</li><li>函数表达式创建的函数只能在其所在的变量或表达式作用域内访问。</li></ul><p>示例：</p><pre class="code-block"><code class="language-javascript">// 匿名函数表达式
+const sayHello = function() {
+  console.log(&quot;Hello!&quot;);
+};
+
+sayHello(); // 必须在函数表达式之后调用
+
+// 具名函数表达式
+const add = function sum(a, b) {
+  return a + b;
+};
+
+console.log(add(2, 3)); // 输出: 5
+// console.log(sum(2, 3)); // 错误，无法在外部访问具名函数表达式的名称
+</code></pre><p>总结：</p><ul><li>函数声明是使用 <code>function</code> 关键字创建的函数，会被提升，可以在声明之前调用，而且在整个作用域内都可访问。</li><li>函数表达式是将函数赋值给变量或作为其他表达式的一部分创建的，不会被提升，必须在定义之后才能使用，且只能在其所在的变量或表达式作用域内访问。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

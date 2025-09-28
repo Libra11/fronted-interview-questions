@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如果用户说 web 应用感觉很反应慢或者卡顿，该如何排查？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h3&gt;如果用户觉得 web 应用反应卡顿， 主要从哪几个方面来排查？&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;加载慢&lt;/li&gt;&lt;li&gt;资源下载慢&lt;/li&gt;&lt;li&gt;首屏并发请求资源过多&lt;/li&gt;&lt;li&gt;首屏接口慢&lt;/li&gt;&lt;li&gt;首屏对应的 JS 执行慢&lt;/li&gt;&lt;li&gt;首屏渲染慢&lt;/li&gt;&lt;l" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如果用户说 web 应用感觉很反应慢或者卡顿，该如何排查？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h3&gt;如果用户觉得 web 应用反应卡顿， 主要从哪几个方面来排查？&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;加载慢&lt;/li&gt;&lt;li&gt;资源下载慢&lt;/li&gt;&lt;li&gt;首屏并发请求资源过多&lt;/li&gt;&lt;li&gt;首屏接口慢&lt;/li&gt;&lt;li&gt;首屏对应的 JS 执行慢&lt;/li&gt;&lt;li&gt;首屏渲染慢&lt;/li&gt;&lt;li&gt;首屏加载静态资源过大&lt;/li&gt;&lt;li&gt;.......&lt;/li&gt;&lt;li&gt;执行过程慢&lt;/li&gt;&lt;li&gt;接口慢&lt;/li&gt;&lt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/253" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如果用户说 web 应用感觉很反应慢或者卡顿，该如何排查？</h1>
+      <div class="subtitle">工程化 · 工程化</div>
+      <div class="meta">创建：2023-04-05T13:23:29Z · 更新：2023-09-09T06:18:59Z</div>
+    </div>
+    <article class="content markdown-body"><h3>如果用户觉得 web 应用反应卡顿， 主要从哪几个方面来排查？</h3><ul><li>加载慢</li><li>资源下载慢</li><li>首屏并发请求资源过多</li><li>首屏接口慢</li><li>首屏对应的 JS 执行慢</li><li>首屏渲染慢</li><li>首屏加载静态资源过大</li><li>.......</li><li>执行过程慢</li><li>接口慢</li><li>long tasks 太多, 阻塞 JS 执行</li><li>内存泄漏</li><li>重绘重排 过多</li><li>关键节点没有加 节流防抖</li><li>.......</li></ul><h3>主要排查手段有哪些</h3><ul><li><strong>通过建立性能监控指标</strong>: 通过真实用户数据反馈， 来判断用户是否卡顿， 包含网络监控、运行时性能监控</li></ul><ul><li><strong>Chrome devtools: NetWork</strong> 主要排查网络问题</li></ul><p><img width="1469" alt="image" src="https://user-images.githubusercontent.com/22188674/229800903-409009dd-105a-49e2-a7c4-4ed54c92210e.png"></p><ul><li><strong>Chrome devtools: Performance</strong> 主要细查性能运行时性能，包含了 long tasks、render 次数、重排重绘、执行时间线、阻塞场景</li></ul><p><img width="973" alt="image" src="https://user-images.githubusercontent.com/22188674/229800739-3b8099bb-1aca-423a-a2d7-12c151becd47.png"></p><ul><li><strong>Chrome devtools: Performance monitor</strong> 主要监控用户运行时性能，看看是否有内存泄露</li></ul><p><img width="597" alt="image" src="https://user-images.githubusercontent.com/22188674/229800314-4d1ae73a-50a2-47b0-bbf4-57d5ece7d4b7.png"></p><ul><li><strong>React Developer Tools</strong>: 可以用于追踪 react 应用性能、渲染次数、重排重绘</li></ul><p><img alt="image" src="https://user-images.githubusercontent.com/22188674/229801498-3cc4fc25-64a5-4b9e-ace8-5ed7b96e4ac2.png" /></p><ul><li><strong>Lighthouse</strong>: 全面分析网页性能的一个工具、支持浏览器插件</li></ul><p><img alt="image" src="https://user-images.githubusercontent.com/22188674/229803209-505d01da-d780-4a3e-abe7-e56cd942a64b.png" /></p><ul><li><strong>webpack-bundle-analyzer</strong>: 进行产物依赖分析、包大小分析</li></ul><ul><li><strong>抓包</strong>: 通过抓包的方式， 看看线上请求分析、请求模拟、网络劫持之后仅仅看 JS 执行时间</li></ul><ul><li><strong>E2E测试</strong>: 通过 E2E 进行性能预检， 每次上线前进行一系列系统操作， 看看时间耗时和线上耗时波动</li></ul><h3>主要解决办法和思路</h3><p><strong>首屏加载慢的方向</strong></p><ul><li>资源加载方向</li><li>使用 <code>tree shaking</code> 减少包体积</li><li>代码压缩和混淆</li><li>对于高版本浏览器， 直接使用 ES6 语法，低版本浏览器再使用 ES5（es6 语法代码量会比编译成 es5 代码量小很多， 且执行速度也快）</li><li>使用 <code>split chunks</code> 进行大包拆分、小包复用</li><li>使用 <code>gzip</code></li><li>使用 图片压缩</li><li>使用 雪碧图</li><li>图标使用 <code>iconfont</code> 加载</li><li>懒加载， 仅加载首屏必要资源</li><li>使用 <code>tailwindcss</code> 等技术， 复用 css</li><li>使用 <code>微前端</code> 技术，首屏仅加载当前子应用页面，可以做到只加载整站很少的一部分代码</li><li>首屏非必要依赖尽量延后到 FMP 或者 TTI 之后再加载</li><li>组件微前端化</li></ul><ul><li>渲染方向</li><li>尽量减少重排重绘</li><li>减少重复渲染（useMemo、useCallback、memo 等）</li><li>减少 setState 次数（多次 setState 可以合并为一次）</li><li>尽量减少 dom 节点深度</li></ul><ul><li>网络方向</li><li>使用流式服务端渲染， 可以查看文档：https://juejin.cn/post/6953819275941380109</li><li>使用服务端渲染， 减少首屏请求</li><li>使用 SSG 静态站点生成</li><li>首屏必要数据， 不作客户端请求， 用后端模板注入</li><li>使用 BFF 进行请求聚合</li><li>使用 CDN 进行网络请求分发</li><li>DNS Prefetch</li><li>资源预加载（在闲暇时间加载后续页面所需要的资源和接口，例如：link rel preload）</li><li>启用 HTTP2 多路复用</li><li>在业务逻辑上， 首屏必要接口提前（例如在 html 加载的那一瞬间，利用一个非常小的 js 文件将首屏需要的请求发送出去, 然后缓存下来， 到业务使用的时候直接就使用即可）</li><li>使用缓存技术缓存资源与请求：强缓存、协商缓存、离线缓存、Service Worker 缓存、后端业务缓存</li></ul><p><strong>运行时卡顿方向</strong></p><ul><li>查看是否存在有有 <code>long tasks</code>， 有计划的拆解 <code>long tasks</code></li><li>解决项目中复杂度问题： https://www.jianshu.com/p/ffbb25380904</li><li>排查项目是否有内存泄露</li><li>排查特定业务流程是否有慢接口</li><li>高复杂计算逻辑放在 service worker 处理</li></ul><h3>参考文档</h3><ul><li>https://juejin.cn/post/7096144248713510943</li><li>https://juejin.cn/post/6882936217609732110</li><li>https://juejin.cn/post/7119074496610304031</li><li>https://juejin.cn/post/7159807927908302884</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

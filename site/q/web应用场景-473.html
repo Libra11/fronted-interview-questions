@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>package.json 里面 sideEffects 属性的作用是啥【热度: 629】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：sideEffects作用、package.json sideEffects 属性、webpack Tree Shaking 优化、Tree Shaking 优化&lt;/p&gt;&lt;h3&gt;sideEffects 作用&lt;/h3&gt;&lt;p&gt;&lt;code" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="package.json 里面 sideEffects 属性的作用是啥【热度: 629】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：sideEffects作用、package.json sideEffects 属性、webpack Tree Shaking 优化、Tree Shaking 优化&lt;/p&gt;&lt;h3&gt;sideEffects 作用&lt;/h3&gt;&lt;p&gt;&lt;code&gt;sideEffects&lt;/code&gt;是&lt;code&gt;package.json&lt;/code&gt;文件中的一个字段，它用于指定一" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/473" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>package.json 里面 sideEffects 属性的作用是啥【热度: 629】</h1>
+      <div class="subtitle">web应用场景 · web应用场景 · 京东</div>
+      <div class="meta">创建：2023-07-06T14:25:20Z · 更新：2023-07-06T14:25:33Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：sideEffects作用、package.json sideEffects 属性、webpack Tree Shaking 优化、Tree Shaking 优化</p><h3>sideEffects 作用</h3><p><code>sideEffects</code>是<code>package.json</code>文件中的一个字段，它用于指定一个模块是否具有副作用。副作用是指模块在加载时会执行一些特定的操作，而不仅仅是导出一个函数或对象。</p><p><code>sideEffects</code>字段可以有以下几种取值：</p><ul><li><code>true</code>：表示模块具有副作用，即模块加载时会执行一些操作。这是默认值，如果没有在<code>package.json</code>中明确指定<code>sideEffects</code>字段，则假设为<code>true</code>。</li><li><code>false</code>：表示模块没有副作用，即模块加载时不会执行任何操作。这意味着该模块只导出函数、对象或其他静态内容，并且不依赖于其他模块的副作用。</li><li>数组：可以将模块的具体文件路径或文件匹配模式（使用glob模式）列在数组中，以指定哪些文件具有副作用，哪些文件没有副作用。例如，<code>[&quot;./src/&lt;em&gt;.js&quot;, &quot;!./src/utils/&lt;/em&gt;.js&quot;]</code>表示<code>src</code>目录下的所有<code>.js</code>文件都具有副作用，但是<code>src/utils</code>目录下的<code>.js</code>文件没有副作用。</li></ul><p>使用<code>sideEffects</code>字段可以帮助构建工具（如Webpack）进行优化。如果模块没有副作用，构建工具可以进行更好的摇树优化（tree shaking），即只保留项目所需的代码，而将未使用的代码消除，从而减小最终打包文件的大小。</p><p>注意：在使用<code>sideEffects</code>字段时，需要确保你的代码确实没有副作用，否则可能会导致意外的行为。</p><h3>sideEffects 是如何辅助 webpack 进行优化的？</h3><p><code>sideEffects</code>字段可以帮助Webpack进行摇树优化（Tree Shaking），从而减小最终打包文件的大小。摇树优化是指只保留项目所需的代码，而将未使用的代码消除。</p><p>当Webpack打包时，它会通过静态分析来确定哪些导入的模块实际上被使用了，然后只保留这些被使用的代码，并将未使用的代码从最终的打包文件中删除。</p><p>在这个过程中，Webpack会检查模块的<code>sideEffects</code>字段。如果一个模块具有<code>sideEffects</code>字段，并且设置为<code>false</code>，Webpack会认为该模块没有副作用。Webpack会在摇树优化过程中将未使用的导出从该模块中删除，因为它不会影响项目的功能。</p><p>然而，如果一个模块具有<code>sideEffects</code>字段，并且设置为<code>true</code>或是一个数组，Webpack会认为该模块具有副作用。在摇树优化过程中，Webpack会保留该模块的所有导出，因为它不能确定哪些代码是副作用的。这样可以确保项目中需要的副作用代码不会被误删除。</p><p>因此，通过正确使用<code>sideEffects</code>字段，可以帮助Webpack更好地优化打包文件，减少不必要的代码，提高应用程序的性能。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>`display: block;`和`display: inline;`的区别 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;code&gt;block&lt;/code&gt;元素特点：&lt;/p&gt;&lt;p&gt;1.处于常规流中时，如果&lt;code&gt;width&lt;/code&gt;没有设置，会自动填充满父容器&lt;/p&gt;&lt;p&gt;2.可以应用&lt;code&gt;margin/padding&lt;/code&gt;&lt;/p&gt;&lt;p&gt;3.在没有设置高度的情况下会扩展" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="`display: block;`和`display: inline;`的区别" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;code&gt;block&lt;/code&gt;元素特点：&lt;/p&gt;&lt;p&gt;1.处于常规流中时，如果&lt;code&gt;width&lt;/code&gt;没有设置，会自动填充满父容器&lt;/p&gt;&lt;p&gt;2.可以应用&lt;code&gt;margin/padding&lt;/code&gt;&lt;/p&gt;&lt;p&gt;3.在没有设置高度的情况下会扩展高度以包含常规流中的子元素&lt;/p&gt;&lt;p&gt;4.处于常规流中时布局时在前后元素位置之间（独占一个水平空间）&lt;/p&gt;&lt;p&gt;5." />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/59" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>`display: block;`和`display: inline;`的区别</h1>
+      <div class="subtitle">CSS · CSS</div>
+      <div class="meta">创建：2023-03-10T15:19:36Z · 更新：2023-03-10T15:19:37Z</div>
+    </div>
+    <article class="content markdown-body"><p>`<code>block</code>`元素特点：</p><p>1.处于常规流中时，如果`<code>width</code>`没有设置，会自动填充满父容器</p><p>2.可以应用`<code>margin/padding</code>`</p><p>3.在没有设置高度的情况下会扩展高度以包含常规流中的子元素</p><p>4.处于常规流中时布局时在前后元素位置之间（独占一个水平空间）</p><p>5.忽略`<code>vertical-align</code>`</p><p>`<code>inline</code>`元素特点</p><p>1.水平方向上根据`<code>direction</code>`依次布局</p><p>2.不会在元素前后进行换行</p><p>3.受`<code>white-space</code>`控制</p><p>4.`<code>margin/padding</code>`在竖直方向上无效，水平方向上有效</p><p>5.`<code>width/height</code>`属性对非替换行内元素无效，宽度由元素内容决定</p><p>6.非替换行内元素的行框高由`<code>line-height</code><code>确定，替换行内元素的行框高由</code><code>height</code><code>,</code><code>margin</code><code>,</code><code>padding</code><code>,</code><code>border</code>`决定</p><p>6.浮动或绝对定位时会转换为`<code>block</code>`</p><p>7.`<code>vertical-align</code>`属性生效</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

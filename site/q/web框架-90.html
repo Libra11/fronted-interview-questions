@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>redux-thunk 和 redux 是什么关系？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h2&gt;理解redux和redux的中间件redux-thunk&lt;/h2&gt;&lt;p&gt;目录&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;#Action的认识&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Action的认识&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#Re" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="redux-thunk 和 redux 是什么关系？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h2&gt;理解redux和redux的中间件redux-thunk&lt;/h2&gt;&lt;p&gt;目录&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;#Action的认识&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Action的认识&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#Reducer的认识&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Reducer的认识&lt;/a&gt;&lt;/li&gt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/90" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>redux-thunk 和 redux 是什么关系？</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2023-03-11T12:52:40Z · 更新：2023-03-11T12:52:41Z</div>
+    </div>
+    <article class="content markdown-body"><h2>理解redux和redux的中间件redux-thunk</h2><p>目录</p><ul><li><a href="#Action的认识" target="_blank" rel="noopener">Action的认识</a></li><li><a href="#Reducer的认识" target="_blank" rel="noopener">Reducer的认识</a></li><li><a href="#Store的认识" target="_blank" rel="noopener">Store的认识</a></li><li><a href="#上面三者的使用案例" target="_blank" rel="noopener">上面三者的使用案例</a></li><li><a href="#Action创建函数" target="_blank" rel="noopener">Action创建函数</a></li><li><a href="#redux-thunk中间件的认识" target="_blank" rel="noopener">redux-thunk中间件的认识</a></li><li><a href="#参考文章" target="_blank" rel="noopener">参考文章</a></li></ul><h2>Action的认识</h2><p>简单点说Action就是一个对象，一个必须带key为type的对象[value是自己定义的]，其他的key就根据用户自己喜好自己定义:</p><p>以下都是action的定义</p><pre class="code-block"><code>1、{type:”ADD”}
+2、{type:”ADD”,key1:”“,key2:”“}
+</code></pre><h2>Reducer的认识</h2><p>别主观意识就是类似数组中的reduce，也不是只能定义reducer，它仅仅是一个称呼，纯函数，</p><p>函数名次自己随便定义都可以，但是函数的参数只能是<strong>state与action</strong>,</p><p>可以简单的理解为一个工厂函数，传递一个旧的state通过加工后产出一个新的state：</p><p>简单的代码如下：</p><pre class="code-block"><code class="language-js">function count(state = 0, action) {
+    switch (action.type) {
+        case &#39;ADD&#39;:
+            return state + 1;
+        case &#39;REDUCER&#39;:
+            return state - 1;
+        default:
+            return state;
+    }
+}
+</code></pre><p>如果当state是对象的时候上面的代码是错误的:</p><p>redux里面规定state是不能修改的。</p><p>在javascript中对象是引用数据类型，当你修改了state的时候，变化前后的两个state将会指向同一个地址的，react-redux就会以为这两个相同的state，因为不会执行渲染</p><p>解决办法，我们用Object.assign去处理，如有不清楚Object.assign，请参考Object.assign文档</p><h2>Store的认识</h2><p>store是一个全局对象，将action和reducer以及state联系在一起，主要职责:</p><p>维护应用的state</p><p>提供getState()方法获取state</p><p>提供dispatch(action)方法更新state</p><p>通过subscribe(方法)注册监听器</p><h2>上面三者的使用案例</h2><pre class="code-block"><code class="language-js">&#39;use strict&#39;;
+import {createStore} from &#39;redux&#39;;
+function count(state = 0, action) {
+    switch (action.type) {
+        case &#39;ADD&#39;:
+            return state + 1;
+        case &#39;REDUCER&#39;:
+            return state - 1;
+        default:
+            return state
+    }
+}
+
+let store = createStore(count);
+
+let currentValue = store.getState();
+console.log(&#39;当前的值:&#39;, currentValue);
+
+//定义一个监听的方法
+let listener = () =&gt; {
+    const previosValue = currentValue;
+    currentValue = store.getState();
+    console.log(&#39;上一个值:&#39;, previosValue, &#39;当前值:&#39;, currentValue)
+};
+//创建一个监听
+store.subscribe(listener);
+//分发任务
+store.dispatch({type:&quot;ADD&quot;});
+store.dispatch({type:&quot;ADD&quot;});
+store.dispatch({type:&quot;ADD&quot;});
+store.dispatch({type:&quot;REDUCER&quot;});
+</code></pre><h2>Action创建函数</h2><p>上面我们说的action是一个对象，只是含有type的key的对象</p><p>action创建函数的意思就是创建一个action的函数，函数返回一个对象</p><pre class="code-block"><code class="language-js">function add(){
+    return{
+        type:&quot;ADD&quot;,
+    }
+}
+function reducer() {
+    return{
+        type:&quot;REDUCER&quot;,
+    }
+}
+</code></pre><p>使用的时候直接store.dispatch(add());就可以</p><p>action创建函数的意义:</p><p>action创建函数表面是返回一个对象</p><p>真正的意义在于逻辑的封装</p><h2>redux-thunk中间件的认识</h2><p>redux-thunk中间件可以让action创建函数先不返回一个action对象，而是返回一个函数，</p><p>函数传递两个参数(dispatch,getState),在函数体内进行业务逻辑的封装</p><pre class="code-block"><code class="language-js">function add() {
+    return {
+        type: &#39;ADD&#39;,
+    }
+}
+function addIfOdd() {
+    return (dispatch, getState) =&gt; {
+        const currentValue = getState();
+        if (currentValue % 2 == 0) {
+            return false;
+        }
+        //分发一个任务
+        dispatch(add())
+    }
+}
+</code></pre><h2>参考文章</h2><ul><li><a href="https://blog.csdn.net/kuangshp128/article/details/67632683" target="_blank" rel="noopener">理解redux和redux的中间件redux-thunk的认识</a></li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>前端两个 dom 元素是可以拖拽的， 要实现两个 dom 之间的连接线，如何实现【热度: 55】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：拖拽元素连线实现&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;基本思路和技术选择&lt;/strong&gt;&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;思路&lt;/strong&gt;：要实现两个可拖拽 DOM 元素之间的连接线，关键在于获取两个元素" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="前端两个 dom 元素是可以拖拽的， 要实现两个 dom 之间的连接线，如何实现【热度: 55】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：拖拽元素连线实现&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;基本思路和技术选择&lt;/strong&gt;&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;思路&lt;/strong&gt;：要实现两个可拖拽 DOM 元素之间的连接线，关键在于获取两个元素的位置信息，并根据这些位置动态地绘制连线。通常可以使用 HTML5 的 Canvas 或者 SVG 来实现连线的绘制。&lt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1083" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>前端两个 dom 元素是可以拖拽的， 要实现两个 dom 之间的连接线，如何实现【热度: 55】</h1>
+      <div class="subtitle">代码实现 · web应用场景 · 代码实现/算法</div>
+      <div class="meta">创建：2025-01-09T15:40:43Z · 更新：2025-01-09T15:40:44Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：拖拽元素连线实现</p><ol><li><strong>基本思路和技术选择</strong></li></ol><ul><li><strong>思路</strong>：要实现两个可拖拽 DOM 元素之间的连接线，关键在于获取两个元素的位置信息，并根据这些位置动态地绘制连线。通常可以使用 HTML5 的 Canvas 或者 SVG 来实现连线的绘制。</li><li><strong>技术对比</strong>：</li><li><strong>Canvas</strong>：它是一个通过 JavaScript 来绘制图形的 HTML 元素。使用 Canvas 绘制连线时，需要在每次元素位置变化时重新计算连线的起点和终点坐标，并通过 JavaScript 的绘图 API（如<code>beginPath</code>、<code>moveTo</code>、<code>lineTo</code>和<code>stroke</code>等）来绘制连线。Canvas 的优点是绘制性能高，适合绘制复杂的图形和动画；缺点是它是基于像素的绘制，对图形的操作（如修改、删除等）相对复杂。</li><li><strong>SVG（Scalable Vector Graphics）</strong>：它是一种基于 XML 的矢量图形格式，在 HTML 中可以直接使用 SVG 标签来定义图形。使用 SVG 绘制连线时，可以通过<code>&lt;line&gt;</code>标签来定义连线，并且可以利用 SVG 的属性（如<code>x1</code>、<code>y1</code>表示起点坐标，<code>x2</code>、<code>y2</code>表示终点坐标）来动态更新连线的位置。SVG 的优点是图形是矢量的，易于编辑和操作，并且可以通过 CSS 进行样式设置；缺点是在处理大量复杂图形时，性能可能不如 Canvas。</li></ul><ol><li><strong>使用 SVG 实现连接线（推荐方案）</strong></li></ol><ul><li><strong>步骤一：创建 SVG 元素并添加到 DOM 中</strong></li></ul><ul><li>在 HTML 文件中，首先创建一个 SVG 元素，并将其添加到文档的合适位置。例如：</li></ul><p>```html</p><p><div id="container"></p><p><svg id="svg-container" width="500" height="500"></svg></p><p></div></p><p>```</p><ul><li>这里创建了一个宽度和高度都为 500px 的 SVG 容器，并将其放置在一个<code>id</code>为<code>container</code>的<code>div</code>元素内部。</li></ul><ul><li><strong>步骤二：创建连线元素并设置初始位置（使用 JavaScript）</strong></li></ul><ul><li>假设已经有两个可拖拽的 DOM 元素，它们的<code>id</code>分别为<code>element1</code>和<code>element2</code>。在 JavaScript 中，可以通过以下方式创建连线并设置初始位置：</li></ul><p>```javascript</p><p>const svgContainer = document.getElementById("svg-container");</p><p>const element1 = document.getElementById("element1");</p><p>const element2 = document.getElementById("element2");</p><p>// 创建SVG连线元素</p><p>const line = document.createElementNS("http://www.w3.org/2000/svg", "line");</p><p>line.setAttribute("x1", element1.offsetLeft + element1.offsetWidth / 2);</p><p>line.setAttribute("y1", element1.offsetTop + element1.offsetHeight / 2);</p><p>line.setAttribute("x2", element2.offsetLeft + element2.offsetWidth / 2);</p><p>line.setAttribute("y2", element2.offsetTop + element2.offsetHeight / 2);</p><p>line.setAttribute("stroke", "black");</p><p>line.setAttribute("stroke - width", "2");</p><p>// 将连线元素添加到SVG容器中</p><p>svgContainer.appendChild(line);</p><p>```</p><ul><li>这段代码首先获取了 SVG 容器和两个可拖拽元素。然后使用<code>createElementNS</code>方法创建了一个 SVG 的<code>&lt;line&gt;</code>元素，这个方法是用于创建 SVG 元素的正确方式，因为 SVG 元素是在一个特定的命名空间下。接着，通过<code>setAttribute</code>方法设置了连线的起点（<code>x1</code>、<code>y1</code>）和终点（<code>x2</code>、<code>y2</code>）坐标，这里的坐标是根据元素的偏移位置（<code>offsetLeft</code>和<code>offsetTop</code>）以及元素宽度和高度的一半来计算的，这样连线就会连接到元素的中心位置。最后，设置了连线的颜色（<code>stroke</code>）和宽度（<code>stroke - width</code>），并将连线元素添加到 SVG 容器中。</li></ul><ul><li><strong>步骤三：更新连线位置（在元素拖拽事件中）</strong></li><li>为了在元素拖拽时更新连线的位置，需要在拖拽事件处理函数中添加代码来更新连线的起点和终点坐标。假设使用了 HTML5 的<code>drag</code>事件来实现元素的拖拽，以下是一个简单的示例：</li></ul><p>```javascript</p><p>element1.addEventListener("drag", (event) => {</p><p>line.setAttribute("x1", event.target.offsetLeft + event.target.offsetWidth / 2);</p><p>line.setAttribute("y1", event.target.offsetTop + event.target.offsetHeight / 2);</p><p>});</p><p>element2.addEventListener("drag", (event) => {</p><p>line.setAttribute("x2", event.target.offsetLeft + event.target.offsetWidth / 2);</p><p>line.setAttribute("y2", event.target.offsetTop + event.target.offsetHeight / 2);</p><p>});</p><p>```</p><ul><li>在这里，分别为两个可拖拽元素添加了<code>drag</code>事件监听器。当元素被拖拽时，会获取元素的新位置，并更新连线的起点（对于<code>element1</code>）或终点（对于<code>element2</code>）坐标，从而实现连线随着元素位置变化而动态更新的效果。</li></ul><ol><li><strong>使用 Canvas 实现连接线（替代方案）</strong></li></ol><ul><li><strong>步骤一：创建 Canvas 元素并获取绘图上下文</strong></li></ul><ul><li>在 HTML 文件中创建一个 Canvas 元素：</li></ul><p>```html</p><p><div id="container"></p><p><canvas id="canvas-container" width="500" height="500"></canvas></p><p></div></p><p>```</p><ul><li>然后在 JavaScript 中获取 Canvas 元素和它的绘图上下文（<code>2d</code>上下文用于绘制二维图形）：</li></ul><p>```javascript</p><p>const canvasContainer = document.getElementById("canvas-container");</p><p>const ctx = canvasContainer.getContext("2d");</p><p>```</p><ul><li><strong>步骤二：绘制初始连线（根据元素位置）</strong></li></ul><ul><li>同样假设已经有两个可拖拽的 DOM 元素，<code>id</code>为<code>element1</code>和<code>element2</code>。在 JavaScript 中计算连线的起点和终点坐标并绘制连线：</li></ul><p>```javascript</p><p>const element1 = document.getElementById("element1");</p><p>const element2 = document.getElementById("element2");</p><p>function drawLine() {</p><p>const x1 = element1.offsetLeft + element1.offsetWidth / 2;</p><p>const y1 = element1.offsetTop + element1.offsetHeight / 2;</p><p>const x2 = element2.offsetLeft + element2.offsetWidth / 2;</p><p>const y2 = element2.offsetTop + element2.offsetHeight / 2;</p><p>ctx.beginPath();</p><p>ctx.moveTo(x1, y1);</p><p>ctx.lineTo(x2, y2);</p><p>ctx.strokeStyle = "black";</p><p>ctx.lineWidth = 2;</p><p>ctx.stroke();</p><p>}</p><p>drawLine();</p><p>```</p><ul><li>这段代码定义了一个<code>drawLine</code>函数，在函数内部计算了连线的起点和终点坐标，然后使用 Canvas 的绘图 API（<code>beginPath</code>、<code>moveTo</code>、<code>lineTo</code>和<code>stroke</code>）来绘制连线，设置了连线的颜色（<code>strokeStyle</code>）和宽度（<code>lineWidth</code>）。</li></ul><ul><li><strong>步骤三：更新连线（在元素拖拽事件中）</strong></li><li>在元素拖拽事件处理函数中，需要清除之前绘制的连线（因为 Canvas 是基于像素的绘制，每次重新绘制都需要清除之前的内容），然后重新绘制连线：</li></ul><p>```javascript</p><p>element1.addEventListener("drag", (event) => {</p><p>ctx.clearRect(0, 0, canvasContainer.width, canvasContainer.height);</p><p>drawLine();</p><p>});</p><p>element2.addEventListener("drag", (event) => {</p><p>ctx.clearRect(0, 0, canvasContainer.width, canvasContainer.height);</p><p>drawLine();</p><p>});</p><p>```</p><ul><li>这里为两个可拖拽元素添加了<code>drag</code>事件监听器。当元素被拖拽时，首先使用<code>clearRect</code>方法清除整个 Canvas 画布，然后调用<code>drawLine</code>函数重新绘制连线，以实现连线随着元素位置变化而更新的效果。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

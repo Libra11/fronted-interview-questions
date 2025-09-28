@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[代码实现] 手写代码实现 promise.all - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;下面是手写实现 &lt;code&gt;Promise.all()&lt;/code&gt; 方法的代码：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;Promise.all = function (promises) " />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[代码实现] 手写代码实现 promise.all" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;下面是手写实现 &lt;code&gt;Promise.all()&lt;/code&gt; 方法的代码：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;Promise.all = function (promises) { return new Promise((resolve, reject) =&amp;gt; { let results =" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/107" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[代码实现] 手写代码实现 promise.all</h1>
+      <div class="subtitle">代码实现 · 代码实现/算法</div>
+      <div class="meta">创建：2023-03-15T13:49:06Z · 更新：2023-09-06T15:52:37Z</div>
+    </div>
+    <article class="content markdown-body"><p>下面是手写实现 <code>Promise.all()</code> 方法的代码：</p><pre class="code-block"><code class="language-javascript">Promise.all = function (promises) {
+  return new Promise((resolve, reject) =&gt; {
+    let results = [];
+    let count = 0;
+    promises.forEach((promise, index) =&gt; {
+      Promise.resolve(promise).then(
+        (result) =&gt; {
+          results[index] = result;
+          count++;
+          if (count === promises.length) {
+            resolve(results);
+          }
+        },
+        (reason) =&gt; {
+          reject(reason);
+        }
+      );
+    });
+  });
+};
+</code></pre><p>实现原理：</p><p><code>Promise.all()</code> 方法接收一个包含多个 Promise 的数组作为参数，并返回一个新的 Promise。该 Promise 将会在数组中所有 Promise 状态均为 <code>fulfilled</code> 时被解决，并且以数组形式返回所有 Promise 的结果。</p><p>我们可以通过创建一个新的 Promise，然后遍历 Promise 数组并将每个 Promise 包装在一个 <code>Promise.resolve()</code> 中，然后使用 <code>.then()</code> 方法将它们的解决值和拒绝原因分别传递给新的 Promise 的 <code>resolve()</code> 和 <code>reject()</code> 方法。我们还需要维护一个计数器和一个结果数组来跟踪所有 Promise 的状态。每当一个 Promise 被解决时，我们将其结果存储在结果数组中，然后将计数器增加 1。当计数器等于 Promise 数组的长度时，说明所有 Promise 均已被解决，此时我们可以使用 <code>resolve()</code> 方法并将结果数组作为参数传递给它。如果有任何一个 Promise 被拒绝，则使用 <code>reject()</code> 方法并将其拒绝原因作为参数传递给它。</p><p>需要注意的是，如果 Promise 数组为空，则 <code>Promise.all()</code> 将立即被解决，并返回一个空数组。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

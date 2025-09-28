@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>decodeURI 和 decodeURIComponent 有何区别【热度: 230】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;code&gt;decodeURI()&lt;/code&gt; 和 &lt;code&gt;decodeURIComponent()&lt;/code&gt; 是 JavaScript 中用于解码 URI（统一资源标识符）的两个方法，它们的核心区别在于解码范围和适用场景。&lt;/p&gt;&lt;h3&gt;&lt;strong&gt;1. 编" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="decodeURI 和 decodeURIComponent 有何区别【热度: 230】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;code&gt;decodeURI()&lt;/code&gt; 和 &lt;code&gt;decodeURIComponent()&lt;/code&gt; 是 JavaScript 中用于解码 URI（统一资源标识符）的两个方法，它们的核心区别在于解码范围和适用场景。&lt;/p&gt;&lt;h3&gt;&lt;strong&gt;1. 编码规则回顾&lt;/strong&gt;&lt;/h3&gt;&lt;p&gt;在 URI 中，某些字符（如空格、特殊符号）需要被编码为 &lt;code&gt;%&lt;/" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1117" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>decodeURI 和 decodeURIComponent 有何区别【热度: 230】</h1>
+      <div class="subtitle">京东 · web应用场景 · 京东</div>
+      <div class="meta">创建：2025-07-06T11:39:16Z · 更新：2025-07-06T11:39:16Z</div>
+    </div>
+    <article class="content markdown-body"><p><code>decodeURI()</code> 和 <code>decodeURIComponent()</code> 是 JavaScript 中用于解码 URI（统一资源标识符）的两个方法，它们的核心区别在于解码范围和适用场景。</p><h3><strong>1. 编码规则回顾</strong></h3><p>在 URI 中，某些字符（如空格、特殊符号）需要被编码为 <code>%</code> 后跟两位十六进制数。例如：</p><ul><li>空格被编码为 <code>%20</code></li><li><code>&amp;</code> 被编码为 <code>%26</code></li><li><code>#</code> 被编码为 <code>%23</code></li></ul><h3><strong>2. 核心区别</strong></h3><p>| 方法                   | 解码范围                                                 | 保留字符                        | 典型应用场景           |</p><p>| ---------------------- | -------------------------------------------------------- | ------------------------------- | ---------------------- |</p><p>| <code>decodeURI()</code>          | 解码整个 URI（如 <code>http://example.com/path?query=value</code>） | <code>;/?:@&amp;=+$,#</code>（URI 分隔符）     | 解码完整 URL           |</p><p>| <code>decodeURIComponent()</code> | 解码 URI 的组件部分（如查询参数、路径片段）              | 无保留字符（解码所有 <code>%</code> 编码） | 解码查询参数或路径参数 |</p><h3><strong>3. 示例对比</strong></h3><h4><strong>场景 1：解码完整 URL</strong></h4><pre class="code-block"><code class="language-javascript">const encodedUrl = &quot;http://example.com/path%2Fsubpath?param1=value1%26param2=value2&quot;;
+
+// 使用 decodeURI()
+decodeURI(encodedUrl);
+// 输出：http://example.com/path/subpath?param1=value1%26param2=value2
+// 注意：路径分隔符 `/`（%2F）和解码，但查询参数中的 `&amp;`（%26）未解码
+
+// 使用 decodeURIComponent()
+decodeURIComponent(encodedUrl);
+// 报错：URIError: malformed URI sequence
+// 原因：完整 URL 中的分隔符（如 `?`、`&amp;`）被错误解码
+</code></pre><h4><strong>场景 2：解码查询参数</strong></h4><pre class="code-block"><code class="language-javascript">const encodedParam = &quot;key1=value1%26key2=value2%23hash&quot;;
+
+// 使用 decodeURI()
+decodeURI(encodedParam);
+// 输出：key1=value1%26key2=value2%23hash
+// 注意：`&amp;`（%26）和 `#`（%23）未被解码
+
+// 使用 decodeURIComponent()
+decodeURIComponent(encodedParam);
+// 输出：key1=value1&amp;key2=value2#hash
+// 正确解码所有参数部分
+</code></pre><h3><strong>4. 常见误区</strong></h3><ul><li><strong>误用 <code>decodeURI()</code> 处理参数</strong>：若 URL 参数包含 <code>&amp;</code>、<code>=</code> 等符号，<code>decodeURI()</code> 不会解码它们，导致参数解析错误。</li></ul><p>```javascript</p><p>// 错误示例：查询参数中的 <code>&amp;</code> 未被解码</p><p>const query = "name=John%26Doe";</p><p>decodeURI(query); // "name=John%26Doe"（错误）</p><p>// 正确方式</p><p>decodeURIComponent(query); // "name=John&Doe"（正确）</p><p>```</p><ul><li><strong>误用 <code>decodeURIComponent()</code> 处理完整 URL</strong>：会破坏 URL 结构（如路径分隔符被解码）。</li></ul><p>```javascript</p><p>const url = "http://example.com/path%3Fparam=value"; // 假设路径中包含 <code>?</code></p><p>decodeURIComponent(url); // "http://example.com/path?param=value"（错误，路径被截断）</p><p>```</p><h3><strong>5. 总结</strong></h3><ul><li><strong>使用 <code>decodeURI()</code> 时</strong>：</li></ul><ul><li>处理完整 URL（如 <code>window.location.href</code>）。</li><li>保留 URI 中的特殊分隔符（如 <code>?</code>、<code>&amp;</code>、<code>/</code>）。</li></ul><ul><li><strong>使用 <code>decodeURIComponent()</code> 时</strong>：</li><li>处理 URI 的组件部分（如查询参数、路径参数）。</li><li>需要解码所有特殊字符（如表单提交的参数）。</li></ul><p><strong>口诀</strong>：</p><ul><li><strong>完整 URL</strong> → <code>decodeURI()</code></li><li><strong>参数片段</strong> → <code>decodeURIComponent()</code></li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

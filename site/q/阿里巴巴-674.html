@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>http 中 HSTS 是什么【热度: 374】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：http HSTS&lt;/p&gt;&lt;p&gt;HTTP &lt;code&gt;Strict-Transport-Security&lt;/code&gt;（HSTS）是一种安全策略，它通过 HTTP 头部告诉浏览器只能通过安全的 HTTPS 连接访问网站，从而增加网站" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="http 中 HSTS 是什么【热度: 374】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：http HSTS&lt;/p&gt;&lt;p&gt;HTTP &lt;code&gt;Strict-Transport-Security&lt;/code&gt;（HSTS）是一种安全策略，它通过 HTTP 头部告诉浏览器只能通过安全的 HTTPS 连接访问网站，从而增加网站的安全性。HSTS 有助于防止恶意攻击者通过中间人攻击（如SSL剥离攻击）窃取敏感信息。&lt;/p&gt;&lt;p&gt;HSTS 的主要作" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/674" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>http 中 HSTS 是什么【热度: 374】</h1>
+      <div class="subtitle">阿里巴巴 · 网络 · 阿里巴巴</div>
+      <div class="meta">创建：2024-01-29T15:07:23Z · 更新：2024-01-29T15:07:24Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：http HSTS</p><p>HTTP <code>Strict-Transport-Security</code>（HSTS）是一种安全策略，它通过 HTTP 头部告诉浏览器只能通过安全的 HTTPS 连接访问网站，从而增加网站的安全性。HSTS 有助于防止恶意攻击者通过中间人攻击（如SSL剥离攻击）窃取敏感信息。</p><p>HSTS 的主要作用包括：</p><ul><li><strong>强制使用 HTTPS：</strong> 通过 HSTS，网站可以强制浏览器在一定时间内只能通过 HTTPS 访问，提高数据的安全性。</li></ul><ul><li><strong>防止 SSL 剥离攻击：</strong> HSTS 通过告知浏览器只能通过安全的连接访问网站，有效地防止了一些中间人攻击，例如 SSL 剥离攻击，其中攻击者试图将 HTTPS 连接降级为不安全的 HTTP 连接。</li></ul><ul><li><strong>增加网站的安全性：</strong> HSTS 是一种增加网站安全性的简单而有效的手段，尤其是对于那些强调隐私和数据保护的网站。</li></ul><p>HSTS 的工作原理如下：</p><ol><li><strong>首次访问：</strong> 当用户首次通过 HTTPS 访问网站时，服务器可以在响应头中包含 HSTS 头部，指定网站的 HSTS 策略。例如：</li></ol><pre class="code-block"><code>Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+</code></pre><ul><li><code>max-age=31536000</code>: 告诉浏览器在接下来的 1 年内，只能通过 HTTPS 访问该网站。</li><li><code>includeSubDomains</code>: 表示该策略也适用于所有子域名。</li><li><code>preload</code>: 表示网站希望被添加到浏览器的 HSTS 预加载列表中。</li></ul><ol><li><strong>以后的访问：</strong> 一旦浏览器接收到包含 HSTS 头部的响应后，它会记住这个信息。在接下来的一年内，浏览器将强制使用 HTTPS 访问该网站，即使用户尝试通过 HTTP 访问。</li></ol><p>一旦网站启用了 <code>HSTS</code>，并且用户第一次通过 HTTPS 访问该网站，浏览器将在 <code>HSTS</code> 头部指定的时间内（<code>max-age</code> 参数指定的时间）记住这个策略，即使用户以后尝试通过 HTTP 访问，浏览器仍然会强制使用 HTTPS。因此，使用 HSTS 需要谨慎，确保网站支持 HTTPS 并且配置正确。</p><p><strong>如何取消 <code>HSTS</code></strong></p><blockquote>如果之前的请求设置了 HTTP Strict-Transport-Security 这个 header 了， 时间是 max-age=31536000；</blockquote><blockquote>之后因为一些原因， 取消了 Strict-Transport-Security 这个 header， 那么还是不能使用 http 吗?</blockquote><p>一旦浏览器接收到包含 HTTP <code>Strict-Transport-Security</code>（HSTS）头部的响应，并且在响应中设置了 <code>max-age</code> 参数，浏览器会在指定的时间内坚持使用 HTTPS 连接，即使后续的请求中不再包含 HSTS 头部。</p><p>如果之前的请求设置了 <code>max-age=31536000</code>，那么浏览器将在接下来的一年内坚持使用 HTTPS 连接，即使后续的请求中不再包含 HSTS 头部。 即使之后取消了 HSTS 头部，浏览器仍然会在 <code>max-age</code> 规定的时间内执行强制使用 HTTPS 的策略。</p><p>如果由于一些原因需要取消 HSTS，可以采取以下步骤之一：</p><ol><li><strong>在 HTTP 响应中不再包含 HSTS 头部：</strong> 在服务器的 HTTPS 响应中，不再包含 <code>Strict-Transport-Security</code> 头部，或者将 <code>max-age</code> 设置为较短的时间，以便更快地使浏览器放弃 HSTS 策略。</li></ol><ol><li><strong>使用 <code>includeSubDomains</code> 指令进行逐步取消：</strong> 如果之前设置了 <code>includeSubDomains</code>，并且想逐步取消 HSTS，可以在不同的子域名上逐步取消。例如，可以在某个子域名上不再包含 HSTS 头部，而其他子域名仍然保持 HSTS。</li></ol><p>请注意，取消 HSTS 头部可能导致用户在一定时间内无法通过 HTTPS 访问网站，因为浏览器会在 <code>max-age</code> 规定的时间内继续强制使用 HTTPS。 确保在取消 HSTS 头部之前，确保网站的 HTTPS 配置是正确的，以避免访问问题。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

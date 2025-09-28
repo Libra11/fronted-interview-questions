@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] useLayoutEffect 和 useEffect 有什么区别?【热度: 313】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：useLayoutEffect 和 useEffect 区别&lt;/p&gt;&lt;p&gt;useLayoutEffect 和 useEffect 的主要区别在于它们执行的时机。&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;useLayoutEffect&lt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] useLayoutEffect 和 useEffect 有什么区别?【热度: 313】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：useLayoutEffect 和 useEffect 区别&lt;/p&gt;&lt;p&gt;useLayoutEffect 和 useEffect 的主要区别在于它们执行的时机。&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;useLayoutEffect&lt;/strong&gt;:&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;useLayoutEffect 是在 DOM 更新完成但在浏览器绘制之前同步" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/591" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] useLayoutEffect 和 useEffect 有什么区别?【热度: 313】</h1>
+      <div class="subtitle">web框架 · web框架 · 腾讯</div>
+      <div class="meta">创建：2023-10-04T10:13:59Z · 更新：2023-10-04T10:14:27Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：useLayoutEffect 和 useEffect 区别</p><p>useLayoutEffect 和 useEffect 的主要区别在于它们执行的时机。</p><ul><li><strong>useLayoutEffect</strong>:</li></ul><p>useLayoutEffect 是在 DOM 更新完成但在浏览器绘制之前同步执行的钩子函数。它会在 DOM 更新之后立即执行，阻塞浏览器的绘制过程。这使得它更适合于需要立即获取最新 DOM 布局信息的操作，如测量元素尺寸或位置等。使用 useLayoutEffect 可以在更新后同步触发副作用，从而保证 DOM 的一致性。</p><ul><li><strong>useEffect</strong>:</li></ul><p>useEffect 是在组件渲染完毕后异步执行的钩子函数。它会在浏览器完成绘制后延迟执行，不会阻塞浏览器的绘制过程。这使得它更适合于处理副作用操作，如发送网络请求、订阅事件等。使用 useEffect 可以将副作用操作放到组件渲染完成后执行，以避免阻塞浏览器绘制。</p><p>总结：</p><ul><li>useLayoutEffect 是同步执行的钩子函数，在 DOM 更新后立即执行，可能会阻塞浏览器的绘制过程；</li><li>useEffect 是异步执行的钩子函数，在浏览器完成绘制后延迟执行，不会阻塞浏览器的绘制过程。</li></ul><p>通常情况下，应优先使用 useEffect，因为它不会阻塞浏览器的渲染，并且能够满足大多数的副作用操作需求。只有在需要获取最新的 DOM 布局信息并立即触发副作用时，才需要使用 useLayoutEffect。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

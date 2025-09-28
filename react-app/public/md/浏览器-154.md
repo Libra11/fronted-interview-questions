@@ -1,0 +1,118 @@
+# 常见的前端内存泄露场景有哪些？
+
+大多数情况下，垃圾回收器会帮我们及时释放内存，一般不会发生内存泄漏。但是有些场景是内存泄漏的高发区，我们在使用的时候一定要注意：
+
+* 我们在开发的时候经常会使用`console`在控制台打印信息，但这也会带来一个问题：被`console`使用的对象是不能被垃圾回收的，这就可能会导致内存泄漏。因此在生产环境中不建议使用`console.log()`的理由就又可以加上一条避免内存泄漏了。
+
+* 被全局变量、全局函数引用的对象，在Vue组件销毁时未清除，可能会导致内存泄漏
+
+  ```js
+  // Vue3
+  <script setup>
+  import {onMounted, onBeforeUnmount, reactive} from 'vue'
+  const arr = reactive([1,2,3]);
+  onMounted(() => {
+      window.arr = arr; // 被全局变量引用
+      window.arrFunc = () => {
+          console.log(arr); // 被全局函数引用
+      }
+  })
+  // 正确的方式
+  onBeforeUnmount(() => {
+      window.arr = null;
+      window.arrFunc = null;
+  })
+  </script>
+  
+  ```
+
+* 定时器未及时在Vue组件销毁时清除，可能会导致内存泄漏
+
+  ```js
+  // Vue3
+  <script setup>
+  import {onMounted, onBeforeUnmount, reactive} from 'vue'
+  const arr = reactive([1,2,3]);
+  const timer = reactive(null);
+  onMounted(() => {
+      setInterval(() => {
+          console.log(arr); // arr被定时器占用，无法被垃圾回收
+      }, 200);
+      // 正确的方式
+      timer = setInterval(() => {
+          console.log(arr);
+      }, 200);
+  })
+  // 正确的方式
+  onBeforeUnmount(() => {
+      if (timer) {
+          clearInterval(timer);
+          timer = null;
+      }
+  })
+  </script>
+  
+  ```
+
+  `setTimeout`和`setInterval`两个定时器在使用时都应该注意是否需要清理定时器，特别是`setInterval`，一定要注意清除。
+
+* 绑定的事件未及时在Vue组件销毁时清除，可能会导致内存泄漏
+
+  绑定事件在实际开发中经常遇到，我们一般使用`addEventListener`来创建。
+
+  ```js
+  // Vue3
+  <script setup>
+  import {onMounted, onBeforeUnmount, reactive} from 'vue'
+  const arr = reactive([1,2,3]);
+  const printArr = () => {
+      console.log(arr)
+  }
+  onMounted(() => {
+      // 监听事件绑定的函数为匿名函数，将无法被清除
+      window.addEventListener('click', () => {
+          console.log(arr); // 全局绑定的click事件，arr被引用，将无法被垃圾回收
+      })
+      // 正确的方式
+      window.addEventListener('click', printArr);
+  })
+  // 正确的方式
+  onBeforeUnmount(() => {
+      // 注意清除绑定事件需要前后是同一个函数，如果函数不同将不会清除
+      window.removeEventListener('click', printArr);
+  })
+  </script>
+  
+  ```
+
+* 被自定义事件引用，在Vue组件销毁时未清除，可能会导致内存泄漏
+
+  自定义事件通过`emit/on`来发起和监听，清除自定义事件和绑定事件差不多，不同的是需要调用`off`方法
+
+  ```js
+  // Vue3
+  <script setup>
+  import {onMounted, onBeforeUnmount, reactive} from 'vue'
+  import event from './event.js'; // 自定义事件
+  const arr = reactive([1,2,3]);
+  const printArr = () => {
+      console.log(arr)
+  }
+  onMounted(() => {
+      // 使用匿名函数，会导致自定义事件无法被清除
+      event.on('printArr', () => {
+          console.log(arr)
+      })
+      // 正确的方式
+      event.on('printArr', printArr)
+  })
+  // 正确的方式
+  onBeforeUnmount(() => {
+      // 注意清除自定义事件需要前后是同一个函数，如果函数不同将不会清除
+      event.off('printArr', printArr)
+  })
+  </script>
+  
+  ```
+
+除了及时清除监听器、事件等，对于全局变量的引用，我们可以选择`WeakMap`、`WeakSet`等弱引用数据类型。这样的话，即使我们引用的对象数据要被垃圾回收，弱引用的全局变量并不会阻止GC。

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Vue] 如何提升复用逻辑【热度: 671】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：vue3 复用逻辑&lt;/p&gt;&lt;p&gt;在 Vue 3 中，可以通过以下几种方式提升复用逻辑：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、组合式函数（Composables）&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;定义与使用：&lt;/li&gt;&lt;/ol&gt;&lt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Vue] 如何提升复用逻辑【热度: 671】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：vue3 复用逻辑&lt;/p&gt;&lt;p&gt;在 Vue 3 中，可以通过以下几种方式提升复用逻辑：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、组合式函数（Composables）&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;定义与使用：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;组合式函数是一个封装了可复用逻辑的函数，可以接收参数并返回响应式数据和方法。例如：&lt;/li&gt;&lt;/ul&gt;&lt;p" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/926" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Vue] 如何提升复用逻辑【热度: 671】</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2024-09-22T04:59:41Z · 更新：2024-09-22T04:59:41Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：vue3 复用逻辑</p><p>在 Vue 3 中，可以通过以下几种方式提升复用逻辑：</p><p><strong>一、组合式函数（Composables）</strong></p><ol><li>定义与使用：</li></ol><ul><li>组合式函数是一个封装了可复用逻辑的函数，可以接收参数并返回响应式数据和方法。例如：</li></ul><p>```javascript</p><p>import { ref } from "vue";</p><p>export function useCounter(initialValue = 0) {</p><p>const count = ref(initialValue);</p><p>const increment = () => count.value++;</p><p>const decrement = () => count.value--;</p><p>return { count, increment, decrement };</p><p>}</p><p>```</p><ul><li>在组件中使用组合式函数：</li></ul><p>```vue</p><p><script setup></p><p>import { useCounter } from "./path/to/composable";</p><p>const { count, increment, decrement } = useCounter();</p><p></script></p><p><template></p><p><div></p><p>Count: {{ count }}</p><p><button @click="increment">Increment</button></p><p><button @click="decrement">Decrement</button></p><p></div></p><p></template></p><p>```</p><ol><li>优势：</li></ol><ul><li>可维护性高：将可复用的逻辑封装在独立的函数中，使得代码更易于理解和维护。</li><li>可测试性强：可以单独对组合式函数进行测试，而不需要依赖于整个组件。</li><li>易于复用：可以在多个组件中导入和使用相同的组合式函数。</li></ul><p><strong>二、自定义指令</strong></p><ol><li>定义与使用：</li></ol><ul><li>自定义指令可以在元素上应用特定的行为。例如：</li></ul><p>```javascript</p><p>const focusDirective = {</p><p>mounted(el) {</p><p>el.focus();</p><p>},</p><p>};</p><p>export default focusDirective;</p><p>```</p><ul><li>在组件中使用自定义指令：</li></ul><p>```vue</p><p><script setup></p><p>import focusDirective from "./path/to/directive";</p><p></script></p><p><template></p><p><input v-focus /></p><p></template></p><p>```</p><ol><li>优势：</li></ol><ul><li>特定行为复用：对于一些需要在多个元素上重复应用的特定行为，可以通过自定义指令进行复用。</li><li>解耦逻辑：将特定的行为从组件的逻辑中分离出来，使得组件更加专注于业务逻辑。</li></ul><p><strong>三、混入（Mixins）</strong></p><ol><li>定义与使用：</li></ol><ul><li>混入是一种可以将多个组件的可复用选项合并到一个对象中的方式。例如：</li></ul><p>```javascript</p><p>const myMixin = {</p><p>data() {</p><p>return {</p><p>commonData: "This is common data",</p><p>};</p><p>},</p><p>methods: {</p><p>commonMethod() {</p><p>console.log("This is a common method");</p><p>},</p><p>},</p><p>};</p><p>export default myMixin;</p><p>```</p><ul><li>在组件中使用混入：</li></ul><p>```vue</p><p><script setup></p><p>import myMixin from "./path/to/mixin";</p><p>export default {</p><p>mixins: [myMixin],</p><p>};</p><p></script></p><p><template></p><p><div></p><p>{{ commonData }}</p><p><button @click="commonMethod">Call common method</button></p><p></div></p><p></template></p><p>```</p><ol><li>优势：</li></ol><ul><li>代码复用：可以将一些通用的属性、方法或生命周期钩子合并到多个组件中。</li><li>减少重复代码：避免在多个组件中重复编写相同的逻辑。</li></ul><p><strong>四、函数式组件</strong></p><ol><li>定义与使用：</li></ol><ul><li>函数式组件是一个无状态、无实例的组件，它接收 props 并返回一个 VNode。例如：</li></ul><p>```vue</p><p><script setup></p><p>import { h } from "vue";</p><p>const MyFunctionalComponent = (props) => {</p><p>return h("div", {}, props.message);</p><p>};</p><p>export default MyFunctionalComponent;</p><p></script></p><p>```</p><ul><li>在其他组件中使用函数式组件：</li></ul><p>```vue</p><p><script setup></p><p>import MyFunctionalComponent from "./path/to/functionalComponent";</p><p></script></p><p><template></p><p><MyFunctionalComponent message="Hello from functional component" /></p><p></template></p><p>```</p><ol><li>优势：</li></ol><ul><li>轻量级：函数式组件没有实例化的开销，性能更高。</li><li>简洁性：对于一些简单的展示性组件，可以使用函数式组件来简化代码。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

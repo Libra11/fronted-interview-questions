@@ -1,0 +1,40 @@
+# react 18 版本中 setState 是同步还是异步的？
+
+- Issue: #133
+- State: open
+- Labels: web框架
+- Author: yanlele
+- URL: https://github.com/pro-collection/interview-question/issues/133
+- Created: 2023-03-19T14:55:03Z
+- Updated: 2023-10-04T10:21:06Z
+
+## Body
+
+在 React 18 中，`setState` 的行为仍然是异步的。React 团队并没有改变 `setState` 的默认行为，因为这会带来一些潜在的性能问题和不确定性。异步更新状态可以让 React 在适当的时候批量更新组件状态，从而避免过多的渲染和浏览器的性能问题。
+
+但是，React 18 引入了一个新的特性：批量更新（Batching）。当我们在事件处理函数、异步代码或生命周期函数中调用 `setState` 时，React 会将多个状态更新合并到同一个批次中，从而减少渲染的次数，提高应用的性能。这意味着，即使我们在多个地方调用 `setState` 方法，React 也会将这些调用合并到同一个更新队列中，并在下一个渲染周期中一次性更新所有状态。
+
+在 React 18 中，我们可以使用新的 `startTransition` API 来告诉 React，我们正在进行一次可中断的异步操作，并且希望在操作完成后批量更新组件状态。这个 API 的用法如下：
+
+```js
+jsCopy codeimport { startTransition } from 'react';
+
+function handleClick() {
+  startTransition(() => {
+    setState({ count: count + 1 });
+    // 执行其他异步操作
+  });
+}
+```
+
+在这个例子中，我们通过 `startTransition` API 包装 `setState` 和其他异步操作，告诉 React 我们正在进行一次可中断的异步操作，并且希望在操作完成后批量更新组件状态。这样做可以让我们的应用更加流畅和响应，并且可以提高用户体验。
+
+需要注意的是，`startTransition` API 并不是必须的，如果我们不使用这个 API，React 仍然会在适当的时候批量更新组件状态。这个 API 只是为了让我们更加精确地控制更新的时机，并在必要时进行优化。
+
+## Comments / Answers
+
+---
+
+**yanlele** at 2023-10-04T10:21:06Z
+
+参考文档： https://juejin.cn/post/7108362046369955847

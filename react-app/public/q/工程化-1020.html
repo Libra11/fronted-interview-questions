@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>eslint 如何集成到 webpack【热度: 488】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：eslint 配置&lt;/p&gt;&lt;p&gt;要将 ESLint 集成到 Webpack 中，可以按照以下步骤进行操作：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、安装必要的包&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;确保已经安装了 Webpack 和 E" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="eslint 如何集成到 webpack【热度: 488】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：eslint 配置&lt;/p&gt;&lt;p&gt;要将 ESLint 集成到 Webpack 中，可以按照以下步骤进行操作：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、安装必要的包&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;确保已经安装了 Webpack 和 ESLint。如果还没有安装，可以使用以下命令进行安装：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;使用 npm：&lt;/li&gt;&lt;/u" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1020" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>eslint 如何集成到 webpack【热度: 488】</h1>
+      <div class="subtitle">工程化 · 工程化</div>
+      <div class="meta">创建：2024-10-26T06:37:46Z · 更新：2024-10-26T06:37:46Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：eslint 配置</p><p>要将 ESLint 集成到 Webpack 中，可以按照以下步骤进行操作：</p><p><strong>一、安装必要的包</strong></p><ol><li>确保已经安装了 Webpack 和 ESLint。如果还没有安装，可以使用以下命令进行安装：</li></ol><ul><li>使用 npm：</li></ul><p>```</p><p>npm install webpack webpack-cli eslint --save-dev</p><p>```</p><ul><li>使用 yarn：</li></ul><p>```</p><p>yarn add webpack webpack-cli eslint --dev</p><p>```</p><ol><li>安装<code>eslint-webpack-plugin</code>插件，这个插件可以将 ESLint 集成到 Webpack 构建过程中。</li></ol><ul><li>使用 npm：</li></ul><p>```</p><p>npm install eslint-webpack-plugin --save-dev</p><p>```</p><ul><li>使用 yarn：</li></ul><p>```</p><p>yarn add eslint-webpack-plugin --dev</p><p>```</p><p><strong>二、配置 ESLint</strong></p><ol><li>在项目根目录下，运行<code>eslint --init</code>命令来初始化 ESLint 配置。按照提示选择适合项目的选项，生成<code>.eslintrc.*</code>配置文件。</li></ol><ol><li>根据项目需求，调整 ESLint 配置文件中的规则、解析器、插件等选项。</li></ol><p><strong>三、配置 Webpack</strong></p><ol><li>在 Webpack 配置文件（通常是<code>webpack.config.js</code>）中，引入<code>eslint-webpack-plugin</code>插件：</li></ol><p>```javascript</p><p>const ESLintPlugin = require("eslint-webpack-plugin");</p><p>```</p><ol><li>在 Webpack 配置对象的<code>plugins</code>数组中添加<code>ESLintPlugin</code>实例：</li></ol><p>```javascript</p><p>module.exports = {</p><p>//...其他配置项</p><p>plugins: [</p><p>new ESLintPlugin({</p><p>// 可以在这里配置 ESLintPlugin 的选项，例如指定要检查的文件路径</p><p>files: ["./src/*<em>/</em>.js"],</p><p>}),</p><p>],</p><p>};</p><p>```</p><p><strong>四、运行 Webpack 构建</strong></p><p>当运行 Webpack 构建时，<code>eslint-webpack-plugin</code>会在构建过程中自动运行 ESLint 检查。如果有不符合 ESLint 规则的代码，会在控制台输出错误信息。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

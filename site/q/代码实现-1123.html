@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>深层清理对象中的空值属性【热度: 234】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;请实现一个函数 &lt;code&gt;deepOmitNil&lt;/code&gt;，要求如下：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;功能：递归处理一个可能包含嵌套结构的对象（或数组），移除所有层级中值为 &lt;code&gt;null&lt;/code&gt; 或 &lt;code&gt;undefined&lt;/code&gt; 的属性&lt;/li&gt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="深层清理对象中的空值属性【热度: 234】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;请实现一个函数 &lt;code&gt;deepOmitNil&lt;/code&gt;，要求如下：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;功能：递归处理一个可能包含嵌套结构的对象（或数组），移除所有层级中值为 &lt;code&gt;null&lt;/code&gt; 或 &lt;code&gt;undefined&lt;/code&gt; 的属性&lt;/li&gt;&lt;li&gt;要求：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;支持对象和数组的嵌套结构&lt;/li&gt;&lt;li&gt;对于对象：移除值为 &lt;cod" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1123" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>深层清理对象中的空值属性【热度: 234】</h1>
+      <div class="subtitle">代码实现 · 代码实现/算法</div>
+      <div class="meta">创建：2025-08-31T10:07:58Z · 更新：2025-08-31T10:07:58Z</div>
+    </div>
+    <article class="content markdown-body"><p>请实现一个函数 <code>deepOmitNil</code>，要求如下：</p><ol><li>功能：递归处理一个可能包含嵌套结构的对象（或数组），移除所有层级中值为 <code>null</code> 或 <code>undefined</code> 的属性</li><li>要求：</li></ol><ul><li>支持对象和数组的嵌套结构</li><li>对于对象：移除值为 <code>null</code>/<code>undefined</code> 的属性，保留其他属性并继续递归处理属性值</li><li>对于数组：递归处理每个元素，同时过滤掉值为 <code>null</code>/<code>undefined</code> 的元素</li><li>不改变原始数据结构，返回处理后的新数据</li></ul><ol><li>示例：</li></ol><p>```javascript</p><p>// 输入</p><p>const data = {</p><p>name: 'test',</p><p>age: null,</p><p>info: {</p><p>address: undefined,</p><p>contact: {</p><p>phone: null,</p><p>email: 'test@example.com'</p><p>}</p><p>},</p><p>list: [1, null, { id: undefined, value: 2 }, undefined, 3]</p><p>};</p><p>// 输出</p><p>{</p><p>name: 'test',</p><p>info: {</p><p>contact: {</p><p>email: 'test@example.com'</p><p>}</p><p>},</p><p>list: [1, { value: 2 }, 3]</p><p>}</p><p>```</p><p>请用 JavaScript 实现该函数，可使用 Lodash 工具库辅助开发。</p><h3>解法</h3><pre class="code-block"><code class="language-javascript">function deepOmitNil(value) {
+  // 处理null和undefined的情况
+  if (value === null || value === undefined) {
+    return null;
+  }
+
+  // 处理数组：递归处理每个元素，并过滤掉null和undefined
+  if (Array.isArray(value)) {
+    return value.map((item) =&gt; deepOmitNil(item)).filter((item) =&gt; item !== null &amp;&amp; item !== undefined);
+  }
+
+  // 处理普通对象：检查是否为纯粹的对象（排除数组、null等）
+  if (Object.prototype.toString.call(value) === &quot;[object Object]&quot;) {
+    const result = {};
+    // 遍历对象自身属性
+    for (const key in value) {
+      if (value.hasOwnProperty(key)) {
+        const processedValue = deepOmitNil(value[key]);
+        if (processedValue !== null &amp;&amp; processedValue !== undefined) {
+          result[key] = processedValue;
+        }
+      }
+    }
+    return result;
+  }
+
+  // 其他类型直接返回（如字符串、数字、布尔值等）
+  return value;
+}
+
+// 示例用法
+const data = {
+  name: &quot;test&quot;,
+  age: null,
+  info: {
+    address: undefined,
+    contact: {
+      phone: null,
+      email: &quot;test@example.com&quot;,
+    },
+  },
+  list: [1, null, { id: undefined, value: 2 }, undefined, 3],
+};
+
+console.log(deepOmitNil(data));
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

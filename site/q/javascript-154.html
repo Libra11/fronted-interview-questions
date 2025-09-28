@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>常见的前端内存泄露场景有哪些？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;大多数情况下，垃圾回收器会帮我们及时释放内存，一般不会发生内存泄漏。但是有些场景是内存泄漏的高发区，我们在使用的时候一定要注意：&lt;/p&gt;&lt;ul&gt;&lt;li&gt;我们在开发的时候经常会使用&lt;code&gt;console&lt;/code&gt;在控制台打印信息，但这也会带来一个问题：被&lt;code&gt;c" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="常见的前端内存泄露场景有哪些？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;大多数情况下，垃圾回收器会帮我们及时释放内存，一般不会发生内存泄漏。但是有些场景是内存泄漏的高发区，我们在使用的时候一定要注意：&lt;/p&gt;&lt;ul&gt;&lt;li&gt;我们在开发的时候经常会使用&lt;code&gt;console&lt;/code&gt;在控制台打印信息，但这也会带来一个问题：被&lt;code&gt;console&lt;/code&gt;使用的对象是不能被垃圾回收的，这就可能会导致内存泄漏。因此在生产环境中不建议使用&lt;code&gt;c" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/154" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>常见的前端内存泄露场景有哪些？</h1>
+      <div class="subtitle">JavaScript · JavaScript · 浏览器</div>
+      <div class="meta">创建：2023-03-26T06:15:29Z · 更新：2023-03-26T06:15:30Z</div>
+    </div>
+    <article class="content markdown-body"><p>大多数情况下，垃圾回收器会帮我们及时释放内存，一般不会发生内存泄漏。但是有些场景是内存泄漏的高发区，我们在使用的时候一定要注意：</p><ul><li>我们在开发的时候经常会使用<code>console</code>在控制台打印信息，但这也会带来一个问题：被<code>console</code>使用的对象是不能被垃圾回收的，这就可能会导致内存泄漏。因此在生产环境中不建议使用<code>console.log()</code>的理由就又可以加上一条避免内存泄漏了。</li></ul><ul><li>被全局变量、全局函数引用的对象，在Vue组件销毁时未清除，可能会导致内存泄漏</li></ul><p>```js</p><p>// Vue3</p><p><script setup></p><p>import {onMounted, onBeforeUnmount, reactive} from 'vue'</p><p>const arr = reactive([1,2,3]);</p><p>onMounted(() => {</p><p>window.arr = arr; // 被全局变量引用</p><p>window.arrFunc = () => {</p><p>console.log(arr); // 被全局函数引用</p><p>}</p><p>})</p><p>// 正确的方式</p><p>onBeforeUnmount(() => {</p><p>window.arr = null;</p><p>window.arrFunc = null;</p><p>})</p><p></script></p><p>```</p><ul><li>定时器未及时在Vue组件销毁时清除，可能会导致内存泄漏</li></ul><p>```js</p><p>// Vue3</p><p><script setup></p><p>import {onMounted, onBeforeUnmount, reactive} from 'vue'</p><p>const arr = reactive([1,2,3]);</p><p>const timer = reactive(null);</p><p>onMounted(() => {</p><p>setInterval(() => {</p><p>console.log(arr); // arr被定时器占用，无法被垃圾回收</p><p>}, 200);</p><p>// 正确的方式</p><p>timer = setInterval(() => {</p><p>console.log(arr);</p><p>}, 200);</p><p>})</p><p>// 正确的方式</p><p>onBeforeUnmount(() => {</p><p>if (timer) {</p><p>clearInterval(timer);</p><p>timer = null;</p><p>}</p><p>})</p><p></script></p><p>```</p><p><code>setTimeout</code>和<code>setInterval</code>两个定时器在使用时都应该注意是否需要清理定时器，特别是<code>setInterval</code>，一定要注意清除。</p><ul><li>绑定的事件未及时在Vue组件销毁时清除，可能会导致内存泄漏</li></ul><p>绑定事件在实际开发中经常遇到，我们一般使用<code>addEventListener</code>来创建。</p><p>```js</p><p>// Vue3</p><p><script setup></p><p>import {onMounted, onBeforeUnmount, reactive} from 'vue'</p><p>const arr = reactive([1,2,3]);</p><p>const printArr = () => {</p><p>console.log(arr)</p><p>}</p><p>onMounted(() => {</p><p>// 监听事件绑定的函数为匿名函数，将无法被清除</p><p>window.addEventListener('click', () => {</p><p>console.log(arr); // 全局绑定的click事件，arr被引用，将无法被垃圾回收</p><p>})</p><p>// 正确的方式</p><p>window.addEventListener('click', printArr);</p><p>})</p><p>// 正确的方式</p><p>onBeforeUnmount(() => {</p><p>// 注意清除绑定事件需要前后是同一个函数，如果函数不同将不会清除</p><p>window.removeEventListener('click', printArr);</p><p>})</p><p></script></p><p>```</p><ul><li>被自定义事件引用，在Vue组件销毁时未清除，可能会导致内存泄漏</li></ul><p>自定义事件通过<code>emit/on</code>来发起和监听，清除自定义事件和绑定事件差不多，不同的是需要调用<code>off</code>方法</p><p>```js</p><p>// Vue3</p><p><script setup></p><p>import {onMounted, onBeforeUnmount, reactive} from 'vue'</p><p>import event from './event.js'; // 自定义事件</p><p>const arr = reactive([1,2,3]);</p><p>const printArr = () => {</p><p>console.log(arr)</p><p>}</p><p>onMounted(() => {</p><p>// 使用匿名函数，会导致自定义事件无法被清除</p><p>event.on('printArr', () => {</p><p>console.log(arr)</p><p>})</p><p>// 正确的方式</p><p>event.on('printArr', printArr)</p><p>})</p><p>// 正确的方式</p><p>onBeforeUnmount(() => {</p><p>// 注意清除自定义事件需要前后是同一个函数，如果函数不同将不会清除</p><p>event.off('printArr', printArr)</p><p>})</p><p></script></p><p>```</p><p>除了及时清除监听器、事件等，对于全局变量的引用，我们可以选择<code>WeakMap</code>、<code>WeakSet</code>等弱引用数据类型。这样的话，即使我们引用的对象数据要被垃圾回收，弱引用的全局变量并不会阻止GC。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

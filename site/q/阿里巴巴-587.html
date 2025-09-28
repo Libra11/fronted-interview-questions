@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] 如何实现转场动画？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;这个问题非常复杂， 我这边用白话文解释一下原理， 若有不对的地方， 请大家更正：&lt;/p&gt;&lt;p&gt;如果没有专场动画， 那么在路由切换的一瞬间， 加载下一个路由页面的组件， 注销上一个路由页面的组件；&lt;/p&gt;&lt;p&gt;但是如果加上专场动画， 比如专场动画时间为 500ms， 那么， " />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] 如何实现转场动画？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;这个问题非常复杂， 我这边用白话文解释一下原理， 若有不对的地方， 请大家更正：&lt;/p&gt;&lt;p&gt;如果没有专场动画， 那么在路由切换的一瞬间， 加载下一个路由页面的组件， 注销上一个路由页面的组件；&lt;/p&gt;&lt;p&gt;但是如果加上专场动画， 比如专场动画时间为 500ms， 那么， 在咋合格 500ms 过程中， 首先要加载下一个路由页面的组件， 然后加载上一个渐进的动画。&lt;/p&gt;&lt;p&gt;同时不能注销掉" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/587" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] 如何实现转场动画？</h1>
+      <div class="subtitle">阿里巴巴 · web框架 · 阿里巴巴</div>
+      <div class="meta">创建：2023-10-02T04:20:26Z · 更新：2023-10-02T04:21:05Z</div>
+    </div>
+    <article class="content markdown-body"><p>这个问题非常复杂， 我这边用白话文解释一下原理， 若有不对的地方， 请大家更正：</p><p>如果没有专场动画， 那么在路由切换的一瞬间， 加载下一个路由页面的组件， 注销上一个路由页面的组件；</p><p>但是如果加上专场动画， 比如专场动画时间为 500ms， 那么， 在咋合格 500ms 过程中， 首先要加载下一个路由页面的组件， 然后加载上一个渐进的动画。</p><p>同时不能注销掉当前路由， 需要给当前路由加载一个渐出的动画。</p><p>需要当两个页面完成动画时间， 完成页面覆盖切换之后， 然后注销上一个路由页面的组件；</p><p>所以涉及到的知识点：</p><ol><li>如何做页面跳转拦截；</li><li>如何在页面路由组件不跳转的同时， 加载下一个页面的组件；</li><li>配置页面层级；</li><li>如何执行、加载、完成专场动画；</li><li>动画结束的时候手动注销组件；</li></ol><p>具体实现， 可以参考以下两个文档：</p><ul><li>https://github.com/SmallStoneSK/Blog/issues/8</li><li>https://juejin.cn/post/6887471865720209415</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

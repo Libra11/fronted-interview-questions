@@ -1,0 +1,113 @@
+# React setState 是同步还是异步的？
+
+- Issue: #132
+- State: open
+- Labels: web框架
+- Author: yanlele
+- URL: https://github.com/pro-collection/interview-question/issues/132
+- Created: 2023-03-19T14:52:06Z
+- Updated: 2023-10-04T10:21:43Z
+
+## Body
+
+在 React 中，`setState` 方法有时是异步的，有时是同步的，具体取决于使用方式和环境。
+
+当我们在 React 中调用 `setState` 方法时，React 会将新状态合并到组件的状态队列中，并在未来的某个时间更新组件的状态。这个更新过程是异步的，即不能保证在 `setState` 调用后立即更新状态，而是会将状态更新推迟到下一个渲染周期中。这种情况下，`setState` 方法会返回一个 `Promise` 对象，但该对象不包含任何有用的信息。
+
+然而，当 `setState` 方法被直接调用，而不是在事件处理函数、异步代码或生命周期函数中被调用时，更新过程是同步的。在这种情况下，React 会立即更新组件的状态，并在更新后立即执行一次重新渲染。这种情况下，`setState` 方法不会返回任何信息。
+
+需要注意的是，在 React 中异步更新状态的机制可以提高性能和优化页面渲染速度，因为它可以让 React 在适当的时候批量更新组件状态，从而避免过多的渲染和浏览器的性能问题。如果我们需要在更新状态后立即执行某些操作，可以使用 `setState` 方法的回调函数或生命周期函数 `componentDidUpdate` 来实现。例如：
+
+```js
+jsCopy codeclass MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { count: 0 };
+  }
+
+  handleClick() {
+    this.setState({ count: this.state.count + 1 }, () => {
+      console.log('New count:', this.state.count);
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <p>Count: {this.state.count}</p>
+        <button onClick={() => this.handleClick()}>Increment</button>
+      </div>
+    );
+  }
+}
+```
+
+这里的 `setState` 方法接受一个回调函数作为第二个参数，在状态更新完成后调用该函数并传递更新后的状态作为参数。在这个回调函数中可以执行任何需要在状态更新后立即执行的操作，例如输出调试信息、发送网络请求等。
+
+---------------------
+> 2023.04.19 更新
+
+如果**直接在setState后面获取state的值是获取不到的。**
+
+- 在React内部机制能检测到的地方， setState就是异步的；
+- 在React检测不到的地方，例如 原生事件`addEventListener`,`setInterval`,`setTimeout`，setState就是同步更新的
+
+
+setState并不是单纯的异步或同步，这其实与调用时的环境相关
+
+
+- 在合成事件 和 生命周期钩子(除componentDidUpdate) 中，setState是"异步"的；
+- 在 原生事件 和setTimeout 中，setState是同步的，可以马上获取更新后的值；
+
+**批量更新**
+多个顺序的setState不是同步地一个一个执行滴，会一个一个加入队列，然后最后一起执行。在 合成事件 和 生命周期钩子 中，setState更新队列时，存储的是 合并状态(Object.assign)。因此前面设置的 key 值会被后面所覆盖，最终只会执行一次更新。
+
+
+**异步现象原因**
+
+`setState 的“异步”并不是说内部由异步代码实现`，其实本身执行的过程和代码都是同步的，只是合成事件和生命钩子函数的调用顺序在更新之前，导致在合成事件和钩子函数中没法立马拿到更新后的值，形成了所谓的“异步”，`当然可以通过第二个参数setState(partialState, callback)中的callback拿到更新后的结果。`
+
+`setState 并非真异步，只是看上去像异步。在源码中，通过 isBatchingUpdates 来判断`
+
+setState调用流程：
+
+1. 调用this.setState(newState)
+2. 将新状态newState存入pending队列
+3. 判断是否处于batch Update（isBatchingUpdates是否为true）
+    - isBatchingUpdates=true，保存组件于dirtyComponents中，走异步更新流程，合并操作，延迟更新；
+    - isBatchingUpdates=false，走同步过程。遍历所有的dirtyComponents，调用updateComponent，更新pending state or props
+    
+![流程](https://foruda.gitee.com/images/1681866680280312338/0308d34b_7819612.png)
+
+**为什么直接修改this.state无效**
+
+setState本质是通过一个队列机制实现state更新的。 执行setState时，会将需要更新的state合并后放入状态队列，而不会立刻更新state，队列机制可以批量更新state。
+
+如果不通过setState而直接修改this.state，那么这个state不会放入状态队列中，下次调用setState时对状态队列进行合并时，会忽略之前直接被修改的state，这样我们就无法合并了，而且实际也没有把你想要的state更新上去
+
+
+参考文档：
+- https://juejin.cn/post/7204307381689532474#heading-5
+
+## Comments / Answers
+
+---
+
+**wuhuaizai** at 2023-09-20T07:04:42Z
+
+React18下也是这样的嘛？感觉找资料还是很多都是在说class component
+
+---
+
+**yanlele** at 2023-09-20T07:32:30Z
+
+> React18下也是这样的嘛？感觉找资料还是很多都是在说class component
+
+@wuhuaizai 
+我所掌握的资料是这样子的
+
+---
+
+**yanlele** at 2023-10-04T10:21:43Z
+
+可以参考这个资料： https://juejin.cn/post/7108362046369955847

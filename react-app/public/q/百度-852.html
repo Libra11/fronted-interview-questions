@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PerformanceObserver 如何测量页面性能【热度: 190】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：PerformanceObserver api 使用&lt;/p&gt;&lt;p&gt;&lt;code&gt;PerformanceObserver&lt;/code&gt; API 是一个强大的浏览器接口，允许开发者订阅性能相关的事件，实时收集和分析用户当前浏览器会话中的性" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="PerformanceObserver 如何测量页面性能【热度: 190】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：PerformanceObserver api 使用&lt;/p&gt;&lt;p&gt;&lt;code&gt;PerformanceObserver&lt;/code&gt; API 是一个强大的浏览器接口，允许开发者订阅性能相关的事件，实时收集和分析用户当前浏览器会话中的性能数据。这个 API 是 Web 性能监测工具箱的一部分，与 &lt;code&gt;window.performance&lt;/cod" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/852" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>PerformanceObserver 如何测量页面性能【热度: 190】</h1>
+      <div class="subtitle">百度 · web应用场景 · 百度</div>
+      <div class="meta">创建：2024-08-25T06:41:58Z · 更新：2024-08-25T06:41:58Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：PerformanceObserver api 使用</p><p><code>PerformanceObserver</code> API 是一个强大的浏览器接口，允许开发者订阅性能相关的事件，实时收集和分析用户当前浏览器会话中的性能数据。这个 API 是 Web 性能监测工具箱的一部分，与 <code>window.performance</code> 对象紧密协作，后者提供了对网页性能数据的访问。<code>PerformanceObserver</code> 允许应用异步监听性能测量事件，而不需要定时检查 <code>window.performance</code> 的条目。</p><h3>核心功能</h3><ul><li><strong>实时性能数据收集</strong>：随着网页生命周期中各种事件的触发，<code>PerformanceObserver</code> 支持实时捕获和处理性能数据条目。</li><li><strong>减少资源消耗</strong>：与轮询 <code>window.performance</code> 对象相比，使用 <code>PerformanceObserver</code> 可以降低资源消耗，并提供更及时的数据收集。</li><li><strong>灵活的数据订阅模型</strong>：可以指定订阅一个或多个特定类型的性能条目，根据需要接收相关数据。</li></ul><h3>主要方法</h3><ul><li><strong><code>observe()</code></strong>：开始观察一个或多个特定类型的性能条目。通过指定条目类型，应用可以订阅感兴趣的性能事件。</li><li><strong><code>disconnect()</code></strong>：停止观察性能数据。这可以释放相关资源，并停止进一步的回调执行。</li></ul><h3>使用示例</h3><p>下面的例子展示了如何使用 <code>PerformanceObserver</code> 来监听首次内容绘制 (First Contentful Paint, FCP) 和最大内容绘制 (Largest Contentful Paint, LCP) 的性能指标。</p><pre class="code-block"><code class="language-javascript">const perfObserver = new PerformanceObserver((entryList) =&gt; {
+  for (const entry of entryList.getEntries()) {
+    if (entry.name === &quot;first-contentful-paint&quot;) {
+      console.log(&quot;FCP:&quot;, entry.startTime);
+    } else if (entry.name === &quot;largest-contentful-paint&quot;) {
+      console.log(&quot;LCP:&quot;, entry.startTime);
+    }
+  }
+});
+
+perfObserver.observe({ type: &quot;paint&quot;, buffered: true });
+</code></pre><p>在这个例子中，<code>perfObserver</code> 被配置为监听包含 FCP 和 LCP 的 <code>paint</code> 类型的性能条目。当这些指标被记录到性能时间线上时，回调函数将被执行，并可以对这些数据进行进一步的处理，比如打印在控制台或发送到服务器。</p><h3>注意事项</h3><ul><li><code>PerformanceObserver</code> API 的支持程度取决于浏览器和浏览器版本。为了最好地利用这一 API，推荐检查目标用户群体最常用浏览器的兼容性。</li><li>合理使用 <code>disconnect()</code> 方法来停止数据的观察（特别是在单页应用中或在不再需要收集数据时）有助于保持应用的性能。</li><li><code>buffered</code> 选项允许接收到观察者激活之前已经记录的性能条目，这在页面加载阶段尤其有用。</li></ul><p>通过 <code>PerformanceObserver</code>，开发者可以精细控制性能数据的收集过程，有效监控和分析网页性能，从而提升用户体验。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

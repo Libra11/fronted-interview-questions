@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Vue] 响应式里面 ref 和 reactive 有啥区别【热度: 414】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：响应式 api&lt;/p&gt;&lt;p&gt;在 Vue 3 中，&lt;code&gt;ref&lt;/code&gt; 和 &lt;code&gt;reactive&lt;/code&gt; 是创建响应式数据的两种不同方法，它们都是 Vue 的响应式系统的一部分，但在使用方式和适用场景上有一些" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Vue] 响应式里面 ref 和 reactive 有啥区别【热度: 414】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：响应式 api&lt;/p&gt;&lt;p&gt;在 Vue 3 中，&lt;code&gt;ref&lt;/code&gt; 和 &lt;code&gt;reactive&lt;/code&gt; 是创建响应式数据的两种不同方法，它们都是 Vue 的响应式系统的一部分，但在使用方式和适用场景上有一些区别。下面是 &lt;code&gt;ref&lt;/code&gt; 和 &lt;code&gt;reactive&lt;/code&gt; 的主要区别：&lt;/p&gt;&lt;h" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/901" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Vue] 响应式里面 ref 和 reactive 有啥区别【热度: 414】</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2024-09-17T08:25:56Z · 更新：2024-09-17T08:25:56Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：响应式 api</p><p>在 Vue 3 中，<code>ref</code> 和 <code>reactive</code> 是创建响应式数据的两种不同方法，它们都是 Vue 的响应式系统的一部分，但在使用方式和适用场景上有一些区别。下面是 <code>ref</code> 和 <code>reactive</code> 的主要区别：</p><h3><code>ref</code></h3><ul><li><strong>用法</strong>：<code>ref</code> 用于创建一个响应式的引用类型数据。当你需要使基本数据类型（例如：string, number, boolean）变得响应式时，<code>ref</code> 是一个很好的选择。</li><li><strong>返回值</strong>：<code>ref</code> 返回一个包含 <code>value</code> 属性的对象。你需要通过 <code>.value</code> 属性来访问或修改其内部值。</li><li><strong>适用场景</strong>：适用于基本数据类型，也可以用于对象和数组，但主要是为了基本数据类型设计的。</li></ul><pre class="code-block"><code class="language-javascript">import { ref } from &quot;vue&quot;;
+
+const count = ref(0);
+console.log(count.value); // 访问值
+count.value++; // 修改值
+</code></pre><h3><code>reactive</code></h3><ul><li><strong>用法</strong>：<code>reactive</code> 用于创建一个响应式的复杂类型数据，如对象或数组。</li><li><strong>返回值</strong>：直接返回原始对象的响应式代理，不需要通过 <code>.value</code> 属性来访问或修改。</li><li><strong>适用场景</strong>：是为了使对象或数组这样的引用数据类型变得响应式而设计的。</li></ul><pre class="code-block"><code class="language-javascript">import { reactive } from &quot;vue&quot;;
+
+const state = reactive({ count: 0 });
+console.log(state.count); // 访问值
+state.count++; // 修改值
+</code></pre><h3>主要区别</h3><ol><li><strong>数据类型</strong>：<code>ref</code> 主要用于基本数据类型，但也可以用于对象和数组；<code>reactive</code> 适用于对象或数组等引用数据类型。</li><li><strong>返回值</strong>：<code>ref</code> 返回一个对象，这个对象包含一个 <code>value</code> 属性，这意味着你需要通过 <code>.value</code> 来获取或设置值；而 <code>reactive</code> 返回的是对象或数组的响应式代理，可以直接操作。</li><li><strong>模板中使用</strong>：在模板中使用时，<code>ref</code> 创建的响应式数据访问时不需要 <code>.value</code>，Vue 模板会自动解包；<code>reactive</code> 对象在模板中的行为与普通对象相同。</li></ol><h3>使用建议</h3><ul><li>当你处理基本数据类型时，使用 <code>ref</code>；</li><li>当你需要管理一个复杂的数据结构（如对象或数组），使用 <code>reactive</code> 以保持代码的简洁和直观。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

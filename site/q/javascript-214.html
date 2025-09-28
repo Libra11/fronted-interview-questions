@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>this指向与对象继承数组方法：输出以下代码执行的结果并解释为什么？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h4&gt;代码如下&lt;/h4&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;var obj = { &amp;#39;2&amp;#39;: 3, &amp;#39;3&amp;#39;: 4, &amp;#39;length&amp;#39;: 2, &amp;#39;splice&amp;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="this指向与对象继承数组方法：输出以下代码执行的结果并解释为什么？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h4&gt;代码如下&lt;/h4&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;var obj = { &amp;#39;2&amp;#39;: 3, &amp;#39;3&amp;#39;: 4, &amp;#39;length&amp;#39;: 2, &amp;#39;splice&amp;#39;: Array.prototype.splice, &amp;#39;push&amp;#39;: Array.prototyp" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/214" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>this指向与对象继承数组方法：输出以下代码执行的结果并解释为什么？</h1>
+      <div class="subtitle">JavaScript · JavaScript · 京东</div>
+      <div class="meta">创建：2023-03-27T16:13:39Z · 更新：2023-03-27T16:13:40Z</div>
+    </div>
+    <article class="content markdown-body"><h4>代码如下</h4><pre class="code-block"><code class="language-js">var obj = {
+    &#39;2&#39;: 3,
+    &#39;3&#39;: 4,
+    &#39;length&#39;: 2,
+    &#39;splice&#39;: Array.prototype.splice,
+    &#39;push&#39;: Array.prototype.push
+}
+obj.push(1);
+obj.push(2);
+console.log(obj);
+</code></pre><p>执行结果如何， 为什么？</p><h4>执行结果</h4><p>代码的执行结果是：</p><pre class="code-block"><code class="language-perl">perlCopy code{ &#39;2&#39;: 1, &#39;3&#39;: 2, length: 4, splice: [Function: splice], push: [Function: push] }
+</code></pre><p>在代码中，我们创建了一个名为 <code>obj</code> 的对象，它包含了一些属性和方法：</p><ul><li><code>2</code> 和 <code>3</code> 是对象的属性名，对应的属性值分别为 <code>3</code> 和 <code>4</code>。</li><li><code>length</code> 属性的值为 <code>2</code>。</li><li><code>splice</code> 和 <code>push</code> 是对象的两个方法，它们均继承自 <code>Array.prototype</code>。</li></ul><p>接下来，我们先调用了 <code>obj.push(1)</code> 方法，将值 <code>1</code> 加入到了 <code>obj</code> 对象中，此时 <code>obj</code> 对象的状态如下所示：</p><pre class="code-block"><code class="language-perl">perlCopy code{ &#39;2&#39;: 1, &#39;3&#39;: 4, length: 3, splice: [Function: splice], push: [Function: push] }
+</code></pre><p>接着，我们又调用了 <code>obj.push(2)</code> 方法，将值 <code>2</code> 加入到了 <code>obj</code> 对象中，此时 <code>obj</code> 对象的状态如下所示：</p><pre class="code-block"><code class="language-perl">perlCopy code{ &#39;2&#39;: 1, &#39;3&#39;: 2, length: 4, splice: [Function: splice], push: [Function: push] }
+</code></pre><p>可以看出，<code>obj</code> 对象的属性值发生了变化。这是因为在调用 <code>obj.push(1)</code> 方法时，由于 <code>obj</code> 对象继承了 <code>Array.prototype.push</code> 方法，因此 <code>push</code> 方法中的 <code>this</code> 指向的是 <code>obj</code> 对象本身，因此将值 <code>1</code> 加入到了 <code>obj</code> 对象的第二个属性位置上（即 <code>obj[2] = 1</code>）。而在调用 <code>obj.push(2)</code> 方法时，<code>push</code> 方法同样将值 <code>2</code> 加入到了 <code>obj</code> 对象的第三个属性位置上（即 <code>obj[3] = 2</code>）。因此最终得到的 <code>obj</code> 对象的状态为 <code>{ &#39;2&#39;: 1, &#39;3&#39;: 2, length: 4, splice: [Function: splice], push: [Function: push] }</code>。</p><h4>追问：上面的代码中 obj.push(1)， 为什么会加入到第二个属性位置上？</h4><p>在 JavaScript 中，数组是一种特殊的对象，其属性名是非负整数，称之为索引(index)，因此可以通过数组语法来访问这些属性。另外，对于非数组对象，其属性名可以是任意字符串。</p><p>在给数组对象添加属性时，如果属性名是非负整数，那么会被当作数组元素，会自动维护 <code>length</code> 属性；如果属性名是其他字符串，那么则被当作普通的对象属性。</p><p>根据这个规则，上述代码中的 <code>obj</code> 对象添加了两个属性 <code>2: 3</code> 和 <code>3: 4</code>，它们的属性名都是非负整数，因此被当作数组元素，被计入了 <code>length</code> 属性。而在执行 <code>obj.push(1)</code> 时，会向数组中添加一个新的元素，该元素的下标是数组的 <code>length</code> 属性值，也就是 <code>2</code>，因此添加到了第二个属性位置上。接着执行 <code>obj.push(2)</code> 时，同样会向数组中添加一个新的元素，该元素的下标是 <code>3</code>，也就是数组的第三个属性位置上。</p><p>最终，输出结果为：</p><pre class="code-block"><code class="language-perl">perlCopy code{ &#39;2&#39;: 1, &#39;3&#39;: 2, length: 4, splice: [Function: splice], push: [Function: push] }
+</code></pre><p>其中，属性 <code>2</code> 和 <code>3</code> 被分别赋值为 <code>1</code> 和 <code>2</code>，而原来的值被覆盖了。因此，最终的结果是 <code>{ &#39;2&#39;: 1, &#39;3&#39;: 2, length: 4, splice: [Function: splice], push: [Function: push] }</code>。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Vue] 触发事件修饰符 .exact 的作用是啥【热度: 454】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：事件修饰符、.exact 作用&lt;/p&gt;&lt;p&gt;&lt;code&gt;.exact&lt;/code&gt; 修饰符在 Vue 事件处理中起着非常特定的作用。它允许控制触发事件处理器的确切方式，确保只有在指定的系统修饰键（如 &lt;code&gt;ctrl&lt;/code" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Vue] 触发事件修饰符 .exact 的作用是啥【热度: 454】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：事件修饰符、.exact 作用&lt;/p&gt;&lt;p&gt;&lt;code&gt;.exact&lt;/code&gt; 修饰符在 Vue 事件处理中起着非常特定的作用。它允许控制触发事件处理器的确切方式，确保只有在指定的系统修饰键（如 &lt;code&gt;ctrl&lt;/code&gt;、&lt;code&gt;alt&lt;/code&gt;、&lt;code&gt;shift&lt;/code&gt;、&lt;code&gt;meta&lt;/code&gt;）组合完全" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/907" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Vue] 触发事件修饰符 .exact 的作用是啥【热度: 454】</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2024-09-17T08:54:55Z · 更新：2024-09-17T08:54:55Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：事件修饰符、.exact 作用</p><p><code>.exact</code> 修饰符在 Vue 事件处理中起着非常特定的作用。它允许控制触发事件处理器的确切方式，确保只有在指定的系统修饰键（如 <code>ctrl</code>、<code>alt</code>、<code>shift</code>、<code>meta</code>）组合完全匹配时，事件处理函数才会被触发。这意味着，如果你绑定了 <code>.exact</code> 修饰符到一个事件上，只有在没有其他未指定的修饰键被按下的情况下，该事件才会被触发。</p><h3>使用场景</h3><p><code>.exact</code> 修饰符非常有用，尤其是在你想要精确控制事件触发条件的时候。例如，你可能有以下场景：</p><ul><li>当用户严格只按下 <code>ctrl</code> 键时触发一个动作，如果用户同时按下了 <code>ctrl</code> 和 <code>shift</code>，则不触发。</li></ul><h3>示例</h3><pre class="code-block"><code class="language-html">&lt;!-- 只有当没有任何其他键被同时按下时，点击才会调用 doThis --&gt;
+&lt;button @click.exact=&quot;doThis&quot;&gt;No Modifier Key&lt;/button&gt;
+
+&lt;!-- 只有当仅按下 ctrl 键时点击才会调用 doThat --&gt;
+&lt;button @click.ctrl.exact=&quot;doThat&quot;&gt;Ctrl + Click Only&lt;/button&gt;
+</code></pre><p>在第一个例子中，点击按钮将只在没有按下 <code>ctrl</code>、<code>alt</code>、<code>shift</code> 或 <code>meta</code> 键的情况下触发 <code>doThis</code> 方法。在第二个例子中，<code>doThat</code> 方法只会在严格按下 <code>ctrl</code> 键时触发点击事件。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

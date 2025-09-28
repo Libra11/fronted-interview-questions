@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>在 webpack 中，通常用于 css 提取的工具是什么？【热度: 269】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：mini-css-extract-plugin作用、mini-css-extract-plugin使用&lt;/p&gt;&lt;p&gt;&lt;strong&gt;概念&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;在 webpack 中，通常使用 &lt;code&gt;mini-css-" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="在 webpack 中，通常用于 css 提取的工具是什么？【热度: 269】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：mini-css-extract-plugin作用、mini-css-extract-plugin使用&lt;/p&gt;&lt;p&gt;&lt;strong&gt;概念&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;在 webpack 中，通常使用 &lt;code&gt;mini-css-extract-plugin&lt;/code&gt; 来提取 CSS。它是一个独立的插件，可以将 CSS 从 JavaScript" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/592" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>在 webpack 中，通常用于 css 提取的工具是什么？【热度: 269】</h1>
+      <div class="subtitle">工程化 · 工程化 · 腾讯</div>
+      <div class="meta">创建：2023-10-05T03:10:58Z · 更新：2023-10-05T03:16:15Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：mini-css-extract-plugin作用、mini-css-extract-plugin使用</p><p><strong>概念</strong></p><p>在 webpack 中，通常使用 <code>mini-css-extract-plugin</code> 来提取 CSS。它是一个独立的插件，可以将 CSS 从 JavaScript 文件中提取出来，生成独立的 CSS 文件。</p><p>使用 <code>mini-css-extract-plugin</code> 可以优化代码分离和缓存，以及提高加载速度。</p><p>通过配置 webpack 的插件选项，可以将 <code>mini-css-extract-plugin</code> 添加到 webpack 构建流程中。在配置中，需要将该插件实例化，并指定输出的 CSS 文件名和路径。</p><p>一旦配置完成并运行 webpack 构建，<code>mini-css-extract-plugin</code> 就会将 CSS 提取到独立的文件中，而不是将其嵌入到 JavaScript 文件中。</p><p>示例代码如下：</p><pre class="code-block"><code class="language-javascript">const MiniCssExtractPlugin = require(&#39;mini-css-extract-plugin&#39;);
+
+module.exports = {
+  // ...其他配置
+  module: {
+    rules: [
+      // ...其他规则
+      {
+        test: /\.css$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          &#39;css-loader&#39;,
+        ],
+      },
+    ],
+  },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: &#39;[name].css&#39;,
+      chunkFilename: &#39;[id].css&#39;,
+    }),
+  ],
+};
+</code></pre><p>在上述示例中，<code>MiniCssExtractPlugin.loader</code> 是用于提取 CSS 的 loader。<code>css-loader</code> 用于处理 CSS 文件的导入和解析。</p><p><code>MiniCssExtractPlugin</code>则是插件实例，用于配置输出的 CSS 文件名。</p><p><strong>基本API使用</strong></p><p>下面是 <code>MiniCssExtractPlugin</code> 的常用参数及其说明：</p><p>| 参数名               | 类型     | 默认值       | 描述                                                                                                          |</p><p>| -------------------- | -------- | ------------ | ------------------------------------------------------------------------------------------------------------- |</p><p>| <code>filename</code>           | <code>string</code> | <code>[name].css</code> | 输出的 CSS 文件名，可以包含 <code>[name]</code>、<code>[id]</code>、<code>[contenthash]</code> 等占位符变量，用于生成唯一的文件名。            |</p><p>| <code>chunkFilename</code>      | <code>string</code> | <code>undefined</code>  | 输出的 CSS 文件名的 chunk 文件名，可以包含 <code>[name]</code>、<code>[id]</code>、<code>[contenthash]</code> 等占位符变量。                       |</p><p>| <code>ignoreOrder</code>        | <code>boolean</code> | <code>false</code>      | 是否忽略 CSS 导入顺序。                                                                                      |</p><p>| <code>insert</code>             | <code>function</code> &#124; <code>string</code> | <code>head</code>       | 用于指定 CSS 文件的插入位置。可以是字符串（<code>head</code>、<code>body</code>）或自定义函数。                                      |</p><p>| <code>publicPath</code>         | <code>string</code> | <code>undefined</code>  | 设置在 CSS 文件中使用的公共路径。                                                                              |</p><p>| <code>attributes</code>         | <code>object</code> | <code>{}</code>         | 附加到 <code>link</code> 标签的自定义属性。                                                                              |</p><p>| <code>chunkLoadTimeout</code>   | <code>number</code> | <code>120000</code>     | 加载 CSS chunk 的超时时间（毫秒）。                                                                           |</p><p>| <code>esModule</code>           | <code>boolean</code> | <code>true</code>       | 是否使用 ES modules 规范导出 CSS 模块。                                                                      |</p><p>| <code>experimentalUseImportModule</code> | <code>boolean</code> | <code>false</code> | 是否在导出 CSS 模块时使用 <code>import()</code> 函数。<strong>此选项需要 webpack 5+ 才能使用。</strong>                           |</p><p>| <code>hmr</code>                | <code>boolean</code> | <code>undefined</code>  | 是否启用模块热替换（Hot Module Replacement）。<strong>此选项需要 webpack 5+ 才能使用。</strong>                          |</p><p>| <code>ignoreOrder</code>        | <code>boolean</code> | <code>false</code>      | 是否忽略 CSS 导入顺序。                                                                                      |</p><p>| <code>minimize</code>           | <code>boolean</code> &#124; <code>object</code> | <code>true</code>       | 是否对提取的 CSS 进行压缩。可以通过传入一个对象来设置压缩的选项。使用 <code>cssnano</code> 进行 CSS 压缩。           |</p><p>| <code>sourceMap</code>          | <code>boolean</code> | <code>false</code>      | 是否生成 CSS 的 Source Map。                                                                                  |</p><p>| <code>moduleFilename</code>     | <code>function</code> | <code>(getAssetPath =&gt; </code>${path.relative(options.context, getAssetPath('css'))}<code>)</code> | 用于自定义生成的 CSS 文件路径和文件名的函数。 |</p><p>| <code>hot</code>                | <code>boolean</code> | <code>undefined</code>  | 是否启用热模块替换（Hot Module Replacement）。<strong>此选项需要 webpack 4.46.0+ 才能使用。</strong>                      |</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

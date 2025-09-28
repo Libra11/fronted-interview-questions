@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>手写实现一下 lodash.get？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;lodash.get 是一个 JavaScript 库 Lodash 中的函数，它允许您在对象中安全地获取深层嵌套的属性值，即使在中间的属性不存在时也不会引发错误。以下是一个简单的实现：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;lan" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="手写实现一下 lodash.get？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;lodash.get 是一个 JavaScript 库 Lodash 中的函数，它允许您在对象中安全地获取深层嵌套的属性值，即使在中间的属性不存在时也不会引发错误。以下是一个简单的实现：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;function get(object, path, defaultValue) { // 如果对象" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/38" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>手写实现一下 lodash.get？</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-09T14:51:22Z · 更新：2023-03-09T14:51:23Z</div>
+    </div>
+    <article class="content markdown-body"><p>lodash.get 是一个 JavaScript 库 Lodash 中的函数，它允许您在对象中安全地获取深层嵌套的属性值，即使在中间的属性不存在时也不会引发错误。以下是一个简单的实现：</p><pre class="code-block"><code class="language-js">function get(object, path, defaultValue) {
+  // 如果对象或路径不存在，则返回默认值
+  if (!object || !path) {
+    return defaultValue;
+  }
+  
+  // 将路径拆分为一个数组，并过滤掉空值
+  const pathArray = path.split(&#39;.&#39;).filter(Boolean);
+
+  // 循环遍历路径数组，以获取嵌套属性值
+  let value = object;
+  for (let i = 0; i &lt; pathArray.length; i++) {
+    const key = pathArray[i];
+    value = value[key];
+    if (value === undefined) {
+      return defaultValue;
+    }
+  }
+
+  // 如果找到了属性值，则返回它，否则返回默认值
+  return value || defaultValue;
+}
+</code></pre><p>使用示例：</p><pre class="code-block"><code class="language-js">const object = {
+  a: {
+    b: {
+      c: &#39;Hello World&#39;
+    }
+  }
+};
+
+get(object, &#39;a.b.c&#39;); // 返回 &#39;Hello World&#39;
+get(object, &#39;a.b.d&#39;); // 返回 undefined
+get(object, &#39;a.b.d&#39;, &#39;default&#39;); // 返回 &#39;default&#39;
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

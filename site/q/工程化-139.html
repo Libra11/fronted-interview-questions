@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>pnpm 和 npm 的区别？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;code&gt;pnpm&lt;/code&gt; 和 &lt;code&gt;npm&lt;/code&gt; 是两个不同的 JavaScript 包管理工具，它们有以下区别：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;包的存储方式：&lt;/strong&gt;&lt;code&gt;npm&lt;/code&gt; 将每个包都下载到项目的 &lt;co" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="pnpm 和 npm 的区别？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;code&gt;pnpm&lt;/code&gt; 和 &lt;code&gt;npm&lt;/code&gt; 是两个不同的 JavaScript 包管理工具，它们有以下区别：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;包的存储方式：&lt;/strong&gt;&lt;code&gt;npm&lt;/code&gt; 将每个包都下载到项目的 &lt;code&gt;node_modules&lt;/code&gt; 目录中，而 &lt;code&gt;pnpm&lt;/code&gt; 会在全局安装一个存储库，并" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/139" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>pnpm 和 npm 的区别？</h1>
+      <div class="subtitle">工程化 · 工程化</div>
+      <div class="meta">创建：2023-03-21T15:56:45Z · 更新：2023-03-21T15:57:18Z</div>
+    </div>
+    <article class="content markdown-body"><p><code>pnpm</code> 和 <code>npm</code> 是两个不同的 JavaScript 包管理工具，它们有以下区别：</p><ol><li><strong>包的存储方式：</strong><code>npm</code> 将每个包都下载到项目的 <code>node_modules</code> 目录中，而 <code>pnpm</code> 会在全局安装一个存储库，并在项目中创建一个符号链接到该存储库中的每个包。</li></ol><ol><li><strong>空间占用：</strong> 由于 <code>pnpm</code> 使用符号链接，它的空间占用通常比 <code>npm</code> 小，因为它避免了在多个项目中重复存储相同的依赖项。</li></ol><ol><li><strong>安装速度：</strong> 由于 <code>pnpm</code> 在全局安装中共享依赖项，因此安装速度通常比 <code>npm</code> 更快。</li></ol><ol><li><strong>命令行接口：</strong><code>pnpm</code> 的命令行接口与 <code>npm</code> 不同，但它们都提供了一组相似的命令来管理包。</li></ol><ol><li><strong>兼容性：</strong> 由于 <code>pnpm</code> 的存储方式不同于 <code>npm</code>，因此某些与 <code>npm</code> 兼容的工具可能无法与 <code>pnpm</code> 一起使用。</li></ol><p>总的来说，<code>pnpm</code> 与 <code>npm</code> 相比具有更小的空间占用和更快的安装速度，但由于其不同的存储方式可能会导致与某些工具的不兼容。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

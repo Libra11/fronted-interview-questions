@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>css 隐藏元素的方法有哪些【热度: 1,076】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：隐藏元素&lt;/p&gt;&lt;p&gt;有多种方法可以隐藏元素的CSS。&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;code&gt;display: none;&lt;/code&gt;：将元素完全隐藏，不占据任何空间。&lt;/li&gt;&lt;li&gt;&lt;code&gt;visibility: hidden" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="css 隐藏元素的方法有哪些【热度: 1,076】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：隐藏元素&lt;/p&gt;&lt;p&gt;有多种方法可以隐藏元素的CSS。&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;code&gt;display: none;&lt;/code&gt;：将元素完全隐藏，不占据任何空间。&lt;/li&gt;&lt;li&gt;&lt;code&gt;visibility: hidden;&lt;/code&gt;：将元素隐藏，但仍占据空间。&lt;/li&gt;&lt;li&gt;&lt;code&gt;opacity: 0;&lt;/code&gt;：将元素透" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/415" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>css 隐藏元素的方法有哪些【热度: 1,076】</h1>
+      <div class="subtitle">CSS · CSS</div>
+      <div class="meta">创建：2023-06-06T14:34:22Z · 更新：2023-06-06T14:34:23Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：隐藏元素</p><p>有多种方法可以隐藏元素的CSS。</p><ol><li><code>display: none;</code>：将元素完全隐藏，不占据任何空间。</li><li><code>visibility: hidden;</code>：将元素隐藏，但仍占据空间。</li><li><code>opacity: 0;</code>：将元素透明化，但仍占据空间。</li><li><code>position: absolute; left: -9999px;</code>：将元素定位到屏幕外部，不显示在可见区域。</li><li><code>height: 0; width: 0; overflow: hidden;</code>：将元素高度和宽度设为0，同时隐藏溢出内容。</li><li><code>clip-path: polygon(0 0, 0 0, 0 0);</code>：使用剪切路径将元素隐藏。</li></ol><p>这些方法可以根据具体的需求选择合适的方式来隐藏元素。使用 <code>display: none;</code> 是最常见和常用的隐藏元素的方法，它会完全移除元素并且不占据页面空间。而其他方法则可以根据需要在元素隐藏的同时保留占位空间或其他特殊效果。</p><p><strong><code>display: none;</code>、<code>visibility: hidden;</code> 和 <code>opacity: 0;</code> 区别是啥</strong></p><p><code>display: none;</code>、<code>visibility: hidden;</code> 和 <code>opacity: 0;</code> 是用于隐藏元素的CSS属性，它们之间有一些区别：</p><ol><li><code>display: none;</code>：该属性会完全移除元素，并且不占据页面空间。隐藏后的元素在文档流中不可见，也不会影响其他元素的布局。相当于元素被完全移除了，无法通过任何方式找到它。当需要彻底从页面中移除元素时，可以使用该属性。</li></ol><ol><li><code>visibility: hidden;</code>：该属性会将元素隐藏，但仍然占据页面空间。隐藏后的元素在文档流中保留了位置，仅仅是不可见了。元素隐藏后不会影响其他元素的布局。可以通过JavaScript或其他方式找到该元素，并且可以在需要时将其重新显示。</li></ol><ol><li><code>opacity: 0;</code>：该属性将元素设置为完全透明。元素仍然占据页面空间，但是不可见。透明元素在文档流中保留位置，并且不会影响其他元素的布局。可以通过JavaScript或其他方式找到该元素，并在需要时将其重新设置为可见。</li></ol><p>综上所述，<code>display: none;</code> 完全移除元素并且不占据空间，<code>visibility: hidden;</code> 保留元素位置但不可见，<code>opacity: 0;</code> 使元素透明但仍然占据空间。根据具体需求选择合适的属性来隐藏元素。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

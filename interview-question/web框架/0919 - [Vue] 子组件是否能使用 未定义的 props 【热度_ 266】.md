@@ -1,0 +1,53 @@
+# [Vue] 子组件是否能使用 未定义的 props 【热度: 266】
+
+- Issue: #919
+- State: open
+- Labels: web框架, TOP100互联网
+- Author: yanlele
+- URL: https://github.com/pro-collection/interview-question/issues/919
+- Created: 2024-09-17T13:38:25Z
+- Updated: 2024-09-17T13:39:25Z
+
+## Body
+
+**关键词**：组件定义 props
+
+在 Vue 中，子组件默认情况下不能使用未在 `props` 选项中明确定义的属性。Vue 的组件系统旨在明确组件之间的接口，其中 `props` 作为组件公开的属性，必须被明确声明。这样做的目的是为了增强代码的可读性和可维护性，确保组件之间的通信清晰和有序。
+
+### 但是，有几种方式可以绕过这个限制：
+
+#### 1. 使用 `$attrs`
+
+尽管子组件不能直接使用未声明的 `props`，但它可以通过继承未声明的属性来接收来自父组件的非 `props` 属性。Vue 实例的 `$attrs` 对象包含了传递给一个组件，但是未在 `props` 配置中声明的属性。这些属性包括 `class` 和 `style`，以及绑定的事件监听器（如果 `inheritAttrs` 配置项设置为 `false`）。
+
+```html
+<!-- 子组件 -->
+<template>
+  <div>{{ $attrs.someProp }}</div>
+</template>
+
+<script>
+  export default {
+    // 如果你不希望组件的根元素继承属性，可以设置 inheritAttrs: false
+    inheritAttrs: false,
+  };
+</script>
+```
+
+#### 2. 使用 `$props`
+
+虽然不推荐这种做法，但理论上，如果你通过动态的方式绑定父组件的属性到子组件上，并在子组件内部使用 `this.$props` 来访问这些属性，Vue 会警告未找到对应的 `prop` 定义，但这并不会阻止你在组件内部获取这些属性的值。
+
+```html
+<!-- 子组件 -->
+<template>
+  <div>{{ $props.someUndeclaredProp }}</div>
+</template>
+```
+
+这种方式不利于保持组件接口的清晰，很容易导致难以跟踪和理解的代码，因此并不推荐使用。
+
+### 最佳实践
+
+最佳实践是始终在子组件中明确声明你打算使用的所有 `props`。这有助于保持接口清晰，并使得组件之间的通信更加可靠和可维护。使用 `$attrs` 是处理未声明属性的推荐方式，尤其是当你需要构建高度复用的组件库时，它能提供额外的灵活性，而且可以保持组件接口的整洁和明确。
+

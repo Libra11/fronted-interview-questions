@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>给定两个数组，写一个方法来计算它们的交集？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;可以使用 ES6 的 Set 数据结构来实现数组交集。&lt;/p&gt;&lt;p&gt;首先，将一个数组转化为 Set，然后遍历另一个数组，将数组中存在于 Set 中的元素存入结果数组中。&lt;/p&gt;&lt;p&gt;以下是一个示例代码：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code cl" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="给定两个数组，写一个方法来计算它们的交集？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;可以使用 ES6 的 Set 数据结构来实现数组交集。&lt;/p&gt;&lt;p&gt;首先，将一个数组转化为 Set，然后遍历另一个数组，将数组中存在于 Set 中的元素存入结果数组中。&lt;/p&gt;&lt;p&gt;以下是一个示例代码：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;function intersection(nums1, nums2" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/222" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>给定两个数组，写一个方法来计算它们的交集？</h1>
+      <div class="subtitle">代码实现 · JavaScript · 腾讯 · 代码实现/算法</div>
+      <div class="meta">创建：2023-03-28T15:30:22Z · 更新：2025-07-22T04:21:24Z</div>
+    </div>
+    <article class="content markdown-body"><p>可以使用 ES6 的 Set 数据结构来实现数组交集。</p><p>首先，将一个数组转化为 Set，然后遍历另一个数组，将数组中存在于 Set 中的元素存入结果数组中。</p><p>以下是一个示例代码：</p><pre class="code-block"><code class="language-javascript">function intersection(nums1, nums2) {
+  const set1 = new Set(nums1);
+  const res = [];
+
+  for (let num of nums2) {
+    if (set1.has(num)) {
+      res.push(num);
+    }
+  }
+
+  return res;
+}
+</code></pre><p>使用示例：</p><pre class="code-block"><code class="language-javascript">const nums1 = [1, 2, 2, 1];
+const nums2 = [2, 2];
+
+console.log(intersection(nums1, nums2)); // [2]
+</code></pre><p>该算法的时间复杂度为 O(m+n)，其中 m 和 n 分别为两个数组的长度。</p><h2>Comments / Answers</h2><hr /><p><strong>QiaQiadiao</strong> at 2025-07-22T04:20:44Z</p><pre class="code-block"><code>var intersect = function(nums1, nums2) {
+    const cnt = new Map();
+    for (const x of nums1) {
+        cnt.set(x, (cnt.get(x) ?? 0) + 1);
+    }
+    const ans = [];
+    for (const x of nums2) {
+        const c = cnt.get(x) ?? 0;
+        if (c &gt; 0) {
+            cnt.set(x, c - 1);
+            ans.push(x);
+        }
+    }
+    return ans;
+};
+</code></pre><p>leetcode350，这样写才对吧</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

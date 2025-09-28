@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>node 中 nextTick 与 setTimeout 有什么区别【热度: 220】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：nextTick 与 setTimeout 区别&lt;/p&gt;&lt;p&gt;在 Node.js 中，&lt;code&gt;process.nextTick()&lt;/code&gt;和&lt;code&gt;setTimeout()&lt;/code&gt;有以下区别：&lt;/p&gt;&lt;p&gt;&lt;st" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="node 中 nextTick 与 setTimeout 有什么区别【热度: 220】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：nextTick 与 setTimeout 区别&lt;/p&gt;&lt;p&gt;在 Node.js 中，&lt;code&gt;process.nextTick()&lt;/code&gt;和&lt;code&gt;setTimeout()&lt;/code&gt;有以下区别：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、执行时机&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;code&gt;process.nextTick()&lt;/co" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/979" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>node 中 nextTick 与 setTimeout 有什么区别【热度: 220】</h1>
+      <div class="subtitle">Nodejs · Nodejs</div>
+      <div class="meta">创建：2024-10-12T15:01:38Z · 更新：2024-10-12T15:01:38Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：nextTick 与 setTimeout 区别</p><p>在 Node.js 中，<code>process.nextTick()</code>和<code>setTimeout()</code>有以下区别：</p><p><strong>一、执行时机</strong></p><ol><li><code>process.nextTick()</code>：</li></ol><ul><li><code>nextTick</code>会在当前事件循环的当前阶段结束后立即执行回调函数。这意味着它会在所有同步代码执行完毕后，但在事件循环进入下一个阶段之前执行。</li><li>例如：</li></ul><p>```javascript</p><p>console.log("Sync code");</p><p>process.nextTick(() => {</p><p>console.log("NextTick callback");</p><p>});</p><p>console.log("After nextTick call");</p><p>```</p><ul><li>在这个例子中，输出顺序将是“Sync code”，“After nextTick call”，然后是“NextTick callback”。</li></ul><ol><li><code>setTimeout()</code>：</li></ol><ul><li><code>setTimeout</code>会在指定的延迟时间过后，将回调函数添加到事件循环的定时器阶段进行执行。实际的执行时间可能会比指定的延迟时间稍长，因为它取决于事件循环的负载和其他正在等待执行的任务。</li><li>例如：</li></ul><p>```javascript</p><p>console.log("Sync code");</p><p>setTimeout(() => {</p><p>console.log("Timeout callback");</p><p>}, 0);</p><p>console.log("After setTimeout call");</p><p>```</p><ul><li>在这个例子中，输出顺序通常是“Sync code”，“After setTimeout call”，然后在一段时间后是“Timeout callback”。</li></ul><p><strong>二、用途</strong></p><ol><li><code>process.nextTick()</code>：</li></ol><ul><li>通常用于在当前操作完成后尽快执行一些关键任务，而不希望阻塞事件循环的其他任务。例如，在异步函数中，可能需要在返回控制给调用者之前执行一些清理操作，可以使用<code>nextTick</code>来确保这些操作在当前阶段完成后立即执行。</li><li>它也可以用于避免深度递归导致的栈溢出，通过将递归操作拆分成多个<code>nextTick</code>回调，可以控制执行的深度，防止栈的过度增长。</li></ul><ol><li><code>setTimeout()</code>：</li></ol><ul><li>主要用于在特定的延迟时间后执行某个任务。例如，实现超时处理、定期执行某个任务或者在一定时间后触发某个操作。</li><li><code>setTimeout</code>可以设置不同的延迟时间，以满足不同的需求。</li></ul><p><strong>三、性能影响</strong></p><ol><li><code>process.nextTick()</code>：</li></ol><ul><li>过度使用<code>nextTick</code>可能会导致事件循环被阻塞，因为它会在当前阶段结束后立即执行回调，而如果连续调用<code>nextTick</code>，可能会导致其他任务无法及时执行。</li><li>在一些情况下，可能会导致性能问题，特别是当有大量的<code>nextTick</code>回调排队等待执行时。</li></ul><ol><li><code>setTimeout()</code>：</li></ol><ul><li>由于<code>setTimeout</code>是在定时器阶段执行，它不会像<code>nextTick</code>那样立即阻塞事件循环。但是，如果设置的延迟时间过短，可能会导致频繁的定时器触发，增加事件循环的负担。</li><li>需要注意的是，<code>setTimeout</code>的最小延迟时间在不同的浏览器和 Node.js 环境中可能会有所不同，并且实际的延迟时间可能会受到系统负载和其他因素的影响。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

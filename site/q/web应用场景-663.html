@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何禁止别人调试自己的前端页面代码?【热度: 347】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：禁止别人调试自己的前端代码&lt;/p&gt;&lt;p&gt;&lt;strong&gt;无限 debugger&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;前端页面防止调试的方法主要是通过不断 &lt;code&gt;debugger&lt;/code&gt; 来疯狂输出断点，因为 &lt;cod" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何禁止别人调试自己的前端页面代码?【热度: 347】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：禁止别人调试自己的前端代码&lt;/p&gt;&lt;p&gt;&lt;strong&gt;无限 debugger&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;前端页面防止调试的方法主要是通过不断 &lt;code&gt;debugger&lt;/code&gt; 来疯狂输出断点，因为 &lt;code&gt;debugger&lt;/code&gt; 在控制台被打开的时候就会执行&lt;/li&gt;&lt;li&gt;由于程序被 &lt;code&gt;debugge" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/663" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何禁止别人调试自己的前端页面代码?【热度: 347】</h1>
+      <div class="subtitle">web应用场景 · web应用场景 · TOP100互联网</div>
+      <div class="meta">创建：2024-01-03T15:44:39Z · 更新：2024-01-03T15:44:39Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：禁止别人调试自己的前端代码</p><p><strong>无限 debugger</strong></p><ul><li>前端页面防止调试的方法主要是通过不断 <code>debugger</code> 来疯狂输出断点，因为 <code>debugger</code> 在控制台被打开的时候就会执行</li><li>由于程序被 <code>debugger</code> 阻止，所以无法进行断点调试，所以网页的请求也是看不到的</li><li>基础代码如下：</li></ul><pre class="code-block"><code class="language-javascript">/**
+* 基础禁止调试代码
+*/
+(() =&gt; {
+	function ban() {
+	  setInterval(() =&gt; {
+	    debugger;
+	  }, 50);
+	}
+	try {
+	  ban();
+	} catch (err) { }
+})();
+</code></pre><p><strong>无限 debugger 的对策</strong></p><ul><li>如果仅仅是加上面那么简单的代码，对于一些技术人员而言作用不大</li><li>可以通过控制台中的 <code>Deactivate breakpoints</code> 按钮或者使用快捷键 <code>Ctrl + F8</code> 关闭无限 <code>debugger</code></li><li>这种方式虽然能去掉碍眼的 <code>debugger</code>，但是无法通过左侧的行号添加 <code>breakpoint</code></li></ul><p><strong>禁止断点的对策</strong></p><ul><li>如果将 <code>setInterval</code> 中的代码写在一行，就能禁止用户断点，即使添加 <code>logpoint</code> 为 <code>false</code> 也无用</li><li>当然即使有些人想到用左下角的格式化代码，将其变成多行也是没用的</li></ul><pre class="code-block"><code class="language-javascript">(() =&gt; {
+  function ban() {
+    setInterval(() =&gt; { debugger; }, 50);
+  }
+  try {
+    ban();
+  } catch (err) { }
+})();
+</code></pre><p><strong>忽略执行的代码</strong></p><ul><li>通过添加 <code>add script ignore list</code> 需要忽略执行代码行或文件</li><li>也可以达到禁止无限 <code>debugger</code></li></ul><p><strong>忽略执行代码的对策</strong></p><ul><li>那如何针对上面操作的恶意用户呢</li><li>可以通过将 <code>debugger</code>改写成 <code>Function(&quot;debugger&quot;)();</code> 的形式来应对</li><li><code>Function</code> 构造器生成的 <code>debugger</code> 会在每一次执行时开启一个临时 <code>js</code> 文件</li><li>当然使用的时候，为了更加的安全，最好使用加密后的脚本</li></ul><pre class="code-block"><code class="language-javascript">// 加密前
+(() =&gt; {
+  function ban() {
+    setInterval(() =&gt; {
+      Function(&#39;debugger&#39;)();
+    }, 50);
+  }
+  try {
+    ban();
+  } catch (err) { }
+})();
+
+// 加密后
+eval(function(c,g,a,b,d,e){d=String;if(!&quot;&quot;.replace(/^/,String)){for(;a--;)e[a]=b[a]||a;b=[function(f){return e[f]}];d=function(){return&quot;\w+&quot;};a=1}for(;a--;)b[a]&amp;&amp;(c=c.replace(new RegExp(&quot;\b&quot;+d(a)+&quot;\b&quot;,&quot;g&quot;),b[a]));return c}(&#39;(()=&gt;{1 0(){2(()=&gt;{3(&quot;4&quot;)()},5)}6{0()}7(8){}})();&#39;,9,9,&quot;block function setInterval Function debugger 50 try catch err&quot;.split(&quot; &quot;),0,{}));
+</code></pre><p><strong>终极增强防调试代码</strong></p><ul><li>为了让自己写出来的代码更加的晦涩难懂，需要对上面的代码再优化一下</li><li>将 <code>Function(&#39;debugger&#39;).call()</code>改成 <code>(function(){return false;})&lt;a href=&quot;&amp;#39;debugger&amp;#39;&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;&amp;#39;constructor&amp;#39;&lt;/a&gt;[&#39;call&#39;]();</code></li><li>并且添加条件，当窗口外部宽高和内部宽高的差值大于一定的值 ，我把 <code>body</code> 里的内容换成指定内容</li><li>当然使用的时候，为了更加的安全，最好加密后再使用</li></ul><pre class="code-block"><code class="language-javascript">(() =&gt; {
+  function block() {
+    if (window.outerHeight - window.innerHeight &gt; 200 || window.outerWidth - window.innerWidth &gt; 200) {
+      document.body.innerHTML = &quot;检测到非法调试,请关闭后刷新重试!&quot;;
+    }
+    setInterval(() =&gt; {
+      (function () {
+        return false;
+      }
+      [&#39;constructor&#39;](&#39;debugger&#39;)
+      [&#39;call&#39;]());
+    }, 50);
+  }
+  try {
+    block();
+  } catch (err) { }
+})();
+</code></pre><p><strong>参考文档</strong></p><ul><li>https://juejin.cn/post/7262175454714626108</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

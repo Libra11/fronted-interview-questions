@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>创建一个禁止修改的对象， 只能通过指定方法去修改属性【热度: 410】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;具体描述如下&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;// 实现 createObject 函数， 用例如下； // 比如： const obj = createObject({ name: &amp;quot;na" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="创建一个禁止修改的对象， 只能通过指定方法去修改属性【热度: 410】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;具体描述如下&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;// 实现 createObject 函数， 用例如下； // 比如： const obj = createObject({ name: &amp;quot;name&amp;quot; }); obj.name = &amp;quot;name2&amp;quot;; // 错误， 禁止修改； obj." />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1040" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>创建一个禁止修改的对象， 只能通过指定方法去修改属性【热度: 410】</h1>
+      <div class="subtitle">代码实现 · 代码实现/算法</div>
+      <div class="meta">创建：2024-10-29T23:17:59Z · 更新：2024-10-29T23:52:46Z</div>
+    </div>
+    <article class="content markdown-body"><p>具体描述如下</p><pre class="code-block"><code class="language-js">// 实现 createObject 函数， 用例如下；
+
+// 比如：
+const obj = createObject({ name: &quot;name&quot; });
+
+obj.name = &quot;name2&quot;; // 错误， 禁止修改；
+obj.set(&quot;name&quot;, &quot;name2&quot;); // 正确方式， 允许修改；
+obj.set(&quot;address.info&quot;, &quot;chongqing&quot;); // 正确方式， 允许添加属性。
+</code></pre><p><strong>实现</strong></p><p>以下是使用 JavaScript 实现的<code>createObject</code>函数：</p><pre class="code-block"><code class="language-javascript">function createObject(initialData) {
+  const data = initialData;
+  return new Proxy(data, {
+    set(target, property, value, receiver) {
+      if (property === &#39;set&#39;) {
+        const keys = property.split(&#39;.&#39;);
+        let obj = target;
+        for (let i = 0; i &lt; keys.length - 1; i++) {
+          obj = obj[keys[i]] || (obj[keys[i]] = {});
+        }
+        obj[keys[keys.length - 1]] = value;
+        return true;
+      } else {
+        return false;
+      }
+    },
+    get(target, property, receiver) {
+      if (property === &#39;set&#39;) {
+        return function (key, value) {
+          const keys = key.split(&#39;.&#39;);
+          let obj = target;
+          for (let i = 0; i &lt; keys.length - 1; i++) {
+            obj = obj[keys[i]] || (obj[keys[i]] = {});
+          }
+          obj[keys[keys.length - 1]] = value;
+        };
+      } else {
+        return target[property];
+      }
+    },
+  });
+}
+</code></pre><p>你可以使用以下方式测试这个函数：</p><pre class="code-block"><code class="language-javascript">const obj = createObject({ name: &#39;name&#39; });
+
+obj.name = &#39;name2&#39;; // 不会生效，禁止直接修改属性
+console.log(obj.name); // &#39;name&#39;
+
+obj.set(&#39;name&#39;, &#39;name2&#39;);
+console.log(obj.name); // &#39;name2&#39;
+
+obj.set(&#39;address.info&#39;, &#39;chongqing&#39;);
+console.log(obj.address.info); // &#39;chongqing&#39;
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

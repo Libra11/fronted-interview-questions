@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Vue] 动态给 data 添加一个新的属性时会发生什么【热度: 164】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：vue更改data属性&lt;/p&gt;&lt;p&gt;&lt;strong&gt;直接添加属性的问题&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;我们从一个例子开始&lt;/p&gt;&lt;p&gt;定义一个&lt;code&gt;p&lt;/code&gt;标签，通过&lt;code&gt;v-for&lt;/code&gt;指令进行遍历&lt;/" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Vue] 动态给 data 添加一个新的属性时会发生什么【热度: 164】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：vue更改data属性&lt;/p&gt;&lt;p&gt;&lt;strong&gt;直接添加属性的问题&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;我们从一个例子开始&lt;/p&gt;&lt;p&gt;定义一个&lt;code&gt;p&lt;/code&gt;标签，通过&lt;code&gt;v-for&lt;/code&gt;指令进行遍历&lt;/p&gt;&lt;p&gt;然后给&lt;code&gt;botton&lt;/code&gt;标签绑定点击事件，我们预期点击按钮时，数据新增一个属性，界面也 新" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/571" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Vue] 动态给 data 添加一个新的属性时会发生什么【热度: 164】</h1>
+      <div class="subtitle">web框架 · web框架 · Shopee</div>
+      <div class="meta">创建：2023-09-29T13:40:12Z · 更新：2023-09-29T13:40:13Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：vue更改data属性</p><p><strong>直接添加属性的问题</strong></p><p>我们从一个例子开始</p><p>定义一个<code>p</code>标签，通过<code>v-for</code>指令进行遍历</p><p>然后给<code>botton</code>标签绑定点击事件，我们预期点击按钮时，数据新增一个属性，界面也 新增一行</p><pre class="code-block"><code class="language-vue">
+&lt;template&gt;
+  &lt;p v-for=&quot;(value,key) in item&quot; :key=&quot;key&quot;&gt;
+    {{ value }}
+  &lt;/p&gt;
+  &lt;button @click=&quot;addProperty&quot;&gt;动态添加新属性&lt;/button&gt;
+&lt;/template&gt;
+</code></pre><p>实例化一个<code>vue</code>实例，定义<code>data</code>属性和<code>methods</code>方法</p><pre class="code-block"><code class="language-js">const app = new Vue({
+  el: &quot;#app&quot;,
+  data: () =&gt; {
+    item:{
+      oldProperty:&quot;旧属性&quot;
+    }
+  },
+  methods: {
+    addProperty() {
+      this.items.newProperty = &quot;新属性&quot;  // 为items添加新属性
+      console.log(this.items)  // 输出带有newProperty的items
+    }
+  }
+})
+</code></pre><p>点击按钮，发现结果不及预期，数据虽然更新了（console打印出了新属性），但页面并没有更新</p><p><strong>原理分析</strong></p><p>为什么产生上面的情况呢？</p><p>下面来分析一下</p><p><code>vue2</code>是用过<code>Object.defineProperty</code>实现数据响应式</p><pre class="code-block"><code class="language-js">const obj = {}
+Object.defineProperty(obj, &#39;foo&#39;, {
+  get() {
+    console.log(`get foo:${val}`);
+    return val
+  },
+  set(newVal) {
+    if (newVal !== val) {
+      console.log(`set foo:${newVal}`);
+      val = newVal
+    }
+  }
+})
+</code></pre><p>当我们访问<code>foo</code>属性或者设置<code>foo</code>值的时候都能够触发<code>setter与getter</code></p><pre class="code-block"><code class="language-js">obj.foo   
+obj.foo = &#39;new&#39;
+</code></pre><p>但是我们为<code>obj</code>添加新属性的时候，却无法触发事件属性的拦截</p><pre class="code-block"><code class="language-js">obj.bar  = &#39;新属性&#39;
+</code></pre><p>原因是一开始<code>obj</code>的<code>foo</code>属性被设成了响应式数据，而<code>bar</code>是后面新增的属性，并没有通过<code>Object.defineProperty</code>设置成响应式数据</p><p><strong>解决方案</strong></p><p><code>Vue</code> 不允许在已经创建的实例上动态添加新的响应式属性</p><p>若想实现数据与视图同步更新，可采取下面三种解决方案：</p><ul><li><code>Vue.set()</code></li><li><code>Object.assign()</code></li><li><code>$forcecUpdated()</code></li></ul><p><strong><code>Vue.set()</code></strong></p><p><code>Vue.set( target, propertyName/index, value )</code></p><p>参数</p><ul><li><code>{Object | Array} target</code></li><li><code>{string | number} propertyName/index</code></li><li><code>{any} value</code></li></ul><p>返回值：设置的值</p><p>通过<code>Vue.set</code>向响应式对象中添加一个<code>property</code>，并确保这个新 <code>property</code> 同样是响应式的，且触发视图更新</p><p>关于<code>Vue.set</code>源码（省略了很多与本节不相关的代码）</p><p>源码位置：<code>src\core\observer\index.js</code></p><pre class="code-block"><code class="language-js">function set (target: Array&lt;any&gt; | Object, key: any, val: any): any {
+  ...
+  defineReactive(ob.value, key, val)
+  ob.dep.notify()
+  return val
+}
+</code></pre><p>这里无非再次调用 <code>defineReactive</code> 方法，实现新增属性的响应式</p><p>关于 <code>defineReactive</code> 方法，内部还是通过 <code>Object.defineProperty</code> 实现属性拦截</p><pre class="code-block"><code class="language-js">function defineReactive(obj, key, val) {
+    Object.defineProperty(obj, key, {
+        get() {
+            console.log(`get ${key}:${val}`);
+            return val
+        },
+        set(newVal) {
+            if (newVal !== val) {
+                console.log(`set ${key}:${newVal}`);
+                val = newVal
+            }
+        }
+    })
+}
+</code></pre><p><strong><code>Object.assign()</code></strong></p><p>直接使用Object.assign()添加到对象的新属性不会触发更新</p><p>应创建一个新的对象，合并原对象和混入对象的属性</p><pre class="code-block"><code class="language-js">this.someObject = Object.assign({},this.someObject,{newProperty1:1,newProperty2:2 ...})
+</code></pre><p><strong><code>$forceUpdate</code></strong></p><p>如果你发现你自己需要在 Vue 中做一次强制更新，99.9% 的情况，是你在某个地方做错了事</p><p><code>$forceUpdate</code> 迫使 Vue 实例重新渲染</p><p>PS：仅仅影响实例本身和插入插槽内容的子组件，而不是所有子组件。</p><p><strong>小结</strong></p><p>如果为对象添加少量的新属性，可以直接采用<code>Vue.set()</code></p><p>如果需要为新对象添加大量的新属性，则通过<code>Object.assign()</code>创建新对象</p><p>如果你实在不知道怎么操作时，可采取<code>$forceUpdate()</code>进行强制刷新 (不建议)</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

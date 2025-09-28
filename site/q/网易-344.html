@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] createPortal 了解多少？【热度: 597】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：react createPortal&lt;/p&gt;&lt;p&gt;&lt;code&gt;createPortal&lt;/code&gt; 是 React 中一个用于将子元素渲染到指定 DOM 元素下的 API。&lt;/p&gt;&lt;p&gt;在 React 应用中，通常会通过组件树传递" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] createPortal 了解多少？【热度: 597】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：react createPortal&lt;/p&gt;&lt;p&gt;&lt;code&gt;createPortal&lt;/code&gt; 是 React 中一个用于将子元素渲染到指定 DOM 元素下的 API。&lt;/p&gt;&lt;p&gt;在 React 应用中，通常会通过组件树传递 props、状态等数据来渲染 UI，并由 React 自动管理 DOM 元素的创建、更新和销毁等操作。不过，有时我们需" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/344" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] createPortal 了解多少？【热度: 597】</h1>
+      <div class="subtitle">网易 · web框架 · 网易</div>
+      <div class="meta">创建：2023-05-06T13:38:43Z · 更新：2023-05-06T13:38:44Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：react createPortal</p><p><code>createPortal</code> 是 React 中一个用于将子元素渲染到指定 DOM 元素下的 API。</p><p>在 React 应用中，通常会通过组件树传递 props、状态等数据来渲染 UI，并由 React 自动管理 DOM 元素的创建、更新和销毁等操作。不过，有时我们需要将某些 UI 元素渲染到根节点之外的 DOM 元素下，例如弹出框、模态框等。这时，<code>createPortal</code> 就能派上用场了。</p><p><code>createPortal</code> 的用法如下：</p><pre class="code-block"><code class="language-jsx">ReactDOM.createPortal(child, container)
+</code></pre><p>其中，<code>child</code> 是指要渲染的子元素，可以是任何有效的 React 元素，包括组件、HTML 元素等等；<code>container</code> 是指要将子元素渲染到的 DOM 元素，可以是一个有效的 DOM 元素对象，例如通过 <code>document.getElementById</code> 获取到的 DOM 元素。<code>createPortal</code> 会将 <code>child</code> 渲染到 <code>container</code> 中，但仍然能够受到 React 生命周期的管理，例如 <code>componentDidMount</code> 和 <code>componentWillUnmount</code> 等方法。</p><p>下面是一个例子，它展示了如何使用 <code>createPortal</code> 来将一个弹出框渲染到根节点之外的 DOM 元素下：</p><pre class="code-block"><code class="language-jsx">function Dialog(props) {
+  return ReactDOM.createPortal(
+    &lt;div className=&quot;dialog&quot;&gt;
+      &lt;h2&gt;{props.title}&lt;/h2&gt;
+      &lt;div&gt;{props.content}&lt;/div&gt;
+    &lt;/div&gt;,
+    document.getElementById(&#39;dialog-container&#39;)
+  );
+}
+
+function App() {
+  return (
+    &lt;div&gt;
+      &lt;p&gt;这是一个文本内容。&lt;/p&gt;
+      &lt;Dialog title=&quot;提示&quot; content=&quot;这是一个弹出框。&quot; /&gt;
+    &lt;/div&gt;
+  );
+}
+
+ReactDOM.render(&lt;App /&gt;, document.getElementById(&#39;root&#39;));
+</code></pre><p>在这个例子中，<code>Dialog</code> 组件使用 <code>createPortal</code> 将其子元素渲染到 <code>#dialog-container</code> 这个元素下，而不是直接渲染到 <code>#root</code> 下。这个功能使得我们可以在 React 应用中方便地处理弹出框等类似需求。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

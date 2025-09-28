@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Vue] 响应式为何要从 Object.defineProperty 改为 proxy?【热度: 352】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：vue Object.defineProperty、vue proxy 使用&lt;/p&gt;&lt;p&gt;Vue 在早期版本中使用了 &lt;code&gt;Object.defineProperty&lt;/code&gt; 来实现响应式系统。但是，在 &lt;code&gt;Ob" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Vue] 响应式为何要从 Object.defineProperty 改为 proxy?【热度: 352】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：vue Object.defineProperty、vue proxy 使用&lt;/p&gt;&lt;p&gt;Vue 在早期版本中使用了 &lt;code&gt;Object.defineProperty&lt;/code&gt; 来实现响应式系统。但是，在 &lt;code&gt;Object.defineProperty&lt;/code&gt; 中存在一些限制和局限性，导致在某些场景下无法完全满足需求。因此，V" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/595" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Vue] 响应式为何要从 Object.defineProperty 改为 proxy?【热度: 352】</h1>
+      <div class="subtitle">阿里巴巴 · 工程化 · 阿里巴巴</div>
+      <div class="meta">创建：2023-10-15T12:09:41Z · 更新：2023-10-15T12:09:42Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：vue Object.defineProperty、vue proxy 使用</p><p>Vue 在早期版本中使用了 <code>Object.defineProperty</code> 来实现响应式系统。但是，在 <code>Object.defineProperty</code> 中存在一些限制和局限性，导致在某些场景下无法完全满足需求。因此，Vue 在最新的版本中引入了 <code>Proxy</code> 来替代 <code>Object.defineProperty</code>。</p><p>以下是一些 <code>Proxy</code> 相对于 <code>Object.defineProperty</code> 的优势：</p><ol><li>功能更强大：<code>Proxy</code> 可以代理整个对象，而 <code>Object.defineProperty</code> 只能对已存在的属性进行拦截。使用 <code>Proxy</code> 可以在对象级别上进行拦截、代理、验证等操作。</li></ol><ol><li>更易于使用和理解：<code>Proxy</code> 提供了一组更直观和易于理解的 API，使开发者可以更容易地创建和管理代理。</li></ol><ol><li>性能优化：<code>Proxy</code> 针对属性的访问和修改都提供了更佳的性能优化。而 <code>Object.defineProperty</code> 在拦截属性访问和修改时会有一定的性能损耗。</li></ol><ol><li>更好的嵌套支持：<code>Proxy</code> 可以代理嵌套对象的属性，而 <code>Object.defineProperty</code> 只能对顶层对象的属性进行拦截。</li></ol><p>总的来说，<code>Proxy</code> 相对于 <code>Object.defineProperty</code> 在功能上更强大、使用更便捷、性能更优，并且在更复杂的场景下也能提供更好的支持。因此，Vue 在新版本中选择了使用 <code>Proxy</code> 来实现响应式系统。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>想设置 axios 全局通用配置， 有哪些方法【热度: 298】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：axios 配置&lt;/p&gt;&lt;p&gt;在 Axios 中，可以通过以下几种方法设置全局通用配置：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、使用&lt;code&gt;axios.defaults&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;直接设置属" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="想设置 axios 全局通用配置， 有哪些方法【热度: 298】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：axios 配置&lt;/p&gt;&lt;p&gt;在 Axios 中，可以通过以下几种方法设置全局通用配置：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、使用&lt;code&gt;axios.defaults&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;直接设置属性：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;可以直接在&lt;code&gt;axios.defaults&lt;/code&gt;上设置各种配置属" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/947" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>想设置 axios 全局通用配置， 有哪些方法【热度: 298】</h1>
+      <div class="subtitle">网络 · 网络 · web应用场景</div>
+      <div class="meta">创建：2024-09-28T02:36:12Z · 更新：2024-09-28T02:36:12Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：axios 配置</p><p>在 Axios 中，可以通过以下几种方法设置全局通用配置：</p><p><strong>一、使用<code>axios.defaults</code></strong></p><ol><li>直接设置属性：</li></ol><ul><li>可以直接在<code>axios.defaults</code>上设置各种配置属性，如<code>baseURL</code>、<code>timeout</code>、<code>headers</code>等。这些设置将应用于所有后续的 Axios 请求。</li></ul><p>```javascript</p><p>axios.defaults.baseURL = "https://api.example.com";</p><p>axios.defaults.timeout = 5000;</p><p>axios.defaults.headers.common["Authorization"] = "Bearer your_token";</p><p>```</p><ol><li>设置<code>transformRequest</code>和<code>transformResponse</code>：</li></ol><ul><li>可以设置全局的请求和响应数据转换函数。这些函数将在每个请求和响应上被调用，允许对数据进行预处理和后处理。</li></ul><p>```javascript</p><p>axios.defaults.transformRequest = [</p><p>function (data, headers) {</p><p>// 对请求数据进行转换</p><p>return data;</p><p>},</p><p>];</p><p>axios.defaults.transformResponse = [</p><p>function (data) {</p><p>// 对响应数据进行转换</p><p>return data;</p><p>},</p><p>];</p><p>```</p><p><strong>二、创建自定义 Axios 实例并设置配置</strong></p><ol><li>创建实例并设置配置：</li></ol><ul><li>可以创建一个自定义的 Axios 实例，并在创建时设置特定的配置。这个实例可以有自己独立的配置，与默认的 Axios 实例分开。</li></ul><p>```javascript</p><p>const customAxios = axios.create({</p><p>baseURL: "https://custom-api.example.com",</p><p>timeout: 10000,</p><p>headers: {</p><p>"Custom-Header": "custom-value",</p><p>},</p><p>});</p><p>```</p><ol><li>使用自定义实例：</li></ol><ul><li>可以在应用中的任何地方使用这个自定义实例来发送请求，它将使用设置的全局配置。</li></ul><p>```javascript</p><p>customAxios</p><p>.get("/data")</p><p>.then((response) => {</p><p>console.log(response.data);</p><p>})</p><p>.catch((error) => {</p><p>console.error(error);</p><p>});</p><p>```</p><p><strong>三、使用插件或中间件（如果适用）</strong></p><ol><li>寻找合适的插件：</li></ol><ul><li>有些第三方插件可以帮助你设置 Axios 的全局配置。例如，<code>axios-interceptors</code>插件可以方便地设置请求和响应拦截器，从而实现全局的配置和处理逻辑。</li></ul><p>```javascript</p><p>import axios from "axios";</p><p>import axiosInterceptors from "axios-interceptors";</p><p>const axiosInstance = axiosInterceptors(axios);</p><p>axiosInstance.useInterceptors({</p><p>request: (config) => {</p><p>// 在请求发送前进行一些处理</p><p>config.headers["Custom-Header"] = "custom-value";</p><p>return config;</p><p>},</p><p>response: (response) => {</p><p>// 在响应返回后进行一些处理</p><p>return response;</p><p>},</p><p>});</p><p>```</p><ol><li>自定义中间件：</li></ol><ul><li>根据你的应用需求，你也可以创建自己的中间件来设置全局配置。中间件可以在请求发送前或响应返回后进行特定的处理。</li></ul><p>```javascript</p><p>axios.interceptors.request.use(</p><p>(config) => {</p><p>// 全局请求处理逻辑</p><p>return config;</p><p>},</p><p>(error) => {</p><p>return Promise.reject(error);</p><p>}</p><p>);</p><p>axios.interceptors.response.use(</p><p>(response) => {</p><p>// 全局响应处理逻辑</p><p>return response;</p><p>},</p><p>(error) => {</p><p>return Promise.reject(error);</p><p>}</p><p>);</p><p>```</p><p>通过这些方法，你可以灵活地设置 Axios 的全局通用配置，以满足不同的应用需求。同时，要注意合理管理全局配置，避免出现冲突或不可预期的行为。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

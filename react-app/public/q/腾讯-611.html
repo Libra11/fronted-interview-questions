@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Webpack] 通过 babel-loader 来编译 tsx 文件， 应该如何配置呢？【热度: 221】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;如果你想使用 &lt;code&gt;babel-loader&lt;/code&gt; 来编译 TypeScript 文件（&lt;code&gt;.tsx&lt;/code&gt;），你需要在 &lt;code&gt;babel.config.js&lt;/code&gt; 和 &lt;code&gt;webpack.config.js&lt;/code&gt; " />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Webpack] 通过 babel-loader 来编译 tsx 文件， 应该如何配置呢？【热度: 221】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;如果你想使用 &lt;code&gt;babel-loader&lt;/code&gt; 来编译 TypeScript 文件（&lt;code&gt;.tsx&lt;/code&gt;），你需要在 &lt;code&gt;babel.config.js&lt;/code&gt; 和 &lt;code&gt;webpack.config.js&lt;/code&gt; 两个文件中进行相应的配置。&lt;/p&gt;&lt;p&gt;首先，在 &lt;code&gt;babel.config.js&lt;/code&gt; 文件中，你需" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/611" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Webpack] 通过 babel-loader 来编译 tsx 文件， 应该如何配置呢？【热度: 221】</h1>
+      <div class="subtitle">腾讯 · 工程化 · 腾讯</div>
+      <div class="meta">创建：2023-11-01T14:43:24Z · 更新：2023-11-01T14:57:36Z</div>
+    </div>
+    <article class="content markdown-body"><p>如果你想使用 <code>babel-loader</code> 来编译 TypeScript 文件（<code>.tsx</code>），你需要在 <code>babel.config.js</code> 和 <code>webpack.config.js</code> 两个文件中进行相应的配置。</p><p>首先，在 <code>babel.config.js</code> 文件中，你需要添加 <code>@babel/preset-typescript</code> 预设，以便兼容 TypeScript：</p><pre class="code-block"><code class="language-javascript">module.exports = {
+  presets: [&#39;@babel/preset-env&#39;, &#39;@babel/preset-react&#39;, &#39;@babel/preset-typescript&#39;]
+};
+</code></pre><p>接下来，在 <code>webpack.config.js</code> 文件中，你需要对 <code>.tsx</code> 文件使用 <code>babel-loader</code>：</p><pre class="code-block"><code class="language-javascript">module.exports = {
+  // ...其他配置项
+  module: {
+    rules: [
+      // ...其他规则
+      {
+        test: /\.(ts|tsx)$/,
+        exclude: /node_modules/,
+        use: &#39;babel-loader&#39;,
+      },
+    ],
+  },
+};
+</code></pre><p>这样，当 webpack 执行构建时，<code>babel-loader</code> 将会使用 <code>babel.config.js</code> 中配置的预设来编译 <code>.tsx</code> 文件。同时，除了 TypeScript 文件，你还可以使用该配置来编译 JavaScript 文件（<code>.js</code>）和 React JSX 文件（<code>.jsx</code>）。</p><p><strong>追问</strong></p><p><code>&#39;@babel/preset-env&#39;, &#39;@babel/preset-typescript&#39;, &#39;@babel/preset-react&#39;</code> 这三个插件的作用是什么？</p><ul><li><code>@babel/preset-env</code>：它是 Babel 的一个预设，用于根据目标环境（浏览器、Node.js 等）自动确定需要转译的 JavaScript 特性，并将其转换为目标环境所支持的代码。它将根据你配置的目标环境和浏览器的使用情况，智能地选择需要转译的特性，以减小转译后的代码体积。它也包含了一些插件，例如转换箭头函数、解构赋值、模板字符串等。</li></ul><ul><li><code>@babel/preset-typescript</code>：它是 Babel 的一个预设，用于将 TypeScript 代码转译为 JavaScript 代码，以便在不支持 TypeScript 的环境中运行。它包含了一些插件，例如转换 TypeScript 的类型注解、类成员修饰符、泛型类型等。</li></ul><ul><li><code>@babel/preset-react</code>：它是 Babel 的一个预设，用于将 React 的 JSX 语法转译为普通的 JavaScript 代码，以便在不支持 JSX 的环境中运行。它也包含了一些插件，例如转换 JSX 语法、处理 React 的内置组件等。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

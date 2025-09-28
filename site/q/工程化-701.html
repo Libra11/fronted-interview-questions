@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] 为什么 react 组件， 都必须要申明一个 `import React from &#39;react&#39;;`【热度: 115】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：babel 编译 react&lt;/p&gt;&lt;p&gt;首先要知道一个事情： &lt;strong&gt;JSX 是无法直接运行在浏览器环境&lt;/strong&gt;。&lt;/p&gt;&lt;h3&gt;原因&lt;/h3&gt;&lt;p&gt;JSX 语法不能直接被浏览器解析和运行，因此需要插件 &lt;cod" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] 为什么 react 组件， 都必须要申明一个 `import React from &#39;react&#39;;`【热度: 115】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：babel 编译 react&lt;/p&gt;&lt;p&gt;首先要知道一个事情： &lt;strong&gt;JSX 是无法直接运行在浏览器环境&lt;/strong&gt;。&lt;/p&gt;&lt;h3&gt;原因&lt;/h3&gt;&lt;p&gt;JSX 语法不能直接被浏览器解析和运行，因此需要插件 &lt;code&gt;@babel/plugin-transform-react-jsx&lt;/code&gt; 来转换语法，使之能够在浏览器或任何" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/701" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] 为什么 react 组件， 都必须要申明一个 `import React from &#39;react&#39;;`【热度: 115】</h1>
+      <div class="subtitle">工程化 · web框架 · 工程化 · 小红书</div>
+      <div class="meta">创建：2024-04-14T02:40:59Z · 更新：2024-04-14T02:41:00Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：babel 编译 react</p><p>首先要知道一个事情： <strong>JSX 是无法直接运行在浏览器环境</strong>。</p><h3>原因</h3><p>JSX 语法不能直接被浏览器解析和运行，因此需要插件 <code>@babel/plugin-transform-react-jsx</code> 来转换语法，使之能够在浏览器或任何 JavaScript 环境中执行。</p><p>所以 React 组件需要引入<code>React</code>的一个主要原因是：在组件中使用 JSX 时，JSX 语法最终会被 Babel 编译成使用<code>React.createElement</code>方法的 JavaScript 代码。也就是说，任何使用 JSX 的 React 组件的背后都隐含了<code>React.createElement</code>的调用。</p><p>例如，当你编写如下的 JSX 代码：</p><pre class="code-block"><code class="language-jsx">const MyComponent = () =&gt; {
+  return &lt;div&gt;Hello, World!&lt;/div&gt;;
+};
+</code></pre><p>Babel 会将这段 JSX 编译为如下的 JavaScript 代码：</p><pre class="code-block"><code class="language-javascript">const MyComponent = () =&gt; {
+  return React.createElement(&quot;div&quot;, null, &quot;Hello, World!&quot;);
+};
+</code></pre><p>由于编译后的代码调用了<code>React.createElement</code>，因此你需要在文件顶部导入<code>React</code>对象才能使用它。即使你在组件中并没有直接使用<code>React</code>对象，编译后的代码依赖于<code>React</code>的运行时。</p><h3>Babel 7.0+ / React 17+ ， 可以不再需要 import React</h3><p>在 Babel 7.0 版本之后，<code>@babel/plugin-transform-react-jsx</code> 插件还支持一个自动模式，它可以自动引入 JSX 转换所需的<code>React</code>包，无需手动在每个文件中添加 <code>import React from &#39;react&#39;</code>。</p><p>注意，随着 React 17 的新 JSX 变换，它们引入了一个新的 JSX 转换方式，这在新的 Babel 插件 <code>@babel/plugin-transform-react-jsx</code> 和 <code>@babel/preset-react</code> 中得到了支持。这意味着在写 JSX 时，你不再需要导入 React。这个插件现在接收一个 <code>{ runtime: &#39;automatic&#39; }</code> 选项来启用这一特性。</p><p>举个例子，在使用新的 JSX 转换之后，编译器将会自动引入 JSX 的运行时库，而不是 React，例如对于一个使用了新转换的<code>MyComponent</code>的组件:</p><pre class="code-block"><code class="language-jsx">// React 17+ 及支持新JSX转换的环境，可以不需要显式写这行
+// import React from &#39;react&#39;;
+
+const MyComponent = () =&gt; {
+  return &lt;div&gt;Hello, World!&lt;/div&gt;;
+};
+</code></pre><p>在新的转换下，你会看到类似<code>import { jsx as _jsx } from &#39;react/jsx-runtime&#39;</code>的东西或者类似的别名，被自动插入到转译后的文件中，而不再是直接的<code>React.createElement</code>调用。这就是为什么在新版本的 React 中，你可能不再需要手动导入 React 了。</p><h3>补充一个细节知识点： plugin-transform-react-jsx<code>和</code>@babel/preset-react` 是啥关系</h3><p><strong>它们是包含关系</strong>： <code>@babel/preset-react</code> 包括了 <code>@babel/plugin-transform-react-jsx</code></p><p><code>@babel/plugin-transform-react-jsx</code> 和 <code>@babel/preset-react</code> 都是 Babel 插件，它们在处理 React 项目中的 JSX 代码方面有关联，但它们的用途和包含的内容有所不同。</p><ol><li><strong>@babel/plugin-transform-react-jsx</strong>:</li></ol><p>这是一个特定的 Babel 插件，它的功能就是将 JSX 语法转换为<code>React.createElement</code> 调用。随着 React 17 的更新，它还允许使用新的 JSX 转换，无需导入 React 就可以使用 JSX。这意味着，在文件中不再需要 <code>import React from &#39;react&#39;</code> 语句了，就可以使用 JSX。</p><p>这个插件通常用于开发者想要精细控制某个具体转换功能时。如果你只需要转换 JSX 语法，但不需要处理其他与 React 相关的转换或优化，你可能会单独使用这个插件。</p><ol><li><strong>@babel/preset-react</strong>:</li></ol><p>这是一个 Babel 预设，它是一组 Babel 插件的集合，旨在为 React 项目提供所需的全部 Babel 插件。<code>@babel/preset-react</code> 包括了 <code>@babel/plugin-transform-react-jsx</code>，但它还包含了其他一些插件，如处理 React 的显示名称的 <code>@babel/plugin-transform-react-display-name</code>，以及为开发模式和生产模式添加/删除某些代码的插件。</p><p>预设的好处是简化了配置过程。开发者可以在 Babel 的配置中一次性添加 <code>@babel/preset-react</code>，而不是单独添加每一个与 React 相关的 Babel 插件。此外，预设将维护这些插件的正确版本和顺序，这有助于避免潜在的配置错误。</p><p>在实践中，大多数开发 React 应用的开发者会使用 <code>@babel/preset-react</code> 因为它提供了一个即插即用的 Babel 环境，无需担心各个插件的具体细节。但是也有些情况下，为了更细致的优化和控制，开发者可能会选择手动添加特定的插件，包括 <code>@babel/plugin-transform-react-jsx</code>。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

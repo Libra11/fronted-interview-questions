@@ -1,0 +1,61 @@
+# [webpack] 什么情况下 webpack treeShaking 会失效？
+
+- Issue: #235
+- State: open
+- Labels: 工程化, 小米
+- Author: yanlele
+- URL: https://github.com/pro-collection/interview-question/issues/235
+- Created: 2023-03-29T15:34:25Z
+- Updated: 2023-03-29T15:34:26Z
+
+## Body
+
+### 以下是一些可能导致 webpack tree shaking 失效的情况
+
+1. 代码中使用了动态引入（Dynamic Imports）的语法，这种情况下，webpack 无法确定哪些代码会被使用，因此不会进行 tree shaking。
+
+2. 代码使用了函数式编程的方式，比如使用了 map、filter、reduce 等高阶函数，而这些函数很难通过静态分析确定代码的执行路径，所以可能会导致 tree shaking 失效。
+
+3. 代码中使用了 webpack 无法识别的模块系统，比如使用了 AMD 或者 CommonJS 的语法，这种情况下 webpack 也无法进行 tree shaking。
+
+4. 代码使用了 side effect，比如改变全局变量或者函数的参数，这种情况下 webpack 也无法进行 tree shaking。
+
+### 函数式编程的方式 filter 为何会导致无法 tree shaking
+
+函数式编程中常常使用高阶函数来组合函数，这种组合方式常常需要使用传递函数作为参数的方式，例如 map、filter 等高阶函数。这种情况下，如果参数传递的是一个函数表达式或者函数声明，那么无法进行 treeshaking。
+
+举个例子：
+
+```js
+// 代码中定义了一个 sum 函数
+function sum(a, b) {
+  return a + b;
+}
+
+// 调用了 lodash 库的 filter 函数，传递一个匿名函数表达式作为参数
+import { filter } from 'lodash';
+
+const arr = [1, 2, 3, 4, 5];
+const result = filter(arr, item => {
+  if (item > 10) return sum(item, 1)
+  else return item;
+});
+```
+上述代码中，使用了 lodash 库的 filter 函数，并且传递了一个匿名函数表达式作为参数。由于函数表达式无法被静态分析，不知道 sum 是否会被调用，因此无法进行 treeshaking，最终导致整个 sum 函数也被打包进了最终的代码中。
+
+### 为什么 commonjs 模块化会导致无法 tree shaking
+
+CommonJS 模块化语法是 Node.js 中的模块化规范，其使用了 `require()` 导入模块，使用 `module.exports` 或 `exports` 导出模块。它采用的是动态导入（require()）和同步加载的方式，这种导入方式无法在编译时确定所依赖的模块，因此在 Webpack 进行 Tree Shaking 时，这种导入方式的模块会被认为无法被静态分析，因而会被排除掉。
+
+相反，ES6 模块化语法采用的是静态导入的方式，例如 `import foo from './foo.js'`，可以在编译时分析出所依赖的模块，因此支持 Tree Shaking。
+
+因此，如果要使用 Tree Shaking，建议采用 ES6 模块化语法。如果必须使用 CommonJS 模块化规范，可以尝试使用动态导入`（import()）`语法，或者采用其他工具或手动实现 Tree Shaking。
+
+
+### side effect 是什么，为何会导致无法 tree shaking
+
+在编写 JavaScript 代码时，如果一个函数除了返回值外，还对外部的变量产生了其他的影响，比如修改了全局变量、读写了文件等操作，那么这个函数就被称为有“副作用”（side effect）。因为这种函数并不是纯函数，它可能会影响其他部分的代码执行结果，不便于优化和调试。
+
+在 Tree Shaking 的过程中，webpack 将模块打包成单独的 JavaScript 文件，它会从模块中找出哪些代码没有被使用到，并删除这些代码。但是，如果模块中存在带有副作用的代码，这些代码虽然没有被使用到，但它们仍然会被保留下来，因为这些代码可能会对其他部分的代码产生影响，因此不能简单地删除。这也是为什么带有副作用的代码会导致无法 Tree Shaking 的原因。
+
+

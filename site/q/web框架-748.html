@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] useEffect 钩子的工作原理是什么【热度: 459】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：React useEffect&lt;/p&gt;&lt;p&gt;&lt;code&gt;useEffect&lt;/code&gt; 钩子的工作原理涉及到 React 的渲染流程和副作用的调度机制。以下是其工作原理的详细说明：&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;调度副作用" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] useEffect 钩子的工作原理是什么【热度: 459】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：React useEffect&lt;/p&gt;&lt;p&gt;&lt;code&gt;useEffect&lt;/code&gt; 钩子的工作原理涉及到 React 的渲染流程和副作用的调度机制。以下是其工作原理的详细说明：&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;调度副作用&lt;/strong&gt;：当你在组件内部调用 &lt;code&gt;useEffect&lt;/code&gt; 时，你实际上是将一个副作用函数及其" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/748" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] useEffect 钩子的工作原理是什么【热度: 459】</h1>
+      <div class="subtitle">web框架 · web框架 · 滴滴</div>
+      <div class="meta">创建：2024-05-10T14:57:08Z · 更新：2024-05-10T14:57:08Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：React useEffect</p><p><code>useEffect</code> 钩子的工作原理涉及到 React 的渲染流程和副作用的调度机制。以下是其工作原理的详细说明：</p><ul><li><strong>调度副作用</strong>：当你在组件内部调用 <code>useEffect</code> 时，你实际上是将一个副作用函数及其依赖项数组排队等待执行。这个函数并不会立即执行。</li></ul><ul><li><strong>提交阶段（Commit Phase）</strong>：React 渲染组件并且执行了所有的纯函数组件或类组件的渲染方法后，会进入所谓的提交阶段。在这个阶段，React 将计算出的新视图（新的 DOM 节点）更新到屏幕上。一旦这个更新完成，React 就知道现在可以安全地执行副作用函数了，因为这不会影响到正在屏幕上显示的界面。</li></ul><ul><li><strong>副作用执行</strong>：提交阶段完成后，React 会处理所有排队的副作用。如果组件是首次渲染，所有的副作用都会执行。如果组件是重新渲染，React 会首先对比副作用的依赖项数组：如果依赖项未变，副作用则不会执行；如果依赖项有变化，或者没有提供依赖项数组，副作用会再次执行。</li></ul><ul><li><strong>清理机制</strong>：如果副作用函数返回了一个函数，那么这个函数将被视为清理函数。在执行当前的副作用之前，以及组件卸载前，React 会先调用上一次渲染中的清理函数。这样确保了不会有内存泄漏，同时能撤销上一次副作用导致的改变。</li></ul><ul><li><strong>延迟副作用</strong>：尽管 <code>useEffect</code> 会在渲染之后执行，但它是异步执行的，不会阻塞浏览器更新屏幕。这意味着 React 会等待浏览器完成绘制之后，再执行你的副作用函数，以此来确保副作用处理不会导致用户可见的延迟。</li></ul><p>通过这种机制，<code>useEffect</code> 允许开发者以一种优化的方式来处理组件中可能存在的副作用，而不需要关心渲染的具体时机。退出清理功能确保了即使组件被多次快速创建和销毁，应用程序也能保持稳定和性能。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

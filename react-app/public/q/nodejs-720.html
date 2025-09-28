@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>express 里面的 中间件 和 插件， 是一个意思吗？【热度: 469】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：express 中间件、express 插件&lt;/p&gt;&lt;p&gt;在 Express.js 中，&quot;中间件&quot; 和 &quot;插件&quot; 这两个术语有时被交替使用，但实际上它们可能指向不同类型的组件，其差异取决于上下文。&lt;/p&gt;&lt;h3&gt;中间件 (Middl" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="express 里面的 中间件 和 插件， 是一个意思吗？【热度: 469】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：express 中间件、express 插件&lt;/p&gt;&lt;p&gt;在 Express.js 中，&quot;中间件&quot; 和 &quot;插件&quot; 这两个术语有时被交替使用，但实际上它们可能指向不同类型的组件，其差异取决于上下文。&lt;/p&gt;&lt;h3&gt;中间件 (Middleware)&lt;/h3&gt;&lt;p&gt;中间件是 Express 架构的核心部分，它是具有访问请求对象（&lt;code&gt;req&lt;/cod" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/720" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>express 里面的 中间件 和 插件， 是一个意思吗？【热度: 469】</h1>
+      <div class="subtitle">Nodejs · Nodejs · 阿里巴巴</div>
+      <div class="meta">创建：2024-04-20T06:45:19Z · 更新：2024-04-20T06:45:19Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：express 中间件、express 插件</p><p>在 Express.js 中，"中间件" 和 "插件" 这两个术语有时被交替使用，但实际上它们可能指向不同类型的组件，其差异取决于上下文。</p><h3>中间件 (Middleware)</h3><p>中间件是 Express 架构的核心部分，它是具有访问请求对象（<code>req</code>），响应对象（<code>res</code>），以及应用请求-响应循环中的下一个中间件的函数。中间件可以执行以下任务：</p><ol><li><strong>执行任何代码</strong>。</li><li><strong>对请求和响应对象做出更改</strong>。</li><li><strong>结束请求-响应循环</strong>。</li><li><strong>调用堆栈中的下一个中间件</strong>。</li><li><strong>如果当前是一个错误处理中间件，也可以调用 <code>next</code> 函数来跳过执行后续的请求处理中间件</strong>。</li></ol><p>中间件可以用来处理日志记录、用户认证、HTTP 方法限定、跨域资源共享（CORS）、请求体解析等。</p><p>示例代码：</p><pre class="code-block"><code class="language-javascript">app.use((req, res, next) =&gt; {
+  // 这里是中间件逻辑
+  next();
+});
+</code></pre><h3>插件 (Plugins)</h3><p>在 Node.js 和 Express 生态系统中，"插件" 通常指的是：</p><ol><li><strong>第三方库</strong>：它们不是 Express 的原生部分，但可以被集成到 Express 应用中来提供额外的功能。例如，<code>morgan</code>（日志记录中间件）、<code>cors</code>（处理 CORS 请求）等。</li></ol><ol><li><strong>Express 框架的扩展</strong>：某些特定的功能或一整套中间件，它们封装了一组特定的行为或应用结构，使之更容易复用于不同的项目中。</li></ol><ol><li><strong>框架本身的一部分</strong>：在某些情况下，插件也可以是 Express 框架自身的功能模块或特性。</li></ol><p>插件通常是由社区成员创建并维护的，它们可能遵从不同的 API 约定并且提供了比 Express 内置功能更特定的高级功能。</p><h3>主要区别</h3><ul><li><strong>集成方式</strong>：中间件通常是独立功能的函数，可以在应用的任何地方被 <code>use</code> 或 <code>middlewareFunction</code> 调用。插件则可能是更复杂的库，提供一系列中间件、错误处理或者服务级别的功能。</li></ul><ul><li><strong>功能范畴</strong>：中间件更侧重于 HTTP 请求的处理，通常与单个请求相关。插件则可能提供包括但不限于 HTTP 请求处理的更广泛的功能集。</li></ul><ul><li><strong>源码结构</strong>：中间件通常是单一功能的模块，而插件则可能是一个完整的包，包含了一个或多个中间件以及附加功能。</li></ul><p>在实践使用中，一般不会严格区分中间件和插件，关键是理解它们提供的功能，以及如何将其集成到你的 Express 应用中。开发者通常根据自己的项目需求选择相应的中间件或插件来扩展 Express 应用的功能。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

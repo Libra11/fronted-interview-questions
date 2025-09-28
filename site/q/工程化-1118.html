@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>很多web前端框架里面会有约定式路由， 他们是如何实现的【热度: 331】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：约定是路由&lt;/p&gt;&lt;p&gt;约定式路由（Convention over Configuration，CoC）是现代前端框架（如 Next.js、Nuxt.js、VitePress 等）广泛采用的路由实现方式，其核心思想是&lt;strong&gt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="很多web前端框架里面会有约定式路由， 他们是如何实现的【热度: 331】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：约定是路由&lt;/p&gt;&lt;p&gt;约定式路由（Convention over Configuration，CoC）是现代前端框架（如 Next.js、Nuxt.js、VitePress 等）广泛采用的路由实现方式，其核心思想是&lt;strong&gt;根据文件目录结构自动生成路由配置&lt;/strong&gt;，无需手动编写冗长的路由表。下面介绍其实现原理和关键技术：&lt;/p&gt;&lt;h" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1118" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>很多web前端框架里面会有约定式路由， 他们是如何实现的【热度: 331】</h1>
+      <div class="subtitle">工程化 · 工程化 · 阿里巴巴</div>
+      <div class="meta">创建：2025-07-06T11:41:50Z · 更新：2025-07-06T11:41:50Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：约定是路由</p><p>约定式路由（Convention over Configuration，CoC）是现代前端框架（如 Next.js、Nuxt.js、VitePress 等）广泛采用的路由实现方式，其核心思想是<strong>根据文件目录结构自动生成路由配置</strong>，无需手动编写冗长的路由表。下面介绍其实现原理和关键技术：</p><h3><strong>一、核心原理</strong></h3><p>约定式路由通过以下步骤工作：</p><ol><li><strong>文件系统扫描</strong>：框架在构建或运行时遍历指定目录（如<code>pages/</code>），获取所有文件和文件夹结构。</li><li><strong>路径映射规则</strong>：将文件路径转换为路由路径，例如：</li></ol><ul><li><code>pages/index.js</code> → <code>/</code></li><li><code>pages/posts/[id].js</code> → <code>/posts/:id</code>（动态路由）</li></ul><ol><li><strong>路由配置生成</strong>：根据映射规则生成路由配置对象（如 React Router 或 Vue Router 所需的格式）。</li><li><strong>运行时匹配</strong>：在用户访问时，根据 URL 匹配对应的组件。</li></ol><h3><strong>二、关键实现细节</strong></h3><h4><strong>1. 文件系统扫描与路径解析</strong></h4><p>框架使用 Node.js 的<code>fs</code>模块读取文件目录，并递归生成路径树。例如：</p><pre class="code-block"><code class="language-javascript">// 简化的文件扫描逻辑
+import fs from &quot;fs&quot;;
+import path from &quot;path&quot;;
+
+function scanPages(dir, basePath = &quot;&quot;) {
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+  const routes = [];
+
+  for (const entry of entries) {
+    const filePath = path.join(dir, entry.name);
+    const routePath = path.join(basePath, entry.name);
+
+    if (entry.isDirectory()) {
+      // 递归扫描子目录
+      routes.push(...scanPages(filePath, routePath));
+    } else {
+      // 处理文件（如.js、.vue）
+      routes.push({
+        file: filePath,
+        path: convertToRoutePath(routePath), // 转换为路由路径
+      });
+    }
+  }
+
+  return routes;
+}
+
+// 路径转换示例：pages/posts/[id].js → /posts/:id
+function convertToRoutePath(filePath) {
+  // 移除扩展名
+  let route = filePath.replace(/\.(js|jsx|ts|tsx|vue)$/, &quot;&quot;);
+
+  // 处理动态路由：[id] → :id
+  route = route.replace(/\[([^\]]+)\]/g, &quot;:$1&quot;);
+
+  // 处理索引文件：index → /
+  route = route.replace(/\/index$/, &quot;&quot;);
+
+  // 确保以斜杠开头
+  return route.startsWith(&quot;/&quot;) ? route : `/${route}`;
+}
+</code></pre><h4><strong>2. 动态路由与嵌套路由</strong></h4><ul><li><strong>动态路由</strong>：使用方括号<code>[]</code>表示参数，例如：</li></ul><ul><li><code>pages/users/[id].js</code> → 匹配<code>/users/123</code></li><li><code>pages/[...all].js</code> → 匹配所有路径（通配符路由）</li></ul><ul><li><strong>嵌套路由</strong>：通过目录结构实现，例如：</li></ul><p>```</p><p>pages/</p><p>posts/</p><p>index.js    → /posts</p><p>[id]/</p><p>index.js  → /posts/:id</p><p>comments/</p><p>index.js → /posts/:id/comments</p><p>```</p><h4><strong>3. 路由配置生成</strong></h4><p>将扫描结果转换为框架所需的路由配置格式。例如，为 React Router 生成配置：</p><pre class="code-block"><code class="language-javascript">// 生成React Router配置
+function generateReactRoutes(pages) {
+  return pages.map((page) =&gt; ({
+    path: page.path,
+    element: () =&gt; import(`./pages/${page.file}`), // 动态导入组件
+  }));
+}
+
+// 使用生成的路由配置
+const router = createBrowserRouter(generateReactRoutes(pages));
+</code></pre><h4><strong>4. 特殊文件处理</strong></h4><ul><li><strong>布局文件</strong>：如<code>_layout.js</code>或<code>layout.vue</code>，用于包裹子路由：</li></ul><p>```</p><p>pages/</p><p>_layout.js    → 所有页面共用布局</p><p>index.js      → 使用_layout.js的布局</p><p>```</p><ul><li><strong>错误页面</strong>：如<code>404.js</code>或<code>error.vue</code>，处理未匹配的路由：</li></ul><p>```javascript</p><p>// 404页面自动映射到未匹配的路由</p><p>{</p><p>path: '*',</p><p>element: <NotFoundPage /></p><p>}</p><p>```</p><h4><strong>5. 运行时优化</strong></h4><ul><li><strong>按需加载</strong>：使用动态导入（<code>import()</code>）实现组件懒加载。</li><li><strong>路由预取</strong>：在用户可能访问的链接上预加载组件（如 Next.js 的<code>next/link</code>）。</li><li><strong>缓存机制</strong>：开发环境中缓存扫描结果，仅在文件变化时重新生成路由。</li></ul><h3><strong>三、不同框架的实现差异</strong></h3><p>| 框架          | 约定规则                            | 实现特点                            |</p><p>| ------------- | ----------------------------------- | ----------------------------------- |</p><p>| <strong>Next.js</strong>   | <code>pages/</code>目录，支持<code>[param]</code>动态路由 | 服务端渲染（SSR）支持、自动代码分割 |</p><p>| <strong>Nuxt.js</strong>   | <code>pages/</code>目录，支持<code>_param</code>动态路由  | 基于 Vue Router，支持中间件         |</p><p>| <strong>VitePress</strong> | <code>docs/</code>目录，Markdown 文件自动转换  | 静态网站生成（SSG），支持 Vue 组件  |</p><h3><strong>四、优缺点</strong></h3><h4><strong>优点</strong></h4><ul><li><strong>减少样板代码</strong>：无需手动维护路由配置。</li><li><strong>提高一致性</strong>：文件结构即路由结构，直观易懂。</li><li><strong>易于扩展</strong>：新增页面只需添加文件，无需修改路由表。</li></ul><h4><strong>缺点</strong></h4><ul><li><strong>灵活性受限</strong>：复杂路由模式可能需要额外配置。</li><li><strong>学习成本</strong>：需要熟悉框架的约定规则。</li><li><strong>性能开销</strong>：大型项目中扫描文件系统可能影响构建速度。</li></ul><h3><strong>五、手动实现简易版约定式路由</strong></h3><p>以下是一个简化的实现示例，用于理解核心逻辑：</p><pre class="code-block"><code class="language-javascript">// 简易约定式路由实现
+import fs from &quot;fs&quot;;
+import path from &quot;path&quot;;
+import { createRouter, createWebHistory } from &quot;vue-router&quot;;
+
+// 扫描pages目录
+const pagesDir = path.resolve(__dirname, &quot;pages&quot;);
+const routes = fs
+  .readdirSync(pagesDir)
+  .filter((file) =&gt; file.endsWith(&quot;.vue&quot;))
+  .map((file) =&gt; {
+    const name = file.replace(/\.vue$/, &quot;&quot;);
+    const path = name === &quot;index&quot; ? &quot;/&quot; : `/${name}`;
+
+    return {
+      path,
+      component: () =&gt; import(`./pages/${file}`),
+    };
+  });
+
+// 创建路由实例
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+});
+
+export default router;
+</code></pre><h3><strong>六、总结</strong></h3><p>约定式路由通过<strong>文件系统映射</strong>和<strong>自动化配置</strong>，极大简化了路由管理。其核心在于扫描文件、转换路径、生成配置和运行时匹配。现代框架在此基础上添加了动态路由、嵌套路由、懒加载等高级特性，提升了开发体验和应用性能。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

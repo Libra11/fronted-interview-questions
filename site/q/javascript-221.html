@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>箭头函数为何不能作为构造函数使用？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;在箭头函数中，&lt;code&gt;this&lt;/code&gt;指向的是定义时所在的对象，而不是使用时所在的对象。换句话说，&lt;strong&gt;箭头函数没有自己的this，而是继承父作用域中的this&lt;/strong&gt;。&lt;/p&gt;&lt;p&gt;看个例子:&lt;/p&gt;&lt;pre class=&quot;code-bloc" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="箭头函数为何不能作为构造函数使用？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;在箭头函数中，&lt;code&gt;this&lt;/code&gt;指向的是定义时所在的对象，而不是使用时所在的对象。换句话说，&lt;strong&gt;箭头函数没有自己的this，而是继承父作用域中的this&lt;/strong&gt;。&lt;/p&gt;&lt;p&gt;看个例子:&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;var person = { name:&amp;#3" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/221" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>箭头函数为何不能作为构造函数使用？</h1>
+      <div class="subtitle">JavaScript · JavaScript · 腾讯</div>
+      <div class="meta">创建：2023-03-28T15:27:58Z · 更新：2023-03-28T15:27:59Z</div>
+    </div>
+    <article class="content markdown-body"><p>在箭头函数中，<code>this</code>指向的是定义时所在的对象，而不是使用时所在的对象。换句话说，<strong>箭头函数没有自己的this，而是继承父作用域中的this</strong>。</p><p>看个例子:</p><pre class="code-block"><code class="language-javascript">var person = {
+  name:&#39;张三&#39;,
+  age:18,
+  getName:function(){
+     console.log(&#39;我的名字是：&#39;+this.name)
+  },
+  getAge:()=&gt;{
+     console.log(&#39;我的年龄是：&#39;+this.age)
+  }
+}
+
+person.getName() // 我的名字是张三
+person.getAge()  // 我的年龄是undefined
+
+</code></pre><p><code>person.getName()</code>中<code>this</code>指向函数的调用者，也就是<code>person</code>实例，因此<code>this.name = &quot;张三&quot;</code>。</p><p><code>getAge()</code>通过箭头函数定义，而箭头函数是没有自己的<code>this</code>，会继承父作用域的<code>this</code>，因此<code>person.getAge()</code>执行时，此时的作用域指向<code>window</code>，而<code>window</code>没有定义<code>age</code>属性，所有报<code>undefined</code>。</p><p>从例子可以得出：<strong>对象中定义的函数使用箭头函数是不合适的</strong>。</p><p><strong>先解答下标题问题，为啥箭头函数不能作为构造函数？</strong></p><pre class="code-block"><code class="language-javascript">// 构造函数生成实例的过程
+function Person(name,age){
+  this.name = name
+  this.age = age
+}
+var p = new Person(&#39;张三&#39;,18)
+
+//new关键字生成实例过程如下
+// 1. 创建空对象p
+var p = {}
+// 2. 将空对象p的原型链指向构造器Person的原型
+p.__proto__ = Person.prototype
+// 3. 将Person()函数中的this指向p
+// 若此处Person为箭头函数，而没有自己的this，call()函数无法改变箭头函数的指向，也就无法指向p。
+Person.call(p)
+
+</code></pre><p>构造函数是通过new关键字来生成对象实例，生成对象实例的过程也是通过构造函数给实例绑定this的过程，而箭头函数没有自己的this。创建对象过程，<code>new</code> 首先会创建一个空对象，并将这个空对象的<code>__proto__</code>指向构造函数的<code>prototype</code>，从而继承原型上的方法，但是箭头函数没有<code>prototype</code>。因此不能使用箭头作为构造函数，也就不能通过new操作符来调用箭头函数。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

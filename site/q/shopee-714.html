@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>不同标签页或窗口间的 【主动推送消息机制】 的方式有哪些？（不借助服务端）【热度: 401】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：不同页签信息主动推送&lt;/p&gt;&lt;p&gt;在不借助服务器端的帮助下，实现不同标签页或窗口间的主动推送消息机制，可以使用以下客户端技术：&lt;/p&gt;&lt;blockquote&gt;作者备注： &lt;/blockquote&gt;&lt;blockquote&gt;这里要注意一" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="不同标签页或窗口间的 【主动推送消息机制】 的方式有哪些？（不借助服务端）【热度: 401】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：不同页签信息主动推送&lt;/p&gt;&lt;p&gt;在不借助服务器端的帮助下，实现不同标签页或窗口间的主动推送消息机制，可以使用以下客户端技术：&lt;/p&gt;&lt;blockquote&gt;作者备注： &lt;/blockquote&gt;&lt;blockquote&gt;这里要注意一下， 这里讨论的不是跨页签通信，而是&lt;strong&gt;跨页签主动推送信息&lt;/strong&gt; 。如果仅仅是跨页签通信， 那么" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/714" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>不同标签页或窗口间的 【主动推送消息机制】 的方式有哪些？（不借助服务端）【热度: 401】</h1>
+      <div class="subtitle">Shopee · web应用场景 · Shopee</div>
+      <div class="meta">创建：2024-04-20T05:41:02Z · 更新：2024-04-20T05:41:03Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：不同页签信息主动推送</p><p>在不借助服务器端的帮助下，实现不同标签页或窗口间的主动推送消息机制，可以使用以下客户端技术：</p><blockquote>作者备注：  </blockquote><blockquote>这里要注意一下， 这里讨论的不是跨页签通信，而是<strong>跨页签主动推送信息</strong> 。如果仅仅是跨页签通信， 那么浏览器的本地存储都可以都可以使用了。 所以排除了本地存储类 API 的介绍</blockquote><h3><strong>BroadcastChannel API</strong>:</h3><blockquote>作者备注  </blockquote><blockquote>这个很有意思， 有一个文章， 国内某大佬复刻了《跨窗口量子纠缠粒子效果》就是用的 这个 API  </blockquote><blockquote>https://juejin.cn/post/7307057492059471899</blockquote><p><code>BroadcastChannel API</code> 是一种在相同源的不同浏览器上下文之间实现简单高效通信的方法。这意味着它可以在同一网站的多个标签页或窗口之间发送消息。这是由 HTML5 规范引入的，用于改进 Web Workers 中的通信方法。</p><p>下面是如何使用 <code>BroadcastChannel API</code> 的基本指南及几个示例。</p><p><strong>创建与发送消息</strong></p><pre class="code-block"><code class="language-javascript">// 在任何一个 tab 或 iframe 中创建一个广播频道
+const channel = new BroadcastChannel(&quot;my-channel-name&quot;);
+
+// 发送一个消息到频道
+channel.postMessage(&quot;Hello from a tab!&quot;);
+</code></pre><p><strong>监听消息</strong></p><pre class="code-block"><code class="language-javascript">// 监听这个频道的消息
+channel.addEventListener(&quot;message&quot;, function (event) {
+  if (event.data === &quot;Hello from a tab!&quot;) {
+    console.log(&quot;Message received: &quot;, event.data);
+  }
+});
+</code></pre><p><strong>实现频道消息通信</strong></p><p>假设你有两个标签页，并且你想更新每个标签页来显示另一个标签页中发生的事情，比如用户数量计数器：</p><pre class="code-block"><code class="language-javascript">// 在第一个标签页中
+self.addEventListener(&quot;load&quot;, () =&gt; {
+  const channel = new BroadcastChannel(&quot;visitor-channel&quot;);
+  let visitorCount = 0;
+
+  // 定时发送随机的用户活动消息
+  setInterval(function () {
+    visitorCount++;
+    channel.postMessage(`Visitor count increased to: ${visitorCount}`);
+  }, 5000);
+});
+
+// 在另一个标签页中
+self.addEventListener(&quot;load&quot;, () =&gt; {
+  const channel = new BroadcastChannel(&quot;visitor-channel&quot;);
+
+  // 监听消息来更新用户数量
+  channel.addEventListener(&quot;message&quot;, function (event) {
+    if (event.data.startsWith(&quot;Visitor count&quot;)) {
+      // 用接收到的用户数量更新显示
+      updateVisitorCountDisplay(event.data);
+    }
+  });
+
+  // 这个方法将设置标签页上的用户计数显示
+  function updateVisitorCountDisplay(message) {
+    // 这里写用于更新显示的代码
+    console.log(message);
+  }
+});
+</code></pre><p>在这个例子中，一个标签页通过定期发送新的消息来模拟用户活动的增加，这个消息在所有监听该频道的上下文中传递。另一个或多个标签页将监听这个频道来接收和响应这些更新。</p><p><strong>注意事项：</strong></p><ul><li>频道内的通信 <strong>仅在同源浏览器上下文</strong>（具有相同的协议、域名和端口号）之间有效，也就是说，不同的网站之间的通信是不被允许的，以保护每个网站的安全性。</li><li>频道中的通信是 <strong>单向的</strong>，你可以通过频道向所有连接</li></ul><h3><strong>Service Workers</strong>:</h3><p>利用 Service Workers，各个标签页可以通过 <code>clients.matchAll()</code> 方法找到所有其他客户端（如打开的标签页），然后使用 <code>postMessage</code> 发送消息。</p><p>这个方法相比 <code>BroadcastChannel</code> 更加灵活，因为 Service Workers 可以通过 <code>Focus</code> 和 <code>Navigate</code> 事件来控制页面的焦点和导航等。</p><p><code>ServiceWorkers</code> 提供了在后台运行脚本的能力，这些脚本可以在网络受限或没有网络的情况下运行。当你用 <code>ServiceWorkers</code> 进行页面间的通信，你可以利用它们来推送消息到打开的 <code>Clients</code>（如浏览器标签页）。</p><p>要使用 <code>ServiceWorkers</code> 实现从不同 Tab 中主动推送信息，可以通过以下几个步骤：</p><p><strong>1. 编写 ServiceWorker 文件</strong></p><p>首先，创建名为 <code>sw.js</code> 的 ServiceWorker 文件。这个文件在你的网站目录下，会在用户访问网站时注册并激活。</p><pre class="code-block"><code class="language-javascript">// sw.js
+
+self.addEventListener(&quot;message&quot;, (event) =&gt; {
+  if (event.data === &quot;New message from another tab&quot;) {
+    self.clients
+      .matchAll({
+        type: &quot;window&quot;,
+        includeUncontrolled: true,
+      })
+      .then((windowClients) =&gt; {
+        windowClients.forEach((client) =&gt; {
+          client.postMessage(&quot;New message for &quot; + client.id);
+        });
+      });
+  }
+});
+</code></pre><p><strong>2. 在主页面注册 ServiceWorker</strong></p><p>在主页面（index.html）通过 JavaScript 注册这个 ServiceWorker 文件。</p><pre class="code-block"><code class="language-javascript">// index.html
+
+if (&quot;serviceWorker&quot; in navigator) {
+  navigator.serviceWorker
+    .register(&quot;/sw.js&quot;)
+    .then((registration) =&gt; {
+      console.log(&quot;Service Worker registered with scope:&quot;, registration.scope);
+    })
+    .catch((error) =&gt; {
+      console.log(&quot;Service Worker registration failed:&quot;, error);
+    });
+}
+</code></pre><p><strong>3. 监听 <code>message</code> 事件</strong></p><p>在主页面使用 <code>navigator.serviceWorker.controller</code> 来检查是否已经有 ServiceWorker 主动控制。</p><pre class="code-block"><code class="language-javascript">if (navigator.serviceWorker.controller) {
+  // Post a message to the ServiceWorker
+  navigator.serviceWorker.controller.postMessage(&quot;This is from main page&quot;);
+}
+</code></pre><p><strong>4. 从其他 Tab 推送消息</strong></p><p>在其他 Tab 上，一旦 ServiceWorker 被该页面控制后，可以通过同样的 <code>postMessage</code> 方法发送消息。</p><h3><strong>SharedWorker</strong>:</h3><p>SharedWorker 提供了一种更传统的跨文档通信机制，在不同文档间共享状态和数据。你需要创建一个 <code>SharedWorker</code> 对象，并在所有的文档里监听来自该 worker 的消息。</p><p>简单场景的 SharedWorker 的使用步骤：</p><ol><li><strong>创建和连接</strong>:</li></ol><pre class="code-block"><code class="language-javascript">// 创建一个 SharedWorker，并指定要加载的脚本
+var myWorker = new SharedWorker(&quot;worker.js&quot;);
+// 开启端口通信
+myWorker.port.start();
+</code></pre><ol><li><strong>端口通信</strong>: 使用端口接收和发送消息</li></ol><pre class="code-block"><code class="language-javascript">// 发送数据给worker
+myWorker.port.postMessage({ command: &quot;start&quot;, data: [1, 2, 3] });
+
+// 监听来自worker的消息
+myWorker.port.onmessage = function (event) {
+  if (event.data) {
+    console.log(&quot;Result from worker:&quot;, event.data);
+  }
+};
+</code></pre><ol><li><strong>实现 worker 逻辑</strong>:</li></ol><p>在 <code>worker.js</code> 内，通过 <code>onconnect</code> 事件监听端口连接，并在使用 <code>postMessage</code> 发送数据的页面之间转发消息。</p><pre class="code-block"><code class="language-javascript">// worker.js
+
+// 自身的事件监听器
+self.onconnect = function (event) {
+  var port = event.ports[0];
+
+  // 监听端口的消息
+  port.onmessage = function (e) {
+    if (e.data.command === &quot;start&quot;) {
+      var result = someHeavyComputation(e.data.data);
+      port.postMessage({ result: result });
+    }
+  };
+};
+
+// 在这里执行一些开销较大的计算逻辑
+function someHeavyComputation(data) {
+  // 在这里进行计算...
+  return data.reduce(function (previousValue, currentValue) {
+    return previousValue + currentValue;
+  }, 0);
+}
+</code></pre><ol><li><strong>通知其他页面更新</strong>:</li></ol><p>当你希望基于上文提到的 SharedWorker 执行的计算结果通知其他所有的页面更新时，可以利用 <code>SharedWorkerGlobalScope</code> 中的 <code>clients</code> 对象。</p><pre class="code-block"><code class="language-javascript">// 在 worker.js 中
+
+self.addEventListener(&quot;message&quot;, (e) =&gt; {
+  if (e.data === &quot;Update all clients&quot;) {
+    // 遍历所有客户端
+    self.clients.matchAll().then((clients) =&gt; {
+      clients.forEach((client) =&gt; {
+        // 发送消息更新它们
+        client.postMessage(&quot;Please update your state&quot;);
+      });
+    });
+  }
+});
+</code></pre><h3>使用 localStorage 的变更监听</h3><p>虽然 <code>localStorage</code> 没有直接提供跨标签页推送机制，但是可以使用 <code>window.addEventListener(&#39;storage&#39;, listener)</code> 监听 <code>storage</code> 事件，实现不同标签页间的通信。</p><pre class="code-block"><code class="language-javascript">// 标签页1修改了 localStorage
+localStorage.setItem(&quot;someKey&quot;, &quot;someValue&quot;);
+
+// 其他标签页监听 storage 事件
+window.addEventListener(&quot;storage&quot;, function (event) {
+  if (event.storageArea === localStorage &amp;&amp; event.key === &quot;someKey&quot;) {
+    console.log(event.newValue);
+  }
+});
+</code></pre><h3>使用 iframe 的 message 事件</h3><p>如果排他性不是问题（所有标签页都属于同一客户端），可以使用 iframe 来传递消息，父窗口和 iframe 可以使用 DOM 中的 <code>message</code> 事件系统相互通信。</p><p>要使用 <code>iframe</code> 的 <code>message</code> 事件实现不同页签之间的通信，你需要两个关键项的配合：父页面和 <code>iframe</code> 页面之间的协调工作。这种通信非常灵活，因为你可以根据自己需要进行信息的发送和监听。</p><p><strong>示例步骤：</strong></p><p><strong>1. 创建一个父页面</strong></p><p>在父页面中，我们创建一个 <code>iframe</code> 并监听 <code>message</code> 事件。</p><pre class="code-block"><code class="language-html">&lt;!-- parent.html --&gt;
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot; /&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
+    &lt;title&gt;Parent Page&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;iframe src=&quot;iframe.html&quot; style=&quot;display:none;&quot;&gt;&lt;/iframe&gt;
+
+    &lt;script&gt;
+      // 监听 iframe 发送的 message 事件
+      window.addEventListener(&quot;message&quot;, function (event) {
+        if (event.origin !== &quot;http://example.com&quot;) {
+          // 确保消息源是可信的
+          return;
+        }
+        if (event.data &amp;&amp; event.data.greeting) {
+          console.log(&quot;Message received from iframe:&quot;, event.data);
+          // 如果iframe向父页面问好（向父页面发送了一条消息）
+          // 假设我们还想再向iframe发送一些信息
+          document.querySelector(&quot;iframe&quot;).contentWindow.postMessage(
+            {
+              response: &quot;Hello iframe! This is the parent window speaking.&quot;,
+            },
+            &quot;http://example.com&quot;
+          );
+        }
+      });
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p><strong>2. 创建一个 iframe 页面</strong></p><p>在 <code>iframe.html</code> 页面中，我们需要发送消息到父页面并监听父页面的消息。</p><pre class="code-block"><code class="language-html">&lt;!-- iframe.html --&gt;
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot; /&gt;
+    &lt;title&gt;Iframe Page&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;script&gt;
+      // 假设我们有一些需要发送到父页面的信息
+      function sendMessageToParent() {
+        parent.postMessage({ greeting: &quot;Hello, I am the iframe!&quot; }, &quot;http://example.com&quot;);
+      }
+
+      // 当页面加载完成后，发送消息
+      window.onload = function () {
+        sendMessageToParent();
+      };
+
+      // 监听来自父页面的消息
+      window.addEventListener(&quot;message&quot;, function (event) {
+        if (event.origin !== &quot;http://example.com&quot;) {
+          // 反向验证消息源的可信度
+          return;
+        }
+        if (event.data &amp;&amp; event.data.response) {
+          console.log(&quot;Message received from parent:&quot;, event.data);
+          // 可根据消息实现特定的逻辑
+        }
+      });
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

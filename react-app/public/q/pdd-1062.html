@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如果一行文本展示不下，如何使其通过 popover 来展示全部内容？【热度: 325】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：动态计算文本是否溢出&lt;/p&gt;&lt;blockquote&gt;作者备注&lt;/blockquote&gt;&lt;blockquote&gt;&lt;/blockquote&gt;&lt;blockquote&gt;主要考核 JS 动态计算文本是否溢出&lt;/blockquote&gt;&lt;p&gt;以下" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如果一行文本展示不下，如何使其通过 popover 来展示全部内容？【热度: 325】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：动态计算文本是否溢出&lt;/p&gt;&lt;blockquote&gt;作者备注&lt;/blockquote&gt;&lt;blockquote&gt;&lt;/blockquote&gt;&lt;blockquote&gt;主要考核 JS 动态计算文本是否溢出&lt;/blockquote&gt;&lt;p&gt;以下是一种使用 HTML、CSS 和 JavaScript 来实现当文本一行展示不下时通过&lt;code&gt;popover&lt;/co" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1062" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如果一行文本展示不下，如何使其通过 popover 来展示全部内容？【热度: 325】</h1>
+      <div class="subtitle">PDD · JavaScript · PDD</div>
+      <div class="meta">创建：2024-11-22T13:16:03Z · 更新：2025-03-14T07:36:36Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：动态计算文本是否溢出</p><blockquote>作者备注</blockquote><blockquote></blockquote><blockquote>主要考核 JS 动态计算文本是否溢出</blockquote><p>以下是一种使用 HTML、CSS 和 JavaScript 来实现当文本一行展示不下时通过<code>popover</code>展示全部内容的基本方法。假设你在一个网页环境中操作。</p><ol><li><strong>HTML 结构</strong></li></ol><ul><li>首先，创建一个包含文本的元素，例如一个<code>span</code>标签。为这个元素添加一个自定义属性（比如<code>data-full-text</code>）来存储完整的文本内容。</li></ul><p>```html</p><p><span</p><p>id="textElement"</p><p>data-full-text="这是一段很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长的文本"</p><p>></p><p>这是一段很长很长很长的文本</p><p></span></p><p>```</p><ol><li><strong>CSS 样式</strong></li></ol><ul><li>为<code>span</code>元素设置样式，使其在一行内显示文本，并在文本溢出时隐藏溢出部分。</li></ul><p>```css</p><p>#textElement {</p><p>white - space: nowrap;</p><p>overflow: hidden;</p><p>text - overflow: ellipsis;</p><p>cursor: pointer;</p><p>}</p><p>```</p><ul><li>这里设置<code>cursor: pointer</code>是为了让用户知道这个元素是可以点击的，当文本溢出时可以触发<code>popover</code>显示完整内容。</li></ul><ol><li><strong>JavaScript 功能实现</strong></li></ol><ul><li>使用 JavaScript 来检测文本是否溢出。可以通过比较元素的<code>offsetWidth</code>和<code>scrollWidth</code>来实现。如果<code>scrollWidth</code>大于<code>offsetWidth</code>，说明文本溢出了。</li><li>当文本溢出时，创建一个<code>popover</code>来显示完整内容。可以使用一些现成的 JavaScript 库（如 Bootstrap 的<code>popover</code>插件）或者自己编写简单的<code>popover</code>功能。以下是一个使用自定义 JavaScript 实现简单<code>popover</code>功能的示例（不依赖第三方库）：</li></ul><p>```javascript</p><p>document.addEventListener("DOMContentLoaded", function () {</p><p>const textElement = document.getElementById("textElement");</p><p>if (textElement.scrollWidth > textElement.offsetWidth) {</p><p>textElement.addEventListener("click", function () {</p><p>const fullText = this.getAttribute("data-full-text");</p><p>const popover = document.createElement("div");</p><p>popover.className = "popover";</p><p>popover.textContent = fullText;</p><p>document.body.appendChild(popover);</p><p>// 简单的定位，将popover放在被点击元素的下方</p><p>const rect = this.getBoundingClientRect();</p><p>popover.style.left = rect.left + "px";</p><p>popover.style.top = rect.bottom + 5 + "px";</p><p>});</p><p>}</p><p>});</p><p>```</p><ul><li>同时，你还需要添加一些 CSS 样式来美化<code>popover</code>：</li></ul><p>```css</p><p>.popover {</p><p>position: absolute;</p><p>background - color: white;</p><p>border: 1px solid gray;</p><p>padding: 10px;</p><p>border - radius: 5px;</p><p>z - index: 100;</p><p>}</p><p>```</p><p>上述代码首先检查文本是否溢出。如果溢出，当用户点击该文本元素时，会创建一个<code>popover</code>元素并将完整文本内容放入其中，然后将<code>popover</code>添加到文档中，并简单地定位在被点击元素的下方。</p><p>请注意，这只是一个简单的示例，在实际应用中，你可能需要根据具体的设计要求和项目框架（如使用 Vue.js、React.js 等）来进行更复杂的实现，并且可能需要考虑浏览器兼容性等问题。如果使用像 Bootstrap 这样的框架，实现<code>popover</code>功能会更加方便和具有更好的样式一致性。</p><h2>Comments / Answers</h2><hr /><p><strong>ryanli7426</strong> at 2025-02-13T06:30:46Z</p><p>最简易的办法是不是可以直接绑定标签的Title属性......</p><hr /><p><strong>swellee</strong> at 2025-03-14T07:36:35Z</p><p>其实也不需要设置data-full-text属性。直接取innerText</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

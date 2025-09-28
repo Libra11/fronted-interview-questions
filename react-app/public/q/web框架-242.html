@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Redux] react-redux 是如何更新到 UI 的, 写一下这部分的核心源码 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h3&gt;react-redux 和 redux 的关系&lt;/h3&gt;&lt;p&gt;Redux 和 React-Redux 是两个独立的库，但它们通常一起使用，因为 Redux 库本身并不针对 React，而是一个通用的状态管理库，而 React-Redux 则是一个用于将 Redux 集成到" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Redux] react-redux 是如何更新到 UI 的, 写一下这部分的核心源码" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h3&gt;react-redux 和 redux 的关系&lt;/h3&gt;&lt;p&gt;Redux 和 React-Redux 是两个独立的库，但它们通常一起使用，因为 Redux 库本身并不针对 React，而是一个通用的状态管理库，而 React-Redux 则是一个用于将 Redux 集成到 React 应用程序中的库。&lt;/p&gt;&lt;p&gt;React-Redux 提供了一组 React 组件和钩子，使得在 Reac" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/242" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Redux] react-redux 是如何更新到 UI 的, 写一下这部分的核心源码</h1>
+      <div class="subtitle">web框架 · web框架 · 腾讯</div>
+      <div class="meta">创建：2023-04-02T14:58:02Z · 更新：2023-04-02T14:58:03Z</div>
+    </div>
+    <article class="content markdown-body"><h3>react-redux 和 redux 的关系</h3><p>Redux 和 React-Redux 是两个独立的库，但它们通常一起使用，因为 Redux 库本身并不针对 React，而是一个通用的状态管理库，而 React-Redux 则是一个用于将 Redux 集成到 React 应用程序中的库。</p><p>React-Redux 提供了一组 React 组件和钩子，使得在 React 应用程序中使用 Redux 变得更加容易。它提供了一个 <code>Provider</code> 组件，可以将 Redux store 注入到整个 React 应用程序中，并且可以使用 <code>connect</code> 函数将组件连接到 Redux store，使它们可以访问和修改 store 中的数据。</p><p>使用 React-Redux，我们可以将 Redux 的状态管理能力与 React 的组件化能力结合起来，使得应用程序的状态可以很方便地被管理和共享，并且组件也可以方便地访问和修改应用程序的状态。</p><h3>react-redux 是如何集成到 UI 的？</h3><p><code>react-redux</code> 提供了两个主要的组件 <code>Provider</code> 和 <code>connect</code>，它们用于将 Redux 状态管理与 React 组件相结合。</p><p>首先，使用 <code>Provider</code> 组件将 Redux store 传递给整个应用程序。可以将 <code>&lt;Provider&gt;</code> 组件作为最高层的组件，这样在应用程序中的所有组件中都可以访问到 Redux store。</p><p>下一步，使用 <code>connect</code> 函数连接 Redux store 和组件。<code>connect</code> 函数是一个高阶函数，它接收两个参数：<code>mapStateToProps</code> 和 <code>mapDispatchToProps</code>，并返回另一个函数，这个函数接受一个组件作为参数，并返回一个增强版的组件。</p><p><code>mapStateToProps</code> 函数用于从 Redux store 中获取需要的 state 数据，并将其映射到组件的 props 上。<code>mapDispatchToProps</code> 函数用于将 action creator 映射到组件的 props 上，这样组件就可以直接调用 action creator 发起 action，而不需要手动分发 dispatch。</p><p>使用 <code>connect</code> 函数生成的增强版组件可以访问到 Redux store 中的 state 和 dispatch，并将它们作为 props 传递给原始组件。在组件中，可以直接使用这些 props 来获取和更新 state，以及发起 action。当组件中的 state 或 props 发生变化时，<code>connect</code> 函数会自动更新组件，以反映最新的 state 和 props。</p><p>通过这种方式，<code>react-redux</code> 让我们可以在 React 组件中使用 Redux 进行状态管理，实现了 Redux 和 React 的无缝集成。</p><h3>简单写一下更新 UI 核心代码实现</h3><p>react-redux 是基于 React 和 Redux 的，主要用于将 Redux 的状态管理功能集成到 React 应用程序中。它主要包括两个部分：Provider 和 connect。</p><p>Provider 组件是 react-redux 的核心，它将 Redux 的 store 作为 props 传递给 React 组件，并通过 React 的上下文（Context）使得后代组件能够访问到 store。</p><p>connect 函数用于连接 React 组件与 Redux store，返回一个新的组件。该函数的主要作用是在组件中提供 mapStateToProps 和 mapDispatchToProps 函数，从而使组件能够从 Redux store 中读取数据，并向 store 分发 action。</p><p>下面是一个简单的实现，用于说明 react-redux 是如何集成到 UI 的：</p><pre class="code-block"><code class="language-javascript">// Provider.js
+import React from &#39;react&#39;;
+import PropTypes from &#39;prop-types&#39;;
+
+export const StoreContext = React.createContext();
+
+export default function Provider(props) {
+  const { store, children } = props;
+  return (
+    &lt;StoreContext.Provider value={store}&gt;
+      {children}
+    &lt;/StoreContext.Provider&gt;
+  );
+}
+
+Provider.propTypes = {
+  store: PropTypes.object.isRequired,
+  children: PropTypes.any,
+};
+
+// connect.js
+import React from &#39;react&#39;;
+import PropTypes from &#39;prop-types&#39;;
+import { StoreContext } from &#39;./Provider&#39;;
+
+export default function connect(mapStateToProps, mapDispatchToProps) {
+  return function wrapWithConnect(WrappedComponent) {
+    class Connect extends React.Component {
+      componentDidMount() {
+        const { store } = this.context;
+        this.unsubscribe = store.subscribe(this.handleChange.bind(this));
+      }
+
+      componentWillUnmount() {
+        this.unsubscribe();
+      }
+
+      handleChange() {
+        this.forceUpdate();
+      }
+
+      render() {
+        const { store } = this.context;
+        const props = {
+          ...this.props,
+          ...mapStateToProps(store.getState(), this.props),
+          ...mapDispatchToProps(store.dispatch, this.props),
+        };
+        return &lt;WrappedComponent {...props} /&gt;;
+      }
+    }
+
+    Connect.contextType = StoreContext;
+    Connect.propTypes = {
+      store: PropTypes.object,
+    };
+    Connect.displayName = `Connect(${WrappedComponent.displayName || WrappedComponent.name || &#39;Component&#39;})`;
+
+    return Connect;
+  };
+}
+</code></pre><p>这里的 Provider 组件用于将 Redux 的 store 传递给 React 组件：</p><pre class="code-block"><code class="language-javascript">import React from &#39;react&#39;;
+import ReactDOM from &#39;react-dom&#39;;
+import { createStore } from &#39;redux&#39;;
+import { Provider } from &#39;react-redux&#39;;
+import App from &#39;./App&#39;;
+import rootReducer from &#39;./reducers&#39;;
+
+const store = createStore(rootReducer);
+
+ReactDOM.render(
+  &lt;Provider store={store}&gt;
+    &lt;App /&gt;
+  &lt;/Provider&gt;,
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre><p>而 connect 函数用于将 React 组件连接到 Redux store：</p><pre class="code-block"><code class="language-javascript">import React from &#39;react&#39;;
+import { connect } from &#39;react-redux&#39;;
+import { increment } from &#39;./actions&#39;;
+
+function Counter(props) {
+  const { count, increment } = props;
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Count: {count}&lt;/p&gt;
+      &lt;button onClick={() =&gt; increment()}&gt;+&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+const mapStateToProps = state =&gt; {
+  return {
+    count: state.count,
+  };
+};
+
+const mapDispatchToProps = dispatch =&gt; {
+  return {
+    increment: () =&gt; dispatch(increment()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Counter);
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>flex 布局中子元素不压缩， 该如何设置属性【热度: 200】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：flex 子元素不压缩&lt;/p&gt;&lt;p&gt;在 Flex 布局中，如果你想要子元素在容器内不被压缩，即保持其原始尺寸或指定尺寸，不受容器大小变化的影响，可以通过设置子元素的&lt;code&gt;flex-shrink&lt;/code&gt;属性来实现。&lt;cod" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="flex 布局中子元素不压缩， 该如何设置属性【热度: 200】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：flex 子元素不压缩&lt;/p&gt;&lt;p&gt;在 Flex 布局中，如果你想要子元素在容器内不被压缩，即保持其原始尺寸或指定尺寸，不受容器大小变化的影响，可以通过设置子元素的&lt;code&gt;flex-shrink&lt;/code&gt;属性来实现。&lt;code&gt;flex-shrink&lt;/code&gt;属性决定了当父容器大小小于其所有 flex 项总大小时，各 flex 项的缩小比" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/881" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>flex 布局中子元素不压缩， 该如何设置属性【热度: 200】</h1>
+      <div class="subtitle">小米 · CSS · 小米</div>
+      <div class="meta">创建：2024-09-15T07:23:15Z · 更新：2024-09-15T07:23:15Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：flex 子元素不压缩</p><p>在 Flex 布局中，如果你想要子元素在容器内不被压缩，即保持其原始尺寸或指定尺寸，不受容器大小变化的影响，可以通过设置子元素的<code>flex-shrink</code>属性来实现。<code>flex-shrink</code>属性决定了当父容器大小小于其所有 flex 项总大小时，各 flex 项的缩小比例。默认值是 1，表示 flex 项会等比例缩小，以适应父容器的大小。</p><p>要阻止子元素压缩，你应该将它的<code>flex-shrink</code>属性设置为 0。这样，无论容器大小如何变化，子元素都不会缩小。</p><p>示例如下：</p><p>HTML:</p><pre class="code-block"><code class="language-html">&lt;div class=&quot;flex-container&quot;&gt;
+  &lt;div class=&quot;flex-item&quot;&gt;不压缩的项目&lt;/div&gt;
+  &lt;!-- 其他的flex-item --&gt;
+&lt;/div&gt;
+</code></pre><p>CSS:</p><pre class="code-block"><code class="language-css">.flex-container {
+  display: flex;
+  /* 添加其他需要的flex布局属性 */
+}
+
+.flex-item {
+  flex-shrink: 0; /* 这使得该flex项目不会被压缩 */
+  /* 设置宽度或其他样式 */
+}
+</code></pre><p>在这个例子中，任何带有<code>flex-item</code>类的元素都不会在容器空间不足时被压缩。</p><p>此外，<code>flex</code>属性是<code>flex-grow</code>、<code>flex-shrink</code>和<code>flex-basis</code>这三个属性的简写。如果你想在保证元素不被压缩的同时，具体控制元素的放大行为或基础大小，也可以直接使用<code>flex</code>属性进行设置。例如，如果你还希望元素不放大，并且有一个固定的基础大小，可以这样设置：</p><pre class="code-block"><code class="language-css">.flex-item {
+  flex: 0 0 auto; /* 不放大，不缩小，基础大小为auto */
+}
+</code></pre><p>这种方式提供了更细致的控制，<code>0 0 auto</code>分别对应<code>flex-grow</code>、<code>flex-shrink</code>和<code>flex-basis</code>的值。这告诉浏览器该项目即不应放大，也不应缩小，并且以其默认大小作为基础大小。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

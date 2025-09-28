@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何标准化处理线上用户反馈的问题【热度: 631】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：处理线上用户反馈&lt;/p&gt;&lt;blockquote&gt;作者之所以要将这个问题定义为 【master】级别， 是因为这个问题， 说简单又简单， 说难又是有不小难度的。 &lt;/blockquote&gt;&lt;blockquote&gt;作者认为：在一个团队里" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何标准化处理线上用户反馈的问题【热度: 631】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：处理线上用户反馈&lt;/p&gt;&lt;blockquote&gt;作者之所以要将这个问题定义为 【master】级别， 是因为这个问题， 说简单又简单， 说难又是有不小难度的。 &lt;/blockquote&gt;&lt;blockquote&gt;作者认为：在一个团队里面， 能够快速解决用户的线上反馈问题， 这个是 中级、高级开发的能力要求。&lt;/blockquote&gt;&lt;blockquot" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/799" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何标准化处理线上用户反馈的问题【热度: 631】</h1>
+      <div class="subtitle">web应用场景 · web应用场景</div>
+      <div class="meta">创建：2024-07-13T09:14:56Z · 更新：2024-07-13T09:14:57Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：处理线上用户反馈</p><blockquote>作者之所以要将这个问题定义为 【master】级别， 是因为这个问题， 说简单又简单， 说难又是有不小难度的。  </blockquote><blockquote>作者认为：在一个团队里面， 能够快速解决用户的线上反馈问题， 这个是 中级、高级开发的能力要求。</blockquote><blockquote>但是，<strong>在一个团队里面， 提供一个完整的线上问题反馈的解决方案， 是一个资深研发工程师的能力要求模型。</strong></blockquote><blockquote></blockquote><blockquote>还有这个是一个开放型的问题，各位小伙伴可以根据各自的情况， 自由发挥吧</blockquote><p>修复 bug 研发往往需要先复现，而复现需要依赖一些关键信息，比如用户操作路径，日志信息等等；但站在组织架构角度，研发同学一般不会直接跟客户打交道，所以在客户提出问题的同时尝试搜集必要的 bug 信息对于整个 bug 修复流程很有重要。</p><p>当然在很多公司， 用户问题是会先反馈给销售团队或者技术支持团队。 我们这里讨论的情况是， 问题就已经反馈到了研发同学的情况。</p><h3>客户沟通原则</h3><p>原则很简单， 就是尝试自己复现， 如果自己无法复现， 再去尝试跟客户沟通。</p><p><img alt="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cf0b164ff3dd49b08b266ae4d2fb35a0~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cf0b164ff3dd49b08b266ae4d2fb35a0~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" /></p><h3>前期通用排查手段</h3><h4>1. 是否受缓存影响？</h4><p>浏览器缓存：包裹 cookies、本地缓存、indexDB 等等，这些缓存一般存储用户数据，账号信息，关键逻辑缓存等等。验证是否受浏览器缓存影响最直接的是让用户新开一个无痕浏览器测试功能是否正常即可，如果无痕正常但非无痕有问题，那就可以确定是这个问题了。</p><h4>2. 是否受浏览器插件影响？</h4><p>也是直接使用无痕浏览器验证功能是否正常</p><h4>3. 浏览器版本问题</h4><p>尝试升级浏览器即可， 或者换一个浏览器</p><h4>4. 网络网关问题</h4><p>遇到这个问题， 应该该用户整个网内都有该问题。</p><p>可以通过心跳检测， 资源加载检测等手段， 确认是否是网络问题。</p><h3>信息收集</h3><p>这部分主要收集用户的一些操作信息， 例如用户操作路径、报错信息、运行日志等。</p><p>这里就直接整理一下需要收集的一些信息。</p><ul><li>用户复现问题路径</li><li>用户信息</li><li>客户出现问题使用的操作系统和版本</li><li>客户使用的浏览器类型与具体版本</li><li>报错信息</li><li>客户遇到问题时的截图或录屏</li><li>此问题是否是近期突然出现还是一直存在</li><li>对于公司群体用户是否只有特定用户遇到了这个问题</li><li>性能问题的 performance 文件</li></ul><p>这里只是列举了一些常用的信息，建议信息收集的时候， 直接介入一个完整的日志报警平台。 通过上报日志与监控报警的方式来收集这部分信息。</p><p>这里如果公司没有自检报警监控的框架， 我这里直接就推荐开源日志框架的 <code>Sentry</code></p><p><code>Sentry</code>：一个功能强大的错误监控和日志收集工具。支持多种前端框架和语言，能够实时捕获和报告前端应用中的错误和异常，并提供详细的错误上下文信息。</p><h3>参考文档</h3><ul><li>https://juejin.cn/post/7238259557989613627</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

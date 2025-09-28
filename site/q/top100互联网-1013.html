@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>介绍一下 URLSearchParams API【热度: 10】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：URLSearchParams API 介绍&lt;/p&gt;&lt;p&gt;&lt;code&gt;URLSearchParams&lt;/code&gt;是 JavaScript 中的一个内置 API，用于处理 URL 的查询参数部分。它提供了一系列方法来方便地操作和获取" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="介绍一下 URLSearchParams API【热度: 10】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：URLSearchParams API 介绍&lt;/p&gt;&lt;p&gt;&lt;code&gt;URLSearchParams&lt;/code&gt;是 JavaScript 中的一个内置 API，用于处理 URL 的查询参数部分。它提供了一系列方法来方便地操作和获取 URL 中的查询参数。&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、创建&lt;code&gt;URLSearchParams&lt;/code&gt;对" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1013" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>介绍一下 URLSearchParams API【热度: 10】</h1>
+      <div class="subtitle">TOP100互联网 · web应用场景 · TOP100互联网</div>
+      <div class="meta">创建：2024-10-18T15:12:09Z · 更新：2024-10-18T15:12:10Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：URLSearchParams API 介绍</p><p><code>URLSearchParams</code>是 JavaScript 中的一个内置 API，用于处理 URL 的查询参数部分。它提供了一系列方法来方便地操作和获取 URL 中的查询参数。</p><p><strong>一、创建<code>URLSearchParams</code>对象</strong></p><ol><li><strong>从现有 URL</strong>：</li></ol><ul><li>可以从当前页面的 URL 中提取查询参数来创建<code>URLSearchParams</code>对象。例如：</li></ul><pre class="code-block"><code class="language-javascript">const urlParams = new URLSearchParams(window.location.search);
+</code></pre><ul><li>这里使用<code>window.location.search</code>获取当前页面 URL 的查询字符串，然后将其传递给<code>URLSearchParams</code>构造函数来创建一个新的对象。</li></ul><ol><li><strong>从字符串</strong>：</li></ol><ul><li>也可以直接从一个查询字符串创建<code>URLSearchParams</code>对象。例如：</li></ul><pre class="code-block"><code class="language-javascript">const queryString = &quot;param1=value1&amp;param2=value2&quot;;
+const urlParams = new URLSearchParams(queryString);
+</code></pre><p><strong>二、主要方法</strong></p><ol><li><strong><code>get()</code>方法</strong>：</li></ol><ul><li>用于获取指定参数的第一个值。例如：</li></ul><pre class="code-block"><code class="language-javascript">const value = urlParams.get(&quot;paramName&quot;);
+</code></pre><ul><li>如果参数不存在，<code>get()</code>方法将返回<code>null</code>。</li></ul><ol><li><strong><code>set()</code>方法</strong>：</li></ol><ul><li>设置指定参数的值。如果参数不存在，将添加一个新的参数。例如：</li></ul><pre class="code-block"><code class="language-javascript">urlParams.set(&quot;paramName&quot;, &quot;newValue&quot;);
+</code></pre><ol><li><strong><code>append()</code>方法</strong>：</li></ol><ul><li>向现有参数添加一个新的值。如果参数不存在，将添加一个新的参数。例如：</li></ul><pre class="code-block"><code class="language-javascript">urlParams.append(&quot;paramName&quot;, &quot;anotherValue&quot;);
+</code></pre><ol><li><strong><code>delete()</code>方法</strong>：</li></ol><ul><li>删除指定参数。例如：</li></ul><pre class="code-block"><code class="language-javascript">urlParams.delete(&quot;paramName&quot;);
+</code></pre><ol><li><strong><code>has()</code>方法</strong>：</li></ol><ul><li>检查是否存在指定参数。返回一个布尔值。例如：</li></ul><pre class="code-block"><code class="language-javascript">const hasParam = urlParams.has(&quot;paramName&quot;);
+</code></pre><ol><li><strong>遍历参数</strong>：</li></ol><ul><li>可以使用<code>forEach()</code>方法遍历所有参数。例如：</li></ul><pre class="code-block"><code class="language-javascript">urlParams.forEach((value, key) =&gt; {
+  console.log(`${key}: ${value}`);
+});
+</code></pre><p><strong>三、优点和用途</strong></p><ol><li><strong>方便性</strong>：</li></ol><ul><li><code>URLSearchParams</code>提供了一种简洁、直观的方式来处理 URL 查询参数，避免了手动解析和拼接查询字符串的繁琐过程。</li></ul><ol><li><strong>兼容性</strong>：</li></ol><ul><li>它在现代浏览器中广泛支持，可以在各种前端开发场景中使用。</li></ul><ol><li><strong>动态操作</strong>：</li></ol><ul><li>可以方便地在运行时修改查询参数，例如在单页应用程序中根据用户操作动态更新 URL 的查询参数。</li></ul><ol><li><strong>与 URL 对象结合</strong>：</li></ol><ul><li>可以与<code>URL</code>对象结合使用，方便地构建和操作完整的 URL。例如：</li></ul><pre class="code-block"><code class="language-javascript">const url = new URL(&quot;https://example.com&quot;);
+url.searchParams.set(&quot;paramName&quot;, &quot;value&quot;);
+console.log(url.toString());
+</code></pre><p>总之，<code>URLSearchParams</code>是一个强大而方便的 API，用于处理 URL 的查询参数，在前端开发中具有广泛的应用。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

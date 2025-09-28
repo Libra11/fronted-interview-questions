@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Http 状态码 301 和 302 的应用场景分别是什么 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;HTTP状态码301和302都是重定向状态码，用于将客户端请求重定向到另一个URL。&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;code&gt;301（Moved Permanently）&lt;/code&gt;：表示请求的资源已永久移动到新位置。服务器发送301状态码时，还会在响应头中包含一个Locati" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Http 状态码 301 和 302 的应用场景分别是什么" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;HTTP状态码301和302都是重定向状态码，用于将客户端请求重定向到另一个URL。&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;code&gt;301（Moved Permanently）&lt;/code&gt;：表示请求的资源已永久移动到新位置。服务器发送301状态码时，还会在响应头中包含一个Location字段，指示新的资源位置。客户端接收到301响应后，会自动重定向到新的URL，并且搜索引擎也会更新索引将原来的URL替" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/531" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>Http 状态码 301 和 302 的应用场景分别是什么</h1>
+      <div class="subtitle">百度 · 网络 · 百度</div>
+      <div class="meta">创建：2023-08-25T14:42:25Z · 更新：2023-08-25T14:42:25Z</div>
+    </div>
+    <article class="content markdown-body"><p>HTTP状态码301和302都是重定向状态码，用于将客户端请求重定向到另一个URL。</p><ul><li><code>301（Moved Permanently）</code>：表示请求的资源已永久移动到新位置。服务器发送301状态码时，还会在响应头中包含一个Location字段，指示新的资源位置。客户端接收到301响应后，会自动重定向到新的URL，并且搜索引擎也会更新索引将原来的URL替换为新的URL。301常见的应用场景包括网站改版、域名更换等需要永久重定向的情况。</li></ul><ul><li><code>302（Found）</code>：表示请求的资源临时移动到不同的位置。与301不同，302状态码表示请求的资源只是暂时移动，将来可能还会回到原来的位置。服务器发送302状态码时，同样会在响应头中包含一个Location字段，指示暂时移动的位置。客户端接收到302响应后，也会自动重定向到新的URL，但搜索引擎通常不会更新索引，而是继续保留原来的URL。302常见的应用场景包括临时的维护页面、流量调度等需要临时重定向的情况。</li></ul><p><strong>总结</strong></p><ul><li>HTTP状态码301是永久重定向，表示请求的资源已永久移动到新位置，客户端会自动重定向到新的URL，搜索引擎会更新索引。</li><li>HTTP状态码302是临时重定向，表示请求的资源暂时移动到不同的位置，客户端会自动重定向到新的URL，但搜索引擎会保留原来的索引。</li><li>301适用于网站改版、域名更换等需要永久重定向的情况。</li><li>302适用于临时的维护页面、流量调度等需要临时重定向的情况。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

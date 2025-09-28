@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>对象引用类问题：以下代码的执行结果是什么，并解释原因 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h3&gt;代码如下， 请问执行结果&lt;/h3&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;var a = {n: 1}; var b = a; a.x = a = {n: 2}; console.log(a.x) console" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="对象引用类问题：以下代码的执行结果是什么，并解释原因" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h3&gt;代码如下， 请问执行结果&lt;/h3&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;var a = {n: 1}; var b = a; a.x = a = {n: 2}; console.log(a.x) console.log(b.x) &lt;/code&gt;&lt;/pre&gt;&lt;h3&gt;执行结果和原因&lt;/h3&gt;&lt;p&gt;结果是 &lt;code&gt;undefine" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/218" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>对象引用类问题：以下代码的执行结果是什么，并解释原因</h1>
+      <div class="subtitle">百度 · JavaScript · 百度</div>
+      <div class="meta">创建：2023-03-28T14:50:37Z · 更新：2023-03-28T14:50:38Z</div>
+    </div>
+    <article class="content markdown-body"><h3>代码如下， 请问执行结果</h3><pre class="code-block"><code class="language-js">var a = {n: 1};
+var b = a;
+a.x = a = {n: 2};
+
+console.log(a.x) 	
+console.log(b.x)
+</code></pre><h3>执行结果和原因</h3><p>结果是 <code>undefined</code> 和 <code>{n: 2}</code>。</p><p>这段代码可以分解为以下步骤：</p><ol><li>创建一个对象 <code>a</code>，属性 <code>n</code> 的值为 <code>1</code>。</li><li>将变量 <code>b</code> 指向 <code>a</code>，<code>b</code> 现在也引用了这个对象。</li><li>执行赋值语句 <code>a.x = a = {n: 2}</code>，其中 <code>a.x</code> 引用的是对象 <code>a</code> 的 <code>x</code> 属性，但是此时 <code>a</code> 的值被重新赋值为一个新的对象 <code>{n: 2}</code>。</li><li>所以现在 <code>a</code> 引用的是 <code>{n: 2}</code>，而 <code>b</code> 仍然引用原始的对象 <code>{n: 1}</code>，且其 <code>x</code> 属性被赋值为 <code>{n: 2}</code>。</li><li>所以 <code>console.log(a.x)</code> 结果为 <code>undefined</code>，因为 <code>a</code> 引用的对象没有 <code>x</code> 属性；而 <code>console.log(b.x)</code> 结果为 <code>{n: 2}</code>，因为 <code>b</code> 引用的对象的 <code>x</code> 属性被赋值为 <code>{n: 2}</code>。</li></ol></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

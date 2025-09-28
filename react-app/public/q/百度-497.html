@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>onpopstate可以监听到一个pushstate的事件吗【热度: 546】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：popstate&lt;/p&gt;&lt;p&gt;&lt;strong&gt;&lt;code&gt;onpopstate&lt;/code&gt; 事件只能监听到浏览器历史记录的前进和后退操作，无法直接监听到 &lt;code&gt;pushState&lt;/code&gt; 或 &lt;code&gt;replace" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="onpopstate可以监听到一个pushstate的事件吗【热度: 546】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：popstate&lt;/p&gt;&lt;p&gt;&lt;strong&gt;&lt;code&gt;onpopstate&lt;/code&gt; 事件只能监听到浏览器历史记录的前进和后退操作，无法直接监听到 &lt;code&gt;pushState&lt;/code&gt; 或 &lt;code&gt;replaceState&lt;/code&gt; 的调用&lt;/strong&gt;。这是因为 &lt;code&gt;pushState&lt;/code&gt; 和 &lt;cod" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/497" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>onpopstate可以监听到一个pushstate的事件吗【热度: 546】</h1>
+      <div class="subtitle">百度 · 浏览器 · 百度</div>
+      <div class="meta">创建：2023-07-26T16:04:37Z · 更新：2023-07-26T16:04:38Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：popstate</p><p><strong><code>onpopstate</code> 事件只能监听到浏览器历史记录的前进和后退操作，无法直接监听到 <code>pushState</code> 或 <code>replaceState</code> 的调用</strong>。这是因为 <code>pushState</code> 和 <code>replaceState</code> 方法可以修改浏览器历史记录而不触发 <code>onpopstate</code> 事件。</p><p>但是，您可以在调用 <code>pushState</code> 或 <code>replaceState</code> 之后手动触发 <code>popstate</code> 事件，来模拟类似的效果。示例如下：</p><pre class="code-block"><code class="language-javascript">// 监听 popstate 事件
+window.addEventListener(&#39;popstate&#39;, function(event) {
+  console.log(&#39;popstate event triggered&#39;);
+});
+
+// 调用 pushState 方法
+window.history.pushState(null, null, &#39;/new-url&#39;);
+
+// 手动触发 popstate 事件
+var popStateEvent = new PopStateEvent(&#39;popstate&#39;, { state: null });
+window.dispatchEvent(popStateEvent);
+</code></pre><p>在上述示例中，我们首先通过 <code>addEventListener</code> 方法监听 <code>popstate</code> 事件。然后，我们调用 <code>pushState</code> 方法来修改浏览器历史记录，并在之后手动创建一个 <code>PopStateEvent</code> 对象，并使用 <code>dispatchEvent</code> 方法来触发 <code>popstate</code> 事件。</p><p>这样就可以实现在调用 <code>pushState</code> 或 <code>replaceState</code> 之后手动触发一个事件来模拟监听到 <code>pushState</code> 的效果。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

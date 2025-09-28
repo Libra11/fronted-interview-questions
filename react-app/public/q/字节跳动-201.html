@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Redux 和 Vuex 的设计思想是什么？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;Redux和Vuex都是用于在前端应用中管理状态的JavaScript库。它们的设计思想都基于Flux架构，强调单向数据流的概念，以避免数据的混乱和不可预测的状态变化。&lt;/p&gt;&lt;p&gt;Redux的设计思想可以总结为三个原则：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;单一数据源：Redux中所有" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Redux 和 Vuex 的设计思想是什么？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;Redux和Vuex都是用于在前端应用中管理状态的JavaScript库。它们的设计思想都基于Flux架构，强调单向数据流的概念，以避免数据的混乱和不可预测的状态变化。&lt;/p&gt;&lt;p&gt;Redux的设计思想可以总结为三个原则：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;单一数据源：Redux中所有的状态数据都保存在单一的store对象中，便于管理和维护。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li&gt;状态只读：Redux的状态" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/201" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>Redux 和 Vuex 的设计思想是什么？</h1>
+      <div class="subtitle">字节跳动 · JavaScript · 字节跳动</div>
+      <div class="meta">创建：2023-03-26T14:01:52Z · 更新：2023-03-26T14:01:53Z</div>
+    </div>
+    <article class="content markdown-body"><p>Redux和Vuex都是用于在前端应用中管理状态的JavaScript库。它们的设计思想都基于Flux架构，强调单向数据流的概念，以避免数据的混乱和不可预测的状态变化。</p><p>Redux的设计思想可以总结为三个原则：</p><ol><li>单一数据源：Redux中所有的状态数据都保存在单一的store对象中，便于管理和维护。</li></ol><ol><li>状态只读：Redux的状态数据是只读的，唯一的改变方式是通过dispatch一个action来触发reducer函数对状态进行更新。</li></ol><ol><li>纯函数更新状态：Redux的reducer函数必须是纯函数，即接收一个旧的状态和一个action对象，返回一个新的状态。通过这种方式，Redux保证了状态的可控和可预测性。</li></ol><p>Vuex的设计思想类似于Redux，但又有所不同：</p><ol><li>单一数据源：Vuex也采用了单一数据源的思想，将所有状态保存在store对象中。</li></ol><ol><li>显示状态修改：和Redux不同的是，Vuex允许组件直接修改状态，但这必须是通过commit一个mutation来实现的，mutation也必须是同步的。</li></ol><ol><li>模块化：Vuex提供了模块化机制，可以将store对象分解成多个模块，以提高可维护性和代码复用性。</li></ol><p>Redux和Vuex都是通过一些基本概念来实现状态管理：</p><ol><li>Store：保存状态的对象，整个应用只有一个Store。</li></ol><ol><li>Action：描述状态变化的对象，由View层发起。</li></ol><ol><li>Reducer：一个纯函数，接收旧的状态和一个Action对象，返回新的状态。</li></ol><ol><li>Dispatch：一个函数，用来触发Action。</li></ol><ol><li>Mutation：类似于Redux的Reducer，但必须是同步的。用来更新状态。</li></ol><p>总之，Redux和Vuex都是优秀的状态管理库，通过它们可以有效地管理前端应用的状态，实现数据的单向流动和可预测性。同时，Redux和Vuex都遵循了Flux架构的设计思想，使得状态管理更加规范化和可控。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

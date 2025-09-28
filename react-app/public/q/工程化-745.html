@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[webpack] mode 是做什么用？【热度: 475】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：webpack mode&lt;/p&gt;&lt;p&gt;在 webpack 中，&lt;code&gt;mode&lt;/code&gt; 属性用来指定当前的构建环境是：&lt;code&gt;development&lt;/code&gt;、&lt;code&gt;production&lt;/code&gt; 或者是" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[webpack] mode 是做什么用？【热度: 475】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：webpack mode&lt;/p&gt;&lt;p&gt;在 webpack 中，&lt;code&gt;mode&lt;/code&gt; 属性用来指定当前的构建环境是：&lt;code&gt;development&lt;/code&gt;、&lt;code&gt;production&lt;/code&gt; 或者是 &lt;code&gt;none&lt;/code&gt;。设置 &lt;code&gt;mode&lt;/code&gt; 可以使用 webpack 内置的函数，默" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/745" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[webpack] mode 是做什么用？【热度: 475】</h1>
+      <div class="subtitle">工程化 · 工程化 · Shopee</div>
+      <div class="meta">创建：2024-05-10T14:33:57Z · 更新：2024-05-10T14:33:58Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：webpack mode</p><p>在 webpack 中，<code>mode</code> 属性用来指定当前的构建环境是：<code>development</code>、<code>production</code> 或者是 <code>none</code>。设置 <code>mode</code> 可以使用 webpack 内置的函数，默认值为 <code>production</code>。</p><p><code>mode</code> 属性的主要作用是：根据当前的构建环境，启用 webpack 内置在该环境下推荐的优化。</p><h3>mode 的具体作用包括：</h3><ol><li><strong>development</strong></li></ol><ul><li>主要优化了增量构建速度和开发体验。</li><li><code>process.env.NODE_ENV</code> 的值设为 <code>development</code>。</li><li>启用热替换模块（Hot Module Replacement）。</li><li>启用开发工具（如调试源码的 source map）以更好地进行调试。</li></ul><ol><li><strong>production</strong></li></ol><ul><li>一些处理优化，以提升应用在生产环境的性能。</li><li><code>process.env.NODE_ENV</code> 的值设为 <code>production</code>。</li><li>启用代码压缩（例如 TerserPlugin）。</li><li>删除 dead code（通过 Tree Shaking）。</li><li>作用域提升等各种性能优化措施。</li></ul><ol><li><strong>none</strong></li></ol><ul><li><code>mode</code> 设置为 <code>none</code> 则不启用任何默认优化选项，<code>process.env.NODE_ENV</code> 也不会被设置，默认为 <code>production</code>。</li></ul><h3>使用方法：</h3><p>在 webpack 配置文件中，可以直接设置 <code>mode</code> 的值：</p><pre class="code-block"><code class="language-javascript">module.exports = {
+  mode: &quot;development&quot;, // &#39;production&#39; 或 &#39;none&#39;
+  // 其他配置...
+};
+</code></pre><p>或者，在命令行中使用 <code>--mode</code> 参数：</p><pre class="code-block"><code class="language-bash">webpack --mode=production
+</code></pre><p>设置 mode 是告诉 webpack 使用其内部的优化策略，各个模式预定义了一些 webpack 的行为，开发者可以不需要进行详细的配置，也能快速启动一个针对特定环境优化过的构建过程。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

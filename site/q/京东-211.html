@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>下面代码中 a 在什么情况下会打印 1 ? - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h3&gt;问题&lt;/h3&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;var a = ?; if(a == 1 &amp;amp;&amp;amp; a == 2 &amp;amp;&amp;amp; a == 3){ console.log(1); } &lt;/" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="下面代码中 a 在什么情况下会打印 1 ?" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h3&gt;问题&lt;/h3&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;var a = ?; if(a == 1 &amp;amp;&amp;amp; a == 2 &amp;amp;&amp;amp; a == 3){ console.log(1); } &lt;/code&gt;&lt;/pre&gt;&lt;h3&gt;回答&lt;/h3&gt;&lt;p&gt;这是一个经典的面试题，可以通过重写 &lt;code&gt;valueOf&lt;/co" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/211" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>下面代码中 a 在什么情况下会打印 1 ?</h1>
+      <div class="subtitle">京东 · JavaScript · 京东</div>
+      <div class="meta">创建：2023-03-27T15:13:43Z · 更新：2023-03-27T15:13:44Z</div>
+    </div>
+    <article class="content markdown-body"><h3>问题</h3><pre class="code-block"><code class="language-js">var a = ?;
+if(a == 1 &amp;&amp; a == 2 &amp;&amp; a == 3){
+ 	console.log(1);
+}
+</code></pre><h3>回答</h3><p>这是一个经典的面试题，可以通过重写 <code>valueOf</code> 或者 <code>toString</code> 方法来实现，在这些方法中动态返回变量 a 的值，以满足条件。例如：</p><pre class="code-block"><code class="language-js">var a = {
+  i: 1,
+  toString: function() {
+    return this.i++;
+  }
+}
+if(a == 1 &amp;&amp; a == 2 &amp;&amp; a == 3){
+  console.log(1);
+}
+</code></pre><p>在这个例子中，<code>a</code> 被定义为一个对象，有一个属性 <code>i</code> 初始化为 1，同时重写了 <code>toString</code> 方法，在每次调用时返回 <code>i</code> 的值，并且每次返回后将 <code>i</code> 自增。这样在比较 <code>a</code> 是否等于 1、2、3 的时候，会依次调用 <code>a.toString()</code> 方法，得到的结果就是满足条件的 1，依次打印出来。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

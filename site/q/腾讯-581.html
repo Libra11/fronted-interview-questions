@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] 构建组件的方式有哪些【热度: 482】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：React构建组件方式&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Class Components（类组件）：使用ES6的类语法来定义组件。类组件继承自&lt;code&gt;React.Component&lt;/code&gt;，并通过&lt;code&gt;render&lt;/code" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] 构建组件的方式有哪些【热度: 482】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：React构建组件方式&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Class Components（类组件）：使用ES6的类语法来定义组件。类组件继承自&lt;code&gt;React.Component&lt;/code&gt;，并通过&lt;code&gt;render&lt;/code&gt;方法返回需要渲染的React元素。&lt;/li&gt;&lt;/ol&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code cl" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/581" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] 构建组件的方式有哪些【热度: 482】</h1>
+      <div class="subtitle">腾讯 · web框架 · 腾讯</div>
+      <div class="meta">创建：2023-10-01T14:03:45Z · 更新：2023-10-01T14:03:46Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：React构建组件方式</p><ol><li>Class Components（类组件）：使用ES6的类语法来定义组件。类组件继承自<code>React.Component</code>，并通过<code>render</code>方法返回需要渲染的React元素。</li></ol><pre class="code-block"><code class="language-jsx">class MyComponent extends React.Component {
+  render() {
+    return &lt;div&gt;Hello&lt;/div&gt;;
+  }
+}
+</code></pre><ol><li>Function Components（函数组件）：使用函数来定义组件，函数接收<code>props</code>作为参数，并返回需要渲染的React元素。</li></ol><pre class="code-block"><code class="language-jsx">function MyComponent(props) {
+  return &lt;div&gt;Hello&lt;/div&gt;;
+}
+</code></pre><ol><li>Higher-Order Components（高阶组件）：高阶组件是一个函数，接收一个组件作为参数，并返回一个新的增强组件。它用于在不修改原始组件的情况下，添加额外的功能或逻辑。</li></ol><pre class="code-block"><code class="language-jsx">function withLogger(WrappedComponent) {
+  return class extends React.Component {
+    componentDidMount() {
+      console.log(&#39;Component did mount!&#39;);
+    }
+
+    render() {
+      return &lt;WrappedComponent {...this.props} /&gt;;
+    }
+  };
+}
+
+const EnhancedComponent = withLogger(MyComponent);
+</code></pre><ol><li>Function as Children（函数作为子组件）：将函数作为子组件传递给父组件，并通过父组件的props传递数据给子组件。</li></ol><pre class="code-block"><code class="language-jsx">function MyComponent(props) {
+  return &lt;div&gt;{props.children(&#39;Hello&#39;)}&lt;/div&gt;;
+}
+
+&lt;MyComponent&gt;
+  {(message) =&gt; &lt;p&gt;{message}&lt;/p&gt;}
+&lt;/MyComponent&gt;
+</code></pre><p>这些是React中常见的构建组件的方式。每种方式都适用于不同的场景，你可以根据自己的需求选择合适的方式来构建组件。</p><ol><li><code>React.cloneElement</code>：<code>React.cloneElement</code>是一个函数，用于克隆并返回一个新的React元素。它可以用于修改现有元素的props，或者在将父组件的props传递给子组件时进行一些额外的操作。</li></ol><pre class="code-block"><code class="language-jsx">const parentElement = &lt;div&gt;Hello&lt;/div&gt;;
+const clonedElement = React.cloneElement(parentElement, { className: &#39;greeting&#39; });
+
+// Result: &lt;div className=&quot;greeting&quot;&gt;Hello&lt;/div&gt;
+</code></pre><ol><li><code>React.createElement</code>：<code>React.createElement</code>是一个函数，用于创建并返回一个新的React元素。它接收一个类型（组件、HTML标签等）、props和子元素，并返回一个React元素。</li></ol><pre class="code-block"><code class="language-jsx">const element = React.createElement(&#39;div&#39;, { className: &#39;greeting&#39; }, &#39;Hello&#39;);
+
+// Result: &lt;div className=&quot;greeting&quot;&gt;Hello&lt;/div&gt;
+</code></pre><p><code>React.createElement</code>和<code>React.cloneElement</code>通常在一些特殊的场景下使用，例如在高阶组件中对组件进行包装或修改。它们不是常规的组件构建方式，但是在某些情况下是非常有用的。非常抱歉之前的遗漏，希望这次能够更全面地回答您的问题。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

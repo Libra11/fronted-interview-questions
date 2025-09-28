@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>在页面关闭时执行方法，该如何做【热度: 334】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：beforeunload 和 unload 事件&lt;/p&gt;&lt;p&gt;在页面关闭时执行特定的方法，你可以使用 &lt;code&gt;window&lt;/code&gt; 对象的 &lt;code&gt;beforeunload&lt;/code&gt; 和 &lt;code&gt;unload&lt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="在页面关闭时执行方法，该如何做【热度: 334】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：beforeunload 和 unload 事件&lt;/p&gt;&lt;p&gt;在页面关闭时执行特定的方法，你可以使用 &lt;code&gt;window&lt;/code&gt; 对象的 &lt;code&gt;beforeunload&lt;/code&gt; 和 &lt;code&gt;unload&lt;/code&gt; 事件。不过，这两个事件有一些微妙的区别和适用场景。&lt;/p&gt;&lt;h3&gt;使用 &lt;code&gt;beforeunloa" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/859" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>在页面关闭时执行方法，该如何做【热度: 334】</h1>
+      <div class="subtitle">web应用场景 · web应用场景 · 腾讯</div>
+      <div class="meta">创建：2024-08-29T15:22:14Z · 更新：2024-08-29T15:22:15Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：beforeunload 和 unload 事件</p><p>在页面关闭时执行特定的方法，你可以使用 <code>window</code> 对象的 <code>beforeunload</code> 和 <code>unload</code> 事件。不过，这两个事件有一些微妙的区别和适用场景。</p><h3>使用 <code>beforeunload</code> 事件</h3><p><code>beforeunload</code> 事件在窗口、文档或其资源即将卸载时触发，这一点让它成为在页面关闭前提示用户保存未保存更改的理想选择。在绑定到该事件的处理函数中，你可以执行特定的逻辑，但请注意，按照现代浏览器的安全策略，除非你设置了 <code>event.returnValue</code>，否则不会显示自定义的离开提示信息。</p><pre class="code-block"><code class="language-javascript">window.addEventListener(&quot;beforeunload&quot;, (event) =&gt; {
+  // 在这里执行你的清理逻辑或者其他操作
+  // 例如，发送一个统计日志
+  navigator.sendBeacon(&quot;/log&quot;, &quot;用户即将离开页面&quot;);
+
+  // 显示离开提示（大多数现代浏览器不支持自定义文本）
+  event.returnValue = &quot;您确定要离开此页面吗？&quot;;
+});
+</code></pre><h3>使用 <code>unload</code> 事件</h3><p><code>unload</code> 事件在用户即将从页面导航走，或关闭页面时触发。你可以在这个事件的处理函数中执行不能阻止页面卸载的清理逻辑。不过需要注意，这个事件的执行时间非常短，某些操作（例如异步操作）可能无法完成。</p><pre class="code-block"><code class="language-javascript">window.addEventListener(&quot;unload&quot;, (event) =&gt; {
+  // 执行简短的同步操作，例如发送统计信息
+  // 注意：这种情况下 navigator.sendBeacon 是更好的选择
+});
+</code></pre><h3>使用 <code>navigator.sendBeacon</code></h3><p>对于在页面卸载时需要发送数据到服务器的情况，使用 <code>navigator.sendBeacon</code> 方法是一种更可靠的方式。它有效地解决了通过异步 AJAX 请求可能导致的数据不被送出的问题。</p><pre class="code-block"><code class="language-javascript">window.addEventListener(&quot;unload&quot;, (event) =&gt; {
+  navigator.sendBeacon(&quot;/log-out&quot;, &quot;用户离开&quot;);
+});
+</code></pre><h3>注意事项</h3><ul><li>不是所有浏览器都完全一样地支持这些事件和 <code>navigator.sendBeacon</code> 方法。实施时应当考虑兼容性。</li><li>在 <code>beforeunload</code> 和 <code>unload</code> 事件中执行大量的同步操作或长时间运行的脚本可能会导致用户体验下降。推荐尽量使用简洁快速的逻辑。</li><li><code>beforeunload</code> 事件可以控制是否提示用户离开页面的确认对话框，但自定义的确认对话框信息可能不被所有浏览器支持。</li><li>使用 <code>navigator.sendBeacon</code> 来发送数据是因为它能在请求中携带足够的数据量，且即使页面卸载过程中也能确保数据被发送。</li></ul><p>根据你的应用需求，选择合适的事件和方法，确保页面关闭时能够执行你的逻辑。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

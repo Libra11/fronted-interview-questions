@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CSS 绘制三角形【热度: 324】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：css 绘制、css 三角形&lt;/p&gt;&lt;p&gt;在CSS中，你可以使用多种方法来实现三角形。以下是几种常用的方法和相应的代码示例：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;使用边框：&lt;/li&gt;&lt;/ol&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;co" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="CSS 绘制三角形【热度: 324】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：css 绘制、css 三角形&lt;/p&gt;&lt;p&gt;在CSS中，你可以使用多种方法来实现三角形。以下是几种常用的方法和相应的代码示例：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;使用边框：&lt;/li&gt;&lt;/ol&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-css&quot;&gt;.triangle { width: 0; height: 0; bor" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/356" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>CSS 绘制三角形【热度: 324】</h1>
+      <div class="subtitle">CSS · CSS · 小米</div>
+      <div class="meta">创建：2023-05-16T14:47:12Z · 更新：2023-09-12T08:25:14Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：css 绘制、css 三角形</p><p>在CSS中，你可以使用多种方法来实现三角形。以下是几种常用的方法和相应的代码示例：</p><ol><li>使用边框：</li></ol><pre class="code-block"><code class="language-css">.triangle {
+  width: 0;
+  height: 0;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+  border-bottom: 100px solid red;
+}
+</code></pre><p>这个方法通过设置元素的边框来创建三角形，其中左右边框设为透明，底边框设置为你想要的颜色。</p><ol><li>使用伪元素：</li></ol><pre class="code-block"><code class="language-css">.triangle {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+.triangle:before {
+  content: &quot;&quot;;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-width: 0 100px 100px 0;
+  border-style: solid;
+  border-color: red;
+}
+</code></pre><p>这个方法使用伪元素 <code>::before</code> 来创建三角形，通过设置其边框的宽度和样式来实现。</p><ol><li>使用旋转：</li></ol><pre class="code-block"><code class="language-css">.triangle {
+  width: 100px;
+  height: 100px;
+  background-color: red;
+  transform: rotate(45deg);
+}
+</code></pre><p>这个方法创建一个正方形元素，然后通过使用 <code>transform</code> 属性的 <code>rotate</code> 函数将其旋转45度，从而形成一个三角形。</p><h2>Comments / Answers</h2><hr /><p><strong>wuhuaizai</strong> at 2023-09-12T08:18:08Z</p><p>还有两种方法</p><ol><li>渐变</li><li>clip-path</li></ol><p>issue中提到的第三种方法是要配合父元素overflow: hidden来实现三角形吗，单纯靠3中的方法只能获得一个正方形</p><hr /><p><strong>yanlele</strong> at 2023-09-12T08:25:14Z</p><p>@wuhuaizai 点赞， 难得遇到这么认真看的小伙伴；</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

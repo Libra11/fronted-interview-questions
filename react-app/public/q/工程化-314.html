@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>npm lock 文件了解多少？【热度: 258】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：npm lock 原理、npm lock 实现、npm lock 作用&lt;/p&gt;&lt;p&gt;&lt;strong&gt;作用&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;npm lock 文件（如 package-lock.json 或 yarn.lock）的作用是" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="npm lock 文件了解多少？【热度: 258】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：npm lock 原理、npm lock 实现、npm lock 作用&lt;/p&gt;&lt;p&gt;&lt;strong&gt;作用&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;npm lock 文件（如 package-lock.json 或 yarn.lock）的作用是确保在不同机器上或在不同时间安装相同的依赖包时，获得相同的版本，以避免由于版本不一致而产生的问题。在安装依赖包时，npm" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/314" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>npm lock 文件了解多少？【热度: 258】</h1>
+      <div class="subtitle">工程化 · 工程化 · 小米</div>
+      <div class="meta">创建：2023-04-26T15:05:23Z · 更新：2023-04-26T15:05:23Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：npm lock 原理、npm lock 实现、npm lock 作用</p><p><strong>作用</strong></p><p>npm lock 文件（如 package-lock.json 或 yarn.lock）的作用是确保在不同机器上或在不同时间安装相同的依赖包时，获得相同的版本，以避免由于版本不一致而产生的问题。在安装依赖包时，npm lock 文件会锁定当前的依赖树，并记录每个依赖包的确切版本号和依赖关系。这样，在重新安装依赖包时，npm 将使用 lock 文件中记录的版本和依赖关系来安装依赖包，而不是根据 package.json 文件中的符号依赖去解析版本。这确保了依赖包版本的一致性。</p><p><strong>生成原理</strong></p><p>生成 npm lock 文件的原理如下：</p><ul><li>当我们使用 npm install 或 npm ci 安装依赖包时，npm 会检查项目中的 <code>package.json</code> 文件，并根据其中的依赖包信息，生成一个 <code>node_modules</code> 目录用来存储这些依赖包。</li></ul><ul><li>在生成 node_modules 目录时，npm 会生成一个 <code>npm-shrinkwrap.json</code> 或 <code>package-lock.json</code> 文件，用来记录所有已经安装的依赖包的精确版本信息和依赖关系。这些信息是根据 <code>package.json</code> 文件和 <code>node_modules</code> 目录中实际安装的依赖包信息计算出来的。</li></ul><ul><li>在以后的安装过程中，npm 会先检查是否存在 <code>npm-shrinkwrap.json</code> 或 <code>package-lock.json</code> 文件，如果存在，就使用其中的依赖包版本信息来安装依赖包，而不是根据 <code>package.json</code> 文件中的信息重新计算依赖包版本。这样就可以确保每次安装时都使用相同的依赖包版本，避免了版本不一致导致的问题。</li></ul><p><strong>npm-shrinkwrap.json 是什么文件？</strong></p><p><code>npm-shrinkwrap.json</code> 文件是 Node.js 包管理工具 npm 生成的一份锁定文件，用于锁定项目依赖包的版本，确保团队成员在使用同一版本的依赖包，以避免在不同环境下因版本不一致而导致的问题。</p><p>与 <code>package-lock.json</code> 文件类似，<code>npm-shrinkwrap.json</code> 文件可以在项目中确保依赖包版本的一致性，但它与 <code>package-lock.json</code> 文件不同之处在于，它能够锁定所有的依赖包版本，包括间接依赖的包版本，而 <code>package-lock.json</code> 文件只会锁定直接依赖包的版本。</p><p>同时，使用 <code>npm-shrinkwrap.json</code> 文件也需要注意，在项目开发过程中，如果需要升级依赖包版本，需要手动更新 <code>npm-shrinkwrap.json</code> 文件中的对应依赖包版本号。</p><p><strong>如何启用 npm-shrinkwrap.json</strong></p><p>在项目根目录下使用以下命令可以生成 <code>npm-shrinkwrap.json</code> 文件：</p><pre class="code-block"><code>npm shrinkwrap
+</code></pre><p>如果需要在安装新的包时同时更新 <code>npm-shrinkwrap.json</code> 文件，可以使用以下命令：</p><pre class="code-block"><code>npm shrinkwrap --dev
+</code></pre><p>这个命令会把 devDependencies 也包括在生成的 npm-shrinkwrap.json 文件中。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[webpack] 手写 webpack plugin 有那些重要 api 与注意的地方？【热度: 714】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：手写 webpack plugin&lt;/p&gt;&lt;p&gt;在手写一个 webpack 插件时，理解和使用一些核心的 API 是非常关键的。以下是编写 webpack 插件时需要知道的一些重要的 API 和注意事项。&lt;/p&gt;&lt;h3&gt;重要的 AP" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[webpack] 手写 webpack plugin 有那些重要 api 与注意的地方？【热度: 714】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：手写 webpack plugin&lt;/p&gt;&lt;p&gt;在手写一个 webpack 插件时，理解和使用一些核心的 API 是非常关键的。以下是编写 webpack 插件时需要知道的一些重要的 API 和注意事项。&lt;/p&gt;&lt;h3&gt;重要的 API&lt;/h3&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;compiler 对象&lt;/strong&gt;:&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/838" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[webpack] 手写 webpack plugin 有那些重要 api 与注意的地方？【热度: 714】</h1>
+      <div class="subtitle">美团 · 工程化 · 美团</div>
+      <div class="meta">创建：2024-08-18T06:31:33Z · 更新：2024-08-18T06:37:05Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：手写 webpack plugin</p><p>在手写一个 webpack 插件时，理解和使用一些核心的 API 是非常关键的。以下是编写 webpack 插件时需要知道的一些重要的 API 和注意事项。</p><h3>重要的 API</h3><ol><li><strong>compiler 对象</strong>:</li></ol><ul><li><code>compiler.hooks</code>: 提供了一系列的钩子，用于插件挂载到 webpack 的整个编译过程。这些钩子包括：</li><li><code>compile</code>、<code>compilation</code>：允许你在编译器开始编译以及创建新的编译对象时挂载功能。</li><li><code>emit</code>、<code>done</code>：这些阶段更适合于生成资源、修改输出和记录状态。</li></ul><ol><li><strong>compilation 对象</strong>:</li></ol><ul><li>同样提供了一系列钩子，它们以更细粒度控制编译阶段，比如：</li><li><code>optimize</code>、<code>optimizeModules</code>：用于优化阶段。</li><li><code>buildModule</code>：在构建模块时触发。</li><li><code>moduleAssets</code>：处理模块产出的资源。</li></ul><ol><li><strong>tapable</strong>:</li></ol><ul><li>webpack 依赖于 tapable 库来实现钩子系统。使用 <code>tap()</code> 或 <code>tapAsync()</code> 方法来挂载这些钩子。这些方法通常接受两个参数：插件名称和一个回调函数。</li></ul><h3>注意的地方</h3><ol><li><strong>异步操作</strong>:</li></ol><ul><li>如果你的插件中涉及异步操作，确保正确处理。如果使用异步钩子，可以使用 <code>tapAsync()</code> 方法，它提供了一个回调函数来告知 webpack 何时异步操作完成。</li></ul><ol><li><strong>资源操作</strong>:</li></ol><ul><li>当操作 compilation 中的资源时，务必小心。确保不要删除或覆盖 webpack 或其他插件所需的关键资源。</li></ul><ol><li><strong>性能考虑</strong>:</li></ol><ul><li>插件的性能影响编译时长。避免在插件中执行过重的操作，尤其是在像 <code>compiler</code> 或 <code>compilation</code> 这样的生命周期钩子中，它们会影响到整个编译过程。</li></ul><ol><li><strong>webpack 版本兼容性</strong>:</li></ol><ul><li>webpack 的 API 在不同版本间可能会有变动。编写插件时，需要注意兼容性，并明确指出插件支持的 webpack 版本范围。</li></ul><ol><li><strong>钩子选择</strong>:</li></ol><ul><li>精确选择最适合的钩子对性能和功能都至关重要。了解每个钩子的含义和最佳用途能帮助插件更高效地工作。</li></ul><h3>示例</h3><p>以下是一个简单的 webpack 插件示例，展示了如何使用上述 API：</p><pre class="code-block"><code class="language-javascript">class MyWebpackPlugin {
+  apply(compiler) {
+    // 监听 emit 钩子
+    compiler.hooks.emit.tapAsync(&quot;MyWebpackPlugin&quot;, (compilation, callback) =&gt; {
+      // 在这里可以处理 compilation 中的资源、模块等
+      console.log(&quot;This is an example webpack plugin!&quot;);
+
+      // 完成插件处理后调用 callback 通知 webpack
+      callback();
+    });
+  }
+}
+</code></pre><p>这个简单的插件打印一条消息，在 <code>emit</code> 阶段被触发。尽管这个示例很基础，但是它展示了插件的基本结构和一些重要的 API。记得在编写更复杂的插件时阅读并理解 webpack 的文档，以利用 webpack 提供的完整能力。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

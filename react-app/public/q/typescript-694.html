@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TS 中 any 和 unknow 的区别【热度: 412】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;在 TypeScript 中，&lt;code&gt;any&lt;/code&gt;和&lt;code&gt;unknown&lt;/code&gt;都代表可以赋予任何类型的值，但它们在使用上有明显的不同。&lt;/p&gt;&lt;h3&gt;any 类型&lt;/h3&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;最不安全的类型&lt;/strong&gt;：&lt;code" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="TS 中 any 和 unknow 的区别【热度: 412】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;在 TypeScript 中，&lt;code&gt;any&lt;/code&gt;和&lt;code&gt;unknown&lt;/code&gt;都代表可以赋予任何类型的值，但它们在使用上有明显的不同。&lt;/p&gt;&lt;h3&gt;any 类型&lt;/h3&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;最不安全的类型&lt;/strong&gt;：&lt;code&gt;any&lt;/code&gt;类型是 TypeScript 类型系统的逃逸舱口，使用&lt;code&gt;any&lt;/code&gt;可以让任何表" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/694" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>TS 中 any 和 unknow 的区别【热度: 412】</h1>
+      <div class="subtitle">TypeScript · TypeScript · TOP100互联网</div>
+      <div class="meta">创建：2024-04-13T13:58:15Z · 更新：2024-04-13T13:58:16Z</div>
+    </div>
+    <article class="content markdown-body"><p>在 TypeScript 中，<code>any</code>和<code>unknown</code>都代表可以赋予任何类型的值，但它们在使用上有明显的不同。</p><h3>any 类型</h3><ol><li><strong>最不安全的类型</strong>：<code>any</code>类型是 TypeScript 类型系统的逃逸舱口，使用<code>any</code>可以让任何表达式绕过类型检查，转而采用 JavaScript 动态类型的行为。</li><li><strong>类型放弃</strong>：当你把一个值声明为<code>any</code>类型，你本质上在告诉 TypeScript 编译器：“信任我，我知道我在做什么。”编译器不会对<code>any</code>类型的值进行类型检查，这意味着你可以对它执行任何操作，无论它的实际类型。</li></ol><pre class="code-block"><code class="language-typescript">let notSure: any = 4;
+notSure = &quot;maybe a string instead&quot;;
+notSure = false; // okay, definitely a boolean
+
+notSure.ifItExists(); // okay, toExist might exist at runtime
+</code></pre><p>上述代码没有错误，因为<code>notSure</code>被声明为<code>any</code>类型。</p><h3>unknown 类型</h3><ol><li><strong>类型安全的 any</strong>：与<code>any</code>相比，<code>unknown</code>类型是类型安全的。它标志着一个值可以是任何类型，但与<code>any</code>不同的是，当值被声明为<code>unknown</code>时，你无法对该值执行任意的操作。</li></ol><ol><li><strong>需要断言或类型细化</strong>：在对<code>unknown</code>类型的值执行大部分操作之前，你需要使用类型断言或类型守卫来细化类型。这迫使开发者更积极地处理<code>unknown</code>类型的值，因此可以防止潜在的错误。</li></ol><pre class="code-block"><code class="language-typescript">let unsure: unknown = 4;
+unsure = &quot;maybe a string instead&quot;;
+unsure = false; // okay, still uncertain
+
+// unsure.ifItExists(); // Error: Object is of type &#39;unknown&#39;.
+// 下面是对unknown类型进行类型断言的示例
+(unsure as string).length; // okay, we have asserted that unsure is a string
+
+// 或者使用类型守卫
+if (typeof unsure === &quot;string&quot;) {
+  console.log(unsure.length); // okay, we have checked it&#39;s a string
+}
+</code></pre><p>如你所见，你不能像处理<code>any</code>类型那样直接调用 unknown 类型的方法或属性，必须先进行类型检查。</p><h3>总结</h3><p><code>unknown</code>类型是<code>any</code>类型的类型安全对应物。当不确定一个值的类型时应首选使用<code>unknown</code>。这样，你会被迫在对该值执行操作之前进行适当的类型检查。这增加了一层类型安全性，可以帮助避免错误。相比之下，<code>any</code>类型则完全放弃了类型检查，通常应该尽量避免。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

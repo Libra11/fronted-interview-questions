@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>我使用 vite 打包工程， 输出为 es6 的代码， 但是我依赖的 模块是 es5 commonjs 写的；这个他是怎么处理的【热度: 459】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：vite 打包、es6 转 es5&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;Vite 的模块解析机制&lt;/strong&gt;&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;概述&lt;/strong&gt;：Vite 在打包过程中会对模块进行解析。" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="我使用 vite 打包工程， 输出为 es6 的代码， 但是我依赖的 模块是 es5 commonjs 写的；这个他是怎么处理的【热度: 459】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：vite 打包、es6 转 es5&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;Vite 的模块解析机制&lt;/strong&gt;&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;概述&lt;/strong&gt;：Vite 在打包过程中会对模块进行解析。当遇到 ES6 模块（ESM）和 &lt;code&gt;CommonJS&lt;/code&gt; 模块混合的情况时，它会根据模块的类型采用不" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1084" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>我使用 vite 打包工程， 输出为 es6 的代码， 但是我依赖的 模块是 es5 commonjs 写的；这个他是怎么处理的【热度: 459】</h1>
+      <div class="subtitle">工程化 · 工程化 · 腾讯</div>
+      <div class="meta">创建：2025-01-09T15:47:45Z · 更新：2025-01-09T15:47:46Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：vite 打包、es6 转 es5</p><ol><li><strong>Vite 的模块解析机制</strong></li></ol><ul><li><strong>概述</strong>：Vite 在打包过程中会对模块进行解析。当遇到 ES6 模块（ESM）和 <code>CommonJS</code> 模块混合的情况时，它会根据模块的类型采用不同的处理策略。Vite 内部的模块解析系统能够识别模块的语法是 ES6 还是 <code>CommonJS。</code></li></ul><ol><li><strong>对于 <code>CommonJS</code> 模块的处理</strong></li></ol><ul><li><strong>转换为 ESM（在必要时）</strong>：如果 Vite 发现依赖的模块是 <code>CommonJS</code> 模块，它会尝试将其转换为 ES6 模块格式。这是因为 Vite 的打包目标是输出 ES6 代码，所以需要统一模块格式。在转换过程中，Vite 会分析 <code>CommonJS</code> 模块的<code>require</code>语句和<code>module.exports</code>，将它们转换为等价的 ES6 <code>import</code>和<code>export</code>语句。</li><li><strong>示例说明转换过程</strong>：假设一个 <code>CommonJS</code> 模块<code>commonjsModule.js</code>如下：</li></ul><p>```javascript</p><p>const add = (a, b) => a + b;</p><p>module.exports = {</p><p>add,</p><p>};</p><p>```</p><ul><li>Vite 会将其转换为类似这样的 ES6 模块（这是内部转换后的概念性表示）：</li></ul><p>```javascript</p><p>const add = (a, b) => a + b;</p><p>export default {</p><p>add,</p><p>};</p><p>```</p><ul><li>这样就可以在 ES6 的代码环境中正确地引用这个模块了。</li></ul><ol><li><strong>处理模块加载和兼容性</strong></li></ol><ul><li><strong>加载器机制</strong>：Vite 使用了一套加载器系统来处理不同类型的模块。对于 <code>CommonJS</code> 模块转换后的 ES6 模块，加载器会确保它们在打包后的代码中能够正确地被加载和执行。这些加载器会处理模块之间的依赖关系，使得无论是原本的 ES6 模块还是转换后的 <code>CommonJS</code> 模块，都能按照正确的顺序加载。</li><li><strong>兼容性处理</strong>：Vite 还会考虑到浏览器的兼容性。即使输出的是 ES6 代码，它也会确保这些代码在目标浏览器环境中能够正常运行。对于一些较新的 ES6 语法特性，Vite 可能会通过插件（如<code>@vitejs/plugin - babel</code>）或者自身的语法转换机制来将其转换为更兼容的形式。例如，如果使用了 ES6 的<code>async/await</code>语法，而目标浏览器不支持，Vite 可以将其转换为基于 Promise 的等价形式或者使用 Babel 来进行语法转换，以确保代码能够在更多浏览器中运行。</li></ul><ol><li><strong>插件的辅助作用（如需要）</strong></li></ol><ul><li><strong>使用 Babel 插件（如果配置）</strong>：如果在 Vite 项目中配置了 Babel 相关插件（如<code>@vitejs/plugin - babel</code>），Babel 可以在 Vite 打包过程中进一步协助处理模块的语法转换。特别是对于那些 Vite 自身转换可能不够完善或者需要更复杂语法转换的情况，Babel 插件可以发挥作用。例如，对于一些旧的 JavaScript 语法（如 ES5 的<code>var</code>声明、<code>function</code>声明等）在 <code>CommonJS</code> 模块中出现时，Babel 可以将它们转换为更符合现代标准的语法，以适应输出 ES6 代码的要求。</li><li><strong>其他插件用于模块处理</strong>：除了 Babel 插件，还有其他一些 Vite 插件可以用于模块处理。例如，<code>vite - plugin - commonjs</code>插件可以专门用于优化 <code>CommonJS</code> 模块在 Vite 中的处理过程，包括更好地处理模块的动态加载、命名空间等问题，以确保 <code>CommonJS</code> 模块和 ES6 模块能够在打包后的代码中和谐共存。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

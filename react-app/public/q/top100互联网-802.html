@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何在划词选择的文本上添加右键菜单（划词：鼠标滑动选择一组字符， 对组字符进行操作）【热度: 100】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：DOM getSelection 方法 应用场景&lt;/p&gt;&lt;blockquote&gt;主要考察 dom 方法， &lt;code&gt;getSelection&lt;/code&gt;&lt;/blockquote&gt;&lt;blockquote&gt;属于很冷门知识， 只会在做" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何在划词选择的文本上添加右键菜单（划词：鼠标滑动选择一组字符， 对组字符进行操作）【热度: 100】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：DOM getSelection 方法 应用场景&lt;/p&gt;&lt;blockquote&gt;主要考察 dom 方法， &lt;code&gt;getSelection&lt;/code&gt;&lt;/blockquote&gt;&lt;blockquote&gt;属于很冷门知识， 只会在做过富文本的同学面试过程中可能会问得到。&lt;/blockquote&gt;&lt;p&gt;要在划词选择的文本上添加右键菜单，可以按照以下步骤" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/802" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何在划词选择的文本上添加右键菜单（划词：鼠标滑动选择一组字符， 对组字符进行操作）【热度: 100】</h1>
+      <div class="subtitle">TOP100互联网 · web应用场景 · TOP100互联网</div>
+      <div class="meta">创建：2024-07-14T03:17:01Z · 更新：2024-07-14T03:17:01Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：DOM getSelection 方法 应用场景</p><blockquote>主要考察 dom 方法， <code>getSelection</code></blockquote><blockquote>属于很冷门知识， 只会在做过富文本的同学面试过程中可能会问得到。</blockquote><p>要在划词选择的文本上添加右键菜单，可以按照以下步骤进行操作：</p><ol><li>监听鼠标右键事件</li></ol><p>在文档或富文本区域上添加 <code>contextmenu</code> 事件的监听。</p><pre class="code-block"><code class="language-javascript">document.addEventListener(&quot;contextmenu&quot;, function (event) {
+  // 阻止默认的浏览器右键菜单
+  event.preventDefault();
+
+  // 在此处显示自定义右键菜单
+  showCustomMenu(event);
+});
+</code></pre><ol><li>显示自定义右键菜单</li></ol><p>创建一个自定义的菜单元素，并根据选择的文本设置菜单选项。</p><pre class="code-block"><code class="language-javascript">function showCustomMenu(event) {
+  const customMenu = document.createElement(&quot;div&quot;);
+  customMenu.style.position = &quot;absolute&quot;;
+  customMenu.style.left = event.clientX + &quot;px&quot;;
+  customMenu.style.top = event.clientY + &quot;px&quot;;
+
+  // 添加菜单选项
+  const menuItem1 = document.createElement(&quot;div&quot;);
+  menuItem1.textContent = &quot;复制&quot;;
+  menuItem1.addEventListener(&quot;click&quot;, function () {
+    // 处理复制操作
+    copySelectedText();
+  });
+  customMenu.appendChild(menuItem1);
+
+  // 可以添加更多的菜单选项
+
+  document.body.appendChild(customMenu);
+}
+</code></pre><ol><li>处理菜单选项的操作</li></ol><p>例如，实现复制选中文本的功能。</p><pre class="code-block"><code class="language-javascript">function copySelectedText() {
+  const selection = window.getSelection();
+  if (selection) {
+    const range = selection.getRangeAt(0);
+    const clipboardData = new ClipboardEvent(&quot;copy&quot;, {
+      clipboardData: { text: range.toString() },
+      bubbles: true,
+    }).clipboardData;
+    document.execCommand(&quot;copy&quot;, false, clipboardData);
+  }
+}
+</code></pre><ol><li>隐藏右键菜单</li></ol><p>当用户点击菜单之外的区域时，隐藏自定义右键菜单。</p><pre class="code-block"><code class="language-javascript">document.addEventListener(&quot;click&quot;, function (event) {
+  const customMenu = document.querySelector(&quot;.custom-menu&quot;);
+  if (customMenu &amp;&amp; !customMenu.contains(event.target)) {
+    customMenu.remove();
+  }
+});
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

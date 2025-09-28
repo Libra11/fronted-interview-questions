@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Webpack] Webpack vs Vite的核心差异【热度: 820】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：Webpack vs Vite 差异&lt;/p&gt;&lt;h4&gt;&lt;strong&gt;构建速度&lt;/strong&gt;:&lt;/h4&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Webpack&lt;/strong&gt;: Webpack的构建速度相对较慢，尤其在大型项目中，因为它" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Webpack] Webpack vs Vite的核心差异【热度: 820】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：Webpack vs Vite 差异&lt;/p&gt;&lt;h4&gt;&lt;strong&gt;构建速度&lt;/strong&gt;:&lt;/h4&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Webpack&lt;/strong&gt;: Webpack的构建速度相对较慢，尤其在大型项目中，因为它需要分析整个依赖图，进行多次文件扫描和转译。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Vite&lt;/strong&gt;: Vite以开" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/625" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Webpack] Webpack vs Vite的核心差异【热度: 820】</h1>
+      <div class="subtitle">工程化 · 工程化 · 腾讯</div>
+      <div class="meta">创建：2023-11-09T16:14:26Z · 更新：2023-12-17T09:50:12Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：Webpack vs Vite 差异</p><h4><strong>构建速度</strong>:</h4><ul><li><strong>Webpack</strong>: Webpack的构建速度相对较慢，尤其在大型项目中，因为它需要分析整个依赖图，进行多次文件扫描和转译。</li><li><strong>Vite</strong>: Vite以开发模式下的极速构建著称。它利用ES模块的特性，只构建正在编辑的文件，而不是整个项目。这使得它在开发环境下几乎是即时的。</li></ul><h4><strong>开发模式</strong>:</h4><ul><li><strong>Webpack</strong>: Webpack通常使用热模块替换（HMR）来实现快速开发模式，但配置相对复杂。</li><li><strong>Vite</strong>: Vite的开发模式非常轻量且快速，支持HMR，但无需额外配置，因为它默认支持。</li></ul><h4><strong>配置复杂度</strong>:</h4><ul><li><strong>Webpack</strong>: Webpack的配置相对复杂，特别是在处理不同类型的资源和加载器时。</li><li><strong>Vite</strong>: Vite鼓励零配置，使得项目起步非常简单，但同时也支持自定义配置，使其适用于复杂项目。</li></ul><h4><strong>插件生态</strong>:</h4><ul><li><strong>Webpack</strong>: Webpack拥有庞大的插件生态系统，适用于各种不同的需求。</li><li><strong>Vite</strong>: Vite也有相当数量的插件，但相对较小，因为它的开发模式和构建方式减少了对一些传统插件的需求。</li></ul><h4><strong>编译方式</strong>:</h4><ul><li><strong>Webpack</strong>: Webpack使用了多种加载器和插件来处理不同类型的资源，如JavaScript、CSS、图片等。</li><li><strong>Vite</strong>: Vite利用ES模块原生支持，使用原生浏览器导入来处理模块，不需要大规模的编译和打包。</li></ul><h4><strong>应用场景</strong>:</h4><ul><li><strong>Webpack</strong>: 适用于复杂的大型项目，特别是需要大量自定义配置和复杂构建管道的项目。</li><li><strong>Vite</strong>: 更适用于小到中型项目，或者需要快速开发原型和小型应用的场景。</li></ul><h4><strong>打包原理</strong>:</h4><ul><li><strong>Webpack</strong>: Webpack的打包原理是将所有资源打包成一个或多个bundle文件，通常是一个JavaScript文件。</li><li><strong>Vite</strong>: Vite的打包原理是保持开发时的模块化结构，使用浏览器原生的导入机制，在生产环境中进行代码分割和优化。</li></ul><h4><strong>优缺点</strong>:</h4><ul><li><strong>Webpack</strong>:</li></ul><ul><li>优点：灵活、强大、适用于复杂场景、庞大的插件生态。</li><li>缺点：构建速度较慢、配置复杂、开发体验不如Vite流畅。</li></ul><ul><li><strong>Vite</strong>:</li></ul><ul><li>优点：极快的开发构建速度、零配置启动、原生ES模块支持、适用于小型项目和快速原型开发。</li><li>缺点：插件生态相对较小、不太适用于复杂大型项目。</li></ul><h4>参考文档</h4><ul><li>https://juejin.cn/post/7273427487588843581</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

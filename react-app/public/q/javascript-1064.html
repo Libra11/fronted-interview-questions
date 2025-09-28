@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>proxy set 拦截器，其中参数中第一个参数 target 和 最后一个参数 receiver 有何区别【热度: 132】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：proxy set 拦截器&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;&lt;code&gt;target&lt;/code&gt;参数&lt;/strong&gt;&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;本质和用途&lt;/strong&gt;&lt;/li&gt;&lt;li&gt;&lt;cod" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="proxy set 拦截器，其中参数中第一个参数 target 和 最后一个参数 receiver 有何区别【热度: 132】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：proxy set 拦截器&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;&lt;code&gt;target&lt;/code&gt;参数&lt;/strong&gt;&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;本质和用途&lt;/strong&gt;&lt;/li&gt;&lt;li&gt;&lt;code&gt;target&lt;/code&gt;是被代理的原始对象。它代表了代理操作所基于的实际对象。在&lt;code&gt;Proxy&lt;/code" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1064" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>proxy set 拦截器，其中参数中第一个参数 target 和 最后一个参数 receiver 有何区别【热度: 132】</h1>
+      <div class="subtitle">JavaScript · JavaScript · 美团</div>
+      <div class="meta">创建：2024-11-22T13:23:26Z · 更新：2024-11-22T13:23:27Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：proxy set 拦截器</p><ol><li><strong><code>target</code>参数</strong></li></ol><ul><li><strong>本质和用途</strong></li><li><code>target</code>是被代理的原始对象。它代表了代理操作所基于的实际对象。在<code>Proxy</code>的<code>set</code>拦截器中，<code>target</code>的主要作用是提供对原始对象属性和状态的访问，以便在拦截属性设置操作时，可以正确地将新值应用到原始对象的相应属性上。</li><li><strong>示例说明</strong></li><li>假设我们有一个简单的对象<code>originalObject = { value: 10 };</code>，并创建了一个代理 <code>const proxy = new Proxy(originalObject, { set });</code>。当拦截器 <code>set</code> 被触发时，<code>target</code> 就是 <code>originalObject</code>。例如：</li></ul><p>```javascript</p><p>const originalObject = { value: 10 };</p><p>const handler = {</p><p>set(target, property, value) {</p><p>console.log(<code>原始对象是: ${JSON.stringify(target)}</code>);</p><p>target[property] = value;</p><p>return true;</p><p>},</p><p>};</p><p>const proxy = new Proxy(originalObject, handler);</p><p>proxy.value = 20;</p><p>```</p><ul><li>在这个例子中，当设置<code>proxy.value</code>时，<code>target</code>就是<code>originalObject</code>，<code>set</code>拦截器可以通过<code>target</code>来修改<code>originalObject</code>的<code>value</code>属性。</li></ul><ol><li><strong><code>receiver</code>参数</strong></li></ol><ul><li><strong>本质和用途</strong></li><li><code>receiver</code>是实际接收属性设置操作的对象。在简单的情况下，它通常就是代理对象本身。但是，在一些更复杂的场景中，比如涉及到对象的继承或者多层代理时，<code>receiver</code>和<code>target</code>可能不同，它能帮助确定操作发生的真实上下文。</li><li><strong>示例说明</strong></li><li>考虑这样一个场景，有一个基础对象<code>baseObject</code>，创建了一个代理<code>proxy1</code>，然后又有一个对象通过<code>Object.create(proxy1)</code>创建并继承自<code>proxy1</code>。当在这个继承对象上进行属性设置操作时，<code>receiver</code>将指向这个继承对象，而<code>target</code>仍然是原始被代理的对象。</li></ul><p>```javascript</p><p>const baseObject = { count: 0 };</p><p>const handler = {</p><p>set(target, property, value, receiver) {</p><p>console.log(<code>接收操作的对象是: ${JSON.stringify(receiver)}</code>);</p><p>console.log(<code>原始对象是: ${JSON.stringify(target)}</code>);</p><p>target[property] = value;</p><p>return true;</p><p>},</p><p>};</p><p>const proxy1 = new Proxy(baseObject, handler);</p><p>const derivedObject = Object.create(proxy1);</p><p>derivedObject.count = 1;</p><p>```</p><ul><li>在这个例子中，当设置<code>derivedObject.count</code>时，<code>receiver</code>是<code>derivedObject</code>，因为它是实际接收操作的对象，而<code>target</code>是<code>baseObject</code>，因为它是原始被代理的对象。这就体现了<code>receiver</code>和<code>target</code>在复杂场景下的区别。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

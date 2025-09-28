@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>普通函数动态参数 和 箭头函数的动态参数有什么区别？【热度: 927】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：JS函数动态参数&lt;/p&gt;&lt;p&gt;普通函数和箭头函数在处理动态参数方面有以下区别：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;普通函数的动态参数：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;在普通函数中，可以使用 &lt;code&gt;arguments&lt;/code&gt; 对象" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="普通函数动态参数 和 箭头函数的动态参数有什么区别？【热度: 927】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：JS函数动态参数&lt;/p&gt;&lt;p&gt;普通函数和箭头函数在处理动态参数方面有以下区别：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;普通函数的动态参数：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;在普通函数中，可以使用 &lt;code&gt;arguments&lt;/code&gt; 对象来访问传递给函数的所有参数，无论是否定义了具名参数。&lt;code&gt;arguments&lt;/code&gt; 是一个类数组对象，可以" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/450" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>普通函数动态参数 和 箭头函数的动态参数有什么区别？【热度: 927】</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-06-12T15:54:28Z · 更新：2023-06-12T15:54:29Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：JS函数动态参数</p><p>普通函数和箭头函数在处理动态参数方面有以下区别：</p><ol><li>普通函数的动态参数：</li></ol><ul><li>在普通函数中，可以使用 <code>arguments</code> 对象来访问传递给函数的所有参数，无论是否定义了具名参数。<code>arguments</code> 是一个类数组对象，可以通过索引访问每个参数的值。</li><li>普通函数可以使用剩余参数语法（Rest parameters）来声明动态参数，通过三个点（<code>...</code>）和一个参数名表示。剩余参数会被收集成一个真正的数组，可以直接使用数组的方法和属性对参数进行操作。</li></ul><p>示例：</p><pre class="code-block"><code class="language-javascript">function sum(a, b, ...rest) {
+  console.log(a, b); // 输出前两个参数
+  console.log(rest); // 输出剩余的动态参数，作为数组
+}
+
+sum(1, 2, 3, 4, 5); // 输出: 1 2， [3, 4, 5]
+</code></pre><ol><li>箭头函数的动态参数：</li></ol><ul><li>箭头函数不具有自己的 <code>arguments</code> 对象。在箭头函数中，无法直接访问传递给函数的所有参数的类数组对象。</li><li>箭头函数可以使用剩余参数语法来声明动态参数，与普通函数相同。剩余参数会被收集成一个真正的数组，可以直接使用数组的方法和属性对参数进行操作。</li></ul><p>示例：</p><pre class="code-block"><code class="language-javascript">const sum = (a, b, ...rest) =&gt; {
+  console.log(a, b); // 输出前两个参数
+  console.log(rest); // 输出剩余的动态参数，作为数组
+}
+
+sum(1, 2, 3, 4, 5); // 输出: 1 2， [3, 4, 5]
+</code></pre><p>总结：</p><ul><li>普通函数和箭头函数都可以接受动态参数。</li><li>普通函数可以使用 <code>arguments</code> 对象访问所有参数，也可以使用剩余参数语法将参数收集成数组。</li><li>箭头函数没有自己的 <code>arguments</code> 对象，无法直接访问所有参数，但可以使用剩余参数语法将参数收集成数组。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Webpack] 如何提取复用代码给多个 entry 使用？【热度: 292】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：代码复用&lt;/p&gt;&lt;p&gt;在 Webpack 中提取源码里被多个入口点复用的代码，例如一个 &lt;code&gt;utils&lt;/code&gt; 文件，可以通过配置 &lt;code&gt;optimization.splitChunks&lt;/code&gt; 来实现。W" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Webpack] 如何提取复用代码给多个 entry 使用？【热度: 292】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：代码复用&lt;/p&gt;&lt;p&gt;在 Webpack 中提取源码里被多个入口点复用的代码，例如一个 &lt;code&gt;utils&lt;/code&gt; 文件，可以通过配置 &lt;code&gt;optimization.splitChunks&lt;/code&gt; 来实现。Webpack 会将这些频繁复用的模块提取出来，打包到一个独立的 chunk 中，使得浏览器可以单独缓存这部分代码，并在多" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/767" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Webpack] 如何提取复用代码给多个 entry 使用？【热度: 292】</h1>
+      <div class="subtitle">工程化 · 工程化 · TOP100互联网</div>
+      <div class="meta">创建：2024-05-26T03:03:02Z · 更新：2024-05-26T03:03:03Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：代码复用</p><p>在 Webpack 中提取源码里被多个入口点复用的代码，例如一个 <code>utils</code> 文件，可以通过配置 <code>optimization.splitChunks</code> 来实现。Webpack 会将这些频繁复用的模块提取出来，打包到一个独立的 chunk 中，使得浏览器可以单独缓存这部分代码，并在多个页面间共享使用，优化加载性能。</p><p>使用 <code>splitChunks</code> 的基本配置如下：</p><pre class="code-block"><code class="language-javascript">module.exports = {
+  // ...其他配置...
+  optimization: {
+    splitChunks: {
+      chunks: &quot;all&quot;, // 对所有的 chunk 有效，包括异步和非异步 chunk
+      cacheGroups: {
+        commons: {
+          name: &quot;commons&quot;, // 提取出来的文件命名为 &#39;commons.js&#39;
+          chunks: &quot;initial&quot;, // 提取出的 chunk 类型，&#39;initial&#39; 为初始 chunk，&#39;async&#39; 为异步 chunk，&#39;all&#39; 表示全部 chunk
+          minChunks: 2, // 模块被引用&gt;=2次，便分割
+          minSize: 0, // 模块的最小体积
+        },
+      },
+    },
+  },
+};
+</code></pre><p>这个配置的含义是：</p><ul><li><code>chunks: &#39;all&#39;</code> 指定要优化的 chunk 类型，这里设置为 <code>all</code> 代表所有的 chunk，不管是动态还是非动态加载的模块。</li><li><code>cacheGroups</code> 是一个对象，用于定义缓存组，可以继承和/或覆盖 <code>splitChunks</code> 的任何选项。每个缓存组可以有自己的配置，将不同的模块提取到不同的文件中。</li><li><code>cacheGroups.commons</code> 定义了一个缓存组，专门用于提取 <code>initial</code> chunk（最初依赖的模块）中被至少两个 chunk 所共享的模块。</li><li><code>name: &#39;commons&#39;</code> 为生成的文件定义了一个自定义名称。</li><li><code>minChunks: 2</code> 表示模块至少被两个入口点引用时，才会被提取。</li><li><code>minSize: 0</code> 指定模块的最小体积是 0，即任意大小的模块都被提取。</li></ul><p>这会让任何从 <code>node_modules</code> 目录导入，并在至少两个入口点中使用的模块，都会被打包到一个名为 <code>commons.js</code> 的文件中（当然，实际的文件名会受到 <code>output</code> 配置的影响，例如是否包含哈希值等）。</p><p>正确配置这些参数后，<code>utils</code> 这样的模块就会被自动提取并共享，而不是在每个入口点的 bundle 中重复包含。这样做的好处是，任何更新业务逻辑的时候，只要 <code>utils</code> 没有发生变化，用户浏览器上已缓存的 <code>commons.js</code> 文件就不需要重新下载。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

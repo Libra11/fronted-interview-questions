@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>http2 多路复用是什么, 原理是什么【热度: 353】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：http2多路复用、http2多路复用原理、http2帧和流、http2流的优先级、http2头部压缩&lt;/p&gt;&lt;p&gt;多路复用是指在HTTP/2中，多个请求/响应可以同时在同一个TCP连接上进行传输和处理的机制。&lt;/p&gt;&lt;p&gt;在HTT" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="http2 多路复用是什么, 原理是什么【热度: 353】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：http2多路复用、http2多路复用原理、http2帧和流、http2流的优先级、http2头部压缩&lt;/p&gt;&lt;p&gt;多路复用是指在HTTP/2中，多个请求/响应可以同时在同一个TCP连接上进行传输和处理的机制。&lt;/p&gt;&lt;p&gt;在HTTP/1.1中，每个请求都需要建立一个独立的TCP连接，导致连接的建立和关闭开销很大。而在HTTP/2中，多个请求可以通过" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/529" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>http2 多路复用是什么, 原理是什么【热度: 353】</h1>
+      <div class="subtitle">网络 · 网络 · 腾讯</div>
+      <div class="meta">创建：2023-08-22T16:51:09Z · 更新：2023-08-22T16:51:22Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：http2多路复用、http2多路复用原理、http2帧和流、http2流的优先级、http2头部压缩</p><p>多路复用是指在HTTP/2中，多个请求/响应可以同时在同一个TCP连接上进行传输和处理的机制。</p><p>在HTTP/1.1中，每个请求都需要建立一个独立的TCP连接，导致连接的建立和关闭开销很大。而在HTTP/2中，多个请求可以通过同一个TCP连接同时进行，避免了建立和关闭连接的开销。</p><p>多路复用的实现原理主要包括以下几个方面：</p><ol><li><strong>帧和流</strong>：在HTTP/2中，通信的最小单位是帧（frames），每个帧包含了一个特定类型的数据，例如请求头、响应头、请求体、响应体等。帧属于一个或多个流（stream），每个流都有唯一的标识符。多个流可以同时在同一个TCP连接上进行传输。</li></ol><ol><li><strong>流的优先级</strong>：在HTTP/2中，每个流都可以设置优先级，用于指定处理请求的顺序。服务器可以根据流的优先级来决定响应的优先级，从而更好地利用带宽资源。</li></ol><ol><li><strong>头部压缩</strong>：为了减少头部信息的传输开销，HTTP/2使用了一种称为HPACK的压缩算法。HPACK对头部信息进行压缩，并在通信双方之间维护一个共享的头部表，用于存储已经发送或接收过的头部信息。这样就可以减少重复的头部信息传输，提高传输效率。</li></ol><p>通过上述机制，HTTP/2实现了多路复用。多个请求/响应可以同时在同一个TCP连接上进行传输，提高了传输效率，减少了连接建立和关闭的开销。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

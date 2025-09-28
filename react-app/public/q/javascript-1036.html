@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Object.keys 与 Object.getOwnPropertyNames() 有何区别【热度: 210】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;code&gt;Object.keys()&lt;/code&gt;和&lt;code&gt;Object.getOwnPropertyNames()&lt;/code&gt;都是用于获取对象自身属性名的方法，但它们之间存在一些区别：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、返回值类型&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Object.keys 与 Object.getOwnPropertyNames() 有何区别【热度: 210】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;code&gt;Object.keys()&lt;/code&gt;和&lt;code&gt;Object.getOwnPropertyNames()&lt;/code&gt;都是用于获取对象自身属性名的方法，但它们之间存在一些区别：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、返回值类型&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;code&gt;Object.keys()&lt;/code&gt;：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;返回一个由对象自身可枚举" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1036" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>Object.keys 与 Object.getOwnPropertyNames() 有何区别【热度: 210】</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2024-10-26T07:50:57Z · 更新：2024-10-26T07:50:58Z</div>
+    </div>
+    <article class="content markdown-body"><p><code>Object.keys()</code>和<code>Object.getOwnPropertyNames()</code>都是用于获取对象自身属性名的方法，但它们之间存在一些区别：</p><p><strong>一、返回值类型</strong></p><ol><li><code>Object.keys()</code>：</li></ol><ul><li>返回一个由对象自身可枚举属性名组成的数组。</li><li>可枚举属性是指那些可以通过<code>for...in</code>循环遍历到的属性。</li></ul><ol><li><code>Object.getOwnPropertyNames()</code>：</li></ol><ul><li>返回一个由对象自身所有属性名组成的数组，无论属性是否可枚举。</li></ul><p><strong>二、可枚举性处理</strong></p><ol><li><code>Object.keys()</code>：</li></ol><ul><li>只返回可枚举属性的名称。如果一个属性被设置为不可枚举，它将不会出现在<code>Object.keys()</code>的返回结果中。</li><li>例如，使用<code>Object.defineProperty()</code>定义的不可枚举属性不会被包含在<code>Object.keys()</code>的结果中。</li></ul><ol><li><code>Object.getOwnPropertyNames()</code>：</li></ol><ul><li>返回所有属性的名称，包括可枚举和不可枚举的属性。</li><li>这使得它在需要获取对象的所有属性，无论其可枚举性如何时非常有用。</li></ul><p><strong>三、示例</strong></p><ol><li>以下是一个使用<code>Object.keys()</code>和<code>Object.getOwnPropertyNames()</code>的示例：</li></ol><pre class="code-block"><code class="language-javascript">const obj = {
+  property1: &quot;value1&quot;,
+  property2: &quot;value2&quot;,
+};
+
+Object.defineProperty(obj, &quot;nonEnumerableProperty&quot;, {
+  value: &quot;value3&quot;,
+  enumerable: false,
+});
+
+console.log(Object.keys(obj)); // [&#39;property1&#39;, &#39;property2&#39;]
+console.log(Object.getOwnPropertyNames(obj)); // [&#39;property1&#39;, &#39;property2&#39;, &#39;nonEnumerableProperty&#39;]
+</code></pre><p>在这个例子中，<code>Object.keys()</code>只返回了可枚举的属性<code>property1</code>和<code>property2</code>，而<code>Object.getOwnPropertyNames()</code>返回了所有属性，包括不可枚举的<code>nonEnumerableProperty</code>。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

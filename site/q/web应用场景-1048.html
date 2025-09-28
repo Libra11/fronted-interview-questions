@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>统计前端请求耗时【热度: 609】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：请求耗时统计&lt;/p&gt;&lt;p&gt;在前端业务中，可以通过以下几种方法统计请求耗时：&lt;/p&gt;&lt;h3&gt;初级手段&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;一、使用&lt;code&gt;fetch&lt;/code&gt;结合时间戳&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;在发送" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="统计前端请求耗时【热度: 609】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：请求耗时统计&lt;/p&gt;&lt;p&gt;在前端业务中，可以通过以下几种方法统计请求耗时：&lt;/p&gt;&lt;h3&gt;初级手段&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;一、使用&lt;code&gt;fetch&lt;/code&gt;结合时间戳&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;在发送请求前记录当前时间戳：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;&lt;code&gt;const startTime = perform" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1048" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>统计前端请求耗时【热度: 609】</h1>
+      <div class="subtitle">web应用场景 · 网络 · web应用场景</div>
+      <div class="meta">创建：2024-10-30T00:42:13Z · 更新：2024-10-30T00:42:14Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：请求耗时统计</p><p>在前端业务中，可以通过以下几种方法统计请求耗时：</p><h3>初级手段</h3><p><strong>一、使用<code>fetch</code>结合时间戳</strong></p><ol><li>在发送请求前记录当前时间戳：</li></ol><ul><li><code>const startTime = performance.now();</code></li></ul><ol><li>使用<code>fetch</code>发送请求：</li></ol><ul><li><code>fetch(&#39;your-api-url&#39;)</code></li></ul><ol><li>在请求的<code>.then()</code>或<code>.catch()</code>中记录结束时间戳并计算耗时：</li></ol><pre class="code-block"><code class="language-javascript">.then(response =&gt; {
+   const endTime = performance.now();
+   const duration = endTime - startTime;
+   console.log(`Request took ${duration} milliseconds.`);
+   return response;
+   })
+.catch(error =&gt; {
+   const endTime = performance.now();
+   const duration = endTime - startTime;
+   console.log(`Request took ${duration} milliseconds with error: ${error}`);
+   });
+</code></pre><p><strong>二、使用<code>XMLHttpRequest</code>结合时间戳</strong></p><ol><li>创建<code>XMLHttpRequest</code>对象并记录开始时间：</li></ol><pre class="code-block"><code class="language-javascript">const xhr = new XMLHttpRequest();
+const startTime = performance.now();
+</code></pre><ol><li>配置请求并发送：</li></ol><ul><li><code>xhr.open(&#39;GET&#39;, &#39;your-api-url&#39;); xhr.send();</code></li></ul><ol><li>在请求的<code>onload</code>、<code>onerror</code>等事件处理函数中记录结束时间并计算耗时：</li></ol><pre class="code-block"><code class="language-javascript">xhr.onload = function () {
+  const endTime = performance.now();
+  const duration = endTime - startTime;
+  console.log(`Request took ${duration} milliseconds.`);
+};
+xhr.onerror = function () {
+  const endTime = performance.now();
+  const duration = endTime - startTime;
+  console.log(`Request took ${duration} milliseconds with error.`);
+};
+</code></pre><p><strong>三、利用拦截器（<code>axios</code>）</strong></p><ol><li>如果使用<code>axios</code>或类似的库，可以设置请求拦截器和响应拦截器：</li></ol><ul><li>在请求拦截器中记录开始时间，在响应拦截器中记录结束时间并计算耗时。</li></ul><pre class="code-block"><code class="language-javascript">axios.interceptors.request.use((config) =&gt; {
+  config.startTime = performance.now();
+  return config;
+});
+axios.interceptors.response.use(
+  (response) =&gt; {
+    const endTime = performance.now();
+    const duration = endTime - response.config.startTime;
+    console.log(`Request to ${response.config.url} took ${duration} milliseconds.`);
+    return response;
+  },
+  (error) =&gt; {
+    const endTime = performance.now();
+    const duration = endTime - error.config.startTime;
+    console.log(`Request to ${error.config.url} took ${duration} milliseconds with error.`);
+    return Promise.reject(error);
+  }
+);
+</code></pre><p><strong>总结</strong></p><p>上面都属于一些初级手段，因为还是在浏览器进程里面， 一旦出现长任务阻塞了浏览器， 这个统计就不太准确了。</p><h3>进阶手段 - Performance API</h3><p>Performance API 可以用来统计请求耗时。</p><p>Performance API 提供了一系列的性能测量工具，可以测量网页加载和运行过程中的各种性能指标。其中，可以通过以下方式来统计网络请求的耗时：</p><ol><li>使用<code>performance.timing</code>：</li></ol><ul><li><code>performance.timing</code>对象包含了网页加载过程中的各个时间点信息。可以通过计算不同时间点之间的差值来得到特定阶段的耗时。</li><li>例如，可以计算<code>responseEnd</code>（服务器响应结束的时间）和<code>requestStart</code>（开始请求的时间）之间的差值来得到请求的耗时。</li></ul><ol><li>使用<code>performance.getEntriesByType(&#39;resource&#39;)</code>：</li></ol><ul><li>这个方法可以获取所有资源加载的性能条目。对于每个资源条目，可以获取其<code>startTime</code>（开始时间）和<code>responseEnd</code>（响应结束时间）等属性，从而计算出资源加载的耗时。</li><li>可以遍历这些条目，找到特定的网络请求资源，并计算其耗时。</li></ul><p>以下是一个示例代码：</p><pre class="code-block"><code class="language-javascript">// 计算页面加载过程中第一个请求的耗时
+const timing = performance.timing;
+const requestDuration = timing.responseEnd - timing.requestStart;
+console.log(`First request took ${requestDuration} milliseconds.`);
+
+// 遍历所有资源加载条目，找到特定请求并计算耗时
+const resources = performance.getEntriesByType(&quot;resource&quot;);
+for (const resource of resources) {
+  if (resource.name === &quot;https://example.com/specific-resource&quot;) {
+    const resourceDuration = resource.responseEnd - resource.startTime;
+    console.log(`Specific resource request took ${resourceDuration} milliseconds.`);
+    break;
+  }
+}
+</code></pre><h3>高级手段 - Web Worker</h3><p>Web Worker 可以用于统计请求耗时。</p><p>以下是一种使用 Web Worker 统计请求耗时的方法：</p><ol><li>创建一个 Web Worker 文件，例如<code>worker.js</code>：</li></ol><pre class="code-block"><code class="language-javascript">self.onmessage = function (event) {
+  const url = event.data.url;
+  const startTime = performance.now();
+  fetch(url)
+    .then((response) =&gt; {
+      const endTime = performance.now();
+      const duration = endTime - startTime;
+      self.postMessage({ duration });
+    })
+    .catch((error) =&gt; {
+      self.postMessage({ error: `Error fetching ${url}: ${error}` });
+    });
+};
+</code></pre><ol><li>在主页面中使用 Web Worker：</li></ol><pre class="code-block"><code class="language-javascript">const worker = new Worker(&quot;worker.js&quot;);
+const url = &quot;your-api-url&quot;;
+worker.postMessage({ url });
+worker.onmessage = function (event) {
+  if (event.data.duration) {
+    console.log(`Request to ${url} took ${event.data.duration} milliseconds.`);
+  } else {
+    console.error(event.data.error);
+  }
+};
+</code></pre><p>在这个例子中，Web Worker 负责发送请求并计算耗时，然后将结果发送回主页面。这样可以在不阻塞主页面 UI 线程的情况下进行请求耗时统计。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>axios 是否可以缓存请求返回值到内存里面，下次调用的时候，直接使用内存中的缓存数据？【热度: 884】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：请求缓存&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Axios 本身没有内置的请求缓存机制&lt;/strong&gt;，但你可以通过一些策略手动实现，或者使用第三方库来帮助你实现请求缓存。以下是实现 Axios 请求缓存的两种方法：&lt;/p&gt;&lt;h3&gt;方法 1" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="axios 是否可以缓存请求返回值到内存里面，下次调用的时候，直接使用内存中的缓存数据？【热度: 884】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：请求缓存&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Axios 本身没有内置的请求缓存机制&lt;/strong&gt;，但你可以通过一些策略手动实现，或者使用第三方库来帮助你实现请求缓存。以下是实现 Axios 请求缓存的两种方法：&lt;/p&gt;&lt;h3&gt;方法 1: 手动实现缓存逻辑&lt;/h3&gt;&lt;p&gt;你可以通过创建一个缓存对象和一个自定义的 Axios 实例来实现请求的缓存。每次发起" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/823" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>axios 是否可以缓存请求返回值到内存里面，下次调用的时候，直接使用内存中的缓存数据？【热度: 884】</h1>
+      <div class="subtitle">网络 · 网络 · 腾讯</div>
+      <div class="meta">创建：2024-08-17T11:03:26Z · 更新：2024-08-17T11:03:27Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：请求缓存</p><p><strong>Axios 本身没有内置的请求缓存机制</strong>，但你可以通过一些策略手动实现，或者使用第三方库来帮助你实现请求缓存。以下是实现 Axios 请求缓存的两种方法：</p><h3>方法 1: 手动实现缓存逻辑</h3><p>你可以通过创建一个缓存对象和一个自定义的 Axios 实例来实现请求的缓存。每次发起请求前，检查缓存对象中是否已经存在该请求的数据；如果存在，则直接返回缓存数据，否则发起真实的请求，并将请求结果存入缓存对象中。</p><pre class="code-block"><code class="language-javascript">import axios from &quot;axios&quot;;
+
+// 创建一个简单的缓存对象
+const cache = {};
+
+const fetchWithCache = async (url, config = {}) =&gt; {
+  // 检查缓存对象中是否已存在请求结果
+  const cacheKey = JSON.stringify({ url, ...config });
+  if (cache[cacheKey]) {
+    return Promise.resolve(cache[cacheKey]);
+  }
+
+  // 发起真实请求
+  try {
+    const response = await axios.get(url, config);
+    // 将请求结果存入缓存
+    cache[cacheKey] = response;
+    return response;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+// 使用 fetchWithCache 函数
+fetchWithCache(&quot;https://example.com/data&quot;)
+  .then((response) =&gt; console.log(response.data))
+  .catch((error) =&gt; console.error(error));
+</code></pre><h3>方法 2: 使用第三方库</h3><p>有些第三方库如 <code>axios-cache-adapter</code> 可以为 Axios 添加缓存功能，这样你就不需要手动实现缓存逻辑。</p><pre class="code-block"><code class="language-javascript">import axios from &quot;axios&quot;;
+import { setupCache } from &quot;axios-cache-adapter&quot;;
+
+// 创建 cache adapter 实例
+const cache = setupCache({
+  maxAge: 15 * 60 * 1000, // 设置缓存有效期为 15 分钟
+});
+
+// 创建一个带有缓存能力的 axios 实例
+const axiosWithCache = axios.create({
+  adapter: cache.adapter,
+});
+
+// 使用带有缓存能力的 axios 实例发起请求
+axiosWithCache
+  .get(&quot;https://example.com/data&quot;)
+  .then((response) =&gt; console.log(response.data))
+  .catch((error) =&gt; console.error(error));
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

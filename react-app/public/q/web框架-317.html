@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] react 是如何实现页面的快速响应？【热度: 696】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：react 快速响应实现、react 可中断更新、react IO瓶颈、react CPU瓶颈&lt;/p&gt;&lt;h3&gt;react 是如何实现快速响应的？&lt;/h3&gt;&lt;p&gt;我们日常使用App，浏览网页时，有两类场景会制约快速响应：&lt;/p&gt;&lt;p&gt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] react 是如何实现页面的快速响应？【热度: 696】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：react 快速响应实现、react 可中断更新、react IO瓶颈、react CPU瓶颈&lt;/p&gt;&lt;h3&gt;react 是如何实现快速响应的？&lt;/h3&gt;&lt;p&gt;我们日常使用App，浏览网页时，有两类场景会制约快速响应：&lt;/p&gt;&lt;p&gt;当遇到大计算量的操作或者设备性能不足使页面掉帧，导致卡顿。&lt;/p&gt;&lt;p&gt;发送网络请求后，由于需要等待数据返回才能进一步操" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/317" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] react 是如何实现页面的快速响应？【热度: 696】</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2023-04-27T14:49:35Z · 更新：2023-04-27T15:13:20Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：react 快速响应实现、react 可中断更新、react IO瓶颈、react CPU瓶颈</p><h3>react 是如何实现快速响应的？</h3><p>我们日常使用App，浏览网页时，有两类场景会制约快速响应：</p><p>当遇到大计算量的操作或者设备性能不足使页面掉帧，导致卡顿。</p><p>发送网络请求后，由于需要等待数据返回才能进一步操作导致不能快速响应。</p><p>这两类场景可以概括为：</p><ul><li>CPU的瓶颈</li><li>IO的瓶颈</li></ul><h3>CPU的瓶颈</h3><p><strong>主流浏览器刷新频率为60Hz，即每（1000ms / 60Hz）16.6ms浏览器刷新一次。</strong></p><p>我们知道，JS可以操作DOM，GUI渲染线程与JS线程是互斥的。所以JS脚本执行和浏览器布局、绘制不能同时执行。</p><p>在每16.6ms时间内，需要完成如下工作： <code>JS脚本执行 -----  样式布局 ----- 样式绘制</code></p><p>当JS执行时间过长，超出了16.6ms，这次刷新就没有时间执行样式布局和样式绘制了。</p><p>比如我们可以通过一个循环， 渲染列表 3000 个组件， 那么这种渲染时间， 就肯定是远超过 16.6 ms 的， 页面就会感觉到卡顿。</p><p>如何解决这个问题呢？</p><p><strong>答案是：在浏览器每一帧的时间中，预留一些时间给JS线程，React利用这部分时间更新组件（可以看到，在源码中，预留的初始时间是5ms）。</strong></p><p>源码位置： https://github.com/facebook/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/scheduler/src/forks/SchedulerHostConfig.default.js#L119</p><p>当预留的时间不够用时，React将线程控制权交还给浏览器使其有时间渲染UI，React则等待下一帧时间到来继续被中断的工作。</p><p>这种将长任务分拆到每一帧中，像蚂蚁搬家一样一次执行一小段任务的操作，被称为时间切片（time slice）</p><p><strong>所以，解决CPU瓶颈的关键是实现时间切片，而时间切片的关键是：将同步的更新变为可中断的异步更新。</strong></p><h3>IO的瓶颈</h3><p>网络延迟是前端开发者无法解决的。如何在网络延迟客观存在的情况下，减少用户对网络延迟的感知？</p><p>简单点儿来说， 就是在点击页面跳转的是时候提前去加载下一个页面的内容。 或者在当前页面 hold .5s 左右时间， 利用这个时间去加载下一个页面的内容。</p><p>从而达到下一个页面的快速交互</p><p>React实现了 <code>Suspense</code> 功能及配套的 hook——<code>useDeferredValue</code>。</p><p>而在源码内部，为了支持这些特性，<strong>同样需要将同步的更新变为可中断的异步更新。</strong></p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

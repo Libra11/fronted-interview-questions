@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>web components 了解多少？【热度: 1,206】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;code&gt;Web Components&lt;/code&gt; 是一套不同的技术，允许您创建可重用的定制元素并且在您的 web 应用中使用它们&lt;/p&gt;&lt;h3&gt;三要素&lt;/h3&gt;&lt;ol&gt;&lt;li&gt;&lt;code&gt;Custom elements&lt;/code&gt;（自定义元素）： 一组 &lt;code&gt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="web components 了解多少？【热度: 1,206】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;code&gt;Web Components&lt;/code&gt; 是一套不同的技术，允许您创建可重用的定制元素并且在您的 web 应用中使用它们&lt;/p&gt;&lt;h3&gt;三要素&lt;/h3&gt;&lt;ol&gt;&lt;li&gt;&lt;code&gt;Custom elements&lt;/code&gt;（自定义元素）： 一组 &lt;code&gt;JavaScript&lt;/code&gt; API，允许您定义 &lt;code&gt;custom elements&lt;/code&gt; 及其行" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/308" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>web components 了解多少？【热度: 1,206】</h1>
+      <div class="subtitle">web应用场景 · web应用场景</div>
+      <div class="meta">创建：2023-04-23T15:06:09Z · 更新：2023-04-23T15:09:09Z</div>
+    </div>
+    <article class="content markdown-body"><p><code>Web Components</code> 是一套不同的技术，允许您创建可重用的定制元素并且在您的 web 应用中使用它们</p><h3>三要素</h3><ol><li><code>Custom elements</code>（自定义元素）： 一组 <code>JavaScript</code> API，允许您定义 <code>custom elements</code> 及其行为，然后可以在您的用户界面中按照需要使用它们。</li></ol><ul><li>通过 <code>class A extends HTMLElement {}</code> 定义组件，</li><li>通过 <code>window.customElements.define(&#39;a-b&#39;, A)</code> 挂载已定义组件。</li></ul><ol><li><code>Shadow DOM</code>（影子 DOM ）：一组 <code>JavaScript</code> API，用于将封装的“影子” DOM 树附加到元素（<strong>与主文档 DOM 分开呈现</strong>）并控制其关联的功能。</li></ol><ul><li>通过这种方式，您可以<strong>保持元素的功能私有</strong>，这样它们就可以被脚本化和样式化，而不用担心与文档的其他部分发生冲突。</li><li>使用 <code>const shadow = this.attachShadow({mode : &#39;open&#39;})</code> 在 <code>WebComponents</code> 中开启。</li></ul><ol><li><code>HTML templates</code>（HTML 模板）<code>slot</code> ：<code>template</code> 可以简化生成 <code>dom</code> 元素的操作，不再需要 <code>createElement</code> 每一个节点。</li></ol><p>虽然 <code>WebComponents</code> 有三个要素，但却不是缺一不可的，<code>WebComponents</code></p><blockquote>* 借助 <code>shadow dom</code> 来实现<strong>样式隔离</strong>，</blockquote><blockquote>* 借助 <code>templates</code> 来<strong>简化标签</strong>的操作。</blockquote><h3>内部生命周期函数（4个）</h3><ol><li><code>connectedCallback</code>: 当 <code>WebComponents</code><strong>第一次</strong>被挂在到 <code>dom</code> 上是触发的钩子，并且只会触发一次。</li></ol><ul><li>类似 <code>React</code> 中的 <code>useEffect(() =&gt; {}, [])</code>，<code>componentDidMount</code>。</li></ul><ol><li><code>disconnectedCallback</code>: 当自定义元素与文档 <code>DOM</code><strong>断开连接</strong>时被调用。</li><li><code>adoptedCallback</code>: 当自定义元素被<strong>移动</strong>到新文档时被调用。</li><li><code>attributeChangedCallback</code>: 当自定义元素的被监听属性变化时被调用。</li></ol><h3>组件通信</h3><h3>传入复杂数据类型</h3><ul><li>传入一个 <code>JSON</code> 字符串配饰<code>attribute</code></li></ul><ul><li><code>JSON.stringify</code>配置指定属性</li><li>在组件<code>attributeChangedCallback</code>中判断对应属性，然后用<code>JSON.parse()</code>获取</li></ul><ul><li>配置DOM的<code>property</code>属性</li></ul><ul><li><code>xx.dataSource = [{ name: &#39;xxx&#39;, age: 19 }]</code></li><li>但是，自定义组件中没有办法监听到这个属性的变化</li><li>如果想实现，复杂的结构，不是通过配置，而是在定义组件时候，就确定</li></ul><h3>状态的双向绑定</h3><pre class="code-block"><code class="language-kotlin">&lt;wl-input id=&quot;ipt&quot;
+          :value=&quot;data&quot;
+          @change=&quot;(e) =&gt; { data = e.detail }&quot;&gt;
+&lt;/wl-input&gt;
+
+// js
+(function () {
+  const template = document.createElement(&#39;template&#39;)
+  template.innerHTML = `
+  &lt;style&gt;
+    .wl-input {
+
+    }
+  &lt;/style&gt;
+  &lt;input type=&quot;text&quot; id=&quot;wlInput&quot;&gt;
+  `
+  class WlInput extends HTMLElement {
+    constructor() {
+      super()
+      const shadow = this.attachShadow({
+        mode: &#39;closed&#39;
+      })
+      const content = template.content.cloneNode(true)
+      this._input = content.querySelector(&#39;#wlInput&#39;)
+      this._input.value = this.getAttribute(&#39;value&#39;)
+      shadow.appendChild(content)
+      this._input.addEventListener(&quot;input&quot;, ev =&gt; {
+        const target = ev.target;
+        const value = target.value;
+        this.value = value;
+        this.dispatchEvent(
+            new CustomEvent(&quot;change&quot;, { detail: value })
+            );
+      });
+    }
+    get value() {
+      return this.getAttribute(&quot;value&quot;);
+    }
+    set value(value) {
+      this.setAttribute(&quot;value&quot;, value);
+    }
+  }
+  window.customElements.define(&#39;wl-input&#39;, WlInput)
+})()
+
+</code></pre><p>监听了这个表单的 <code>input</code> 事件，并且在每次触发 <code>input</code> 事件的时候触发自定义的 <code>change</code> 事件，并且把输入的参数回传。</p><h3>样式设置</h3><h3>直接给自定义标签添加样式</h3><pre class="code-block"><code class="language-html">&lt;style&gt;
+    wl-input{
+        display: block;
+        margin: 20px;
+        border: 1px solid red;
+    }
+&lt;/style&gt;
+&lt;wl-input&gt;&lt;/wl-input&gt;
+&lt;script src=&quot;./index.js&quot;&gt;&lt;/script&gt;
+
+</code></pre><h3>定义元素内部子元素设置样式</h3><p>分为两种场景：</p><ol><li>在主 DOM 使用 JS</li><li>在 Custom Elements 构造函数中使用 JS</li></ol><h4>在主 DOM 使用 JS 给 Shadow DOM 增加 style 标签：</h4><pre class="code-block"><code class="language-html">&lt;script&gt;
+    class WlInput extends HTMLElement {
+        constructor () {
+            super();
+            this.shadow = this.attachShadow({mode: &quot;open&quot;});
+
+            let headerEle = document.createElement(&quot;div&quot;);
+            headerEle.className = &quot;input-header&quot;;
+            headerEle.innerText = &quot;xxxx&quot;;
+            this.shadow.appendChild(headerEle);
+        }
+    }
+
+    window.customElements.define(&quot;wl-input&quot;, WlInput);
+
+    // 给 Shadow DOM 增加 style 标签
+    let styleEle = document.createElement(&quot;style&quot;);
+    styleEle.textContent = `
+        .input-header{
+            padding:10px;
+            background-color: yellow;
+            font-size: 16px;
+            font-weight: bold;
+        }
+    `;
+    document.querySelector(&quot;wl-input&quot;).shadowRoot.appendChild(styleEle);
+&lt;/script&gt;
+
+</code></pre><h4>在 Custom Elements 构造函数中使用 JS 增加 style 标签：</h4><pre class="code-block"><code class="language-html">&lt;script&gt;
+    class WlInput extends HTMLElement {
+        constructor () {
+            super();
+            this.shadow = this.attachShadow({mode: &quot;open&quot;});
+            let styleEle = document.createElement(&quot;style&quot;);
+            styleEle.textContent = `
+                .input-header{
+                    padding:10px;
+                    background-color: yellow;
+                    font-size: 16px;
+                    font-weight: bold;
+                }
+            `;
+            this.shadow.appendChild(styleEle);
+
+
+            let headerEle = document.createElement(&quot;div&quot;);
+            headerEle.className = &quot;input-header&quot;;
+            headerEle.innerText = &quot;xxxx&quot;;
+            this.shadow.appendChild(headerEle);
+        }
+    }
+    window.customElements.define(&quot;wl-input&quot;, WlInput);
+&lt;/script&gt;
+
+</code></pre><h3>引入 CSS 文件</h3><p>使用 JS 创建 link 标签，然后引入 CSS 文件给自定义元素内部的子元素设置样式</p><pre class="code-block"><code class="language-html">&lt;script&gt;
+    class WlInput extends HTMLElement {
+        constructor () {
+            super();
+            this.shadow = this.attachShadow({mode: &quot;open&quot;});
+            let linkEle = document.createElement(&quot;link&quot;);
+            linkEle.rel = &quot;stylesheet&quot;;
+            linkEle.href = &quot;./my_input.css&quot;;
+            this.shadow.appendChild(linkEle);
+
+
+            let headerEle = document.createElement(&quot;div&quot;);
+            headerEle.className = &quot;input-header&quot;;
+            headerEle.innerText = &quot;xxxx&quot;;
+            this.shadow.appendChild(headerEle);
+        }
+    }
+    window.customElements.define(&quot;wl-input&quot;, WlInput);
+&lt;/script&gt;
+
+</code></pre><p>样式文件</p><pre class="code-block"><code class="language-css">.input-header{
+    padding:10px;
+    background-color: yellow;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JS数据类型有哪些，区别是什么？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;在 JavaScript 中，数据类型可以分为两类：&lt;strong&gt;原始类型和对象类型&lt;/strong&gt;。原始类型包括：数字（number）、字符串（string）、布尔值（boolean）、null、undefined 和 Symbol（ES6 新增），对象类型包括：对象" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="JS数据类型有哪些，区别是什么？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;在 JavaScript 中，数据类型可以分为两类：&lt;strong&gt;原始类型和对象类型&lt;/strong&gt;。原始类型包括：数字（number）、字符串（string）、布尔值（boolean）、null、undefined 和 Symbol（ES6 新增），对象类型包括：对象（object）、数组（array）、函数（function）等。&lt;/p&gt;&lt;p&gt;区别如下：&lt;/p&gt;&lt;ul&gt;&lt;li&gt;原始类" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/24" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>JS数据类型有哪些，区别是什么？</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-06T15:20:26Z · 更新：2024-08-17T11:16:17Z</div>
+    </div>
+    <article class="content markdown-body"><p>在 JavaScript 中，数据类型可以分为两类：<strong>原始类型和对象类型</strong>。原始类型包括：数字（number）、字符串（string）、布尔值（boolean）、null、undefined 和 Symbol（ES6 新增），对象类型包括：对象（object）、数组（array）、函数（function）等。</p><p>区别如下：</p><ul><li>原始类型的值是不可变的，对象类型的值是可变的。</li><li>原始类型的值是按值访问的，对象类型的值是按引用访问的。</li><li>原始类型存储在栈内存中，对象类型存储在堆内存中。</li></ul><p><strong>原始类型</strong>：</p><p>具体来说，<strong>数字、字符串、布尔值、null 和 undefined 是 JavaScript 中的五种原始类型，它们都是不可变的</strong>。每次对原始类型进行操作时，都会创建一个新的原始类型的值。例如：</p><pre class="code-block"><code class="language-js">let num1 = 10;
+let num2 = num1 + 5;
+console.log(num1); // 10
+console.log(num2); // 15
+</code></pre><p>在上面的例子中，对 num1 进行操作时并没有改变 num1 的值，而是创建了一个新的值 num2。</p><p><strong>对象类型</strong>：</p><p>对象类型则是可变的，因为对象、数组、函数等值是通过引用来访问的。例如：</p><pre class="code-block"><code class="language-ts">let obj1 = { name: &#39;张三&#39; };
+let obj2 = obj1;
+obj2.name = &#39;李四&#39;;
+console.log(obj1.name); // &quot;李四&quot;
+console.log(obj2.name); // &quot;李四&quot;
+</code></pre><p>在上面的例子中，修改了 obj2 的属性值，但由于 obj1 和 obj2 指向的是同一个对象，所以 obj1 的属性值也被修改了。</p><p><strong>Symbol</strong>：</p><p>除了五种原始类型和对象类型外，ES6 新增了一种原始类型：<code>Symbol</code>。它的主要作用是创建唯一的标识符。例如：</p><pre class="code-block"><code class="language-js">let s1 = Symbol();
+let s2 = Symbol();
+console.log(s1 === s2); // false
+</code></pre><p>在上面的例子中，两个 Symbol 创建的值是不相等的，即使它们的值是一样的。</p><hr /><blockquote>作者 2024.08.17 补充</blockquote><p>另外值得注意的是，ES6 还引入了一些新的对象类型或结构，例如 <code>Map</code>、<code>Set</code>、<code>WeakMap</code> 和 <code>WeakSet</code>，以及为了更好地处理异步操作引入的 Promise 和生成器对象。这些都属于扩展的 Object 类型，增强了 JavaScript 的功能性和异步编程能力。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

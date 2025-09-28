@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JS 中继承方式有哪些？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h3&gt;1、借助构造函数实现继承&lt;/h3&gt;&lt;p&gt;call和apply改变的是JS运行的上下文:&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;/*借助构造函数实现继承*/ function Parent(" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="JS 中继承方式有哪些？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h3&gt;1、借助构造函数实现继承&lt;/h3&gt;&lt;p&gt;call和apply改变的是JS运行的上下文:&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;/*借助构造函数实现继承*/ function Parent(name) { this.name = name; this.getName = function () { conso" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/31" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>JS 中继承方式有哪些？</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-06T15:20:47Z · 更新：2023-03-29T08:35:16Z</div>
+    </div>
+    <article class="content markdown-body"><h3>1、借助构造函数实现继承</h3><p>call和apply改变的是JS运行的上下文:</p><pre class="code-block"><code class="language-javascript">/*借助构造函数实现继承*/
+function Parent(name) {
+    this.name = name;
+    this.getName = function () {
+        console.log(this.name);
+    }
+}
+
+function Child(name) {
+    Parent.call(this, name);
+    this.type = &#39;child1&#39;
+}
+
+let child = new Child(&#39;yanle&#39;);
+child.getName();
+console.log(child.type);
+</code></pre><p>父类的this指向到了子类上面去，改变了实例化的this 指向，导致了父类执行的属性和方法，都会挂在到	子类实例上去；</p><p>缺点：父类原型链上的东西并没有被继承；</p><h3>2、通过原型链实现继承</h3><pre class="code-block"><code class="language-javascript">/*通过原型链实现继承*/
+function Parent2(){
+    this.name=&#39;parent2&#39;
+}
+
+function Child2(){
+    this.type=&#39;child2&#39;
+}
+
+Child2.prototype=new Parent2();
+console.log(new Child2());
+</code></pre><p>Child2.prototype是Child2构造函数的一个属性，这个时候prototype被赋值了parent2的一个实例，实例化了新的对象Child2()的时候，</p><p>会有一个__proto__属性，这个属性就等于起构造函数的原型对象，但是原型对象被赋值为了parent2的一个实例，</p><p>所以new Child2的原型链就会一直向上找parent2的原型</p><p>var s1=new Child2();</p><p>var s2=new Child2();</p><p>s1.__proto__===s2.__proto__;//返回true</p><p>缺点：通过子类构造函数实例化了两个对象，当一个实例对象改变其构造函数的属性的时候，</p><p>那么另外一个实例对象上的属性也会跟着改变（期望的是两个对象是隔离的赛）；原因是构造函数的原型对象是公用的；</p><h3>3、组合方式</h3><pre class="code-block"><code class="language-javascript">/*组合方式*/
+function Parent3(){
+    this.name=&#39;parent3&#39;;
+    this.arr=[1,2,3];
+}
+
+function Child3(){
+    Parent3.call(this);
+    this.type=&#39;child&#39;;
+}
+
+Child3.prototype=new Parent3();
+var s3=new Child3();
+var s4=new Child3();
+s3.arr.push(4);
+console.log(s3,s4);
+</code></pre><p><strong>优点:</strong>这是最通用的使用方法，集合了上面构造函数继承，原型链继承两种的优点。</p><p><strong>缺点:</strong>父类的构造函数执行了2次，这是没有必要的，</p><p>constructor指向了parent了</p><h3>4、组合继承的优化</h3><pre class="code-block"><code class="language-javascript">/*组合继承的优化1*/
+function Parent4(){
+    this.name=&#39;parent3&#39;;
+    this.arr=[1,2,3];
+}
+
+function Child4(){
+    Parent4.call(this);
+    this.type=&#39;child5&#39;;
+}
+
+Child4.prototype=Parent4.prototype;
+var s5=new Child4();
+var s6=new Child4()
+</code></pre><p><strong>缺点：</strong>s5 instaceof child4 //true, s5 instanceof Parent4//true</p><p>我们无法区分一个实例对象是由其构造函数实例化，还是又其构造函数的父类实例化的</p><p>s5.constructor  指向的是Parent4;//原因是子类原型对象的constructor 被赋值为了父类原型对象的	constructor,所以我们使用constructor的时候，肯定是指向父类的</p><p>Child3.constructor 也有这种情况</p><h3>5、组合继承的优化2</h3><pre class="code-block"><code class="language-javascript">function Parent5() {
+    this.name = &#39;parent5&#39;;
+    this.play = [1, 2, 3];
+}
+
+function Child5() {
+    Parent5.call(this);
+    this.type = &#39;child5&#39;
+}
+
+Child5.prototype = Object.create(Parent5.prototype);
+//这个时候虽然隔离了，但是constructor还是只想的Parent5的，因为constructor会一直向上找
+Child5.prototype.constructor=Child5;
+
+var s7=new Child5();
+console.log(s7 instanceof Child5,s7 instanceof Parent5);
+console.log(s7.constructor);
+</code></pre><p>通过Object.create来创建原型中间对象，那么这么来的话，chiild5的对象prototype获得的是parent5	父类的原型对象；</p><p>Object.create创建的对象，原型对象就是参数；</p><h3>6、ES 中的继承</h3><p>Class 可以通过extends关键字实现继承，让子类继承父类的属性和方法。extends 的写法比 ES5 的原型链继承，要清晰和方便很多。</p><pre class="code-block"><code class="language-js">class Point { /* ... */ }
+
+class ColorPoint extends Point {
+  constructor(x, y, color) {
+    super(x, y); // 调用父类的constructor(x, y)
+    this.color = color;
+  }
+
+  toString() {
+    return this.color + &#39; &#39; + super.toString(); // 调用父类的toString()
+  }
+}
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

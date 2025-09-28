@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Http协议基础 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h1&gt;http 协议有什么特点？&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;简单快速，灵活、无连接、无状态&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;每一个资源对应一个URI，请求只要输入资源地址uri就可以了；&lt;/p&gt;&lt;p&gt;在每一个http头部协议中都有一个数据类型，通过一个http协议就可以完成不" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Http协议基础" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h1&gt;http 协议有什么特点？&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;简单快速，灵活、无连接、无状态&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;每一个资源对应一个URI，请求只要输入资源地址uri就可以了；&lt;/p&gt;&lt;p&gt;在每一个http头部协议中都有一个数据类型，通过一个http协议就可以完成不同类型数据的传输；&lt;/p&gt;&lt;p&gt;链接一次就会断开；&lt;/p&gt;&lt;p&gt;每一次链接不会记住链接状态的，服务器不区分两次链接的身份" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/33" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>Http协议基础</h1>
+      <div class="subtitle">网络 · 网络</div>
+      <div class="meta">创建：2023-03-06T15:20:53Z · 更新：2023-03-06T15:20:55Z</div>
+    </div>
+    <article class="content markdown-body"><h1>http 协议有什么特点？</h1><p><strong>简单快速，灵活、无连接、无状态</strong></p><p>每一个资源对应一个URI，请求只要输入资源地址uri就可以了；</p><p>在每一个http头部协议中都有一个数据类型，通过一个http协议就可以完成不同类型数据的传输；</p><p>链接一次就会断开；</p><p>每一次链接不会记住链接状态的，服务器不区分两次链接的身份；</p><h1>http报文组成部分？</h1><h2>请求报文</h2><p><strong>请求报文</strong>：请求行、请求头、空行、请求体</p><p><strong>请求行</strong>：HTTP请求方法、页面地址、协议版本等</p><p><strong>请求头</strong>：key,value值，告诉服务端我要什么内容、要什么数据类型</p><p><strong>空行</strong>：分割请求头和请求体的，遇到空行，服务器就知道，请求头结束了，接下来是请求体了</p><p><strong>请求体</strong>：就是给服务端的一些入参数据；</p><p>我所了解的请求体有两种格式，Content-Type: application/x-www-form-urlencoded  和  payload  和 json</p><h2>相应报文</h2><p>状态行、响应头、空行、响应体</p><p><strong>状态行</strong>：协议版本  状态码   状态</p><p>其他的一样的</p><h1>通信协议？</h1><p>建立在 TCP 之上的</p><h1>常见请求头数据和相应头数据（以github某请求为例子）</h1><p><strong>Request Headers</strong></p><pre class="code-block"><code>Accept: */*                         // 告诉服务器，客户机支持的数据类型
+Accept-Encoding: gzip, deflate, br  // 告诉服务器，客户机支持的数据压缩格式
+Accept-Language: zh-CN,zh;q=0.9     // 编码格式
+Connection: keep-alive              // 是否支持场链接
+Content-Length: 12308               // 获取文件的总大小
+Content-Type: application/json      // 返回数据格式
+Host: api.github.com
+Origin: https://github.com
+Referer: https://github.com/yanlele/node-index/blob/master/book/05%E3%80%81%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9%E4%B8%93%E9%A2%98/01_01%E3%80%81%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E9%83%A8%E5%88%861-10.md
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36
+</code></pre><p><strong>Response Headers:</strong></p><pre class="code-block"><code>Access-Control-Allow-Origin: *                          // 允许跨域策略
+Access-Control-Expose-Headers: ETag, Link, Location...  // 列出了哪些首部可以作为响应的一部分暴露给外部
+Cache-Control: no-cache                                 // 缓存失效时间
+Content-Length: 5                                       // 获取文件的总大小
+Content-Security-Policy: default-src &#39;none&#39;             // 配置内容安全策略涉
+Content-Type: application/json; charset=utf-8           // 返回数据格式
+Date: Wed, 21 Nov 2018 09:55:47 GMT
+Referrer-Policy: origin-when-cross-origin, strict-origin-when-cross-origin
+Server: GitHub.com
+Status: 200 OK                                          // 状态码
+Strict-Transport-Security: max-age=31536000; includeSubdomains; preload
+Vary: Accept-Encoding
+X-Content-Type-Options: nosniff
+X-Frame-Options: deny
+X-GitHub-Media-Type: github.v3; format=json
+X-GitHub-Request-Id: A3D4:2AE5:13372C:19E45C:5BF52BA3
+X-XSS-Protection: 1; mode=block
+</code></pre><h1>HTTP方法相关？</h1><p>GET请求资源、post传输资源、put更新资源、delete删除资源、head获取报文首部</p><h2>get和post区别</h2><ul><li>get只能url 编码、post支持多种编码方式</li><li>get在传输参数有长度限制的，而post是没有长度限制的</li><li>get通过url传递，post放在request body中</li><li>get不安全，post是一种安全的传输协议方式</li><li>get会把参数保存到浏览器记录里，而post中的参数不会保存</li><li>get 会被浏览器缓存</li></ul><h1>http 常见状态码有哪些？</h1><p><strong>1.XX</strong>:指示信息-表示请求已经接受，继续处理</p><p><strong>2.XX:成功</strong></p><p>200：请求成功</p><p>206：客户端发送一个range头的get请求，服务器完成了他</p><p><strong>3.XX：重定向</strong></p><p>301：请求的页面转移到新的url;</p><p>302:临时转移到新的url</p><p>304：客户端缓存的文件并发出了一个条件性的请求，服务器告诉客户，原来缓冲的文档还可以继续使用</p><p><strong>4.XX：客户端错误</strong></p><p>400：语法错误</p><p>401：请求未授权</p><p>403：请求禁止访问</p><p>404：请求资源不存在</p><p><strong>5.XX：服务端错误</strong></p><p>500：服务器发生不可预期的错误</p><p>503：服务器请求未完成</p><h1>什么是 HTTP持久链接？</h1><p>http采用的是 "请求-应答" 模式</p><p>当使用keep-Alive 模式（又称持久链接、链接重用）时、http1.1版本才支持的</p><p><code>Connection: keep-alive</code></p><h1>什么是管线化？</h1><p>持久链接下：链接传递消息类似于请求1->响应1->请求2->响应2->请求3->响应3</p><p>管线化：请求1-》请求2-》请求3-》响应1-》响应2-》响应3</p><p>需要通过持久链接完成，所以仅HTTP1.1版本支持</p><p>只有get和head请求支持管线化，post请求是有所限制的</p><h1>深入研究 HTTPS</h1><h2>Https涉及到的主体:</h2><p>1、客户端。通常是浏览器(Chrome、IE、FireFox等)，也可以自己编写的各种语言的客户端程序。</p><p>2、服务端。一般指支持Https的网站，比如github、支付宝。</p><p>3、CA(Certificate Authorities)机构。Https证书签发和管理机构，比如Symantec、Comodo、GoDaddy、GlobalSign。</p><p>图示这三个角色：</p><p><img alt="01-05-01" src="https://user-images.githubusercontent.com/22188674/221914484-98831a29-4af5-472c-be59-f54dcd46b15d.png" /></p><h2>发明 Https 的动机:</h2><p><code>认证正在访问的网站。</code> 什么叫认证网站？比如你正在访问支付宝，怎样确定你正在访问的是阿里巴巴提供的支付宝而不是假冒伪劣的钓鱼网站呢？</p><p><code>保证所传输数据的私密性和完整性。</code> 众所周知，Http是明文传输的，所以处在同一网络中的其它用户可以通过网络抓包来窃取和篡改数据包的内容，</p><p>甚至运营商或者wifi提供者，有可能会篡改http报文，添加广告等信息以达到盈利的目的。</p><h2>Https的工作流程</h2><p><img alt="01-05-02" src="https://user-images.githubusercontent.com/22188674/221914949-a44091ea-57f5-49b4-87ad-b777ca1313c3.png" /></p><p>可以看到工作流程，基本分为<strong>三个阶段</strong>：</p><p><strong>1、<code>认证服务器。</code></strong> 浏览器内置一个受信任的CA机构列表，并保存了这些CA机构的证书。</p><p>第一阶段服务器会提供经CA机构认证颁发的服务器证书，如果认证该服务器证书的CA机构，存在于浏览器的受信任CA机构列表中，</p><p>并且服务器证书中的信息与当前正在访问的网站（域名等）一致，那么浏览器就认为服务端是可信的，</p><p>并从服务器证书中取得服务器公钥，用于后续流程。</p><p>否则，浏览器将提示用户，根据用户的选择，决定是否继续。</p><p>当然，我们可以管理这个受信任CA机构列表，添加我们想要信任的CA机构，或者移除我们不信任的CA机构。</p><p><strong>2、<code>协商会话密钥。</code></strong> 客户端在认证完服务器，获得服务器的公钥之后，利用该公钥与服务器进行加密通信，</p><p>协商出两个会话密钥，分别是用于加密客户端往服务端发送数据的客户端会话密钥，用于加密服务端往客户端发送数据的服务端会话密钥。</p><p>在已有服务器公钥，可以加密通讯的前提下，还要协商两个对称密钥的原因，是因为非对称加密相对复杂度更高，在数据传输过程中，使用对称加密，可以节省计算资源。</p><p>另外，会话密钥是随机生成，每次协商都会有不一样的结果，所以安全性也比较高。</p><p><strong>3、<code>加密通讯。</code></strong>此时客户端服务器双方都有了本次通讯的会话密钥，之后传输的所有Http数据，都通过会话密钥加密。</p><p>这样网路上的其它用户，将很难窃取和篡改客户端和服务端之间传输的数据，从而保证了数据的私密性和完整性。</p><h2>总结</h2><p>说是讨论Https，事实上Https就是Http跑在SSL或者TLS上，所以本文讨论的原理和流程其实是SSL和TLS的流程，对于其它使用SSL或者TLS的应用层协议，本文内容一样有效。</p><p>本文只讨论了客户端验证服务端，服务端也可以给客户端颁发证书并验证客户端，做双向验证，但应用没有那么广泛，原理类似。</p><p>由于采用了加密通讯，Https无疑要比Http更耗费服务器资源，这也是很多公司明明支持Https却默认提供Http的原因。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

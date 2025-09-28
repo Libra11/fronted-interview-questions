@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[vue]: 是如何实现 MVVM 的？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h2&gt;引入：使用jquery和其他框架的区别&lt;/h2&gt;&lt;h3&gt;原生JS实现一个todo-list&lt;/h3&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;body&amp;gt; &amp;lt;div&amp;gt; &amp;lt;input" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[vue]: 是如何实现 MVVM 的？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h2&gt;引入：使用jquery和其他框架的区别&lt;/h2&gt;&lt;h3&gt;原生JS实现一个todo-list&lt;/h3&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;body&amp;gt; &amp;lt;div&amp;gt; &amp;lt;input type=&amp;quot;text&amp;quot; name=&amp;quot;&amp;quot; id=&amp;quot;txt-title&amp;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/79" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[vue]: 是如何实现 MVVM 的？</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2023-03-11T09:03:45Z · 更新：2023-03-11T09:03:45Z</div>
+    </div>
+    <article class="content markdown-body"><h2>引入：使用jquery和其他框架的区别</h2><h3>原生JS实现一个todo-list</h3><pre class="code-block"><code class="language-html">&lt;body&gt;
+&lt;div&gt;
+    &lt;input type=&quot;text&quot; name=&quot;&quot; id=&quot;txt-title&quot;&gt; &lt;br&gt;
+    &lt;button id=&quot;btn-submit&quot;&gt;submit&lt;/button&gt;
+&lt;/div&gt;
+&lt;div&gt;
+    &lt;ul id=&quot;ul-list&quot;&gt;&lt;/ul&gt;
+&lt;/div&gt;
+&lt;script&gt;
+    let $txtTitle = document.getElementById(&#39;txt-title&#39;);
+    let $buttonSubmit = document.getElementById(&#39;btn-submit&#39;);
+    let $ulList = document.getElementById(&#39;ul-list&#39;);
+    $buttonSubmit.addEventListener(&#39;click&#39;, function () {
+        let title = $txtTitle.value;
+        if(!title) return false;
+
+        let $li = document.createElement(&#39;li&#39;);
+        $li.innerText = title;
+
+        $ulList.appendChild($li);
+        $txtTitle.value = &#39;&#39;;
+    })
+&lt;/script&gt;
+&lt;/body&gt;
+</code></pre><h3>vue实现todo-list</h3><pre class="code-block"><code class="language-html">&lt;body&gt;
+&lt;div id=&quot;app&quot;&gt;
+    &lt;div&gt;
+        &lt;input v-model=&quot;title&quot;&gt; &lt;br&gt;
+        &lt;button id=&quot;btn-submit&quot; v-on:click=&quot;add&quot;&gt;submit&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;ul id=&quot;ul-list&quot;&gt;
+            &lt;li v-for=&quot;item in list&quot;&gt;{{item}}&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+    let vm = new window.Vue({
+        el: &#39;#app&#39;,
+        data: {
+            title: &#39;&#39;,
+            list: []
+        },
+        methods: {
+            add: function () {
+                this.list.push(this.title);
+                this.title = &#39;&#39;;
+            }
+        }
+    })
+&lt;/script&gt;
+&lt;/body&gt;
+</code></pre><h3>两者之间的区别</h3><ul><li>数据和视图分离(开放封闭原则： 扩展开放，修改封闭)</li><li>数据驱动视图</li></ul><h3>对mvvm的理解</h3><p>具体的理解自己再去整理</p><p>MVVM框架的三大要素：</p><p>响应式、模板引擎、渲染</p><h2>响应式的实现</h2><p>修改data属性之后，立马就能监听到。</p><p>data属性挂在到vm实例上面。</p><p>有下面的一个问题，我们是如何监听属性的获取和属性的赋值的。</p><pre class="code-block"><code class="language-javascript">let obj = {
+    name: &#39;yanle&#39;,
+    age: 25
+};
+console.log(obj.name);
+obj.age = 26;
+</code></pre><p>是通过<strong>Object.defineProperty</strong> 实现的, 下面的代码就可以实现一个完整的属性修改和获取的监听。</p><pre class="code-block"><code class="language-javascript">let vm = {};
+let data = {
+    name: &#39;yanle&#39;,
+    age: 25
+};
+let key, value;
+for (key in data) {
+    (function (key) {
+        Object.defineProperty(vm, key, {
+            get: function () {
+                console.log(&#39;get&#39;, data[key]);
+                return data[key];           // data的属性代理到vm 上 
+            },
+            set: function (newValue) {
+                console.log(&#39;set&#39;, newValue);
+                data[key] = newValue;
+            }
+        })
+    })(key)
+}
+</code></pre><h2>vue中的模板</h2><p><strong>模板</strong></p><p>本质就是字符串；</p><p>有逻辑： if for 等；</p><p>跟html格式很像， 但是区别很大;</p><p>最终要转为HTML来现实；</p><p>模板需要用JS代码来实现， 因为有逻辑，只能用JS来实现；</p><p><strong>render函数-with用法</strong>：</p><pre class="code-block"><code class="language-javascript">let obj = {
+    name: &#39;yanle&#39;,
+    age: 20,
+    getAddress: function () {
+        alert(&#39;重庆&#39;)
+    }
+};
+// 不用with 的情况
+// function fn() {
+//     alert(obj.name);
+//     alert(obj.age);
+//     obj.getAddress();
+// }
+// fn();
+
+// 使用with的情况
+function fn1() {
+    with (obj) {
+        alert(name);
+        alert(age);
+        getAddress();
+    }
+}
+fn1();
+</code></pre><p>这种with 的使用方法就如上所述。但是尽量不要用，因为《JavaScript语言精粹》中，作者说过，这种使用方式会给代码的调试带来非常大的困难。</p><p>但是vue源码中的render 就是用的这个;</p><p><strong>render函数</strong>:</p><p><img width="274" alt="02-12-1" src="https://user-images.githubusercontent.com/22188674/224475416-9567c516-981f-4399-9128-4efcb70e8502.png"></p><p><img alt="02-12-2" src="https://user-images.githubusercontent.com/22188674/224475405-34baf640-f897-4a26-9817-109e8b4c1bde.png" /></p><p>模板中的所有信息都包含在了render 函数中。</p><p>一个特别简单的示例:</p><pre class="code-block"><code class="language-javascript">let vm = new Vue({
+        el: &#39;#app&#39;,
+        data: {
+            price: 200
+        }
+    });
+
+    // 一下是手写的
+    function render() {
+        with (this) {               // 就是vm
+            _c(
+                &#39;div&#39;,
+                {
+                    attr: {&#39;id&#39;: &#39;app&#39;}
+                },
+                [
+                    _c(&#39;p&#39;, [_v(_s(price))])
+                ]
+            )
+        }
+    }
+
+    function render1() {
+        return vm._c(
+            &#39;div&#39;,
+            {
+                attr: {&#39;id&#39;: &#39;app&#39;}
+            },
+            [
+                _c(&#39;p&#39;, [vm._v(vm._s(vm.price))])       // vm._v 是创建文本， _s 就是toString
+            ]
+        )
+    }
+</code></pre><p>如果我们用一个复杂的例子来描述这个东西。在源码中， 搜索code.render, 然后在在此之前打印render 函数，就可以看看这个到底是什么东西了。</p><pre class="code-block"><code class="language-javascript">var createCompiler = createCompilerCreator(function baseCompile (
+    template,
+    options
+) {
+    var ast = parse(template.trim(), options);
+    if (options.optimize !== false) {
+        optimize(ast, options);
+    }
+    var code = generate(ast, options);
+    console.log(code.render);
+    return {
+        ast: ast,
+        render: code.render,
+        staticRenderFns: code.staticRenderFns
+    }
+});
+</code></pre><p>然后运行， 就可以看到到底render 函数是什么东西了。 就可以截取源码出来看了。</p><p>相对应的模板如下:</p><pre class="code-block"><code class="language-html">&lt;div id=&quot;app&quot;&gt;
+    &lt;div&gt;
+        &lt;input v-model=&quot;title&quot;&gt; &lt;br&gt;
+        &lt;button id=&quot;btn-submit&quot; v-on:click=&quot;add&quot;&gt;submit&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;ul id=&quot;ul-list&quot;&gt;
+            &lt;li v-for=&quot;item in list&quot;&gt;{{item}}&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre><p>截取的render函数如下：</p><pre class="code-block"><code class="language-javascript">function codeRender() {
+    with (this) {
+        return _c(&#39;div&#39;,
+            {attrs: {&quot;id&quot;: &quot;app&quot;}},
+            [
+                _c(&#39;div&#39;, [
+                    _c(&#39;input&#39;, {
+                        directives: [{
+                            name: &quot;model&quot;,
+                            rawName: &quot;v-model&quot;,
+                            value: (title),             // 渲染 指定数据
+                            expression: &quot;title&quot;
+                        }],
+                        domProps: {&quot;value&quot;: (title)},   // 渲染 指定数据
+                        on: {                       // 通过input输入事件， 修改title
+                            &quot;input&quot;: function ($event) {
+                                if ($event.target.composing) return;
+                                title = $event.target.value
+                            }
+                        }
+                    }),
+                    _v(&quot; &quot;),                // 文本节点
+                    _c(&#39;br&#39;),
+                    _v(&quot; &quot;),
+                    _c(&#39;button&#39;, {          // dom 节点
+                            attrs: {&quot;id&quot;: &quot;btn-submit&quot;},
+                            on: {&quot;click&quot;: add}              // methods 里面的东西也都挂在this上面去了
+                        },
+                        [_v(&quot;submit&quot;)])]),
+
+                _v(&quot; &quot;),
+
+                _c(&#39;div&#39;, [
+                    _c(&#39;ul&#39;,
+                        {attrs: {&quot;id&quot;: &quot;ul-list&quot;}},
+                        _l((list), function (item) {                // 数组节点
+                            return _c(&#39;li&#39;, [_v(_s(item))])
+                        })
+                    )
+                ])
+            ])
+    }
+}
+</code></pre><p>从vue2.0开始支持预编译， 我们在开发环境下，写模板， 编译打包之后， 模板就变成了JS代码了。vue已经有工具支持这个过程。</p><h2>vue中的渲染</h2><p>vue的渲染是直接渲染为虚拟dom ,这一块儿的内容，其实是借鉴的snabbdom, 非常相似，可以去看看snabbdom 就可以一目了然了。</p><p>vue中的具体渲染实现:</p><p><img alt="02-12-03" src="https://user-images.githubusercontent.com/22188674/224475434-c4e33700-d223-4472-8e96-5cc7b6c04d70.png" /></p><h2>整体流程的实现</h2><p>第一步： 解析模板形成render 函数</p><ul><li>with 用法</li><li>模板中的所有数据都被render 函数包含</li><li>模板中data的属性，变成了JS变量</li><li>模板中的v-model、v-for、v-on都变成了JS的逻辑</li><li>render函数返回vnode</li></ul><p>第二步： 响应式开始监听数据变化</p><ul><li>Object.defineProperty 的使用</li><li>讲data中的属性代理到vm 上</li></ul><p>第三步： 首次渲染，显示页面，而且绑定数据和依赖</p><ul><li>初次渲染， 执行updateComponent, 执行vm._render();</li><li>执行render函数， 会访问到vm.list和vm.title等已经绑定好了的数据；</li><li>会被详情是的get 方法监听到</li></ul><p>为何一定要监听get, 直接监听set 不行吗？ data中有很多的属性，有的被用到了，有的没有被用到。被用到的会走get, 不被用到的不会走get。</p><p>没有被get监听的属性，set的时候也不会被坚挺。为的就是减少不必要的重复渲染，节省性能。</p><ul><li>执行updateComponent的时候，会执行vdom的patch方法</li><li>patch 讲vnode渲染为DOM， 初次渲染完成</li></ul><p>第四步： data属性变化，出发render</p><ul><li>修改属性值， 会被响应式的set监听到</li><li>set中会执行updateComponent， 重新执行vm.render()</li><li>生成vnode和prevVnode, 通过patch进行对比</li><li>渲染到html中</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

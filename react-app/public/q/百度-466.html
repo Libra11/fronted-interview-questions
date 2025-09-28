@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[react] constructor 和 getInitialState 的区别?【热度: 785】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：react constructor 作用、react getInitialState 作用、初始化 state&lt;/p&gt;&lt;p&gt;在 React 中，constructor 是一个类的构造函数，用于初始化类的成员变量和方法，这个函数不仅会" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[react] constructor 和 getInitialState 的区别?【热度: 785】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：react constructor 作用、react getInitialState 作用、初始化 state&lt;/p&gt;&lt;p&gt;在 React 中，constructor 是一个类的构造函数，用于初始化类的成员变量和方法，这个函数不仅会在组件实例化时调用，还会在后续的组件更新时调用。而 getInitialState 是一个组件的声明周期函数，用于初始化" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/466" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[react] constructor 和 getInitialState 的区别?【热度: 785】</h1>
+      <div class="subtitle">百度 · web框架 · 百度</div>
+      <div class="meta">创建：2023-06-21T01:10:15Z · 更新：2023-06-21T01:10:16Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：react constructor 作用、react getInitialState 作用、初始化 state</p><p>在 React 中，constructor 是一个类的构造函数，用于初始化类的成员变量和方法，这个函数不仅会在组件实例化时调用，还会在后续的组件更新时调用。而 getInitialState 是一个组件的声明周期函数，用于初始化组件的状态，该函数只会在组件实例化时调用一次，后续的更新不会再调用。</p><p>具体来说，constructor 用于初始化类成员变量和方法，如下面的示例代码所示：</p><pre class="code-block"><code>class MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      count: 0
+    };
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    this.setState({ count: this.state.count + 1 });
+  }
+
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;p&gt;Count: {this.state.count}&lt;/p&gt;
+        &lt;button onClick={this.handleClick}&gt;Click me&lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+</code></pre><p>在上面的代码中，constructor 用于初始化组件的状态 count 和绑定 handleClick 方法的 this 指向。每次组件更新时，constructor 函数都会被调用。</p><p>而 getInitialState 则是用于初始化组件的状态，如下面的示例代码所示：</p><pre class="code-block"><code>class MyComponent extends React.Component {
+  getInitialState() {
+    return {
+      count: 0
+    };
+  }
+
+  handleClick() {
+    this.setState({ count: this.state.count + 1 });
+  }
+
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;p&gt;Count: {this.state.count}&lt;/p&gt;
+        &lt;button onClick={this.handleClick}&gt;Click me&lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+</code></pre><p>在上面的代码中，getInitialState 用于初始化组件的状态 count，该函数只会在组件实例化时调用一次。后续的更新不会再调用。需要注意的是，在 React 16.3 之后，getInitialState 已经不再被支持，需要使用 constructor 来初始化 state。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

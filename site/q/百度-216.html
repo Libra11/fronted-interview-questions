@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>实现 (5).add(3).minus(2) 功能 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;可以通过在 Number 原型上定义 add 和 minus 方法来实现该功能，代码如下：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;Number.prototype.add = functio" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="实现 (5).add(3).minus(2) 功能" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;可以通过在 Number 原型上定义 add 和 minus 方法来实现该功能，代码如下：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;Number.prototype.add = function(num) { return this + num; }; Number.prototype.minus = func" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/216" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>实现 (5).add(3).minus(2) 功能</h1>
+      <div class="subtitle">百度 · JavaScript · 百度</div>
+      <div class="meta">创建：2023-03-28T14:41:08Z · 更新：2023-03-28T14:41:09Z</div>
+    </div>
+    <article class="content markdown-body"><p>可以通过在 Number 原型上定义 add 和 minus 方法来实现该功能，代码如下：</p><pre class="code-block"><code class="language-javascript">Number.prototype.add = function(num) {
+  return this + num;
+};
+
+Number.prototype.minus = function(num) {
+  return this - num;
+};
+
+console.log((5).add(3).minus(2)); // 输出6
+</code></pre><p>上述代码中，通过在 Number.prototype 上定义 add 和 minus 方法，实现了将数字类型的值转换为 Number 对象，并且可以链式调用这两个方法。最终返回的结果是一个数值类型的值。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

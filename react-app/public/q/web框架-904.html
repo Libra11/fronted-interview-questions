@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Vue] reactive() 的局限性有哪些【热度: 410】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：响应式 api&lt;/p&gt;&lt;blockquote&gt;作者备注 &lt;/blockquote&gt;&lt;blockquote&gt;前三条是官网自己总结的限制， 属于核心限制 &lt;/blockquote&gt;&lt;blockquote&gt;后面提交是作者自行补充&lt;/blo" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Vue] reactive() 的局限性有哪些【热度: 410】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：响应式 api&lt;/p&gt;&lt;blockquote&gt;作者备注 &lt;/blockquote&gt;&lt;blockquote&gt;前三条是官网自己总结的限制， 属于核心限制 &lt;/blockquote&gt;&lt;blockquote&gt;后面提交是作者自行补充&lt;/blockquote&gt;&lt;h3&gt;1. 基本数据类型不是响应式的&lt;/h3&gt;&lt;p&gt;&lt;code&gt;reactive&lt;/code&gt; 只能将" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/904" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Vue] reactive() 的局限性有哪些【热度: 410】</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2024-09-17T08:42:17Z · 更新：2024-09-17T08:42:17Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：响应式 api</p><blockquote>作者备注  </blockquote><blockquote>前三条是官网自己总结的限制， 属于核心限制  </blockquote><blockquote>后面提交是作者自行补充</blockquote><h3>1. 基本数据类型不是响应式的</h3><p><code>reactive</code> 只能将对象或数组转换为响应式对象。对于基本数据类型（如字符串、数字、布尔值等），<code>reactive</code> 无法将其转换为响应式的。如果需要使基本类型数据响应式，应使用 <code>ref</code>。</p><h3>2. 不能替换整个对象</h3><p>当你使用 <code>reactive</code> 创建响应式对象后，如果尝试直接替换掉整个响应式对象，新对象不会自动成为响应式的。这是因为 <code>reactive</code> 返回的是原始对象的代理（Proxy），直接替换原始对象并不会改变已经建立的代理关系。解决办法是通过修改对象的属性来实现，或者使用 <code>ref</code> 并对其 <code>.value</code> 进行替换，后者可以保持响应性。</p><h4>举个例子：</h4><pre class="code-block"><code class="language-javascript">const state = reactive({ count: 0 });
+
+// 这样做是错误的，不会保持响应性
+state = { count: 1 };
+
+// 正确做法：修改现有对象的属性值
+state.count = 1;
+</code></pre><h3>3. 对解构操作不友好</h3><p>Vue 3 <code>reactive</code> 对象在进行解构操作时会失去其响应性，这是因为解构操作本质上是对对象属性的值进行了一次拷贝。如果对一个响应式对象进行解构赋值，那么得到的新变量不会是响应式的。为了在解构后保持响应性，Vue 3 提供了 <code>toRefs</code> 和 <code>toRef</code> 函数。</p><ul><li><code>toRefs</code> 可以将 <code>reactive</code> 对象中的每个属性转换为一个 <code>ref</code> 对象，从而保留其响应性。</li><li><code>toRef</code> 可以为 <code>reactive</code> 对象的某个属性创建一个 <code>ref</code> 引用，同样可以保持其响应性。</li></ul><h4>举个例子：</h4><pre class="code-block"><code class="language-javascript">const state = reactive({
+  count: 0,
+  title: &quot;Hello&quot;,
+});
+
+// 直接解构将会失去响应性
+const { count, title } = state;
+
+// 使用 toRefs 解构，保持响应性
+const { count, title } = toRefs(state);
+</code></pre><p>这些限制说明了 Vue 3 的响应式系统虽然提供了强大的功能，但在使用过程中需要更加注意一些特定的使用场景和解决方案，以确保数据的响应性不被意外破坏。</p><h3>4. 返回 Proxy 对象</h3><p><code>reactive</code> 返回的是原始对象的 Proxy。这意味着，比较原始对象和通过 <code>reactive</code> 处理后的对象时，必须注意它们并不严格相等（<code>===</code>）。</p><h3>5. 不支持 IE11 及更早 IE 版本</h3><p>由于 <code>reactive</code> 基于 <code>Proxy</code> 实现，而 <code>Proxy</code> 是 ES2015 的一个特性，它不被 IE11 或更早版本的 IE 浏览器支持。因此，如果你的应用需要兼容这些浏览器，使用 <code>reactive</code> 可能会有兼容性问题。</p><h3>6. 响应式转换不可逆</h3><p>一旦使用 <code>reactive</code> 将一个对象转换为响应式对象，就不能将其转换回原始的非响应式对象。虽然这在大多数情况下不是问题，但在某些特定场景下可能需要注意。</p><h3>7. 内置类实例的限制</h3><p>对于某些内置类（例如 <code>Map</code>、<code>Set</code>、<code>Date</code> 等）的实例进行 <code>reactive</code> 转换时，虽然 Vue 3 提供了对这些类型的响应式支持，但在转换后的响应式版本上使用某些原型链上的方法时，可能表现不一致或不符合预期。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

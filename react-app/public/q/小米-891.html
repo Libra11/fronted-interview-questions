@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>发送请求的时候， method = OPTIONS 是什么请求【热度: 717】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：预检请求&lt;/p&gt;&lt;p&gt;当看到 method 为 &lt;code&gt;OPTIONS&lt;/code&gt; 的请求时，这是一个 HTTP OPTIONS 请求。OPTIONS 请求是 HTTP/1.1 协议中定义的一种方法，用于获取目的资源（服务器）" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="发送请求的时候， method = OPTIONS 是什么请求【热度: 717】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：预检请求&lt;/p&gt;&lt;p&gt;当看到 method 为 &lt;code&gt;OPTIONS&lt;/code&gt; 的请求时，这是一个 HTTP OPTIONS 请求。OPTIONS 请求是 HTTP/1.1 协议中定义的一种方法，用于获取目的资源（服务器）支持的通信选项。这种请求主要被用于 CORS（Cross-Origin Resource Sharing，跨域资源共享）" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/891" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>发送请求的时候， method = OPTIONS 是什么请求【热度: 717】</h1>
+      <div class="subtitle">小米 · 网络 · 小米</div>
+      <div class="meta">创建：2024-09-17T02:54:39Z · 更新：2024-09-17T02:54:40Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：预检请求</p><p>当看到 method 为 <code>OPTIONS</code> 的请求时，这是一个 HTTP OPTIONS 请求。OPTIONS 请求是 HTTP/1.1 协议中定义的一种方法，用于获取目的资源（服务器）支持的通信选项。这种请求主要被用于 CORS（Cross-Origin Resource Sharing，跨域资源共享）预检请求，在真正的跨域请求被发送之前执行。</p><h3>作用和目的</h3><ul><li><strong>确定服务器的支持性</strong>：客户端通过发送一个 OPTIONS 请求来确定服务器支持的 HTTP 方法（如 GET、POST、DELETE 等）。</li><li><strong>CORS 预检请求</strong>：在发送实际的跨域请求前，浏览器会自动发出一个 OPTIONS 预检请求，询问目标资源的服务器是否允许该跨域请求。这个步骤用来确保安全，避免非法站点调用敏感资源。</li></ul><h3>CORS 预检请求内容</h3><p>在 CORS 上下文中，OPTIONS 请求会包含一些 HTTP 头，指明了实际请求将会使用哪些 HTTP 方法和头部。服务器响应该请求时会指明允许的方法、头部和是否允许带有凭证的请求（如 Cookies）。重要的 HTTP 头包括：</p><ul><li><strong><code>Access-Control-Request-Method</code></strong>：在预检请求中，这个头部告诉服务器实际请求将使用的 HTTP 方法是什么。</li></ul><ul><li><strong><code>Access-Control-Request-Headers</code></strong>：当实际请求中需要携带额外的头部时，这个字段会列出它们。</li></ul><ul><li><strong><code>Access-Control-Allow-Methods</code></strong>：在响应中，这个头部告诉客户端服务器允许的方法。</li></ul><ul><li><strong><code>Access-Control-Allow-Headers</code></strong>：在响应中，这个头部告诉客户端服务器允许的头部。</li></ul><ul><li><strong><code>Access-Control-Allow-Origin</code></strong>：这个头部指明了哪些源可以访问该资源。如果服务器支持请求的源，则会在响应中包含这个头部。</li></ul><h3>示例</h3><p>当您的 Web 应用尝试从另一个域名（源）的服务器获取资源时，浏览器会首先发起一个 OPTIONS 请求。例如，如果您的前端应用运行在 <code>http://example.com</code> 并尝试通过 AJAX 请求 <code>http://api.example.com/data</code>，浏览器会先发送 OPTIONS 请求到 <code>http://api.example.com/data</code>。服务器响应该请求后，如果允许此类请求，则浏览器会继续发起实际的 GET/POST/等请求；如果不允许，则停止请求。</p><p>总的来说，OPTIONS 请求是 HTTP 规范的一部分，它是 CORS 预检机制中非常重要的一步，用于在实际跨域请求发出之前确定通信的可能性和条件。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

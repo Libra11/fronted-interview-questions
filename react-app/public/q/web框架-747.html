@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] 介绍一下 useReducer【热度: 547】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：React useReducer&lt;/p&gt;&lt;p&gt;&lt;code&gt;useReducer&lt;/code&gt;是 React Hooks 的一个部分，它为状态管理提供了一个更加灵活的方法。&lt;code&gt;useReducer&lt;/code&gt;特别适合处理包含" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] 介绍一下 useReducer【热度: 547】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：React useReducer&lt;/p&gt;&lt;p&gt;&lt;code&gt;useReducer&lt;/code&gt;是 React Hooks 的一个部分，它为状态管理提供了一个更加灵活的方法。&lt;code&gt;useReducer&lt;/code&gt;特别适合处理包含多个子值的复杂状态逻辑，或者当下一个状态依赖于之前的状态时。与&lt;code&gt;useState&lt;/code&gt;相比，&lt;code" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/747" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] 介绍一下 useReducer【热度: 547】</h1>
+      <div class="subtitle">web框架 · web框架 · 滴滴</div>
+      <div class="meta">创建：2024-05-10T14:52:56Z · 更新：2024-05-10T14:52:57Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：React useReducer</p><p><code>useReducer</code>是 React Hooks 的一个部分，它为状态管理提供了一个更加灵活的方法。<code>useReducer</code>特别适合处理包含多个子值的复杂状态逻辑，或者当下一个状态依赖于之前的状态时。与<code>useState</code>相比，<code>useReducer</code>更适合于复杂的状态逻辑，它使组件的状态管理更加清晰和可预测。</p><h3>基础使用：</h3><pre class="code-block"><code class="language-jsx">const [state, dispatch] = useReducer(reducer, initialState);
+</code></pre><ul><li><code>state</code>：当前管理的状态。</li><li><code>dispatch</code>：一个允许你分发动作(action)来更新状态的函数。</li><li><code>reducer</code>：一个函数，接受当前的状态和一个动作对象作为参数，并返回一个新的状态。</li><li><code>initialState</code>：初始状态值。</li></ul><h3>Reducer 函数：</h3><p>Reducer 函数的格式如下：</p><pre class="code-block"><code class="language-javascript">function reducer(state, action) {
+  switch (action.type) {
+    case &quot;ACTION_TYPE&quot;: {
+      // 处理动作并返回新的状态
+      return newState;
+    }
+    // 更多的动作处理
+    default:
+      return state;
+  }
+}
+</code></pre><h3>动作（Action）：</h3><p>动作通常是一个包含<code>type</code>字段的对象。<code>type</code>用于在 reducer 函数中标识要执行的动作。动作对象也可以包含其他数据字段，用于传递动作所需的额外信息。</p><h3>示例：</h3><p>以下是一个使用<code>useReducer</code>的简单示例：</p><pre class="code-block"><code class="language-jsx">import React, { useReducer } from &quot;react&quot;;
+
+// 定义reducer函数
+function counterReducer(state, action) {
+  switch (action.type) {
+    case &quot;increment&quot;:
+      return { count: state.count + 1 };
+    case &quot;decrement&quot;:
+      return { count: state.count - 1 };
+    default:
+      return state;
+  }
+}
+
+function Counter() {
+  // 初始化状态和dispatch函数
+  const [state, dispatch] = useReducer(counterReducer, { count: 0 });
+
+  return (
+    &lt;&gt;
+      Count: {state.count}
+      &lt;button onClick={() =&gt; dispatch({ type: &quot;decrement&quot; })}&gt;-&lt;/button&gt;
+      &lt;button onClick={() =&gt; dispatch({ type: &quot;increment&quot; })}&gt;+&lt;/button&gt;
+    &lt;/&gt;
+  );
+}
+</code></pre><p>在上面的例子中，我们创建了一个简单的计数器。当用户点击按钮时，会分发一个包含<code>type</code>的动作到<code>useReducer</code>钩子。然后，<code>reducer</code>函数根据动作<code>type</code>来决定如何更新状态。</p><h3>使用场景：</h3><ul><li>管理局部组件的状态。</li><li>处理复杂的状态逻辑。</li><li>当前状态依赖上一状态时，可以通过上一状态计算得到新状态。</li></ul><p><code>useReducer</code>通常与<code>Context</code>一起使用可以实现不同组件间的状态共享，这在避免 prop drilling（长距离传递 prop）的同时使状态更新更为模块化。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何统计用户 pv 访问的发起请求数量（所有域名的）【热度: 469】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;统计用户 PV（页面访问量）期间发起的请求数量（涵盖所有域名）可以通过几种方法实现，包括使用浏览器的 &lt;code&gt;Performance API&lt;/code&gt;、监听网络请求、或者通过服务端日志分析。每种方法有其优点和适用场景。下面是一些方法的简要说明和示例：&lt;/p&gt;&lt;h3&gt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何统计用户 pv 访问的发起请求数量（所有域名的）【热度: 469】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;统计用户 PV（页面访问量）期间发起的请求数量（涵盖所有域名）可以通过几种方法实现，包括使用浏览器的 &lt;code&gt;Performance API&lt;/code&gt;、监听网络请求、或者通过服务端日志分析。每种方法有其优点和适用场景。下面是一些方法的简要说明和示例：&lt;/p&gt;&lt;h3&gt;方法 1: 使用 Performance API&lt;/h3&gt;&lt;p&gt;&lt;code&gt;Performance API&lt;/code&gt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/860" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何统计用户 pv 访问的发起请求数量（所有域名的）【热度: 469】</h1>
+      <div class="subtitle">web应用场景 · web应用场景 · 百度</div>
+      <div class="meta">创建：2024-08-29T15:25:45Z · 更新：2024-08-29T15:34:51Z</div>
+    </div>
+    <article class="content markdown-body"><p>统计用户 PV（页面访问量）期间发起的请求数量（涵盖所有域名）可以通过几种方法实现，包括使用浏览器的 <code>Performance API</code>、监听网络请求、或者通过服务端日志分析。每种方法有其优点和适用场景。下面是一些方法的简要说明和示例：</p><h3>方法 1: 使用 Performance API</h3><p><code>Performance API</code> 提供了丰富的接口来访问和利用浏览器的性能数据。通过使用这个 API，可以获取到用户 PV 时所有资源请求的详细信息，包括请求的域名信息。</p><h4>使用 PerformanceObserver 监听资源加载</h4><pre class="code-block"><code class="language-javascript">const observer = new PerformanceObserver((list) =&gt; {
+  const entries = list.getEntriesByType(&quot;resource&quot;);
+  console.log(`当前页面共发起了 ${entries.length} 个资源请求。`);
+});
+observer.observe({ entryTypes: [&quot;resource&quot;] });
+</code></pre><p>这段代码会统计所有类型的资源加载（如图片、脚本、样式表等），不过它不会区别处理各个域名的请求。</p><h3>方法 2: 监听所有网络请求 (XMLHttpRequest 和 Fetch API)</h3><p>可以通过重新定义 <code>XMLHttpRequest</code> 和拦截 <code>fetch</code> API 的调用来监控所有通过这两种常见方法发起的网络请求。</p><h4>拦截 XMLHttpRequest</h4><pre class="code-block"><code class="language-javascript">(function () {
+  let oldOpen = XMLHttpRequest.prototype.open;
+  window.requestCount = 0;
+  XMLHttpRequest.prototype.open = function () {
+    window.requestCount++;
+    console.log(`请求数量: ${window.requestCount}`);
+    return oldOpen.apply(this, arguments);
+  };
+})();
+</code></pre><h4>拦截 Fetch API</h4><pre class="code-block"><code class="language-javascript">let oldFetch = window.fetch;
+window.fetch = function () {
+  window.requestCount++;
+  console.log(`请求数量: ${window.requestCount}`);
+  return oldFetch.apply(this, arguments);
+};
+</code></pre><p>这两段代码分别拦截了 <code>XMLHttpRequest</code> 和 <code>fetch</code> API 的请求，从而可以统计请求的总量。为了覆盖所有域名，代码没有对请求的 URL 进行筛选，但如果需要，可以通过分析 URL 来对请求进行分类统计。</p><h3>方法 3: 服务端日志分析</h3><p>如果你有权访问服务器日志，或者使用了像 Google Analytics 这样的分析工具，也可以通过分析服务端日志来统计 PV 过程中的请求数量。这种方法可能更适合统计对外部 API 的请求或者整体网站流量的分析。</p><h3>方法选择建议</h3><ul><li>如果你想要实时在前端捕获和反馈统计数据，建议使用<code>Performance API</code>或者通过拦截网络请求的方法。</li><li>如果希望进行更全面的数据分析或长期趋势跟踪，服务端日志分析可能是更合适的选择。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

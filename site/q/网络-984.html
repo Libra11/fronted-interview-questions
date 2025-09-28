@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HTTPS 安全协议主要是啥【热度: 779】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：安全协议&lt;/p&gt;&lt;p&gt;HTTPS（Hypertext Transfer Protocol Secure）安全协议主要包括以下几个关键方面：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、加密通信&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;stro" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="HTTPS 安全协议主要是啥【热度: 779】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：安全协议&lt;/p&gt;&lt;p&gt;HTTPS（Hypertext Transfer Protocol Secure）安全协议主要包括以下几个关键方面：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、加密通信&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;TLS/SSL 加密&lt;/strong&gt;：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;HTTPS 使用传输层安全（TLS）或" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/984" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>HTTPS 安全协议主要是啥【热度: 779】</h1>
+      <div class="subtitle">网络 · 网络</div>
+      <div class="meta">创建：2024-10-12T15:47:16Z · 更新：2024-10-12T15:47:17Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：安全协议</p><p>HTTPS（Hypertext Transfer Protocol Secure）安全协议主要包括以下几个关键方面：</p><p><strong>一、加密通信</strong></p><ol><li><strong>TLS/SSL 加密</strong>：</li></ol><ul><li>HTTPS 使用传输层安全（TLS）或安全套接层（SSL）协议对数据进行加密。这确保了在客户端（如浏览器）和服务器之间传输的数据是经过加密的，防止数据被窃听、篡改或劫持。</li><li>加密过程通过使用对称加密算法（如 AES）和非对称加密算法（如 RSA）的组合来实现。在连接建立阶段，使用非对称加密算法交换对称密钥，然后使用对称密钥进行后续的数据加密和解密，以提高效率。</li></ul><ol><li><strong>数据完整性保护</strong>：</li></ol><ul><li>HTTPS 还使用消息认证码（MAC）来确保数据的完整性。接收方可以通过验证 MAC 来确定数据在传输过程中是否被篡改。如果 MAC 验证失败，接收方将拒绝接收数据，从而防止恶意篡改的数据被接受。</li></ul><p><strong>二、身份验证</strong></p><ol><li><strong>服务器身份验证</strong>：</li></ol><ul><li>HTTPS 通过服务器提供的数字证书来验证服务器的身份。数字证书由证书颁发机构（CA）签发，包含服务器的公钥和其他身份信息。</li><li>客户端在连接到服务器时，会验证服务器证书的真实性。这包括检查证书的颁发机构是否可信、证书是否在有效期内以及证书中的域名是否与服务器的域名匹配等。如果证书验证失败，客户端可能会显示警告或拒绝连接。</li></ul><ol><li><strong>客户端身份验证（可选）</strong>：</li></ol><ul><li>在某些情况下，HTTPS 也可以用于客户端身份验证。例如，在企业内部网络或金融交易等场景中，服务器可能要求客户端提供数字证书或其他身份验证信息，以确保只有授权的用户可以访问资源。</li></ul><p><strong>三、安全连接建立</strong></p><ol><li><strong>握手过程</strong>：</li></ol><ul><li>HTTPS 的连接建立过程包括一个称为“握手”的阶段。在握手过程中，客户端和服务器交换信息，协商加密算法、密钥交换方式和其他安全参数。</li><li>这个过程确保双方都支持相同的安全协议版本，并能够建立一个安全的连接。握手过程还包括服务器身份验证和密钥交换，为后续的数据传输做好准备。</li></ul><ol><li><strong>安全参数协商</strong>：</li></ol><ul><li>在握手过程中，客户端和服务器协商各种安全参数，如加密算法、密钥长度、MAC 算法等。双方选择最强的安全配置，以确保通信的安全性。</li><li>这个协商过程是动态的，可以根据客户端和服务器的能力以及安全需求进行调整。</li></ul><p><strong>四、安全优势和应用场景</strong></p><ol><li><strong>安全优势</strong>：</li></ol><ul><li>HTTPS 提供了比 HTTP 更高的安全性，保护用户的隐私和数据安全。它可以防止敏感信息（如密码、信用卡号码、个人信息等）在传输过程中被窃取或篡改。</li><li>此外，HTTPS 还可以防止中间人攻击，确保客户端和服务器之间的通信是直接的，没有被第三方拦截或篡改。</li></ul><ol><li><strong>应用场景</strong>：</li></ol><ul><li>HTTPS 广泛应用于各种场景，包括电子商务、网上银行、社交媒体、企业内部网络等。任何涉及敏感信息传输或需要保护用户隐私的网站或应用都应该使用 HTTPS。</li><li>搜索引擎也越来越重视 HTTPS，将其作为一个排名因素，鼓励网站所有者采用更安全的协议。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

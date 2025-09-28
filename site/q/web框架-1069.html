@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] useCallback 是否支持异步函数【热度: 410】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;ol&gt;&lt;li&gt;&lt;strong&gt;&lt;code&gt;useCallback&lt;/code&gt;的基本原理和同步特性&lt;/strong&gt;&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;&lt;code&gt;useCallback&lt;/code&gt;是一个 React Hook，主要用于优化组件的性能。它返回一个记忆化的回调函" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] useCallback 是否支持异步函数【热度: 410】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;ol&gt;&lt;li&gt;&lt;strong&gt;&lt;code&gt;useCallback&lt;/code&gt;的基本原理和同步特性&lt;/strong&gt;&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;&lt;code&gt;useCallback&lt;/code&gt;是一个 React Hook，主要用于优化组件的性能。它返回一个记忆化的回调函数，这个函数只有在依赖项数组中的元素发生变化时才会重新创建。&lt;/li&gt;&lt;li&gt;例如，在一个典型的同步场景下：&lt;/li&gt;&lt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1069" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] useCallback 是否支持异步函数【热度: 410】</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2024-11-22T14:22:55Z · 更新：2024-11-22T14:22:56Z</div>
+    </div>
+    <article class="content markdown-body"><ol><li><strong><code>useCallback</code>的基本原理和同步特性</strong></li></ol><ul><li><code>useCallback</code>是一个 React Hook，主要用于优化组件的性能。它返回一个记忆化的回调函数，这个函数只有在依赖项数组中的元素发生变化时才会重新创建。</li><li>例如，在一个典型的同步场景下：</li></ul><p>```javascript</p><p>const memoizedCallback = useCallback(() => {</p><p>doSomething(a, b);</p><p>}, [a, b]);</p><p>```</p><p>这里的<code>doSomething</code>是一个同步函数，<code>useCallback</code>会根据<code>a</code>和<code>b</code>的值是否改变来决定是否重新创建<code>memoizedCallback</code>。其目的是避免在组件重新渲染时不必要地重新创建相同的回调函数，从而减少潜在的性能开销，比如避免子组件因为接收的回调函数引用变化而重新渲染。</p><ol><li><strong>结合异步函数的方式</strong></li></ol><ul><li><strong>在回调函数内部调用异步函数</strong>：<code>useCallback</code>本身可以包裹一个包含异步操作的回调函数。例如，可以在<code>useCallback</code>返回的函数内部调用<code>async/await</code>函数：</li></ul><p>```javascript</p><p>const memoizedAsyncCallback = useCallback(async () => {</p><p>await someAsyncFunction();</p><p>// 其他操作</p><p>}, []);</p><p>```</p><p>这样，<code>memoizedAsyncCallback</code>是一个异步的记忆化回调函数，只有在依赖项数组（这里为空）中的元素发生变化时才会重新创建。当这个回调函数被调用时，它会执行异步操作。</p><ul><li><strong>传递给子组件并在子组件中触发异步操作</strong>：可以将这个包含异步操作的记忆化回调函数传递给子组件，让子组件在合适的时机（比如用户交互或者组件生命周期的某个阶段）触发异步操作。例如：</li></ul><p>```javascript</p><p>function ParentComponent() {</p><p>const memoizedAsyncCallback = useCallback(async () => {</p><p>await someAsyncFunction();</p><p>// 其他操作</p><p>}, []);</p><p>return <ChildComponent onAsyncAction={memoizedAsyncCallback} />;</p><p>}</p><p>function ChildComponent({ onAsyncAction }) {</p><p>const handleClick = () => {</p><p>onAsyncAction();</p><p>};</p><p>return <button onClick={handleClick}>触发异步操作</button>;</p><p>}</p><p>```</p><ol><li><strong>注意事项</strong></li></ol><ul><li>当使用<code>useCallback</code>包裹异步回调函数时，要注意依赖项数组的设置。如果异步函数内部引用了外部变量，这些变量应该被正确地包含在依赖项数组中，否则可能会导致闭包问题或者使用过期的变量值。</li><li>虽然<code>useCallback</code>可以处理包含异步操作的回调函数，但它并不能改变异步函数本身的执行性质。也就是说，异步函数仍然是异步执行的，<code>useCallback</code>只是控制了回调函数的创建频率。在处理异步操作的结果（如更新状态）时，需要遵循 React 的异步状态更新原则，比如在<code>useEffect</code>或者<code>useState</code>的更新函数中正确地处理异步返回的数据。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

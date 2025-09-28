@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何判断一个单向链表是否是循环链表?【热度: 975】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：循环链表&lt;/p&gt;&lt;p&gt;要判断一个单向链表是否成循环链表，可以使用快慢指针的方法。&lt;/p&gt;&lt;p&gt;快慢指针是两个指针，一个指针每次移动两个节点，另一个指针每次移动一个节点。如果链表中存在循环，那么快指针最终会追上慢指针，两个指针会相遇。" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何判断一个单向链表是否是循环链表?【热度: 975】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：循环链表&lt;/p&gt;&lt;p&gt;要判断一个单向链表是否成循环链表，可以使用快慢指针的方法。&lt;/p&gt;&lt;p&gt;快慢指针是两个指针，一个指针每次移动两个节点，另一个指针每次移动一个节点。如果链表中存在循环，那么快指针最终会追上慢指针，两个指针会相遇。&lt;/p&gt;&lt;p&gt;具体的判断过程如下：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;初始化快指针和慢指针，都指向链表的头节点。&lt;/li&gt;&lt;li&gt;进" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/503" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何判断一个单向链表是否是循环链表?【热度: 975】</h1>
+      <div class="subtitle">JavaScript · JavaScript · 美团</div>
+      <div class="meta">创建：2023-07-28T16:01:10Z · 更新：2023-07-28T16:01:11Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：循环链表</p><p>要判断一个单向链表是否成循环链表，可以使用快慢指针的方法。</p><p>快慢指针是两个指针，一个指针每次移动两个节点，另一个指针每次移动一个节点。如果链表中存在循环，那么快指针最终会追上慢指针，两个指针会相遇。</p><p>具体的判断过程如下：</p><ol><li>初始化快指针和慢指针，都指向链表的头节点。</li><li>进入一个循环，每次迭代中，慢指针移动一个节点，快指针移动两个节点。</li><li>检查快指针和慢指针是否相遇，如果相遇，则链表是循环链表；如果快指针为null或者快指针的下一个节点为null，则链表不是循环链表。</li></ol><p>下面是一个示例的实现代码（假设链表的节点定义为Node类，其中包含一个next指针指向下一个节点）：</p><p>使用JavaScript实现的代码：</p><pre class="code-block"><code class="language-javascript">function isCyclicLinkedList(head) {
+  if (!head) {
+    return false;
+  }
+
+  let slow = head;
+  let fast = head;
+
+  while (fast &amp;&amp; fast.next) {
+    slow = slow.next;
+    fast = fast.next.next;
+
+    if (slow === fast) {
+      return true;
+    }
+  }
+
+  return false;
+}
+</code></pre><p>这段代码与之前给出的Python代码实现相同，使用快慢指针的方法判断单向链表是否成循环链表。只需遍历链表一次，时间复杂度为O(n)，其中n是链表的节点数。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

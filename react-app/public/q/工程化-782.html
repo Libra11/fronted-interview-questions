@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[微前端] 为何通常在 微前端 应用隔离， 不选择 iframe 方案【热度: 280】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：iframe 隔离方案弊端&lt;/p&gt;&lt;p&gt;在微前端架构中，虽然&lt;code&gt;iframe&lt;/code&gt;能提供很好的应用隔离（包括 JavaScript 和 CSS 隔离），确保微前端应用之间不会相互干扰，但一般不把它作为首选方案，原因包" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[微前端] 为何通常在 微前端 应用隔离， 不选择 iframe 方案【热度: 280】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：iframe 隔离方案弊端&lt;/p&gt;&lt;p&gt;在微前端架构中，虽然&lt;code&gt;iframe&lt;/code&gt;能提供很好的应用隔离（包括 JavaScript 和 CSS 隔离），确保微前端应用之间不会相互干扰，但一般不把它作为首选方案，原因包括：&lt;/p&gt;&lt;h3&gt;1. 性能开销&lt;/h3&gt;&lt;p&gt;&lt;code&gt;iframe&lt;/code&gt;会创建一个全新的浏览器上下文环境" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/782" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[微前端] 为何通常在 微前端 应用隔离， 不选择 iframe 方案【热度: 280】</h1>
+      <div class="subtitle">工程化 · 工程化 · 阿里巴巴</div>
+      <div class="meta">创建：2024-07-12T12:01:29Z · 更新：2024-07-12T12:01:29Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：iframe 隔离方案弊端</p><p>在微前端架构中，虽然<code>iframe</code>能提供很好的应用隔离（包括 JavaScript 和 CSS 隔离），确保微前端应用之间不会相互干扰，但一般不把它作为首选方案，原因包括：</p><h3>1. 性能开销</h3><p><code>iframe</code>会创建一个全新的浏览器上下文环境，每个<code>iframe</code>都有自己的文档对象模型（DOM）树、全局执行环境等。如果一个页面中嵌入了多个<code>iframe</code>，就会导致额外的内存和 CPU 资源消耗，特别是在性能有限的设备上更为显著。</p><h3>2. 应用集成和交互问题</h3><p><code>iframe</code>自然隔离了父子页面的环境，这虽然提供了隔离，但同时也使得主应用与子应用之间的交云难度增加。虽然可以通过<code>postMessage</code>等 API 实现跨<code>iframe</code>通信，但这种方式相比于直接 JavaScript 调用来说，更为复杂，交互效率也较低。</p><h3>3. UI 体验一致性</h3><p>在<code>iframe</code>中运行的应用在视觉上可能与主应用难以实现无缝集成。<code>iframe</code>内外的样式、字体等一致性需要额外的处理。此外，<code>iframe</code>可能带来额外的滚动条，影响用户体验。</p><h3>4. SEO 问题</h3><p>如果微前端的某些内容是通过<code>iframe</code>呈现的，那么这部分内容对于搜索引擎是不可见的，这可能会对应用的 SEO 产生负面影响。</p><h3>5. 安全问题</h3><p>虽然<code>iframe</code>可以提供一定程度的隔离，但它也可能引入点击劫持等安全风险。此外，过多地使用<code>iframe</code>也可能增加网站被恶意脚本攻击的表面。</p><p>因此，虽然<code>iframe</code>是一种可行的应用隔离方法，它的这些局限性使得开发者在选择微前端技术方案时，往往会考虑其他提供更轻量级隔离、更好集成与交互体验的方案，如使用 JavaScript 沙箱、CSS 隔离技术、Web Components 等。这些方法虽然隔离性可能不如<code>iframe</code>彻底，但在整体的应用性能、用户体验和开发效率上通常会有更好的表现。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

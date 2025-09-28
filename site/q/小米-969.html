@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>http 缓存中 no-cache 与 no-store 的区别是什么【热度: 564】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：http 缓存&lt;/p&gt;&lt;p&gt;在 HTTP 缓存中，&lt;code&gt;no-cache&lt;/code&gt;和&lt;code&gt;no-store&lt;/code&gt;是两种不同的缓存指令，它们的区别如下：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、&lt;code&gt;no-cac" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="http 缓存中 no-cache 与 no-store 的区别是什么【热度: 564】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：http 缓存&lt;/p&gt;&lt;p&gt;在 HTTP 缓存中，&lt;code&gt;no-cache&lt;/code&gt;和&lt;code&gt;no-store&lt;/code&gt;是两种不同的缓存指令，它们的区别如下：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、&lt;code&gt;no-cache&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;含义&lt;/strong&gt;：&lt;/li&gt;&lt;/ol&gt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/969" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>http 缓存中 no-cache 与 no-store 的区别是什么【热度: 564】</h1>
+      <div class="subtitle">小米 · 网络 · web应用场景 · 小米</div>
+      <div class="meta">创建：2024-10-07T08:25:03Z · 更新：2024-10-07T08:25:04Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：http 缓存</p><p>在 HTTP 缓存中，<code>no-cache</code>和<code>no-store</code>是两种不同的缓存指令，它们的区别如下：</p><p><strong>一、<code>no-cache</code></strong></p><ol><li><strong>含义</strong>：</li></ol><ul><li>当设置了<code>no-cache</code>指令时，这并不意味着不使用缓存。相反，它表示在使用缓存之前，必须先与服务器进行验证，以确定缓存的资源是否仍然有效。</li><li>这意味着浏览器在使用缓存的资源之前，会向服务器发送一个条件请求（通常是使用<code>If-Modified-Since</code>或<code>If-None-Match</code>头部），询问服务器该资源是否有更新。如果服务器返回 304 Not Modified 状态码，表示资源没有更新，浏览器可以使用缓存的资源；如果服务器返回新的资源内容，表示资源有更新，浏览器需要使用新的资源。</li></ul><ol><li><strong>使用场景</strong>：</li></ol><ul><li>适用于需要确保获取到最新资源，但又不想每次都从服务器获取完整资源的情况。例如，对于一些经常更新但更新频率不高的资源，可以使用<code>no-cache</code>指令，以便在资源没有更新时可以快速使用缓存，而在资源有更新时可以获取到最新的资源。</li><li>对于一些需要根据用户的特定请求参数来生成资源的情况，也可以使用<code>no-cache</code>指令，以便在每次请求时都让服务器根据请求参数来确定是否返回缓存的资源还是生成新的资源。</li></ul><p><strong>二、<code>no-store</code></strong></p><ol><li><strong>含义</strong>：</li></ol><ul><li><code>no-store</code>指令表示绝对不允许缓存资源。这意味着浏览器在接收到带有<code>no-store</code>指令的响应后，不会将资源存储在任何缓存中，包括浏览器缓存、代理服务器缓存等。每次请求都必须从服务器获取最新的资源。</li></ul><ol><li><strong>使用场景</strong>：</li></ol><ul><li>适用于对安全性要求非常高的资源，例如包含敏感信息的页面或需要严格保证每次都获取到最新数据的资源。</li><li>对于一些动态生成的资源，其内容可能会根据不同的请求而变化，并且不希望这些资源被缓存，可以使用<code>no-store</code>指令。例如，一些在线银行页面、交易系统等可能会使用<code>no-store</code>指令来确保用户每次看到的都是最新的信息。</li></ul><p>总之，<code>no-cache</code>表示在使用缓存之前需要与服务器进行验证，而<code>no-store</code>表示绝对不允许缓存资源。根据不同的需求，可以选择合适的缓存指令来控制资源的缓存行为。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

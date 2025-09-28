@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>H5 如何解决移动端适配问题 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;移动端适配问题是指如何让网页在不同的移动设备上显示效果相同。下面是一些常见的 H5 移动端适配方案：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;使用 viewport 标签&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;通过设置 viewport 标签的 meta 属性，来控制页面的缩放比例和宽度，以适配不同的设备" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="H5 如何解决移动端适配问题" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;移动端适配问题是指如何让网页在不同的移动设备上显示效果相同。下面是一些常见的 H5 移动端适配方案：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;使用 viewport 标签&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;通过设置 viewport 标签的 meta 属性，来控制页面的缩放比例和宽度，以适配不同的设备。例如：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-html&quot;&gt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/292" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>H5 如何解决移动端适配问题</h1>
+      <div class="subtitle">web应用场景 · web应用场景 · 百度</div>
+      <div class="meta">创建：2023-04-16T15:46:24Z · 更新：2023-04-16T15:46:25Z</div>
+    </div>
+    <article class="content markdown-body"><p>移动端适配问题是指如何让网页在不同的移动设备上显示效果相同。下面是一些常见的 H5 移动端适配方案：</p><ol><li>使用 viewport 标签</li></ol><p>通过设置 viewport 标签的 meta 属性，来控制页面的缩放比例和宽度，以适配不同的设备。例如：</p><pre class="code-block"><code class="language-html">&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+</code></pre><p>其中 <code>width=device-width</code> 表示设置 viewport 的宽度为设备宽度，<code>initial-scale=1.0</code> 表示初始缩放比例为 1。</p><ol><li>使用 CSS3 的媒体查询</li></ol><p>通过 CSS3 的媒体查询，根据不同的设备宽度设置不同的样式，以适配不同的设备。例如：</p><pre class="code-block"><code class="language-arduino">arduinoCopy code@media screen and (max-width: 640px) {
+  /* 样式 */
+}
+</code></pre><p>其中 <code>max-width</code> 表示最大宽度，当屏幕宽度小于等于 640px 时，应用这些样式。</p><ol><li>使用 rem 单位</li></ol><p>通过将 px 转化为 rem 单位，根据不同的设备字体大小设置不同的样式，以适配不同的设备。例如：</p><pre class="code-block"><code class="language-css">html {
+  font-size: 16px;
+}
+
+@media screen and (max-width: 640px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+div {
+  width: 10rem;
+}
+</code></pre><p>其中 <code>font-size: 16px</code> 表示将网页的基准字体大小设置为 16px，<code>font-size: 14px</code> 表示在屏幕宽度小于等于 640px 时将基准字体大小设置为 14px，<code>div</code> 元素的 <code>width: 10rem</code> 表示该元素的宽度为 10 个基准字体大小。</p><ol><li>使用 flexible 布局方案</li></ol><p>通过使用 flexible 布局方案，将 px 转化为 rem 单位，并且动态计算根节点的字体大小，以适配不同的设备。例如使用 lib-flexible 库：</p><pre class="code-block"><code class="language-html">arduinoCopy code// index.html
+&lt;script src=&quot;https://cdn.bootcdn.net/ajax/libs/lib-flexible/0.3.4/flexible.js&quot;&gt;&lt;/script&gt;
+
+// index.js
+import &#39;lib-flexible/flexible.js&#39;
+</code></pre><p>其中 <code>flexible.js</code> 会在页面加载时动态计算根节点的字体大小，并将 px 转化为 rem 单位。在样式中可以直接使用 px 单位，例如：</p><pre class="code-block"><code class="language-css">div {
+  width: 100px;
+  height: 100px;
+}
+</code></pre><p>这个 div 元素的大小会根据设备屏幕的宽度进行适配。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

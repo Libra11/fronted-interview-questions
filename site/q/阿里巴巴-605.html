@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[微前端] 路由加载流程是如何的？【热度: 971】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：微前端路由加载&lt;/p&gt;&lt;p&gt;微前端是一种架构模式，旨在将大型前端应用程序拆分为更小、更容易维护的独立部分。微前端的路由原理可以通过以下步骤概括：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;主应用加载：用户访问主应用时，主应用负责加载，并决定加载哪些微前" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[微前端] 路由加载流程是如何的？【热度: 971】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：微前端路由加载&lt;/p&gt;&lt;p&gt;微前端是一种架构模式，旨在将大型前端应用程序拆分为更小、更容易维护的独立部分。微前端的路由原理可以通过以下步骤概括：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;主应用加载：用户访问主应用时，主应用负责加载，并决定加载哪些微前端应用。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li&gt;路由分发：主应用根据当前URL路径，将请求分发给相应的微前端应用。&lt;/li&gt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/605" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[微前端] 路由加载流程是如何的？【热度: 971】</h1>
+      <div class="subtitle">阿里巴巴 · web框架 · 阿里巴巴</div>
+      <div class="meta">创建：2023-10-29T09:41:29Z · 更新：2023-10-31T15:44:19Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：微前端路由加载</p><p>微前端是一种架构模式，旨在将大型前端应用程序拆分为更小、更容易维护的独立部分。微前端的路由原理可以通过以下步骤概括：</p><ol><li>主应用加载：用户访问主应用时，主应用负责加载，并决定加载哪些微前端应用。</li></ol><ol><li>路由分发：主应用根据当前URL路径，将请求分发给相应的微前端应用。</li></ol><ol><li>微前端应用加载：被分发的微前端应用根据接收到的请求加载自己的代码和资源。</li></ol><ol><li>渲染内容：微前端应用接收到请求后，将自己的内容渲染到主应用的容器中。</li></ol><ol><li>子应用间通信：如果不同微前端应用之间需要进行通信，可以使用共享的状态管理工具或事件总线。</li></ol><ol><li>事件处理：主应用和微前端应用都可以处理路由变化事件，以便更新页面内容。</li></ol></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

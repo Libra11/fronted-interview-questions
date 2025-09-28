@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>浏览器有读写能力吗？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;在一般情况下，浏览器本身不具备直接的读写能力。浏览器是用于显示网页内容的客户端应用程序，其主要功能是发送HTTP请求，接收和渲染服务器返回的HTML、CSS和JavaScript等资源。然而，浏览器提供了一些特定的API，允许开发人员在浏览器中进行读写操作。&lt;/p&gt;&lt;p&gt;下" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="浏览器有读写能力吗？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;在一般情况下，浏览器本身不具备直接的读写能力。浏览器是用于显示网页内容的客户端应用程序，其主要功能是发送HTTP请求，接收和渲染服务器返回的HTML、CSS和JavaScript等资源。然而，浏览器提供了一些特定的API，允许开发人员在浏览器中进行读写操作。&lt;/p&gt;&lt;p&gt;下面是一些允许浏览器进行读写操作的API：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Web Storage API：通过localStora" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/366" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>浏览器有读写能力吗？</h1>
+      <div class="subtitle">浏览器 · 浏览器</div>
+      <div class="meta">创建：2023-05-22T14:39:49Z · 更新：2024-05-12T08:09:54Z</div>
+    </div>
+    <article class="content markdown-body"><p>在一般情况下，浏览器本身不具备直接的读写能力。浏览器是用于显示网页内容的客户端应用程序，其主要功能是发送HTTP请求，接收和渲染服务器返回的HTML、CSS和JavaScript等资源。然而，浏览器提供了一些特定的API，允许开发人员在浏览器中进行读写操作。</p><p>下面是一些允许浏览器进行读写操作的API：</p><ol><li>Web Storage API：通过localStorage和sessionStorage提供了在浏览器中存储数据的能力。开发人员可以使用这些API将数据以键值对的形式存储在浏览器本地，读取和修改数据。</li></ol><ol><li>IndexedDB API：IndexedDB是浏览器提供的一种高性能的非关系型数据库API。开发人员可以使用IndexedDB API在浏览器中创建和管理数据库，进行复杂的数据存储、查询和索引操作。</li></ol><ol><li>File API：File API允许浏览器读取和处理本地文件。开发人员可以使用 File API选择本地文件并读取其内容，也可以通过Blob 将数据保存本地文件。</li></ol><p>需要注意的是，浏览器的读写能力受到一些限制，如同源策略、跨域限制等。为了保障安全性和用户隐私，浏览器会限制对本地文件系统的直接读写访问。读写操作通常是通过浏览器提供的特定API进行，并且需要经过用户的授权和同意。</p><hr /><p><strong>关于读写能力的讨论</strong>：</p><p>读取是通过 FileReader: https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader</p><p>写是通过 blob 实现： https://developer.mozilla.org/zh-CN/docs/Web/API/Blob</p><p>但是这个写了之后， 要想保存在本地， 需要自己手动操作：</p><blockquote>现代浏览器支持File API，它提供了通过JavaScript读取和操作本地文件的能力。</blockquote><blockquote>使用File API，您可以通过文件选择对话框选择本地文件，并使用JavaScript读取文件内容、将文件内容写入到本地等操作。但是需要注意的是，<strong>出于安全性的考虑，浏览器限制了对本地文件系统的访问权限，只能在用户主动选择文件的情况下进行操作</strong>。</blockquote><p><strong>示范</strong>：</p><p>使用File API来读写本地文档的步骤如下：</p><ol><li>通过input元素创建文件选择对话框。在HTML中添加一个input元素，设置type属性为file，例如：</li></ol><pre class="code-block"><code class="language-html">&lt;input type=&quot;file&quot; id=&quot;fileInput&quot;&gt;
+</code></pre><ol><li>使用JavaScript获取选择的文件。在JavaScript中，通过访问input元素的files属性来获取选择的文件对象，例如：</li></ol><pre class="code-block"><code class="language-javascript">const fileInput = document.getElementById(&#39;fileInput&#39;);
+const selectedFile = fileInput.files[0];
+</code></pre><ol><li>读取文件内容。使用FileReader对象来读取文件内容。创建一个新的FileReader对象，然后使用它的readAsText()方法来读取文件内容，例如：</li></ol><pre class="code-block"><code class="language-javascript">const reader = new FileReader();
+reader.onload = function(event) {
+  const fileContent = event.target.result;
+  // 在这里对文件内容进行操作
+};
+reader.readAsText(selectedFile);
+</code></pre><ol><li>对文件内容进行操作。在上一步的回调函数中，可以获取到文件的内容，然后可以对该内容进行任何需要的操作，例如将其显示在页面上或者发送到服务器。</li></ol><ol><li>写入文件。如果需要将内容写入本地文件，可以使用FileWriter对象来实现。创建一个新的FileWriter对象，然后使用它的write()方法来写入内容，例如：</li></ol><pre class="code-block"><code class="language-javascript">const fileOutput = new Blob([fileContent], { type: &#39;text/plain&#39; });
+const downloadLink = document.createElement(&#39;a&#39;);
+downloadLink.href = URL.createObjectURL(fileOutput);
+downloadLink.download = &#39;output.txt&#39;;
+downloadLink.click();
+</code></pre><hr /><blockquote>2024.05.12 作者更新</blockquote><p>可以读写本地文件： 使用  file system api</p><p>文档请看： https://developer.mozilla.org/zh-CN/docs/Web/API/File_System_API</p><h2>Comments / Answers</h2><hr /><p><strong>wuhuaizai</strong> at 2023-09-12T07:26:42Z</p><p>File API能通过FileWriter将数据写入本地文件，这是Nodejs里的东西吗？还是说写错了</p><hr /><p><strong>yanlele</strong> at 2023-09-12T07:33:41Z</p><blockquote>File API能通过FileWriter将数据写入本地文件，这是Nodejs里的东西吗？还是说写错了</blockquote><p>@wuhuaizai 应该说是有半自动化的读写能力；</p><p>读取是通过 FileReader: https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader</p><p>写是通过 blob 实现： https://developer.mozilla.org/zh-CN/docs/Web/API/Blob</p><p>但是这个写了之后， 要想保存在本地， 需要自己手动操作：</p><blockquote>现代浏览器支持File API，它提供了通过JavaScript读取和操作本地文件的能力。</blockquote><blockquote>使用File API，您可以通过文件选择对话框选择本地文件，并使用JavaScript读取文件内容、将文件内容写入到本地等操作。但是需要注意的是，<strong>出于安全性的考虑，浏览器限制了对本地文件系统的访问权限，只能在用户主动选择文件的情况下进行操作</strong>。</blockquote><p><strong>示范</strong>：</p><p>使用File API来读写本地文档的步骤如下：</p><ol><li>通过input元素创建文件选择对话框。在HTML中添加一个input元素，设置type属性为file，例如：</li></ol><pre class="code-block"><code class="language-html">&lt;input type=&quot;file&quot; id=&quot;fileInput&quot;&gt;
+</code></pre><ol><li>使用JavaScript获取选择的文件。在JavaScript中，通过访问input元素的files属性来获取选择的文件对象，例如：</li></ol><pre class="code-block"><code class="language-javascript">const fileInput = document.getElementById(&#39;fileInput&#39;);
+const selectedFile = fileInput.files[0];
+</code></pre><ol><li>读取文件内容。使用FileReader对象来读取文件内容。创建一个新的FileReader对象，然后使用它的readAsText()方法来读取文件内容，例如：</li></ol><pre class="code-block"><code class="language-javascript">const reader = new FileReader();
+reader.onload = function(event) {
+  const fileContent = event.target.result;
+  // 在这里对文件内容进行操作
+};
+reader.readAsText(selectedFile);
+</code></pre><ol><li>对文件内容进行操作。在上一步的回调函数中，可以获取到文件的内容，然后可以对该内容进行任何需要的操作，例如将其显示在页面上或者发送到服务器。</li></ol><ol><li>写入文件。如果需要将内容写入本地文件，可以使用FileWriter对象来实现。创建一个新的FileWriter对象，然后使用它的write()方法来写入内容，例如：</li></ol><pre class="code-block"><code class="language-javascript">const fileOutput = new Blob([fileContent], { type: &#39;text/plain&#39; });
+const downloadLink = document.createElement(&#39;a&#39;);
+downloadLink.href = URL.createObjectURL(fileOutput);
+downloadLink.download = &#39;output.txt&#39;;
+downloadLink.click();
+</code></pre><hr /><p><strong>wuhuaizai</strong> at 2023-09-12T07:38:15Z</p><blockquote>> File API能通过FileWriter将数据写入本地文件，这是Nodejs里的东西吗？还是说写错了</blockquote><blockquote></blockquote><blockquote>@wuhuaizai 应该说是有半自动化的读写能力；</blockquote><blockquote></blockquote><blockquote>读取是通过 FileReader: https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader</blockquote><blockquote></blockquote><blockquote>写是通过 blob 实现： https://developer.mozilla.org/zh-CN/docs/Web/API/Blob 但是这个写了之后， 要想保存在本地， 需要自己手动操作：</blockquote><blockquote></blockquote><blockquote>> 现代浏览器支持File API，它提供了通过JavaScript读取和操作本地文件的能力。</blockquote><blockquote>> 使用File API，您可以通过文件选择对话框选择本地文件，并使用JavaScript读取文件内容、将文件内容写入到本地等操作。但是需要注意的是，<strong>出于安全性的考虑，浏览器限制了对本地文件系统的访问权限，只能在用户主动选择文件的情况下进行操作</strong>。</blockquote><blockquote></blockquote><blockquote><strong>示范</strong>： 使用File API来读写本地文档的步骤如下：</blockquote><blockquote></blockquote><blockquote>1. 通过input元素创建文件选择对话框。在HTML中添加一个input元素，设置type属性为file，例如：</blockquote><blockquote></blockquote><blockquote>```</blockquote><blockquote><input type="file" id="fileInput"></blockquote><blockquote>```</blockquote><blockquote></blockquote><blockquote>2. 使用JavaScript获取选择的文件。在JavaScript中，通过访问input元素的files属性来获取选择的文件对象，例如：</blockquote><blockquote></blockquote><blockquote>```js</blockquote><blockquote>const fileInput = document.getElementById('fileInput');</blockquote><blockquote>const selectedFile = fileInput.files[0];</blockquote><blockquote>```</blockquote><blockquote></blockquote><blockquote>3. 读取文件内容。使用FileReader对象来读取文件内容。创建一个新的FileReader对象，然后使用它的readAsText()方法来读取文件内容，例如：</blockquote><blockquote></blockquote><blockquote>```js</blockquote><blockquote>const reader = new FileReader();</blockquote><blockquote>reader.onload = function(event) {</blockquote><blockquote>  const fileContent = event.target.result;</blockquote><blockquote>  // 在这里对文件内容进行操作</blockquote><blockquote>};</blockquote><blockquote>reader.readAsText(selectedFile);</blockquote><blockquote>```</blockquote><blockquote></blockquote><blockquote>4. 对文件内容进行操作。在上一步的回调函数中，可以获取到文件的内容，然后可以对该内容进行任何需要的操作，例如将其显示在页面上或者发送到服务器。</blockquote><blockquote>5. 写入文件。如果需要将内容写入本地文件，可以使用FileWriter对象来实现。创建一个新的FileWriter对象，然后使用它的write()方法来写入内容，例如：</blockquote><blockquote></blockquote><blockquote>```js</blockquote><blockquote>const fileOutput = new Blob([fileContent], { type: 'text/plain' });</blockquote><blockquote>const downloadLink = document.createElement('a');</blockquote><blockquote>downloadLink.href = URL.createObjectURL(fileOutput);</blockquote><blockquote>downloadLink.download = 'output.txt';</blockquote><blockquote>downloadLink.click();</blockquote><blockquote>```</blockquote><p>感觉和FileWriter没啥关系，我主要对FileWriter这个东西感到疑惑，因为之前从来没用到过</p><hr /><p><strong>yanlele</strong> at 2023-09-12T08:21:52Z</p><blockquote>感觉和FileWriter没啥关系，我主要对FileWriter这个东西感到疑惑，因为之前从来没用到过</blockquote><p>@wuhuaizai 确实是感觉说法有问题， 已经移除</p><hr /><p><strong>yanlele</strong> at 2023-09-12T08:23:49Z</p><blockquote>@wuhuaizai 确实是感觉说法有问题， 已经移除</blockquote><p>@wuhuaizai 而且 websocket 说法也有问题， 本来就是跟服务端连接，调用服务器的能力， 读写能力跟浏览器没有关系了；也已经移除；</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

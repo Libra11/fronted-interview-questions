@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] react 和 react-dom 是什么关系？【热度: 197】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：react 和 react-dom 关系&lt;/p&gt;&lt;p&gt;&lt;code&gt;react&lt;/code&gt; 和 &lt;code&gt;react-dom&lt;/code&gt; 是两个与 React 生态系统密切相关的 npm 包，它们在使用 React 构建用户界面" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] react 和 react-dom 是什么关系？【热度: 197】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：react 和 react-dom 关系&lt;/p&gt;&lt;p&gt;&lt;code&gt;react&lt;/code&gt; 和 &lt;code&gt;react-dom&lt;/code&gt; 是两个与 React 生态系统密切相关的 npm 包，它们在使用 React 构建用户界面时扮演不同的角色：&lt;/p&gt;&lt;h3&gt;&lt;code&gt;react&lt;/code&gt;&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;code&gt;react&lt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/732" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] react 和 react-dom 是什么关系？【热度: 197】</h1>
+      <div class="subtitle">腾讯 · web框架 · 腾讯</div>
+      <div class="meta">创建：2024-05-05T14:25:47Z · 更新：2024-05-05T14:25:48Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：react 和 react-dom 关系</p><p><code>react</code> 和 <code>react-dom</code> 是两个与 React 生态系统密切相关的 npm 包，它们在使用 React 构建用户界面时扮演不同的角色：</p><h3><code>react</code></h3><ul><li><code>react</code> 包含了构建 React 组件所必需的核心功能，例如创建组件类（如 <code>React.Component</code>），创建元素（如使用 <code>React.createElement</code>），还有新的 React 16+ 特性中的 Hooks（如 <code>useState</code> 和 <code>useEffect</code>）。</li><li>它提供了组件生命周期管理、组件状态管理以及 React 元素（用于描述 UI 长相的对象）的创建。</li><li><code>react</code> 实现了 React 的核心算法，包括对组件状态的更新以及虚拟 DOM 的概念。</li><li>简而言之，<code>react</code> 包对于任何使用 React 的应用程序都是一个必需的依赖，无论该应用程序是运行在浏览器还是其他环境中。</li></ul><h3><code>react-dom</code></h3><ul><li><code>react-dom</code> 提供了一些让 React 能够与 DOM 互动的方法。在浏览器中，它把 React 组件渲染到真实的 DOM 节点上，并且处理用户的交互（如点击、输入等事件）。</li><li>主要的方法是 <code>ReactDOM.render()</code>，它将 React 组件或者元素渲染到指定的 DOM 容器中。在 React 18+ 中，这个角色由 <code>ReactDOM.createRoot().render()</code> 接手。</li><li>如果你在使用服务端渲染（Server-Side Rendering, SSR），那么你会使用 <code>react-dom/server</code> 中的方法，如 <code>ReactDOMServer.renderToString()</code> 或 <code>ReactDOMServer.renderToStaticMarkup()</code>。这些方法允许你把 React 组件渲染成初始的 HTML 字符串。</li><li>当 React 组件需要被集成到现有的非 React 应用中，或者需要执行如测试和服务端渲染等操作时，通常需要使用 <code>react-dom</code> 包。</li></ul><h3>它们之间的关系</h3><p>React 使用了所谓的“适配器模式”（Adapter Pattern），<code>react</code> 包提供平台独立的解决方案，而像 <code>react-dom</code> 这样的包则提供针对特定平台的方法。这允许 React 的核心能够被跨平台使用，例如在浏览器（通过 <code>react-dom</code>）、移动设备（通过 React Native 的 <code>react-native</code>）、VR 设备（通过 <code>react-vr</code>）等。</p><p>当你在浏览器中构建 React 应用程序时，你通常会同时安装并使用这两个包。在引导你的应用程序时，你将使用 <code>react</code> 包来定义你的组件，然后用 <code>react-dom</code> 包将你的顶层组件渲染到页面中的 DOM 元素上。这样的分离也为服务器端渲染或在其他渲染目标上使用 React 打下了基础。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

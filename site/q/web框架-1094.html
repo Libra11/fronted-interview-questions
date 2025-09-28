@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] Recoil 里面 selector 支持哪些参数【热度: 239】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：Recoil selector&lt;/p&gt;&lt;p&gt;在 Recoil 中，&lt;code&gt;selector&lt;/code&gt; 函数接受一个配置对象作为参数，这个配置对象有多个可选属性，下面详细介绍这些属性。&lt;/p&gt;&lt;h3&gt;1. &lt;code&gt;key&lt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] Recoil 里面 selector 支持哪些参数【热度: 239】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：Recoil selector&lt;/p&gt;&lt;p&gt;在 Recoil 中，&lt;code&gt;selector&lt;/code&gt; 函数接受一个配置对象作为参数，这个配置对象有多个可选属性，下面详细介绍这些属性。&lt;/p&gt;&lt;h3&gt;1. &lt;code&gt;key&lt;/code&gt;&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;类型&lt;/strong&gt;：&lt;code&gt;string&lt;/code&gt;&lt;/" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1094" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] Recoil 里面 selector 支持哪些参数【热度: 239】</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2025-02-10T16:03:44Z · 更新：2025-02-10T16:03:45Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：Recoil selector</p><p>在 Recoil 中，<code>selector</code> 函数接受一个配置对象作为参数，这个配置对象有多个可选属性，下面详细介绍这些属性。</p><h3>1. <code>key</code></h3><ul><li><strong>类型</strong>：<code>string</code></li><li><strong>描述</strong>：<code>key</code> 是一个必需的属性，用于唯一标识这个 <code>selector</code>。在 Recoil 的内部状态管理系统中，每个 <code>selector</code> 都需要一个唯一的键，以确保状态的正确更新和管理。</li><li><strong>示例</strong>：</li></ul><pre class="code-block"><code class="language-jsx">const mySelector = selector({
+  key: &quot;mySelector&quot;,
+  get: ({ get }) =&gt; {
+    // 状态计算逻辑
+  },
+});
+</code></pre><h3>2. <code>get</code></h3><ul><li><strong>类型</strong>：<code>({ get: GetRecoilValue }) =&gt; any</code></li><li><strong>描述</strong>：<code>get</code> 函数是 <code>selector</code> 中最重要的部分，用于计算 <code>selector</code> 的值。它接收一个对象作为参数，该对象包含一个 <code>get</code> 函数，通过这个 <code>get</code> 函数可以获取其他 <code>atom</code> 或 <code>selector</code> 的值。当依赖的状态发生变化时，<code>get</code> 函数会重新执行以计算新的值。</li><li><strong>示例</strong>：</li></ul><pre class="code-block"><code class="language-jsx">const textState = atom({
+  key: &quot;textState&quot;,
+  default: &quot;Hello&quot;,
+});
+
+const textLengthSelector = selector({
+  key: &quot;textLengthSelector&quot;,
+  get: ({ get }) =&gt; {
+    const text = get(textState);
+    return text.length;
+  },
+});
+</code></pre><h3>3. <code>set</code>（可选）</h3><ul><li><strong>类型</strong>：<code>({ set: SetRecoilState, reset: ResetRecoilState }, newValue: any) =&gt; void</code></li><li><strong>描述</strong>：<code>set</code> 函数用于使 <code>selector</code> 变为可写的。当调用 <code>useRecoilState</code> 或类似的钩子来修改这个 <code>selector</code> 的值时，<code>set</code> 函数会被执行。它接收两个参数：第一个参数是一个包含 <code>set</code> 和 <code>reset</code> 函数的对象，<code>set</code> 函数用于更新其他 <code>atom</code> 或 <code>selector</code> 的值，<code>reset</code> 函数用于将状态重置为默认值；第二个参数是新的值。</li><li><strong>示例</strong>：</li></ul><pre class="code-block"><code class="language-jsx">const counterState = atom({
+  key: &quot;counterState&quot;,
+  default: 0,
+});
+
+const doubleCounterSelector = selector({
+  key: &quot;doubleCounterSelector&quot;,
+  get: ({ get }) =&gt; {
+    const counter = get(counterState);
+    return counter * 2;
+  },
+  set: ({ set }, newValue) =&gt; {
+    set(counterState, newValue / 2);
+  },
+});
+</code></pre><h3>4. <code>dangerouslyAllowMutability</code>（可选）</h3><ul><li><strong>类型</strong>：<code>boolean</code></li><li><strong>描述</strong>：Recoil 默认假设状态是不可变的，这有助于性能优化和状态管理。但在某些特殊情况下，你可能需要对状态进行可变的修改，这时可以将 <code>dangerouslyAllowMutability</code> 设置为 <code>true</code>。不过，使用这个选项需要谨慎，因为它可能会破坏 Recoil 的一些优化机制。</li><li><strong>示例</strong>：</li></ul><pre class="code-block"><code class="language-jsx">const mutableSelector = selector({
+  key: &quot;mutableSelector&quot;,
+  get: () =&gt; {
+    // 获取状态逻辑
+  },
+  dangerouslyAllowMutability: true,
+});
+</code></pre><h3>5. <code>cachePolicy_UNSTABLE</code>（可选）</h3><ul><li><strong>类型</strong>：<code>{ eviction: &#39;most-recent&#39; | &#39;lru&#39; | &#39;none&#39; }</code></li><li><strong>描述</strong>：这个属性用于控制 <code>selector</code> 的缓存策略。<code>eviction</code> 有三个可选值：</li><li><code>&#39;most-recent&#39;</code>：只保留最近使用的值。</li><li><code>&#39;lru&#39;</code>：使用最近最少使用（LRU）算法进行缓存淘汰。</li><li><code>&#39;none&#39;</code>：不使用缓存，每次都重新计算。</li><li><strong>示例</strong>：</li></ul><pre class="code-block"><code class="language-jsx">const cachedSelector = selector({
+  key: &quot;cachedSelector&quot;,
+  get: () =&gt; {
+    // 状态计算逻辑
+  },
+  cachePolicy_UNSTABLE: {
+    eviction: &quot;lru&quot;,
+  },
+});
+</code></pre><p>这些就是 <code>selector</code> 支持的主要参数，通过合理使用这些参数，可以实现复杂的状态计算和管理。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

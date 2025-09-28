@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Vue] 详细介绍一下 teleport 内置组件【热度: 100】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：teleport 内置组件&lt;/p&gt;&lt;p&gt;在 Vue 中，&lt;code&gt;&amp;lt;teleport&amp;gt;&lt;/code&gt;是一个内置组件，它提供了一种将组件的模板内容渲染到指定 DOM 节点位置的方式，而不是在组件自身的位置渲染。&lt;/p&gt;&lt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Vue] 详细介绍一下 teleport 内置组件【热度: 100】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：teleport 内置组件&lt;/p&gt;&lt;p&gt;在 Vue 中，&lt;code&gt;&amp;lt;teleport&amp;gt;&lt;/code&gt;是一个内置组件，它提供了一种将组件的模板内容渲染到指定 DOM 节点位置的方式，而不是在组件自身的位置渲染。&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、作用与优势&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;灵活布局：允许你将特定的组件内容放置在页面的" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/933" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Vue] 详细介绍一下 teleport 内置组件【热度: 100】</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2024-09-22T05:22:57Z · 更新：2024-09-22T05:22:57Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：teleport 内置组件</p><p>在 Vue 中，<code>&lt;teleport&gt;</code>是一个内置组件，它提供了一种将组件的模板内容渲染到指定 DOM 节点位置的方式，而不是在组件自身的位置渲染。</p><p><strong>一、作用与优势</strong></p><ol><li>灵活布局：允许你将特定的组件内容放置在页面的任何位置，而不受组件层次结构的限制。这对于创建模态框、通知、工具提示等需要在特定位置显示的元素非常有用。</li><li>分离关注点：可以将与特定功能相关的模板内容从组件的逻辑中分离出来，并将其渲染到合适的位置。这样可以使组件的代码更加清晰和易于维护。</li><li>性能优化：在某些情况下，将某些内容渲染到远离其他组件的位置可以减少不必要的重绘和回流，提高性能。</li></ol><p><strong>二、使用方法</strong></p><ol><li>基本用法：</li></ol><p>```vue</p><p><template></p><p><div></p><p><teleport to="body"></p><p><div class="modal">This is a modal content.</div></p><p></teleport></p><p></div></p><p></template></p><p><style></p><p>.modal {</p><p>position: fixed;</p><p>top: 50%;</p><p>left: 50%;</p><p>transform: translate(-50%, -50%);</p><p>background-color: white;</p><p>padding: 20px;</p><p>border: 1px solid #ccc;</p><p>}</p><p></style></p><p>```</p><p>在这个例子中，<code>&lt;teleport&gt;</code>组件将包含模态框内容的<code>&lt;div&gt;</code>渲染到了<code>&lt;body&gt;</code>元素中，使其在页面上居中显示。</p><ol><li>指定目标选择器：</li></ol><p>可以使用任何有效的 CSS 选择器作为<code>to</code>属性的值来指定目标位置。例如：</p><p>```vue</p><p><template></p><p><div></p><p><teleport to="#my-target-element"></p><p><div class="notification">This is a notification.</div></p><p></teleport></p><p></div></p><p></template></p><p>```</p><p>这里将通知内容渲染到具有<code>id</code>为<code>my-target-element</code>的元素中。</p><ol><li>动态目标：</li></ol><p>可以使用响应式数据来动态地确定<code>&lt;teleport&gt;</code>的目标位置。例如：</p><p>```vue</p><p><template></p><p><div></p><p><input v-model="targetElementId" /></p><p><teleport :to="targetElementId"></p><p><div class="dynamic-content">This content will be teleported to the specified element.</div></p><p></teleport></p><p></div></p><p></template></p><p><script setup></p><p>import { ref } from "vue";</p><p>const targetElementId = ref("body");</p><p></script></p><p>```</p><p>在这个例子中，用户可以通过输入框输入目标元素的<code>id</code>，从而动态地确定<code>&lt;teleport&gt;</code>的目标位置。</p><p><strong>三、注意事项</strong></p><ol><li>事件冒泡：当在<code>&lt;teleport&gt;</code>内部的元素上触发事件时，事件会按照正常的 DOM 事件冒泡机制传播到目标位置的父元素中。如果需要处理这些事件，确保在目标位置的父元素中正确地监听和处理这些事件。</li><li>样式隔离：如果<code>&lt;teleport&gt;</code>内部的内容需要特定的样式，确保这些样式不会影响到目标位置的其他元素。可以使用 CSS 模块化、命名空间或特定的选择器来确保样式的隔离。</li><li>响应式数据：如果在<code>&lt;teleport&gt;</code>内部使用了响应式数据，确保这些数据在目标位置的上下文中也能正确地更新。可以使用 Vue 的响应式系统来确保数据的一致性。</li></ol></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

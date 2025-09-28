@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TypeScript is 这个关键字是做什么呢？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;code&gt;is&lt;/code&gt; 是 TypeScript 中的一个关键字，用于创建类型保护。在 TypeScript 中，类型保护是一种用于确定变量是否符合某种类型的方法。当我们使用 &lt;code&gt;is&lt;/code&gt; 关键字创建一个类型保护时，它会在运行时对变量进行判断，然后" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="TypeScript is 这个关键字是做什么呢？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;code&gt;is&lt;/code&gt; 是 TypeScript 中的一个关键字，用于创建类型保护。在 TypeScript 中，类型保护是一种用于确定变量是否符合某种类型的方法。当我们使用 &lt;code&gt;is&lt;/code&gt; 关键字创建一个类型保护时，它会在运行时对变量进行判断，然后返回一个布尔值。&lt;/p&gt;&lt;p&gt;具体来说，我们可以通过定义一个返回值为布尔类型的函数，并在函数内部进行类型判断来创建类型保" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/185" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>TypeScript is 这个关键字是做什么呢？</h1>
+      <div class="subtitle">TypeScript · TypeScript</div>
+      <div class="meta">创建：2023-03-26T09:26:44Z · 更新：2023-03-26T09:26:45Z</div>
+    </div>
+    <article class="content markdown-body"><p><code>is</code> 是 TypeScript 中的一个关键字，用于创建类型保护。在 TypeScript 中，类型保护是一种用于确定变量是否符合某种类型的方法。当我们使用 <code>is</code> 关键字创建一个类型保护时，它会在运行时对变量进行判断，然后返回一个布尔值。</p><p>具体来说，我们可以通过定义一个返回值为布尔类型的函数，并在函数内部进行类型判断来创建类型保护。比如：</p><pre class="code-block"><code class="language-csharp">csharpCopy codefunction isString(value: any): value is string {
+  return typeof value === &#39;string&#39;;
+}
+</code></pre><p>在这个例子中，我们定义了一个名为 <code>isString</code> 的函数，它接收一个任意类型的参数 <code>value</code>，并通过 <code>typeof</code> 运算符判断 <code>value</code> 是否为字符串。如果是字符串，函数返回 <code>true</code>，否则返回 <code>false</code>。</p><p>使用时，我们可以通过将变量传递给 <code>isString</code> 函数来判断变量是否为字符串类型：</p><pre class="code-block"><code class="language-rust">rustCopy codeconst str = &#39;hello&#39;;
+if (isString(str)) {
+  console.log(str.length);
+}
+</code></pre><p>在这个例子中，由于 <code>str</code> 是字符串类型，所以 <code>isString(str)</code> 返回 <code>true</code>，<code>if</code> 语句内的代码会被执行，输出字符串的长度。如果 <code>str</code> 不是字符串类型，<code>isString(str)</code> 返回 <code>false</code>，<code>if</code> 语句内的代码不会被执行。</p><p>这样，在使用变量之前进行类型保护，可以避免在运行时出现类型错误，提高代码的健壮性。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>实现一个JS 函数， 解析 url 参数， 返回一个对象 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h3&gt;基础版本&lt;/h3&gt;&lt;p&gt;下面是一个简单的 JavaScript 函数，用于解析 URL 参数并返回一个包含参数键值对的对象：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;function par" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="实现一个JS 函数， 解析 url 参数， 返回一个对象" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h3&gt;基础版本&lt;/h3&gt;&lt;p&gt;下面是一个简单的 JavaScript 函数，用于解析 URL 参数并返回一个包含参数键值对的对象：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;function parseUrlParams(url) { const params = {}; const queryString = ur" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/393" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>实现一个JS 函数， 解析 url 参数， 返回一个对象</h1>
+      <div class="subtitle">代码实现 · Shopee · 滴滴 · 代码实现/算法</div>
+      <div class="meta">创建：2023-05-30T16:13:53Z · 更新：2023-09-13T06:18:18Z</div>
+    </div>
+    <article class="content markdown-body"><h3>基础版本</h3><p>下面是一个简单的 JavaScript 函数，用于解析 URL 参数并返回一个包含参数键值对的对象：</p><pre class="code-block"><code class="language-javascript">function parseUrlParams(url) {
+  const params = {};
+  const queryString = url.split(&#39;?&#39;)[1];
+
+  if (queryString) {
+    const pairs = queryString.split(&#39;&amp;&#39;);
+    pairs.forEach(pair =&gt; {
+      const [key, value] = pair.split(&#39;=&#39;);
+      params[key] = decodeURIComponent(value);
+    });
+  }
+
+  return params;
+}
+</code></pre><p>这个函数接受一个 URL 字符串作为参数，并返回解析后的参数对象。例如：</p><pre class="code-block"><code class="language-javascript">const url = &#39;https://example.com?name=John&amp;age=30&amp;city=New%20York&#39;;
+const params = parseUrlParams(url);
+
+console.log(params);
+// Output: { name: &quot;John&quot;, age: &quot;30&quot;, city: &quot;New York&quot; }
+</code></pre><p>这个函数的实现思路是先从 URL 字符串中提取查询字符串部分，然后将查询字符串按照 <code>&amp;</code> 分割成键值对数组。接着遍历键值对数组，将每个键值对按照 <code>=</code> 分割，然后将键和值存储到结果对象 <code>params</code> 中，注意要对值进行 URL 解码以处理特殊字符。最后返回解析后的参数对象。</p><h3>进阶 - 支持json字符串参数</h3><p>如果要支持复杂的 JSON 字符串作为查询参数，可以使用 <code>JSON.parse()</code> 方法解析 JSON 字符串，并在解析后的对象中处理参数。</p><p>下面是一个修改后的函数，支持解析复杂的 JSON 字符串作为查询参数：</p><pre class="code-block"><code class="language-javascript">function parseUrlParams(url) {
+  const params = {};
+  const queryString = url.split(&#39;?&#39;)[1];
+
+  if (queryString) {
+    const pairs = queryString.split(&#39;&amp;&#39;);
+    pairs.forEach(pair =&gt; {
+      const [key, value] = pair.split(&#39;=&#39;);
+      const decodedValue = decodeURIComponent(value);
+
+      try {
+        params[key] = JSON.parse(decodedValue);
+      } catch (error) {
+        // 如果解析 JSON 失败，则将原始字符串存储到参数对象中
+        params[key] = decodedValue;
+      }
+    });
+  }
+
+  return params;
+}
+</code></pre><p>现在，如果查询参数是一个 JSON 字符串，它将被解析为相应的 JavaScript 对象，并作为参数对象的值。如果解析失败（例如，不是有效的 JSON 字符串），则将保留原始字符串作为值存储在参数对象中。</p><p>以下是一个示例：</p><pre class="code-block"><code class="language-javascript">const url = &#39;https://example.com?name=John&amp;age=30&amp;address={&quot;city&quot;:&quot;New York&quot;,&quot;zipcode&quot;:10001}&#39;;
+const params = parseUrlParams(url);
+
+console.log(params);
+// Output: { name: &quot;John&quot;, age: &quot;30&quot;, address: { city: &quot;New York&quot;, zipcode: 10001 } }
+</code></pre><h3>再次进阶-支持更复杂的场景， 比如嵌套对象， 数组</h3><p>下面是修改后的函数，支持解析复杂的查询参数，包括嵌套对象和数组：</p><pre class="code-block"><code class="language-javascript">function parseUrlParams(url) {
+  const params = {};
+  const queryString = url.split(&#39;?&#39;)[1];
+
+  if (queryString) {
+    const pairs = queryString.split(&#39;&amp;&#39;);
+    pairs.forEach(pair =&gt; {
+      const [key, value] = pair.split(&#39;=&#39;);
+      const decodedValue = decodeURIComponent(value);
+
+      const keys = key.split(&#39;.&#39;);
+      let current = params;
+
+      for (let i = 0; i &lt; keys.length; i++) {
+        const nestedKey = keys[i];
+        const isArray = /\[\]$/.test(nestedKey);
+
+        if (isArray) {
+          const arrayKey = nestedKey.slice(0, -2);
+
+          if (!current[arrayKey]) {
+            current[arrayKey] = [];
+          }
+
+          if (i === keys.length - 1) {
+            current[arrayKey].push(parseValue(decodedValue));
+          } else {
+            const newIndex = current[arrayKey].length;
+            if (!current[arrayKey][newIndex]) {
+              current[arrayKey][newIndex] = {};
+            }
+            current = current[arrayKey][newIndex];
+          }
+        } else {
+          if (i === keys.length - 1) {
+            current[nestedKey] = parseValue(decodedValue);
+          } else {
+            if (!current[nestedKey]) {
+              current[nestedKey] = {};
+            }
+            current = current[nestedKey];
+          }
+        }
+      }
+    });
+  }
+
+  return params;
+}
+
+function parseValue(value) {
+  try {
+    return JSON.parse(value);
+  } catch (error) {
+    // 解析失败，则返回原始值
+    return value;
+  }
+}
+</code></pre><p>现在，该函数可以正确解析包含嵌套对象和数组的查询参数。</p><p>以下是一个示例：</p><pre class="code-block"><code class="language-javascript">const url = &#39;https://example.com?name=John&amp;age=30&amp;address.city=New%20York&amp;address.zipcode=10001&amp;tags[]=tag1&amp;tags[]=tag2&#39;;
+const params = parseUrlParams(url);
+
+console.log(params);
+// Output: { name: &quot;John&quot;, age: &quot;30&quot;, address: { city: &quot;New York&quot;, zipcode: 10001 }, tags: [&quot;tag1&quot;, &quot;tag2&quot;] }
+</code></pre><p>在这个修改后的函数中，当遇到嵌套对象时，它会递归创建相应的对象属性。当遇到数组时，它会创建一个数组，并将值添加到数组中。</p><h2>Comments / Answers</h2><hr /><p><strong>Guan-Erjia</strong> at 2023-09-12T15:30:06Z</p><p>补充，有一个内置的 "URLSearchParams" 类可以使用</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

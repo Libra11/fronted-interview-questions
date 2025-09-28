@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>手写 观察者模式 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;观察者模式（又称发布-订阅模式）是一种行为型设计模式，它定义了对象之间的一对多依赖关系，使得当一个对象的状态发生改变时，其相关的依赖对象都能够得到通知并被自动更新。&lt;/p&gt;&lt;p&gt;在 JavaScript 中实现观察者模式，可以分为以下几个步骤：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;创建一" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="手写 观察者模式" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;观察者模式（又称发布-订阅模式）是一种行为型设计模式，它定义了对象之间的一对多依赖关系，使得当一个对象的状态发生改变时，其相关的依赖对象都能够得到通知并被自动更新。&lt;/p&gt;&lt;p&gt;在 JavaScript 中实现观察者模式，可以分为以下几个步骤：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;创建一个主题对象（Subject），用来存储观察者对象，并提供添加、删除、通知观察者的接口。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/199" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>手写 观察者模式</h1>
+      <div class="subtitle">代码实现 · JavaScript · 网易 · 阿里巴巴 · 代码实现/算法</div>
+      <div class="meta">创建：2023-03-26T10:55:18Z · 更新：2023-10-13T04:26:57Z</div>
+    </div>
+    <article class="content markdown-body"><p>观察者模式（又称发布-订阅模式）是一种行为型设计模式，它定义了对象之间的一对多依赖关系，使得当一个对象的状态发生改变时，其相关的依赖对象都能够得到通知并被自动更新。</p><p>在 JavaScript 中实现观察者模式，可以分为以下几个步骤：</p><ol><li>创建一个主题对象（Subject），用来存储观察者对象，并提供添加、删除、通知观察者的接口。</li></ol><ol><li>创建观察者对象（Observer），它有一个 update 方法，用来接收主题对象的通知，并进行相应的处理。</li></ol><p>下面是一个简单的示例：</p><pre class="code-block"><code class="language-javascript">class Subject {
+  constructor() {
+    this.observers = [];
+  }
+
+  // 添加观察者
+  addObserver(observer) {
+    this.observers.push(observer);
+  }
+
+  // 删除观察者
+  removeObserver(observer) {
+    const index = this.observers.indexOf(observer);
+    if (index !== -1) {
+      this.observers.splice(index, 1);
+    }
+  }
+
+  // 通知观察者
+  notifyObservers() {
+    this.observers.forEach(observer =&gt; observer.update());
+  }
+}
+
+class Observer {
+  constructor(name) {
+    this.name = name;
+  }
+
+  update() {
+    console.log(`${this.name} received the notification.`);
+  }
+}
+
+const subject = new Subject();
+const observer1 = new Observer(&#39;Observer 1&#39;);
+const observer2 = new Observer(&#39;Observer 2&#39;);
+
+subject.addObserver(observer1);
+subject.addObserver(observer2);
+
+subject.notifyObservers();
+// Output:
+// Observer 1 received the notification.
+// Observer 2 received the notification.
+</code></pre><p>在这个示例中，Subject 是主题对象，Observer 是观察者对象。Subject 提供了添加、删除、通知观察者的接口，Observer 有一个 update 方法，用来接收主题对象的通知，并进行相应的处理。在使用时，我们可以通过调用 Subject 的 addObserver 方法，将 Observer 对象添加到主题对象中。当主题对象的状态发生改变时，我们可以调用 notifyObservers 方法，通知所有的观察者对象进行更新。</p><p>以上仅是一个简单的示例，实际应用中还需要考虑更多的细节问题。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

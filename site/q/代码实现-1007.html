@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JS 如何翻转一个数组【热度: 327】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：翻转数组&lt;/p&gt;&lt;p&gt;在 JavaScript 中，可以通过以下几种方法来翻转一个数组：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、使用循环和数组拼接&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;原理：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;通过从数" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="JS 如何翻转一个数组【热度: 327】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：翻转数组&lt;/p&gt;&lt;p&gt;在 JavaScript 中，可以通过以下几种方法来翻转一个数组：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、使用循环和数组拼接&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;原理：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;通过从数组的末尾开始遍历每个元素，并将其依次添加到一个新的数组中，实现数组的翻转。&lt;/li&gt;&lt;li&gt;首先确定数组的长度，然后从最" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1007" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>JS 如何翻转一个数组【热度: 327】</h1>
+      <div class="subtitle">代码实现 · 代码实现/算法</div>
+      <div class="meta">创建：2024-10-18T14:07:09Z · 更新：2025-02-26T11:53:54Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：翻转数组</p><p>在 JavaScript 中，可以通过以下几种方法来翻转一个数组：</p><p><strong>一、使用循环和数组拼接</strong></p><ol><li>原理：</li></ol><ul><li>通过从数组的末尾开始遍历每个元素，并将其依次添加到一个新的数组中，实现数组的翻转。</li><li>首先确定数组的长度，然后从最后一个元素开始，逐个将元素添加到新数组中。</li></ul><ol><li>代码示例：</li></ol><pre class="code-block"><code class="language-javascript">function reverseArray(arr) {
+  const reversedArr = [];
+  for (let i = arr.length - 1; i &gt;= 0; i--) {
+    reversedArr.push(arr[i]);
+  }
+  return reversedArr;
+}
+
+const originalArray = [1, 2, 3, 4, 5];
+const reversedArray = reverseArray(originalArray);
+console.log(reversedArray); // [5, 4, 3, 2, 1]
+</code></pre><p><strong>二、使用数组的<code>reverse</code>方法</strong></p><ol><li>原理：</li></ol><ul><li>JavaScript 的数组对象提供了一个<code>reverse</code>方法，可以直接原地翻转数组，即修改原始数组。</li><li>这个方法会改变原始数组的顺序，将第一个元素变为最后一个，第二个元素变为倒数第二个，以此类推。</li></ul><ol><li>代码示例：</li></ol><pre class="code-block"><code class="language-javascript">const originalArray = [1, 2, 3, 4, 5];
+const reversedArray = originalArray.reverse();
+console.log(reversedArray); // [5, 4, 3, 2, 1]
+</code></pre><p><strong>三、使用扩展运算符和<code>reverse</code>方法（不修改原始数组）</strong></p><ol><li>原理：</li></ol><ul><li>首先使用扩展运算符（<code>...</code>）将原始数组展开为一个新的数组，然后对这个新数组调用<code>reverse</code>方法，这样可以在不修改原始数组的情况下得到一个翻转后的数组。</li></ul><ol><li>代码示例：</li></ol><pre class="code-block"><code class="language-javascript">const originalArray = [1, 2, 3, 4, 5];
+const reversedArray = [...originalArray].reverse();
+console.log(reversedArray); // [5, 4, 3, 2, 1]
+console.log(originalArray); // [1, 2, 3, 4, 5]（原始数组未被修改）
+</code></pre><p>这些方法可以根据具体的需求选择使用，如果你希望修改原始数组，可以直接使用<code>reverse</code>方法；如果你希望保留原始数组并得到一个翻转后的新数组，可以使用循环或者扩展运算符结合<code>reverse</code>方法。</p><h2>Comments / Answers</h2><hr /><p><strong>BruceYuj</strong> at 2025-02-26T11:53:52Z</p><p>如果是考察算法的，不应该直接使用 <code>reverse</code>，直接原地双指针算法：</p><pre class="code-block"><code class="language-javascript">function reverse (arr) {
+    let l = 0, r = arr.length - 1;
+    while (l &lt; r) {
+        arr[l], arr[r] = arr[r], arr[l];
+        l += 1;
+        r -= 1;
+   }
+   return arr;
+}
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

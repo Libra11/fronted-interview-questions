@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>异步编程的实现方式?【热度: 809】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：JS异步编程、JS异步编程实现方式&lt;/p&gt;&lt;p&gt;异步编程的实现方式有以下几种：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;回调函数&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;回调函数是最基本的异步编程方式。在执行异步操作时，将回调函数作为参数传递给异步函数，异步函数在操" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="异步编程的实现方式?【热度: 809】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：JS异步编程、JS异步编程实现方式&lt;/p&gt;&lt;p&gt;异步编程的实现方式有以下几种：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;回调函数&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;回调函数是最基本的异步编程方式。在执行异步操作时，将回调函数作为参数传递给异步函数，异步函数在操作完成后将结果传递给回调函数，回调函数再进行下一步操作。例如：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/455" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>异步编程的实现方式?【热度: 809】</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-06-13T15:46:29Z · 更新：2023-06-13T15:46:30Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：JS异步编程、JS异步编程实现方式</p><p>异步编程的实现方式有以下几种：</p><ol><li>回调函数</li></ol><p>回调函数是最基本的异步编程方式。在执行异步操作时，将回调函数作为参数传递给异步函数，异步函数在操作完成后将结果传递给回调函数，回调函数再进行下一步操作。例如：</p><pre class="code-block"><code>function getData(callback) {
+  setTimeout(function () {
+    callback(&#39;Data received&#39;);
+  }, 1000);
+}
+
+getData(function(data) {
+  console.log(data); // &#39;Data received&#39;
+});
+</code></pre><ol><li>Promise</li></ol><p>Promise 是一种更高级的异步编程方式。通过 Promise 对象可以管理异步操作的状态、结果与错误。Promise 支持链式调用，使得异步操作的多个步骤可以更加清晰地表达。例如：</p><pre class="code-block"><code>function getData() {
+  return new Promise(function(resolve, reject) {
+    setTimeout(function() {
+      resolve(&#39;Data received&#39;);
+    }, 1000);
+  });
+}
+
+getData().then(function(data) {
+  console.log(data); // &#39;Data received&#39;
+});
+</code></pre><ol><li>Async/await</li></ol><p>Async/await 是基于 Promise 的一种语法糖，使异步操作的代码更加简单、易读。通过在函数前面加上 async 关键字，可以将函数变成 async 函数，使用 await 关键字可以等待 Promise 对象的结果。例如：</p><pre class="code-block"><code>function getData() {
+  return new Promise(function(resolve, reject) {
+    setTimeout(function() {
+      resolve(&#39;Data received&#39;);
+    }, 1000);
+  });
+}
+
+async function outputData() {
+  const data = await getData();
+  console.log(data); // &#39;Data received&#39;
+}
+
+outputData();
+</code></pre><ol><li>Generator</li></ol><p>Generator 是一种能够暂停和恢复执行的函数，可以用来实现异步编程。通过在函数中使用 yield 关键字可以暂停函数的执行，并在需要时恢复执行。例如：</p><pre class="code-block"><code>function* getData() {
+  yield new Promise(function(resolve, reject) {
+    setTimeout(function() {
+      resolve(&#39;Data received&#39;);
+    }, 1000);
+  });
+}
+
+const gen = getData();
+
+gen.next().value.then(function(data) {
+  console.log(data); // &#39;Data received&#39;
+});
+</code></pre><p>总的来说，异步编程的实现方式有很多，不同的方式适用于不同的情况。在实际编码中，需要根据具体情况选择合适的方式来实现异步操作。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

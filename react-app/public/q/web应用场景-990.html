@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>查找页面出现次数最多的 HTML 标签【热度: 379】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：标签查找&lt;/p&gt;&lt;blockquote&gt;作者备注&lt;/blockquote&gt;&lt;blockquote&gt;&lt;/blockquote&gt;&lt;blockquote&gt;主要是考察 getElementsByTagName 选择器， 以及如何获取元素标签" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="查找页面出现次数最多的 HTML 标签【热度: 379】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：标签查找&lt;/p&gt;&lt;blockquote&gt;作者备注&lt;/blockquote&gt;&lt;blockquote&gt;&lt;/blockquote&gt;&lt;blockquote&gt;主要是考察 getElementsByTagName 选择器， 以及如何获取元素标签名：tagName&lt;/blockquote&gt;&lt;p&gt;直接上代码&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;c" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/990" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>查找页面出现次数最多的 HTML 标签【热度: 379】</h1>
+      <div class="subtitle">web应用场景 · web应用场景</div>
+      <div class="meta">创建：2024-10-13T02:03:45Z · 更新：2024-10-13T02:06:26Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：标签查找</p><blockquote>作者备注</blockquote><blockquote></blockquote><blockquote>主要是考察 getElementsByTagName 选择器， 以及如何获取元素标签名：tagName</blockquote><p>直接上代码</p><pre class="code-block"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;div&gt;Some content&lt;/div&gt;
+  &lt;p&gt;Another paragraph&lt;/p&gt;
+  &lt;p&gt;Another paragraph&lt;/p&gt;
+  &lt;p&gt;Another paragraph&lt;/p&gt;
+  &lt;div&gt;More div content&lt;/p&gt;
+  &lt;span&gt;Span element&lt;/span&gt;
+  &lt;script&gt;
+    function findMostFrequentTag() {
+      const allElements = document.getElementsByTagName(&#39;*&#39;);
+      const tagCount = {};
+      for (let i = 0; i &lt; allElements.length; i++) {
+        const tagName = allElements[i].tagName;
+        if (tagCount[tagName]) {
+          tagCount[tagName]++;
+        } else {
+          tagCount[tagName] = 1;
+        }
+      }
+      let mostFrequentTag = null;
+      let maxCount = 0;
+      for (const tag in tagCount) {
+        if (tagCount[tag] &gt; maxCount) {
+          mostFrequentTag = tag;
+          maxCount = tagCount[tag];
+        }
+      }
+      return mostFrequentTag;
+    }
+    const mostFrequent = findMostFrequentTag();
+    console.log(`The most frequent tag is: ${mostFrequent}`);
+  &lt;/script&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

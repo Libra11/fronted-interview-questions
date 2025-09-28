@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>http1.1 持久连接 和 http2 的多路复用有什么区别？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;HTTP/1.1和HTTP/2都是HTTP协议的不同版本，在网络传输和性能方面有很大的差别。&lt;/p&gt;&lt;p&gt;HTTP/1.1使用的是“管线化请求”和“持久连接”来提高性能，而HTTP/2则引入了更多的特性，其中最重要的特性是“多路复用”。&lt;/p&gt;&lt;p&gt;“管线化请求”是HTTP" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="http1.1 持久连接 和 http2 的多路复用有什么区别？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;HTTP/1.1和HTTP/2都是HTTP协议的不同版本，在网络传输和性能方面有很大的差别。&lt;/p&gt;&lt;p&gt;HTTP/1.1使用的是“管线化请求”和“持久连接”来提高性能，而HTTP/2则引入了更多的特性，其中最重要的特性是“多路复用”。&lt;/p&gt;&lt;p&gt;“管线化请求”是HTTP/1.1提出的一种优化方法，它可以让浏览器同时发出多个请求，从而避免了HTTP/1.1中因为请求阻塞导致的性能问题。但是" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/181" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>http1.1 持久连接 和 http2 的多路复用有什么区别？</h1>
+      <div class="subtitle">网络 · 网络</div>
+      <div class="meta">创建：2023-03-26T09:12:29Z · 更新：2023-03-26T09:12:30Z</div>
+    </div>
+    <article class="content markdown-body"><p>HTTP/1.1和HTTP/2都是HTTP协议的不同版本，在网络传输和性能方面有很大的差别。</p><p>HTTP/1.1使用的是“管线化请求”和“持久连接”来提高性能，而HTTP/2则引入了更多的特性，其中最重要的特性是“多路复用”。</p><p>“管线化请求”是HTTP/1.1提出的一种优化方法，它可以让浏览器同时发出多个请求，从而避免了HTTP/1.1中因为请求阻塞导致的性能问题。但是，由于HTTP/1.1的“管线化请求”存在“队头阻塞”（head-of-line blocking）问题，即前面一个请求没有得到响应时，后面的请求必须等待，导致性能并没有得到很大提升。</p><p>“持久连接”是HTTP/1.1中另一种提高性能的方法，它可以在一个TCP连接中传输多个HTTP请求和响应，避免了每个请求都需要建立和关闭连接的开销。但是，由于HTTP/1.1中的“持久连接”是按顺序发送请求和响应的，所以依然存在“队头阻塞”的问题。</p><p>HTTP/2则引入了“多路复用”（multiplexing）这一特性，可以在一个TCP连接上同时传输多个HTTP请求和响应，避免了“队头阻塞”问题。它使用二进制分帧（binary framing）技术将HTTP请求和响应分成多个帧（frame），并使用流（stream）来标识不同的请求和响应，从而实现了更高效的网络传输和更低的延迟。此外，HTTP/2还引入了头部压缩（header compression）和服务器推送（server push）等特性。</p><p>因此，HTTP/2的多路复用比HTTP/1.1的管线化请求和持久连接更为高效、灵活，能够更好地支持现代Web应用的性能要求。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

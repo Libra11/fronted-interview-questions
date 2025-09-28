@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>介绍一下 git diff【热度: 396】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：git diff&lt;/p&gt;&lt;blockquote&gt;作者备注&lt;/blockquote&gt;&lt;blockquote&gt;&lt;/blockquote&gt;&lt;blockquote&gt;这个比较冷门， 平常很多时候都用不上， 基本上可以当做科普了解&lt;/block" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="介绍一下 git diff【热度: 396】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：git diff&lt;/p&gt;&lt;blockquote&gt;作者备注&lt;/blockquote&gt;&lt;blockquote&gt;&lt;/blockquote&gt;&lt;blockquote&gt;这个比较冷门， 平常很多时候都用不上， 基本上可以当做科普了解&lt;/blockquote&gt;&lt;blockquote&gt;如果当面试官问到：代码有问题， 怎么排查是哪一个 commit 引入的， 可以参考以" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1125" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>介绍一下 git diff【热度: 396】</h1>
+      <div class="subtitle">web应用场景 · web应用场景</div>
+      <div class="meta">创建：2025-08-31T10:11:57Z · 更新：2025-08-31T10:11:57Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：git diff</p><blockquote>作者备注</blockquote><blockquote></blockquote><blockquote>这个比较冷门， 平常很多时候都用不上， 基本上可以当做科普了解</blockquote><blockquote>如果当面试官问到：代码有问题， 怎么排查是哪一个 commit 引入的， 可以参考以下的回答</blockquote><p><code>git diff</code> 是 Git 中用于<strong>查看文件修改差异</strong>的核心命令，能够展示不同版本、不同状态之间的代码变更，帮助你跟踪和理解代码的变化过程。</p><h3>核心作用</h3><p>比较不同版本或不同状态下的文件内容差异，主要场景包括：</p><ul><li>工作区与暂存区的差异</li><li>暂存区与最新提交的差异</li><li>不同提交之间的差异</li><li>不同分支之间的差异</li></ul><h3>常用用法</h3><h4>1. 查看工作区与暂存区的差异（最常用）</h4><pre class="code-block"><code class="language-bash">git diff
+</code></pre><ul><li>显示<strong>工作区中已修改但未暂存</strong>（未执行 <code>git add</code>）的文件与暂存区的差异</li><li>输出格式：<code>-</code> 表示删除的内容，<code>+</code> 表示新增的内容，行号用于定位位置</li></ul><h4>2. 查看暂存区与最新提交的差异</h4><pre class="code-block"><code class="language-bash">git diff --cached  # 或 git diff --staged
+</code></pre><ul><li>显示<strong>已暂存（执行过 <code>git add</code>）但未提交</strong>的内容与最近一次提交（<code>HEAD</code>）的差异</li><li>常用于提交前确认暂存的内容是否正确</li></ul><h4>3. 查看工作区与最新提交的差异</h4><pre class="code-block"><code class="language-bash">git diff HEAD
+</code></pre><ul><li>同时显示<strong>未暂存</strong>和<strong>已暂存</strong>的所有修改与最新提交的差异</li><li>相当于 <code>git diff</code>（工作区 vs 暂存区） + <code>git diff --cached</code>（暂存区 vs HEAD）的合并结果</li></ul><h4>4. 比较两个提交之间的差异</h4><pre class="code-block"><code class="language-bash">git diff &lt;提交ID1&gt; &lt;提交ID2&gt;
+</code></pre><ul><li>示例：比较 <code>a1b2c3d</code> 和 <code>e4f5g6h</code> 两个提交的差异</li></ul><p>```bash</p><p>git diff a1b2c3d e4f5g6h</p><p>```</p><ul><li>若只关心某个文件的差异，可在最后指定文件名：</li></ul><p>```bash</p><p>git diff a1b2c3d e4f5g6h src/index.js</p><p>```</p><h4>5. 比较两个分支之间的差异</h4><pre class="code-block"><code class="language-bash">git diff &lt;分支1&gt; &lt;分支2&gt;
+</code></pre><ul><li>示例：比较 <code>feature/login</code> 分支和 <code>main</code> 分支的差异</li></ul><p>```bash</p><p>git diff feature/login main</p><p>```</p><h4>6. 查看某次提交相对于上一次提交的差异</h4><pre class="code-block"><code class="language-bash">git diff &lt;提交ID&gt;^ &lt;提交ID&gt;  # ^ 表示该提交的父提交
+# 简化写法：
+git diff &lt;提交ID&gt;~1 &lt;提交ID&gt;
+</code></pre><ul><li>更简洁的方式：直接查看某次提交的修改内容</li></ul><p>```bash</p><p>git show <提交ID>  # 相当于 git diff <提交ID>^ <提交ID></p><p>```</p><h3>输出格式说明</h3><p><code>git diff</code> 的输出通常包含以下部分：</p><pre class="code-block"><code class="language-diff">diff --git a/src/index.js b/src/index.js  # 比较的文件
+index 1234567..abcdefg 100644            # 文件的索引信息
+--- a/src/index.js                        # 源文件（旧版本）
++++ b/src/index.js                        # 目标文件（新版本）
+@@ -5,7 +5,7 @@ function greet() {                # 差异所在的行范围
+   console.log(&quot;Hello, world!&quot;);
+-  console.log(&quot;This is old code&quot;);
++  console.log(&quot;This is new code&quot;);       # +表示新增内容
+   return true;
+ }
+</code></pre><h3>实用选项</h3><ul><li><code>-w</code>：忽略空白字符的差异（如空格、换行的调整）</li></ul><p>```bash</p><p>git diff -w  # 忽略空白差异</p><p>```</p><ul><li><code>--stat</code>：只显示文件修改的统计信息（不显示具体内容）</li></ul><p>```bash</p><p>git diff --stat  # 例如：src/index.js | 2 +-（表示该文件有2行修改，1行新增1行删除）</p><p>```</p><ul><li><code>-p</code>：显示完整的差异内容（默认就是这个行为，可省略）</li></ul><h3>总结</h3><p><code>git diff</code> 是代码审查和变更跟踪的重要工具，核心是通过比较不同“版本快照”之间的差异，帮助你：</p><ul><li>提交前确认修改内容</li><li>回顾历史变更</li><li>了解分支之间的差异</li><li>排查代码问题</li></ul><p>熟练使用 <code>git diff</code> 能大幅提升对代码变更的掌控力，是日常 Git 操作中不可或缺的命令。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

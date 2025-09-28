@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>对于已经 import 但未实际使用的模块使用 webpack 还会对它打包吗【热度: 108】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：tree-shaking 使用&lt;/p&gt;&lt;p&gt;在使用 Webpack 进行打包时，对于已经导入（import）但未实际使用的模块，通常情况下不会被打包进去，但这也取决于具体的配置和使用场景。&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、默认行为&lt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="对于已经 import 但未实际使用的模块使用 webpack 还会对它打包吗【热度: 108】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：tree-shaking 使用&lt;/p&gt;&lt;p&gt;在使用 Webpack 进行打包时，对于已经导入（import）但未实际使用的模块，通常情况下不会被打包进去，但这也取决于具体的配置和使用场景。&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、默认行为&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;在默认情况下，Webpack 会进行“树摇”（tree shaking）操作。树摇是一种优" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/970" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>对于已经 import 但未实际使用的模块使用 webpack 还会对它打包吗【热度: 108】</h1>
+      <div class="subtitle">工程化 · 工程化 · 阿里巴巴</div>
+      <div class="meta">创建：2024-10-07T08:26:50Z · 更新：2024-10-07T08:26:51Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：tree-shaking 使用</p><p>在使用 Webpack 进行打包时，对于已经导入（import）但未实际使用的模块，通常情况下不会被打包进去，但这也取决于具体的配置和使用场景。</p><p><strong>一、默认行为</strong></p><p>在默认情况下，Webpack 会进行“树摇”（tree shaking）操作。树摇是一种优化技术，它可以检测和移除未被使用的代码。如果一个模块被导入但在代码中没有被实际使用，Webpack 会尝试识别并排除这个模块，以减小最终打包文件的大小。</p><p>例如：</p><pre class="code-block"><code class="language-javascript">import { someFunction } from &quot;moduleA&quot;;
+// 如果 someFunction 在后续代码中没有被调用，Webpack 可能会在打包时排除 moduleA 中未被使用的部分。
+</code></pre><p><strong>二、特殊情况</strong></p><p>然而，在某些情况下，即使模块未被直接使用，也可能会被打包进去：</p><ol><li>副作用：如果导入的模块有副作用（例如修改全局状态、注册事件监听器等），即使模块中的具体函数或变量没有被直接使用，Webpack 也可能不会将其排除。因为这些副作用可能对应用的运行产生影响。</li></ol><ul><li>例如：</li></ul><p>```javascript</p><p>import "moduleB"; // moduleB 可能会在导入时执行一些初始化操作，有副作用。</p><p>```</p><ol><li>动态导入：如果使用动态导入（例如通过 import()函数），Webpack 可能无法在打包时确定哪些模块会被实际使用，因此可能会保留一些未被直接使用的模块，以确保在运行时能够正确加载所需的模块。</li></ol><ul><li>例如：</li></ul><p>```javascript</p><p>const moduleName = "moduleC";</p><p>import(moduleName).then((module) => {</p><p>// 使用动态导入的模块。</p><p>});</p><p>```</p><ol><li>第三方库的依赖：如果导入的模块被其他模块间接依赖，即使在当前模块中没有直接使用，也可能会被打包进去。例如，一个第三方库可能依赖于某个特定的模块，而你的代码只导入了这个第三方库，Webpack 可能会将这个被依赖的模块也打包进来。</li></ol></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

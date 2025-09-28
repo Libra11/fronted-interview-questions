@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>浏览器 DOM Tree是如何构建的？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;浏览器构建DOM树的过程包括以下几个步骤：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;解析HTML代码：浏览器会将HTML代码解析成一个DOM树的结构。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li&gt;创建根节点：DOM树的根节点通常是HTML元素。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li&gt;创建子节点：根据HTM" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="浏览器 DOM Tree是如何构建的？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;浏览器构建DOM树的过程包括以下几个步骤：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;解析HTML代码：浏览器会将HTML代码解析成一个DOM树的结构。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li&gt;创建根节点：DOM树的根节点通常是HTML元素。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li&gt;创建子节点：根据HTML标记的嵌套关系，浏览器会在DOM树中创建相应的子节点，每个节点表示一个HTML元素。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/64" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>浏览器 DOM Tree是如何构建的？</h1>
+      <div class="subtitle">浏览器 · 浏览器</div>
+      <div class="meta">创建：2023-03-11T06:51:52Z · 更新：2023-03-11T06:51:53Z</div>
+    </div>
+    <article class="content markdown-body"><p>浏览器构建DOM树的过程包括以下几个步骤：</p><ol><li>解析HTML代码：浏览器会将HTML代码解析成一个DOM树的结构。</li></ol><ol><li>创建根节点：DOM树的根节点通常是HTML元素。</li></ol><ol><li>创建子节点：根据HTML标记的嵌套关系，浏览器会在DOM树中创建相应的子节点，每个节点表示一个HTML元素。</li></ol><ol><li>创建属性节点：HTML元素可能有一些属性，例如id、class、src等，浏览器会将这些属性创建为节点的属性节点。</li></ol><ol><li>创建文本节点：如果HTML元素中包含文本内容，浏览器会将这些文本内容创建为文本节点，并将它们作为元素的子节点插入到DOM树中。</li></ol><ol><li>创建注释节点：HTML代码中可能包含注释，浏览器会将注释创建为注释节点，并将它们插入到DOM树中。</li></ol><ol><li>构建完整的DOM树：经过以上步骤，浏览器会将所有HTML代码解析成一个完整的DOM树。</li></ol><p>需要注意的是，浏览器构建DOM树是一个逐步进行的过程，解析器会逐个读取HTML标记，并创建相应的节点，直到解析完整个HTML代码。在这个过程中，如果遇到错误的HTML标记，浏览器也会尽可能地将其解析成一个节点，以保证DOM树的完整性。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

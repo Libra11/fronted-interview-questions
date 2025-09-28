@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JS 执行上下文的生命周期阶段有哪些【热度: 713】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：JS 执行阶段、JS执行上下文生命周期&lt;/p&gt;&lt;p&gt;在JavaScript中，执行上下文的生命周期可以分为三个阶段：创建阶段（Creation phase）、执行阶段（Execution phase）和回收阶段（Cleanup ph" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="JS 执行上下文的生命周期阶段有哪些【热度: 713】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：JS 执行阶段、JS执行上下文生命周期&lt;/p&gt;&lt;p&gt;在JavaScript中，执行上下文的生命周期可以分为三个阶段：创建阶段（Creation phase）、执行阶段（Execution phase）和回收阶段（Cleanup phase）。&lt;/p&gt;&lt;ol&gt;&lt;li&gt;创建阶段（Creation phase）：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;在创建阶" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/449" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>JS 执行上下文的生命周期阶段有哪些【热度: 713】</h1>
+      <div class="subtitle">JavaScript · JavaScript · 百度</div>
+      <div class="meta">创建：2023-06-12T15:50:30Z · 更新：2023-06-12T15:50:31Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：JS 执行阶段、JS执行上下文生命周期</p><p>在JavaScript中，执行上下文的生命周期可以分为三个阶段：创建阶段（Creation phase）、执行阶段（Execution phase）和回收阶段（Cleanup phase）。</p><ol><li>创建阶段（Creation phase）：</li></ol><ul><li>在创建阶段，JavaScript引擎会做以下工作：</li><li>创建变量对象（Variable</li></ul><p>object）：变量对象是执行上下文中的一个重要部分，用于存储变量和函数声明。在该阶段，JavaScript引擎会扫描当前上下文中的代码，并创建变量对象。变量对象包括函数的参数、函数声明和变量声明。对于全局上下文，变量对象是全局对象（如<code>window</code></p><p>对象）。</p><ul><li>建立作用域链（Scope chain）：作用域链用于解析变量的访问权限。JavaScript引擎会根据当前执行上下文的词法环境和作用域嵌套关系来建立作用域链。</li><li>确定this值：在创建阶段，JavaScript引擎会确定<code>this</code>关键字的值，这取决于函数的调用方式（如函数调用、方法调用、构造函数调用等）。</li></ul><ol><li>执行阶段（Execution phase）：</li></ol><ul><li>在执行阶段，JavaScript引擎会按照代码的顺序执行语句，执行以下操作：</li><li>变量赋值：根据代码中的赋值操作，给变量分配内存并赋予相应的值。</li><li>函数引用：根据代码中的函数调用，将函数的引用添加到变量对象中。</li><li>代码执行：按照代码的顺序执行语句，包括表达式计算、条件判断、循环等操作。</li><li>创建局部变量：当函数内部存在局部变量时，在执行到相应代码行时，会为局部变量分配内存空间。</li></ul><ol><li>回收阶段（Cleanup phase）：</li></ol><ul><li>在回收阶段，JavaScript引擎会进行垃圾回收和释放内存等清理工作。当执行上下文不再被引用或执行完毕后，会触发回收阶段，进行以下操作：</li><li>解除引用：将执行上下文中的变量和函数从变量对象中移除，解除对它们的引用。</li><li>内存回收：对不再被引用的变量和对象进行垃圾回收，释放占用的内存空间。</li></ul><p>这三个阶段共同构成了执行上下文的生命周期。创建阶段主要用于初始化执行上下文的变量和函数，建立作用域链和确定<code>this</code>值。执行阶段是实际执行代码的阶段，按照代码顺序执行语句。回收阶段主要用于清理执行上下文，释放内存空间。这个生</p><p>命周期的循环会在代码的执行过程中反复进行，直到所有的代码都执行完毕并且没有引用指向该执行上下文时，执行上下文将被彻底回收。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

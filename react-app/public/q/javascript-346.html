@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>new Function 了解多少？【热度: 1,042】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：new Function 概念、js new Function 执行性能、js new Function 使用场景&lt;/p&gt;&lt;h3&gt;基本概念&lt;/h3&gt;&lt;p&gt;&lt;code&gt;new Function()&lt;/code&gt; 是 JavaScrip" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="new Function 了解多少？【热度: 1,042】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：new Function 概念、js new Function 执行性能、js new Function 使用场景&lt;/p&gt;&lt;h3&gt;基本概念&lt;/h3&gt;&lt;p&gt;&lt;code&gt;new Function()&lt;/code&gt; 是 JavaScript 中的一个构造函数，它可以实例化一个新的函数对象并返回。该函数对象可以使用传递给 &lt;code&gt;new Function" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/346" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>new Function 了解多少？【热度: 1,042】</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-05-06T14:58:42Z · 更新：2023-05-06T14:58:42Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：new Function 概念、js new Function 执行性能、js new Function 使用场景</p><h3>基本概念</h3><p><code>new Function()</code> 是 JavaScript 中的一个构造函数，它可以实例化一个新的函数对象并返回。该函数对象可以使用传递给 <code>new Function()</code> 的字符串参数作为函数体，并使用其他传递给它的参数作为函数参数，从而动态创建一个可执行的函数。</p><p>具体来说，<code>new Function()</code> 构造函数可以接受多个字符串参数作为函数的参数和函数体，其参数形式如下：</p><pre class="code-block"><code>new Function ([arg1[, arg2[, ...argn]],] functionBody)
+</code></pre><p>其中，<code>arg1, arg2, ..., argn</code> 为函数的参数列表，<code>functionBody</code> 为函数体的字符串表示。当调用 <code>new Function()</code> 函数时，JavaScript 引擎会将 <code>arg1, arg2, ..., argn</code> 所表示的参数和 <code>functionBody</code> 所表示的函数体组合成一个新的函数对象，并将该对象返回。</p><p><strong>举例</strong></p><p>下面是一个简单的 <code>new Function()</code> 的使用示例，它使用 <code>new Function()</code> 构造函数动态创建一个函数对象，并将该对象作为变量 <code>add</code> 的值进行赋值：</p><pre class="code-block"><code>const add = new Function(&#39;a&#39;, &#39;b&#39;, &#39;return a + b;&#39;);
+console.log(add(2, 3)); // 5
+</code></pre><p>上述代码中，<code>new Function(&#39;a&#39;, &#39;b&#39;, &#39;return a + b;&#39;)</code> 创建了一个新的函数对象，其中 <code>&#39;a&#39;</code> 和 <code>&#39;b&#39;</code> 是函数的参数列表，<code>&#39;return a + b;&#39;</code> 是函数的实现代码。然后，该函数对象被赋值给变量 <code>add</code>。最后，调用 <code>add(2, 3)</code> 执行该函数，返回 <code>5</code>。</p><p>需要注意的是，<code>new Function()</code> 构造函数不能访问其上下文中的变量和函数，因此在使用时需要特别注意作用域的限制。同时，由于 <code>new Function()</code> 构造函数的执行权限较为灵活，因此在使用时需要仔细检查并确保其输入参数的合法性和安全性。</p><h3>new Function 和 eval 的区别</h3><p>虽然 <code>new Function()</code> 和 <code>eval()</code> 都可以执行字符串形式的 JavaScript 代码，但是它们在执行方式、使用场景和安全性方面还是有很大的区别的。</p><p>下面是 <code>new Function()</code> 和 <code>eval()</code> 的主要区别：</p><ol><li>执行方式不同：<code>new Function()</code> 构造函数创建的函数对象只会在其被调用时才会执行，而 <code>eval()</code> 函数则立即执行其参数中的 JavaScript 代码，并返回其中的值（如果有）。</li></ol><ol><li>作用域不同：<code>new Function()</code> 构造函数创建的函数对象没有访问父作用域的能力，只能访问自己的局部变量和全局变量；而 <code>eval()</code> 函数则可以访问其自身函数作用域和父作用域的变量和函数，因此具有更高的灵活性和不可预知性。</li></ol><ol><li>安全性不同：由于 <code>new Function()</code> 构造函数定义的函数对象是在严格的函数作用域下运行的，因此其代码不会改变或访问父作用域中的变量。因此，使用 <code>new Function()</code> 构造函数创建函数对象时，可以更好地保证其安全性。而 <code>eval()</code> 函数则无法保证代码的安全性，因为它可以访问并改变父作用域中的变量，从而具有更高的攻击风险。</li></ol><h3>new Function 性能</h3><p>与 <code>eval()</code> 相比，<code>new Function()</code> 函数具有更好的性能。这是因为 <code>new Function()</code> 函数在编译时会创建一个新的函数对象，不会像 <code>eval()</code> 函数一样将代码注入到当前作用域中。相反，它只在需要时才编译并执行代码，因此在常规情况下，<code>new Function()</code> 的性能比 <code>eval()</code> 更好。</p><p>另外，由于 <code>new Function()</code> 在全局作用域外部定义新的函数，可以更好地掌控执行环境，因此我们可以利用 <code>new Function()</code> 函数的局部性，使其不仅取代 <code>eval()</code>，而且在一定程度上比自执行函数和即时函数表达式引入更少的全局变量。</p><p>不过需要注意的是，如果在一个循环中频繁地使用 <code>new Function()</code>，或者在函数体内创建过多的嵌套函数，可能会导致性能下降。因此，当需要使用 <code>new Function()</code> 函数时，应该尽量减少不必要的重复调用，并注意代码的优化和缓存。</p><h3>new Function 使用场景</h3><p><code>new Function()</code> 的使用场景主要是动态生成 Javascript 代码的情况。由于它可以使用字符串形式作为函数体，并接受可变数量的参数，因此很适合在需要动态生成 JavaScript 代码的场景中使用。下面列举一些常见的使用场景：</p><ol><li>动态生成函数：使用 <code>new Function()</code> 可以动态生成函数，有时候这种方式比使用函数表达式更加灵活。</li></ol><ol><li>模板引擎：某些模板引擎使用 <code>new Function()</code> 动态生成 JavaScript 代码来进行文本渲染和数据绑定。</li></ol><ol><li>解析 JSON：从服务端获取 JSON 数据时，可以使用 <code>new Function()</code> 将其转换为具有更好可读性的 JavaScript 对象。</li></ol><p>举例：</p><pre class="code-block"><code class="language-js">const json = &#39;{&quot;name&quot;: &quot;张三&quot;, &quot;age&quot;: &quot;18&quot;, &quot;gender&quot;: &quot;男&quot;}&#39;;
+const parseJson = new Function(`return ${json}`);
+
+console.log(parseJson()); // 输出：{name: &quot;张三&quot;, age: &quot;18&quot;, gender: &quot;男&quot;}
+</code></pre><ol><li>在浏览器中查找或执行某些 DOM 元素：可以将 JavaScript 代码传递给 <code>new Function()</code> 进行动态执行和查找。</li></ol><p>需要注意的是，由于 <code>new Function()</code> 可以动态生成和执行任意 JavaScript 代码，因此其安全性和风险需要仔细考虑和评估。在使用 <code>new Function()</code> 时，应该避免用于可疑的或不可信任的代码执行，并严格控制传递给函数构造函数的参数，以避免潜在的安全漏洞。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

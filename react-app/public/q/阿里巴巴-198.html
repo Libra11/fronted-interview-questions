@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>介绍下观察者模式和订阅-发布模式的区别？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;观察者模式和订阅-发布模式都属于事件模型，它们都是为了解耦合而存在，但是它们之间还是有一些不同之处的：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;观察者模式中，主题（被观察者）和观察者之间是直接联系的，观察者订阅主题，主题状态发生变化时会直接通知观察者；而订阅-发布模式中，发布者和订阅者之间没" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="介绍下观察者模式和订阅-发布模式的区别？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;观察者模式和订阅-发布模式都属于事件模型，它们都是为了解耦合而存在，但是它们之间还是有一些不同之处的：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;观察者模式中，主题（被观察者）和观察者之间是直接联系的，观察者订阅主题，主题状态发生变化时会直接通知观察者；而订阅-发布模式中，发布者和订阅者之间没有直接的联系，发布者发布消息到消息中心，订阅者从消息中心订阅消息。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li&gt;在观察者模式中，主" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/198" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>介绍下观察者模式和订阅-发布模式的区别？</h1>
+      <div class="subtitle">阿里巴巴 · JavaScript · 网易 · 阿里巴巴</div>
+      <div class="meta">创建：2023-03-26T10:53:14Z · 更新：2023-03-26T10:53:15Z</div>
+    </div>
+    <article class="content markdown-body"><p>观察者模式和订阅-发布模式都属于事件模型，它们都是为了解耦合而存在，但是它们之间还是有一些不同之处的：</p><ol><li>观察者模式中，主题（被观察者）和观察者之间是直接联系的，观察者订阅主题，主题状态发生变化时会直接通知观察者；而订阅-发布模式中，发布者和订阅者之间没有直接的联系，发布者发布消息到消息中心，订阅者从消息中心订阅消息。</li></ol><ol><li>在观察者模式中，主题和观察者是一对多的关系，一个主题可以有多个观察者，而在订阅-发布模式中，发布者和订阅者是多对多的关系，一个发布者可以有多个订阅者，一个订阅者也可以订阅多个发布者。</li></ol><ol><li>在观察者模式中，主题状态发生变化时，观察者会被直接通知，通知的方式可以是同步或异步的，观察者可以决定如何处理通知；而在订阅-发布模式中，消息是通过消息中心进行传递的，订阅者从消息中心订阅消息，发布者发布消息到消息中心，消息中心再将消息发送给订阅者，这个过程是异步的，订阅者不能决定何时接收消息。</li></ol><ol><li>在观察者模式中，主题和观察者之间存在强耦合关系，如果一个观察者被移除，主题需要知道这个观察者的身份；而在订阅-发布模式中，发布者和订阅者之间没有强耦合关系，发布者不需要知道订阅者的身份，订阅者也不需要知道发布者的身份。</li></ol><p>综上所述，观察者模式和订阅-发布模式都是事件模型，但它们之间的区别在于关注点的不同，观察者模式更关注主题和观察者之间的交互，而订阅-发布模式更关注发布者和订阅者之间的交互。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

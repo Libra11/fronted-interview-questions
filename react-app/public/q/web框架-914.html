@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Vue] 多个 slot 插槽场景，该如何申明与使用【热度: 380】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：多 slot 场景&lt;/p&gt;&lt;p&gt;Vue 支持多个插槽（&lt;code&gt;slot&lt;/code&gt;），使得组件的内容分发更加灵活。在 Vue 3 中，你可以通过具名插槽来实现这一点，这允许你定义多个插槽，并在父组件中指定对应的内容填充到子组件" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Vue] 多个 slot 插槽场景，该如何申明与使用【热度: 380】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：多 slot 场景&lt;/p&gt;&lt;p&gt;Vue 支持多个插槽（&lt;code&gt;slot&lt;/code&gt;），使得组件的内容分发更加灵活。在 Vue 3 中，你可以通过具名插槽来实现这一点，这允许你定义多个插槽，并在父组件中指定对应的内容填充到子组件的不同部位。&lt;/p&gt;&lt;h3&gt;定义具名插槽&lt;/h3&gt;&lt;p&gt;在子组件中，你可以使用 &lt;code&gt;&amp;lt;slot&amp;gt;&lt;/" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/914" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Vue] 多个 slot 插槽场景，该如何申明与使用【热度: 380】</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2024-09-17T09:16:01Z · 更新：2024-09-17T09:16:02Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：多 slot 场景</p><p>Vue 支持多个插槽（<code>slot</code>），使得组件的内容分发更加灵活。在 Vue 3 中，你可以通过具名插槽来实现这一点，这允许你定义多个插槽，并在父组件中指定对应的内容填充到子组件的不同部位。</p><h3>定义具名插槽</h3><p>在子组件中，你可以使用 <code>&lt;slot&gt;</code> 元素来定义一个或多个插槽，并通过 <code>name</code> 属性为每个插槽命名。未命名的插槽被视为默认插槽，它会接收所有未匹配到具名插槽的内容。</p><pre class="code-block"><code class="language-html">&lt;!-- 子组件 --&gt;
+&lt;template&gt;
+  &lt;div&gt;
+    &lt;header&gt;
+      &lt;!-- 定义一个名为 &quot;header&quot; 的插槽 --&gt;
+      &lt;slot name=&quot;header&quot;&gt;&lt;/slot&gt;
+    &lt;/header&gt;
+    &lt;main&gt;
+      &lt;!-- 默认插槽 --&gt;
+      &lt;slot&gt;&lt;/slot&gt;
+    &lt;/main&gt;
+    &lt;footer&gt;
+      &lt;!-- 定义一个名为 &quot;footer&quot; 的插槽 --&gt;
+      &lt;slot name=&quot;footer&quot;&gt;&lt;/slot&gt;
+    &lt;/footer&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+</code></pre><h3>使用具名插槽</h3><p>在父组件中，你可以通过 <code>&lt;template&gt;</code> 元素结合 <code>v-slot</code> 指令（或缩写 <code>#</code>）来指定填充到具名插槽的内容。对于默认插槽，直接放在子组件标签内部的内容即可。</p><pre class="code-block"><code class="language-html">&lt;!-- 父组件 --&gt;
+&lt;template&gt;
+  &lt;div id=&quot;app&quot;&gt;
+    &lt;MyComponent&gt;
+      &lt;!-- 使用 v-slot 指定插槽内容 --&gt;
+      &lt;template v-slot:header&gt;
+        &lt;h1&gt;这里是头部内容&lt;/h1&gt;
+      &lt;/template&gt;
+
+      &lt;!-- 默认插槽内容 --&gt;
+      &lt;p&gt;这里是主体内容&lt;/p&gt;
+
+      &lt;!-- 使用缩写 # 指定插槽内容 --&gt;
+      &lt;template #footer&gt;
+        &lt;footer&gt;这里是尾部内容&lt;/footer&gt;
+      &lt;/template&gt;
+    &lt;/MyComponent&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+</code></pre><h3>作用域插槽</h3><p>除了普通的具名插槽之外，Vue 还支持作用域插槽（scoped slots）。这是一种特殊类型的插槽，它允许子组件传递数据回到插槽内容中，这样，父组件就可以访问子组件的数据了。</p><pre class="code-block"><code class="language-html">&lt;!-- 子组件 --&gt;
+&lt;template&gt;
+  &lt;ul&gt;
+    &lt;li v-for=&quot;item in items&quot; :key=&quot;item.id&quot;&gt;
+      &lt;!-- 使用作用域插槽传递数据 --&gt;
+      &lt;slot name=&quot;item&quot; :item-data=&quot;item&quot;&gt;{{ item.text }}&lt;/slot&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+  export default {
+    data() {
+      return {
+        items: [
+          { id: 1, text: &quot;Item 1&quot; },
+          { id: 2, text: &quot;Item 2&quot; },
+        ],
+      };
+    },
+  };
+&lt;/script&gt;
+</code></pre><p>父组件可以这样使用作用域插槽：</p><pre class="code-block"><code class="language-html">&lt;!-- 父组件 --&gt;
+&lt;MyComponent&gt;
+  &lt;template #item=&quot;{ itemData }&quot;&gt;
+    &lt;span&gt;{{ itemData.text }}&lt;/span&gt;
+  &lt;/template&gt;
+&lt;/MyComponent&gt;
+</code></pre><p>在这里，<code>itemData</code> 是子组件传递给插槽的数据对象，父组件通过解构它来访问插槽数据。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

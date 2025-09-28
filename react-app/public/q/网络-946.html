@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>解释下 axios withCredentials 配置【热度: 197】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：axios 配置&lt;/p&gt;&lt;blockquote&gt;作者备注&lt;/blockquote&gt;&lt;blockquote&gt;&lt;/blockquote&gt;&lt;blockquote&gt;这个问题太冷门了， 如果不是细看过顾问囊的人， 是不会知道有这个配置项的。 " />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="解释下 axios withCredentials 配置【热度: 197】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：axios 配置&lt;/p&gt;&lt;blockquote&gt;作者备注&lt;/blockquote&gt;&lt;blockquote&gt;&lt;/blockquote&gt;&lt;blockquote&gt;这个问题太冷门了， 如果不是细看过顾问囊的人， 是不会知道有这个配置项的。 可以当做科普即可， 面试中问到的可能性也非常的低。&lt;/blockquote&gt;&lt;p&gt;在 Axios 中，&lt;code&gt;wit" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/946" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>解释下 axios withCredentials 配置【热度: 197】</h1>
+      <div class="subtitle">网络 · 网络 · web应用场景</div>
+      <div class="meta">创建：2024-09-28T02:32:56Z · 更新：2024-09-28T02:32:56Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：axios 配置</p><blockquote>作者备注</blockquote><blockquote></blockquote><blockquote>这个问题太冷门了， 如果不是细看过顾问囊的人， 是不会知道有这个配置项的。 可以当做科普即可， 面试中问到的可能性也非常的低。</blockquote><p>在 Axios 中，<code>withCredentials</code>是一个配置选项，用于处理跨源请求时是否携带用户凭证（cookies、HTTP 认证信息等）。</p><p><strong>一、作用</strong></p><ol><li>默认行为：</li></ol><ul><li>默认情况下，<code>withCredentials</code>的值为<code>false</code>。这意味着在跨源请求中，浏览器不会自动发送用户凭证。</li><li>例如，当你使用 Axios 向不同域名的服务器发送请求时，如果<code>withCredentials</code>为<code>false</code>，浏览器不会在请求中包含任何用户凭证信息。</li></ul><ol><li>启用凭证发送：</li></ol><ul><li>如果将<code>withCredentials</code>设置为<code>true</code>，则在跨源请求中，浏览器会自动包含用户凭证信息，如 cookies、HTTP 认证信息等。</li><li>这对于需要在不同域名之间共享用户认证状态的应用非常有用。例如，一个单页应用（SPA）可能需要与不同的后端服务进行交互，并且希望在这些服务之间共享用户登录状态。</li></ul><p><strong>二、注意事项</strong></p><ol><li>服务器端配置：</li></ol><ul><li>要使<code>withCredentials</code>生效，服务器端也需要进行相应的配置，以允许接收跨源请求中的凭证信息。</li><li>服务器需要设置适当的 CORS（跨源资源共享）响应头，如<code>Access-Control-Allow-Credentials: true</code>，并且指定允许的源<code>Access-Control-Allow-Origin</code>不能为通配符<code>*</code>，而必须是具体的源地址。</li></ul><ol><li>安全考虑：</li></ol><ul><li>启用<code>withCredentials</code>可能会带来安全风险，因为用户凭证可能会被发送到不受信任的服务器。因此，在使用时需要谨慎考虑安全问题，并确保只向可信任的服务器发送凭证信息。</li></ul><p>例如：</p><pre class="code-block"><code class="language-javascript">axios
+  .get(&quot;http://another-domain.com/api/data&quot;, {
+    withCredentials: true,
+  })
+  .then((response) =&gt; {
+    console.log(response.data);
+  })
+  .catch((error) =&gt; {
+    console.error(error);
+  });
+</code></pre><p>在这个例子中，Axios 发送一个跨源请求，并将<code>withCredentials</code>设置为<code>true</code>，以尝试在请求中包含用户凭证信息。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

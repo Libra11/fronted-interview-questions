@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HTML 属性 crossorigin 的作用是什么【热度: 267】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：crossorigin 属性、crossorigin 作用、crossorigin 资源错误处理&lt;/p&gt;&lt;p&gt;&lt;code&gt;crossorigin&lt;/code&gt; 属性在 &lt;code&gt;&amp;lt;audio&amp;gt;、&amp;lt;img&amp;gt;、" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="HTML 属性 crossorigin 的作用是什么【热度: 267】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：crossorigin 属性、crossorigin 作用、crossorigin 资源错误处理&lt;/p&gt;&lt;p&gt;&lt;code&gt;crossorigin&lt;/code&gt; 属性在 &lt;code&gt;&amp;lt;audio&amp;gt;、&amp;lt;img&amp;gt;、&amp;lt;link&amp;gt;、&amp;lt;script&amp;gt; 和 &amp;lt;video&amp;gt;&lt;/code&gt; 元素中有效，它们提" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/518" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>HTML 属性 crossorigin 的作用是什么【热度: 267】</h1>
+      <div class="subtitle">小米 · 浏览器 · 小米</div>
+      <div class="meta">创建：2023-08-20T13:16:17Z · 更新：2023-08-20T13:16:30Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：crossorigin 属性、crossorigin 作用、crossorigin 资源错误处理</p><p><code>crossorigin</code> 属性在 <code>&lt;audio&gt;、&lt;img&gt;、&lt;link&gt;、&lt;script&gt; 和 &lt;video&gt;</code> 元素中有效，它们提供对 CORS 的支持，定义该元素如何处理跨源请求，从而实现对该元素获取数据的 CORS 请求的配置。根据元素的不同，该属性可以是一个 CORS 设置属性。</p><p><strong>属性值</strong></p><p><code>crossorigin</code> 属性有以下几个取值选项，每个选项的作用如下：</p><ol><li><code>anonymous</code>：表示跨域请求不发送凭证信息（如 cookie、HTTP 认证信息）。这是默认值，适用于无需发送凭证的跨域请求，可提高安全性。</li><li><code>use-credentials</code>：表示跨域请求发送凭证信息。适用于需要发送凭证的跨域请求，但需要服务器配置支持，并且需要设置 <code>Access-Control-Allow-Credentials</code> 头为 <code>true</code>。</li><li><code>null</code>：表示不返回跨域资源，并在控制台中报告错误，而不加载跨域资源。适用于跨域资源加载失败时的错误处理。</li></ol><p>这些取值选项用来在 HTML 中指定跨域资源请求的行为，通过设置不同的取值选项，可以控制是否发送凭证、如何处理跨域资源加载失败等。</p><p><strong>作用</strong></p><p><code>crossorigin</code> 属性是 HTML 中用来控制跨域资源请求行为的属性。它用于指定浏览器在加载跨域资源时如何处理跨域请求。</p><p>主要作用有以下几点：</p><ol><li>跨域资源请求：当在 HTML 中引用跨域的资源（如图片、音频、视频、脚本、样式表等）时，浏览器会发送跨域请求。<code>crossorigin</code> 属性可以控制这些跨域请求的行为。</li><li>控制凭证的发送：默认情况下，跨域请求会发送用户凭证（如 cookie、HTTP 认证信息）。通过 <code>crossorigin</code> 属性，可以控制资源请求时是否发送凭证信息。</li><li>防止资源污染：当加载跨域的脚本文件时，如果不使用 <code>crossorigin</code> 属性，可能会导致脚本文件被污染从而引发安全问题。使用 <code>crossorigin</code> 属性可以确保加载的脚本是可信任的。</li><li>错误处理：<code>crossorigin</code> 属性还可以用来处理跨域请求中可能发生的错误。通过设置不同的取值选项，可以在跨域请求出现错误时进行相应的处理。</li></ol><p><strong>资源加载错误处理方式</strong></p><p><code>crossorigin</code> 属性在错误处理方面有不同的行为，取决于属性的取值选项：</p><ol><li>当 <code>crossorigin</code> 属性值为 <code>anonymous</code> 或未设置时，如果跨域资源加载失败，浏览器会忽略加载失败，不会报告任何错误，也不会影响页面的正常渲染。</li></ol><ol><li>当 <code>crossorigin</code> 属性值为 <code>use-credentials</code> 时，如果跨域资源加载失败，浏览器会在控制台报告错误，并且不会加载跨域资源。这样可以确保在有凭证的情况下，不加载错误的或未授权的跨域资源。</li></ol><ol><li>当 <code>crossorigin</code> 属性值为 <code>null</code> 时，如果跨域资源加载失败，浏览器会在控制台报告错误，并且不加载跨域资源。这种设置适用于当跨域资源加载失败时要显示错误信息，并且不加载其他资源。</li></ol><p>总之，通过设置 <code>crossorigin</code> 属性，可以控制跨域资源加载失败时的错误处理行为，从而在不同的情况下选择合适的错误处理方式。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

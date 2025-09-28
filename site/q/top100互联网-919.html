@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Vue] 子组件是否能使用 未定义的 props 【热度: 266】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：组件定义 props&lt;/p&gt;&lt;p&gt;在 Vue 中，子组件默认情况下不能使用未在 &lt;code&gt;props&lt;/code&gt; 选项中明确定义的属性。Vue 的组件系统旨在明确组件之间的接口，其中 &lt;code&gt;props&lt;/code&gt; 作为组" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Vue] 子组件是否能使用 未定义的 props 【热度: 266】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：组件定义 props&lt;/p&gt;&lt;p&gt;在 Vue 中，子组件默认情况下不能使用未在 &lt;code&gt;props&lt;/code&gt; 选项中明确定义的属性。Vue 的组件系统旨在明确组件之间的接口，其中 &lt;code&gt;props&lt;/code&gt; 作为组件公开的属性，必须被明确声明。这样做的目的是为了增强代码的可读性和可维护性，确保组件之间的通信清晰和有序。&lt;/p&gt;&lt;h3" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/919" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Vue] 子组件是否能使用 未定义的 props 【热度: 266】</h1>
+      <div class="subtitle">TOP100互联网 · web框架 · TOP100互联网</div>
+      <div class="meta">创建：2024-09-17T13:38:25Z · 更新：2024-09-17T13:39:25Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：组件定义 props</p><p>在 Vue 中，子组件默认情况下不能使用未在 <code>props</code> 选项中明确定义的属性。Vue 的组件系统旨在明确组件之间的接口，其中 <code>props</code> 作为组件公开的属性，必须被明确声明。这样做的目的是为了增强代码的可读性和可维护性，确保组件之间的通信清晰和有序。</p><h3>但是，有几种方式可以绕过这个限制：</h3><h4>1. 使用 <code>$attrs</code></h4><p>尽管子组件不能直接使用未声明的 <code>props</code>，但它可以通过继承未声明的属性来接收来自父组件的非 <code>props</code> 属性。Vue 实例的 <code>$attrs</code> 对象包含了传递给一个组件，但是未在 <code>props</code> 配置中声明的属性。这些属性包括 <code>class</code> 和 <code>style</code>，以及绑定的事件监听器（如果 <code>inheritAttrs</code> 配置项设置为 <code>false</code>）。</p><pre class="code-block"><code class="language-html">&lt;!-- 子组件 --&gt;
+&lt;template&gt;
+  &lt;div&gt;{{ $attrs.someProp }}&lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+  export default {
+    // 如果你不希望组件的根元素继承属性，可以设置 inheritAttrs: false
+    inheritAttrs: false,
+  };
+&lt;/script&gt;
+</code></pre><h4>2. 使用 <code>$props</code></h4><p>虽然不推荐这种做法，但理论上，如果你通过动态的方式绑定父组件的属性到子组件上，并在子组件内部使用 <code>this.$props</code> 来访问这些属性，Vue 会警告未找到对应的 <code>prop</code> 定义，但这并不会阻止你在组件内部获取这些属性的值。</p><pre class="code-block"><code class="language-html">&lt;!-- 子组件 --&gt;
+&lt;template&gt;
+  &lt;div&gt;{{ $props.someUndeclaredProp }}&lt;/div&gt;
+&lt;/template&gt;
+</code></pre><p>这种方式不利于保持组件接口的清晰，很容易导致难以跟踪和理解的代码，因此并不推荐使用。</p><h3>最佳实践</h3><p>最佳实践是始终在子组件中明确声明你打算使用的所有 <code>props</code>。这有助于保持接口清晰，并使得组件之间的通信更加可靠和可维护。使用 <code>$attrs</code> 是处理未声明属性的推荐方式，尤其是当你需要构建高度复用的组件库时，它能提供额外的灵活性，而且可以保持组件接口的整洁和明确。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

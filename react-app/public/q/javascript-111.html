@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>null 和 undefined 的区别，如何让一个属性变为 null？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;code&gt;null&lt;/code&gt;和&lt;code&gt;undefined&lt;/code&gt;都是JavaScript中表示缺失或无值的特殊值。&lt;/p&gt;&lt;p&gt;&lt;code&gt;undefined&lt;/code&gt;是一个变量没有被赋值时的默认值，或者在访问对象属性或数组元素不存在时返回的值。例如：&lt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="null 和 undefined 的区别，如何让一个属性变为 null？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;code&gt;null&lt;/code&gt;和&lt;code&gt;undefined&lt;/code&gt;都是JavaScript中表示缺失或无值的特殊值。&lt;/p&gt;&lt;p&gt;&lt;code&gt;undefined&lt;/code&gt;是一个变量没有被赋值时的默认值，或者在访问对象属性或数组元素不存在时返回的值。例如：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascript&quot;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/111" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>null 和 undefined 的区别，如何让一个属性变为 null？</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-15T14:36:43Z · 更新：2023-03-15T14:36:44Z</div>
+    </div>
+    <article class="content markdown-body"><p><code>null</code>和<code>undefined</code>都是JavaScript中表示缺失或无值的特殊值。</p><p><code>undefined</code>是一个变量没有被赋值时的默认值，或者在访问对象属性或数组元素不存在时返回的值。例如：</p><pre class="code-block"><code class="language-javascript">let a;
+console.log(a); // 输出 undefined
+
+const obj = {};
+console.log(obj.nonexistentProp); // 输出 undefined
+</code></pre><p>而<code>null</code>表示一个变量被明确地赋值为没有值。例如：</p><pre class="code-block"><code class="language-javascript">const a = null;
+console.log(a); // 输出 null
+</code></pre><p>要将一个属性的值设置为<code>null</code>，可以像这样：</p><pre class="code-block"><code class="language-javascript">const obj = { prop: &#39;value&#39; };
+obj.prop = null;
+console.log(obj.prop); // 输出 null
+</code></pre><p>如果要删除对象的属性并将其值设置为<code>null</code>，可以使用<code>delete</code>操作符：</p><pre class="code-block"><code class="language-javascript">const obj = { prop: &#39;value&#39; };
+delete obj.prop;
+obj.prop = null;
+console.log(obj.prop); // 输出 null
+</code></pre><p>请注意，尝试访问一个已删除的属性将返回<code>undefined</code>而不是<code>null</code>。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

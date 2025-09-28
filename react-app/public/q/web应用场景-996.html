@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何实现页面文本不可选中，不可复制【热度: 255】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：禁止文本复制&lt;/p&gt;&lt;p&gt;可以通过 CSS 和 JavaScript 结合的方式实现页面文本不可选中和不可复制。&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、使用 CSS&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;可以通过设置 CSS 属性来禁止用户选中页" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何实现页面文本不可选中，不可复制【热度: 255】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：禁止文本复制&lt;/p&gt;&lt;p&gt;可以通过 CSS 和 JavaScript 结合的方式实现页面文本不可选中和不可复制。&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、使用 CSS&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;可以通过设置 CSS 属性来禁止用户选中页面文本：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-css&quot;&gt;b" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/996" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何实现页面文本不可选中，不可复制【热度: 255】</h1>
+      <div class="subtitle">web应用场景 · web应用场景 · 京东</div>
+      <div class="meta">创建：2024-10-13T02:52:46Z · 更新：2024-10-13T02:52:47Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：禁止文本复制</p><p>可以通过 CSS 和 JavaScript 结合的方式实现页面文本不可选中和不可复制。</p><p><strong>一、使用 CSS</strong></p><p>可以通过设置 CSS 属性来禁止用户选中页面文本：</p><pre class="code-block"><code class="language-css">body {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+</code></pre><p>这将禁止在整个页面上进行文本选择。</p><p><strong>二、使用 JavaScript</strong></p><p>如果仅使用 CSS 不能满足需求，可以结合 JavaScript 进一步增强禁止复制的功能。以下是一个示例：</p><pre class="code-block"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot; /&gt;
+  &lt;/head&gt;
+
+  &lt;body&gt;
+    &lt;p&gt;这是一些不可选中和不可复制的文本。&lt;/p&gt;
+    &lt;script&gt;
+      document.addEventListener(&quot;copy&quot;, function (e) {
+        e.preventDefault();
+      });
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>在这个例子中，通过监听<code>copy</code>事件并调用<code>preventDefault()</code>方法来阻止复制操作。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

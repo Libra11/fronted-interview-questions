@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Redux] 的存储过程 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;Redux 的存储过程可以简单地分为以下几个步骤：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Action Creator 函数被调用，生成一个 Action 对象；&lt;/li&gt;&lt;li&gt;Action 对象被传递给 Store.dispatch() 方法；&lt;/li&gt;&lt;li&gt;Redux Store " />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Redux] 的存储过程" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;Redux 的存储过程可以简单地分为以下几个步骤：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Action Creator 函数被调用，生成一个 Action 对象；&lt;/li&gt;&lt;li&gt;Action 对象被传递给 Store.dispatch() 方法；&lt;/li&gt;&lt;li&gt;Redux Store 调用 Reducer 函数，将当前的 State 和 Action 作为参数传入；&lt;/li&gt;&lt;li&gt;Reducer 函数" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/240" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Redux] 的存储过程</h1>
+      <div class="subtitle">web框架 · web框架 · 腾讯</div>
+      <div class="meta">创建：2023-04-02T14:42:37Z · 更新：2023-04-02T14:42:38Z</div>
+    </div>
+    <article class="content markdown-body"><p>Redux 的存储过程可以简单地分为以下几个步骤：</p><ol><li>Action Creator 函数被调用，生成一个 Action 对象；</li><li>Action 对象被传递给 Store.dispatch() 方法；</li><li>Redux Store 调用 Reducer 函数，将当前的 State 和 Action 作为参数传入；</li><li>Reducer 函数根据 Action 的类型，生成一个新的 State；</li><li>Redux Store 将新的 State 存储下来，用于下一次的状态更新；</li><li>组件通过调用 Store.subscribe() 方法，监听 Store 中 State 的变化；</li><li>当 State 发生变化时，Store 会通知所有的订阅者，订阅者会重新渲染相应的组件。</li></ol><p>这个过程可以简单地描述为：Action -> Reducer -> Store -> View。其中，Action 是一个纯对象，它描述了发生的事件；Reducer 是一个纯函数，它接收当前的 State 和 Action，返回一个新的 State；Store 是将 Action 和 Reducer 结合起来的对象，它维护了应用程序的 State；View 则是 React 组件，它通过 Store.subscribe() 方法监听 State 的变化，根据 State 的变化重新渲染页面。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

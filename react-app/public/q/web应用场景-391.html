@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>小程序为什么会有两个线程 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;小程序之所以有两个线程，是为了实现小程序的高效运行和良好的用户体验。&lt;/p&gt;&lt;ol&gt;&lt;li&gt;渲染线程（UI 线程）：&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;渲染线程负责小程序界面的渲染和响应用户的交互。它使用 WebView 进行页面渲染，包括解析和绘制 DOM、布局、样式计算和渲染等操" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="小程序为什么会有两个线程" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;小程序之所以有两个线程，是为了实现小程序的高效运行和良好的用户体验。&lt;/p&gt;&lt;ol&gt;&lt;li&gt;渲染线程（UI 线程）：&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;渲染线程负责小程序界面的渲染和响应用户的交互。它使用 WebView 进行页面渲染，包括解析和绘制 DOM、布局、样式计算和渲染等操作。渲染线程是单线程的，所有的界面操作都在这个线程中进行。&lt;/p&gt;&lt;ol&gt;&lt;li&gt;逻辑线程（JS 线程）：&lt;/li&gt;&lt;/" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/391" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>小程序为什么会有两个线程</h1>
+      <div class="subtitle">web应用场景 · web应用场景 · Shopee</div>
+      <div class="meta">创建：2023-05-30T15:57:53Z · 更新：2023-05-30T15:57:54Z</div>
+    </div>
+    <article class="content markdown-body"><p>小程序之所以有两个线程，是为了实现小程序的高效运行和良好的用户体验。</p><ol><li>渲染线程（UI 线程）：</li></ol><p>渲染线程负责小程序界面的渲染和响应用户的交互。它使用 WebView 进行页面渲染，包括解析和绘制 DOM、布局、样式计算和渲染等操作。渲染线程是单线程的，所有的界面操作都在这个线程中进行。</p><ol><li>逻辑线程（JS 线程）：</li></ol><p>逻辑线程负责小程序的逻辑运算和数据处理。它是基于 JavaScript 运行的，负责处理用户交互、业务逻辑、数据请求、事件处理等操作。逻辑线程是独立于渲染线程的，可以并行处理多个任务，避免阻塞界面的渲染和响应。</p><p>将界面渲染和逻辑运算分离成两个线程的设计有以下好处：</p><ul><li>响应速度：逻辑线程和渲染线程分开，可以并行执行，提高了小程序的响应速度和用户体验。</li><li>防止阻塞：逻辑线程的运行不会阻塞渲染线程，避免了长时间的计算或数据处理导致界面卡顿或无响应的情况。</li><li>资源隔离：渲染线程和逻辑线程是独立的，它们有各自的资源和运行环境，可以避免相互干扰和影响。</li></ul><p>需要注意的是，小程序的渲染线程和逻辑线程之间通过微信客户端进行通信和交互。逻辑线程可以发送请求给微信客户端，然后客户端将渲染指令发送给渲染线程进行界面渲染，同时渲染线程可以将用户的交互事件发送给逻辑线程进行处理。这种通信方式保证了渲染和逻辑的协同工作，实现了小程序的正常运行。</p><p>小程序之所以有两个线程，是为了提高渲染速度、避免阻塞和资源隔离。渲染线程负责界面渲染，逻辑线程负责业务逻辑和数据处理，两者通过微信客户端进行通信和交互，共同实现小程序的功能和性能。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

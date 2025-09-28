@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TypeScript 中，ReturnType 的作用和用法 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：ts RetrunType&lt;/p&gt;&lt;p&gt;在 TypeScript 中，&lt;code&gt;ReturnType&lt;/code&gt; 是一个&lt;strong&gt;内置的工具类型&lt;/strong&gt;，用于&lt;strong&gt;提取函数的返回值类型&lt;/strong&gt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="TypeScript 中，ReturnType 的作用和用法" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：ts RetrunType&lt;/p&gt;&lt;p&gt;在 TypeScript 中，&lt;code&gt;ReturnType&lt;/code&gt; 是一个&lt;strong&gt;内置的工具类型&lt;/strong&gt;，用于&lt;strong&gt;提取函数的返回值类型&lt;/strong&gt;。它可以自动推断并返回函数的返回值类型，无需手动手动编写重复的类型定义，是处理函数类型时非常实用的工具。&lt;/p&gt;&lt;h3&gt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1135" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>TypeScript 中，ReturnType 的作用和用法</h1>
+      <div class="subtitle">TypeScript · TypeScript</div>
+      <div class="meta">创建：2025-08-31T10:32:34Z · 更新：2025-08-31T10:32:34Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：ts RetrunType</p><p>在 TypeScript 中，<code>ReturnType</code> 是一个<strong>内置的工具类型</strong>，用于<strong>提取函数的返回值类型</strong>。它可以自动推断并返回函数的返回值类型，无需手动手动编写重复的类型定义，是处理函数类型时非常实用的工具。</p><h3><strong>作用</strong></h3><ul><li>从给定的函数类型中<strong>提取其返回值的类型</strong>，避免手动定义与函数返回值相同的类型，减少冗余代码。</li><li>当函数返回值类型修改时，通过 <code>ReturnType</code> 提取的类型会自动同步更新，保证类型一致性。</li></ul><h3><strong>用法</strong></h3><h4>基础语法</h4><pre class="code-block"><code class="language-typescript">type ReturnType&lt;T extends (...args: any) =&gt; any&gt; = T extends (...args: any) =&gt; infer R ? R : any;
+</code></pre><ul><li>接收一个泛型参数 <code>T</code>，该参数必须是一个函数类型（通过 <code>extends (...args: any) =&gt; any</code> 约束）。</li><li>使用 <code>infer R</code> 推断函数的返回值类型 <code>R</code>，最终返回 <code>R</code>。</li></ul><h4>实际示例</h4><ol><li><strong>提取普通函数的返回值类型</strong></li></ol><p>```typescript</p><p>// 定义一个返回对象的函数</p><p>function getUser() {</p><p>return { name: "张三", age: 20, isStudent: false };</p><p>}</p><p>// 提取函数返回值类型</p><p>type User = ReturnType<typeof getUser>;</p><p>// User 的类型为：{ name: string; age: number; isStudent: boolean }</p><p>```</p><ol><li><strong>提取箭头函数的返回值类型</strong></li></ol><p>```typescript</p><p>const calculate = (a: number, b: number) => a + b;</p><p>// 提取返回值类型（number）</p><p>type Result = ReturnType<typeof calculate>; // Result = number</p><p>```</p><ol><li><strong>提取泛型函数的返回值类型</strong></li></ol><p>```typescript</p><p>function createArray<T>(length: number, value: T): T[] {</p><p>return Array(length).fill(value);</p><p>}</p><p>// 提取特定调用的返回值类型</p><p>type StringArray = ReturnType<typeof createArray<string>>; // StringArray = string[]</p><p>```</p><ol><li><strong>在类型定义中复用</strong></li></ol><p>```typescript</p><p>// 定义一个回调函数类型</p><p>type FetchData = (url: string) => Promise<{ code: number; data: string }>;</p><p>// 提取该函数返回的 Promise 内部类型</p><p>type FetchResult = ReturnType<FetchData>; // FetchResult = Promise<{ code: number; data: string }></p><p>// 进一步提取 Promise 的 resolve 类型（结合 Awaited）</p><p>type Data = Awaited<FetchResult>; // Data = { code: number; data: string }</p><p>```</p><h3><strong>注意事项</strong></h3><ol><li><strong>仅支持函数类型</strong>：<code>ReturnType</code> 的参数必须是函数类型，否则会报错。</li></ol><p>```typescript</p><p>type Invalid = ReturnType<string>; // 报错：string 不是函数类型</p><p>```</p><ol><li><strong>与 <code>typeof</code> 配合使用</strong>：当需要提取具体函数的返回值类型时，需用 <code>typeof</code> 获取该函数的类型（如 <code>typeof getUser</code>）。</li></ol><ol><li><strong>内置工具类型</strong>：<code>ReturnType</code> 是 TypeScript 内置的，无需手动定义，直接使用即可。</li></ol><h3><strong>总结</strong></h3><p><code>ReturnType</code> 的核心价值是<strong>自动同步函数返回值类型</strong>，尤其适合以下场景：</p><ul><li>函数返回值类型复杂，避免手动重复定义。</li><li>函数返回值可能频繁修改，通过 <code>ReturnType</code> 确保依赖其类型的地方自动更新。</li><li>在类型层面复用函数返回值结构，提升代码可维护性。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

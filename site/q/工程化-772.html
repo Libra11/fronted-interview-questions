@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>在做 eslint 和 commitlint 的时候， 可以使用 --no-verify 跳过， 这种情况下该如何强制卡点【热度: 233】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：commit 与 eslint 规范&lt;/p&gt;&lt;p&gt;跳过&lt;code&gt;eslint&lt;/code&gt;和&lt;code&gt;commitlint&lt;/code&gt;的钩子，使用&lt;code&gt;--no-verify&lt;/code&gt;（对于&lt;code&gt;git com" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="在做 eslint 和 commitlint 的时候， 可以使用 --no-verify 跳过， 这种情况下该如何强制卡点【热度: 233】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：commit 与 eslint 规范&lt;/p&gt;&lt;p&gt;跳过&lt;code&gt;eslint&lt;/code&gt;和&lt;code&gt;commitlint&lt;/code&gt;的钩子，使用&lt;code&gt;--no-verify&lt;/code&gt;（对于&lt;code&gt;git commit&lt;/code&gt;来说是&lt;code&gt;-n&lt;/code&gt;），的确是一个容许开发者在紧急情况下超越钩子检查的手段。然而，这" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/772" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>在做 eslint 和 commitlint 的时候， 可以使用 --no-verify 跳过， 这种情况下该如何强制卡点【热度: 233】</h1>
+      <div class="subtitle">工程化 · 工程化 · 美团</div>
+      <div class="meta">创建：2024-05-26T03:26:19Z · 更新：2024-05-26T03:26:20Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：commit 与 eslint 规范</p><p>跳过<code>eslint</code>和<code>commitlint</code>的钩子，使用<code>--no-verify</code>（对于<code>git commit</code>来说是<code>-n</code>），的确是一个容许开发者在紧急情况下超越钩子检查的手段。然而，这也削弱了代码质量保证的制度。以下是一些方法，可以用来加强这些卡点的靠谱办法：</p><ul><li><strong>CI/CD 流水线中增加检查</strong>：在你的 CI/CD 流程中增加<code>eslint</code>和<code>commitlint</code>的检查步骤。如果检查失败，则阻止代码合并或部署。</li></ul><ul><li><strong>强制挂钩</strong>：虽然开发者可能在本地禁用钩子，但你不能控制别人的本地环境。相反，你可以编写服务器端的钩子，比如在 Git 仓库的服务器上使用<code>pre-receive</code>钩子，来拒绝不符合规范的提交。</li></ul><ul><li><strong>定期自动化检查</strong>：定期运行一个自动化的脚本或 GitHub Action，检查代码库的 eslint 与 commitlint 违规情况，并自动创建一个修复问题的 issue 或拉取请求。</li></ul><p>你可以最大限度地减少绕过<code>eslint</code>和<code>commitlint</code>检查的情况。然而，值得记住的是，在极少数情况下，可能存在合法的理由需要紧急提交代码。因此，为了灵活性和效率，完全禁止<code>--no-verify</code>可能不是一个最佳的选择。好的实践中应该找到安全和灵活性之间的平衡，核心在于建立一个质量意识，制定明智的操作规范。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

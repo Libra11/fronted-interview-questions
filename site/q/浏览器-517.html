@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>html rel 属性 的参数 preload和prefetch 的作用是什么【热度: 1,057】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：rel preload 作用、rel prefetch 作用、rel defer 作用、rel prefetch&lt;/p&gt;&lt;p&gt;&lt;code&gt;rel&lt;/code&gt; 属性定义了所链接的资源与当前文档的关系，在 &lt;code&gt;&amp;lt;a&amp;gt" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="html rel 属性 的参数 preload和prefetch 的作用是什么【热度: 1,057】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：rel preload 作用、rel prefetch 作用、rel defer 作用、rel prefetch&lt;/p&gt;&lt;p&gt;&lt;code&gt;rel&lt;/code&gt; 属性定义了所链接的资源与当前文档的关系，在 &lt;code&gt;&amp;lt;a&amp;gt;、&amp;lt;area&amp;gt; 和 &amp;lt;link&amp;gt;&lt;/code&gt; 元素上有效。支持的值取决于拥有该属性的元素。&lt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/517" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>html rel 属性 的参数 preload和prefetch 的作用是什么【热度: 1,057】</h1>
+      <div class="subtitle">浏览器 · 浏览器 · 小米</div>
+      <div class="meta">创建：2023-08-20T13:08:16Z · 更新：2023-08-20T13:08:17Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：rel preload 作用、rel prefetch 作用、rel defer 作用、rel prefetch</p><p><code>rel</code> 属性定义了所链接的资源与当前文档的关系，在 <code>&lt;a&gt;、&lt;area&gt; 和 &lt;link&gt;</code> 元素上有效。支持的值取决于拥有该属性的元素。</p><p><code>preload和prefetch</code>是浏览器提供的两种对静态资源预下载的方式，对于优化页面的渲染速度是很有作用的。</p><h3>preload - 立即下载</h3><p>preload针对的是当前页面需要加载的资源，使用preload加载的资源会提前下载，但是并不会立即执行，<code>而且等到使用的时候才会执行</code>。</p><p><strong>preload 使用方式</strong></p><p>preload是<link>元素中rel属性的一个值，所以需要使用link标签来实现资源的预加载</p><pre class="code-block"><code class="language-html">&lt;link rel=&quot;preload&quot; as=&quot;script&quot; href=&#39;https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js&#39;&gt;
+</code></pre><p>对于预加载的资源来说，一般需要设置以下三个属性：</p><ul><li><code>rel</code>: preload或者prefetch，表示预加载的方式。必填（rel的值很多，这里只考虑预加载的情况）</li><li><code>as</code>: 表示预加载资源的类型。必填</li><li><code>href</code>: 表示预加载资源的地址。必填</li></ul><p>当预加载的是字体资源时，必须加上<code>crossorigin</code>属性</p><p><strong>preload的好处</strong></p><ul><li>能够分离资源的下载和执行</li><li>能够提高资源的下载优先级</li><li>能够支持多种资源的预下载，比如脚本，样式，图片等等</li></ul><p><strong>preload VS defer</strong></p><p>和preload一样，defer的script资源也会将下载和执行过程分离。不同的是，preload的资源是由开发者来确定何时执行，defer的script资源是由浏览器来决定何时执行。</p><p>除此之外，defer和preload相比还有以下缺点：</p><p>只能支持script资源</p><p><strong>preload VS 预解析操作</strong></p><p>在分析页面渲染流程的时候我们提到过浏览器的一个优化操作，就是预解析操作。当浏览器获取到HTML文件之后，会分析其中依赖哪些外部资源，并提前下载这些外部资源。</p><p>看上去这个功能和preload基本上是一样的，可以达到同样的效果。</p><p>但是浏览器预解析操作有一个缺陷：就是只能预下载HTML文件中引入的静态资源，对于当前页面动态加载的资源是无能为力的。但是preload可以解析这个问题。</p><h3>prefetch - 有空才下载</h3><p>prefetch针对的资源是用户下个浏览的页面需要的资源，可以在当前页面开始预下载，提高下个页面渲染的速度。</p><p>在使用上，prefetch和preload基本是一致的。</p><h3>preload VS prefetch</h3><p>preload 和 prefetch在使用上是有很大的不同的。</p><ul><li><strong>preload针对的资源是当前页面需要的资源，下载的优先级很高</strong></li><li><strong>prefetch针对的资源是下个页面需要的资源，下载的优先级很低，有空的时候才下载</strong></li></ul><p>所以开发者是使用的时候需要区分场景，避免浪费用户的带宽资源。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

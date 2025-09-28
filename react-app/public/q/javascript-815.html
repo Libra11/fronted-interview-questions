@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>0.1 + 0.2 不等于 0.3 这是什么原因，要怎么解决【热度: 389】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：精度计算&lt;/p&gt;&lt;p&gt;在 JavaScript 中，&lt;code&gt;0.1 + 0.2&lt;/code&gt; 不等于 &lt;code&gt;0.3&lt;/code&gt; 的原因是浮点数的精度问题。&lt;/p&gt;&lt;p&gt;在计算机中，浮点数采用二进制存储，而有些十进制小数无" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="0.1 + 0.2 不等于 0.3 这是什么原因，要怎么解决【热度: 389】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：精度计算&lt;/p&gt;&lt;p&gt;在 JavaScript 中，&lt;code&gt;0.1 + 0.2&lt;/code&gt; 不等于 &lt;code&gt;0.3&lt;/code&gt; 的原因是浮点数的精度问题。&lt;/p&gt;&lt;p&gt;在计算机中，浮点数采用二进制存储，而有些十进制小数无法精确地用二进制表示。&lt;code&gt;0.1&lt;/code&gt; 和 &lt;code&gt;0.2&lt;/code&gt; 在二进制表示中是无限循环的" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/815" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>0.1 + 0.2 不等于 0.3 这是什么原因，要怎么解决【热度: 389】</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2024-08-10T04:10:34Z · 更新：2025-07-10T09:14:15Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：精度计算</p><p>在 JavaScript 中，<code>0.1 + 0.2</code> 不等于 <code>0.3</code> 的原因是浮点数的精度问题。</p><p>在计算机中，浮点数采用二进制存储，而有些十进制小数无法精确地用二进制表示。<code>0.1</code> 和 <code>0.2</code> 在二进制表示中是无限循环的，在进行运算时会产生舍入误差。</p><p>要解决这个问题，可以使用以下方法：</p><ol><li>使用 <code>Number.EPSILON</code> 来比较两个浮点数是否接近：</li></ol><pre class="code-block"><code class="language-javascript">function numbersAreCloseEnough(num1, num2) {
+  return Math.abs(num1 - num2) &lt; Number.EPSILON;
+}
+
+let result = 0.1 + 0.2;
+console.log(numbersAreCloseEnough(result, 0.3));
+</code></pre><ol><li>将浮点数乘以一个适当的倍数转换为整数进行计算，计算完成后再除以这个倍数转换回浮点数：</li></ol><pre class="code-block"><code class="language-javascript">let num1 = 0.1 * 10;
+let num2 = 0.2 * 10;
+let sum = (num1 + num2) / 10;
+console.log(sum === 0.3);
+</code></pre><ol><li>使用第三方库，如 <code>decimal.js</code> ，它提供了更精确的十进制运算：</li></ol><pre class="code-block"><code class="language-javascript">const Decimal = require(&quot;decimal.js&quot;);
+
+let num1 = new Decimal(&quot;0.1&quot;);
+let num2 = new Decimal(&quot;0.2&quot;);
+let sum = num1.plus(num2);
+console.log(sum.eq(0.3));
+</code></pre><p>这些方法可以帮助您在处理浮点数运算时更准确地得到预期的结果。</p><h2>Comments / Answers</h2><hr /><p><strong>chang0022</strong> at 2025-07-10T09:14:15Z</p><p>方法二不是完全正确的。问题的根源很清楚，那么浮点的加减乘除都会出现问题的。</p><pre class="code-block"><code>const a = 64.99 * 100;
+const b = 0.21 * 100;
+const sum = (a + b) / 100;
+
+console.log(sum === 65.2); // false
+</code></pre><p><img width="406" height="258" alt="Image" src="https://github.com/user-attachments/assets/fd6e6bdc-8464-4910-a667-0f2d11dfda4e" /></p><p>遇到浮点数的问题，用 <code>decimal.js</code> 或者 <code>bn.js</code> 库</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

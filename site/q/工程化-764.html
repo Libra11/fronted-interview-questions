@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Webpack] 多入口打包共享模块【热度: 337】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：webpack 多入口共享模块&lt;/p&gt;&lt;p&gt;默认情况下，每个入口 chunk 保存了全部其用的模块(modules)。使用 dependOn 选项你可以与另一个入口 chunk 共享模块:&lt;/p&gt;&lt;pre class=&quot;code-b" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Webpack] 多入口打包共享模块【热度: 337】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：webpack 多入口共享模块&lt;/p&gt;&lt;p&gt;默认情况下，每个入口 chunk 保存了全部其用的模块(modules)。使用 dependOn 选项你可以与另一个入口 chunk 共享模块:&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;module.exports = { //... ent" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/764" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Webpack] 多入口打包共享模块【热度: 337】</h1>
+      <div class="subtitle">工程化 · 工程化 · TOP100互联网</div>
+      <div class="meta">创建：2024-05-26T02:26:42Z · 更新：2024-05-26T02:26:43Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：webpack 多入口共享模块</p><p>默认情况下，每个入口 chunk 保存了全部其用的模块(modules)。使用 dependOn 选项你可以与另一个入口 chunk 共享模块:</p><pre class="code-block"><code class="language-js">module.exports = {
+  //...
+  entry: {
+    app: { import: &quot;./app.js&quot;, dependOn: &quot;react-vendors&quot; },
+    &quot;react-vendors&quot;: [&quot;react&quot;, &quot;react-dom&quot;, &quot;prop-types&quot;],
+  },
+};
+</code></pre><p>app 这个 chunk 就不会包含 react-vendors 拥有的模块了.</p><p>dependOn 选项的也可以为字符串数组：</p><pre class="code-block"><code class="language-js">module.exports = {
+  //...
+  entry: {
+    moment: { import: &quot;moment-mini&quot;, runtime: &quot;runtime&quot; },
+    reactvendors: { import: [&quot;react&quot;, &quot;react-dom&quot;], runtime: &quot;runtime&quot; },
+    testapp: {
+      import: &quot;./wwwroot/component/TestApp.tsx&quot;,
+      dependOn: [&quot;reactvendors&quot;, &quot;moment&quot;],
+    },
+  },
+};
+</code></pre><p>此外，你还可以使用数组为每个入口指定多个文件：</p><pre class="code-block"><code class="language-js">module.exports = {
+  //...
+  entry: {
+    app: { import: [&quot;./app.js&quot;, &quot;./app2.js&quot;], dependOn: &quot;react-vendors&quot; },
+    &quot;react-vendors&quot;: [&quot;react&quot;, &quot;react-dom&quot;, &quot;prop-types&quot;],
+  },
+};
+</code></pre><p><strong>看一个完整案例</strong></p><pre class="code-block"><code class="language-js">module.exports = {
+  //...
+  entry: {
+    home: &quot;./home.js&quot;,
+    shared: [&quot;react&quot;, &quot;react-dom&quot;, &quot;redux&quot;, &quot;react-redux&quot;],
+    catalog: {
+      import: &quot;./catalog.js&quot;,
+      filename: &quot;pages/catalog.js&quot;,
+      dependOn: &quot;shared&quot;,
+      chunkLoading: false, // Disable chunks that are loaded on demand and put everything in the main chunk.
+    },
+    personal: {
+      import: &quot;./personal.js&quot;,
+      filename: &quot;pages/personal.js&quot;,
+      dependOn: &quot;shared&quot;,
+      chunkLoading: &quot;jsonp&quot;,
+      asyncChunks: true, // Create async chunks that are loaded on demand.
+      layer: &quot;name of layer&quot;, // set the layer for an entry point
+    },
+  },
+};
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

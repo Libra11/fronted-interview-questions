@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>vite 与 esbuild 是关系【热度: 55】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：vite 与 esbuild&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;Vite 对 Esbuild 的依赖关系（构建阶段）&lt;/strong&gt;&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;代码转换和打包工具&lt;/strong&gt;：在 " />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="vite 与 esbuild 是关系【热度: 55】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：vite 与 esbuild&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;Vite 对 Esbuild 的依赖关系（构建阶段）&lt;/strong&gt;&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;代码转换和打包工具&lt;/strong&gt;：在 Vite 的构建过程（&lt;code&gt;vite build&lt;/code&gt;）中，Esbuild 扮演了重要的角色。Esbuil" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1089" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>vite 与 esbuild 是关系【热度: 55】</h1>
+      <div class="subtitle">工程化 · 工程化 · 阿里巴巴</div>
+      <div class="meta">创建：2025-01-09T16:09:00Z · 更新：2025-03-27T07:54:49Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：vite 与 esbuild</p><ol><li><strong>Vite 对 Esbuild 的依赖关系（构建阶段）</strong></li></ol><ul><li><strong>代码转换和打包工具</strong>：在 Vite 的构建过程（<code>vite build</code>）中，Esbuild 扮演了重要的角色。Esbuild 是一个超高速的 JavaScript 打包器，Vite 利用 Esbuild 来进行代码的转换和初步打包。它能够快速地将 ES 模块（ESM）进行处理，如解析<code>import</code>和<code>export</code>语句，把多个模块合并成一个或多个输出文件。</li><li><strong>性能优势体现</strong>：Esbuild 的高性能主要体现在其使用 Go 语言编写，具有高度并行化的编译能力。相比传统的打包工具，它能够以极快的速度完成任务。例如，在处理大型项目中的大量 JavaScript 模块时，Esbuild 可以在很短的时间内完成打包工作，这对于 Vite 在构建阶段提高效率非常有帮助。</li></ul><ol><li><strong>功能协作关系（在 Vite 生态中的角色）</strong></li></ol><ul><li><strong>与 Vite 插件的协作</strong>：Vite 有丰富的插件生态系统，Esbuild 可以和这些插件协作来完成更复杂的构建任务。例如，在处理 CSS、TS（TypeScript）等文件时，Vite 插件可以在 Esbuild 的基础上进行进一步的处理。当 Esbuild 完成对 JavaScript 模块的初步打包后，Vite 插件可以对打包后的文件进行优化，如压缩、添加代码注释等操作。</li><li><strong>在不同模块类型处理中的分工</strong>：对于不同类型的模块，Vite 和 Esbuild 有不同的处理方式。Esbuild 主要专注于 JavaScript 模块的快速打包和转换，而 Vite 则负责整体的构建流程协调，包括对 CSS 文件的处理（如解析<code>@import</code>语句）、静态资源的处理（如图片、字体的加载路径优化）以及模块热替换（HMR）等开发阶段的功能。例如，在处理一个包含 JavaScript、CSS 和图片的项目时，Esbuild 会快速打包 JavaScript 模块，Vite 则会确保 CSS 正确加载并且图片资源能够被正确引用。</li></ul><ol><li><strong>Vite 开发阶段与 Esbuild 的关联（相对较弱）</strong></li></ol><ul><li><strong>开发模式下的功能侧重不同</strong>：在 Vite 开发阶段，其主要利用浏览器原生 ES 模块的支持来实现快速的模块加载和模块热替换，Esbuild 的打包功能在这个阶段没有像在构建阶段那样被大量使用。Vite 开发服务器会在浏览器请求模块时即时提供相应的 ES 模块文件，而不是依赖 Esbuild 进行预先打包。</li><li><strong>潜在的间接关联</strong>：不过，在开发阶段，Vite 的一些配置选项和底层机制可能会和 Esbuild 产生间接关联。例如，在配置<code>vite.config.js</code>文件时，一些关于模块解析、路径别名等设置可能会影响到后续构建阶段 Esbuild 的工作方式。同时，开发阶段对模块的处理方式也为构建阶段 Esbuild 的高效打包提供了基础，如准确的模块依赖关系等信息。</li></ul><h2>Comments / Answers</h2><hr /><p><strong>LIBai11</strong> at 2025-03-27T07:54:49Z</p><p>Vite 目前使用 esbuild 进行依赖预打包（dependency pre-bundling），使用 Rollup 进行生产构建。</p><p><a href="url" target="_blank" rel="noopener">https://vite.dev/guide/dep-pre-bundling.html</a></p><p><a href="url" target="_blank" rel="noopener">https://cn.vite.dev/guide/why.html#why-not-bundle-with-esbuild</a></p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

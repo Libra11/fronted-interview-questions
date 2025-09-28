@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] 类组件中，为什么修改状态要使用 setState 而不是用 this.state.xxx = xxx【热度: 414】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：react state 问题&lt;/p&gt;&lt;p&gt;在 React 类组件中，状态（state）是组件的局部状态，你可以通过调用 &lt;code&gt;setState&lt;/code&gt; 方法来异步更新组件的状态。有几个重要原因解释了为什么在 React " />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] 类组件中，为什么修改状态要使用 setState 而不是用 this.state.xxx = xxx【热度: 414】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：react state 问题&lt;/p&gt;&lt;p&gt;在 React 类组件中，状态（state）是组件的局部状态，你可以通过调用 &lt;code&gt;setState&lt;/code&gt; 方法来异步更新组件的状态。有几个重要原因解释了为什么在 React 类组件中应该使用 &lt;code&gt;setState&lt;/code&gt; 而不是直接修改 &lt;code&gt;this.state&lt;/cod" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/835" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] 类组件中，为什么修改状态要使用 setState 而不是用 this.state.xxx = xxx【热度: 414】</h1>
+      <div class="subtitle">TOP100互联网 · web框架 · TOP100互联网</div>
+      <div class="meta">创建：2024-08-18T02:49:11Z · 更新：2024-08-18T02:49:11Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：react state 问题</p><p>在 React 类组件中，状态（state）是组件的局部状态，你可以通过调用 <code>setState</code> 方法来异步更新组件的状态。有几个重要原因解释了为什么在 React 类组件中应该使用 <code>setState</code> 而不是直接修改 <code>this.state</code>：</p><h3>1. <strong>保证状态的不可变性（Immutability）</strong></h3><p>React 强烈建议开发人员保持状态（state）的不可变性。这意味着状态不应被直接修改，而应该通过创建一个新的状态对象来更新。直接修改 <code>this.state</code> 不遵循不可变性原则，这可能会导致未定义的行为和性能问题。</p><h3>2. <strong>状态更新是异步的</strong></h3><p>React 可能会将多个 <code>setState</code> 调用批量处理为一个更新，以优化性能。因为 <code>setState</code> 是异步的，所以这意呀着在调用 <code>setState</code> 之后立即读取 <code>this.state</code> 可能不会返回预期的值。如果直接修改 <code>this.state</code>，则无法利用 React 的异步更新和批量处理机制。</p><h3>3. <strong>组件重新渲染</strong></h3><p><code>setState</code> 方法不仅更新状态，而且还告诉 React 该组件及其子组件需要重新渲染，以反映状态的变化。直接修改 <code>this.state</code> 不会触发组件的重新渲染，因此即使状态发生了变化，用户界面也不会更新。</p><h3>4. <strong>可预测的状态变更</strong></h3><p>使用 <code>setState</code> 方法可以确保所有状态更新都有一个清晰、可预测的流程。这使得调试和理解组件的行为变得更加容易。同时，<code>setState</code> 还提供了一个回调函数，只有在状态更新和组件重新渲染完成后，这个回调函数才会被执行，这样就可以安全地操作更新后的状态。</p><h3>5. <strong>合并状态更新</strong></h3><p>当你调用 <code>setState</code>，React 会将你提供的对象合并到当前状态中。这是一种浅合并（shallow merge），意味着只合并顶层属性，而不会影响到嵌套的状态。这种行为让状态更新变得简单而直接。如果直接修改 <code>this.state</code>，则需要手动处理这种合并逻辑。</p><p>因为以上原因，建议遵循 React 的最佳实践，即通过 <code>setState</code> 方法而不是直接修改 <code>this.state</code> 来更新组件的状态。这样可以保证应用的性能、可维护性和可预测性。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

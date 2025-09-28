@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[vue] vue 是怎么解析template的? template会变成什么?【热度: 175】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：[vue] template 解析&lt;/p&gt;&lt;p&gt;Vue.js在解析和编译模板时，会经过以下过程：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;解析模板：Vue.js使用自定义的HTML解析器将模板解析成抽象语法树（AST）。解析器会分析模板中的HTML标" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[vue] vue 是怎么解析template的? template会变成什么?【热度: 175】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：[vue] template 解析&lt;/p&gt;&lt;p&gt;Vue.js在解析和编译模板时，会经过以下过程：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;解析模板：Vue.js使用自定义的HTML解析器将模板解析成抽象语法树（AST）。解析器会分析模板中的HTML标记、指令、表达式和事件等内容，并构建出一颗表示模板结构的AST。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li&gt;静态优化：在生成AS" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/380" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[vue] vue 是怎么解析template的? template会变成什么?【热度: 175】</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2023-05-29T14:42:01Z · 更新：2023-05-29T15:28:45Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：[vue] template 解析</p><p>Vue.js在解析和编译模板时，会经过以下过程：</p><ol><li>解析模板：Vue.js使用自定义的HTML解析器将模板解析成抽象语法树（AST）。解析器会分析模板中的HTML标记、指令、表达式和事件等内容，并构建出一颗表示模板结构的AST。</li></ol><ol><li>静态优化：在生成AST的过程中，Vue.js会对静态内容进行优化。静态内容是指在编译过程中不会发生变化的部分，例如纯文本内容。Vue.js会将静态内容标记为静态节点，以在后续更新过程中跳过对其的处理，提高性能。</li></ol><ol><li>编译为渲染函数：Vue.js将AST编译为渲染函数。渲染函数是一个JavaScript函数，它接收数据作为参数，并返回一个虚拟DOM（VNode）树，用于渲染组件的视图。</li></ol><ol><li>渲染视图：当组件的数据发生变化时，渲染函数会被调用，生成新的虚拟DOM树。Vue.js会通过比较新旧虚拟DOM树的差异，计算出需要更新的部分，并将其应用到实际的DOM上，从而更新组件的视图。</li></ol><p>在上述过程中，模板会被转换成一个渲染函数。渲染函数可以是以下几种形式之一：</p><ul><li>使用<code>render</code>方法编写的渲染函数：在组件中定义了一个<code>render</code>方法，该方法返回一个虚拟DOM树。</li><li>使用单文件组件（.vue文件）：Vue.js提供了单文件组件的支持，其中的<code>&lt;template&gt;</code>部分就是模板，通过编译转换为渲染函数。</li><li>使用Vue.js的模板语法：在Vue组件的<code>template</code>选项中使用Vue.js的模板语法，也会被编译为渲染函数。</li></ul><p>总之，Vue.js将模板解析为AST，然后根据AST生成渲染函数，最终通过渲染函数来渲染组件的视图。这个过程使得Vue.js能够高效地根据数据动态更新视图。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

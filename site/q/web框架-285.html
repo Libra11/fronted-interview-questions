@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] Hooks 实现原理是什么, 简单描述一下 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;在探索 useEffect 原理的时候，一直被一个问题困扰：useEffect 作用和用途是什么？当然，用于函数的副作用这句话谁都会讲。举个例子吧：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-typescript js" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] Hooks 实现原理是什么, 简单描述一下" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;在探索 useEffect 原理的时候，一直被一个问题困扰：useEffect 作用和用途是什么？当然，用于函数的副作用这句话谁都会讲。举个例子吧：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-typescript jsx&quot;&gt;function App() { const [num, setNum] = useState(0); useEf" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/285" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] Hooks 实现原理是什么, 简单描述一下</h1>
+      <div class="subtitle">web框架 · web框架 · 百度</div>
+      <div class="meta">创建：2023-04-13T16:38:09Z · 更新：2023-08-20T08:02:17Z</div>
+    </div>
+    <article class="content markdown-body"><p>在探索 useEffect 原理的时候，一直被一个问题困扰：useEffect 作用和用途是什么？当然，用于函数的副作用这句话谁都会讲。举个例子吧：</p><pre class="code-block"><code class="language-typescript jsx">function App() {
+  const [num, setNum] = useState(0);
+
+  useEffect(() =&gt; {
+    // 模拟异步请求后端数据
+    setTimeout(() =&gt; {
+      setNum(num + 1);
+    }, 1000);
+  }, []);
+
+  return &lt;div&gt;{!num ? &quot;请求后端数据...&quot; : `后端数据是 ${num}`}&lt;/div&gt;;
+}
+</code></pre><p>这段代码，虽然这样组织可读性更高，毕竟可以将这个请求理解为函数的副作用。<strong>但这并不是必要的</strong>。完全可以不使用<code>useEffect</code>，直接使用<code>setTimeout</code>，并且它的回调函数中更新函数组件的 state。</p><p>在 useEffect 的第二个参数中，我们可以指定一个数组，如果下次渲染时，数组中的元素没变，那么就不会触发这个副作用（可以类比 Class 类的关于 nextprops 和 prevProps 的生命周期）。好处显然易见，<strong>相比于直接裸写在函数组件顶层，useEffect 能根据需要，避免多余的 render</strong>。</p><p>下面是一个不包括销毁副作用功能的 useEffect 的 TypeScript 实现：</p><pre class="code-block"><code class="language-ini">// 还是利用 Array + Cursor的思路
+const allDeps: any[][] = [];
+let effectCursor: number = 0;
+
+function useEffect(callback: () =&gt; void, deps: any[]) {
+  if (!allDeps[effectCursor]) {
+    // 初次渲染：赋值 + 调用回调函数
+    allDeps[effectCursor] = deps;
+    ++effectCursor;
+    callback();
+    return;
+  }
+
+  const currenEffectCursor = effectCursor;
+  const rawDeps = allDeps[currenEffectCursor];
+  // 检测依赖项是否发生变化，发生变化需要重新render
+  const isChanged = rawDeps.some(
+    (dep: any, index: number) =&gt; dep !== deps[index]
+  );
+  if (isChanged) {
+    callback();
+    allDeps[effectCursor] = deps; // 感谢 juejin@carlzzz 的指正
+  }
+  ++effectCursor;
+}
+
+function render() {
+  ReactDOM.render(&lt;App /&gt;, document.getElementById(&quot;root&quot;));
+  effectCursor = 0; // 注意将 effectCursor 重置为0
+}
+
+</code></pre><p>对于 useEffect 的实现，配合下面案例的使用会更容易理解。当然，你也可以在这个 useEffect 中发起异步请求，并在接受数据后，调用 state 的更新函数，不会发生爆栈的情况。</p><pre class="code-block"><code class="language-typescript jsx">function App() {
+  const [num, setNum] = useState &lt; number &gt; 0;
+  const [num2] = useState &lt; number &gt; 1;
+
+  // 多次触发
+  // 每次点击按钮，都会触发 setNum 函数
+  // 副作用检测到 num 变化，会自动调用回调函数
+  useEffect(() =&gt; {
+    console.log(&quot;num update: &quot;, num);
+  }, [num]);
+
+  // 仅第一次触发
+  // 只会在compoentDidMount时，触发一次
+  // 副作用函数不会多次执行
+  useEffect(() =&gt; {
+    console.log(&quot;num2 update: &quot;, num2);
+  }, [num2]);
+
+  return (
+    &lt;div&gt;
+      &lt;div&gt;num: {num}&lt;/div&gt;
+      &lt;div&gt;
+        &lt;button onClick={() =&gt; setNum(num + 1)}&gt;加 1&lt;/button&gt;
+        &lt;button onClick={() =&gt; setNum(num - 1)}&gt;减 1&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+</code></pre><p>useEffect 第一个回调函数可以返回一个用于销毁副作用的函数，相当于 Class 组件的 unmount 生命周期。这里为了方便说明，没有进行实现。</p><p>参考文档：</p><ul><li>https://juejin.cn/post/6844903975838285838</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

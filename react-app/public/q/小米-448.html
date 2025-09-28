@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[代码实现] 手写实现一个缓存函数 memoize【热度: 787】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：缓存函数实现、memoize函数&lt;/p&gt;&lt;p&gt;用于创建一个带有缓存功能的函数。下面是一个简化版本的手写实现，展示了如何自己实现 &lt;code&gt;memoize&lt;/code&gt; 函数：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[代码实现] 手写实现一个缓存函数 memoize【热度: 787】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：缓存函数实现、memoize函数&lt;/p&gt;&lt;p&gt;用于创建一个带有缓存功能的函数。下面是一个简化版本的手写实现，展示了如何自己实现 &lt;code&gt;memoize&lt;/code&gt; 函数：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;function memoize(func) { c" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/448" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[代码实现] 手写实现一个缓存函数 memoize【热度: 787】</h1>
+      <div class="subtitle">小米 · 小米 · 代码实现/算法</div>
+      <div class="meta">创建：2023-06-12T15:45:47Z · 更新：2023-09-06T15:52:23Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：缓存函数实现、memoize函数</p><p>用于创建一个带有缓存功能的函数。下面是一个简化版本的手写实现，展示了如何自己实现 <code>memoize</code> 函数：</p><pre class="code-block"><code class="language-javascript">function memoize(func) {
+  const cache = {};
+
+  return function (...args) {
+    const key = JSON.stringify(args);
+
+    if (cache[key]) {
+      return cache[key];
+    }
+
+    const result = func.apply(this, args);
+    cache[key] = result;
+
+    return result;
+  };
+}
+
+// 示例用法
+const expensiveFunction = memoize(function (n) {
+  console.log(&#39;Computing...&#39;);
+  return n * 2;
+});
+
+console.log(expensiveFunction(5)); // 第一次调用，输出：Computing... 10
+console.log(expensiveFunction(5)); // 第二次调用，直接从缓存中获取结果，输出：10
+console.log(expensiveFunction(10)); // 新的参数，再次计算并缓存结果，输出：Computing... 20
+console.log(expensiveFunction(10)); // 再次调用，直接从缓存中获取结果，输出：20
+</code></pre><p>上述代码中的 <code>memoize</code> 函数接受一个函数 <code>func</code> 作为参数，并返回一个新的函数。返回的函数具有缓存的能力，即根据参数的不同缓存计算结果。</p><p>在返回的函数内部，首先将传入的参数 <code>args</code> 转换成一个唯一的字符串 <code>key</code>，以便作为缓存对象 <code>cache</code> 然后检查 <code>cache</code> 对象中是否存在对应的缓存结果，如果存在直接返回缓存结果，否则执行原始函数 <code>func</code> 并将结果缓存起来。</p><p>通过这种方式，对于相同的参数，后续的调用将直接从缓存中获取结果，而不会再次执行函数。这样可以避免重复计算，提高函数的性能。</p><p>在示例中，我们创建了一个名为 <code>expensiveFunction</code> 的函数，并使用 <code>memoize</code> 进行包装。第一次调用时，函数会执行计算，并输出 <code>&quot;Computing...&quot;</code>，结果为 10。第二次调用时，函数直接从缓存中获取结果，无需再次计算。最后两次调用分别使用了不同的参数，会触发新的计算并缓存结果。</p><p>需要注意的是，这个手写的 <code>memoize</code> 函数是一个简化版本，仅适用于参数为基本类型的情况。对于参数为复杂类型（如对象、数组等）的情况，需要使用更复杂的缓存键值生成方法，以确保正确的缓存行为。此外，实际的 Lodash 库中的 <code>memoize</code> 函数还提供了其他选项和功能，例如自定义缓存键生成函数、缓存过期时间等。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

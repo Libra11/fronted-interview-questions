@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HTTP/1.0、HTTP/1.1、HTTP/2和HTTP/3之间的主要区别【热度: 1,447】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：HTTP各版本之间区别&lt;/p&gt;&lt;p&gt;下面是一个表格，展示了HTTP/1.0、HTTP/1.1、HTTP/2和HTTP/3之间的主要区别：&lt;/p&gt;&lt;p&gt;| 特点 | HTTP/1.0 | HTTP/1.1 | HTTP/2 | HTT" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="HTTP/1.0、HTTP/1.1、HTTP/2和HTTP/3之间的主要区别【热度: 1,447】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：HTTP各版本之间区别&lt;/p&gt;&lt;p&gt;下面是一个表格，展示了HTTP/1.0、HTTP/1.1、HTTP/2和HTTP/3之间的主要区别：&lt;/p&gt;&lt;p&gt;| 特点 | HTTP/1.0 | HTTP/1.1 | HTTP/2 | HTTP/3 |&lt;/p&gt;&lt;p&gt;|----------------|------------------------------" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/528" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>HTTP/1.0、HTTP/1.1、HTTP/2和HTTP/3之间的主要区别【热度: 1,447】</h1>
+      <div class="subtitle">网络 · 网络 · 腾讯</div>
+      <div class="meta">创建：2023-08-22T16:40:50Z · 更新：2023-08-22T16:41:19Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：HTTP各版本之间区别</p><p>下面是一个表格，展示了HTTP/1.0、HTTP/1.1、HTTP/2和HTTP/3之间的主要区别：</p><p>| 特点           | HTTP/1.0                          | HTTP/1.1                          | HTTP/2                          | HTTP/3                          |</p><p>|----------------|-------------------------------|-------------------------------|-------------------------------|-------------------------------|</p><p>| 并发请求         | 不支持并发请求                        | 支持有限的并发请求                        | 引入多路复用(Multiplexing)，支持更高级别的并发请求        | 引入QUIC协议，通过多路复用和UDP传输支持更高级别的并发请求 |</p><p>| 请求头压缩        | 不支持                           | 不支持                           | 引入HPACK算法对请求头进行压缩               | 引入QPACK算法对请求头进行压缩               |</p><p>| 二进制传输        | 不支持                           | 不支持                           | 使用二进制格式传输数据                    | 使用二进制格式传输数据                    |</p><p>| 流控制          | 不支持                           | 不支持                           | 支持流控制，可以控制每个流的数据传输速率          | 支持流控制，可以控制每个流的数据传输速率          |</p><p>| 服务器推送        | 不支持                           | 不支持                           | 引入服务器推送机制，服务器可以主动推送资源给客户端       | 引入服务器推送机制，服务器可以主动推送资源给客户端       |</p><p>| 连接复用         | 不支持                           | 支持持久连接                        | 支持多路复用，多个请求可以通过单个连接并行处理        | 支持多路复用，多个请求可以通过单个连接并行处理        |</p><p>| 安全性          | 不支持                           | 引入HTTPS协议，支持加密传输                | 引入HTTPS协议，支持加密传输                | 引入HTTPS协议，支持加密传输                |</p><p>| 可靠性          | 不支持                           | 不支持                           | 支持头部压缩、流控制和服务器推送，提升传输的可靠性      | 引入QUIC协议，通过UDP传输提升传输的可靠性             |</p><p>| 开发复杂性        | 简单                            | 对开发者较友好                        | 引入了新的概念和协议，对开发者相对复杂             | 依赖QUIC协议，对开发者相对复杂                  |</p><p>| 缓存机制              | 支持简单的请求响应缓存                           | 引入了更强大的缓存控制机制，如ETag、Cache-Control等          | 引入了新的缓存机制，如Server Push、Priority等           | 类似HTTP/2，但通过QUIC对底层的传输进行了优化                  |</p><p>| 底层协议              | 基于TCP                             | 基于TCP                             | 基于TCP或基于TLS的加密传输                  | 基于QUIC（Quick UDP Internet Connections）    |</p><p>| 连接管理              | 每个请求/响应都需要建立和关闭连接                       | 引入了持久连接，通过keep-alive头部保持连接            | 通过单个连接并行处理多个请求/响应                   | 通过QUIC的连接复用和多路复用进行处理                |</p><p>| 传输效率              | 每个请求/响应都需要耗费时间来建立和关闭连接，浪费带宽               | 连接复用有助于减少建立连接的开销，并提高传输效率             | 通过多路复用、头部压缩等机制提高传输效率                | 通过QUIC的特性如连接复用、多路复用等提高传输效率           |</p><p>| 对丢包和延迟的影响        | 对丢包和延迟的恢复较慢。一个请求阻塞可能导致后续请求也受到影响           | 对丢包和延迟的恢复较快。使用流的方式可以并行处理请求          | 对丢包和延迟的恢复较快。使用流的方式可以并行处理请求          | 对丢包和延迟的恢复较快，QUIC通过UDP传输有利于降低延迟和丢包的影响  |</p><p>| 适用场景              | 简单的Web页面和静态资源                            | 大多数Web应用程序                          | 复杂的Web应用程序，需要更高的传输效率               | 复杂的Web应用程序，需要更高的传输效率和减少延迟          |</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

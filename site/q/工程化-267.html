@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Webpack] webpack热更新原理是什么？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;blockquote&gt; &lt;code&gt;Hot Module Replacement&lt;/code&gt;，简称&lt;code&gt;HMR&lt;/code&gt;，无需完全刷新整个页面的同时，更新模块。&lt;code&gt;HMR&lt;/code&gt;的好处，在日常开发工作中体会颇深：&lt;strong&gt;节省宝贵的开发时间、提升" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Webpack] webpack热更新原理是什么？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;blockquote&gt; &lt;code&gt;Hot Module Replacement&lt;/code&gt;，简称&lt;code&gt;HMR&lt;/code&gt;，无需完全刷新整个页面的同时，更新模块。&lt;code&gt;HMR&lt;/code&gt;的好处，在日常开发工作中体会颇深：&lt;strong&gt;节省宝贵的开发时间、提升开发体验&lt;/strong&gt;。&lt;/blockquote&gt;&lt;p&gt;刷新我们一般分为两种：&lt;/p&gt;&lt;ul&gt;&lt;li&gt;一种是页面刷新" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/267" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Webpack] webpack热更新原理是什么？</h1>
+      <div class="subtitle">工程化 · 工程化</div>
+      <div class="meta">创建：2023-04-09T04:38:38Z · 更新：2024-05-26T06:11:01Z</div>
+    </div>
+    <article class="content markdown-body"><blockquote> <code>Hot Module Replacement</code>，简称<code>HMR</code>，无需完全刷新整个页面的同时，更新模块。<code>HMR</code>的好处，在日常开发工作中体会颇深：<strong>节省宝贵的开发时间、提升开发体验</strong>。</blockquote><p>刷新我们一般分为两种：</p><ul><li>一种是页面刷新，不保留页面状态，就是简单粗暴，直接<code>window.location.reload()</code>。</li><li>另一种是基于<code>WDS (Webpack-dev-server)</code>的模块热替换，只需要局部刷新页面上发生变化的模块，同时可以保留当前的页面状态，比如复选框的选中状态、输入框的输入等。</li></ul><p><code>HMR</code>作为一个<code>Webpack</code>内置的功能，可以通过<code>HotModuleReplacementPlugin</code>或<code>--hot</code>开启。那么，<code>HMR</code>到底是怎么实现热更新的呢？下面让我们来了解一下吧！</p><h3>1. webpack-dev-server启动本地服务</h3><p>我们根据<code>webpack-dev-server</code>的<code>package.json</code>中的<code>bin</code>命令，可以找到命令的入口文件<code>bin/webpack-dev-server.js</code>。</p><pre class="code-block"><code class="language-pgsql">// node_modules/webpack-dev-server/bin/webpack-dev-server.js
+
+// 生成webpack编译主引擎 compiler
+let compiler = webpack(config);
+
+// 启动本地服务
+let server = new Server(compiler, options, log);
+server.listen(options.port, options.host, (err) =&gt; {
+    if (err) {throw err};
+});
+</code></pre><p>本地服务代码：</p><pre class="code-block"><code class="language-javascript">// node_modules/webpack-dev-server/lib/Server.js
+class Server {
+    constructor() {
+        this.setupApp();
+        this.createServer();
+    }
+
+    setupApp() {
+        // 依赖了express
+    	this.app = new express();
+    }
+
+    createServer() {
+        this.listeningApp = http.createServer(this.app);
+    }
+    listen(port, hostname, fn) {
+        return this.listeningApp.listen(port, hostname, (err) =&gt; {
+            // 启动express服务后，启动websocket服务
+            this.createSocketServer();
+        }
+    }
+}
+</code></pre><p>这一小节代码主要做了三件事：</p><ul><li>启动<code>webpack</code>，生成<code>compiler</code>实例。<code>compiler</code>上有很多方法，比如可以启动 <code>webpack</code> 所有<strong>编译</strong>工作，以及<strong>监听</strong>本地文件的变化。</li><li>使用<code>express</code>框架启动本地<code>server</code>，让浏览器可以请求本地的<strong>静态资源</strong>。</li><li>本地<code>server</code>启动之后，再去启动<code>websocket</code>服务，如果不了解<code>websocket</code>，建议简单了解一下<a href="https://link.juejin.cn?target=https%3A%2F%2Fwww.ruanyifeng.com%2Fblog%2F2017%2F05%2Fwebsocket.html %22https://www.ruanyifeng.com/blog/2017/05/websocket.html%22" target="_blank" rel="noopener">websocket速成</a>。通过<code>websocket</code>，可以建立本地服务和浏览器的双向通信。这样就可以实现当本地文件发生变化，立马告知浏览器可以热更新代码啦！</li></ul><p>上述代码主要干了三件事，但是源码在启动服务前又做了很多事，接下来便看看<code>webpack-dev-server/lib/Server.js</code>还做了哪些事？</p><h3>2. 修改webpack.config.js的entry配置</h3><p>启动本地服务前，调用了<code>updateCompiler(this.compiler)</code>方法。这个方法中有 2 段关键性代码。一个是获取<code>websocket</code>客户端代码路径，另一个是根据配置获取<code>webpack</code>热更新代码路径。</p><pre class="code-block"><code class="language-javascript">// 获取websocket客户端代码
+const clientEntry = `${require.resolve(
+    &#39;../../client/&#39;
+)}?${domain}${sockHost}${sockPath}${sockPort}`;
+
+// 根据配置获取热更新代码
+let hotEntry;
+if (options.hotOnly) {
+    hotEntry = require.resolve(&#39;webpack/hot/only-dev-server&#39;);
+} else if (options.hot) {
+    hotEntry = require.resolve(&#39;webpack/hot/dev-server&#39;);
+}
+</code></pre><p>修改后的<code>webpack</code>入口配置如下：</p><pre class="code-block"><code class="language-awk">// 修改后的entry入口
+{ entry:
+    { index:
+        [
+            // 上面获取的clientEntry
+            &#39;xxx/node_modules/webpack-dev-server/client/index.js?http://localhost:8080&#39;,
+            // 上面获取的hotEntry
+            &#39;xxx/node_modules/webpack/hot/dev-server.js&#39;,
+            // 开发配置的入口
+            &#39;./src/index.js&#39;
+    	],
+    },
+}      
+</code></pre><p>为什么要新增了 2 个文件？在入口默默增加了 2 个文件，那就意味会一同打包到<code>bundle</code>文件中去，也就是线上运行时。</p><p><strong>（1）webpack-dev-server/client/index.js</strong></p><p>首先这个文件用于<code>websocket</code>的，因为<code>websoket</code>是双向通信，如果不了解<code>websocket</code>，建议简单了解一下<a href="https://link.juejin.cn?target=https%3A%2F%2Fwww.ruanyifeng.com%2Fblog%2F2017%2F05%2Fwebsocket.html %22https://www.ruanyifeng.com/blog/2017/05/websocket.html%22" target="_blank" rel="noopener">websocket速成</a>。我们在第 1 步 <code>webpack-dev-server</code>初始化 的过程中，启动的是本地服务端的<code>websocket</code>。那客户端也就是我们的浏览器，浏览器还没有和服务端通信的代码呢？总不能让开发者去写吧hhhhhh。因此我们需要把<code>websocket</code>客户端通信代码偷偷塞到我们的代码中。客户端具体的代码后面会在合适的时机细讲哦。</p><p><strong>（2）webpack/hot/dev-server.js</strong></p><p>这个文件主要是用于检查更新逻辑的，这里大家知道就好，代码后面会在合适的时机（<strong>第5步</strong>）细讲。</p><h3>3. 监听webpack编译结束</h3><p>修改好入口配置后，又调用了<code>setupHooks</code>方法。这个方法是用来注册监听事件的，监听每次<code>webpack</code>编译完成。</p><pre class="code-block"><code class="language-javascript">// node_modules/webpack-dev-server/lib/Server.js
+// 绑定监听事件
+setupHooks() {
+    const {done} = compiler.hooks;
+    // 监听webpack的done钩子，tapable提供的监听方法
+    done.tap(&#39;webpack-dev-server&#39;, (stats) =&gt; {
+        this._sendStats(this.sockets, this.getStats(stats));
+        this._stats = stats;
+    });
+};
+</code></pre><p>当监听到一次<code>webpack</code>编译结束，就会调用<code>_sendStats</code>方法通过<code>websocket</code>给浏览器发送通知，<code>ok</code>和<code>hash</code>事件，这样浏览器就可以拿到最新的<code>hash</code>值了，做检查更新逻辑。</p><pre class="code-block"><code class="language-reasonml">// 通过websoket给客户端发消息
+_sendStats() {
+    this.sockWrite(sockets, &#39;hash&#39;, stats.hash);
+    this.sockWrite(sockets, &#39;ok&#39;);
+}
+</code></pre><h3>4. webpack监听文件变化</h3><p>每次修改代码，就会触发编译。说明我们还需要监听本地代码的变化，主要是通过<code>setupDevMiddleware</code>方法实现的。</p><p>这个方法主要执行了<code>webpack-dev-middleware</code>库。很多人分不清<code>webpack-dev-middleware</code>和<code>webpack-dev-server</code>的区别。其实就是因为<code>webpack-dev-server</code>只负责启动服务和前置准备工作，所有文件相关的操作都抽离到<code>webpack-dev-middleware</code>库了，主要是本地文件的<strong>编译</strong>和<strong>输出</strong>以及<strong>监听</strong>，无非就是职责的划分更清晰了。</p><p>那我们来看下<code>webpack-dev-middleware</code>源码里做了什么事:</p><pre class="code-block"><code class="language-awk">// node_modules/webpack-dev-middleware/index.js
+compiler.watch(options.watchOptions, (err) =&gt; {
+    if (err) { /*错误处理*/ }
+});
+
+// 通过“memory-fs”库将打包后的文件写入内存
+setFs(context, compiler); 
+</code></pre><p>（1）调用了<code>compiler.watch</code>方法，在第 1 步中也提到过，<code>compiler</code>的强大。这个方法主要就做了 2 件事：</p><ul><li>首先对本地文件代码进行编译打包，也就是<code>webpack</code>的一系列编译流程。</li><li>其次编译结束后，开启对本地文件的监听，当文件发生变化，重新编译，编译完成之后继续监听。</li></ul><p>为什么代码的改动保存会自动编译，重新打包？这一系列的重新检测编译就归功于<code>compiler.watch</code>这个方法了。监听本地文件的变化主要是通过<strong>文件的生成时间</strong>是否有变化，这里就不细讲了。</p><p>（2）执行<code>setFs</code>方法，这个方法主要目的就是将编译后的文件打包到内存。这就是为什么在开发的过程中，你会发现<code>dist</code>目录没有打包后的代码，因为都在内存中。原因就在于访问内存中的代码比访问文件系统中的文件更快，而且也减少了代码写入文件的开销，这一切都归功于<code>memory-fs</code>。</p><h3>5. 浏览器接收到热更新的通知</h3><p>我们已经可以监听到文件的变化了，当文件发生变化，就触发重新编译。同时还监听了每次编译结束的事件。当监听到一次<code>webpack</code>编译结束，<code>_sendStats</code>方法就通过<code>websoket</code>给浏览器发送通知，检查下是否需要热更新。下面重点讲的就是<code>_sendStats</code>方法中的<code>ok</code>和<code>hash</code>事件都做了什么。</p><p>那浏览器是如何接收到<code>websocket</code>的消息呢？回忆下第 2 步骤增加的入口文件，也就是<code>websocket</code>客户端代码。</p><pre class="code-block"><code>&#39;xxx/node_modules/webpack-dev-server/client/index.js?http://localhost:8080&#39;
+</code></pre><p>这个文件的代码会被打包到<code>bundle.js</code>中，运行在浏览器中。来看下这个文件的核心代码吧。</p><pre class="code-block"><code class="language-js">// webpack-dev-server/client/index.js
+var socket = require(&#39;./socket&#39;);
+var onSocketMessage = {
+    hash: function hash(_hash) {
+        // 更新currentHash值
+        status.currentHash = _hash;
+    },
+    ok: function ok() {
+        sendMessage(&#39;Ok&#39;);
+        // 进行更新检查等操作
+        reloadApp(options, status);
+    },
+};
+// 连接服务地址socketUrl，?http://localhost:8080，本地服务地址
+socket(socketUrl, onSocketMessage);
+
+function reloadApp() {
+	if (hot) {
+        log.info(&#39;[WDS] App hot update...&#39;);
+
+        // hotEmitter其实就是EventEmitter的实例
+        var hotEmitter = require(&#39;webpack/hot/emitter&#39;);
+        hotEmitter.emit(&#39;webpackHotUpdate&#39;, currentHash);
+    }
+}
+</code></pre><p><code>socket</code>方法建立了<code>websocket</code>和服务端的连接，并注册了 2 个监听事件。</p><ul><li><code>hash</code>事件，更新最新一次打包后的<code>hash</code>值。</li><li><code>ok</code>事件，进行热更新检查。</li></ul><p>热更新检查事件是调用<code>reloadApp</code>方法。比较奇怪的是，这个方法又利用<code>node.js</code>的<code>EventEmitter</code>，发出<code>webpackHotUpdate</code>消息。这是为什么？为什么不直接进行检查更新呢？</p><p>个人理解就是为了更好的维护代码，以及职责划分的更明确。<code>websocket</code>仅仅用于客户端（浏览器）和服务端进行通信。而真正做事情的活还是交回给了<code>webpack</code>。</p><p>那<code>webpack</code>怎么做的呢？再来回忆下第 2 步。入口文件还有一个文件没有讲到，就是：</p><pre class="code-block"><code>&#39;xxx/node_modules/webpack/hot/dev-server.js&#39;
+</code></pre><p>这个文件的代码同样会被打包到<code>bundle.js</code>中，运行在浏览器中。这个文件做了什么就显而易见了吧！先瞄一眼代码：</p><pre class="code-block"><code class="language-javascript">// node_modules/webpack/hot/dev-server.js
+var check = function check() {
+    module.hot.check(true)
+        .then(function(updatedModules) {
+            // 容错，直接刷新页面
+            if (!updatedModules) {
+                window.location.reload();
+                return;
+            }
+
+            // 热更新结束，打印信息
+            if (upToDate()) {
+                log(&quot;info&quot;, &quot;[HMR] App is up to date.&quot;);
+            }
+    })
+        .catch(function(err) {
+            window.location.reload();
+        });
+};
+
+var hotEmitter = require(&quot;./emitter&quot;);
+hotEmitter.on(&quot;webpackHotUpdate&quot;, function(currentHash) {
+    lastHash = currentHash;
+    check();
+});
+</code></pre><p>这里<code>webpack</code>监听到了<code>webpackHotUpdate</code>事件，并获取最新了最新的<code>hash</code>值，然后终于进行检查更新了。检查更新呢调用的是<code>module.hot.check</code>方法。那么问题又来了，<code>module.hot.check</code>又是哪里冒出来了的！答案是<code>HotModuleReplacementPlugin</code>搞得鬼。这里留个疑问，继续往下看。</p><h3>6. HotModuleReplacementPlugin</h3><p>前面好像一直是<code>webpack-dev-server</code>做的事，那<code>HotModuleReplacementPlugin</code>在热更新过程中又做了什么伟大的事业呢？</p><p>首先你可以对比下，配置热更新和不配置时<code>bundle.js</code>的区别。内存中看不到？直接执行<code>webpack</code>命令就可以看到生成的<code>bundle.js</code>文件啦。不要用<code>webpack-dev-server</code>启动就好了。</p><p>（1）没有配置的。</p><p><img alt="" src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/1/16ec0c9e8fd12349~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp" /></p><p>（2）配置了<code>HotModuleReplacementPlugin</code>或<code>--hot</code>的。</p><p><img alt="" src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/1/16ec0c90092fa0ac~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp" /></p><p>哦~ 我们发现<code>moudle</code>新增了一个属性为<code>hot</code>，再看<code>hotCreateModule</code>方法。 这不就找到<code>module.hot.check</code>是哪里冒出来的。</p><p><img alt="" src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/1/16ec0dc36018973f~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp" /></p><p>经过对比打包后的文件，<code>__webpack_require__</code>中的<code>moudle</code>以及代码行数的不同。我们都可以发现<code>HotModuleReplacementPlugin</code>原来也是默默的塞了很多代码到<code>bundle.js</code>中呀。这和第 2 步骤很是相似哦！为什么，因为检查更新是在浏览器中操作呀。这些代码必须在运行时的环境。</p><p>你也可以直接看浏览器<code>Sources</code>下的代码，会发现<code>webpack</code>和<code>plugin</code>偷偷加的代码都在哦。在这里调试也很方便。</p><p><img alt="" src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/1/16ec0d4634af2b3c~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp" /></p><p><code>HotModuleReplacementPlugin</code>如何做到的？这里我就不讲了，因为这需要你对<code>tapable</code>以及<code>plugin</code>机制有一定了解，可以看下我写的文章<a href="https://juejin.cn/post/6844904004435050503" target="_blank" rel="noopener">Webpack插件机制之Tapable-源码解析</a>。当然你也可以选择跳过，只关心热更新机制即可，毕竟信息量太大。</p><h3>7. moudle.hot.check 开始热更新</h3><p>通过第 6 步，我们就可以知道<code>moudle.hot.check</code>方法是如何来的啦。那都做了什么？之后的源码都是<code>HotModuleReplacementPlugin</code>塞入到<code>bundle.js</code>中的哦，我就不写文件路径了。</p><ul><li>利用上一次保存的<code>hash</code>值，调用<code>hotDownloadManifest</code>发送<code>xxx/hash.hot-update.json</code>的<code>ajax</code>请求；</li><li>请求结果获取热更新模块，以及下次热更新的<code>Hash</code> 标识，并进入热更新准备阶段。</li></ul><pre class="code-block"><code class="language-abnf">hotAvailableFilesMap = update.c; // 需要更新的文件
+hotUpdateNewHash = update.h; // 更新下次热更新hash值
+hotSetStatus(&quot;prepare&quot;); // 进入热更新准备状态
+</code></pre><ul><li>调用<code>hotDownloadUpdateChunk</code>发送<code>xxx/hash.hot-update.js</code> 请求，通过<code>JSONP</code>方式。</li></ul><pre class="code-block"><code class="language-javascript">function hotDownloadUpdateChunk(chunkId) {
+    var script = document.createElement(&quot;script&quot;);
+    script.charset = &quot;utf-8&quot;;
+    script.src = __webpack_require__.p + &quot;&quot; + chunkId + &quot;.&quot; + hotCurrentHash + &quot;.hot-update.js&quot;;
+    if (null) script.crossOrigin = null;
+    document.head.appendChild(script);
+ }
+</code></pre><p>这个函数体为什么要单独拿出来，因为这里要解释下为什么使用<code>JSONP</code>获取最新代码？主要是因为<code>JSONP</code>获取的代码可以直接执行。为什么要直接执行？我们来回忆下<code>/hash.hot-update.js</code>的代码格式是怎么样的。</p><p><img alt="" src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/12/1/16ec04316d6ac5e3~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp" /></p><p>可以发现，新编译后的代码是在一个<code>webpackHotUpdate</code>函数体内部的。也就是要立即执行<code>webpackHotUpdate</code>这个方法。</p><p>再看下<code>webpackHotUpdate</code>这个方法。</p><pre class="code-block"><code class="language-ada">window[&quot;webpackHotUpdate&quot;] = function (chunkId, moreModules) {
+    hotAddUpdateChunk(chunkId, moreModules);
+} ;
+</code></pre><ul><li><code>hotAddUpdateChunk</code>方法会把更新的模块<code>moreModules</code>赋值给全局全量<code>hotUpdate</code>。</li><li><code>hotUpdateDownloaded</code>方法会调用<code>hotApply</code>进行代码的替换。</li></ul><pre class="code-block"><code class="language-reasonml">function hotAddUpdateChunk(chunkId, moreModules) {
+    // 更新的模块moreModules赋值给全局全量hotUpdate
+    for (var moduleId in moreModules) {
+        if (Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+	    hotUpdate[moduleId] = moreModules[moduleId];
+        }
+    }
+    // 调用hotApply进行模块的替换
+    hotUpdateDownloaded();
+}
+</code></pre><h3>8. hotApply 热更新模块替换</h3><p>热更新的核心逻辑就在<code>hotApply</code>方法了。 <code>hotApply</code>代码有将近 400 行，还是挑重点讲了，看哭😭</p><h4>①删除过期的模块，就是需要替换的模块</h4><p>通过<code>hotUpdate</code>可以找到旧模块</p><pre class="code-block"><code class="language-cpp">var queue = outdatedModules.slice();
+while (queue.length &gt; 0) {
+    moduleId = queue.pop();
+    // 从缓存中删除过期的模块
+    module = installedModules[moduleId];
+    // 删除过期的依赖
+    delete outdatedDependencies[moduleId];
+
+    // 存储了被删掉的模块id，便于更新代码
+    outdatedSelfAcceptedModules.push({
+        module: moduleId
+    });
+}
+</code></pre><h4>②将新的模块添加到 modules 中</h4><pre class="code-block"><code class="language-inform7">appliedUpdate[moduleId] = hotUpdate[moduleId];
+for (moduleId in appliedUpdate) {
+    if (Object.prototype.hasOwnProperty.call(appliedUpdate, moduleId)) {
+        modules[moduleId] = appliedUpdate[moduleId];
+    }
+}
+</code></pre><h4>③通过\_\_webpack\_require\_\_执行相关模块的代码</h4><pre class="code-block"><code class="language-abnf">for (i = 0; i &lt; outdatedSelfAcceptedModules.length; i++) {
+    var item = outdatedSelfAcceptedModules[i];
+    moduleId = item.module;
+    try {
+        // 执行最新的代码
+        __webpack_require__(moduleId);
+    } catch (err) {
+        // ...容错处理
+    }
+}
+
+</code></pre><p><code>hotApply</code>的确比较复杂，知道大概流程就好了，这一小节，要求你对webpack打包后的文件如何执行的有一些了解，大家可以自去看下。</p><h3>总结</h3><p>还是以阅读源码的形式画的图，①-④的小标记，是文件发生变化的一个流程。</p><p><img alt="" src="https://foruda.gitee.com/images/1681014860649655814/ea9d055f_7819612.png" /></p><h3>参考文档</h3><ul><li><a href="https://juejin.cn/post/6844904008432222215" target="_blank" rel="noopener">轻松理解webpack热更新原理</a></li><li><a href="https://www.ruanyifeng.com/blog/2017/05/websocket.html" target="_blank" rel="noopener">websocket基础知识了解</a></li><li><a href="https://juejin.cn/post/6844904004435050503" target="_blank" rel="noopener">tapable: Webpack插件机制之Tapable-源码解析</a></li><li><a href="https://github.com/Jocs/jocs.github.io/issues/15" target="_blank" rel="noopener">Webpack Hot Module Replacement 的原理解析</a></li><li><a href="https://juejin.cn/post/6844903953092591630" target="_blank" rel="noopener">看完这篇，面试再也不怕被问 Webpack 热更新</a></li><li><a href="https://zhuanlan.zhihu.com/p/30669007" target="_blank" rel="noopener">Webpack HMR 原理解析</a></li></ul><h2>Comments / Answers</h2><hr /><p><strong>yanlele</strong> at 2023-08-02T15:16:08Z</p><p>添加文章： https://juejin.cn/post/7155354834877546532</p><hr /><p><strong>yanlele</strong> at 2023-10-05T03:18:27Z</p><p>参考文档： https://juejin.cn/post/7176963906844246074</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

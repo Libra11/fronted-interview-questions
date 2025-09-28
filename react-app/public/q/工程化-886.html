@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[webpack] 代码分割中，让所有的外部依赖打成一个包，源码 source 打成一个包，该如何配置【热度: 352】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：webpack 代码分割&lt;/p&gt;&lt;p&gt;为了实现你的需求，即将所有外部依赖（&lt;code&gt;node_modules&lt;/code&gt; 中的依赖）打包成一个单独的包，而你自己的源码打包成另一个包，可以通过配置 Webpack 的 &lt;code&gt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[webpack] 代码分割中，让所有的外部依赖打成一个包，源码 source 打成一个包，该如何配置【热度: 352】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：webpack 代码分割&lt;/p&gt;&lt;p&gt;为了实现你的需求，即将所有外部依赖（&lt;code&gt;node_modules&lt;/code&gt; 中的依赖）打包成一个单独的包，而你自己的源码打包成另一个包，可以通过配置 Webpack 的 &lt;code&gt;optimization.splitChunks&lt;/code&gt; 选项来实现。下面是具体的实施方案：&lt;/p&gt;&lt;h3&gt;1. " />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/886" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[webpack] 代码分割中，让所有的外部依赖打成一个包，源码 source 打成一个包，该如何配置【热度: 352】</h1>
+      <div class="subtitle">工程化 · 工程化 · 阿里巴巴</div>
+      <div class="meta">创建：2024-09-15T09:48:05Z · 更新：2024-09-17T02:40:21Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：webpack 代码分割</p><p>为了实现你的需求，即将所有外部依赖（<code>node_modules</code> 中的依赖）打包成一个单独的包，而你自己的源码打包成另一个包，可以通过配置 Webpack 的 <code>optimization.splitChunks</code> 选项来实现。下面是具体的实施方案：</p><h3>1. 编辑 <code>webpack.config.js</code></h3><p>在你的 <code>webpack.config.js</code> 配置文件中，找到或添加 <code>optimization</code> 部分，并在 <code>splitChunks</code> 中配置如下：</p><pre class="code-block"><code class="language-javascript">module.exports = {
+  // ...其他配置
+
+  optimization: {
+    runtimeChunk: &quot;single&quot;, // 为 webpack 运行时代码创建一个额外的包
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          // 定义一个缓存组用以分离外部依赖
+          test: /[\\/]node_modules[\\/]/, // 检索 node_modules 目录下的模块
+          name: &quot;vendors&quot;, // 分离后的包名称
+          chunks: &quot;all&quot;, // 对所有模块生效
+        },
+        source: {
+          // 我们可以通过添加另一个缓存组来实现源码的分离（如果需要）
+          test: /[\\/]src[\\/]/, // 检索 src 目录
+          name: &quot;source&quot;,
+          chunks: &quot;all&quot;,
+        },
+      },
+    },
+  },
+};
+</code></pre><h3>解释</h3><ul><li><code>runtimeChunk: &#39;single&#39;</code> 创建一个运行时文件，管理模块化交互，比如加载和解析模块。</li><li>在<code>splitChunks.cacheGroups</code> 中定义了两个缓存组:</li><li><code>vendor</code>：这个缓存组的目标是将来自 <code>node_modules</code> 目录的所有代码移动到命名为 <code>vendors</code> 的包中。它通过 <code>test</code> 属性来匹配 <code>node_modules</code> 目录下的模块。</li><li><code>source</code>：这个部分是为了演示如何单独将 <code>src</code> 目录下的源代码打包成一个文件。这不是必须的，因为默认情况下，Webpack 会将未被上述规则匹配到的模块（即你的源代码）打包到主包中。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

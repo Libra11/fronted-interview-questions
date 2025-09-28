@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JS 创建对象的方式有哪些？【热度: 894】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：JS 创建对象&lt;/p&gt;&lt;ol&gt;&lt;li&gt;使用对象字面量创建对象。&lt;/li&gt;&lt;/ol&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code&gt;var obj = { name: &amp;quot;John&amp;quot;, age: 30 }" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="JS 创建对象的方式有哪些？【热度: 894】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：JS 创建对象&lt;/p&gt;&lt;ol&gt;&lt;li&gt;使用对象字面量创建对象。&lt;/li&gt;&lt;/ol&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code&gt;var obj = { name: &amp;quot;John&amp;quot;, age: 30 }; &lt;/code&gt;&lt;/pre&gt;&lt;ol&gt;&lt;li&gt;使用 Object 构造函数创建对象。&lt;/li&gt;&lt;/ol&gt;&lt;pre cla" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/452" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>JS 创建对象的方式有哪些？【热度: 894】</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-06-12T16:03:14Z · 更新：2023-07-26T14:30:34Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：JS 创建对象</p><ol><li>使用对象字面量创建对象。</li></ol><pre class="code-block"><code>var obj = { 
+  name: &quot;John&quot;, 
+  age: 30 
+};
+</code></pre><ol><li>使用 Object 构造函数创建对象。</li></ol><pre class="code-block"><code>var obj = new Object();
+obj.name = &quot;John&quot;;
+obj.age = 30;
+</code></pre><ol><li>使用构造函数创建对象。</li></ol><pre class="code-block"><code>function Person(name, age) {
+  this.name = name;
+  this.age = age;
+}
+var john = new Person(&quot;John&quot;, 30);
+</code></pre><ol><li>使用 Object.create() 方法创建对象。</li></ol><pre class="code-block"><code>var obj = Object.create(null);
+obj.name = &quot;John&quot;;
+obj.age = 30;
+</code></pre><ol><li>使用类和继承创建对象。</li></ol><pre class="code-block"><code>class Person {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+}
+var john = new Person(&quot;John&quot;, 30);
+</code></pre><h2>Comments / Answers</h2><hr /><p><strong>yanlele</strong> at 2023-07-26T14:30:19Z</p><p>补充：</p><p><strong>在 JavaScript 中，使用对象字面量创建对象的方式通常是最快的</strong>。这是因为对象字面量是在代码解析的过程中直接创建出来的，不需要额外的函数调用和实例化过程。而其他方式，如使用构造函数、new Object()、Object.create() 或者 class，都需要额外的执行步骤，可能包括函数调用、原型链查找等操作。</p><p>以下是五种创建对象的方式的性能对比：</p><ol><li>对象字面量：由于对象字面量是直接在代码解析时创建的，所以它的创建速度是最快的。这种方式适用于简单的对象创建，且不需要额外的初始化或操作。</li></ol><ol><li>构造函数：使用构造函数创建对象的速度较快，但是需要额外的函数调用操作。构造函数会在每次创建对象时都执行一次，因此在大量创建对象的情况下可能会有性能影响。</li></ol><ol><li>new Object()：使用 new Object() 创建对象的速度较慢，因为它涉及到函数调用和实例化的过程。这种方式通常用于需要动态创建对象的情况，但在性能要求较高的情况下可能不是最佳选择。</li></ol><ol><li>Object.create()：使用 Object.create() 创建对象的速度比较慢，因为它需要通过原型链查找来创建对象。这种方式适用于需要继承原型的对象创建，但在性能要求较高的情况下可能不是最佳选择。</li></ol><ol><li>class：使用 class 关键字创建对象的速度较慢，因为它实质上是使用构造函数和原型链来创建对象。这种方式适用于面向对象的编程风格，但在性能要求较高的情况下可能不是最佳选择。</li></ol><p>使用对象字面量创建对象是最快的方式，适用于简单的对象创建。但对于复杂的对象创建和继承关系，可以选择其他方式。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>es6 数据结构 Set 了解多少？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h2&gt;Set&lt;/h2&gt;&lt;h3&gt;基本概念&lt;/h3&gt;&lt;p&gt;Set 对象允许你存储任何类型的唯一值，无论是原始值或者是对象引用。&lt;/p&gt;&lt;p&gt;Set对象是值的集合，你可以按照插入的顺序迭代它的元素。Set 中的元素只会出现一次，即 Set 中的元素是唯一的。&lt;/p&gt;&lt;p&gt;另外，NaN" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="es6 数据结构 Set 了解多少？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h2&gt;Set&lt;/h2&gt;&lt;h3&gt;基本概念&lt;/h3&gt;&lt;p&gt;Set 对象允许你存储任何类型的唯一值，无论是原始值或者是对象引用。&lt;/p&gt;&lt;p&gt;Set对象是值的集合，你可以按照插入的顺序迭代它的元素。Set 中的元素只会出现一次，即 Set 中的元素是唯一的。&lt;/p&gt;&lt;p&gt;另外，NaN 和 undefined 都可以被存储在 Set 中，NaN 之间被视为相同的值（NaN 被认为是相同的，尽管 NaN " />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/7" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>es6 数据结构 Set 了解多少？</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-06T15:19:33Z · 更新：2023-09-16T08:43:22Z</div>
+    </div>
+    <article class="content markdown-body"><h2>Set</h2><h3>基本概念</h3><p>Set 对象允许你存储任何类型的唯一值，无论是原始值或者是对象引用。</p><p>Set对象是值的集合，你可以按照插入的顺序迭代它的元素。Set 中的元素只会出现一次，即 Set 中的元素是唯一的。</p><p>另外，NaN 和 undefined 都可以被存储在 Set 中，NaN 之间被视为相同的值（NaN 被认为是相同的，尽管 NaN !== NaN）。</p><h3>有哪些属性和方法</h3><p>操作方法：</p><p><code>add(value)</code>：添加某个值，返回 Set 结构本身。</p><p><code>delete(value)</code>：删除某个值，返回一个布尔值，表示删除是否成功。</p><p><code>has(value)</code>：返回一个布尔值，表示该值是否为Set的成员。</p><p><code>clear()</code>：清除所有成员，没有返回值。</p><p>遍历方法：</p><p><code>keys()</code>：返回键名的遍历器</p><p><code>values()</code>：返回键值的遍历器</p><p><code>entries()</code>：返回键值对的遍历器</p><p><code>forEach()</code>：使用回调函数遍历每个成员</p><p><code>Set.prototype[@@iterator]()</code>： 返回一个新的迭代器对象，该对象包含 Set 对象中的按插入顺序排列的所有元素的值。</p><p><strong><code>Set.prototype[@@iterator]()</code></strong> 较为特殊， 细说一下：</p><p>@@iterator 属性的初始值和 values 属性的初始值是同一个函数。</p><pre class="code-block"><code class="language-js">const mySet = new Set();
+mySet.add(&#39;0&#39;);
+mySet.add(1);
+mySet.add({});
+
+const setIter = mySet[Symbol.iterator]();
+
+console.log(setIter.next().value); // &quot;0&quot;
+console.log(setIter.next().value); // 1
+console.log(setIter.next().value); // Object
+</code></pre><h3>一些实用场景</h3><pre class="code-block"><code class="language-js">// 判断是会否属于： B 是否属于 A
+function isSuperset(set, subset) {
+    for (let elem of subset) {
+        if (!set.has(elem)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// 合集
+function union(setA, setB) {
+    let _union = new Set(setA);
+    for (let elem of setB) {
+        _union.add(elem);
+    }
+    return _union;
+}
+
+// 交集
+function intersection(setA, setB) {
+    let _intersection = new Set();
+    for (let elem of setB) {
+        if (setA.has(elem)) {
+            _intersection.add(elem);
+        }
+    }
+    return _intersection;
+}
+
+// 对称差分
+function symmetricDifference(setA, setB) {
+    let _difference = new Set(setA);
+    for (let elem of setB) {
+        if (_difference.has(elem)) {
+            _difference.delete(elem);
+        } else {
+            _difference.add(elem);
+        }
+    }
+    return _difference;
+}
+
+// 属于 A 但是不属于 B
+function difference(setA, setB) {
+    let _difference = new Set(setA);
+    for (let elem of setB) {
+        _difference.delete(elem);
+    }
+    return _difference;
+}
+
+//Examples
+let setA = new Set([1, 2, 3, 4]),
+    setB = new Set([2, 3]),
+    setC = new Set([3, 4, 5, 6]);
+
+isSuperset(setA, setB);          // =&gt; true
+union(setA, setC);               // =&gt; Set [1, 2, 3, 4, 5, 6]
+intersection(setA, setC);        // =&gt; Set [3, 4]
+symmetricDifference(setA, setC); // =&gt; Set [1, 2, 5, 6]
+difference(setA, setC);          // =&gt; Set [1, 2]
+</code></pre><h2>WeakSet</h2><h3>基本概念</h3><p>WeakSet 对象允许你将弱保持对象存储在一个集合中。</p><p>WeakSet 对象是一些对象值的集合。且其与 Set 类似，WeakSet 中的每个对象值都只能出现一次。在 WeakSet 的集合中，所有对象都是唯一的。</p><p>它和 Set 对象的主要区别有：</p><ul><li>WeakSet 只能是对象的集合，而不能像 Set 那样，可以是任何类型的任意值。</li><li>WeakSet 持弱引用：集合中对象的引用为弱引用。如果没有其它的对 WeakSet 中对象的引用，那么这些对象会被当成垃圾回收掉。</li></ul><p>这也意味着 WeakSet 中没有存储当前对象的列表。正因为这样，<strong>WeakSet 是不可枚举的</strong>。</p><h2>实例方法</h2><ul><li>WeakSet.prototype.add(value): 将 value 添加到 WeakSet 对象最后一个元素的后面。</li></ul><ul><li>WeakSet.prototype.delete(value): 从 WeakSet 中移除 value。此后调用 WeakSet.prototype.has(value) 将返回 false。</li></ul><ul><li>WeakSet.prototype.has(value): 返回一个布尔值，表示 value 是否存在于 WeakSet 对象中。</li></ul><h3>使用场景 - 检测循环引用</h3><pre class="code-block"><code class="language-js">// 对 传入的 subject 对象 内部存储的所有内容执行回调
+function execRecursively(fn, subject, _refs = new WeakSet()) {
+  // 避免无限递归
+  if (_refs.has(subject)) {
+    return;
+  }
+
+  fn(subject);
+  if (typeof subject === &quot;object&quot;) {
+    _refs.add(subject);
+    for (const key in subject) {
+      execRecursively(fn, subject[key], _refs);
+    }
+  }
+}
+
+const foo = {
+  foo: &quot;Foo&quot;,
+  bar: {
+    bar: &quot;Bar&quot;,
+  },
+};
+
+foo.bar.baz = foo; // 循环引用！
+execRecursively((obj) =&gt; console.log(obj), foo);
+</code></pre><hr /><blockquote>补充：2023.09.16</blockquote><p>下面是 JavaScript Set 数据结构的常用 API：</p><p>| API                    | 描述                                             |</p><p>| ---------------------- | ------------------------------------------------ |</p><p>| <code>Set.prototype.add()</code>  | 向 Set 中添加一个新的元素                         |</p><p>| <code>Set.prototype.delete()</code>  | 从 Set 中删除一个元素                             |</p><p>| <code>Set.prototype.has()</code>  | 判断 Set 中是否存在某个元素                       |</p><p>| <code>Set.prototype.clear()</code> | 清空 Set 中的所有元素                             |</p><p>| <code>Set.prototype.size</code>   | 返回 Set 中的元素个数                             |</p><p>| <code>Set.prototype.keys()</code>  | 返回一个包含 Set 中所有键的迭代器                 |</p><p>| <code>Set.prototype.values()</code>  | 返回一个包含 Set 中所有值的迭代器                 |</p><p>| <code>Set.prototype.entries()</code> | 返回一个包含 Set 中所有键值对的迭代器             |</p><p>| <code>Set.prototype.forEach()</code> | 对 Set 中的每个元素执行指定的操作                 |</p><p>以上是 Set 数据结构的常用 API，可以通过这些 API 对 Set 进行添加、删除、查询、遍历等操作。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

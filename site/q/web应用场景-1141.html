@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nginx 如何配置支持前端大资源的 Range 分片请求？核心参数是什么？【热度: 146】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：nginx 配置分片请求&lt;/p&gt;&lt;p&gt;Nginx 支持前端大资源（如视频、大型压缩包等）的 Range 分片请求，主要通过配置实现对 HTTP 范围请求的支持，允许客户端分段块下载资源，提升大文件传输效率。以下是具体配置方法和核心参" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Nginx 如何配置支持前端大资源的 Range 分片请求？核心参数是什么？【热度: 146】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：nginx 配置分片请求&lt;/p&gt;&lt;p&gt;Nginx 支持前端大资源（如视频、大型压缩包等）的 Range 分片请求，主要通过配置实现对 HTTP 范围请求的支持，允许客户端分段块下载资源，提升大文件传输效率。以下是具体配置方法和核心参数解析：&lt;/p&gt;&lt;h3&gt;一、Range 分片请求的原理&lt;/h3&gt;&lt;p&gt;HTTP 协议的 &lt;code&gt;Range&lt;/cod" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1141" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>Nginx 如何配置支持前端大资源的 Range 分片请求？核心参数是什么？【热度: 146】</h1>
+      <div class="subtitle">web应用场景 · web应用场景</div>
+      <div class="meta">创建：2025-09-07T05:57:02Z · 更新：2025-09-07T05:57:02Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：nginx 配置分片请求</p><p>Nginx 支持前端大资源（如视频、大型压缩包等）的 Range 分片请求，主要通过配置实现对 HTTP 范围请求的支持，允许客户端分段块下载资源，提升大文件传输效率。以下是具体配置方法和核心参数解析：</p><h3>一、Range 分片请求的原理</h3><p>HTTP 协议的 <code>Range</code> 请求头允许客户端只请求资源的一部分（如 <code>Range: bytes=0-1023</code> 表示请求前 1024 字节），服务器通过 <code>Accept-Ranges</code> 和 <code>Content-Range</code> 头响应支持状态和分片数据。</p><p>Nginx 默认已支持 Range 请求，但需确保配置正确以避免功能被禁用，尤其针对大文件场景需优化相关参数。</p><h3>二、核心配置（支持 Range 请求）</h3><h4>1. 基础配置（启用 Range 支持）</h4><pre class="code-block"><code class="language-nginx">server {
+    listen 80;
+    server_name example.com;
+    root /path/to/large-files;  # 存放大资源的目录
+
+    # 关键：确保未禁用 Range 请求（默认启用，无需额外配置，但需避免以下错误）
+    # 错误示例：禁用 Range 的配置（生产环境需删除）
+    # proxy_set_header Range &quot;&quot;;  # 禁止传递 Range 头
+    # add_header Accept-Ranges none;  # 告知客户端不支持 Range
+
+    # 大文件传输优化（可选但推荐）
+    location / {
+        # 支持断点续传和分片请求（默认开启，显式声明更清晰）
+        add_header Accept-Ranges bytes;
+
+        # 读取文件的缓冲区大小（根据服务器内存调整）
+        client_body_buffer_size 10M;
+
+        # 发送文件的缓冲区大小（优化大文件传输效率）
+        sendfile on;               # 启用零拷贝发送文件
+        tcp_nopush on;             # 配合 sendfile 提高网络效率
+        tcp_nodelay off;           # 减少小包发送，适合大文件
+
+        # 超时设置（避免大文件传输中断）
+        client_header_timeout 60s;
+        client_body_timeout 60s;
+        send_timeout 300s;         # 发送超时延长至 5 分钟
+    }
+}
+</code></pre><h4>2. 核心参数解析</h4><ul><li><strong><code>Accept-Ranges: bytes</code></strong></li></ul><p>响应头，明确告知客户端服务器支持字节范围的分片请求（这是支持 Range 的核心标志）。Nginx 默认会自动添加该头，无需显式配置，但显式声明可增强配置可读性。</p><ul><li><strong><code>sendfile on</code></strong></li></ul><p>启用零拷贝（zero-copy）机制，让 Nginx 直接从磁盘读取文件并发送到网络，跳过用户态到内核态的数据拷贝，大幅提升大文件传输效率（对 Range 分片请求尤其重要）。</p><ul><li><strong><code>tcp_nopush on</code></strong></li></ul><p>与 <code>sendfile</code> 配合使用，在发送文件时先积累一定数据量再一次性发送，减少网络包数量，适合大文件的连续分片传输。</p><ul><li><strong><code>proxy_set_header Range $http_range</code></strong>（反向代理场景）</li></ul><p>若大资源存储在后端服务（而非 Nginx 本地），需通过此配置将客户端的 <code>Range</code> 请求头传递给后端，确保后端能正确处理分片请求：</p><p>```nginx</p><p>location /large-files {</p><p>proxy_pass http://backend-server;</p><p>proxy_set_header Range $http_range;          # 传递 Range 头</p><p>proxy_set_header If-Range $http_if_range;    # 传递 If-Range 头（验证资源是否修改）</p><p>proxy_pass_request_headers on;               # 确保所有请求头被传递</p><p>}</p><p>```</p><h3>三、验证 Range 请求是否生效</h3><p>可通过 <code>curl</code> 命令测试服务器是否支持分片请求：</p><pre class="code-block"><code class="language-bash"># 测试请求前 1024 字节
+curl -v -H &quot;Range: bytes=0-1023&quot; http://example.com/large-file.mp4
+</code></pre><p>若响应中包含以下头信息，则表示配置生效：</p><pre class="code-block"><code>HTTP/1.1 206 Partial Content  # 206 状态码表示部分内容响应
+Accept-Ranges: bytes
+Content-Range: bytes 0-1023/10485760  # 表示返回 0-1023 字节，总大小 10485760 字节
+</code></pre><h3>四、注意事项</h3><ol><li><strong>避免禁用 Range 的配置</strong></li></ol><p>确保配置中没有 <code>add_header Accept-Ranges none</code> 或 <code>proxy_set_header Range &quot;&quot;</code> 等禁用 Range 的指令，这些会导致客户端分片请求失败。</p><ol><li><strong>后端服务配合</strong></li></ol><p>若资源通过反向代理从后端服务获取，需确保后端服务本身支持 Range 请求（如 Node.js、Java 服务需实现对 <code>Range</code> 头的处理），否则 Nginx 无法单独完成分片响应。</p><ol><li><strong>大文件存储优化</strong></li></ol><p>对于超大型文件（如 GB 级视频），建议结合 <code>open_file_cache</code> 配置缓存文件描述符，减少频繁打开文件的开销：</p><p>```nginx</p><p>open_file_cache max=1000 inactive=20s;</p><p>open_file_cache_valid 30s;</p><p>open_file_cache_min_uses 2;</p><p>open_file_cache_errors on;</p><p>```</p><h3>总结</h3><p>Nginx 支持 Range 分片请求的核心是：</p><ol><li>确保默认的 <code>Accept-Ranges: bytes</code> 响应头有效（不被禁用）。</li><li>启用 <code>sendfile</code> 等传输优化参数提升大文件处理效率。</li><li>反向代理场景下需传递 <code>Range</code> 相关请求头给后端服务。</li></ol><p>通过以上配置，前端可以实现大资源的断点续传、分片下载，显著提升用户体验。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

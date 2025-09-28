@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>实现：setObjectValue(obj: object, keys: string[], value: any) 方法， 支持安全设置对象的值 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;可以使用递归实现安全设置对象的值。以下是一个实现setObjectValue方法的例子：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-typescript&quot;&gt;typescriptCopy codefunction set" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="实现：setObjectValue(obj: object, keys: string[], value: any) 方法， 支持安全设置对象的值" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;可以使用递归实现安全设置对象的值。以下是一个实现setObjectValue方法的例子：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-typescript&quot;&gt;typescriptCopy codefunction setObjectValue(obj: object, keys: string[], value: any) { const" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/95" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>实现：setObjectValue(obj: object, keys: string[], value: any) 方法， 支持安全设置对象的值</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-12T15:36:16Z · 更新：2023-03-12T15:36:17Z</div>
+    </div>
+    <article class="content markdown-body"><p>可以使用递归实现安全设置对象的值。以下是一个实现setObjectValue方法的例子：</p><pre class="code-block"><code class="language-typescript">typescriptCopy codefunction setObjectValue(obj: object, keys: string[], value: any) {
+  const key = keys.shift();
+  if (!key) {
+    return;
+  }
+
+  if (keys.length === 0) {
+    obj[key] = value;
+    return;
+  }
+
+  if (!obj[key]) {
+    obj[key] = {};
+  }
+
+  setObjectValue(obj[key], keys, value);
+}
+</code></pre><p>这个方法接受三个参数：要设置值的对象，一个字符串数组表示对象的键的路径，和要设置的值。例如，如果要设置对象<code>user</code>的<code>address</code>字段的<code>city</code>属性为<code>&quot;New York&quot;</code>，可以调用方法：</p><pre class="code-block"><code class="language-typescript">typescriptCopy codeconst user = {};
+setObjectValue(user, [&#39;address&#39;, &#39;city&#39;], &#39;New York&#39;);
+</code></pre><p>在这个例子中，<code>keys</code>数组的第一个元素是<code>&quot;address&quot;</code>，所以我们检查<code>user</code>对象是否有一个名为<code>&quot;address&quot;</code>的属性。如果没有，我们创建一个新对象并将其分配给<code>user.address</code>属性。然后我们继续递归地调用<code>setObjectValue</code>方法，将新对象作为第一个参数传递，将<code>keys</code>数组的剩余部分作为第二个参数传递，将最终的值作为第三个参数传递。最终，我们将<code>&quot;New York&quot;</code>分配给<code>user.address.city</code>属性。</p><p>这个方法确保在设置对象值时不会引发<code>TypeError</code>异常，即使对象的某些部分尚未定义。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

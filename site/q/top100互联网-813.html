@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] useRef 是如何实现的【热度: 299】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：useRef 实现&lt;/p&gt;&lt;p&gt;该问题也是非常复杂， 需要深入源码， 可以看下面文章解析：&lt;/p&gt;&lt;p&gt;https://juejin.cn/post/7341757372188065792&lt;/p&gt;&lt;blockquote&gt;以下是题库作" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] useRef 是如何实现的【热度: 299】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：useRef 实现&lt;/p&gt;&lt;p&gt;该问题也是非常复杂， 需要深入源码， 可以看下面文章解析：&lt;/p&gt;&lt;p&gt;https://juejin.cn/post/7341757372188065792&lt;/p&gt;&lt;blockquote&gt;以下是题库作者对上面文档的一些提炼总结&lt;/blockquote&gt;&lt;ul&gt;&lt;li&gt;什么是数据共享层&lt;/li&gt;&lt;li&gt;hooks&lt;/li" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/813" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] useRef 是如何实现的【热度: 299】</h1>
+      <div class="subtitle">TOP100互联网 · web框架 · TOP100互联网</div>
+      <div class="meta">创建：2024-08-10T03:44:14Z · 更新：2024-08-10T03:44:14Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：useRef 实现</p><p>该问题也是非常复杂， 需要深入源码， 可以看下面文章解析：</p><p>https://juejin.cn/post/7341757372188065792</p><blockquote>以下是题库作者对上面文档的一些提炼总结</blockquote><ul><li>什么是数据共享层</li><li>hooks</li><li>如何确定 fiber 对应的 hook 上下文？</li><li>hook 是如何存在的？保存在什么地方？</li><li>多个 hook 如何处理？</li><li>useRef</li><li>实现原理</li><li>标记 Ref​</li><li>执行 Ref​ 操作</li><li>mount 该如何操作</li><li>update 的时候该如何操作</li><li>整体执行流程</li><li>标记</li><li>执行</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

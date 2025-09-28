@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>手写实现 call、apply、bind？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h2&gt;深入 call、apply、bind实现原理&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://www.jianshu.com/p/6a1bc149b598&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://www.jianshu.com/p/" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="手写实现 call、apply、bind？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h2&gt;深入 call、apply、bind实现原理&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://www.jianshu.com/p/6a1bc149b598&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://www.jianshu.com/p/6a1bc149b598&lt;/a&gt;&lt;/p&gt;&lt;p&gt;简单粗暴地来说，call，apply，bind是用于绑定this指向的。&lt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/84" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>手写实现 call、apply、bind？</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-11T12:20:22Z · 更新：2023-03-11T12:20:23Z</div>
+    </div>
+    <article class="content markdown-body"><h2>深入 call、apply、bind实现原理</h2><p><a href="https://www.jianshu.com/p/6a1bc149b598" target="_blank" rel="noopener">https://www.jianshu.com/p/6a1bc149b598</a></p><p>简单粗暴地来说，call，apply，bind是用于绑定this指向的。</p><h2>什么是call和apply方法</h2><p>我们单独看看ECMAScript规范对apply的定义，看个大概就行：</p><p>通过定义简单说一下call和apply方法，他们就是参数不同，作用基本相同。</p><p>1、每个函数都包含两个非继承而来的方法：apply()和call()。</p><p>2、他们的用途相同，都是在特定的作用域中调用函数。</p><p>3、接收参数方面不同，apply()接收两个参数，一个是函数运行的作用域(this)，另一个是参数数组。</p><p>4、call()方法第一个参数与apply()方法相同，但传递给函数的参数必须列举出来。</p><p>一个简单的demo:</p><pre class="code-block"><code class="language-javascript">let yanle = {
+    name: &#39;yanle&#39;,
+    sayHello: function (age) {
+        console.log(`hello, i am ${this.name} and ${age} years old`);
+    }
+};
+let lele = {
+    name: &#39;lele&#39;
+};
+yanle.sayHello(26);          // hello, i am yanle and 26 years old
+
+yanle.sayHello.call(lele, 20);          // hello, i am lele and 20 years old
+yanle.sayHello.apply(lele, [21]);       // hello, i am lele and 21 years old
+</code></pre><p>结果都相同。从写法上我们就能看出二者之间的异同。</p><p>相同之处在于，第一个参数都是要绑定的上下文，后面的参数是要传递给调用该方法的函数的。</p><p>不同之处在于，call方法传递给调用函数的参数是逐个列出的，而apply则是要写在数组中。</p><p>总结一句话介绍call和apply</p><p>call()方法在使用一个指定的this值和若干个指定的参数值的前提下调用某个函数或方法。</p><p>apply()方法在使用一个指定的this值和参数值必须是数组类型的前提下调用某个函数或方法</p><h2>分析call和apply的原理</h2><p>上面代码，我们注意到了两点：</p><p>1、call和apply改变了this的指向，指向到lulin</p><p>2、sayHello函数执行了</p><p>这里默认大家都对this有一个基本的了解，知道什么时候this该指向谁，</p><p>我们结合这两句话来分析这个通用函数：f.apply(o),我们直接看一本书对其中原理的解读，</p><p>具体什么书，我也不知道，参数我们先不管，先了解其中的大致原理。</p><p><img alt="01" src="./img/img01.png" /></p><p>知道了这个基本原来我们再来看看刚才jawil.sayHello.call(lulin, 24)执行的过程：</p><pre class="code-block"><code class="language-javascript">// 第一步
+lulin.fn = jawil.sayHello
+// 第二步
+lulin.fn()
+// 第三步
+delete lulin.fn
+</code></pre><p>上面的说的是原理，可能你看的还有点抽象，下面我们用代码模拟实现apply一下。</p><h2>实现aplly方法</h2><h3>模拟实现第一步</h3><p>根据这个思路，我们可以尝试着去写第一版的 applyOne 函数：</p><pre class="code-block"><code class="language-javascript">Function.prototype.applyOne = function (context) {
+    context.fn = this;
+    context.fn();
+    delete context.fn;
+};
+let yanle = {
+    name: &#39;yanle&#39;,
+    sayHello: function (age) {
+        console.log(`hello, i am ${this.name} and ${age} years old`);
+    }
+};
+let lele = {
+    name: &#39;lele&#39;
+};
+yanle.sayHello.applyOne(lele);              // hello, i am lele and undefined years old
+</code></pre><p>正好可以打印lulin而不是之前的jawil了。</p><h3>模拟实现第二步</h3><p>最一开始也讲了，apply函数还能给定参数执行函数。</p><p>注意：传入的参数就是一个数组，很简单，我们可以从Arguments对象中取值，</p><p>Arguments不知道是何物，赶紧补习，此文也不太适合初学者，第二个参数就是数组对象，</p><p>但是执行的时候要把数组数值传递给函数当参数，然后执行，这就需要一点小技巧。</p><p>参数问题其实很简单，我们先偷个懒，我们接着要把这个参数数组放到要执行的函数的参数里面去。</p><pre class="code-block"><code class="language-javascript">Function.prototype.applyTwo = function(context) {
+    context.fn = this;
+    let args = arguments[1];
+    context.fn(args.join(&#39;,&#39;));
+    delete context.fn;
+}
+</code></pre><p>很简单是不是，那你就错了，数组join方法返回的是啥？</p><p><code>typeof [1,2,3,4].join(&#39;,&#39;)//string</code></p><p>最后是一个 "1,2,3,4" 的字符串，其实就是一个参数，肯定不行啦。</p><p>也许有人会想到用ES6的一些奇淫方法，不过apply是ES3的方法，</p><p>我们为了模拟实现一个ES3的方法，要用到ES6的方法，反正面试官也没说不准这样。</p><p>但是我们这次用eval方法拼成一个函数，类似于这样：</p><p><code>eval(&#39;context.fn(&#39; + args +&#39;)&#39;)</code></p><p>先简单了解一下eval函数吧</p><p>定义和用法:</p><p>eval() 函数可计算某个字符串，并执行其中的的 JavaScript 代码。</p><p>语法：<code>eval(string)</code></p><p>string必需。要计算的字符串，其中含有要计算的 JavaScript 表达式或要执行的语句。</p><p>该方法只接受原始字符串作为参数，如果 string 参数不是原始字符串，那么该方法将不作任何改变地返回。</p><p>因此请不要为 eval() 函数传递 String 对象来作为参数。</p><p>简单来说吧，就是用JavaScript的解析引擎来解析这一堆字符串里面的内容，这么说吧，你可以这么理解，<strong>你把eval看成是<script>标签</strong>。</p><p><code>eval(&#39;function Test(a,b,c,d){console.log(a,b,c,d)};Test(1,2,3,4)&#39;)</code>就是相当于这样：</p><pre class="code-block"><code class="language-html">&lt;script&gt;
+function Test(a,b,c,d){
+    console.log(a,b,c,d)
+};
+Test(1,2,3,4)
+&lt;/script&gt;
+</code></pre><p>第二版代码大致如下：</p><pre class="code-block"><code class="language-javascript">Function.prototype.applyTwo = function(context) {
+    var args = arguments[1]; //获取传入的数组参数
+    context.fn = this; //假想context对象预先不存在名为fn的属性
+    var fnStr = &#39;context.fn(&#39;;
+    for (var i = 0; i &lt; args.length; i++) {
+        fnStr += i == args.length - 1 ? args[i] : args[i] + &#39;,&#39;;
+    }
+    fnStr += &#39;)&#39;;//得到&quot;context.fn(arg1,arg2,arg3...)&quot;这个字符串在，最后用eval执行
+    eval(fnStr); //还是eval强大
+    delete context.fn; //执行完毕之后删除这个属性
+}
+//测试一下
+var jawil = {
+    name: &quot;jawil&quot;,
+    sayHello: function (age) {
+         console.log(this.name,age);
+     }
+};
+
+var  lulin = {
+    name: &quot;lulin&quot;,
+};
+
+jawil.sayHello.applyTwo(lulin,[24])//lulin 24
+</code></pre><p>好像就行了是不是，其实这只是最粗糙的版本，能用，但是不完善，完成了大约百分之六七十了。</p><h3>模拟实现第三步</h3><p>1.this参数可以传null或者不传，当为null的时候，视为指向window</p><p>demo1:</p><pre class="code-block"><code class="language-javascript">var name = &#39;jawil&#39;;
+function sayHello() {
+    console.log(this.name);
+}
+sayHello.apply(null); // &#39;jawil&#39;
+</code></pre><p>demo2:</p><pre class="code-block"><code class="language-javascript">var name = &#39;jawil&#39;;
+function sayHello() {
+    console.log(this.name);
+}
+sayHello.apply(); // &#39;jawil&#39;
+</code></pre><p>2.函数是可以有返回值的</p><pre class="code-block"><code class="language-javascript">var obj = {
+    name: &#39;jawil&#39;
+}
+
+function sayHello(age) {
+    return {
+        name: this.name,
+        age: age
+    }
+}
+
+console.log(sayHello.apply(obj,[24]));// {name: &quot;jawil&quot;, age: 24}
+</code></pre><p>这些都是小问题，想到了，就很好解决。我们来看看此时的第三版apply模拟方法。</p><pre class="code-block"><code class="language-javascript">//原生JavaScript封装apply方法，第三版
+Function.prototype.applyThree = function(context) {
+    var context = context || window
+    var args = arguments[1] //获取传入的数组参数
+    context.fn = this //假想context对象预先不存在名为fn的属性
+    if (args == void 0) { //没有传入参数直接执行
+        return context.fn()
+    }
+    var fnStr = &#39;context.fn(&#39;
+    for (var i = 0; i &lt; args.length; i++) {
+        //得到&quot;context.fn(arg1,arg2,arg3...)&quot;这个字符串在，最后用eval执行
+        fnStr += i == args.length - 1 ? args[i] : args[i] + &#39;,&#39;
+    }
+    fnStr += &#39;)&#39;
+    var returnValue = eval(fnStr) //还是eval强大
+    delete context.fn //执行完毕之后删除这个属性
+    return returnValue
+}
+</code></pre><h3>模拟实现第四步</h3><p>其实一开始就埋下了一个隐患，我们看看这段代码：</p><pre class="code-block"><code class="language-javascript">Function.prototype.applyThree = function(context) {
+    var context = context || window
+    var args = arguments[1] //获取传入的数组参数
+    context.fn = this //假想context对象预先不存在名为fn的属性
+    ......
+}
+</code></pre><p>就是这句话， <code>context.fn = this //假想context对象预先不存在名为fn的属性</code> ,这就是一开始的隐患,</p><p>我们只是假设，但是并不能防止contenx对象一开始就没有这个属性，要想做到完美，就要保证这个context.fn中的fn的唯一性。</p><p>于是我自然而然的想到了强大的ES6,这玩意还是好用啊，幸好早就了解并一直在使用ES6,还没有学习过ES6的童鞋赶紧学习一下，没有坏处的。</p><p>重新复习下新知识：</p><p>基本数据类型有6种：Undefined、Null、布尔值（Boolean）、字符串（String）、数值（Number）、对象（Object）。</p><p>ES5对象属性名都是字符串容易造成属性名的冲突。</p><pre class="code-block"><code class="language-javascript">var a = { name: &#39;jawil&#39;};
+a.name = &#39;lulin&#39;;
+//这样就会重写属性
+</code></pre><p>ES6引入了一种新的原始数据类型Symbol，表示独一无二的值。</p><p>注意，Symbol函数前不能使用new命令，否则会报错。这是因为生成的Symbol是一个原始类型的值，不是对象</p><p>Symbol函数可以接受一个字符串作为参数，表示对Symbol实例的描述，主要是为了在控制台显示，或者转为字符串时，比较容易区分。</p><pre class="code-block"><code class="language-javascript">// 没有参数的情况
+var s1 = Symbol();
+var s2 = Symbol();
+s1 === s2 // false
+
+// 有参数的情况
+var s1 = Symbol(&quot;foo&quot;);
+var s2 = Symbol(&quot;foo&quot;);
+s1 === s2 // false
+</code></pre><p>注意：Symbol值不能与其他类型的值进行运算。</p><p>作为属性名的Symbol</p><pre class="code-block"><code class="language-javascript">var mySymbol = Symbol();
+
+// 第一种写法
+var a = {};
+a[mySymbol] = &#39;Hello!&#39;;
+
+// 第二种写法
+var a = {
+  [mySymbol]: &#39;Hello!&#39;
+};
+
+// 第三种写法
+var a = {};
+Object.defineProperty(a, mySymbol, { value: &#39;Hello!&#39; });
+
+// 以上写法都得到同样结果
+a[mySymbol] // &quot;Hello!&quot;
+</code></pre><p>注意，Symbol值作为对象属性名时，不能用点运算符。</p><p>继续看下面这个例子：</p><pre class="code-block"><code class="language-javascript">var a = {};
+var name = Symbol();
+a.name = &#39;jawil&#39;;
+a[name] = &#39;lulin&#39;;
+console.log(a.name,a[name]);             //jawil,lulin
+</code></pre><p>Symbol值作为属性名时，该属性还是公开属性，不是私有属性。</p><p>这个有点类似于java中的protected属性</p><p>（protected和private的区别：在类的外部都是不可以访问的，在类内的子类可以继承protected不可以继承private）</p><p>但是这里的Symbol在类外部也是可以访问的，只是不会出现在for...in、for...of循环中，</p><p>也不会被Object.keys()、Object.getOwnPropertyNames()返回。</p><p>但有一个 <code>Object.getOwnPropertySymbols</code> 方法，可以获取指定对象的所有Symbol属性名。</p><p>看看第四版的实现demo，想必大家了解上面知识已经猜得到怎么写了，很简单。</p><p>直接加个var fn = Symbol()就行了</p><pre class="code-block"><code class="language-javascript">//原生JavaScript封装apply方法，第四版
+Function.prototype.applyFour = function(context) {
+    var context = context || window
+    var args = arguments[1] //获取传入的数组参数
+    var fn = Symbol()
+    context[fn] = this //假想context对象预先不存在名为fn的属性
+    if (args == void 0) { //没有传入参数直接执行
+        return context[fn]()
+    }
+    var fnStr = &#39;context[fn](&#39;
+    for (var i = 0; i &lt; args.length; i++) {
+        //得到&quot;context.fn(arg1,arg2,arg3...)&quot;这个字符串在，最后用eval执行
+        fnStr += i == args.length - 1 ? args[i] : args[i] + &#39;,&#39;
+    }
+    fnStr += &#39;)&#39;
+    var returnValue = eval(fnStr) //还是eval强大
+    delete context[fn] //执行完毕之后删除这个属性
+    return returnValue
+}
+</code></pre><h3>模拟实现第五步</h3><p>呃呃呃额额，慢着，ES3就出现的方法，你用ES6来实现，你好意思么？</p><p>你可能会说，不管黑猫白猫，只要能抓住老鼠的猫就是好猫，面试官直说不准用call和apply方法但是没说不准用ES6语法啊。</p><p>反正公说公有理婆说婆有理，这里还是不用Symbol方法实现一下，我们知道，ES6其实都是语法糖，ES6能写的，</p><p>咋们ES5都能实现，这就导致了babel这类把ES6语法转化成ES5的代码了。</p><p>至于babel把Symbol属性转换成啥代码了，我也没去看，有兴趣的可以看一下稍微研究一下，这里我说一下简单的模拟。</p><p>ES5 没有 Sybmol，属性名称只可能是一个字符串，如果我们能做到这个字符串不可预料，</p><p>那么就基本达到目标。要达到不可预期，一个随机数基本上就解决了。</p><pre class="code-block"><code class="language-javascript">//简单模拟Symbol属性
+function jawilSymbol(obj) {
+    var unique_proper = &quot;00&quot; + Math.random();
+    if (obj.hasOwnProperty(unique_proper)) {
+        arguments.callee(obj)//如果obj已经有了这个属性，递归调用，直到没有这个属性
+    } else {
+        return unique_proper;
+    }
+}
+//原生JavaScript封装apply方法，第五版
+Function.prototype.applyFive = function(context) {
+    var context = context || window
+    var args = arguments[1] //获取传入的数组参数
+    var fn = jawilSymbol(context);
+    context[fn] = this //假想context对象预先不存在名为fn的属性
+    if (args == void 0) { //没有传入参数直接执行
+        return context[fn]()
+    }
+    var fnStr = &#39;context[fn](&#39;
+    for (var i = 0; i &lt; args.length; i++) {
+        //得到&quot;context.fn(arg1,arg2,arg3...)&quot;这个字符串在，最后用eval执行
+        fnStr += i == args.length - 1 ? args[i] : args[i] + &#39;,&#39;
+    }
+    fnStr += &#39;)&#39;
+    var returnValue = eval(fnStr) //还是eval强大
+    delete context[fn] //执行完毕之后删除这个属性
+    return returnValue
+};
+var obj = {
+    name: &#39;jawil&#39;
+}
+function sayHello(age) {
+    return {
+        name: this.name,
+        age: age
+    }
+}
+console.log(sayHello.applyFive(obj,[24]));// 完美输出{name: &quot;jawil&quot;, age: 24}
+</code></pre><h2>实现Call方法</h2><p>这个不需要讲了吧，道理都一样，就是参数一样，这里我给出我实现的一种方式，看不懂，自己写一个去。</p><pre class="code-block"><code class="language-javascript">//原生JavaScript封装call方法
+Function.prototype.callOne = function(context) {
+    return this.applyFive(([].shift.applyFive(arguments), arguments));
+    //巧妙地运用上面已经实现的applyFive函数
+}
+</code></pre><p>看不太明白也不能怪我咯，我就不细讲了，看个demo证明一下，这个写法没问题。</p><pre class="code-block"><code class="language-javascript">Function.prototype.applyFive = function(context) {//刚才写的一大串}
+Function.prototype.callOne = function(context) {
+    return this.applyFive(([].shift.applyFive(arguments)), arguments)
+    //巧妙地运用上面已经实现的applyFive函数
+};
+//测试一下
+var obj = {
+    name: &#39;jawil&#39;
+};
+
+function sayHello(age) {
+    return {
+        name: this.name,
+        age: age
+    }
+}
+console.log(sayHello.callOne(obj,24));// 完美输出{name: &quot;jawil&quot;, age: 24}
+</code></pre><h2>实现bind方法</h2><p>什么是bind函数</p><p>如果掌握了上面实现apply的方法，我想理解起来模拟实现bind方法也是轻而易举，原理都差不多，我们还是来看看bind方法的定义。</p><p>我们还是简单的看下ECMAScript规范对bind方法的定义，暂时看不懂不要紧，获取几个关键信息就行。</p><p>bind() 方法会创建一个新函数，当这个新函数被调用时，它的 this 值是传递给 bind() 的第一个参数,</p><p>它的参数是 bind() 的其他参数和其原本的参数，</p><p>bind返回的绑定函数也能使用new操作符创建对象：这种行为就像把原函数当成构造器。</p><p>提供的this值被忽略，同时调用时的参数被提供给模拟函数。。</p><p>语法是这样样子的： <code>fun.bind(thisArg[, arg1[, arg2[, ...]]])</code></p><p>是不是似曾相识，这不是call方法的语法一个样子么，，，但它们是一样的吗？</p><p>bind方法传递给调用函数的参数可以逐个列出，也可以写在数组中。</p><p>bind方法与call、apply最大的不同就是前者返回一个绑定上下文的函数，</p><p>而后两者是直接执行了函数。由于这个原因，上面的代码也可以这样写:</p><pre class="code-block"><code class="language-javascript">jawil.sayHello.bind(lulin)(24); //hello, i am lulin 24 years old
+jawil.sayHello.bind(lulin)([24]); //hello, i am lulin 24 years old
+</code></pre><p>bind方法还可以这样写 fn.bind(obj, arg1)(arg2).</p><p><strong>用一句话总结bind的用法：</strong></p><p>该方法创建一个新函数，称为绑定函数，绑定函数会以创建它时传入bind方法的第一个参数作为this，</p><p>传入bind方法的第二个以及以后的参数加上绑定函数运行时本身的参数按照顺序作为原函数的参数来调用原函数。</p><p>以前解决这个问题的办法通常是缓存this，例如：</p><pre class="code-block"><code class="language-javascript">function Person(name){
+  this.nickname = name;
+  this.distractedGreeting = function() {
+    var self = this; // &lt;-- 注意这一行!
+    setTimeout(function(){
+      console.log(&quot;Hello, my name is &quot; + self.nickname); // &lt;-- 还有这一行!
+    }, 500);
+  }
+}
+ 
+var alice = new Person(&#39;jawil&#39;);
+alice.distractedGreeting();
+// after 500ms logs &quot;Hello, my name is jawil&quot;
+</code></pre><p>但是现在有一个更好的办法！您可以使用bind。上面的例子中被更新为：</p><pre class="code-block"><code class="language-javascript">function Person(name){
+  this.nickname = name;
+  this.distractedGreeting = function() {
+    setTimeout(function(){
+      console.log(&quot;Hello, my name is &quot; + this.nickname);
+    }.bind(this), 500); // &lt;-- this line!
+  }
+}
+ 
+var alice = new Person(&#39;jawil&#39;);
+alice.distractedGreeting();
+// after 500ms logs &quot;Hello, my name is jawil&quot;
+</code></pre><p><strong>用法总结：</strong></p><p>bind() 最简单的用法是创建一个函数，使这个函数不论怎么调用都有同样的 this 值。</p><p>JavaScript新手经常犯的一个错误是将一个方法从对象中拿出来，然后再调用，希望方法中的 this 是原来的对象。</p><p>（比如在回调中传入这个方法。）如果不做特殊处理的话，一般会丢失原来的对象。</p><p>从原来的函数和原来的对象创建一个绑定函数，则能很漂亮地解决这个问题：</p><pre class="code-block"><code class="language-javascript">this.x = 9; 
+var module = {
+  x: 81,
+  getX: function() { return this.x; }
+};
+ 
+module.getX(); // 81
+ 
+var getX = module.getX;
+getX(); // 9, 因为在这个例子中，&quot;this&quot;指向全局对象
+ 
+// 创建一个&#39;this&#39;绑定到module的函数
+var boundGetX = getX.bind(module);
+boundGetX(); // 81
+</code></pre><p>备注：</p><p>很不幸，Function.prototype.bind 在IE8及以下的版本中不被支持，</p><p>所以如果你没有一个备用方案的话，可能在运行时会出现问题。</p><p>bind 函数在 ECMA-262 第五版才被加入；它可能无法在所有浏览器上运行。</p><p>你可以部份地在脚本开头加入以下代码，就能使它运作，让不支持的浏览器也能使用 bind() 功能。</p><h3>初级实现</h3><p>了解了以上内容，我们来实现一个初级的bind函数Polyfill:</p><pre class="code-block"><code class="language-javascript">Function.prototype.bind = function (context) {
+    var me = this;
+    var argsArray = Array.prototype.slice.callOne(arguments);
+    return function () {
+        return me.applyFive(context, argsArray.slice(1))
+    }
+}
+</code></pre><p>简单解读：</p><p>基本原理是使用apply进行模拟。函数体内的this，就是需要绑定this的实例函数，或者说是原函数。</p><p>最后我们使用apply来进行参数（context）绑定，并返回。</p><p>同时，将第一个参数（context）以外的其他参数，作为提供给原函数的预设参数，这也是基本的“颗粒化（curring）”基础。</p><h3>初级实现的加分项</h3><p>进行兼容处理，就是锦上添花了。</p><pre class="code-block"><code class="language-javascript">Function.prototype.bind = Function.prototype.bind || function (context) {
+    ...
+}
+</code></pre><h3>颗粒化（curring）实现</h3><p>对于函数的柯里化不太了解的童鞋，可以先尝试读读这篇文章：<a href="https://www.jianshu.com/p/5e1899fe7d6b" target="_blank" rel="noopener">前端基础进阶（八）：深入详解函数的柯里化</a>。</p><p>上述的实现方式中，我们返回的参数列表里包含：atgsArray.slice(1)，他的问题在于存在预置参数功能丢失的现象。</p><p>想象我们返回的绑定函数中，如果想实现预设传参（就像bind所实现的那样），就面临尴尬的局面。真正实现颗粒化的“完美方式”是：</p><pre class="code-block"><code class="language-javascript">Function.prototype.bind = Function.prototype.bind || function (context) {
+    var me = this;
+    var args = Array.prototype.slice.callOne(arguments, 1);
+    return function () {
+        var innerArgs = Array.prototype.slice.callOne(arguments);
+        var finalArgs = args.concat(innerArgs);
+        return me.applyFive(context, finalArgs);
+    }
+}
+</code></pre><h3>构造函数场景下的兼容</h3><pre class="code-block"><code class="language-javascript">Function.prototype.bind = Function.prototype.bind || function (context) {
+    var me = this;
+    var args = Array.prototype.slice.callOne(arguments, 1);
+    var F = function () {};
+    F.prototype = this.prototype;
+    var bound = function () {
+        var innerArgs = Array.prototype.slice.callOne(arguments);
+        var finalArgs = args.concat(innerArgs);
+        return me.apply(this instanceof F ? this : context || this, finalArgs);
+    }
+    bound.prototype = new F();
+    return bound;
+}
+</code></pre><h3>更严谨的做法</h3><p>我们需要调用bind方法的一定要是一个函数，所以可以在函数体内做一个判断：</p><pre class="code-block"><code class="language-javascript">if (typeof this !== &quot;function&quot;) {
+  throw new TypeError(&quot;Function.prototype.bind - what is trying to be bound is not callable&quot;);
+}
+</code></pre><p>做到所有这一切，基本算是完成了。其实MDN上有个自己实现的polyfill，就是如此实现的。</p><p>另外，《JavaScript Web Application》一书中对bind()的实现，也是如此。</p><h3>最终答案</h3><pre class="code-block"><code class="language-javascript">//简单模拟Symbol属性
+function jawilSymbol(obj) {
+    var unique_proper = &quot;00&quot; + Math.random();
+    if (obj.hasOwnProperty(unique_proper)) {
+        arguments.callee(obj)//如果obj已经有了这个属性，递归调用，直到没有这个属性
+    } else {
+        return unique_proper;
+    }
+}
+//原生JavaScript封装apply方法，第五版
+Function.prototype.applyFive = function(context) {
+    var context = context || window
+    var args = arguments[1] //获取传入的数组参数
+    var fn = jawilSymbol(context);
+    context[fn] = this //假想context对象预先不存在名为fn的属性
+    if (args == void 0) { //没有传入参数直接执行
+        return context[fn]()
+    }
+    var fnStr = &#39;context[fn](&#39;
+    for (var i = 0; i &lt; args.length; i++) {
+        //得到&quot;context.fn(arg1,arg2,arg3...)&quot;这个字符串在，最后用eval执行
+        fnStr += i == args.length - 1 ? args[i] : args[i] + &#39;,&#39;
+    }
+    fnStr += &#39;)&#39;
+    var returnValue = eval(fnStr) //还是eval强大
+    delete context[fn] //执行完毕之后删除这个属性
+    return returnValue
+}
+//简单模拟call函数
+Function.prototype.callOne = function(context) {
+    return this.applyFive(([].shift.applyFive(arguments)), arguments)
+    //巧妙地运用上面已经实现的applyFive函数
+}
+
+//简单模拟bind函数
+Function.prototype.bind = Function.prototype.bind || function (context) {
+    var me = this;
+    var args = Array.prototype.slice.callOne(arguments, 1);
+    var F = function () {};
+    F.prototype = this.prototype;
+    var bound = function () {
+        var innerArgs = Array.prototype.slice.callOne(arguments);
+        var finalArgs = args.concat(innerArgs);
+        return me.applyFive(this instanceof F ? this : context || this, finalArgs);
+    }
+    bound.prototype = new F();
+    return bound;
+}
+var obj = {
+    name: &#39;jawil&#39;
+}
+
+function sayHello(age) {
+    return {
+        name: this.name,
+        age: age
+    }
+}
+
+console.log(sayHello.bind(obj,24)());// 完美输出{name: &quot;jawil&quot;, age: 24}
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

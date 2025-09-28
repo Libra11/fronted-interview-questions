@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Webpack] 支持哪些模块化加载？【热度: 154】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：webpack 模块化支持&lt;/p&gt;&lt;p&gt;Webpack 支持以下几种模块化标准：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;ESM (ECMAScript Modules)&lt;/strong&gt;: 这是 JavaScript ES6 中引入" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Webpack] 支持哪些模块化加载？【热度: 154】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：webpack 模块化支持&lt;/p&gt;&lt;p&gt;Webpack 支持以下几种模块化标准：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;ESM (ECMAScript Modules)&lt;/strong&gt;: 这是 JavaScript ES6 中引入的官方标准模块系统。使用 &lt;code&gt;import&lt;/code&gt; 和 &lt;code&gt;export&lt;/code&gt; 语句来导入" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/760" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Webpack] 支持哪些模块化加载？【热度: 154】</h1>
+      <div class="subtitle">TOP100互联网 · 工程化 · TOP100互联网</div>
+      <div class="meta">创建：2024-05-26T01:33:34Z · 更新：2024-05-26T01:33:34Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：webpack 模块化支持</p><p>Webpack 支持以下几种模块化标准：</p><ol><li><strong>ESM (ECMAScript Modules)</strong>: 这是 JavaScript ES6 中引入的官方标准模块系统。使用 <code>import</code> 和 <code>export</code> 语句来导入和导出模块。</li></ol><ol><li><strong>CommonJS</strong>: 主要用于 Node.js，允许使用 <code>require()</code> 来加载模块和 <code>module.exports</code> 来导出模块。</li></ol><ol><li><strong>AMD (Asynchronous Module Definition)</strong>: 用于异步加载模块，并使用 <code>define</code> 方法来定义模块。</li></ol><ol><li><strong>UMD (Universal Module Definition)</strong>: 结合了 AMD 和 CommonJS 的特点，并支持全局变量定义的方式，使得模块可以在客户端和服务端上运行。</li></ol><p>除此之外，Webpack 还可以处理非 JavaScript 文件并将它们视为模块，例如 CSS, LESS, SASS, 图像文件(PNG, JPG, GIF, SVG 等), 字体(OTF, TTF, WOFF, WOFF2, EOT), HTML 以及任何其他类型的文件。这通过使用相应的 loader 来实现，如 <code>style-loader</code>, <code>css-loader</code>, <code>file-loader</code> 等。这些 loader 会将非 JavaScript 文件转换为可以被 Webpack 处理的模块。</p><p><strong>参考文档</strong></p><ul><li>https://www.webpackjs.com/concepts/modules/#supported-module-types</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

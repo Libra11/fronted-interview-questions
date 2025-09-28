@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何判定一个属性来自于对象本身， 还是来自于原型链【热度: 224】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：对象与原型链&lt;/p&gt;&lt;p&gt;在 JavaScript 中，可以通过以下几种方式来判断一个属性是来自对象本身还是来自原型链：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、使用 &lt;code&gt;hasOwnProperty()&lt;/code&gt; 方法&lt;/st" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何判定一个属性来自于对象本身， 还是来自于原型链【热度: 224】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：对象与原型链&lt;/p&gt;&lt;p&gt;在 JavaScript 中，可以通过以下几种方式来判断一个属性是来自对象本身还是来自原型链：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、使用 &lt;code&gt;hasOwnProperty()&lt;/code&gt; 方法&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;方法介绍：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;&lt;code&gt;hasOwnProperty" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1044" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何判定一个属性来自于对象本身， 还是来自于原型链【热度: 224】</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2024-10-30T00:23:15Z · 更新：2024-10-30T00:23:15Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：对象与原型链</p><p>在 JavaScript 中，可以通过以下几种方式来判断一个属性是来自对象本身还是来自原型链：</p><p><strong>一、使用 <code>hasOwnProperty()</code> 方法</strong></p><ol><li>方法介绍：</li></ol><ul><li><code>hasOwnProperty()</code>是 JavaScript 对象的一个方法，用于判断一个对象自身是否具有指定的属性。</li><li>它不会检查原型链上的属性，只关注对象本身是否拥有该属性。</li></ul><ol><li>示例代码：</li></ol><p>```javascript</p><p>function Person() {}</p><p>Person.prototype.name = "prototype name";</p><p>const person = new Person();</p><p>person.age = 30;</p><p>console.log(person.hasOwnProperty("age")); // true，说明 age 属性是对象本身的属性</p><p>console.log(person.hasOwnProperty("name")); // false，说明 name 属性不在对象本身，而是在原型链上</p><p>```</p><p><strong>二、使用 <code>in</code> 操作符结合 <code>hasOwnProperty()</code></strong></p><ol><li>方法介绍：</li></ol><ul><li><code>in</code>操作符用于检查一个对象及其原型链中是否具有指定的属性。</li><li>可以结合<code>hasOwnProperty()</code>来判断属性的来源。</li></ul><ol><li>示例代码：</li></ol><p>```javascript</p><p>function Person() {}</p><p>Person.prototype.name = "prototype name";</p><p>const person = new Person();</p><p>person.age = 30;</p><p>const propertyName = "name";</p><p>if (person.hasOwnProperty(propertyName)) {</p><p>console.log(<code>${propertyName} is an own property of the object.</code>);</p><p>} else if (propertyName in person) {</p><p>console.log(<code>${propertyName} is inherited from the prototype.</code>);</p><p>} else {</p><p>console.log(<code>${propertyName} is not found in the object or its prototype.</code>);</p><p>}</p><p>```</p><p><strong>三、使用 <code>Object.getOwnPropertyDescriptor()</code> 方法</strong></p><ol><li>方法介绍：</li></ol><ul><li><code>Object.getOwnPropertyDescriptor()</code>方法返回指定对象上一个自有属性的属性描述符。</li><li>如果对象没有指定的自有属性，则返回<code>undefined</code>。</li></ul><ol><li>示例代码：</li></ol><p>```javascript</p><p>function Person() {}</p><p>Person.prototype.name = "prototype name";</p><p>const person = new Person();</p><p>person.age = 30;</p><p>const ageDescriptor = Object.getOwnPropertyDescriptor(person, "age");</p><p>const nameDescriptor = Object.getOwnPropertyDescriptor(person, "name");</p><p>if (ageDescriptor) {</p><p>console.log("age is an own property of the object.");</p><p>}</p><p>if (!nameDescriptor) {</p><p>console.log("name is not an own property of the object.");</p><p>}</p><p>```</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

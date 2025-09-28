@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Vue] vue3 的响应式库是独立出来的，它单独使用的时候是什么效果 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;vue3 的响应式库是独立出来的，它可以很方便的集成进 React， 作为 React 的状态管理库使用！&lt;/p&gt;&lt;h3&gt;使用示范&lt;/h3&gt;&lt;p&gt;定义 store&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-typesc" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Vue] vue3 的响应式库是独立出来的，它单独使用的时候是什么效果" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;vue3 的响应式库是独立出来的，它可以很方便的集成进 React， 作为 React 的状态管理库使用！&lt;/p&gt;&lt;h3&gt;使用示范&lt;/h3&gt;&lt;p&gt;定义 store&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-typescript&quot;&gt;// store.ts import { reactive, computed, effect } from" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/272" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Vue] vue3 的响应式库是独立出来的，它单独使用的时候是什么效果</h1>
+      <div class="subtitle">web框架 · web框架 · 腾讯</div>
+      <div class="meta">创建：2023-04-09T07:23:25Z · 更新：2023-04-09T07:23:26Z</div>
+    </div>
+    <article class="content markdown-body"><p>vue3 的响应式库是独立出来的，它可以很方便的集成进 React， 作为 React 的状态管理库使用！</p><h3>使用示范</h3><p>定义 store</p><pre class="code-block"><code class="language-typescript">// store.ts
+import { reactive, computed, effect } from &#39;@vue/reactivity&#39;;
+
+export const state = reactive({
+  count: 0,
+});
+
+const plusOne = computed(() =&gt; state.count + 1);
+
+effect(() =&gt; {
+  console.log(&#39;plusOne changed: &#39;, plusOne);
+});
+
+const add = () =&gt; (state.count += 1);
+
+export const mutations = {
+  // mutation
+  add,
+};
+
+export const store = {
+  state,
+  computed: {
+    plusOne,
+  },
+};
+
+export type Store = typeof store;
+</code></pre><p>消费使用</p><pre class="code-block"><code class="language-js">// Index.tsx
+import { Provider, useStore } from &#39;rxv&#39;
+import { mutations, store, Store } from &#39;./store.ts&#39;
+function Count() {
+  const countState = useStore((store: Store) =&gt; {
+    const { state, computed } = store;
+    const { count } = state;
+    const { plusOne } = computed;
+
+    return {
+      count,
+      plusOne,
+    };
+  });
+
+  return (
+    &lt;Card hoverable style={{ marginBottom: 24 }}&gt;
+      &lt;h1&gt;计数器&lt;/h1&gt;
+      &lt;div className=&quot;chunk&quot;&gt;
+        &lt;div className=&quot;chunk&quot;&gt;store中的count现在是 {countState.count}&lt;/div&gt;
+        &lt;div className=&quot;chunk&quot;&gt;computed值中的plusOne现在是 {countState.plusOne.value}&lt;/div&gt;
+         &lt;Button onClick={mutations.add}&gt;add&lt;/Button&gt;
+      &lt;/div&gt;
+    &lt;/Card&gt;
+  );
+}
+
+export default () =&gt; {
+  return (
+    &lt;Provider value={store}&gt;
+       &lt;Count /&gt;
+    &lt;/Provider&gt;
+  );
+};
+</code></pre><p>可以看出，store的定义只用到了@vue/reactivity，而rxv只是在组件中做了一层桥接，连通了Vue3和React，正如它名字的含义：React x Vue。</p><h3>如何实现</h3><p>只要effect能接入到React系统中，那么其他的api都没什么问题，因为它们只是去收集effect的依赖，去通知effect触发更新。</p><p>effect接受的是一个函数，而且effect还支持通过传入schedule参数来自定义依赖更新的时候需要触发什么函数，</p><p>而rxv的核心api: useStore接受的也是一个函数selector，它会让用户自己选择在组件中需要访问的数据。</p><p>把selector包装在effect中执行，去收集依赖。</p><p>指定依赖发生更新时，需要调用的函数是当前正在使用useStore的这个组件的forceUpdate强制渲染函数。</p><p>简单的看一下核心实现</p><p>share.ts</p><pre class="code-block"><code class="language-typescript">export const useForceUpdate = () =&gt; {
+  const [, forceUpdate] = useReducer(s =&gt; s + 1, 0);
+  return forceUpdate;
+};
+
+export const useEffection = (...effectArgs: Parameters&lt;typeof effect&gt;) =&gt; {
+  // 用一个ref存储effection
+  // effect函数只需要初始化执行一遍
+  const effectionRef = useRef&lt;ReactiveEffect&gt;();
+  if (!effectionRef.current) {
+    effectionRef.current = effect(...effectArgs);
+  }
+
+  // 卸载组件后取消effect
+  const stopEffect = () =&gt; {
+    stop(effectionRef.current!);
+  };
+  useEffect(() =&gt; stopEffect, []);
+
+  return effectionRef.current
+};
+</code></pre><p>核心逻辑在此</p><pre class="code-block"><code class="language-typescript">import React, { useContext } from &#39;react&#39;;
+import { useForceUpdate, useEffection } from &#39;./share&#39;;
+
+type Selector&lt;T, S&gt; = (store: T) =&gt; S;
+
+const StoreContext = React.createContext&lt;any&gt;(null);
+
+const useStoreContext = () =&gt; {
+  const contextValue = useContext(StoreContext);
+  if (!contextValue) {
+    throw new Error(
+      &#39;could not find store context value; please ensure the component is wrapped in a &lt;Provider&gt;&#39;,
+    );
+  }
+  return contextValue;
+};
+
+/**
+ * 在组件中读取全局状态
+ * 需要通过传入的函数收集依赖
+ */
+export const useStore = &lt;T, S&gt;(selector: Selector&lt;T, S&gt;): S =&gt; {
+  const forceUpdate = useForceUpdate();
+  const store = useStoreContext();
+
+  const effection = useEffection(() =&gt; selector(store), {
+    scheduler: job =&gt; {
+      if (job() === undefined) return;
+      forceUpdate();
+    },
+    lazy: true,
+  });
+
+  const value = effection();
+  return value;
+};
+
+export const Provider = StoreContext.Provider;
+</code></pre><p>参考文档：</p><ul><li>https://github.com/sl1673495/react-composition-api</li><li>https://juejin.cn/post/6844904054192078855</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>判断数组的方式有哪些【热度: 509】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：js判断数组方法&lt;/p&gt;&lt;p&gt;在 JavaScript 中，判断一个值是否为数组有多种方式，以下是几种常见的方法：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;code&gt;Array.isArray()&lt;/code&gt;: 使用 &lt;code&gt;Array.is" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="判断数组的方式有哪些【热度: 509】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：js判断数组方法&lt;/p&gt;&lt;p&gt;在 JavaScript 中，判断一个值是否为数组有多种方式，以下是几种常见的方法：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;code&gt;Array.isArray()&lt;/code&gt;: 使用 &lt;code&gt;Array.isArray()&lt;/code&gt; 方法可以判断一个值是否为数组。它是 ES5 中新增的方法，返回一个布尔值。&lt;/li&gt;&lt;/o" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/431" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>判断数组的方式有哪些【热度: 509】</h1>
+      <div class="subtitle">网易 · JavaScript · 网易</div>
+      <div class="meta">创建：2023-06-08T14:58:10Z · 更新：2024-06-26T10:02:38Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：js判断数组方法</p><p>在 JavaScript 中，判断一个值是否为数组有多种方式，以下是几种常见的方法：</p><ol><li><code>Array.isArray()</code>: 使用 <code>Array.isArray()</code> 方法可以判断一个值是否为数组。它是 ES5 中新增的方法，返回一个布尔值。</li></ol><pre class="code-block"><code class="language-javascript">const arr = [1, 2, 3];
+console.log(Array.isArray(arr)); // true
+
+const obj = { a: 1, b: 2 };
+console.log(Array.isArray(obj)); // false
+</code></pre><ol><li><code>instanceof</code> 操作符：可以使用 <code>instanceof</code> 操作符检查一个对象是否是特定类的实例。对于数组，可以使用 <code>instanceof Array</code> 判断。</li></ol><pre class="code-block"><code class="language-javascript">const arr = [1, 2, 3];
+console.log(arr instanceof Array); // true
+
+const obj = { a: 1, b: 2 };
+console.log(obj instanceof Array); // false
+</code></pre><ol><li><code>Array.prototype.isArray()</code>：可以通过 <code>Array.prototype.isArray.call()</code> 方法来判断一个值是否为数组。这种方式在某些特定情况下使用较多。</li></ol><pre class="code-block"><code class="language-javascript">const arr = [1, 2, 3];
+console.log(Array.prototype.isArray.call(arr)); // true
+
+const obj = { a: 1, b: 2 };
+console.log(Array.prototype.isArray.call(obj)); // false
+</code></pre><ol><li><code>Object.prototype.toString()</code>：可以使用 <code>Object.prototype.toString.call()</code> 方法来获取一个值的类型信息，进而判断是否为数组。返回的结果是一个包含类型信息的字符串，例如 "[object Array]"。</li></ol><pre class="code-block"><code class="language-javascript">const arr = [1, 2, 3];
+console.log(Object.prototype.toString.call(arr) === &quot;[object Array]&quot;); // true
+
+const obj = { a: 1, b: 2 };
+console.log(Object.prototype.toString.call(obj) === &quot;[object Array]&quot;); // false
+</code></pre><p>这些方法各有特点，根据实际需求选择合适的方法进行判断。通常推荐使用 <code>Array.isArray()</code> 方法来判断一个值是否为数组，因为它是专门用于判断数组的标准方法，并且在大多数现代浏览器中得到广泛支持。</p><h2>Comments / Answers</h2><hr /><p><strong>Long-34</strong> at 2024-06-26T10:02:36Z</p><p>Array.prototype.isPrototypeOf([]);</p><p>Object.getPrototypeOf([]) === Array.prototype</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

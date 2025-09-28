@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>iterator 和 数组 有什么关系【热度: 119】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：iterator 对象、iterator 和 数组关系&lt;/p&gt;&lt;p&gt;在 JavaScript 中，Iterator（迭代器）和数组有着密切的关系：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、数组作为可迭代对象&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="iterator 和 数组 有什么关系【热度: 119】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：iterator 对象、iterator 和 数组关系&lt;/p&gt;&lt;p&gt;在 JavaScript 中，Iterator（迭代器）和数组有着密切的关系：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、数组作为可迭代对象&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;可在迭代场景中使用&lt;/strong&gt;：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;数组是一种内置的可迭代" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/978" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>iterator 和 数组 有什么关系【热度: 119】</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2024-10-12T14:47:13Z · 更新：2024-10-12T14:47:13Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：iterator 对象、iterator 和 数组关系</p><p>在 JavaScript 中，Iterator（迭代器）和数组有着密切的关系：</p><p><strong>一、数组作为可迭代对象</strong></p><ol><li><strong>可在迭代场景中使用</strong>：</li></ol><ul><li>数组是一种内置的可迭代对象，这意味着它可以在需要可迭代对象的地方使用，比如在<code>for...of</code>循环、扩展运算符（<code>...</code>）和<code>Array.from()</code>等方法中。</li><li>例如：</li></ul><p>```javascript</p><p>const arr = [1, 2, 3];</p><p>for (const item of arr) {</p><p>console.log(item);</p><p>}</p><p>```</p><ol><li><strong>实现了迭代协议</strong>：</li></ol><ul><li>数组实现了可迭代对象的协议，即拥有一个<code>Symbol.iterator</code>方法。这个方法返回一个 Iterator 对象，用于遍历数组的元素。</li></ul><p><strong>二、Iterator 用于遍历数组</strong></p><ol><li><strong>提供遍历机制</strong>：</li></ol><ul><li>Iterator 对象为数组的遍历提供了一种标准化的方式。通过调用数组的<code>Symbol.iterator</code>方法获取 Iterator 对象，然后可以使用<code>next()</code>方法逐个访问数组的元素。</li><li>例如：</li></ul><p>```javascript</p><p>const arr = [4, 5, 6];</p><p>const iterator = arr[Symbol.iterator]();</p><p>let result = iterator.next();</p><p>while (!result.done) {</p><p>console.log(result.value);</p><p>result = iterator.next();</p><p>}</p><p>```</p><ol><li><strong>灵活的迭代控制</strong>：</li></ol><ul><li>使用 Iterator 对象可以更灵活地控制数组的遍历过程。可以在遍历过程中暂停、恢复或根据特定条件进行遍历。</li><li>例如，可以实现一个自定义的迭代器，只遍历数组中的偶数元素：</li></ul><p>```javascript</p><p>function evenNumberIterator(arr) {</p><p>let index = 0;</p><p>return {</p><p>next() {</p><p>while (index < arr.length) {</p><p>const value = arr[index];</p><p>index++;</p><p>if (value % 2 === 0) {</p><p>return { value, done: false };</p><p>}</p><p>}</p><p>return { done: true };</p><p>},</p><p>};</p><p>}</p><p>const arr = [1, 2, 3, 4, 5, 6];</p><p>const iterator = evenNumberIterator(arr);</p><p>let result = iterator.next();</p><p>while (!result.done) {</p><p>console.log(result.value);</p><p>result = iterator.next();</p><p>}</p><p>```</p><p><strong>三、数组方法与 Iterator 的关系</strong></p><ol><li><strong>某些数组方法利用 Iterator</strong>：</li></ol><ul><li>一些数组方法，如<code>forEach()</code>、<code>map()</code>、<code>filter()</code>等，内部实际上是使用 Iterator 来遍历数组的元素。</li><li>例如，<code>map()</code>方法创建一个新数组，其中每个元素都是对原始数组中对应元素调用提供的函数的结果：</li></ul><p>```javascript</p><p>const arr = [7, 8, 9];</p><p>const newArr = arr.map((item) => item * 2);</p><p>console.log(newArr);</p><p>```</p><ol><li><strong>可迭代性的扩展</strong>：</li></ol><ul><li>通过利用 Iterator，可以为数组定义自定义的迭代行为。例如，可以创建一个自定义的类，该类的实例是可迭代的，并且可以像数组一样进行遍历。</li><li>例如：</li></ul><p>```javascript</p><p>class CustomArray {</p><p>constructor() {</p><p>this.data = [];</p><p>}</p><p>add(item) {</p><p>this.data.push(item);</p><p>}</p><p>*[Symbol.iterator]() {</p><p>for (const item of this.data) {</p><p>yield item;</p><p>}</p><p>}</p><p>}</p><p>const customArr = new CustomArray();</p><p>customArr.add(10);</p><p>customArr.add(11);</p><p>customArr.add(12);</p><p>for (const item of customArr) {</p><p>console.log(item);</p><p>}</p><p>```</p><p>总之，Iterator 和数组在 JavaScript 中紧密相关。数组作为可迭代对象，可以通过 Iterator 进行遍历，而 Iterator 为数组的遍历提供了灵活的控制和扩展机制。这种关系使得在处理数组和其他可迭代对象时，可以使用统一的迭代模式和方法。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

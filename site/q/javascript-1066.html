@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Object.defineProperty 是否可以监听拦截数组变化【热度: 144】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：Object.defineProperty 监听数组变化&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;基本原理与部分可行性&lt;/strong&gt;&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;&lt;code&gt;Object.defineProperty&lt;/co" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Object.defineProperty 是否可以监听拦截数组变化【热度: 144】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：Object.defineProperty 监听数组变化&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;基本原理与部分可行性&lt;/strong&gt;&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;&lt;code&gt;Object.defineProperty&lt;/code&gt;可以用于监听和拦截数组的某些变化，但不是原生地对所有数组操作都能很好地监听。&lt;/li&gt;&lt;li&gt;数组在 JavaSc" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1066" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>Object.defineProperty 是否可以监听拦截数组变化【热度: 144】</h1>
+      <div class="subtitle">JavaScript · JavaScript · 小米</div>
+      <div class="meta">创建：2024-11-22T14:08:52Z · 更新：2025-02-27T10:34:11Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：Object.defineProperty 监听数组变化</p><ol><li><strong>基本原理与部分可行性</strong></li></ol><ul><li><code>Object.defineProperty</code>可以用于监听和拦截数组的某些变化，但不是原生地对所有数组操作都能很好地监听。</li><li>数组在 JavaScript 中是特殊的对象，其索引可以看作是对象属性。理论上，我们可以使用<code>Object.defineProperty</code>为数组的每个索引（属性）定义属性描述符，以此来尝试监听数组元素的读取和设置操作。</li><li>例如，对于一个简单的数组元素设置操作，可以这样定义：</li></ul><p>```javascript</p><p>let arr = [1, 2, 3];</p><p>Object.defineProperty(arr, "0", {</p><p>get: function () {</p><p>console.log("读取索引为0的元素");</p><p>return arr[0];</p><p>},</p><p>set: function (value) {</p><p>console.log("设置索引为0的元素");</p><p>arr[0] = value;</p><p>},</p><p>});</p><p>```</p><ul><li>当通过<code>arr[0]</code>读取或设置元素时，相应的<code>get</code>和<code>set</code>函数会被触发，从而实现对这个特定索引元素的变化监听。</li></ul><ol><li><strong>局限性</strong></li></ol><ul><li><strong>无法自动监听所有元素</strong>：这种方式需要为每个要监听的索引单独使用<code>Object.defineProperty</code>进行定义。如果数组长度是动态变化的，或者要监听整个数组，这种逐个定义的方式就非常繁琐且不实用。例如，对于一个有很多元素的数组或者长度会不断变化的数组，几乎不可能预先为每个可能的索引都定义属性描述符。</li><li><strong>无法直接监听数组方法</strong>：它不能直接监听数组的方法（如<code>push</code>、<code>pop</code>、<code>shift</code>、<code>unshift</code>、<code>splice</code>等）引起的变化。这些方法会改变数组的状态，但不会触发通过<code>Object.defineProperty</code>为数组元素定义的<code>get</code>和<code>set</code>操作。比如，当使用<code>push</code>方法添加元素到数组时，不会自动触发之前为数组元素定义的<code>set</code>操作来监听这个新元素的添加。</li></ul><ol><li><strong>解决方案 - 重写数组方法实现全面监听</strong></li></ol><p>以下是使用<code>Object.defineProperty</code>来实现监听数组部分常见操作（如修改元素、添加元素、删除元素等）的基本思路和示例代码：</p><p><strong>3.1. 整体思路</strong></p><p>要使用<code>Object.defineProperty</code>监听数组，主要思路是对数组的原型方法进行重定义，在这些重定义的方法内部，通过<code>Object.defineProperty</code>来设置属性描述符，使得在执行这些操作时能够触发自定义的监听函数，从而实现对数组变化的监听。</p><p><strong>3.2. 具体步骤及示例代码</strong></p><p><strong>（1）创建一个继承自原生数组的新类</strong></p><p>首先，创建一个新的类，让它继承自原生数组，以便后续可以在这个新类上添加自定义的监听逻辑。</p><pre class="code-block"><code class="language-javascript">function ObservableArray() {
+  // 调用原生数组构造函数，确保可以像正常数组一样使用
+  Array.apply(this, arguments);
+}
+ObservableArray.prototype = Object.create(Array.prototype);
+ObservableArray.prototype.constructor = ObservableArray;
+</code></pre><p><strong>（2）重定义数组的部分原型方法</strong></p><p>接下来，重定义数组的一些常见操作的原型方法，比如<code>push</code>、<code>pop</code>、<code>shift</code>、<code>unshift</code>、<code>splice</code>等，在这些重定义的方法内部添加监听逻辑。</p><p>以<code>push</code>方法为例：</p><pre class="code-block"><code class="language-javascript">ObservableArray.prototype.push = function () {
+  // 保存当前数组长度，用于后续判断添加了几个元素
+  var previousLength = this.length;
+
+  // 调用原生数组的push方法，执行实际的添加操作
+  var result = Array.prototype.push.apply(this, arguments);
+
+  // 遍历新添加的元素，为每个元素设置属性描述符以实现监听
+  for (var i = previousLength; i &lt; this.length; i++) {
+    (function (index) {
+      Object.defineProperty(this, index, {
+        enumerable: true,
+        configurable: true,
+        get: function () {
+          console.log(&quot;正在读取索引为&quot; + index + &quot;的元素&quot;);
+          return this[index];
+        },
+        set: function (value) {
+          console.log(&quot;正在设置索引为&quot; + index + &quot;的元素为&quot; + value);
+          this[index] = value;
+        },
+      });
+    }).call(this, i);
+  }
+
+  console.log(&quot;执行了push操作，添加了&quot; + (this.length - previousLength) + &quot;个元素&quot;);
+
+  return result;
+};
+</code></pre><p>在上述<code>push</code>方法的重定义中：</p><ul><li>首先调用原生数组的<code>push</code>方法来执行实际的添加元素操作，并保存添加前的数组长度。</li><li>然后，通过循环为新添加的每个元素使用<code>Object.defineProperty</code>设置属性描述符。在<code>get</code>方法中，当读取该元素时会打印相应信息；在<code>set</code>方法中，当设置该元素时也会打印相应信息。</li><li>最后，打印出执行<code>push</code>操作添加的元素个数。</li></ul><p>类似地，可以重定义其他如<code>pop</code>、<code>shift</code>、<code>unshift</code>、<code>splice</code>等方法，以下是<code>pop</code>方法的重定义示例：</p><pre class="code-block"><code class="language-javascript">ObservableArray.prototype.pop = function () {
+  var result = Array.prototype.pop.apply(this, arguments);
+
+  if (this.length &gt;= 0) {
+    Object.defineProperty(this, this.length, {
+      enumerable: true,
+      configurable: true,
+      get: function () {
+        console.log(&quot;正在读取最后一个元素&quot;);
+        return this[this.length];
+      },
+      set: function (value) {
+        console.log(&quot;正在设置最后一个元素为&quot; + value);
+        this[this.length] = value;
+      },
+    });
+  }
+
+  console.log(&quot;执行了pop操作&quot;);
+
+  return result;
+};
+</code></pre><p><strong>3.3. 使用示例</strong></p><p>创建<code>ObservableArray</code>的实例并进行操作来测试监听效果：</p><pre class="code-block"><code class="language-javascript">var myArray = new ObservableArray(1, 2, 3);
+
+myArray.push(4, 5);
+var poppedElement = myArray.pop();
+myArray[0] = 10;
+</code></pre><p>在上述示例中：</p><ul><li>首先创建了一个<code>ObservableArray</code>实例<code>myArray</code>并初始化为<code>[1, 2, 3]</code>。</li><li>然后执行<code>myArray.push(4, 5)</code>，此时会触发重定义的<code>push</code>方法，添加元素的同时会为新添加的元素设置监听逻辑，并且会打印出相关操作信息。</li><li>接着执行<code>myArray.pop()</code>，触发重定义的<code>pop</code>方法，执行弹出操作并设置对最后一个元素的监听逻辑，同时打印出相关操作信息。</li><li>最后执行<code>myArray[0] = 10</code>，由于之前为数组元素设置了监听逻辑（在<code>push</code>方法中对新添加元素设置了监听），所以会触发相应的<code>set</code>逻辑，打印出相关信息。</li></ul><h2>Comments / Answers</h2><hr /><p><strong>BruceYuj</strong> at 2025-02-27T10:34:10Z</p><pre class="code-block"><code class="language-javascript">let arr = [1, 2, 3];
+Object.defineProperty(arr, &quot;0&quot;, {
+  get: function () {
+    console.log(&quot;读取索引为0的元素&quot;);
+    return arr[0];
+  },
+  set: function (value) {
+    console.log(&quot;设置索引为0的元素&quot;);
+    arr[0] = value;
+  },
+});
+</code></pre><p>这段代码直接使用会导致死循环的</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

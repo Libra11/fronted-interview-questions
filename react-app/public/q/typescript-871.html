@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TypeScript 中 any、never、unknown、null &amp; undefined 和 void 有什么区别【热度: 334】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：TS 类型&lt;/p&gt;&lt;p&gt;在 TypeScript 中，&lt;code&gt;any&lt;/code&gt;、&lt;code&gt;never&lt;/code&gt;、&lt;code&gt;unknown&lt;/code&gt;、&lt;code&gt;null&lt;/code&gt; &amp; &lt;code&gt;undefi" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="TypeScript 中 any、never、unknown、null &amp; undefined 和 void 有什么区别【热度: 334】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：TS 类型&lt;/p&gt;&lt;p&gt;在 TypeScript 中，&lt;code&gt;any&lt;/code&gt;、&lt;code&gt;never&lt;/code&gt;、&lt;code&gt;unknown&lt;/code&gt;、&lt;code&gt;null&lt;/code&gt; &amp; &lt;code&gt;undefined&lt;/code&gt; 以及 &lt;code&gt;void&lt;/code&gt; 都是类型系统的一部分，各自具有不同的用途和含义，下面是它" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/871" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>TypeScript 中 any、never、unknown、null &amp; undefined 和 void 有什么区别【热度: 334】</h1>
+      <div class="subtitle">TypeScript · TypeScript</div>
+      <div class="meta">创建：2024-08-31T03:37:04Z · 更新：2024-08-31T03:37:05Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：TS 类型</p><p>在 TypeScript 中，<code>any</code>、<code>never</code>、<code>unknown</code>、<code>null</code> & <code>undefined</code> 以及 <code>void</code> 都是类型系统的一部分，各自具有不同的用途和含义，下面是它们的主要区别：</p><h3><code>any</code></h3><ul><li><strong>含义</strong>：<code>any</code> 类型表示任何 JavaScript 值都可以赋值给它。使用 <code>any</code> 类型，可以绕过 TypeScript 的静态类型检查。</li><li><strong>用途</strong>：适用于你不想给变量设置具体类型的情况，或者在迁移旧 JavaScript 项目到 TypeScript 时临时使用。</li><li><strong>示例</strong>：</li></ul><p>```typescript</p><p>let anything: any = "Hello world";</p><p>anything = 25; // ok</p><p>anything = false; // ok</p><p>```</p><h3><code>never</code></h3><ul><li><strong>含义</strong>：<code>never</code> 类型表示永远不存在的值的类型。例如，<code>never</code> 类型是那些总是抛出异常或根本就不会有返回值的函数表达式或箭头函数的返回类型。</li><li><strong>用途</strong>：<code>never</code> 用于表示那些总是异常或无限循环的函数返回类型，或者用在永远不可能有匹配结果的类型守卫条件。</li><li><strong>示例</strong>：</li></ul><p>```typescript</p><p>function error(message: string): never {</p><p>throw new Error(message);</p><p>}</p><p>```</p><h3><code>unknown</code></h3><ul><li><strong>含义</strong>：<code>unknown</code> 类型表示任何值。它类似于 <code>any</code>，但是更安全，因为对 <code>unknown</code> 类型的值执行大多数操作都是不允许的，直到我们通过类型检查缩小了该值的类型。</li><li><strong>用途</strong>：当我们不确定将要使用的变量的类型时可以使用 <code>unknown</code> 类型，它是 <code>any</code> 类型的类型安全等价物。</li><li><strong>示例</strong>：</li></ul><p>```typescript</p><p>let uncertainValue: unknown = 4;</p><p>uncertainValue = "maybe a string instead";</p><p>// TypeScript会阻止你执行不安全的操作</p><p>// console.log(uncertainValue.length); // Error</p><p>```</p><h3><code>null</code> & <code>undefined</code></h3><ul><li><strong>含义</strong>：<code>null</code> 和 <code>undefined</code> 在 TypeScript 里分别有各自的类型，分别叫做 <code>null</code> 和 <code>undefined</code>。<code>null</code> 是一个表示无值的特殊值，而 <code>undefined</code> 表示未定义。</li><li><strong>用途</strong>：<code>null</code> 和 <code>undefined</code> 分别用于表示变量的“空”或“未定义”状态。</li><li><strong>示例</strong>：</li></ul><p>```typescript</p><p>let empty: null = null;</p><p>let notDefined: undefined = undefined;</p><p>```</p><h3><code>void</code></h3><ul><li><strong>含义</strong>：<code>void</code> 类型与 <code>any</code>、<code>never</code> 和 <code>unknown</code> 不同，它表示没有任何类型。在函数中使用 <code>void</code> 类型，表示该函数没有返回值。</li><li><strong>用途</strong>：主要用在没有返回值的函数的返回类型注解上。</li><li><strong>示例</strong>：</li></ul><p>```typescript</p><p>function warnUser(): void {</p><p>console.log("This is a warning message");</p><p>}</p><p>```</p><p>总结如下：</p><ul><li><code>any</code> 允许你对值执行任何操作，但是使用它会放弃类型检查的保护。</li><li><code>never</code> 用于函数永远不会正常结束的返回类型。</li><li><code>unknown</code> 用在不确定类型时，比 <code>any</code> 更安全因为它不允许你随便操作这个值。</li><li><code>null</code> 和 <code>undefined</code> 用于表示没有值或值未定义。</li><li><code>void</code> 用于没有返回任何值的函数。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

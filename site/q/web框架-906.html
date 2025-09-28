@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Vue] 提供了哪些默认事件修饰符【热度: 366】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：事件修饰符&lt;/p&gt;&lt;p&gt;在 Vue 中，事件修饰符是一些由点 (.) 开头的特殊后缀，用于指示 Vue 对 DOM 事件进行某种特殊处理。Vue 提供了一系列的默认事件修饰符来帮助开发者更方便地处理一些常见的 DOM 事件行为。&lt;/" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Vue] 提供了哪些默认事件修饰符【热度: 366】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：事件修饰符&lt;/p&gt;&lt;p&gt;在 Vue 中，事件修饰符是一些由点 (.) 开头的特殊后缀，用于指示 Vue 对 DOM 事件进行某种特殊处理。Vue 提供了一系列的默认事件修饰符来帮助开发者更方便地处理一些常见的 DOM 事件行为。&lt;/p&gt;&lt;p&gt;下面是 Vue 3 中提供的一些默认事件修饰符：&lt;/p&gt;&lt;p&gt;| 事件修饰符 | 描述 |&lt;/p&gt;&lt;p&gt;| -" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/906" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Vue] 提供了哪些默认事件修饰符【热度: 366】</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2024-09-17T08:52:02Z · 更新：2024-09-17T08:52:03Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：事件修饰符</p><p>在 Vue 中，事件修饰符是一些由点 (.) 开头的特殊后缀，用于指示 Vue 对 DOM 事件进行某种特殊处理。Vue 提供了一系列的默认事件修饰符来帮助开发者更方便地处理一些常见的 DOM 事件行为。</p><p>下面是 Vue 3 中提供的一些默认事件修饰符：</p><p>| 事件修饰符 | 描述                                                                     |</p><p>| ---------- | ------------------------------------------------------------------------ |</p><p>| <code>.stop</code>    | 调用 <code>event.stopPropagation()</code> 阻止事件冒泡。                            |</p><p>| <code>.prevent</code> | 调用 <code>event.preventDefault()</code> 阻止默认事件行为。                         |</p><p>| <code>.capture</code> | 使用事件捕获模式添加事件监听器，而不是冒泡模式。                         |</p><p>| <code>.self</code>    | 仅当事件是从事件绑定的元素本身触发时才触发回调。                         |</p><p>| <code>.once</code>    | 事件只触发一次，之后移除事件监听器。                                     |</p><p>| <code>.passive</code> | 以 <code>{ passive: true }</code> 模式添加监听器，表示不会调用 <code>preventDefault()</code>。 |</p><p>这些修饰符可以单独使用，也可以组合使用。以下是一些示例：</p><pre class="code-block"><code class="language-html">&lt;!-- 阻止点击事件冒泡 --&gt;
+&lt;button @click.stop=&quot;doThis&quot;&gt;Stop Propagation&lt;/button&gt;
+
+&lt;!-- 提交事件不再重载页面 --&gt;
+&lt;form @submit.prevent=&quot;onSubmit&quot;&gt;Prevent Default&lt;/form&gt;
+
+&lt;!-- 修饰符链 --&gt;
+&lt;a @click.stop.prevent=&quot;doThat&quot;&gt;Stop Propagation and Prevent Default&lt;/a&gt;
+
+&lt;!-- 只在 @click.self 表达式中的元素本身（而非子元素）触发时调用 doThat --&gt;
+&lt;div @click.self=&quot;doThat&quot;&gt;Only Trigger on Self&lt;/div&gt;
+
+&lt;!-- 点击事件将只触发一次 --&gt;
+&lt;button @click.once=&quot;doOnce&quot;&gt;Trigger Once&lt;/button&gt;
+</code></pre><p>使用这些事件修饰符可以使你的事件处理逻辑更简洁和直观，同时也能够实现一些复杂的事件处理方式。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

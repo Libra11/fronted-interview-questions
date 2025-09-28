@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>退出浏览器之间， 发送积压的埋点数据请求， 该如何做【热度: 134】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：退出浏览器发送积压请求数据&lt;/p&gt;&lt;p&gt;退出浏览器时发送积压的埋点数据请求是 web 开发中的一个常见需求，尤其是在需要确保用户活动数据尽可能准确地被记录的场景下。实现这一需求的关键在于捕获用户关闭浏览器或离开页面的时刻，并在这一时" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="退出浏览器之间， 发送积压的埋点数据请求， 该如何做【热度: 134】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：退出浏览器发送积压请求数据&lt;/p&gt;&lt;p&gt;退出浏览器时发送积压的埋点数据请求是 web 开发中的一个常见需求，尤其是在需要确保用户活动数据尽可能准确地被记录的场景下。实现这一需求的关键在于捕获用户关闭浏览器或离开页面的时刻，并在这一时刻尽可能快速地发送所有积压的数据。由于浏览器对于即将关闭时发出的请求处理方式不同，这一过程可能会有些复杂。&lt;/p&gt;&lt;h3" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/847" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>退出浏览器之间， 发送积压的埋点数据请求， 该如何做【热度: 134】</h1>
+      <div class="subtitle">web应用场景 · web应用场景</div>
+      <div class="meta">创建：2024-08-25T06:21:21Z · 更新：2024-08-25T06:21:21Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：退出浏览器发送积压请求数据</p><p>退出浏览器时发送积压的埋点数据请求是 web 开发中的一个常见需求，尤其是在需要确保用户活动数据尽可能准确地被记录的场景下。实现这一需求的关键在于捕获用户关闭浏览器或离开页面的时刻，并在这一时刻尽可能快速地发送所有积压的数据。由于浏览器对于即将关闭时发出的请求处理方式不同，这一过程可能会有些复杂。</p><h3>使用 <code>navigator.sendBeacon()</code></h3><p><code>navigator.sendBeacon()</code> 方法允许你在浏览器会话结束时异步地向服务器发送小量数据。这个方法的设计初衷就是为了解决上述问题。<code>sendBeacon()</code> 在大多数现代浏览器中得到支持，并且其异步特性意味着它不会阻塞页面卸载或影响用户体验。</p><pre class="code-block"><code class="language-javascript">window.addEventListener(&quot;beforeunload&quot;, function (event) {
+  var data = {
+    /* 收集的埋点数据 */
+  };
+  var beaconUrl = &quot;https://yourserver.com/path&quot;; // 你的服务器接收端点
+
+  navigator.sendBeacon(beaconUrl, JSON.stringify(data));
+});
+</code></pre><h3>使用 <code>fetch()</code> API 与 <code>keepalive</code> 选项</h3><p>如果因某种原因 <code>navigator.sendBeacon()</code> 不能满足需求，<code>fetch()</code> API 的 <code>keepalive</code> 选项是另一个选择。这个选项允许你发送一个保持存活状态的请求，即使用户已经离开页面。但是，需要注意的是，使用 <code>keepalive</code> 选项发送的请求有大小限制（大约为 64KB）。</p><pre class="code-block"><code class="language-javascript">window.addEventListener(&quot;beforeunload&quot;, function (event) {
+  var data = {
+    /* 收集的埋点数据 */
+  };
+  var beaconUrl = &quot;https://yourserver.com/path&quot;; // 你的服务器接收端点
+
+  fetch(beaconUrl, {
+    method: &quot;POST&quot;,
+    body: JSON.stringify(data),
+    headers: {
+      &quot;Content-Type&quot;: &quot;application/json&quot;,
+    },
+    keepalive: true, // 保持请求存活
+  });
+});
+</code></pre><h3>注意事项</h3><ul><li><strong>浏览器兼容性</strong>：尽管 <code>navigator.sendBeacon()</code> 和 <code>fetch()</code> 的 <code>keepalive</code> 选项被许多现代浏览器支持，但在实施解决方案时仍然需要考虑目标用户可能使用的浏览器类型和版本。</li><li><strong>数据量限制</strong>：<code>sendBeacon()</code> 和 <code>keepalive</code> 选项的请求都有数据量限制。确保不要发送超过限制大小的数据。</li><li><strong>可靠性</strong>：虽然这些方法能够提高数据发送的成功率，在浏览器关闭时发送数据的操作本身依然不能保证 100% 的成功率，特别是在网络状况不佳的情况下。</li></ul><p>通过上述方法，你可以在浏览器即将关闭时尝试发送积压的埋点数据，从而尽可能减少数据丢失的情况。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

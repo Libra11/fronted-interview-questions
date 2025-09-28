@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>什么是文档的预解析【热度: 1,133】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：文档预解析&lt;/p&gt;&lt;p&gt;文档的预解析（Document Preloading）是浏览器在解析 HTML 文档时的一个优化技术，用于提前获取页面所需的外部资源，如样式表、脚本、字体等。通过在解析过程中预先获取这些资源，可以加快页面加载" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="什么是文档的预解析【热度: 1,133】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：文档预解析&lt;/p&gt;&lt;p&gt;文档的预解析（Document Preloading）是浏览器在解析 HTML 文档时的一个优化技术，用于提前获取页面所需的外部资源，如样式表、脚本、字体等。通过在解析过程中预先获取这些资源，可以加快页面加载速度和渲染时间。&lt;/p&gt;&lt;p&gt;浏览器在解析 HTML 文档时，会遇到外部资源的引用，比如 &lt;code&gt;&amp;lt;link&amp;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/411" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>什么是文档的预解析【热度: 1,133】</h1>
+      <div class="subtitle">腾讯 · 网络 · 腾讯</div>
+      <div class="meta">创建：2023-06-04T14:28:06Z · 更新：2023-06-04T14:28:07Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：文档预解析</p><p>文档的预解析（Document Preloading）是浏览器在解析 HTML 文档时的一个优化技术，用于提前获取页面所需的外部资源，如样式表、脚本、字体等。通过在解析过程中预先获取这些资源，可以加快页面加载速度和渲染时间。</p><p>浏览器在解析 HTML 文档时，会遇到外部资源的引用，比如 <code>&lt;link&gt;</code> 标签引入的样式表和 <code>&lt;script&gt;</code> 标签引入的脚本。在进行实际网络请求获取这些资源之前，浏览器可以通过预解析的方式提前发起请求并获取资源内容。</p><p>文档的预解析过程会在 HTML 解析器解析到特定标签时触发，浏览器会检查这些标签是否存在可预解析的资源，然后以异步方式发起请求并下载资源。预解析的资源在下载完成后会被浏览器缓存起来，以便在后续的渲染过程中快速加载和使用。</p><p>预解析的好处是减少页面加载时间，因为浏览器可以在主 HTML 文档下载和解析过程中并行获取其他资源，而不需要等待主文档解析完毕才开始下载这些资源。这样可以提高页面的渲染速度和用户体验。</p><p>文档的预解析是由浏览器自动完成的优化过程，无需开发人员显式地进行操作。浏览器会根据特定的规则和算法，在解析 HTML 文档的过程中自动触发预解析行为。</p><p><strong>要让浏览器正确进行文档的预解析，可以遵循以下一些最佳实践</strong>：</p><ol><li>合理设置资源的引入方式：将样式表放在 <code>&lt;head&gt;</code> 标签内，并尽量将脚本放在 <code>&lt;body&gt;</code> 标签底部，这样可以使浏览器更早地开始解析和预解析文档的其他部分。</li></ol><ol><li>使用合适的资源引入标签：使用 <code>&lt;link&gt;</code> 标签来引入样式表，使用 <code>&lt;script&gt;</code> 标签来引入脚本文件，这样可以让浏览器更容易识别和处理这些资源的预解析。</li></ol><ol><li>合理设置资源的属性和关联：为 <code>&lt;link&gt;</code> 标签设置 <code>rel</code> 属性，用于指定资源的关联关系，如 <code>stylesheet</code> 表示关联的是样式表；为 <code>&lt;script&gt;</code> 标签设置 <code>async</code> 或 <code>defer</code> 属性，用于控制脚本的执行时机。</li></ol><ol><li>减少不必要的资源引入：避免引入无用的外部资源，减少需要预解析的资源数量，可以提高预解析的效果。</li></ol><ol><li>合理配置服务器响应头：使用适当的缓存策略和 HTTP 响应头，可以帮助浏览器更好地处理资源的预解析和缓存。</li></ol><p>需要注意的是，浏览器在进行文档预解析时会根据具体的算法和策略进行优化，不同浏览器可能会有略微不同的行为。此外，预解析并不一定在所有情况下都能带来明显的性能提升，具体效果会受到网络环境、服务器响应时间和页面结构等因素的影响。因此，在实际开发中，除了依赖浏览器的自动预解析外，还可以采用其他优化手段，如合并和压缩资源、使用缓存等，以提升页面加载和渲染的性能。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何做静态资源预加载【热度: 696】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：资源预加载&lt;/p&gt;&lt;h3&gt;预加载&lt;/h3&gt;&lt;p&gt;预加载是指在用户需要数据或资源之前，提前加载这些数据或资源的过程。&lt;/p&gt;&lt;p&gt;这个过程可以提高应用程序或网站的响应速度和用户体验&lt;/p&gt;&lt;h3&gt;预加载的优点&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何做静态资源预加载【热度: 696】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：资源预加载&lt;/p&gt;&lt;h3&gt;预加载&lt;/h3&gt;&lt;p&gt;预加载是指在用户需要数据或资源之前，提前加载这些数据或资源的过程。&lt;/p&gt;&lt;p&gt;这个过程可以提高应用程序或网站的响应速度和用户体验&lt;/p&gt;&lt;h3&gt;预加载的优点&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;提升加载速度&lt;/strong&gt;：通过提前加载资源，用户在访问页面时可以更快地看到完整内容。&lt;/li&gt;&lt;l" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/885" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何做静态资源预加载【热度: 696】</h1>
+      <div class="subtitle">腾讯 · web应用场景 · 腾讯</div>
+      <div class="meta">创建：2024-09-15T07:39:24Z · 更新：2024-09-15T07:39:24Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：资源预加载</p><h3>预加载</h3><p>预加载是指在用户需要数据或资源之前，提前加载这些数据或资源的过程。</p><p>这个过程可以提高应用程序或网站的响应速度和用户体验</p><h3>预加载的优点</h3><ul><li><strong>提升加载速度</strong>：通过提前加载资源，用户在访问页面时可以更快地看到完整内容。</li><li><strong>提高用户体验</strong>：减少页面加载时的延迟，使用户感到更流畅。</li><li><strong>优化资源使用</strong>：合理安排资源加载顺序，提高网络利用率。</li></ul><h3>WebWorker 实现预加载</h3><p>下面的示例将展示如何使用 Web Worker 来预加载静态资源。我们将创建一个简单的 Web Worker 脚本，用于在后台预加载一些指定的静态资源（例如图片、CSS、JavaScript 文件等）。这个过程不会阻塞主线程，使得主线程可以继续处理其他任务，如用户交互，从而提升页面的响应性能。</p><p>###3 步骤 1：创建 Web Worker 脚本</p><p>首先，创建一个 JS 文件作为 Web Worker 的脚本。我们把这个文件命名为 <code>preloadWorker.js</code>。</p><pre class="code-block"><code class="language-javascript">// preloadWorker.js
+
+self.addEventListener(&quot;message&quot;, (e) =&gt; {
+  const urls = e.data;
+  urls.forEach((url) =&gt; {
+    fetch(url)
+      .then((response) =&gt; {
+        // 一个简单的操作，标识资源已被预加载
+        if (response.status === 200) {
+          postMessage(`Resource preloaded: ${url}`);
+        } else {
+          postMessage(`Resource failed: ${url}`);
+        }
+      })
+      .catch((error) =&gt; {
+        postMessage(`Resource fetch error: ${url}`);
+      });
+  });
+});
+</code></pre><p>这个脚本监听来自主线程的消息，该消息包含了要预加载的资源的 URL 列表。对于每个 URL，它使用 <code>fetch</code> 请求该资源。根据请求的结果，它会通过 <code>postMessage</code> 向主线程发送一条消息，表明该资源已被预加载，或者载入失败。</p><h4>步骤 2：在主线程中使用 Web Worker</h4><p>接下来，在 HTML 页面中使用这个 Web Worker。</p><p>首先，确保在你的 HTML 中引入一个脚本，初始化并使用这个 Web Worker。</p><pre class="code-block"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot; /&gt;
+    &lt;title&gt;Web Worker Preload Demo&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;script src=&quot;main.js&quot;&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>然后，创建主线程脚本 <code>main.js</code> 用于启动和与 Web Worker 交互。</p><pre class="code-block"><code class="language-javascript">// main.js
+
+if (window.Worker) {
+  const worker = new Worker(&quot;preloadWorker.js&quot;);
+
+  const resources = [
+    &quot;image.png&quot;, // 示例资源，确保替换为实际的 URL
+    &quot;style.css&quot;,
+    &quot;script.js&quot;,
+  ];
+
+  worker.postMessage(resources);
+
+  worker.onmessage = (e) =&gt; {
+    console.log(e.data);
+  };
+} else {
+  console.log(&quot;Your browser doesn&#39;t support web workers.&quot;);
+}
+</code></pre><p>这段脚本首先检查浏览器是否支持 Web Worker。如果支持，它会创建一个指向 <code>preloadWorker.js</code> 的新 Worker 实例，然后将要预加载的资源列表发送给这个 Worker。最后，它设置一个事件监听器来接收并处理 Worker 发出的消息。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

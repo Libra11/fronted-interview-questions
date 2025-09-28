@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] diff 算法【热度: 538】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：react16 架构、react Reconciler、react commit 阶段、react 协调器&lt;/p&gt;&lt;p&gt;在 react 中：一个&lt;code&gt;DOM&lt;/code&gt;节点在某一时刻最多会有4个节点和他相关。&lt;/p&gt;&lt;p&gt;一" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] diff 算法【热度: 538】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：react16 架构、react Reconciler、react commit 阶段、react 协调器&lt;/p&gt;&lt;p&gt;在 react 中：一个&lt;code&gt;DOM&lt;/code&gt;节点在某一时刻最多会有4个节点和他相关。&lt;/p&gt;&lt;p&gt;一个DOM节点在某一时刻最多会有4个节点和他相关。&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;code&gt;JSX对象&lt;/code&gt;。即Clas" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/326" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] diff 算法【热度: 538】</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2023-05-04T15:45:10Z · 更新：2023-05-04T15:45:11Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：react16 架构、react Reconciler、react commit 阶段、react 协调器</p><p>在 react 中：一个<code>DOM</code>节点在某一时刻最多会有4个节点和他相关。</p><p>一个DOM节点在某一时刻最多会有4个节点和他相关。</p><ol><li><code>JSX对象</code>。即ClassComponent的render方法的返回结果，或FunctionComponent的调用结果。JSX对象中包含描述DOM节点的信息。</li></ol><ol><li><code>workInProgress Fiber</code>。如果该DOM节点将在本次更新中渲染到页面中，workInProgress Fiber代表该DOM节点对应的Fiber节点。</li></ol><ol><li><code>current Fiber</code>。如果该DOM节点已在页面中，current Fiber代表该DOM节点对应的Fiber节点。</li></ol><ol><li><code>DOM节点本身</code>。</li></ol><p><strong>Diff算法的本质是对比1和2，生成3。</strong></p><h3>概览</h3><h4>Diff的瓶颈以及React如何应对</h4><p>由于Diff操作本身也会带来性能损耗， 即使在最前沿的算法中，将前后两棵树完全比对的算法的复杂程度为 O(n 3 )，其中n是树中元素的数量。</p><p>如果在React中使用了该算法，那么展示1000个元素所需要执行的计算量将在十亿的量级范围</p><p>为了降低算法复杂度，<strong>React的diff会预设三个限制</strong>：</p><ol><li>只对同级元素进行Diff。如果一个DOM节点在前后两次更新中跨越了层级，那么React不会尝试复用他。</li></ol><ol><li>两个不同类型的元素会产生出不同的树。如果元素由div变为p，React会销毁div及其子孙节点，并新建p及其子孙节点。</li></ol><ol><li>开发者可以通过 key prop来暗示哪些子元素在不同的渲染下能保持稳定。</li></ol><h4>Diff是如何实现的</h4><p>我们从Diff的入口函数reconcileChildFibers出发，该函数会根据newChild（即JSX对象）类型调用不同的处理函数。</p><p>从同级的节点数量将Diff分为两类：</p><ol><li>当newChild类型为object、number、string，代表同级只有一个节点</li></ol><ol><li>当newChild类型为Array，同级有多个节点</li></ol><h3>单节点 diff</h3><p>路程图：</p><p><img alt="image" src="https://user-images.githubusercontent.com/22188674/235393691-d5355bfb-da2a-4ffd-9961-04a3927ebd11.png" /></p><p>React通过先判断key是否相同，如果key相同则判断type是否相同，只有都相同时一个DOM节点才能复用。</p><h3>多节点 diff</h3><p>主要分为以下几种情况</p><ul><li>节点更新</li><li>节点属性变化</li><li>节点类型更新</li><li>节点新增或减少</li><li>节点位置变化</li></ul><h4>diff 思路</h4><p>React 团队发现，在日常开发中，相较于新增和删除，更新组件发生的频率更高。所以Diff会优先判断当前节点是否属于更新。</p><p>本质上是进行了两轮遍历：</p><ul><li>第一轮遍历：处理更新的节点。</li><li>第二轮遍历：处理剩下的不属于更新的节点。</li></ul><p><strong>为何不用双向指针的方式</strong>？</p><p>虽然本次更新的JSX对象 newChildren为数组形式，但是和newChildren中每个组件进行比较的是current fiber，同级的Fiber节点是由sibling指针链接形成的单链表，即不支持双指针遍历。</p><p>即 newChildren[0]与fiber比较，newChildren[1]与fiber.sibling比较。</p><p>所以无法使用双指针优化。</p><h4>第一次遍历</h4><p>第一轮遍历步骤如下：</p><ol><li><code>let i = 0</code>，遍历<code>newChildren</code>，将<code>newChildren[i]</code>与<code>oldFiber</code>比较，判断DOM节点是否可复用。</li></ol><ol><li>如果可复用，<code>i++</code>，继续比较<code>newChildren[i]</code>与<code>oldFiber.sibling</code>，可以复用则继续遍历。</li></ol><ol><li>如果不可复用，分两种情况：</li></ol><ul><li>key不同导致不可复用，立即跳出整个遍历，第一轮遍历结束。</li></ul><ul><li>key相同type不同导致不可复用，会将<code>oldFiber</code>标记为<code>DELETION</code>，并继续遍历</li></ul><ol><li>如果<code>newChildren</code>遍历完（即<code>i === newChildren.length - 1</code>）或者<code>oldFiber</code>遍历完（即<code>oldFiber.sibling === null</code>），跳出遍历，第一轮遍历结束。</li></ol><p>源码如下： https://github.com/facebook/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactChildFiber.new.js#L818</p><h4>第二轮遍历</h4><p><strong><code>newChildren</code>与<code>oldFiber</code>同时遍历完</strong></p><p>那就是最理想的情况：只需在第一轮遍历进行组件更新</p><blockquote>源码如下： https://github.com/facebook/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactChildFiber.new.js#L825</blockquote><p><strong><code>newChildren</code>没遍历完，<code>oldFiber</code>遍历完</strong></p><p>已有的DOM节点都复用了，这时还有新加入的节点，意味着本次更新有新节点插入，我们只需要遍历剩下的<code>newChildren</code>为生成的<code>workInProgress fiber</code>依次标记<code>Placement</code>。</p><blockquote>源码如下： https://github.com/facebook/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactChildFiber.new.js#L869</blockquote><p><strong><code>newChildren</code>遍历完，<code>oldFiber</code>没遍历完</strong></p><p>意味着本次更新比之前的节点数量少，有节点被删除了。所以需要遍历剩下的<code>oldFiber</code>，依次标记<code>Deletion</code>。</p><blockquote>https://github.com/facebook/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactChildFiber.new.js#L863</blockquote><p><strong><code>newChildren</code>与<code>oldFiber</code>都没遍历完</strong></p><p>这意味着有节点在这次更新中改变了位置。</p><p>这是Diff算法最精髓也是最难懂的部分。我们接下来会重点讲解。</p><blockquote>源码： https://github.com/facebook/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactChildFiber.new.js#L893</blockquote><h4>处理移动的节点</h4><p>由于有节点改变了位置，所以不能再用位置索引i对比前后的节点，那么如何才能将同一个节点在两次更新中对应上呢？</p><p>我们需要使用key。</p><p>为了快速的找到key对应的<code>oldFiber</code>，我们将所有还未处理的<code>oldFiber</code>存入以key为key，<code>oldFiber</code>为<code>value</code>的<code>Map</code>中。</p><p><code>const existingChildren = mapRemainingChildren(returnFiber, oldFiber);</code></p><blockquote>源码： https://github.com/facebook/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactChildFiber.new.js#L890</blockquote><p>接下来遍历剩余的<code>newChildren</code>，通过<code>newChildren[i].key</code>就能在<code>existingChildren</code>中找到<code>key</code>相同的<code>oldFiber</code>。</p><h4>标记节点是否移动</h4><p>既然我们的目标是寻找移动的节点，那么我们需要明确：节点是否移动是以什么为参照物？</p><p>我们的参照物是：最后一个可复用的节点在<code>oldFiber</code>中的位置索引（用变量<code>lastPlacedIndex</code>表示）。</p><p>由于本次更新中节点是按<code>newChildren</code>的顺序排列。在遍历<code>newChildren</code>过程中，每个遍历到的可复用节点一定是当前遍历到的所有可复用节点中最靠右的那个，即一定在<code>lastPlacedIndex</code>对应的可复用的节点在本次更新中位置的后面。</p><p>那么我们只需要比较遍历到的可复用节点在上次更新时是否也在<code>lastPlacedIndex</code>对应的<code>oldFiber</code>后面，就能知道两次更新中这两个节点的相对位置改变没有。</p><p>我们用变量<code>oldIndex</code>表示遍历到的可复用节点在<code>oldFiber</code>中的位置索引。如果<code>oldIndex &lt; lastPlacedIndex</code>，代表本次更新该节点需要向右移动。</p><p><code>lastPlacedIndex</code>初始为0，每遍历一个可复用的节点，如果<code>oldIndex &gt;= lastPlacedIndex</code>，则<code>lastPlacedIndex = oldIndex</code>。</p><h3>参考文档</h3><ul><li>https://react.iamkasong.com/diff/prepare.html</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

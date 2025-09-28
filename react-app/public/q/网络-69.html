@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>前端如何实现即时通讯？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h2&gt;前端如何实现即时通讯&lt;/h2&gt;&lt;h3&gt;短轮询&lt;/h3&gt;&lt;p&gt;短轮询的原理很简单，每隔一段时间客户端就发出一个请求，去获取服务器最新的数据，一定程度上模拟实现了即时通讯。&lt;/p&gt;&lt;ul&gt;&lt;li&gt;优点：兼容性强，实现非常简单&lt;/li&gt;&lt;li&gt;缺点：延迟性高，非常消耗请求资源，" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="前端如何实现即时通讯？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h2&gt;前端如何实现即时通讯&lt;/h2&gt;&lt;h3&gt;短轮询&lt;/h3&gt;&lt;p&gt;短轮询的原理很简单，每隔一段时间客户端就发出一个请求，去获取服务器最新的数据，一定程度上模拟实现了即时通讯。&lt;/p&gt;&lt;ul&gt;&lt;li&gt;优点：兼容性强，实现非常简单&lt;/li&gt;&lt;li&gt;缺点：延迟性高，非常消耗请求资源，影响性能&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;comet&lt;/h3&gt;&lt;p&gt;comet有两种主要实现手段，&lt;/p&gt;&lt;p&gt;一种是基于 A" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/69" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>前端如何实现即时通讯？</h1>
+      <div class="subtitle">网络 · 网络</div>
+      <div class="meta">创建：2023-03-11T08:06:25Z · 更新：2023-03-28T15:48:17Z</div>
+    </div>
+    <article class="content markdown-body"><h2>前端如何实现即时通讯</h2><h3>短轮询</h3><p>短轮询的原理很简单，每隔一段时间客户端就发出一个请求，去获取服务器最新的数据，一定程度上模拟实现了即时通讯。</p><ul><li>优点：兼容性强，实现非常简单</li><li>缺点：延迟性高，非常消耗请求资源，影响性能</li></ul><h3>comet</h3><p>comet有两种主要实现手段，</p><p>一种是基于 AJAX 的长轮询（long-polling）方式，</p><p>另一种是基于 Iframe 及 htmlfile 的流（streaming）方式，通常被叫做长连接。</p><p>具体两种手段的操作方法请移步 <a href="http://www.52im.net/thread-334-1-1.html" target="_blank" rel="noopener">Comet技术详解：基于HTTP长连接的Web端实时通信技术</a></p><ul><li>长轮询优缺点：</li><li>优点：兼容性好，资源浪费较小</li><li>缺点：服务器hold连接会消耗资源，返回数据顺序无保证，难于管理维护</li></ul><ul><li>长连接优缺点：</li><li>优点：兼容性好，消息即时到达，不发无用请求</li><li>缺点：服务器维护长连接消耗资源</li></ul><h3>SSE</h3><p>SSE（Server-Sent Event，服务端推送事件）是一种允许服务端向客户端推送新数据的HTML5技术。</p><ul><li>优点：基于HTTP而生，因此不需要太多改造就能使用，使用方便，而websocket非常复杂，必须借助成熟的库或框架</li><li>缺点：基于文本传输效率没有websocket高，不是严格的双向通信，客户端向服务端发送请求无法复用之前的连接，需要重新发出独立的请求</li></ul><h3>Websocket</h3><p>Websocket是一个全新的、独立的协议，基于TCP协议，与http协议兼容、却不会融入http协议，仅仅作为html5的一部分，其作用就是在服务器和客户端之间建立实时的双向通信。</p><ul><li>优点：真正意义上的实时双向通信，性能好，低延迟</li><li>缺点：独立与http的协议，因此需要额外的项目改造，使用复杂度高，必须引入成熟的库，无法兼容低版本浏览器</li></ul><h3>Web Worker</h3><p>Web Worker 的作用，就是为 JavaScript 创造多线程环境，允许主线程创建 Worker 线程，将一些任务分配给后者运行</p><h3>Service workers</h3><p>Service workers 本质上充当Web应用程序与浏览器之间的代理服务器，也可以在网络可用时作为浏览器和网络间的代理，创建有效的离线体验。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

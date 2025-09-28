@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>前端应用 CICD 有哪些方式实现【热度: 120】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：前端 CICD&lt;/p&gt;&lt;p&gt;前端应用的持续集成与持续部署（CI/CD）可以通过以下几种方式实现：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、使用 Jenkins&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;持续集成：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="前端应用 CICD 有哪些方式实现【热度: 120】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：前端 CICD&lt;/p&gt;&lt;p&gt;前端应用的持续集成与持续部署（CI/CD）可以通过以下几种方式实现：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、使用 Jenkins&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;持续集成：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;Jenkins 可以监听代码仓库（如 Git）的变化，当有新的代码提交时，自动触发构建任务。&lt;/li&gt;&lt;li&gt;对于" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1029" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>前端应用 CICD 有哪些方式实现【热度: 120】</h1>
+      <div class="subtitle">工程化 · 工程化 · 京东</div>
+      <div class="meta">创建：2024-10-26T07:28:13Z · 更新：2024-10-26T07:28:13Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：前端 CICD</p><p>前端应用的持续集成与持续部署（CI/CD）可以通过以下几种方式实现：</p><p><strong>一、使用 Jenkins</strong></p><ol><li>持续集成：</li></ol><ul><li>Jenkins 可以监听代码仓库（如 Git）的变化，当有新的代码提交时，自动触发构建任务。</li><li>对于前端项目，可以配置 Jenkins 执行构建命令，如使用 npm 或 yarn 安装依赖、运行构建脚本等。</li><li>例如，可以创建一个自由风格的项目，配置源代码管理为你的 Git 仓库地址，并在构建步骤中添加“Execute shell”，输入构建命令，如<code>npm install &amp;&amp; npm run build</code>。</li></ul><ol><li>持续部署：</li></ol><ul><li>构建成功后，Jenkins 可以将构建生成的静态文件部署到目标服务器上。</li><li>可以使用插件（如 Publish Over SSH）将文件传输到远程服务器，并执行部署脚本。</li><li>例如，配置插件连接到目标服务器，设置部署目录，然后在构建后操作中选择“Send build artifacts over SSH”，指定要传输的文件和目标服务器信息。</li></ul><p><strong>二、使用 GitLab CI/CD</strong></p><ol><li>持续集成：</li></ol><ul><li>在<code>.gitlab-ci.yml</code>文件中定义一系列的阶段（stages）和任务（jobs）。</li><li>当代码推送到 GitLab 仓库时，GitLab Runner 会自动执行这些任务。</li><li>对于前端项目，可以定义一个<code>build</code> job，在其中执行构建命令。</li><li>例如：</li></ul><p>```yaml</p><p>stages:</p><ul><li>build</li></ul><p>build:</p><p>stage: build</p><p>script:</p><ul><li>npm install</li><li>npm run build</li></ul><p>```</p><ol><li>持续部署：</li></ol><ul><li>可以在<code>.gitlab-ci.yml</code>中定义<code>deploy</code> job，将构建生成的静态文件部署到服务器上。</li><li>可以使用 SSH 密钥或其他部署工具来实现部署。</li><li>例如：</li></ul><p>```yaml</p><p>stages:</p><ul><li>build</li><li>deploy</li></ul><p>build:</p><p>stage: build</p><p>script:</p><ul><li>npm install</li><li>npm run build</li></ul><p>deploy:</p><p>stage: deploy</p><p>script:</p><ul><li>scp -r dist/* user@server:/path/to/deploy</li></ul><p>```</p><p><strong>三、使用 GitHub Actions</strong></p><ol><li>持续集成：</li></ol><ul><li>在<code>.github/workflows</code>目录下创建一个 YAML 文件来定义工作流。</li><li>当代码推送到 GitHub 仓库时，GitHub Actions 会自动执行工作流中的任务。</li><li>对于前端项目，可以在工作流中执行构建命令。</li><li>例如：</li></ul><p>```yaml</p><p>name: CI/CD for Frontend App</p><p>on:</p><p>push:</p><p>branches:</p><ul><li>main</li></ul><p>jobs:</p><p>build:</p><p>runs-on: ubuntu-latest</p><p>steps:</p><ul><li>uses: actions/checkout@v2</li><li>name: Install dependencies</li></ul><p>run: npm install</p><ul><li>name: Build</li></ul><p>run: npm run build</p><p>```</p><ol><li>持续部署：</li></ol><ul><li>可以在工作流中添加部署步骤，使用 SSH、FTP 等方式将静态文件部署到服务器上。</li><li>或者使用云服务提供商的部署服务，如 AWS Amplify、Netlify 等。</li><li>例如：</li></ul><p>```yaml</p><p>name: CI/CD for Frontend App</p><p>on:</p><p>push:</p><p>branches:</p><ul><li>main</li></ul><p>jobs:</p><p>build:</p><p>runs-on: ubuntu-latest</p><p>steps:</p><ul><li>uses: actions/checkout@v2</li><li>name: Install dependencies</li></ul><p>run: npm install</p><ul><li>name: Build</li></ul><p>run: npm run build</p><p>deploy:</p><p>needs: build</p><p>runs-on: ubuntu-latest</p><p>steps:</p><ul><li>name: Deploy to Server</li></ul><p>run: scp -r dist/* user@server:/path/to/deploy</p><p>```</p><p><strong>四、使用 Travis CI</strong></p><ol><li>持续集成：</li></ol><ul><li>在项目根目录下创建一个<code>.travis.yml</code>文件来定义构建配置。</li><li>当代码推送到支持的代码仓库（如 GitHub）时，Travis CI 会自动触发构建。</li><li>对于前端项目，可以在配置文件中指定构建命令。</li><li>例如：</li></ul><p>```yaml</p><p>language: node_js</p><p>node_js:</p><ul><li>12</li></ul><p>script:</p><ul><li>npm install</li><li>npm run build</li></ul><p>```</p><ol><li>持续部署：</li></ol><ul><li>可以在构建成功后，使用部署工具或脚本将静态文件部署到服务器上。</li><li>例如，可以在<code>.travis.yml</code>中添加部署步骤，使用 SSH 或其他方式进行部署。</li><li>```yaml</li></ul><p>language: node_js</p><p>node_js:</p><ul><li>12</li></ul><p>script:</p><ul><li>npm install</li><li>npm run build</li></ul><p>after_success:</p><ul><li>scp -r dist/* user@server:/path/to/deploy</li></ul><p>```</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

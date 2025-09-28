@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>A、B 机器正常连接后，B 机器突然重启，问 A 此时处于 TCP 什么状态？(了解即可) - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;当 B 机器重启时，TCP 连接会被断开，此时 A 机器会检测到 TCP 连接异常断开，将 TCP 状态修改为 FIN\_WAIT\_1 状态。A 机器会继续等待来自 B 机器的响应，如果等待的时间超过了一定时间（通常为几分钟），A 机器会放弃等待并关闭 TCP 连接，将 " />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="A、B 机器正常连接后，B 机器突然重启，问 A 此时处于 TCP 什么状态？(了解即可)" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;当 B 机器重启时，TCP 连接会被断开，此时 A 机器会检测到 TCP 连接异常断开，将 TCP 状态修改为 FIN\_WAIT\_1 状态。A 机器会继续等待来自 B 机器的响应，如果等待的时间超过了一定时间（通常为几分钟），A 机器会放弃等待并关闭 TCP 连接，将 TCP 状态修改为 CLOSED 状态。&lt;/p&gt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/197" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>A、B 机器正常连接后，B 机器突然重启，问 A 此时处于 TCP 什么状态？(了解即可)</h1>
+      <div class="subtitle">网易 · 网络 · 网易</div>
+      <div class="meta">创建：2023-03-26T10:46:47Z · 更新：2023-03-26T10:46:48Z</div>
+    </div>
+    <article class="content markdown-body"><p>当 B 机器重启时，TCP 连接会被断开，此时 A 机器会检测到 TCP 连接异常断开，将 TCP 状态修改为 FIN\_WAIT\_1 状态。A 机器会继续等待来自 B 机器的响应，如果等待的时间超过了一定时间（通常为几分钟），A 机器会放弃等待并关闭 TCP 连接，将 TCP 状态修改为 CLOSED 状态。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

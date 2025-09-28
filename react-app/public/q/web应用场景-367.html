@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>react native 工作原理是什么？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;React Native是一种基于JavaScript的开发框架，用于构建移动应用程序。它允许开发人员使用React的组件化开发模式来构建原生移动应用，同时跨平台共享代码。&lt;/p&gt;&lt;p&gt;工作原理如下：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;JavaScript线程：React Native" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="react native 工作原理是什么？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;React Native是一种基于JavaScript的开发框架，用于构建移动应用程序。它允许开发人员使用React的组件化开发模式来构建原生移动应用，同时跨平台共享代码。&lt;/p&gt;&lt;p&gt;工作原理如下：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;JavaScript线程：React Native的应用程序逻辑是通过JavaScript代码来编写的。React Native应用在运行时会创建一个专用的JavaScr" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/367" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>react native 工作原理是什么？</h1>
+      <div class="subtitle">web应用场景 · web应用场景</div>
+      <div class="meta">创建：2023-05-22T14:46:30Z · 更新：2023-05-22T14:46:31Z</div>
+    </div>
+    <article class="content markdown-body"><p>React Native是一种基于JavaScript的开发框架，用于构建移动应用程序。它允许开发人员使用React的组件化开发模式来构建原生移动应用，同时跨平台共享代码。</p><p>工作原理如下：</p><ol><li>JavaScript线程：React Native的应用程序逻辑是通过JavaScript代码来编写的。React Native应用在运行时会创建一个专用的JavaScript线程，负责处理JavaScript代码的解析和执行。</li></ol><ol><li>原生桥（Native Bridge）：React Native应用通过原生桥（Native Bridge）连接JavaScript线程和原生平台，使得JavaScript代码能够与原生代码进行通信和交互。原生桥是一个双向通信通道，它将JavaScript的调用转发给原生平台，并将原生平台的事件和回调传递回JavaScript。</li></ol><ol><li>Virtual DOM：React Native使用Virtual DOM（虚拟DOM）机制来描述和管理UI的状态和变化。在React Native中，组件的UI层由React组件树构建而成，每个组件都有一个相应的虚拟DOM表示。</li></ol><ol><li>原生渲染：React Native将虚拟DOM的变化映射到相应的原生UI组件上。通过与原生平台的交互，React Native会根据虚拟DOM的变化更新相应的原生UI组件，实现界面的渲染和更新。</li></ol><ol><li>原生组件：React Native提供了一系列的原生组件，这些组件直接映射到原生平台上的真实UI控件，例如文本、图像、按钮等。开发人员可以使用这些原生组件来构建用户界面。</li></ol><ol><li>原生模块：React Native还提供了原生模块的概念，允许开发人员编写原生平台相关的功能和逻辑。通过原生模块，开发人员可以访问设备功能、原生API和第三方库等。</li></ol><p>总体来说，React Native通过JavaScript线程和原生桥实现了JavaScript代码和原生平台之间的通信。它利用虚拟DOM机制来管理UI的状态和变化，并通过与原生平台的交互实现UI的渲染和更新。开发人员可以使用React Native提供的原生组件和原生模块来构建跨平台的移动应用程序。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

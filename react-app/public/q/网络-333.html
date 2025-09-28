@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TCP/IP 如何保证数据包传输的有序可靠【热度: 336】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：TCP/IP 可靠性、TCP/IP 序列号、TCP/IP 超时&lt;/p&gt;&lt;p&gt;TCP/IP 采用以下几种机制来保证数据包传输的有序可靠：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;确认和重传：每当 TCP/IP 协议收到一个数据包时，将向发送方回送一个确" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="TCP/IP 如何保证数据包传输的有序可靠【热度: 336】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：TCP/IP 可靠性、TCP/IP 序列号、TCP/IP 超时&lt;/p&gt;&lt;p&gt;TCP/IP 采用以下几种机制来保证数据包传输的有序可靠：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;确认和重传：每当 TCP/IP 协议收到一个数据包时，将向发送方回送一个确认信息。如果接收方未收到数据包，则发送方将重传该数据包。这种确认和重传的机制可以确保数据包能够可靠地传输，即使在网络故障" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/333" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>TCP/IP 如何保证数据包传输的有序可靠【热度: 336】</h1>
+      <div class="subtitle">网络 · 网络 · 腾讯</div>
+      <div class="meta">创建：2023-05-04T16:58:10Z · 更新：2023-05-04T16:58:11Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：TCP/IP 可靠性、TCP/IP 序列号、TCP/IP 超时</p><p>TCP/IP 采用以下几种机制来保证数据包传输的有序可靠：</p><ol><li>确认和重传：每当 TCP/IP 协议收到一个数据包时，将向发送方回送一个确认信息。如果接收方未收到数据包，则发送方将重传该数据包。这种确认和重传的机制可以确保数据包能够可靠地传输，即使在网络故障或拥塞的情况下也能保证数据包的可靠性。</li></ol><ol><li>滑动窗口：滑动窗口是 TCP/IP 协议用来控制发送方和接收方之间数据流的一种机制。发送方会将窗口大小告知接收方，接收方在收到数据包时，会回送一个告知发送方可以继续发送数据的指令。滑动窗口机制可以通过有效地控制数据包的发送与接收，实现有序的数据传输。</li></ol><ol><li>序列号：每个数据包都会附带一个序列号，接收方通过序列号对数据包进行排序，从而实现传输的有序性。</li></ol><ol><li>超时重传时间：TCP/IP 建立了一个计时器，如果在指定时间内没有收到确认信息，则会重新发送未确认的数据包。这种机制可以帮助保证数据包传输的可靠性，确保数据包能够及时被送达。</li></ol><p>总之，TCP/IP 协议通过确认和重传、滑动窗口、序列号以及超时重传时间等机制，保证了数据包传输的有序可靠性。这些机制可以确保数据包能够被及时送达，有效地防止了数据包丢失、重复和乱序等问题，从而提供了高效可靠的传输服务。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] 类组件里面 setState 做了哪些事儿【热度: 200】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：setState 做了哪些事儿&lt;/p&gt;&lt;p&gt;在 React 的类组件中，&lt;code&gt;setState&lt;/code&gt; 方法主要做了以下几件事情：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;触发组件的重新渲染：当调用 &lt;code&gt;setState&lt;/cod" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] 类组件里面 setState 做了哪些事儿【热度: 200】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：setState 做了哪些事儿&lt;/p&gt;&lt;p&gt;在 React 的类组件中，&lt;code&gt;setState&lt;/code&gt; 方法主要做了以下几件事情：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;触发组件的重新渲染：当调用 &lt;code&gt;setState&lt;/code&gt; 时，React 会标记该组件为“脏”状态，在下一个渲染周期中重新渲染组件。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li&gt;合并" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/817" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] 类组件里面 setState 做了哪些事儿【热度: 200】</h1>
+      <div class="subtitle">web框架 · web框架 · TOP100互联网</div>
+      <div class="meta">创建：2024-08-10T04:19:32Z · 更新：2024-08-10T04:19:33Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：setState 做了哪些事儿</p><p>在 React 的类组件中，<code>setState</code> 方法主要做了以下几件事情：</p><ol><li>触发组件的重新渲染：当调用 <code>setState</code> 时，React 会标记该组件为“脏”状态，在下一个渲染周期中重新渲染组件。</li></ol><ol><li>合并状态更新：<code>setState</code> 接受一个对象或函数作为参数。如果是对象，它会与当前组件的状态进行合并。如果是函数，该函数会接收当前的状态作为参数，并返回一个新的状态对象，然后与当前状态合并。</li></ol><ol><li>异步更新：在大多数情况下，<code>setState</code> 是异步执行的，这是为了优化性能，避免不必要的频繁渲染。但在某些特殊情况下，如在事件处理函数中，可以通过给 <code>setState</code> 传递一个函数作为第二个参数来在状态更新完成后执行一些操作。</li></ol><p>例如：</p><pre class="code-block"><code class="language-javascript">class MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { count: 0 };
+  }
+
+  handleClick = () =&gt; {
+    // 方式一：对象形式
+    this.setState({ count: this.state.count + 1 });
+    // 方式二：函数形式
+    this.setState((prevState) =&gt; ({ count: prevState.count + 1 }));
+  };
+}
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

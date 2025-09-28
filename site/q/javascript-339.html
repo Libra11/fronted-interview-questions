@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JavaScript 中的变量在内存中的具体存储形式是什么【热度: 183】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：JavaScript 变量存储形式&lt;/p&gt;&lt;p&gt;在JavaScript中，变量的存储方式是基于所存储值的数据类型。JavaScript有7种内置数据类型：undefined、null、boolean、number、string、sy" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="JavaScript 中的变量在内存中的具体存储形式是什么【热度: 183】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：JavaScript 变量存储形式&lt;/p&gt;&lt;p&gt;在JavaScript中，变量的存储方式是基于所存储值的数据类型。JavaScript有7种内置数据类型：undefined、null、boolean、number、string、symbol和object。&lt;/p&gt;&lt;p&gt;对于基础数据类型（除了object），变量值会直接存储在内存中。具体来说，这些数据" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/339" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>JavaScript 中的变量在内存中的具体存储形式是什么【热度: 183】</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-05-05T16:03:04Z · 更新：2023-05-05T16:03:05Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：JavaScript 变量存储形式</p><p>在JavaScript中，变量的存储方式是基于所存储值的数据类型。JavaScript有7种内置数据类型：undefined、null、boolean、number、string、symbol和object。</p><p>对于基础数据类型（除了object），变量值会直接存储在内存中。具体来说，这些数据类型的变量在内存中的存储形式如下：</p><ul><li>undefined和null：这两个数据类型都只有一个值，每个值有一个特殊的内存地址。存储它们的变量会被赋予对应的内存地址。</li><li>boolean：这个数据类型的值只需要存储一个比特位（0或1），它们通常被存储在栈中，而不是堆中。</li><li>number：根据规范，数字类型在内存中占用8个字节的空间（64位），它们通常被存储在栈中，而不是堆中。</li><li>string：字符串实际上是一组字符数组，它们通常被存储在堆中，并通过引用地址存储在栈中。</li><li>symbol：每个symbol对应于唯一的标识符。它们通常被存储在堆中，并通过引用地址存储在栈中。</li></ul><p>而对于对象类型（包括对象、数组等），变量存储了一个指向存储对象的内存地址的指针。JavaScript采用引用计数内存管理，因此它会对每个对象进行引用计数，当一个对象不再被引用时，JavaScript会自动回收这个对象的内存空间。</p><p>总的来说，在JavaScript中，变量的存储方式基于值类型的数据类型，对于对象型变量，存储指向对象的内存地址的指针以及对象的值，而对于基础类型的变量，直接存储变量的值。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

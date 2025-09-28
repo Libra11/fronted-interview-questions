@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[vue]: vue2.x 虚拟 dom 是怎么实现的？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h2&gt;virtual-dom 实现之一: snabbdom&lt;/h2&gt;&lt;p&gt;vue2.0就是使用的snabbdom&lt;/p&gt;&lt;p&gt;一个简单的使用实例：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;var " />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[vue]: vue2.x 虚拟 dom 是怎么实现的？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h2&gt;virtual-dom 实现之一: snabbdom&lt;/h2&gt;&lt;p&gt;vue2.0就是使用的snabbdom&lt;/p&gt;&lt;p&gt;一个简单的使用实例：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;var snabbdom = require(&amp;#39;snabbdom&amp;#39;); var patch = snabbdom" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/78" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[vue]: vue2.x 虚拟 dom 是怎么实现的？</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2023-03-11T08:57:17Z · 更新：2023-03-11T09:00:32Z</div>
+    </div>
+    <article class="content markdown-body"><h2>virtual-dom 实现之一: snabbdom</h2><p>vue2.0就是使用的snabbdom</p><p>一个简单的使用实例：</p><pre class="code-block"><code class="language-javascript">var snabbdom = require(&#39;snabbdom&#39;);
+var patch = snabbdom.init([ // Init patch function with chosen modules
+  require(&#39;snabbdom/modules/class&#39;).default, // makes it easy to toggle classes
+  require(&#39;snabbdom/modules/props&#39;).default, // for setting properties on DOM elements
+  require(&#39;snabbdom/modules/style&#39;).default, // handles styling on elements with support for animations
+  require(&#39;snabbdom/modules/eventlisteners&#39;).default, // attaches event listeners
+]);
+var h = require(&#39;snabbdom/h&#39;).default; // helper function for creating vnodes
+
+var container = document.getElementById(&#39;container&#39;);
+
+var vnode = h(&#39;div#container.two.classes&#39;, {on: {click: someFn}}, [
+  h(&#39;span&#39;, {style: {fontWeight: &#39;bold&#39;}}, &#39;This is bold&#39;),
+  &#39; and this is just normal text&#39;,
+  h(&#39;a&#39;, {props: {href: &#39;/foo&#39;}}, &#39;I\&#39;ll take you places!&#39;)
+]);
+// Patch into empty DOM element – this modifies the DOM as a side effect
+patch(container, vnode);
+
+var newVnode = h(&#39;div#container.two.classes&#39;, {on: {click: anotherEventHandler}}, [
+  h(&#39;span&#39;, {style: {fontWeight: &#39;normal&#39;, fontStyle: &#39;italic&#39;}}, &#39;This is now italic type&#39;),
+  &#39; and this is still just normal text&#39;,
+  h(&#39;a&#39;, {props: {href: &#39;/bar&#39;}}, &#39;I\&#39;ll take you places!&#39;)
+]);
+// Second `patch` invocation
+patch(vnode, newVnode); // Snabbdom efficiently updates the old view to the new state
+</code></pre><h3>snabbdom 核心api</h3><ul><li>snabbdom.init:</li></ul><p>The core exposes only one single function snabbdom.init. This init takes a list of modules and returns a patch function that uses the specified set of modules.</p><pre class="code-block"><code class="language-javascript">var patch = snabbdom.init([
+  require(&#39;snabbdom/modules/class&#39;).default,
+  require(&#39;snabbdom/modules/style&#39;).default,
+]);
+</code></pre><ul><li>patch:</li></ul><pre class="code-block"><code class="language-javascript">patch(oldVnode, newVnode);
+</code></pre><ul><li>snabbdom/h:</li></ul><p>It is recommended that you use snabbdom/h to create vnodes. h accepts a tag/selector as a string, an optional data object and an optional string or array of children.</p><pre class="code-block"><code class="language-javascript">var h = require(&#39;snabbdom/h&#39;).default;
+var vnode = h(&#39;div&#39;, {style: {color: &#39;#000&#39;}}, [
+  h(&#39;h1&#39;, &#39;Headline&#39;),
+  h(&#39;p&#39;, &#39;A paragraph&#39;),
+]);
+</code></pre><ul><li>snabbdom/tovnode:</li></ul><p>Converts a DOM node into a virtual node. Especially good for patching over an pre-existing, server-side generated content.</p><pre class="code-block"><code class="language-javascript">var snabbdom = require(&#39;snabbdom&#39;)
+var patch = snabbdom.init([ // Init patch function with chosen modules
+  require(&#39;snabbdom/modules/class&#39;).default, // makes it easy to toggle classes
+  require(&#39;snabbdom/modules/props&#39;).default, // for setting properties on DOM elements
+  require(&#39;snabbdom/modules/style&#39;).default, // handles styling on elements with support for animations
+  require(&#39;snabbdom/modules/eventlisteners&#39;).default, // attaches event listeners
+]);
+var h = require(&#39;snabbdom/h&#39;).default; // helper function for creating vnodes
+var toVNode = require(&#39;snabbdom/tovnode&#39;).default;
+
+var newVNode = h(&#39;div&#39;, {style: {color: &#39;#000&#39;}}, [
+  h(&#39;h1&#39;, &#39;Headline&#39;),
+  h(&#39;p&#39;, &#39;A paragraph&#39;),
+]);
+
+patch(toVNode(document.querySelector(&#39;.container&#39;)), newVNode)
+</code></pre><h3>h函数 和 patch 的使用</h3><p>例如下面的一个dom 结构：</p><pre class="code-block"><code class="language-html">&lt;ul id=&quot;list&quot;&gt;
+    &lt;li class=&quot;item&quot;&gt;item1&lt;/li&gt;
+    &lt;li class=&quot;item&quot;&gt;item2&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre><p>用h函数来表示，就如下形式：</p><pre class="code-block"><code class="language-javascript">let vnode = h(&#39;ul#list&#39;, {}, [
+    h(&#39;li.item&#39;, {}, &#39;item1&#39;),
+    h(&#39;li.item&#39;, {}, &#39;item2&#39;)
+])
+</code></pre><p>作用就是模拟的一个真实节点。</p><p>patch的使用方式：</p><p>第一种方式 patch('容器', vnode);  // 这种使用方式是直接渲染dom</p><p>第二种是用方式: patch(oldVnode, newVnode);         // 这种方式会自动对比dom的差异性，然后只渲染我们需要dom;</p><p>一个简单的使用实例：</p><pre class="code-block"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;snabbdom&lt;/title&gt;
+    &lt;script src=&quot;https://cdn.bootcss.com/snabbdom/0.7.1/snabbdom.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdn.bootcss.com/snabbdom/0.7.1/snabbdom-class.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdn.bootcss.com/snabbdom/0.7.1/snabbdom-props.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdn.bootcss.com/snabbdom/0.7.1/snabbdom-style.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdn.bootcss.com/snabbdom/0.7.1/snabbdom-eventlisteners.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdn.bootcss.com/snabbdom/0.7.1/h.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div id=&quot;container&quot;&gt;&lt;/div&gt;&lt;br&gt;
+
+&lt;button id=&quot;btn-change&quot;&gt;change&lt;/button&gt;
+
+
+&lt;script&gt;
+    let snabbdom = window.snabbdom;
+    let container = document.getElementById(&#39;container&#39;);
+    let buttonChange = document.getElementById(&#39;btn-change&#39;);
+
+    // 定义patch
+    let patch = snabbdom.init([
+        snabbdom_class,
+        snabbdom_props,
+        snabbdom_style,
+        snabbdom_eventlisteners
+    ]);
+
+    // 定义h
+    let h = snabbdom.h;
+
+    // 生成vnode
+    let vnode = h(&#39;ul#list&#39;, {}, [
+        h(&#39;li.item&#39;, {}, &#39;item1&#39;),
+        h(&#39;li.item&#39;, {}, &#39;item2&#39;)
+    ]);
+    patch(container, vnode);
+
+    // 模拟一个修改的情况
+    buttonChange.addEventListener(&#39;click&#39;, function () {
+        let newVnode = h(&#39;ul#list&#39;, {}, [
+            h(&#39;li.item&#39;, {}, &#39;item1&#39;),
+            h(&#39;li.item&#39;, {}, &#39;item B&#39;),
+            h(&#39;li.item&#39;, {}, &#39;item 3&#39;)
+        ]);
+        patch(vnode, newVnode);
+    })
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h3>snabbdom 的使用实例</h3><pre class="code-block"><code class="language-html">&lt;body&gt;
+&lt;div id=&quot;container&quot;&gt;&lt;/div&gt;
+&lt;br&gt;
+&lt;button id=&quot;btn-change&quot;&gt;change&lt;/button&gt;
+&lt;script&gt;
+    let snabbdom = window.snabbdom;
+    let container = document.getElementById(&#39;container&#39;);
+    let buttonChange = document.getElementById(&#39;btn-change&#39;);
+
+    // 定义patch
+    let patch = snabbdom.init([
+        snabbdom_class,
+        snabbdom_props,
+        snabbdom_style,
+        snabbdom_eventlisteners
+    ]);
+
+    // 定义h
+    let h = snabbdom.h;
+    let data = [
+        {
+            name: &#39;yanle&#39;,
+            age: &#39;20&#39;,
+            address: &#39;重庆&#39;
+        },
+        {
+            name: &#39;yanle2&#39;,
+            age: &#39;25&#39;,
+            address: &#39;成都&#39;
+        },
+        {
+            name: &#39;yanle3&#39;,
+            age: &#39;27&#39;,
+            address: &#39;深圳&#39;
+        }
+    ];
+
+    data.unshift({
+        name: &#39;姓名&#39;,
+        age: &#39;年龄&#39;,
+        address: &#39;地址&#39;
+    });
+
+    let vnode;
+    function render(data) {
+        let newVnode = h(&#39;table&#39;, {style: {&#39;font-size&#39;: &#39;16px&#39;}}, data.map(function (item) {
+            let tds = [];
+            let i ;
+            for (i in item) {
+                if(item.hasOwnProperty(i)) {
+                    tds.push(h(&#39;td&#39;, {},   h(&#39;a&#39;, {props: {href: &#39;/foo&#39;}}, item[i])))
+                }
+            }
+            return h(&#39;tr&#39;, {}, tds)
+        }));
+
+        if(vnode) {
+            patch(vnode, newVnode);
+        } else {
+            patch(container, newVnode);
+        }
+
+        vnode = newVnode;
+    }
+
+    // 初次渲染
+    render(data);
+    buttonChange.addEventListener(&#39;click&#39;, function () {
+        data[1].age=30;
+        data[1].address = &#39;非洲&#39;;
+        render(data);
+    });
+&lt;/script&gt;
+&lt;/body&gt;
+</code></pre><h2>diff算法</h2><h3>概念</h3><p>就是找出两个文件的不同</p><p>diff 算法是非常复杂的，实现难度非常大， 源码两非常大。 所以需要去繁就简，明白流程，不关心细节。</p><p>在vdom中，需要找出本次dom 必须更新的节点来更新，其他的不用更新。找出这个过程就是diff算法实现的。找出前后两个虚拟dom的差异。</p><h3>diff实现的过程</h3><p>这里以snabbdom为例子：</p><p>patch(container, vnode); patch(vnode, newVnode); 这两个方法里面就使用到了diff算法。 用patch方法来解析diff算法流程核心。</p><p><strong>patch(container, vnode)</strong></p><p><img alt="02-11-1" src="https://user-images.githubusercontent.com/22188674/224475327-0b8f19b3-7a35-40ec-960b-6040852f1a7d.png" /></p><p>如果上面的数据， 我们怎么构建真正的dom 结构：</p><pre class="code-block"><code class="language-javascript">let createElement = function(vnode) {
+    let tag = vnode.tag;
+    let attrs = vnode.attrs || {};
+    let children = vnode.children || {};
+    
+    if(!tag) return null;
+    
+    // 创建元素
+    let elem = document.createElement(tag);
+    
+    // 属性
+    let attrName;
+    for (attrName in attrs) {
+        if(attrs.hasOwnProperty(attrName)) {
+            elem.setAttribute(attrName, attrs[attrName])
+        }
+    }
+    
+    // 子元素
+    children.forEach(function (childVnode) {
+        // 给 elem 添加元素
+        elem.appendChild(createElement(childVnode))
+    });
+    
+    return elem;
+};
+</code></pre><p><strong>patch(vnode, newVnode)</strong></p><p><img alt="02-11-2" src="https://user-images.githubusercontent.com/22188674/224475289-d2f8b10a-1f02-4126-9f2e-b813b0387c84.png" /></p><p><img alt="02-11-3" src="https://user-images.githubusercontent.com/22188674/224475309-45c68933-3aa8-402a-8353-d09b506e0d46.png" /></p><p>伪代码实现如下</p><pre class="code-block"><code class="language-javascript">let createElement = function(vnode) {
+    let tag = vnode.tag;
+    let attrs = vnode.attrs || {};
+    let children = vnode.children || {};
+
+    if(!tag) return null;
+
+    // 创建元素
+    let elem = document.createElement(tag);
+
+    // 属性
+    let attrName;
+    for (attrName in attrs) {
+        if(attrs.hasOwnProperty(attrName)) {
+            elem.setAttribute(attrName, attrs[attrName])
+        }
+    }
+
+    // 子元素
+    children.forEach(function (childVnode) {
+        // 给 elem 添加元素
+        elem.appendChild(createElement(childVnode))
+    });
+
+    return elem;
+};
+</code></pre><h3>diff算法的其他内容</h3><ul><li>节点的新增和删除</li><li>节点重新排序</li><li>节点属性、样式、事件绑定</li><li>如果极致压榨性能</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

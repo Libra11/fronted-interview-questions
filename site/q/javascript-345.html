@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>eval 了解多少？【热度: 538】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：eval 使用场景、eval 性能、eval 优点、eval 缺点&lt;/p&gt;&lt;h3&gt;什么是 eval&lt;/h3&gt;&lt;p&gt;&lt;code&gt;eval()&lt;/code&gt; 是 JavaScript 的一个全局函数，用于解析并执行字符串代码。&lt;/p&gt;&lt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="eval 了解多少？【热度: 538】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：eval 使用场景、eval 性能、eval 优点、eval 缺点&lt;/p&gt;&lt;h3&gt;什么是 eval&lt;/h3&gt;&lt;p&gt;&lt;code&gt;eval()&lt;/code&gt; 是 JavaScript 的一个全局函数，用于解析并执行字符串代码。&lt;/p&gt;&lt;p&gt;它接受一个字符串参数，该字符串包含 JavaScript 表达式或语句。在 &lt;code&gt;eval&lt;/code&gt; 函数" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/345" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>eval 了解多少？【热度: 538】</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-05-06T14:29:24Z · 更新：2023-05-06T14:29:25Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：eval 使用场景、eval 性能、eval 优点、eval 缺点</p><h3>什么是 eval</h3><p><code>eval()</code> 是 JavaScript 的一个全局函数，用于解析并执行字符串代码。</p><p>它接受一个字符串参数，该字符串包含 JavaScript 表达式或语句。在 <code>eval</code> 函数执行期间，该字符串的内容将被视为有效 JavaScript 代码，并运行当前作用域中的变量和函数。<code>eval()</code> 函数返回执行结果的值。</p><p>举个例子：</p><pre class="code-block"><code class="language-js">let x = 1;
+let y = 2;
+const result = eval(&quot;x + y&quot;); // 将字符串作为代码执行
+console.log(result); // 输出 3
+</code></pre><p><code>eval()</code> 常被认为是一个危险的函数，原因是它可以执行任何字符串。如果 <code>eval()</code> 执行了用户输入的文本，攻击者可能会注入恶意代码，从而窃取敏感信息或操纵应用程序。因此，最好不要在程序中使用 <code>eval()</code>  函数，除非你非常明确及了解其潜在风险。</p><p>除了 <code>eval()</code>，JavaScript 还提供了其他如 <code>Function()</code> 构造函数或 <code>setTimeout()</code> 等能够执行字符代码的方法，但它们的使用都需要非常小心。</p><h3>eval 的性能为何比静态编写和编译的代码要慢</h3><p><code>eval()</code> 函数解析并执行动态的字符串代码，因此在运行时需要进行代码分析和编译。每次调用 <code>eval()</code> 都需要重复执行这些操作，这对性能的影响非常大。同时，由于 <code>eval()</code> 执行的代码是字符串形式并不是预编译的机器代码，在执行时可能需要使用更多的内存和 CPU 资源。</p><p>相比之下，静态编写的代码在编译时已经被转化为机器代码，因此执行速度会更快。编译器可以进行多项优化，例如移除无用的代码，减少内存分配等。这些优化在运行时是不可能完成的，因此 <code>eval()</code> 函数的性能相对较低。</p><h3>eval 性能一定就很差吗</h3><p>不是所有情况下 <code>eval()</code> 函数的性能都很差。在某些情况下，<code>eval()</code> 的性能可能与静态编写的代码相当。例如，如果动态代码比较简单，并且在程序运行期间只会执行一次，那么使用 <code>eval()</code> 不会造成显著的性能损失。但是如果动态代码比较复杂，并且需要经常执行，那么使用 <code>eval()</code> 的性能就会显著低于静态编写的代码。</p><p>另外，<code>eval()</code> 的性能问题还取决于运行时环境的不同。在某些浏览器中，使用 <code>eval()</code> 时会导致缓慢的 JavaScript 执行，而在其他浏览器中则表现良好。因此，在编写代码时，应该始终将性能作为一个重要的因素进行考虑，并根据实际情况来选择使用 <code>eval()</code> 或其他适当的解决方案。</p><h3>eval 有什么优势</h3><p><code>eval()</code> 函数有以下几个优势：</p><ol><li>动态执行代码：<code>eval()</code> 函数可以动态地将字符串解析为 JavaScript 代码并执行，从而可以在运行时动态生成代码并执行。这种动态性使得 <code>eval()</code> 函数在一些特定的编程场景中非常有用，例如动态计算表达式、动态生成函数等。</li></ol><ol><li>灵活性高：由于 <code>eval()</code> 函数可以动态解析字符串并执行其中的 JavaScript 代码，因此可以根据需要在运行时动态生成代码，而不必在编写代码时预先定义。这种灵活性使得 <code>eval()</code> 函数在一些需要动态生成代码的场景中非常有用。</li></ol><ol><li>命名空间：由于 <code>eval()</code> 函数会执行其中的 JavaScript 代码，因此代码可以利用当前作用域中的变量和函数，从而可以有效地利用命名空间并提高代码的复用性。</li></ol><p><strong>缺点</strong></p><p>虽然 <code>eval()</code> 函数具有上述优势，但它也存在潜在的安全隐患，因此应当避免在应用程序中过度使用 <code>eval()</code> 函数，并在使用时注重安全性和可控性。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

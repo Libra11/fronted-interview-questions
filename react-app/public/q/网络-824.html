@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>手写一个 axios 中间件，支持缓存返回到本地内存【热度: 845】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：请求缓存&lt;/p&gt;&lt;p&gt;手写一个 axios 中间件， 支持缓存返回到本地内存， 下次同样的请求路径和参数， 直接返回上一次的缓存内容即可， 不需再请求， 同时支持设置自动清除缓存数据的时间。&lt;/p&gt;&lt;p&gt;创建一个简单的 Axios " />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="手写一个 axios 中间件，支持缓存返回到本地内存【热度: 845】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：请求缓存&lt;/p&gt;&lt;p&gt;手写一个 axios 中间件， 支持缓存返回到本地内存， 下次同样的请求路径和参数， 直接返回上一次的缓存内容即可， 不需再请求， 同时支持设置自动清除缓存数据的时间。&lt;/p&gt;&lt;p&gt;创建一个简单的 Axios 中间件来支持内存缓存可以大致分为以下步骤：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;实现一个缓存管理器，可以存储、检索和删除缓存数据。&lt;/" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/824" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>手写一个 axios 中间件，支持缓存返回到本地内存【热度: 845】</h1>
+      <div class="subtitle">网络 · 网络 · 腾讯</div>
+      <div class="meta">创建：2024-08-17T11:07:50Z · 更新：2024-08-17T11:07:50Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：请求缓存</p><p>手写一个 axios 中间件， 支持缓存返回到本地内存， 下次同样的请求路径和参数， 直接返回上一次的缓存内容即可， 不需再请求， 同时支持设置自动清除缓存数据的时间。</p><p>创建一个简单的 Axios 中间件来支持内存缓存可以大致分为以下步骤：</p><ol><li>实现一个缓存管理器，可以存储、检索和删除缓存数据。</li><li>在发送请求前，检查是否存在对应的缓存数据，如果存在，则直接返回缓存数据，而不是发起新的请求。</li><li>在接收到新的请求响应后，将响应数据存储到缓存中，并设置一个定时器来自动清除过期的缓存数据。</li></ol><p>下面是一个简单的实现示例：</p><pre class="code-block"><code class="language-javascript">import axios from &quot;axios&quot;;
+
+class CacheManager {
+  constructor() {
+    this.cache = {};
+  }
+
+  // 生成缓存键
+  _generateCacheKey(url, params) {
+    const paramString = Object.keys(params)
+      .sort()
+      .map((key) =&gt; `${key}=${params[key]}`)
+      .join(&quot;&amp;&quot;);
+    return `${url}?${paramString}`;
+  }
+
+  // 设置缓存
+  set(url, params, data, ttl) {
+    const cacheKey = this._generateCacheKey(url, params);
+
+    // 清除可能存在的旧缓存
+    if (this.cache[cacheKey]) {
+      clearTimeout(this.cache[cacheKey].timeout);
+    }
+
+    // 设置新的缓存
+    const timeout = setTimeout(() =&gt; {
+      delete this.cache[cacheKey];
+    }, ttl);
+
+    this.cache[cacheKey] = { data, timeout };
+  }
+
+  // 获取缓存
+  get(url, params) {
+    const cacheKey = this._generateCacheKey(url, params);
+    return this.cache[cacheKey] ? this.cache[cacheKey].data : null;
+  }
+}
+
+// 创建缓存管理器实例
+const cacheManager = new CacheManager();
+
+// 自定义请求拦截器
+axios.interceptors.request.use((config) =&gt; {
+  // 检查缓存
+  const cachedResponse = cacheManager.get(config.url, config.params || {});
+
+  if (cachedResponse) {
+    // 如果找到缓存，将缓存数据作为Promise直接返回
+    return Promise.reject({
+      config,
+      response: cachedResponse,
+      isCached: true, // 自定义属性，标记这是一个缓存的结果
+    });
+  }
+
+  return config;
+});
+
+// 自定义响应拦截器
+axios.interceptors.response.use(
+  (response) =&gt; {
+    // 存储新的响应数据到缓存。假设 TTL（生存时间）为 1 分钟（60000 毫秒）
+    cacheManager.set(response.config.url, response.config.params || {}, response, 60000);
+    return response;
+  },
+  (error) =&gt; {
+    // 检查错误对象中是否包含缓存响应
+    if (error.isCached) {
+      // 直接返回缓存响应
+      return Promise.resolve(error.response);
+    }
+    // 对于其他类型的错误，继续抛出
+    return Promise.reject(error);
+  }
+);
+
+// 使用自定义的 Axios 实例发送请求
+// 随后的请求（在缓存未过期之前），会直接返回缓存的数据
+axios
+  .get(&quot;https://example.com/data&quot;, { params: { userId: &quot;123&quot; } })
+  .then((response) =&gt; console.log(&quot;Response:&quot;, response))
+  .catch((error) =&gt; console.log(&quot;Error:&quot;, error));
+</code></pre><p>这个简单的实现展示了如何在 Axios 请求级别添加缓存逻辑。你可以根据你的实际需求调整和扩展这个实现，比如添加错误处理逻辑、支持更复杂的缓存失效策略等。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

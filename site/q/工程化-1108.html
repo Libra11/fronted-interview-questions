@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>jest 有哪些重要配置？【热度: 180】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：前端单测 jest 配置&lt;/p&gt;&lt;p&gt;Jest 有许多重要配置项，它们能帮助你根据项目需求定制测试环境和流程。以下是一些关键的 Jest 配置项及其用途：&lt;/p&gt;&lt;h3&gt;1. &lt;code&gt;testMatch&lt;/code&gt;&lt;/h3&gt;&lt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="jest 有哪些重要配置？【热度: 180】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：前端单测 jest 配置&lt;/p&gt;&lt;p&gt;Jest 有许多重要配置项，它们能帮助你根据项目需求定制测试环境和流程。以下是一些关键的 Jest 配置项及其用途：&lt;/p&gt;&lt;h3&gt;1. &lt;code&gt;testMatch&lt;/code&gt;&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;作用&lt;/strong&gt;：指定 Jest 要测试的文件匹配模式。Jest 会在项目中查找符合" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1108" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>jest 有哪些重要配置？【热度: 180】</h1>
+      <div class="subtitle">工程化 · 工程化</div>
+      <div class="meta">创建：2025-03-25T15:49:36Z · 更新：2025-03-25T15:49:36Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：前端单测 jest 配置</p><p>Jest 有许多重要配置项，它们能帮助你根据项目需求定制测试环境和流程。以下是一些关键的 Jest 配置项及其用途：</p><h3>1. <code>testMatch</code></h3><ul><li><strong>作用</strong>：指定 Jest 要测试的文件匹配模式。Jest 会在项目中查找符合这些模式的文件并执行测试。</li><li><strong>示例</strong>：</li></ul><pre class="code-block"><code class="language-javascript">module.exports = {
+  testMatch: [&quot;**/__tests__/**/*.js?(x)&quot;, &quot;**/?(*.)+(spec|test).js?(x)&quot;],
+};
+</code></pre><p>上述配置表示 Jest 会查找 <code>__tests__</code> 目录下的所有 <code>.js</code> 或 <code>.jsx</code> 文件，以及文件名包含 <code>spec</code> 或 <code>test</code> 的 <code>.js</code> 或 <code>.jsx</code> 文件。</p><h3>2. <code>moduleNameMapper</code></h3><ul><li><strong>作用</strong>：用于映射模块名，可将特定的模块名映射到另一个模块或文件。常见用途是处理样式文件、图片等资源文件的导入，避免在测试时实际加载这些资源。</li><li><strong>示例</strong>：</li></ul><pre class="code-block"><code class="language-javascript">module.exports = {
+  moduleNameMapper: {
+    &quot;\\.(css|less|scss|sass)$&quot;: &quot;identity-obj-proxy&quot;,
+    &quot;\\.(jpg|jpeg|png|gif|svg)$&quot;: &quot;&lt;rootDir&gt;/__mocks__/fileMock.js&quot;,
+  },
+};
+</code></pre><p>这里将 CSS 等样式文件映射到 <code>identity-obj-proxy</code>，将图片文件映射到自定义的模拟文件 <code>fileMock.js</code>。</p><h3>3. <code>setupFilesAfterEnv</code></h3><ul><li><strong>作用</strong>：在每个测试文件运行前执行的脚本文件列表。常用于设置测试环境，如引入测试工具、全局配置等。</li><li><strong>示例</strong>：</li></ul><pre class="code-block"><code class="language-javascript">module.exports = {
+  setupFilesAfterEnv: [&quot;&lt;rootDir&gt;/src/setupTests.js&quot;],
+};
+</code></pre><p>在 <code>setupTests.js</code> 文件中可以进行一些全局的测试配置，例如引入 <code>@testing-library/jest-dom</code> 扩展断言：</p><pre class="code-block"><code class="language-javascript">import &quot;@testing-library/jest-dom&quot;;
+</code></pre><h3>4. <code>testEnvironment</code></h3><ul><li><strong>作用</strong>：指定测试运行的环境，常见的值有 <code>node</code> 和 <code>jsdom</code>。<code>node</code> 适用于 Node.js 环境的测试，<code>jsdom</code> 模拟了浏览器环境，适用于前端 JavaScript 代码的测试。</li><li><strong>示例</strong>：</li></ul><pre class="code-block"><code class="language-javascript">module.exports = {
+  testEnvironment: &quot;jsdom&quot;,
+};
+</code></pre><h3>5. <code>coverageDirectory</code></h3><ul><li><strong>作用</strong>：指定代码覆盖率报告的输出目录。</li><li><strong>示例</strong>：</li></ul><pre class="code-block"><code class="language-javascript">module.exports = {
+  coverageDirectory: &quot;&lt;rootDir&gt;/coverage&quot;,
+};
+</code></pre><h3>6. <code>coverageThreshold</code></h3><ul><li><strong>作用</strong>：设置代码覆盖率的阈值。可以为全局或特定文件设置分支、函数、行和语句的覆盖率阈值，如果测试结果未达到这些阈值，Jest 会报错。</li><li><strong>示例</strong>：</li></ul><pre class="code-block"><code class="language-javascript">module.exports = {
+  coverageThreshold: {
+    global: {
+      branches: 80,
+      functions: 80,
+      lines: 80,
+      statements: 80,
+    },
+  },
+};
+</code></pre><h3>7. <code>transform</code></h3><ul><li><strong>作用</strong>：指定如何转换不同类型的文件。通常用于处理 Babel 转换，将 ES6+ 代码转换为兼容的 JavaScript 代码。</li><li><strong>示例</strong>：</li></ul><pre class="code-block"><code class="language-javascript">module.exports = {
+  transform: {
+    &quot;^.+\\.(js|jsx)$&quot;: &quot;babel-jest&quot;,
+  },
+};
+</code></pre><p>上述配置表示使用 <code>babel-jest</code> 来转换 <code>.js</code> 和 <code>.jsx</code> 文件。</p><h3>8. <code>verbose</code></h3><ul><li><strong>作用</strong>：一个布尔值，控制是否在测试结果中显示每个测试用例的详细信息。设置为 <code>true</code> 会显示更详细的测试结果。</li><li><strong>示例</strong>：</li></ul><pre class="code-block"><code class="language-javascript">module.exports = {
+  verbose: true,
+};
+</code></pre><h3>9. <code>watchPlugins</code></h3><ul><li><strong>作用</strong>：指定在 watch 模式下使用的插件。例如，<code>jest-watch-typeahead</code> 插件可以让你在 watch 模式下通过输入文件名或测试用例名来快速过滤测试。</li><li><strong>示例</strong>：</li></ul><pre class="code-block"><code class="language-javascript">module.exports = {
+  watchPlugins: [&quot;jest-watch-typeahead/filename&quot;, &quot;jest-watch-typeahead/testname&quot;],
+};
+</code></pre><p>这些配置项能帮助你更好地定制 Jest 的行为，满足不同项目的测试需求。你可以根据项目的具体情况进行选择和配置。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

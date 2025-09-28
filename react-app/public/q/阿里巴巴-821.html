@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>【git] 如何移除一个指定的 commit【热度: 762】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：commit 移除&lt;/p&gt;&lt;p&gt;移除某一个指定的 &lt;code&gt;commit&lt;/code&gt; 通常意味着要在版本控制系统如 Git 中更改历史记录，这通常涉及到一些操作风险，尤其是当这个 &lt;code&gt;commit&lt;/code&gt; 已经被推" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="【git] 如何移除一个指定的 commit【热度: 762】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：commit 移除&lt;/p&gt;&lt;p&gt;移除某一个指定的 &lt;code&gt;commit&lt;/code&gt; 通常意味着要在版本控制系统如 Git 中更改历史记录，这通常涉及到一些操作风险，尤其是当这个 &lt;code&gt;commit&lt;/code&gt; 已经被推送到远程仓库且被其他人使用。下面是几种常见的移除指定 &lt;code&gt;commit&lt;/code&gt; 的方法，但在进行这些操作前" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/821" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>【git] 如何移除一个指定的 commit【热度: 762】</h1>
+      <div class="subtitle">阿里巴巴 · web应用场景 · 阿里巴巴</div>
+      <div class="meta">创建：2024-08-17T10:42:34Z · 更新：2024-08-17T10:42:35Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：commit 移除</p><p>移除某一个指定的 <code>commit</code> 通常意味着要在版本控制系统如 Git 中更改历史记录，这通常涉及到一些操作风险，尤其是当这个 <code>commit</code> 已经被推送到远程仓库且被其他人使用。下面是几种常见的移除指定 <code>commit</code> 的方法，但在进行这些操作前，请确保备份你的代码，以防不测：</p><h3>使用 <code>git rebase</code> 交互式命令</h3><ol><li>打开终端或命令行界面。</li><li>定位到你的 Git 项目路径下。</li><li>执行 <code>git rebase -i HEAD~X</code> 命令，<code>X</code> 是从当前回到你想要移除的 <code>commit</code> 的数量加 1。这条命令会打开一个交互式界面，列出最近的 <code>X</code> 次提交。</li><li>找到你想要移除的 <code>commit</code>，并将其前面的 <code>pick</code> 改为 <code>drop</code>。或者干脆删除那一行。</li><li>保存并关闭编辑器，Git 会自动开始 rebase 进程。</li></ol><h3>如果你只是想修改最近的一次 <code>commit</code></h3><p>如果你仅仅是想移除最近的一次提交，可以这样做：</p><ol><li>使用命令 <code>git reset --soft HEAD~1</code> 将最后一次提交回退到暂存状态，不影响工作目录。</li><li>使用命令 <code>git reset --hard HEAD~1</code> 将最后一次提交完全撤销，包括工作目录和暂存区的改变。</li></ol><h3>警告</h3><ul><li>修改已经被推送到远程仓库的历史是非常危险的，如果其他人已经基于这些提交做了开发，这将引起合并冲突。</li><li>如果你需要修改已经推送过的提交，完成上述操作后，需要使用 <code>git push --force</code> 来强制推送到远程仓库，这样也会影响到其他协作者的开发进程。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

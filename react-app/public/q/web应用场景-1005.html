@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何计算页面首屏时间【热度: 426】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：首屏时间&lt;/p&gt;&lt;p&gt;页面首屏时间是指从浏览器开始请求页面到页面的首屏内容完全显示的时间。以下是几种计算首屏时间的方法：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、使用浏览器性能 API 和自定义事件&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何计算页面首屏时间【热度: 426】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：首屏时间&lt;/p&gt;&lt;p&gt;页面首屏时间是指从浏览器开始请求页面到页面的首屏内容完全显示的时间。以下是几种计算首屏时间的方法：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、使用浏览器性能 API 和自定义事件&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;具体步骤：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;在页面的&lt;code&gt;&amp;lt;head&amp;gt;&lt;/code&gt;标签中插入一段 " />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1005" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何计算页面首屏时间【热度: 426】</h1>
+      <div class="subtitle">web应用场景 · web应用场景</div>
+      <div class="meta">创建：2024-10-18T14:03:59Z · 更新：2024-10-18T14:03:59Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：首屏时间</p><p>页面首屏时间是指从浏览器开始请求页面到页面的首屏内容完全显示的时间。以下是几种计算首屏时间的方法：</p><p><strong>一、使用浏览器性能 API 和自定义事件</strong></p><ol><li>具体步骤：</li></ol><ul><li>在页面的<code>&lt;head&gt;</code>标签中插入一段 JavaScript 代码，在页面加载时记录浏览器开始导航的时间戳，即<code>performance.timing.navigationStart</code>。</li><li>当页面的首屏内容加载完成时，触发一个自定义事件。可以通过监听特定元素的加载完成或者使用特定的标志来判断首屏内容是否加载完成。</li><li>在自定义事件的处理函数中，获取当前时间戳，并减去开始导航的时间戳，得到首屏时间。</li></ul><p>例如：</p><pre class="code-block"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;script&gt;
+      const timing = performance.timing;
+      let firstScreenLoaded = false;
+      function onFirstScreenLoaded() {
+        if (!firstScreenLoaded) {
+          const firstScreenTime = performance.now() - timing.navigationStart;
+          console.log(`首屏时间为：${firstScreenTime}ms`);
+          firstScreenLoaded = true;
+        }
+      }
+      window.addEventListener(&quot;load&quot;, function () {
+        // 假设首屏内容加载完成的标志是某个特定元素的出现
+        const firstScreenElement = document.getElementById(&quot;first-screen-element&quot;);
+        if (firstScreenElement) {
+          onFirstScreenLoaded();
+        }
+      });
+    &lt;/script&gt;
+  &lt;/head&gt;
+
+  &lt;body&gt;
+    &lt;!-- 页面内容 --&gt;
+    &lt;div id=&quot;first-screen-element&quot;&gt;首屏关键内容元素&lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><ol><li>注意事项：</li></ol><ul><li>需要准确确定首屏内容加载完成的标志，这可能因页面结构和内容而异。</li><li>不同浏览器对于性能时间戳的定义和准确性可能略有不同，需要在多种浏览器上进行测试。</li></ul><p><strong>二、使用可视化工具和浏览器插件</strong></p><ol><li>一些可视化性能分析工具，如 Lighthouse、WebPageTest 等，可以测量页面的首屏时间。</li></ol><ul><li>Lighthouse 是一个由 Google 开发的开源工具，可以在 Chrome 浏览器的开发者工具中运行。它会生成一个详细的性能报告，其中包括首屏时间等指标。</li><li>WebPageTest 是一个在线性能测试工具，可以从不同的地理位置和设备类型进行测试，并提供详细的性能数据，包括首屏时间。</li></ul><ol><li>一些浏览器插件，如 PageSpeed Insights、YSlow 等，也可以提供页面性能指标，包括首屏时间的估算。</li></ol><ol><li>注意事项：</li></ol><ul><li>这些工具和插件的测量结果可能会受到网络环境、测试设备等因素的影响。</li><li>需要结合实际情况进行分析和优化，不能完全依赖工具的测量结果。</li></ul><p><strong>三、手动计时和标记</strong></p><ol><li>步骤：</li></ol><ul><li>在页面的 JavaScript 代码中，在浏览器开始请求页面时手动记录一个时间戳。</li><li>在页面的首屏内容加载完成时，再次记录一个时间戳。</li><li>首屏时间 = 第二个时间戳 - 第一个时间戳。</li></ul><p>例如：</p><pre class="code-block"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;script&gt;
+      let startTime;
+      window.addEventListener(&quot;load&quot;, function () {
+        if (!startTime) {
+          startTime = performance.now();
+        }
+        // 假设首屏内容加载完成的标志是某个特定元素的出现
+        const firstScreenElement = document.getElementById(&quot;first-screen-element&quot;);
+        if (firstScreenElement) {
+          const endTime = performance.now();
+          const firstScreenTime = endTime - startTime;
+          console.log(`首屏时间为：${firstScreenTime}ms`);
+        }
+      });
+    &lt;/script&gt;
+  &lt;/head&gt;
+
+  &lt;body&gt;
+    &lt;!-- 页面内容 --&gt;
+    &lt;div id=&quot;first-screen-element&quot;&gt;首屏关键内容元素&lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><ol><li>注意事项：</li></ol><ul><li>这种方法需要手动在代码中插入计时逻辑，可能会比较繁琐。</li><li>同样需要准确确定首屏内容加载完成的标志。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

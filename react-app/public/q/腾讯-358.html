@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>base64 的编码原理是什么 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;Base64编码是一种用于将二进制数据转换为可打印ASCII字符的编码方式。它的原理如下：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;将原始数据划分为连续的字节序列。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li&gt;将每个字节转换为8位二进制数。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li&gt;将这些二进制数按照6位一组" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="base64 的编码原理是什么" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;Base64编码是一种用于将二进制数据转换为可打印ASCII字符的编码方式。它的原理如下：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;将原始数据划分为连续的字节序列。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li&gt;将每个字节转换为8位二进制数。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li&gt;将这些二进制数按照6位一组进行分组，不足6位的用0补齐。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li&gt;将每个6位的二进制数转换为对应的十进制数。&lt;/li&gt;&lt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/358" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>base64 的编码原理是什么</h1>
+      <div class="subtitle">腾讯 · web应用场景 · 腾讯</div>
+      <div class="meta">创建：2023-05-16T15:09:02Z · 更新：2023-05-16T15:09:03Z</div>
+    </div>
+    <article class="content markdown-body"><p>Base64编码是一种用于将二进制数据转换为可打印ASCII字符的编码方式。它的原理如下：</p><ol><li>将原始数据划分为连续的字节序列。</li></ol><ol><li>将每个字节转换为8位二进制数。</li></ol><ol><li>将这些二进制数按照6位一组进行分组，不足6位的用0补齐。</li></ol><ol><li>将每个6位的二进制数转换为对应的十进制数。</li></ol><ol><li>根据Base64字符表，将十进制数转换为相应的可打印ASCII字符。</li></ol><p>Base64字符表由64个字符组成，通常使用以下字符：A-Z、a-z、0-9以及字符"+"和"/"。这些字符可以通过索引值与相应的十进制数进行对应。</p><p>编码过程中，如果原始数据的长度不是3的倍数，会根据需要进行填充。填充通常使用字符"="，每个填充字符表示4位的零值。</p><p>解码时，按照相反的过程进行操作。将Base64编码后的字符串按照4个字符一组分组，并将每个字符转换回对应的十进制数。然后将这些十进制数转换为6位二进制数，并将这些二进制数连接起来。最后，将连接后的二进制数划分为8位一组，并将每个8位二进制数转换为对应的字节数据。</p><p>Base64编码主要应用于在文本协议中传输或存储二进制数据，例如在电子邮件中传输附件或在Web中传输图像数据。它可以将二进制数据转换为ASCII字符，使其在不支持二进制传输的环境中能够正常处理。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

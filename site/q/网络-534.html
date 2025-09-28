@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>长连接了解多少【热度: 567】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：http 长连接过程&lt;/p&gt;&lt;p&gt;HTTP/1.1 的长连接（Keep-Alive）是一种机制，使客户端和服务器在同一连接上可以发送和接收多个 HTTP 请求和响应。它的原理如下：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;客户端发送请求：当客户端发起" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="长连接了解多少【热度: 567】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：http 长连接过程&lt;/p&gt;&lt;p&gt;HTTP/1.1 的长连接（Keep-Alive）是一种机制，使客户端和服务器在同一连接上可以发送和接收多个 HTTP 请求和响应。它的原理如下：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;客户端发送请求：当客户端发起一个 HTTP 请求时，在请求头中会包含一个 &lt;code&gt;Connection&lt;/code&gt; 字段，标识这个连接是否需要" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/534" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>长连接了解多少【热度: 567】</h1>
+      <div class="subtitle">网络 · 网络 · 网易</div>
+      <div class="meta">创建：2023-08-25T15:10:41Z · 更新：2023-08-25T15:10:56Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：http 长连接过程</p><p>HTTP/1.1 的长连接（Keep-Alive）是一种机制，使客户端和服务器在同一连接上可以发送和接收多个 HTTP 请求和响应。它的原理如下：</p><ol><li>客户端发送请求：当客户端发起一个 HTTP 请求时，在请求头中会包含一个 <code>Connection</code> 字段，标识这个连接是否需要保持持久连接。如果客户端希望保持连接，它会将该字段设置为 <code>keep-alive</code>。</li></ol><ol><li>服务器响应：当服务器收到客户端的请求后，如果它支持长连接，它会在响应头中添加一个 <code>Connection</code> 字段，也设置为 <code>keep-alive</code>，表示服务器同意保持连接。</li></ol><ol><li>客户端发送下一个请求：在客户端收到服务器的响应后，如果它也同意保持连接，客户端可以继续发送下一个请求。这个请求会被发送到同一连接上，而不是创建一个新的连接。</li></ol><ol><li>保持连接或关闭连接：客户端和服务器可以在多个请求和响应之间重复步骤 3。当一方决定不再继续发送请求时，它可以在请求头或响应头中将 <code>Connection</code> 字段设置为 <code>close</code>，表示关闭连接。</li></ol><p>长连接的原理是通过减少连接的建立和关闭次数，来提高性能和效率。它可以减少网络延迟和连接建立的开销，从而加快请求和响应的传输速度。同时，长连接还可以减少服务器的负载，因为服务器不需要频繁地处理连接的建立和关闭。</p><p>需要注意的是，尽管 HTTP/1.1 支持长连接，但它并不是默认启用的，需要在请求头中明确指定 <code>Connection: keep-alive</code> 才能使用长连接。此外，服务器也可以在响应头中明确指定长连接。如果客户端和服务器都支持长连接，并在请求和响应中都明确设置了长连接，那么连接就会被保持，直到其中一方关闭连接或指定关闭。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

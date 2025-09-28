@@ -1,0 +1,29 @@
+# [代码实现] 手写代码实现 promise.race
+
+- Issue: #106
+- State: open
+- Labels: 代码实现/算法
+- Author: yanlele
+- URL: https://github.com/pro-collection/interview-question/issues/106
+- Created: 2023-03-15T13:47:08Z
+- Updated: 2023-09-06T15:52:49Z
+
+## Body
+
+下面是手写实现 `Promise.race()` 方法的代码：
+
+```javascript
+Promise.race = function (promises) {
+  return new Promise((resolve, reject) => {
+    promises.forEach((promise) => {
+      Promise.resolve(promise).then(resolve, reject);
+    });
+  });
+};
+```
+
+实现原理：
+
+`Promise.race()` 方法接收一个包含多个 Promise 的数组作为参数，并返回一个新的 Promise。该 Promise 将会在数组中的任意一个 Promise 状态变为 `fulfilled` 或 `rejected` 时被解决，且以第一个解决的 Promise 的结果作为其结果返回。
+
+我们可以通过创建一个新的 Promise，然后遍历 Promise 数组并将每个 Promise 包装在一个 `Promise.resolve()` 中，然后使用 `.then()` 方法将它们的解决值和拒绝原因分别传递给新的 Promise 的 `resolve()` 和 `reject()` 方法。由于 Promise 的状态只能改变一次，所以一旦第一个 Promise 被解决，新的 Promise 的状态也将被解决，并且以第一个解决的 Promise 的结果作为其结果返回。

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>webpack tree-shaking 在什么情况下会失效？【热度: 171】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：tree shaking 失效&lt;/p&gt;&lt;p&gt;在以下情况下，&lt;code&gt;webpack&lt;/code&gt; 的 &lt;code&gt;tree-shaking&lt;/code&gt; 可能会失效：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;使用了 &lt;code&gt;sideEffect" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="webpack tree-shaking 在什么情况下会失效？【热度: 171】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：tree shaking 失效&lt;/p&gt;&lt;p&gt;在以下情况下，&lt;code&gt;webpack&lt;/code&gt; 的 &lt;code&gt;tree-shaking&lt;/code&gt; 可能会失效：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;使用了 &lt;code&gt;sideEffects&lt;/code&gt; 属性：在 webpack 的配置文件中，如果设置了 &lt;code&gt;sideEffects: true&lt;/" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/523" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>webpack tree-shaking 在什么情况下会失效？【热度: 171】</h1>
+      <div class="subtitle">阿里巴巴 · 工程化 · 阿里巴巴</div>
+      <div class="meta">创建：2023-08-20T15:14:19Z · 更新：2023-11-01T15:46:48Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：tree shaking 失效</p><p>在以下情况下，<code>webpack</code> 的 <code>tree-shaking</code> 可能会失效：</p><ol><li>使用了 <code>sideEffects</code> 属性：在 webpack 的配置文件中，如果设置了 <code>sideEffects: true</code>，则 webpack 会假设所有模块都有副作用，因此不会进行 tree-shaking。这通常用于避免某些模块被误标记为无用代码而被删除。</li></ol><ol><li>动态导入：如果你使用了动态导入（例如使用了 <code>import()</code> 或 <code>require.ensure()</code>），webpack 无法静态分析模块的导入和导出，因此无法进行 tree-shaking。</li></ol><ol><li>使用了 <code>commonjs</code> 模块语法：如果你的代码中使用了 <code>commonjs</code> 模块语法（例如使用了 <code>require()</code> 或 <code>module.exports</code>），webpack 无法进行静态分析，因此无法进行 tree-shaking。</li></ol><ol><li>未使用 ES6 模块语法：tree-shaking 只能对 ES6 模块语法进行优化，如果你的代码中没有使用 ES6 模块语法，webpack 将无法进行 tree-shaking。</li></ol><ol><li>模块被动态引用或条件引用：如果模块的引用方式是动态的（例如在循环或条件语句中引用），或者通过字符串拼接来引用模块，webpack 无法确定哪些模块会被引用，因此无法进行 tree-shaking。</li></ol><ol><li>使用了副作用的代码：如果你的代码中包含有副作用的代码（例如在模块的顶级作用域中执行了一些操作），webpack 无法确定哪些代码是无用的，因此无法进行 tree-shaking。</li></ol><p>需要注意的是，即使 tree-shaking 可能会失效，webpack 仍然会进行其他优化，例如代码压缩和代码分割等。同时，你可以通过设置 <code>mode</code> 为 <code>production</code>，来启用 webpack 的优化功能，包括 tree-shaking。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CSS 中隐藏元素的方法有哪些？【热度: 273】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：CSS 隐藏元素&lt;/p&gt;&lt;p&gt;在 CSS 中，隐藏元素可以通过多种方式实现，每种方式有其特定的使用场景。这里列出了一些常用的方法：&lt;/p&gt;&lt;h3&gt;1. &lt;code&gt;display: none;&lt;/code&gt;&lt;/h3&gt;&lt;p&gt;完全移除元" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="CSS 中隐藏元素的方法有哪些？【热度: 273】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：CSS 隐藏元素&lt;/p&gt;&lt;p&gt;在 CSS 中，隐藏元素可以通过多种方式实现，每种方式有其特定的使用场景。这里列出了一些常用的方法：&lt;/p&gt;&lt;h3&gt;1. &lt;code&gt;display: none;&lt;/code&gt;&lt;/h3&gt;&lt;p&gt;完全移除元素，使其不占据任何空间，也不会在文档流中占位。元素及其所有子元素都不会显示。&lt;/p&gt;&lt;pre class=&quot;code-b" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/832" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>CSS 中隐藏元素的方法有哪些？【热度: 273】</h1>
+      <div class="subtitle">百度 · CSS · 百度</div>
+      <div class="meta">创建：2024-08-17T11:41:38Z · 更新：2024-08-17T11:41:39Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：CSS  隐藏元素</p><p>在 CSS 中，隐藏元素可以通过多种方式实现，每种方式有其特定的使用场景。这里列出了一些常用的方法：</p><h3>1. <code>display: none;</code></h3><p>完全移除元素，使其不占据任何空间，也不会在文档流中占位。元素及其所有子元素都不会显示。</p><pre class="code-block"><code class="language-css">.element {
+  display: none;
+}
+</code></pre><h3>2. <code>visibility: hidden;</code></h3><p>使元素不可见，但它仍然占据原来的空间和位置。与 <code>display: none;</code> 不同，<code>visibility: hidden;</code> 不会影响文档流的布局。</p><pre class="code-block"><code class="language-css">.element {
+  visibility: hidden;
+}
+</code></pre><h3>3. <code>opacity: 0;</code></h3><p>设置元素透明度为 <code>0</code>，使其完全透明。元素仍然占据空间，并且可以与之互动（例如，点击），除非你另外禁用了元素的互动能力。</p><pre class="code-block"><code class="language-css">.element {
+  opacity: 0;
+}
+</code></pre><h3>4. 使用绝对定位</h3><p>将元素移出视图区域，例如设置一个非常大的负边距。</p><pre class="code-block"><code class="language-css">.element {
+  position: absolute;
+  left: -9999px;
+}
+</code></pre><p>或者使用 <code>top</code> 或 <code>bottom</code>，将其定位到视窗外部。</p><h3>5. <code>clip</code> 或 <code>clip-path</code></h3><p>通过剪裁，使元素的某些部分不可见。<code>clip-path</code> 可以更灵活地定义哪些部分可见。</p><pre class="code-block"><code class="language-css">.element {
+  clip-path: circle(0);
+}
+</code></pre><h3>6. <code>overflow: hidden;</code> 与尺寸设置</h3><p>设置元素宽高为 0，并设置 <code>overflow</code> 为 <code>hidden</code>，这将隐藏元素内容。</p><pre class="code-block"><code class="language-css">.element {
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+</code></pre><h3>7. 将元素的 <code>height</code> 或 <code>width</code> 设置为 <code>0</code> 并结合 <code>overflow: hidden</code></h3><p>如果你还想保留某些边框或轮廓的样式，可能希望使用 <code>width</code> 和 <code>height</code> 为 <code>0</code> 的方法，加上 <code>overflow: hidden</code> 防止内容外泄。</p><pre class="code-block"><code class="language-css">.element {
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+</code></pre><h3>应用场景和选择</h3><ul><li><strong>从 DOM 中完全移除元素</strong>：<code>display: none;</code> 适合完全从文档流中移除元素的场景。</li><li><strong>仍需要保留位置</strong>：<code>visibility: hidden;</code> 适合需要隐藏元素但保留其占位的场景。</li><li><strong>逐渐隐藏</strong>：<code>opacity: 0;</code> 适合需要渐变动画效果的场景。</li><li><strong>临时移除视野或隐藏内容的特定部分</strong>：使用定位或 <code>clip-path</code> 方法。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

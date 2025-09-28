@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>前端单页应用 History 路由模式， 需要如何配置 nginx？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;前端单页应用使用 History 路由模式，需要将路由的控制交给前端，而不是后端处理，因此需要配置 nginx 让其将所有请求都指向 index.html 页面，让前端来处理路由。&lt;/p&gt;&lt;p&gt;具体配置可以参考以下 nginx 配置：&lt;/p&gt;&lt;pre class=&quot;code" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="前端单页应用 History 路由模式， 需要如何配置 nginx？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;前端单页应用使用 History 路由模式，需要将路由的控制交给前端，而不是后端处理，因此需要配置 nginx 让其将所有请求都指向 index.html 页面，让前端来处理路由。&lt;/p&gt;&lt;p&gt;具体配置可以参考以下 nginx 配置：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;bashCopy codeserver { li" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/187" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>前端单页应用 History 路由模式， 需要如何配置 nginx？</h1>
+      <div class="subtitle">工程化 · 工程化</div>
+      <div class="meta">创建：2023-03-26T09:30:59Z · 更新：2023-04-03T01:27:28Z</div>
+    </div>
+    <article class="content markdown-body"><p>前端单页应用使用 History 路由模式，需要将路由的控制交给前端，而不是后端处理，因此需要配置 nginx 让其将所有请求都指向 index.html 页面，让前端来处理路由。</p><p>具体配置可以参考以下 nginx 配置：</p><pre class="code-block"><code class="language-bash">bashCopy codeserver {
+    listen       80;
+    server_name  example.com; # 域名或 IP 地址
+
+    location / {
+        root   /path/to/your/app; # 项目根目录
+        index  index.html;
+        try_files $uri $uri/ /index.html; # 将所有请求都指向 index.html 页面
+    }
+}
+</code></pre><p>以上配置中，<code>try_files</code> 指令会尝试将请求映射到对应的文件，如果找不到，则会将请求转发到 <code>/index.html</code> 页面，由前端来处理路由。同时，<code>root</code> 指令需要指向前端应用的根目录。</p><h2>Comments / Answers</h2><hr /><p><strong>HSQCoollaughing</strong> at 2023-04-03T01:27:28Z</p><p>配置 Nginx 需要使用 <code>try_files</code> 指令来处理前端路由。</p><p>例如，如果你的单页应用路由模式为 <code>history</code>，并且你的前端应用部署在 <code>/app</code> 路径下，你可以使用以下 Nginx 配置：</p><pre class="code-block"><code>server {
+    listen 80;
+    server_name example.com;
+    root /var/www;
+
+    location /app {
+        try_files $uri $uri/ /app/index.html;
+    }
+}
+</code></pre><p>这个配置告诉 Nginx，如果请求的 URI 匹配 <code>/app</code>，则尝试查找对应的文件，如果找不到则返回 <code>/app/index.html</code>。</p><p>这样配置后，Nginx 将会把所有 <code>/app</code> 路径下的请求都转发到前端应用的 <code>index.html</code>，由前端应用来处理路由。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

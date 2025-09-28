@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>async/await 原理， 手写 async 函数？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h2&gt;async/await 的本质&lt;/h2&gt;&lt;p&gt;async/await 是 ECMAScript 2017（ES8）中引入的一个语言特性，用于处理异步编程。async/await 实际上是对 Promise 的封装，通过让开发者以同步的方式编写异步代码，使得代码更加易读和易" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="async/await 原理， 手写 async 函数？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h2&gt;async/await 的本质&lt;/h2&gt;&lt;p&gt;async/await 是 ECMAScript 2017（ES8）中引入的一个语言特性，用于处理异步编程。async/await 实际上是对 Promise 的封装，通过让开发者以同步的方式编写异步代码，使得代码更加易读和易于维护。&lt;/p&gt;&lt;p&gt;async/await 是一种更加高级的异步编程方式，它使用了 Promise 作为底层实现，可以" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/2" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>async/await 原理， 手写 async 函数？</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-06T15:19:16Z · 更新：2023-03-26T10:12:56Z</div>
+    </div>
+    <article class="content markdown-body"><h2>async/await 的本质</h2><p>async/await 是 ECMAScript 2017（ES8）中引入的一个语言特性，用于处理异步编程。async/await 实际上是对 Promise 的封装，通过让开发者以同步的方式编写异步代码，使得代码更加易读和易于维护。</p><p>async/await 是一种更加高级的异步编程方式，它使用了 Promise 作为底层实现，可以更好地处理异步编程中的错误和异常，避免了回调地狱和代码可读性差的问题。</p><h2>手写 async/await 实现</h2><p>async/await 的实现可以通过封装 Promise 和 Generator 函数来实现，下面是一个简单的手写实现示例：</p><pre class="code-block"><code class="language-js">function delay(ms) {
+  return new Promise((resolve) =&gt; {
+    setTimeout(() =&gt; {
+      resolve();
+    }, ms);
+  });
+}
+
+function* generator() {
+  console.log(&quot;start&quot;);
+  yield delay(1000);
+  console.log(&quot;after 1 second&quot;);
+  yield delay(2000);
+  console.log(&quot;after 2 more seconds&quot;);
+}
+
+function async(generatorFunc) {
+  const iterator = generatorFunc();
+
+  function handle(iteratorResult) {
+    if (iteratorResult.done) {
+      return Promise.resolve(iteratorResult.value);
+    }
+
+    return Promise.resolve(iteratorResult.value).then((res) =&gt; {
+      return handle(iterator.next(res));
+    });
+  }
+
+  return handle(iterator.next());
+}
+
+async(function () {
+  return generator();
+}).then(() =&gt; {
+  console.log(&quot;all done&quot;);
+});
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

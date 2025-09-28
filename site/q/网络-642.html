@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>前端如何设置请求超时时间 timeout(axios)【热度: 890】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：请求超时时间&lt;/p&gt;&lt;p&gt;&lt;strong&gt;1. axios全局设置网络超时&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;code&gt;axios.defaults.timeout = 10 * 1000; // 10s&lt;/code&gt;&lt;/p&gt;&lt;p&gt;&lt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="前端如何设置请求超时时间 timeout(axios)【热度: 890】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：请求超时时间&lt;/p&gt;&lt;p&gt;&lt;strong&gt;1. axios全局设置网络超时&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;code&gt;axios.defaults.timeout = 10 * 1000; // 10s&lt;/code&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;2. 单独对某个请求设置网络超时&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;code&gt;axios.post(url," />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/642" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>前端如何设置请求超时时间 timeout(axios)【热度: 890】</h1>
+      <div class="subtitle">网络 · 网络 · 网易</div>
+      <div class="meta">创建：2023-11-21T16:08:28Z · 更新：2023-11-26T08:33:46Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：请求超时时间</p><p><strong>1. axios全局设置网络超时</strong></p><p><code>axios.defaults.timeout = 10 * 1000; // 10s</code></p><p><strong>2. 单独对某个请求设置网络超时</strong></p><p><code>axios.post(url, params, {timeout: 1000}) .then(res =&gt; { console.log(res); }) .catch(err=&gt; { console.log(err); }) })</code></p><p><strong>3.webpack的dev的proxyTable的超时时间设置</strong></p><pre class="code-block"><code class="language-csharp">dev: {     
+    // Paths
+    assetsSubDirectory: &#39;static&#39;, // 静态资源文件夹
+    assetsPublicPath: &#39;/&#39;, // 发布路径
+    // 代理配置表，在这里可以配置特定的请求代理到对应的API接口
+    // 使用方法：https://vuejs-templates.github.io/webpack/proxy.html
+    proxyTable: {
+      &#39;/api&#39;: {
+        timeout: 30000, // 请求超时时间
+        target: &#39;http://127.0.0.1:3006&#39;, // 目标接口域名
+        changeOrigin: true, // 是否跨域
+        pathRewrite: {
+          &#39;^/api&#39;: &#39;&#39; // 重写接口
+        }
+      },
+    // Various Dev Server settings
+    host: &#39;localhost&#39;, // can be overwritten by process.env.HOST
+    port: 4200, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+  }
+</code></pre><p><strong>4.axios请求超时自动重新请求</strong></p><p>有时候因项目需求，要在接口请求超时或者获取数据失败时，重新请求1次，或者更多次。具体的配置步骤和方法如下：</p><p>因为是要在请求超时或者获取数据失败时，进行重新请求设置，那么我们肯定是要在请求返回拦截器里面设置</p><pre class="code-block"><code class="language-javascript">import axios from &quot;axios&quot;;
+
+const Axios = axios.create({ 
+  // 下面两个属性，用来设置，请求失败或者超时，自动重新请求的次数和间隙时间
+  retry: 2, // 请求次数
+  retryInterval: 1000 // 求期间隙
+  ......
+});
+//请求前拦截
+Axios.interceptors.request.use(config =&gt; {
+  	return config
+  },
+  function(error) {
+  	return Promise.reject(error)
+  }
+);
+//请求后返回数据拦截
+Axios.interceptors.response.use(res =&gt; {
+     return res
+  },
+  function axiosRetryInterceptor(res) {
+      var config = res.config;
+      //如果配置不存在或重试属性未设置，抛出promise错误
+      if (!config || !config.retry) return Promise.reject(res);
+      //设置一个变量记录重新请求的次数
+      config.retryCount = config.retryCount || 0;
+      // 检查重新请求的次数是否超过我们设定的请求次数
+      if (config.retryCount &gt;= config.retry) {
+          return Promise.reject(res);
+      }
+      //重新请求的次数自增
+      config.retryCount += 1;
+      // 创建新的Promise来处理重新请求的间隙
+      var back = new Promise(function(resolve) {
+          console.log(&quot;接口&quot;+config.url+&quot;请求超时，重新请求&quot;)
+          setTimeout(function() {
+              resolve();
+          }, config.retryInterval|| 1);
+      });
+      //返回axios的实体，重试请求
+      return back.then(function() {
+          return Axios(config);
+      });
+  }
+);
+export default Axios
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

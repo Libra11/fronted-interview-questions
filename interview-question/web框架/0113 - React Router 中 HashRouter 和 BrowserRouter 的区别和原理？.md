@@ -1,0 +1,81 @@
+# React Router 中 HashRouter 和 BrowserRouter 的区别和原理？
+
+- Issue: #113
+- State: open
+- Labels: web框架
+- Author: yanlele
+- URL: https://github.com/pro-collection/interview-question/issues/113
+- Created: 2023-03-15T15:01:37Z
+- Updated: 2023-03-15T15:02:11Z
+
+## Body
+
+React Router 是一个流行的第三方库，它允许在 React 应用程序中实现路由功能。React Router 支持两种路由方式：HashRouter 和 BrowserRouter。
+
+1. HashRouter
+
+HashRouter 使用 URL 中的 hash 部分（即 #）来实现路由。在 React 中，可以使用 `<HashRouter>` 组件来创建 HashRouter。例如：
+
+```jsx
+jsxCopy codeimport { HashRouter, Route, Link } from 'react-router-dom';
+
+function App() {
+  return (
+    <HashRouter>
+      <nav>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/about">About</Link>
+          </li>
+        </ul>
+      </nav>
+      <Route exact path="/" component={Home} />
+      <Route path="/about" component={About} />
+    </HashRouter>
+  );
+}
+```
+
+在使用 HashRouter 时，URL 中的路径看起来像这样：`http://example.com/#/about`。HashRouter 不会向服务器发送请求，因为 # 符号后面的内容被浏览器认为是 URL 的一部分，而不是服务器请求的一部分。这意味着在使用 HashRouter 时，React 应用程序可以在客户端上运行，而无需服务器支持。
+
+2. BrowserRouter
+
+BrowserRouter 使用 HTML5 的 history API 来实现路由。在 React 中，可以使用 `<BrowserRouter>` 组件来创建 BrowserRouter。例如：
+
+```jsx
+jsxCopy codeimport { BrowserRouter, Route, Link } from 'react-router-dom';
+
+function App() {
+  return (
+    <BrowserRouter>
+      <nav>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/about">About</Link>
+          </li>
+        </ul>
+      </nav>
+      <Route exact path="/" component={Home} />
+      <Route path="/about" component={About} />
+    </BrowserRouter>
+  );
+}
+```
+
+在使用 BrowserRouter 时，URL 中的路径看起来像这样：`http://example.com/about`。BrowserRouter 通过 history API 在客户端和服务器之间发送请求，因此需要服务器支持。
+
+3. 区别
+
+HashRouter 和 BrowserRouter 的主要区别在于它们如何处理 URL。HashRouter 使用 URL 中的 # 部分来实现路由，而 BrowserRouter 使用 HTML5 的 history API 来实现路由。HashRouter 不需要服务器支持，而 BrowserRouter 需要服务器支持。
+
+4. 原理
+
+HashRouter 的原理是通过监听 `window.location.hash` 的变化来实现路由。当用户点击链接时，React Router 会根据链接的路径渲染相应的组件，并将路径添加到 URL 中的 # 部分。当用户点击浏览器的“后退”按钮时，React Router 会根据上一个 URL 中的 # 部分来渲染相应的组件。
+
+BrowserRouter 的原理是通过 HTML5 的 history API 来实现路由。当用户点击链接时，React Router 会使用 history API 将路径添加到浏览器的历史记录中，并渲染相应的组件。当用户点击浏览器的“后退”

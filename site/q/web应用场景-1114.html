@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>前端倒计时有误差怎么解决【热度: 454】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;前端倒计时出现误差是常见问题，主要由 JavaScript 的单线程特性、浏览器优化（如标签页切换时的节流）以及事件循环调度延迟引起。以下是几种解决方案：&lt;/p&gt;&lt;h3&gt;&lt;strong&gt;1. 使用高精度时间戳（performance.now()）&lt;/strong&gt;&lt;/h3&gt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="前端倒计时有误差怎么解决【热度: 454】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;前端倒计时出现误差是常见问题，主要由 JavaScript 的单线程特性、浏览器优化（如标签页切换时的节流）以及事件循环调度延迟引起。以下是几种解决方案：&lt;/p&gt;&lt;h3&gt;&lt;strong&gt;1. 使用高精度时间戳（performance.now()）&lt;/strong&gt;&lt;/h3&gt;&lt;p&gt;&lt;code&gt;Date.now()&lt;/code&gt; 依赖系统时间，可能被用户或系统修改；而 &lt;code&gt;perform" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1114" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>前端倒计时有误差怎么解决【热度: 454】</h1>
+      <div class="subtitle">web应用场景 · web应用场景 · 阿里巴巴</div>
+      <div class="meta">创建：2025-07-06T11:34:23Z · 更新：2025-07-06T11:34:23Z</div>
+    </div>
+    <article class="content markdown-body"><p>前端倒计时出现误差是常见问题，主要由 JavaScript 的单线程特性、浏览器优化（如标签页切换时的节流）以及事件循环调度延迟引起。以下是几种解决方案：</p><h3><strong>1. 使用高精度时间戳（performance.now()）</strong></h3><p><code>Date.now()</code> 依赖系统时间，可能被用户或系统修改；而 <code>performance.now()</code> 提供更精确的时间测量，且不受系统时间影响。</p><pre class="code-block"><code class="language-javascript">function countDown(targetTime) {
+  const startTime = performance.now();
+  const totalMs = targetTime - Date.now(); // 目标时间与当前时间的差值
+
+  function update() {
+    const elapsedMs = performance.now() - startTime;
+    const remainingMs = Math.max(0, totalMs - elapsedMs);
+
+    // 更新UI
+    const seconds = Math.floor(remainingMs / 1000);
+    console.log(`剩余时间：${seconds}秒`);
+
+    if (remainingMs &gt; 0) {
+      requestAnimationFrame(update);
+    }
+  }
+
+  requestAnimationFrame(update);
+}
+</code></pre><h3><strong>2. 定期同步服务器时间</strong></h3><p>通过 AJAX 请求定期获取服务器时间，减少累计误差：</p><pre class="code-block"><code class="language-javascript">let serverTimeOffset = 0;
+
+// 同步服务器时间
+async function syncServerTime() {
+  try {
+    const response = await fetch(&quot;/api/time&quot;); // 后端接口返回当前时间戳
+    const serverTime = await response.json();
+    serverTimeOffset = serverTime - Date.now();
+  } catch (error) {
+    console.error(&quot;同步服务器时间失败:&quot;, error);
+  }
+}
+
+// 初始化同步
+syncServerTime();
+// 每小时同步一次
+setInterval(syncServerTime, 3600000);
+
+// 使用同步后的时间计算倒计时
+function getAccurateTime() {
+  return Date.now() + serverTimeOffset;
+}
+</code></pre><h3><strong>3. 动态调整间隔</strong></h3><p>根据实际流逝时间与预期流逝时间的差值，动态调整下一次执行的延迟：</p><pre class="code-block"><code class="language-javascript">function preciseInterval(callback, delay) {
+  let nextTime = Date.now() + delay;
+
+  function interval() {
+    const currentTime = Date.now();
+    const drift = currentTime - nextTime; // 计算误差
+
+    callback();
+    nextTime += delay;
+
+    // 动态调整下一次执行时间
+    const nextDelay = Math.max(0, delay - drift);
+    setTimeout(interval, nextDelay);
+  }
+
+  setTimeout(interval, delay);
+}
+
+// 使用示例
+preciseInterval(() =&gt; {
+  console.log(&quot;精确执行&quot;);
+}, 1000);
+</code></pre><h3><strong>4. 后台倒计时（Web Worker）</strong></h3><p>将倒计时逻辑放在 Web Worker 中，避免主线程阻塞：</p><pre class="code-block"><code class="language-javascript">// main.js
+const worker = new Worker(&quot;worker.js&quot;);
+
+worker.onmessage = (e) =&gt; {
+  if (e.data.type === &quot;update&quot;) {
+    console.log(`剩余时间：${e.data.seconds}秒`);
+  }
+};
+
+// worker.js
+let targetTime;
+
+self.onmessage = (e) =&gt; {
+  if (e.data.type === &quot;start&quot;) {
+    targetTime = e.data.targetTime;
+    startCountdown();
+  }
+};
+
+function startCountdown() {
+  function update() {
+    const remainingMs = Math.max(0, targetTime - Date.now());
+    const seconds = Math.floor(remainingMs / 1000);
+
+    self.postMessage({ type: &quot;update&quot;, seconds });
+
+    if (remainingMs &gt; 0) {
+      setTimeout(update, 1000);
+    }
+  }
+
+  update();
+}
+</code></pre><h3><strong>5. 结合 requestAnimationFrame</strong></h3><p>利用 <code>requestAnimationFrame</code> 的高刷新率（约 60fps）实现平滑倒计时：</p><pre class="code-block"><code class="language-javascript">function smoothCountdown(targetTime) {
+  function update() {
+    const remainingMs = Math.max(0, targetTime - Date.now());
+    const seconds = Math.floor(remainingMs / 1000);
+
+    // 更新UI
+    console.log(`剩余时间：${seconds}秒`);
+
+    if (remainingMs &gt; 0) {
+      requestAnimationFrame(update);
+    }
+  }
+
+  requestAnimationFrame(update);
+}
+</code></pre><h3><strong>最佳实践总结</strong></h3><ol><li><strong>优先使用高精度时间</strong>：<code>performance.now()</code> 比 <code>Date.now()</code> 更可靠。</li><li><strong>定期同步服务器时间</strong>：减少长时间运行的累计误差。</li><li><strong>动态调整间隔</strong>：补偿 JavaScript 事件循环的延迟。</li><li><strong>避免长时间 setTimeout</strong>：改用递归 <code>setTimeout</code> 或 <code>requestAnimationFrame</code>。</li><li><strong>标签页可见性处理</strong>：使用 <code>document.visibilityState</code> 在页面不可见时暂停倒计时，可见时重新同步。</li></ol></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

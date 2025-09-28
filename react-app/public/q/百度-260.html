@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>介绍下 BFC、IFC、GFC 和 FFC？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h3&gt;BFC（Block Formatting Contexts）块级格式化上下文&lt;/h3&gt;&lt;h4&gt;什么是BFC？&lt;/h4&gt;&lt;p&gt;&lt;code&gt;BFC&lt;/code&gt; 全称：&lt;code&gt;Block Formatting Context&lt;/code&gt;， 名为 &lt;strong&gt;块级格式" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="介绍下 BFC、IFC、GFC 和 FFC？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h3&gt;BFC（Block Formatting Contexts）块级格式化上下文&lt;/h3&gt;&lt;h4&gt;什么是BFC？&lt;/h4&gt;&lt;p&gt;&lt;code&gt;BFC&lt;/code&gt; 全称：&lt;code&gt;Block Formatting Context&lt;/code&gt;， 名为 &lt;strong&gt;块级格式化上下文&lt;/strong&gt;。&lt;/p&gt;&lt;p&gt;&lt;code&gt;W3C&lt;/code&gt;官方解释为：&lt;code&gt;BFC&lt;/code&gt;它" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/260" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>介绍下 BFC、IFC、GFC 和 FFC？</h1>
+      <div class="subtitle">百度 · CSS · 百度</div>
+      <div class="meta">创建：2023-04-08T15:21:27Z · 更新：2023-04-08T15:21:28Z</div>
+    </div>
+    <article class="content markdown-body"><h3>BFC（Block Formatting Contexts）块级格式化上下文</h3><h4>什么是BFC？</h4><p><code>BFC</code> 全称：<code>Block Formatting Context</code>， 名为 <strong>块级格式化上下文</strong>。</p><p><code>W3C</code>官方解释为：<code>BFC</code>它决定了元素如何对其内容进行定位，以及与其它元素的关系和相互作用，当涉及到可视化布局时，<code>Block Formatting Context</code>提供了一个环境，<code>HTML</code>在这个环境中按照一定的规则进行布局。</p><h4>如何触发BFC？</h4><ul><li>根元素或其它包含它的元素</li></ul><ul><li>浮动 <code>float: left/right/inherit</code></li></ul><ul><li>绝对定位元素 <code>position: absolute/fixed</code></li></ul><ul><li>行内块<code>display: inline-block</code></li></ul><ul><li>表格单元格 <code>display: table-cell</code></li></ul><ul><li>表格标题 <code>display: table-caption</code></li></ul><ul><li>溢出元素 <code>overflow: hidden/scroll/auto/inherit</code></li></ul><ul><li>弹性盒子 <code>display: flex/inline-flex</code></li></ul><h4>BFC布局规则</h4><ul><li>内部的Box会在垂直方向，一个接一个地放置。</li></ul><ul><li>Box垂直方向的距离由margin决定。属于同一个BFC的两个相邻Box的margin会发生重叠。</li></ul><ul><li>每个元素的margin box的左边， 与包含块border box的左边相接触(对于从左往右的格式化，否则相反)。即使存在浮动也是如此。</li></ul><ul><li>BFC的区域不会与float box重叠。</li></ul><ul><li>BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素。反之也如此。</li></ul><ul><li>计算BFC的高度时，浮动元素也参与计算</li></ul><h4>BFC应用场景</h4><h4>解决块级元素垂直方向margin重叠</h4><p>我们来看下面这种情况：</p><pre class="code-block"><code class="language-html">&lt;style&gt;
+  .box{
+    width:180px;
+    height:180px;
+    background:rosybrown;
+    color:#fff;
+    margin: 60px auto;
+  }
+&lt;/style&gt;
+&lt;body&gt;
+    &lt;div class=&quot;box&quot;&gt;box1&lt;/div&gt;
+    &lt;div class=&quot;box&quot;&gt;box2&lt;/div&gt;
+&lt;/body&gt;
+
+</code></pre><p>按我们习惯性思维，上面这个box的<code>margin-bottom</code>是<code>60px</code>，下面这个box的<code>margin-top</code>也是<code>60px</code>，那他们垂直的间距按道理来说应该是<code>120px</code>才对。（可事实并非如此，我们可以来具体看一下）</p><p>这种情况下的margin边距为两者的最大值，而不是两者相加，那么我们可以使用BFC来解决这种margin塌陷的问题。</p><pre class="code-block"><code class="language-html">&lt;style&gt;
+  .box{
+    width:180px;
+    height:180px;
+    background:rosybrown;
+    color:#fff;
+    margin: 60px auto;
+  }
+  .outer_box{
+    overflow: hidden;
+  }
+&lt;/style&gt;
+&lt;body&gt;
+    &lt;div class=&quot;outer_box&quot;&gt;
+        &lt;div class=&quot;box&quot;&gt;nanjiu&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;box&quot;&gt;南玖&lt;/div&gt;
+&lt;/body&gt;
+
+</code></pre><h4>解决高度塌陷问题</h4><p>我们再来看这种情况，内部box使用<code>float</code>脱离了普通文档流，导致外层容器没办法撑起高度，使得背景颜色没有显示出来。</p><pre class="code-block"><code class="language-html">&lt;style&gt;
+  .box{
+    float:left;
+    width:180px;
+    height:180px;
+    background:rosybrown;
+    color:#fff;
+    margin: 60px;
+  }
+  .outer_box{
+    background:lightblue;
+  }
+&lt;/style&gt;
+&lt;body&gt;
+    &lt;div class=&quot;outer_box&quot;&gt;
+        &lt;div class=&quot;box&quot;&gt;nanjiu&lt;/div&gt;
+        &lt;div class=&quot;box&quot;&gt;南玖&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+
+</code></pre><p>我们可以看到此时的外层容器的高度为0，导致背景颜色没有渲染出来，这种情况我们同样可以使用BFC来解决，可以直接为外层容器触发BFC，我们来看看效果：</p><pre class="code-block"><code class="language-html">&lt;style&gt;
+  .box{
+    float:left;
+    width:180px;
+    height:180px;
+    background:rosybrown;
+    color:#fff;
+    margin: 60px;
+  }
+.outer_box{
+  display:inline-block;
+  background:lightblue;
+}
+&lt;/style&gt;
+&lt;body&gt;
+    &lt;div class=&quot;outer_box&quot;&gt;
+        &lt;div class=&quot;box&quot;&gt;nanjiu&lt;/div&gt;
+        &lt;div class=&quot;box&quot;&gt;南玖&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+
+</code></pre><h4>清除浮动</h4><p>在早期前端页面大多喜欢用浮动来布局，但浮动元素脱离普通文档流，会覆盖旁边内容：</p><pre class="code-block"><code class="language-html">&lt;style&gt;
+.aside {
+  float: left;
+  width:180px;
+  height: 300px;
+  background:lightpink;
+  }
+  .container{
+    width:500px;
+    height:400px;
+    background:mediumturquoise;
+  }
+&lt;/style&gt;
+&lt;body&gt;
+    &lt;div class=&quot;outer_box&quot;&gt;
+        &lt;div class=&quot;aside&quot;&gt;nanjiu&lt;/div&gt;
+        &lt;div class=&quot;container&quot;&gt;南玖&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+
+</code></pre><p>我们可以通过触发后面这个元素形成BFC，从而来清楚浮动元素对其布局造成的影响</p><pre class="code-block"><code class="language-html">&lt;style&gt;
+.aside {
+  float: left;
+  width:180px;
+  height: 300px;
+  background:lightpink;
+  }
+  .container{
+    width:500px;
+    height:400px;
+    background:mediumturquoise;
+    overflow: hidden;
+  }
+&lt;/style&gt;
+&lt;body&gt;
+    &lt;div class=&quot;outer_box&quot;&gt;
+        &lt;div class=&quot;aside&quot;&gt;nanjiu&lt;/div&gt;
+        &lt;div class=&quot;container&quot;&gt;南玖&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+</code></pre><h3>什么是IFC？</h3><p><code>IFC</code>全称：<code>Inline Formatting Context</code>，名为<strong>行级格式化上下文</strong></p><h4>如何触发IFC？</h4><ul><li>块级元素中仅包含内联级别元素</li></ul><p>形成条件非常简单，需要注意的是当IFC中有块级元素插入时，会产生两个匿名块将父元素分割开来，产生两个IFC。</p><h4>IFC布局规则</h4><ul><li>在一个IFC内，子元素是水平方向横向排列的，并且垂直方向起点为元素顶部。</li><li>子元素只会计算横向样式空间，【padding、border、margin】，垂直方向样式空间不会被计算，【padding、border、margin】。</li><li>在垂直方向上，子元素会以不同形式来对齐（vertical-align）</li><li>能把在一行上的框都完全包含进去的一个矩形区域，被称为该行的行框（line box）。行框的宽度是由包含块（containing box）和与其中的浮动来决定。</li><li>IFC中的<code>line box</code>一般左右边贴紧其包含块，但float元素会优先排列。</li><li>IFC中的<code>line box</code>高度由 CSS 行高计算规则来确定，同个<code>IFC</code>下的多个<code>line box</code>高度可能会不同。</li><li>当 <code>inline boxes</code>的总宽度少于包含它们的<code>line box</code>时，其水平渲染规则由 <code>text-align</code> 属性值来决定。</li><li>当一个<code>inline box</code>超过父元素的宽度时，它会被分割成多个<code>boxes</code>，这些<code>boxes</code>分布在多个<code>line box</code>中。如果子元素未设置强制换行的情况下，<code>inline box</code>将不可被分割，将会溢出父元素。</li></ul><h4>IFC应用场景</h4><h4>元素水平居中</h4><p>当一个块要在环境中水平居中时，设置其为inline-block则会在外层产生IFC，通过text-align则可以使其水平居中。</p><pre class="code-block"><code class="language-html">&lt;style&gt;
+	/* IFC */
+  .text_container{
+    width: 650px;
+    border: 3px solid salmon;
+    margin-top:60px;
+    text-align: center;
+  }
+  strong,span{
+    margin: 20px;
+    background-color: cornflowerblue;
+    color:#fff;
+  }
+&lt;/style&gt;
+&lt;body&gt;
+    &lt;div class=&quot;text_container&quot;&gt;
+        &lt;strong&gt;string 1&lt;/strong&gt;
+        &lt;span&gt;string 2&lt;/span&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+</code></pre><h4>多行文本水平垂直居中</h4><p>创建一个IFC，然后设置其<code>vertical-align:middle</code>，其他行内元素则可以在此父元素下垂直居中。</p><pre class="code-block"><code class="language-html">&lt;style&gt;
+.text_container{
+  text-align: center;
+  line-height: 300px;
+  width: 100%;
+  height: 300px;
+  background-color: turquoise;
+  font-size: 0;
+  }
+  p{
+    line-height: normal;
+    display: inline-block;
+    vertical-align: middle;
+    background-color: coral;
+    font-size: 18px;
+    padding: 10px;
+    width: 360px;
+    color: #fff;
+  }
+&lt;/style&gt;
+&lt;body&gt;
+  &lt;div class=&quot;text_container&quot;&gt;
+    &lt;p&gt;
+      string 1
+      &lt;strong&gt;string 2&lt;/strong&gt;
+    &lt;/p&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+
+</code></pre><h3>GFC（Grid Formatting Contexts）栅格格式化上下文</h3><h4>什么是GFC？</h4><p><code>GFC</code>全称：<code>Grids Formatting Contexts</code>，名为<strong>网格格式上下文</strong></p><blockquote>简介： CSS3引入的一种新的布局模型——Grids网格布局，目前暂未推广使用，使用频率较低，简单了解即可。 Grid 布局与 Flex 布局有一定的相似性，都可以指定容器内部多个项目的位置。但是，它们也存在重大区别。 Flex 布局是轴线布局，只能指定"项目"针对轴线的位置，可以看作是一维布局。Grid 布局则是将容器划分成"行"和"列"，产生单元格，然后指定"项目所在"的单元格，可以看作是二维布局。Grid 布局远比 Flex 布局强大。</blockquote><h4>如何触发GFC？</h4><p>当为一个元素设置<code>display</code>值为<code>grid</code>或者<code>inline-grid</code>的时候，此元素将会获得一个独立的渲染区域。</p><h4>GFC布局规则</h4><p>通过在<code>网格容器（grid container）</code>上定义<code>网格定义行（grid definition rows）</code>和<code>网格定义列（grid definition columns）</code>属性各在网格项目（grid item）上定义网格行（grid row）和网格列（grid columns）为每一个网格项目（grid item）定义位置和空间（具体可以在MDN上查看）</p><h4>GFC应用场景</h4><h4>任意魔方布局</h4><p>这个布局使用用GFC可以轻松实现自由拼接效果，换成其他方法，一般会使用相对/绝对定位，或者flex来实现自由拼接效果，复杂程度将会提升好几个等级。</p><pre class="code-block"><code class="language-html">&lt;style&gt;
+.magic{
+  display: grid;
+  grid-gap: 2px;
+  width:300px;
+  height:300px;
+  }
+  .magic div{
+    border: 1px solid coral;
+  }
+  .m_1{
+    grid-column-start: 1;
+    grid-column-end: 3;
+  }
+  .m_3{
+    grid-column-start: 2;
+    grid-column-end: 4;
+    grid-row-start: 2;
+    grid-row-end: 3;
+  }
+&lt;/style&gt;
+&lt;body&gt;
+  &lt;div class=&quot;magic&quot;&gt;
+    &lt;div class=&quot;m_1&quot;&gt;1&lt;/div&gt;
+    &lt;div class=&quot;m_2&quot;&gt;2&lt;/div&gt;
+    &lt;div class=&quot;m_3&quot;&gt;3&lt;/div&gt;
+    &lt;div class=&quot;m_4&quot;&gt;4&lt;/div&gt;
+    &lt;div class=&quot;m_5&quot;&gt;5&lt;/div&gt;
+    &lt;div class=&quot;m_6&quot;&gt;6&lt;/div&gt;
+    &lt;div class=&quot;m_7&quot;&gt;7&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+</code></pre><h3>FFC（Flex Formatting Contexts）弹性格式化上下文</h3><h4>什么是FFC？</h4><p><code>FFC</code>全称：<code>Flex Formatting Contexts</code>，名为<strong>弹性格式上下文</strong></p><blockquote>简介： <strong>CSS3引入了一种新的布局模型——flex布局。</strong> flex是flexible box的缩写，一般称之为<strong>弹性盒模型</strong>。和CSS3其他属性不一样，flexbox并不是一个属性，而是一个模块，包括多个CSS3属性。flex布局提供一种更加有效的方式来进行容器内的项目布局，以适应各种类型的显示设备和各种尺寸的屏幕，使用Flex box布局实际上就是声明创建了FFC(自适应格式上下文)</blockquote><h4>如何触发FFC？</h4><p>当 <code>display</code> 的值为 <code>flex</code> 或 <code>inline-flex</code> 时，将生成弹性容器（Flex Containers）, 一个弹性容器为其内容建立了一个新的弹性格式化上下文环境（FFC）</p><h4>FFC布局规则</h4><ul><li>设置为 <code>flex</code> 的容器被渲染为一个块级元素</li><li>设置为 <code>inline-flex</code> 的容器被渲染为一个行内元素</li><li>弹性容器中的每一个子元素都是一个弹性项目。弹性项目可以是任意数量的。弹性容器外和弹性项目内的一切元素都不受影响。简单地说，Flexbox 定义了弹性容器内弹性项目该如何布局</li></ul><p>\<em>\</em>⚠️注意：\<em>\</em>FFC布局中，float、clear、vertical-align属性不会生效。</p><blockquote>Flex 布局是轴线布局，只能指定"项目"针对轴线的位置，可以看作是<strong>一维布局</strong>。Grid 布局则是将容器划分成"行"和"列"，产生单元格，然后指定"项目所在"的单元格，可以看作是<strong>二维布局</strong>。Grid 布局远比 Flex 布局强大。</blockquote><h4>FFC应用场景</h4><p>这里只介绍它对于其它布局所相对来说更方便的特点，其实flex布局现在是非常普遍的，很多前端人员都喜欢用flex来写页面布局，操作方便且灵活，兼容性好。</p><h4>自动撑开剩余高度/宽度</h4><p>看一个经典两栏布局：左边为侧边导航栏，右边为内容区域，用我们之前的常规布局，可能就需要使用到<code>css</code>的<code>calc</code>方法来动态计算剩余填充宽度了，但如果使用flex布局的话，只需要一个属性就能解决这个问题：</p><p><strong>calc动态计算方法：</strong></p><pre class="code-block"><code class="language-html">&lt;style&gt;
+.outer_box {
+	width:100%;
+}
+.aside {
+  float: left;
+  width:180px;
+  height: 300px;
+  background:lightpink;
+}
+.container{
+  width:calc(100% - 180px);
+  height:400px;
+  background:mediumturquoise;
+  overflow: hidden;
+ }
+&lt;/style&gt;
+&lt;body&gt;
+		&lt;div class=&quot;outer_box&quot;&gt;
+        &lt;div class=&quot;aside&quot;&gt;box1&lt;/div&gt;
+        &lt;div class=&quot;container&quot;&gt;box2&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+
+</code></pre><p><strong>使用FFC：</strong></p><pre class="code-block"><code class="language-html">&lt;style&gt;
+.outer_box {
+  display:flex;
+	width:100%;
+}
+.aside {
+  float: left;
+  width:180px;
+  height: 300px;
+  background:lightpink;
+}
+.container{
+  flex: 1;
+  height:400px;
+  background:mediumturquoise;
+  overflow: hidden;
+ }
+&lt;/style&gt;
+&lt;body&gt;
+		&lt;div class=&quot;outer_box&quot;&gt;
+        &lt;div class=&quot;aside&quot;&gt;box1&lt;/div&gt;
+        &lt;div class=&quot;container&quot;&gt;box2&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+</code></pre><h3>参考文档</h3><ul><li>https://juejin.cn/post/7072174649735381029</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

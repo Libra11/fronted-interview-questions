@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何通过 Nginx 配置前端静态资源的 “hash 资源永久缓存 + 非 hash 资源协商缓存”？【热度: 75】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：nginx 资源缓存&lt;/p&gt;&lt;p&gt;要实现前端前端静态资源的“hash 资源永久缓存 + 非 hash 资源协商缓存”，需结合 Nginx 的缓存头配置，针对不同类型资源设计差异化策略。核心思路是：&lt;strong&gt;对带 hash 的指" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何通过 Nginx 配置前端静态资源的 “hash 资源永久缓存 + 非 hash 资源协商缓存”？【热度: 75】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：nginx 资源缓存&lt;/p&gt;&lt;p&gt;要实现前端前端静态资源的“hash 资源永久缓存 + 非 hash 资源协商缓存”，需结合 Nginx 的缓存头配置，针对不同类型资源设计差异化策略。核心思路是：&lt;strong&gt;对带 hash 的指纹文件（如&lt;code&gt;app.8f3b.js&lt;/code&gt;）设置长期强缓存，对无 hash 的文件（如&lt;code&gt;ind" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1144" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何通过 Nginx 配置前端静态资源的 “hash 资源永久缓存 + 非 hash 资源协商缓存”？【热度: 75】</h1>
+      <div class="subtitle">web应用场景 · web应用场景</div>
+      <div class="meta">创建：2025-09-07T06:08:31Z · 更新：2025-09-07T06:08:31Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：nginx 资源缓存</p><p>要实现前端前端静态资源的“hash 资源永久缓存 + 非 hash 资源协商缓存”，需结合 Nginx 的缓存头配置，针对不同类型资源设计差异化策略。核心思路是：<strong>对带 hash 的指纹文件（如<code>app.8f3b.js</code>）设置长期强缓存，对无 hash 的文件（如<code>index.html</code>）使用协商缓存</strong>，既以下是具体实现方案：</p><h3>一、两种缓存策略的适用场景</h3><p>| 资源类型       | 特征                                                          | 缓存策略   | 目的                                   |</p><p>| -------------- | ------------------------------------------------------------- | ---------- | -------------------------------------- |</p><p>| 带 hash 的资源 | 文件名含唯一 hash（如<code>style.1a2b.css</code>），内容变化则 hash 变化 | 永久强缓存 | 一次缓存后不再请求，减少重复下载       |</p><p>| 非 hash 的资源 | 文件名固定（如<code>index.html</code>、<code>favicon.ico</code>），内容可能动态更新 | 协商缓存   | 每次请求验证是否更新，确保获取最新内容 |</p><h3>二、核心配置方案</h3><p>通过<code>location</code>匹配不同资源类型，分别设置缓存头：</p><pre class="code-block"><code class="language-nginx">server {
+    listen 80;
+    server_name example.com;
+    root /path/to/frontend/dist;  # 前端打包目录
+    index index.html;
+
+    # 1. 处理带hash的静态资源（JS/CSS/图片等）：永久强缓存
+    # 假设hash格式为 8-16位字母数字（如 app.8f3b1e7d.js）
+    location ~* \.(js|css|png|jpg|jpeg|gif|webp|svg|ico|woff2?)(\?.*)?$ {
+        # 匹配带hash的文件名（如 .1a2b3c. 或 .v2.3.4. 等格式）
+        # 正则说明：\.\w{8,16}\. 匹配 .hash. 结构（8-16位hash值）
+        if ($request_filename ~* .*\.\w{8,16}\.(js|css|png|jpg|jpeg|gif|webp|svg|ico|woff2?)$) {
+            # 永久缓存（1年）
+            expires 365d;
+            # 强缓存标识：告知浏览器直接使用缓存，不发请求
+            add_header Cache-Control &quot;public, max-age=31536000, immutable&quot;;
+        }
+    }
+
+    # 2. 处理非hash资源（如 index.html）：协商缓存
+    location / {
+        # 禁用强缓存
+        expires -1;
+        # 协商缓存：基于文件修改时间（Last-Modified）验证
+        add_header Cache-Control &quot;no-cache, must-revalidate&quot;;
+
+        # 支持 History 路由（SPA必备）
+        try_files $uri $uri/ /index.html;
+    }
+
+    # 3. 特殊资源补充：favicon.ico（通常无hash）
+    location = /favicon.ico {
+        expires 7d;  # 短期强缓存（7天）+ 协商缓存兜底
+        add_header Cache-Control &quot;public, max-age=604800, must-revalidate&quot;;
+    }
+}
+</code></pre><h3>三、配置详解与核心参数</h3><h4>1. 带 hash 资源的永久强缓存</h4><ul><li><strong>匹配规则</strong>：</li></ul><p>通过正则<code>.*\.\w{8,16}\.(js|css...)</code>精准匹配带 hash 的文件（如<code>app.8f3b1e7d.js</code>、<code>logo.a1b2c3.png</code>），确保只有内容不变的文件被长期缓存。</p><ul><li><strong>核心缓存头</strong>：</li></ul><ul><li><code>expires 365d</code>：设置浏览器缓存过期时间（1 年）。</li><li><code>Cache-Control: public, max-age=31536000, immutable</code>：</li><li><code>public</code>：允许中间代理（如 CDN）缓存。</li><li><code>max-age=31536000</code>：1 年内直接使用缓存（单位：秒）。</li><li><code>immutable</code>：告知浏览器资源不会变化，无需发送验证请求（H5 新特性，增强缓存效果）。</li></ul><ul><li><strong>关键逻辑</strong>：</li></ul><p>当资源内容更新时，打包工具（Webpack/Vite 等）会生成新的 hash 文件名（如<code>app.9c4d2f8e.js</code>），浏览器会将其视为新资源重新请求，完美解决“缓存更新”问题。</p><h4>2. 非 hash 资源的协商缓存</h4><ul><li><strong>适用场景</strong>：</li></ul><p><code>index.html</code>（SPA 入口文件）、<code>robots.txt</code>等文件名固定的资源，需确保用户能获取最新版本。</p><ul><li><strong>核心缓存头</strong>：</li></ul><ul><li><code>expires -1</code>：禁用强缓存（立即过期）。</li><li><code>Cache-Control: no-cache, must-revalidate</code>：</li><li><code>no-cache</code>：浏览器必须发送请求到服务器验证资源是否更新。</li><li><code>must-revalidate</code>：若资源过期，必须向服务器验证。</li></ul><ul><li><strong>协商验证机制</strong>：</li></ul><p>Nginx 默认会返回<code>Last-Modified</code>头（文件最后修改时间），浏览器下次请求时会携带<code>If-Modified-Since</code>头：</p><ul><li>若文件未修改，服务器返回<code>304 Not Modified</code>（无响应体），浏览器使用缓存。</li><li>若文件已修改，服务器返回<code>200 OK</code>和新内容。</li></ul><h4>3. 特殊资源处理（如 favicon.ico）</h4><ul><li>对于不常变化但无 hash 的资源（如网站图标），可采用“短期强缓存 + 协商缓存兜底”：</li><li><code>expires 7d</code>：7 天内直接使用缓存。</li><li><code>must-revalidate</code>：过期后必须向服务器验证是否更新。</li></ul><h3>四、与前端打包的配合要点</h3><ol><li><strong>确保 hash 生成规则可靠</strong>：</li></ol><p>前端打包时，需保证“内容不变则 hash 不变，内容变化则 hash 必变”。例如：</p><ul><li>Webpack：<code>contenthash</code>（基于文件内容生成 hash）。</li><li>Vite：默认对静态资源生成 contenthash。</li></ul><ol><li><strong>避免 hash 资源依赖非 hash 资源</strong>：</li></ol><p>确保带 hash 的 JS/CSS 不引用无 hash 的资源（如<code>background: url(/img/bg.png)</code>），否则 bg.png 更新后，引用它的 CSS 因 hash 未变而无法更新。</p><p>解决方案：让被引用资源也带上 hash（如<code>bg.a1b2c3.png</code>）。</p><ol><li><strong>index.html 必须无 hash</strong>：</li></ol><p>作为入口文件，<code>index.html</code>需通过协商缓存确保用户每次获取最新版本，从而加载新的 hash 资源。</p><h3>五、验证缓存是否生效</h3><ol><li><strong>强缓存验证</strong>：</li></ol><p>访问带 hash 的资源（如<code>app.8f3b.js</code>），在浏览器 Network 面板中查看：</p><ul><li>状态码为<code>200 OK (from disk cache)</code>或<code>200 OK (from memory cache)</code>。</li><li>Response Headers 包含<code>Cache-Control: public, max-age=31536000, immutable</code>。</li></ul><ol><li><strong>协商缓存验证</strong>：</li></ol><p>访问<code>index.html</code>，刷新页面：</p><ul><li>第一次请求：状态码<code>200 OK</code>，Response Headers 有<code>Last-Modified</code>。</li><li>第二次请求：Request Headers 有<code>If-Modified-Since</code>，若未修改，状态码<code>304 Not Modified</code>。</li></ul><h3>总结</h3><p>通过 Nginx 实现“hash 资源永久缓存 + 非 hash 资源协商缓存”的核心是：</p><ol><li>利用 hash 文件名的唯一性，对静态资源设置长期强缓存，最大化减少重复请求。</li><li>对入口文件等无 hash 资源启用协商缓存，确保内容更新时能被及时获取。</li><li>前端打包与 Nginx 配置协同，保证 hash 机制可靠，避免缓存不一致问题。</li></ol><p>这种策略既能大幅提升页面加载速度，又能确保资源更新的即时性，是前端性能优化的关键实践。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

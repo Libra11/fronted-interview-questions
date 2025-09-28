@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>海量数据的处理问题: 如何从10亿个数中找出最大的10000个数？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;从10亿个数中找出最大的10000个数是一项非常具有挑战性的任务，需要使用高效的算法和数据结构来处理。&lt;/p&gt;&lt;p&gt;以下是一种基于分治思想的常见方法：&lt;/p&gt;&lt;p&gt;将10亿个数分成1000个小文件，每个文件包含100万个数。&lt;/p&gt;&lt;p&gt;对每个小文件进行排序，选出每个文件中" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="海量数据的处理问题: 如何从10亿个数中找出最大的10000个数？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;从10亿个数中找出最大的10000个数是一项非常具有挑战性的任务，需要使用高效的算法和数据结构来处理。&lt;/p&gt;&lt;p&gt;以下是一种基于分治思想的常见方法：&lt;/p&gt;&lt;p&gt;将10亿个数分成1000个小文件，每个文件包含100万个数。&lt;/p&gt;&lt;p&gt;对每个小文件进行排序，选出每个文件中最大的1000个数，并将它们放入一个临时文件中。&lt;/p&gt;&lt;p&gt;将1000个临时文件合并成一个大文件，并再次对其进行排序。" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/60" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>海量数据的处理问题: 如何从10亿个数中找出最大的10000个数？</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-10T15:24:14Z · 更新：2025-02-20T08:42:19Z</div>
+    </div>
+    <article class="content markdown-body"><p>从10亿个数中找出最大的10000个数是一项非常具有挑战性的任务，需要使用高效的算法和数据结构来处理。</p><p>以下是一种基于分治思想的常见方法：</p><p>将10亿个数分成1000个小文件，每个文件包含100万个数。</p><p>对每个小文件进行排序，选出每个文件中最大的1000个数，并将它们放入一个临时文件中。</p><p>将1000个临时文件合并成一个大文件，并再次对其进行排序。</p><p>选出最大的10000个数。</p><p>这种方法的时间复杂度为O(N*log(N/K))，其中N是所有数据的数量，K是每个小文件中的数据量。由于K相对较小，因此这种方法非常高效。</p><h2>Comments / Answers</h2><hr /><p><strong>r-qx</strong> at 2024-12-25T01:40:01Z</p><p>选出每个文件中最大的1000个数 应该是大神写错了 应该改成10000个数</p><hr /><p><strong>BruceYuj</strong> at 2025-02-20T08:37:40Z</p><p>其实用一个小顶堆即可。事件复杂度 O(NlogK)， K 是 1000。</p><p>具体操作如下：</p><pre class="code-block"><code>1. 内存中维护一个小顶推，设为 hq
+2. 读取数据，存入 hq 中
+    1.1 当 hq.size &gt; 1000 时，pop堆顶
+3. hq 中的元素即是最大的 1000 个元素
+</code></pre><hr /><p><strong>BruceYuj</strong> at 2025-02-20T08:42:16Z</p><p>数据量再大可以用分布式处理。10^9 级别单机处理就可。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

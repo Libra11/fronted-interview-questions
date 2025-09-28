@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>为什么 Vite 速度比 Webpack 快？【热度: 382】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：vite 编译速度、vite 速度 与 webpack 速度&lt;/p&gt;&lt;h4&gt;1、开发模式的差异&lt;/h4&gt;&lt;p&gt;在开发环境中，&lt;code&gt;Webpack&lt;/code&gt; 是先打包再启动开发服务器，而 &lt;code&gt;Vite&lt;/code&gt; " />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="为什么 Vite 速度比 Webpack 快？【热度: 382】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：vite 编译速度、vite 速度 与 webpack 速度&lt;/p&gt;&lt;h4&gt;1、开发模式的差异&lt;/h4&gt;&lt;p&gt;在开发环境中，&lt;code&gt;Webpack&lt;/code&gt; 是先打包再启动开发服务器，而 &lt;code&gt;Vite&lt;/code&gt; 则是直接启动，然后再按需编译依赖文件。（大家可以启动项目后检查源码 &lt;code&gt;Sources&lt;/code&gt; 那里看到）" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/678" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>为什么 Vite 速度比 Webpack 快？【热度: 382】</h1>
+      <div class="subtitle">工程化 · 工程化 · 腾讯</div>
+      <div class="meta">创建：2024-04-07T10:00:17Z · 更新：2024-04-07T10:00:17Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：vite 编译速度、vite 速度 与 webpack 速度</p><h4>1、开发模式的差异</h4><p>在开发环境中，<code>Webpack</code> 是先打包再启动开发服务器，而 <code>Vite</code> 则是直接启动，然后再按需编译依赖文件。（大家可以启动项目后检查源码 <code>Sources</code> 那里看到）</p><p>这意味着，当使用 <code>Webpack</code> 时，所有的模块都需要在开发前进行打包，这会增加启动时间和构建时间。</p><p>而 <code>Vite</code> 则采用了不同的策略，它会在请求模块时再进行实时编译，这种按需动态编译的模式极大地缩短了编译时间，特别是在大型项目中，文件数量众多，<code>Vite</code> 的优势更为明显。</p><p><strong>Webpack启动</strong></p><p><img alt="" src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/31fa5a46d4e74c5db56928f1bb2087c4~tplv-k3u1fbpfcp-jj-mark:3024:0:0:0:q75.awebp#?w=1029&amp;h=552&amp;s=47251&amp;e=png&amp;b=fcfcfc" /></p><p><strong>Vite启动</strong></p><p><img alt="" src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dfa5c4618b75419d8b3a9139425972e5~tplv-k3u1fbpfcp-jj-mark:3024:0:0:0:q75.awebp#?w=892&amp;h=838&amp;s=50064&amp;e=png&amp;b=ffffff" /></p><h4>2、对ES Modules的支持</h4><p>现代浏览器本身就支持 <code>ES Modules</code>，会<code>主动发起</code>请求去获取所需文件。Vite充分利用了这一点，将开发环境下的模块文件直接作为浏览器要执行的文件，而不是像 Webpack 那样<code>先打包</code>，再交给浏览器执行。这种方式减少了中间环节，提高了效率。</p><p><strong>什么是ES Modules？</strong></p><p>通过使用 <code>export</code> 和 <code>import</code> 语句，ES Modules 允许在浏览器端导入和导出模块。</p><p>当使用 ES Modules 进行开发时，开发者实际上是在构建一个<code>依赖关系图</code>，不同依赖项之间通过导入语句进行关联。</p><p>主流浏览器（除IE外）均支持ES Modules，并且可以通过在 script 标签中设置 <code>type=&quot;module&quot;</code>来加载模块。默认情况下，模块会延迟加载，执行时机在文档解析之后，触发DOMContentLoaded事件前。</p><p><img alt="" src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b03dbc4400c745c8bca371a9ab63f52b~tplv-k3u1fbpfcp-jj-mark:3024:0:0:0:q75.awebp#?w=2059&amp;h=823&amp;s=194009&amp;e=png&amp;b=f0e6d2" /></p><h4>3、底层语言的差异</h4><p>Webpack 是基于 <code>Node.js</code> 构建的，而 Vite 则是基于 <code>esbuild</code> 进行预构建依赖。esbuild 是采用 <code>Go</code> 语言编写的，Go 语言是<code>纳秒</code>级别的，而 Node.js 是<code>毫秒</code>级别的。因此，Vite 在打包速度上相比Webpack 有 <code>10-100</code> 倍的提升。</p><p><strong>什么是预构建依赖？</strong></p><p>预构建依赖通常指的是在项目<code>启动或构建</code>之前，对项目中所需的依赖项进行预先的<code>处理或构建</code>。这样做的好处在于，当项目实际运行时，可以<code>直接使用</code>这些已经预构建好的依赖，而无需再进行实时的编译或构建，从而提高了应用程序的运行速度和效率。</p><h4>4、热更新的处理</h4><p>在 Webpack 中，当一个模块或其依赖的模块内容改变时，需要<code>重新编译</code>这些模块。</p><p>而在 Vite 中，当某个模块内容改变时，只需要让浏览器<code>重新请求</code>该模块即可，这大大减少了热更新的时间。</p><h4>总结</h4><p>总的来说，Vite 之所以比 Webpack 快，主要是因为它采用了<code>不同的开发模式</code>、<code>充分利用了现代浏览器的 ES Modules 支持</code>、<code>使用了更高效的底层语言</code>，<code>并优化了热更新的处理</code>。这些特点使得 Vite在大型项目中具有显著的优势，能够快速启动和构建，提高开发效率。</p><h4>参考文档：</h4><p>https://juejin.cn/post/7344916114204049445</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

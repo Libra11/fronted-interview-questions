@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Vue] 介绍一下 defineEmits【热度: 346】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：介绍一下 defineEmits&lt;/p&gt;&lt;p&gt;在 Vue 3 中，&lt;code&gt;defineEmits&lt;/code&gt;是一个用于定义组件触发的自定义事件的函数。&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、作用与目的&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Vue] 介绍一下 defineEmits【热度: 346】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：介绍一下 defineEmits&lt;/p&gt;&lt;p&gt;在 Vue 3 中，&lt;code&gt;defineEmits&lt;/code&gt;是一个用于定义组件触发的自定义事件的函数。&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、作用与目的&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;在 Vue 3 的组合式 API 中，使用&lt;code&gt;defineEmits&lt;/code&gt;可以明确地声明组件向外触发的事" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/922" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Vue] 介绍一下 defineEmits【热度: 346】</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2024-09-22T04:09:58Z · 更新：2024-09-22T04:09:58Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：介绍一下 defineEmits</p><p>在 Vue 3 中，<code>defineEmits</code>是一个用于定义组件触发的自定义事件的函数。</p><p><strong>一、作用与目的</strong></p><p>在 Vue 3 的组合式 API 中，使用<code>defineEmits</code>可以明确地声明组件向外触发的事件类型，这有助于提高代码的可读性和可维护性。通过定义触发的事件，其他使用该组件的地方可以清楚地知道组件可能会触发哪些事件，以便进行相应的处理。</p><p><strong>二、使用方法</strong></p><ol><li>基本用法：</li></ol><pre class="code-block"><code class="language-vue">&lt;script setup&gt;
+import { defineEmits } from &quot;vue&quot;;
+
+const emits = defineEmits([&quot;customEvent1&quot;, &quot;customEvent2&quot;]);
+
+// 在某个逻辑中触发自定义事件
+emits(&quot;customEvent1&quot;, arg1, arg2);
+&lt;/script&gt;
+</code></pre><p>在这个例子中，定义了一个组件，该组件可以触发名为<code>customEvent1</code>和<code>customEvent2</code>的两个自定义事件。</p><ol><li>带参数的事件：</li></ol><p>可以定义带参数的事件，在触发事件时传递相应的参数。例如：</p><pre class="code-block"><code class="language-vue">&lt;script setup&gt;
+import { defineEmits } from &quot;vue&quot;;
+
+const emits = defineEmits([&quot;eventWithArgs&quot;, &quot;eventWithoutArgs&quot;]);
+
+function someFunction() {
+  const argValue = &quot;some value&quot;;
+  emits(&quot;eventWithArgs&quot;, argValue);
+}
+&lt;/script&gt;
+</code></pre><p>这里定义了一个带参数的事件<code>eventWithArgs</code>，在<code>someFunction</code>函数中触发该事件并传递了一个参数。</p><p><strong>三、优势</strong></p><ol><li>类型安全：明确了事件的名称和参数类型，减少了因事件名称错误或参数传递错误导致的问题。</li><li>清晰的组件接口：让使用者更容易理解组件的行为和交互方式。</li><li>更好的维护性：在代码重构或团队协作时，更容易找到和处理与事件相关的逻辑。</li></ol></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

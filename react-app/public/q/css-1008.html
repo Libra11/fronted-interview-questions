@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>css 如何实现分栏布局【热度: 502】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：分栏布局&lt;/p&gt;&lt;p&gt;在前端布局中，可以通过 CSS 实现分栏布局。以下是几种常见的实现方式：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、使用&lt;code&gt;float&lt;/code&gt;属性&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;基" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="css 如何实现分栏布局【热度: 502】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：分栏布局&lt;/p&gt;&lt;p&gt;在前端布局中，可以通过 CSS 实现分栏布局。以下是几种常见的实现方式：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、使用&lt;code&gt;float&lt;/code&gt;属性&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;基本原理&lt;/strong&gt;：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;&lt;code&gt;float&lt;/code&gt;属性可以让元素向左或向" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1008" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>css 如何实现分栏布局【热度: 502】</h1>
+      <div class="subtitle">CSS · CSS</div>
+      <div class="meta">创建：2024-10-18T14:57:06Z · 更新：2024-10-18T14:57:07Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：分栏布局</p><p>在前端布局中，可以通过 CSS 实现分栏布局。以下是几种常见的实现方式：</p><p><strong>一、使用<code>float</code>属性</strong></p><ol><li><strong>基本原理</strong>：</li></ol><ul><li><code>float</code>属性可以让元素向左或向右浮动，从而实现多栏布局。通过将多个元素设置为浮动，可以让它们并排显示。</li><li>例如，可以将一个容器中的子元素设置为左浮动或右浮动，以实现两栏或多栏布局。</li></ul><ol><li><strong>示例代码</strong>：</li></ol><pre class="code-block"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    &lt;style&gt;
+      .column {
+        width: 50%;
+        float: left;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+
+  &lt;body&gt;
+    &lt;div class=&quot;container&quot;&gt;
+      &lt;div class=&quot;column&quot;&gt;
+        &lt;p&gt;左栏内容&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;column&quot;&gt;
+        &lt;p&gt;右栏内容&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>在这个例子中，使用<code>float: left</code>将两个<code>.column</code>元素设置为左浮动，从而实现两栏布局。每个栏的宽度为<code>50%</code>。</p><p><strong>二、使用<code>flexbox</code>布局</strong></p><ol><li><strong>基本原理</strong>：</li></ol><ul><li><code>flexbox</code>（Flexible Box Layout）是一种弹性布局模型，可以轻松地实现分栏布局。通过设置容器的<code>display</code>属性为<code>flex</code>，可以将容器内的子元素进行弹性布局。</li><li>可以使用<code>flex-direction</code>属性来控制子元素的排列方向，例如设置为<code>row</code>可以实现水平排列，设置为<code>column</code>可以实现垂直排列。</li></ul><ol><li><strong>示例代码</strong>：</li></ol><pre class="code-block"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    &lt;style&gt;
+      .container {
+        display: flex;
+      }
+
+      .column {
+        flex: 1;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+
+  &lt;body&gt;
+    &lt;div class=&quot;container&quot;&gt;
+      &lt;div class=&quot;column&quot;&gt;
+        &lt;p&gt;左栏内容&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;column&quot;&gt;
+        &lt;p&gt;右栏内容&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>在这个例子中，将容器的<code>display</code>属性设置为<code>flex</code>，然后将子元素的<code>.column</code>类设置为<code>flex: 1</code>，使每个子元素占据相等的空间，实现两栏布局。</p><p><strong>三、使用<code>grid</code>布局</strong></p><ol><li><strong>基本原理</strong>：</li></ol><ul><li><code>grid</code>（Grid Layout）是一种网格布局模型，可以更精细地控制布局。通过设置容器的<code>display</code>属性为<code>grid</code>，可以将容器划分为网格，然后将子元素放置在网格中的特定位置。</li><li>可以使用<code>grid-template-columns</code>和<code>grid-template-rows</code>属性来定义网格的列和行，以及使用<code>grid-column</code>和<code>grid-row</code>属性来指定子元素在网格中的位置。</li></ul><ol><li><strong>示例代码</strong>：</li></ol><pre class="code-block"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    &lt;style&gt;
+      .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .column {
+        padding: 10px;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+
+  &lt;body&gt;
+    &lt;div class=&quot;container&quot;&gt;
+      &lt;div class=&quot;column&quot;&gt;
+        &lt;p&gt;左栏内容&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;column&quot;&gt;
+        &lt;p&gt;右栏内容&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

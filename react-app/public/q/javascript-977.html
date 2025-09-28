@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>iterator 对象有哪些特征【热度: 288】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：iterator 对象&lt;/p&gt;&lt;p&gt;在 JavaScript 中，Iterator（迭代器）对象具有以下特征：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、定义与目的&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;实现特定迭代行为&lt;/" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="iterator 对象有哪些特征【热度: 288】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：iterator 对象&lt;/p&gt;&lt;p&gt;在 JavaScript 中，Iterator（迭代器）对象具有以下特征：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、定义与目的&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;实现特定迭代行为&lt;/strong&gt;：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;Iterator 对象是为了实现对可迭代对象（如数组、字符串、集合等" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/977" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>iterator 对象有哪些特征【热度: 288】</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2024-10-12T14:44:36Z · 更新：2024-10-12T14:44:37Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：iterator 对象</p><p>在 JavaScript 中，Iterator（迭代器）对象具有以下特征：</p><p><strong>一、定义与目的</strong></p><ol><li><strong>实现特定迭代行为</strong>：</li></ol><ul><li>Iterator 对象是为了实现对可迭代对象（如数组、字符串、集合等）的遍历操作而设计的。它提供了一种标准化的方式来依次访问可迭代对象中的元素。</li></ul><p><strong>二、主要特征</strong></p><ol><li><strong>具有<code>next()</code>方法</strong>：</li></ol><ul><li>Iterator 对象必须有一个<code>next()</code>方法。每次调用这个方法，它会返回一个对象，该对象包含两个属性：</li><li><code>value</code>：表示当前迭代位置的元素值。如果迭代已经完成，这个值为<code>undefined</code>。</li><li><code>done</code>：一个布尔值，表示迭代是否已经完成。如果迭代完成，<code>done</code>为<code>true</code>；否则为<code>false</code>。</li><li>例如：</li></ul><p>```javascript</p><p>const iterable = [1, 2, 3];</p><p>const iterator = iterable[Symbol.iterator]();</p><p>console.log(iterator.next()); // { value: 1, done: false }</p><p>console.log(iterator.next()); // { value: 2, done: false }</p><p>console.log(iterator.next()); // { value: 3, done: false }</p><p>console.log(iterator.next()); // { value: undefined, done: true }</p><p>```</p><ol><li><strong>与可迭代对象关联</strong>：</li></ol><ul><li>Iterator 对象通常是由可迭代对象通过调用其<code>Symbol.iterator</code>方法生成的。不同的可迭代对象可以生成不同的 Iterator 对象，但它们都遵循相同的<code>next()</code>方法约定。</li><li>例如，数组的<code>Symbol.iterator</code>方法会返回一个 Iterator 对象，用于遍历数组的元素。</li></ul><ol><li><strong>单向遍历</strong>：</li></ol><ul><li>Iterator 对象通常只能进行单向遍历，即从可迭代对象的起始位置依次访问到结束位置，不能反向遍历。一旦迭代完成，再次调用<code>next()</code>方法将始终返回<code>{ value: undefined, done: true }</code>。</li></ul><ol><li><strong>可用于各种迭代场景</strong>：</li></ol><ul><li>Iterator 对象可以与<code>for...of</code>循环、扩展运算符（<code>...</code>）、解构赋值等语言特性一起使用，使得对可迭代对象的遍历更加简洁和方便。</li><li>例如：</li></ul><p>```javascript</p><p>const iterable = [1, 2, 3];</p><p>for (const value of iterable) {</p><p>console.log(value);</p><p>}</p><p>```</p><ul><li>这里的<code>for...of</code>循环内部会自动调用可迭代对象的<code>Symbol.iterator</code>方法获取 Iterator 对象，并依次调用其<code>next()</code>方法来遍历元素。</li></ul><p>Iterator 对象在 JavaScript 中提供了一种灵活和统一的方式来遍历可迭代对象，通过<code>next()</code>方法和特定的返回值格式，实现了对可迭代对象的有序访问和迭代控制。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

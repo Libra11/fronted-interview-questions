@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Promise finally 怎么实现的？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;code&gt;Promise.finally()&lt;/code&gt; 方法是在 ES2018 中引入的，用于指定不管 Promise 状态如何都要执行的回调函数。与 &lt;code&gt;Promise.then()&lt;/code&gt; 和 &lt;code&gt;Promise.catch()&lt;/code&gt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Promise finally 怎么实现的？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;code&gt;Promise.finally()&lt;/code&gt; 方法是在 ES2018 中引入的，用于指定不管 Promise 状态如何都要执行的回调函数。与 &lt;code&gt;Promise.then()&lt;/code&gt; 和 &lt;code&gt;Promise.catch()&lt;/code&gt; 不同的是，&lt;code&gt;Promise.finally()&lt;/code&gt; 方法不管 Promise 是成功还是失败都会执" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/175" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>Promise finally 怎么实现的？</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-26T08:11:20Z · 更新：2023-03-26T08:11:20Z</div>
+    </div>
+    <article class="content markdown-body"><p><code>Promise.finally()</code> 方法是在 ES2018 中引入的，用于指定不管 Promise 状态如何都要执行的回调函数。与 <code>Promise.then()</code> 和 <code>Promise.catch()</code> 不同的是，<code>Promise.finally()</code> 方法不管 Promise 是成功还是失败都会执行回调函数，而且不会改变 Promise 的状态。如果返回的值是一个 Promise，那么 <code>Promise.finally()</code> 方法会等待该 Promise 执行完毕后再继续执行。</p><p><code>Promise.finally()</code> 方法的实现思路如下：</p><ol><li><code>Promise.finally()</code> 方法接收一个回调函数作为参数，返回一个新的 Promise 实例。</li></ol><ol><li>在新的 Promise 实例的 <code>then()</code> 方法中，首先调用原 Promise 的 <code>then()</code> 方法，将原 Promise 的结果传递给下一个 <code>then()</code> 方法。</li></ol><ol><li>在新的 Promise 实例的 <code>then()</code> 方法中，调用回调函数并将原 Promise 的结果传递给回调函数。</li></ol><ol><li>如果回调函数返回一个 Promise，则需要在新的 Promise 实例的 <code>then()</code> 方法中等待该 Promise 执行完毕，再将结果传递给下一个 <code>then()</code> 方法。</li></ol><ol><li>在新的 Promise 实例的 <code>finally()</code> 方法中，返回一个新的 Promise 实例。</li></ol><p>下面是一个简单的实现示例：</p><pre class="code-block"><code class="language-javascript">Promise.prototype.finally = function (callback) {
+  let P = this.constructor;
+  return this.then(
+    value =&gt; P.resolve(callback()).then(() =&gt; value),
+    reason =&gt; P.resolve(callback()).then(() =&gt; { throw reason })
+  );
+}
+</code></pre><p>这个实现方法中，使用了 <code>Promise.resolve()</code> 来返回一个新的 Promise 实例，因此可以避免了 Promise 链的状态改变。另外，由于 <code>finally()</code> 方法只是在 Promise 链的最后执行回调函数，因此不需要使用异步函数。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Generator 是如何做到中断和恢复的【热度: 1,558】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：Generator 中断、Generator 回复&lt;/p&gt;&lt;p&gt;Generator 是 JavaScript 中一种特殊的函数，它能够通过迭代器协议（Iterator Protocol）实现中断和恢复的功能。&lt;/p&gt;&lt;p&gt;Gener" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Generator 是如何做到中断和恢复的【热度: 1,558】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：Generator 中断、Generator 回复&lt;/p&gt;&lt;p&gt;Generator 是 JavaScript 中一种特殊的函数，它能够通过迭代器协议（Iterator Protocol）实现中断和恢复的功能。&lt;/p&gt;&lt;p&gt;Generator 函数使用 &lt;code&gt;function*&lt;/code&gt; 声明，内部可以使用 &lt;code&gt;yield&lt;/code" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/387" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>Generator 是如何做到中断和恢复的【热度: 1,558】</h1>
+      <div class="subtitle">百度 · JavaScript · 百度</div>
+      <div class="meta">创建：2023-05-30T15:32:05Z · 更新：2023-05-30T15:32:06Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：Generator 中断、Generator 回复</p><p>Generator 是 JavaScript 中一种特殊的函数，它能够通过迭代器协议（Iterator Protocol）实现中断和恢复的功能。</p><p>Generator 函数使用 <code>function*</code> 声明，内部可以使用 <code>yield</code> 关键字来定义中断点。当调用 Generator 函数时，它不会立即执行，而是返回一个迭代器对象。通过调用迭代器的 <code>next()</code> 方法，可以逐步执行 Generator 函数，并在每个 <code>yield</code> 关键字处暂停执行并返回一个包含当前值的对象。</p><p>当调用 <code>next()</code> 方法时，Generator 函数会从上次暂停的地方继续执行，直到遇到下一个 <code>yield</code> 关键字或函数结束。通过不断调用 <code>next()</code> 方法，可以逐步执行 Generator 函数的代码，并获取每个中断点处的值。</p><p>由于 Generator 函数具有中断和恢复的特性，可以用于异步编程，实现一种更直观的方式来处理异步操作。通过 <code>yield</code> 关键字，可以将异步操作分割成多个步骤，每个步骤都可以通过 <code>yield</code> 暂停，等待异步操作完成后再恢复执行。</p><p>以下是一个简单的示例，展示了 Generator 函数的中断和恢复特性：</p><pre class="code-block"><code class="language-javascript">function* generatorFunction() {
+  console.log(&#39;Step 1&#39;);
+  yield;
+  console.log(&#39;Step 2&#39;);
+  yield;
+  console.log(&#39;Step 3&#39;);
+}
+
+const generator = generatorFunction();
+
+generator.next(); // Step 1
+generator.next(); // Step 2
+generator.next(); // Step 3
+</code></pre><p>在上述示例中，我们定义了一个名为 <code>generatorFunction</code> 的 Generator 函数。在函数体内，使用 <code>console.log</code> 打印了三个不同的步骤，并在每个步骤后使用 <code>yield</code> 关键字暂停执行。然后，我们通过调用 <code>generator.next()</code> 方法逐步执行 Generator 函数。每次调用 <code>next()</code> 方法时，函数会从上次暂停的地方恢复执行，打印相应的步骤。</p><p>通过使用 Generator 函数，可以实现更灵活、可控的异步编程模式，提供更好的代码可读性和维护性。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

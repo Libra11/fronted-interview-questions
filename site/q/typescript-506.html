@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>never 是什么类型，详细讲一下【热度: 667】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：never类型、never类型应用&lt;/p&gt;&lt;p&gt;&lt;strong&gt;&lt;code&gt;never&lt;/code&gt; 是其他任意类型的子类型的类型被称为底部类型(bottom type)。&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;在 TypeScript 中" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="never 是什么类型，详细讲一下【热度: 667】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：never类型、never类型应用&lt;/p&gt;&lt;p&gt;&lt;strong&gt;&lt;code&gt;never&lt;/code&gt; 是其他任意类型的子类型的类型被称为底部类型(bottom type)。&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;在 TypeScript 中，&lt;code&gt;never&lt;/code&gt; 类型便为空类型和底部类型。&lt;code&gt;never&lt;/code&gt; 类型的变量无法被" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/506" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>never 是什么类型，详细讲一下【热度: 667】</h1>
+      <div class="subtitle">TypeScript · TypeScript</div>
+      <div class="meta">创建：2023-08-02T16:01:05Z · 更新：2023-08-03T15:19:18Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：never类型、never类型应用</p><p><strong><code>never</code> 是其他任意类型的子类型的类型被称为底部类型(bottom type)。</strong></p><p>在 TypeScript 中，<code>never</code> 类型便为空类型和底部类型。<code>never</code> 类型的变量无法被赋值，与其他类型求交集为自身，求并集不参与运算。</p><h4>应用一: 联合类型中的过滤</h4><p><strong>never在联合类型中会被过滤掉：</strong></p><pre class="code-block"><code class="language-typescript">type Exclude&lt;T, U&gt; = T extends U ? never : T;
+
+// 相当于: type A = &#39;a&#39;
+type A = Exclude&lt;&#39;x&#39; | &#39;a&#39;, &#39;x&#39; | &#39;y&#39; | &#39;z&#39;&gt;
+
+T | never // 结果为T
+T &amp; never // 结果为never
+
+</code></pre><p>取一个映射类型中所有value为指定类型的key。例如，已知某个React组件的props类型，我需要“知道”（编程意义上）哪些参数是function类型。</p><pre class="code-block"><code class="language-typescript">interface SomeProps {
+    a: string
+    b: number
+    c: (e: MouseEvent) =&gt; void
+    d: (e: TouchEvent) =&gt; void
+}
+// 如何得到 &#39;c&#39; | &#39;d&#39; ？ 
+
+type GetKeyByValueType&lt;T, Condition&gt; = {
+    [K in keyof T]: T[K] extends Condition ? K : never
+} [keyof T];
+
+type FunctionPropNames =  GetKeyByValueType&lt;SomeProps, Function&gt;;    // &#39;c&#39; | &#39;d&#39;
+
+
+</code></pre><p>运算过程如下：</p><pre class="code-block"><code class="language-typescript">// 开始
+{
+    a: string
+    b: number
+    c: (e: MouseEvent) =&gt; void
+    d: (e: TouchEvent) =&gt; void
+}
+// 第一步，条件映射
+{
+    a: never
+    b: never
+    c: &#39;c&#39;
+    d: &#39;d&#39;
+}
+// 第二步，索引取值
+never | never | &#39;c&#39; | &#39;d&#39;
+// never的性质
+&#39;c&#39; | &#39;d&#39;
+</code></pre><h4>应用二：防御性编程</h4><p>举个具体点的例子，当你有一个 union type:</p><pre class="code-block"><code class="language-typescript">interface Foo {   type: &#39;foo&#39; } 
+interface Bar {   type: &#39;bar&#39; } 
+type All = Foo | Bar
+</code></pre><p>在 switch 当中判断 type，TS 是可以收窄类型的 (discriminated union)：</p><pre class="code-block"><code class="language-typescript">function handleValue(val: All) {
+  switch (val.type) {
+    case &#39;foo&#39;:
+      // 这里 val 被收窄为 Foo
+      break
+    case &#39;bar&#39;:
+      // val 在这里是 Bar
+      break
+    default:
+      // val 在这里是 never
+      const exhaustiveCheck: never = val
+      break
+  }
+}
+</code></pre><p>注意在 default 里面我们把被收窄为 never 的 val 赋值给一个显式声明为 never 的变量。如果一切逻辑正确，那么这里应该能够编译通过。但是假如后来有一天你的同事改了 All 的类型：</p><p><code>type All = Foo | Bar | Baz</code></p><p>然而他忘记了在 handleValue 里面加上针对 Baz 的处理逻辑，这个时候在 default branch 里面 val 会被收窄为 Baz，导致无法赋值给 never，产生一个编译错误。所以通过这个办法，你可以确保 handleValue 总是穷尽 (exhaust) 了所有 All 的可能类型。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

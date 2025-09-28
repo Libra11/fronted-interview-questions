@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>请求失败会弹出一个 toast , 如何保证批量请求失败， 只弹出一个 toast【热度: 420】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：单例 toast&lt;/p&gt;&lt;p&gt;要确保批量请求失败时只弹出一个 toast，可以通过以下几种方式实现：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;设置全局标志位：定义一个全局变量（如 &lt;code&gt;isToastShown&lt;/code&gt;）来表示是否已经弹出" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="请求失败会弹出一个 toast , 如何保证批量请求失败， 只弹出一个 toast【热度: 420】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：单例 toast&lt;/p&gt;&lt;p&gt;要确保批量请求失败时只弹出一个 toast，可以通过以下几种方式实现：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;设置全局标志位：定义一个全局变量（如 &lt;code&gt;isToastShown&lt;/code&gt;）来表示是否已经弹出过 toast。在请求失败的处理逻辑中，首先检查该标志位。如果尚未弹出 toast，则进行弹出操作，并设置标志位为 &lt;c" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/788" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>请求失败会弹出一个 toast , 如何保证批量请求失败， 只弹出一个 toast【热度: 420】</h1>
+      <div class="subtitle">web应用场景 · web应用场景 · PDD</div>
+      <div class="meta">创建：2024-07-12T12:28:53Z · 更新：2024-07-12T12:28:53Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：单例 toast</p><p>要确保批量请求失败时只弹出一个 toast，可以通过以下几种方式实现：</p><ol><li>设置全局标志位：定义一个全局变量（如 <code>isToastShown</code>）来表示是否已经弹出过 toast。在请求失败的处理逻辑中，首先检查该标志位。如果尚未弹出 toast，则进行弹出操作，并设置标志位为 <code>true</code>；如果标志位已经为 <code>true</code>，则直接忽略后续的弹出操作。</li><li>使用防抖或节流函数：防抖（debounce）或节流（throttle）函数可以限制某个函数在一定时间内的执行次数。将弹出 toast 的操作封装在防抖或节流函数中，确保在短时间内的多个请求失败时，不会频繁弹出 toast。</li><li>集中处理错误：将所有请求的错误集中处理，而不是在每个请求的 catch 块中直接弹出 toast。例如，把所有请求的 Promise 添加到一个数组中，然后使用 <code>Promise.all()</code> 或其他类似方法来统一处理这些 Promise 的结果。如果所有请求都失败了，再弹出一个 toast。</li></ol><p>以下是使用全局标志位和集中处理错误的示例代码：</p><pre class="code-block"><code class="language-javascript">let isToastShown = false; // 全局标志位
+
+function makeRequests() {
+  const requests = [fetchPost(), fetchComments()]; // 多个请求的 Promise
+
+  Promise.all(requests)
+  .then(() =&gt; {
+      // 所有请求成功的处理逻辑
+    })
+  .catch(errors =&gt; {
+      if (!isToastShown) { // 检查标志位
+        notify(errors[0]); // 弹出 toast
+        isToastShown = true; // 设置标志位为 true
+      }
+    });
+}
+
+function fetchJSON(url, input) {
+  return fetch(url, input)
+  .then(res =&gt; {
+      if (res.ok) {
+        return res.json();
+      }
+      const err = new HttpError(res);
+      if (!isToastShown) { // 检查标志位
+        notify(err); // 弹出 toast
+        is toastShown = true; // 设置标志位为 true
+      }
+      throw err;
+    });
+}
+</code></pre><p>在上述代码中，定义了一个全局变量 <code>isToastShown</code> 来标记是否已经弹出过 toast。在 <code>fetchJSON</code> 函数中，当请求失败时，如果 <code>isToastShown</code> 为 <code>false</code>，则弹出 toast 并设置其为 <code>true</code>。在 <code>makeRequests</code> 函数中，使用 <code>Promise.all</code> 来处理多个请求。如果所有请求都失败（即 <code>errors</code> 数组有内容），并且 <code>isToastShown</code> 为 <code>false</code>，则弹出 toast 并设置标志位。</p><p>这样，无论有多少个请求失败，都只会弹出一个 toast。当有新的批量请求时，记得在请求开始前将 <code>isToastShown</code> 重置为 <code>false</code>。</p><p>另外，如果使用的是一些前端框架或库，它们可能提供了更方便的方式来处理这种情况。例如，在 Vue.js 中，可以使用 Vuex 来管理全局状态，实现类似的功能。具体的实现方式可能会因项目的架构和使用的技术而有所不同，但基本思路是相似的。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Babel Polyfill 了解多少【热度: 200】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：Babel Polyfill 原理、Babel Polyfill 作用、Babel Polyfill 使用、Babel Polyfill 按需加载&lt;/p&gt;&lt;h3&gt;Babel Polyfill 作用是啥&lt;/h3&gt;&lt;p&gt;Babel Po" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Babel Polyfill 了解多少【热度: 200】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：Babel Polyfill 原理、Babel Polyfill 作用、Babel Polyfill 使用、Babel Polyfill 按需加载&lt;/p&gt;&lt;h3&gt;Babel Polyfill 作用是啥&lt;/h3&gt;&lt;p&gt;Babel Polyfill 的作用是在旧版本浏览器中提供对新的JavaScript特性和API的支持。当使用Babel进行代码转换时，" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/373" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>Babel Polyfill 了解多少【热度: 200】</h1>
+      <div class="subtitle">美团 · 工程化 · 美团</div>
+      <div class="meta">创建：2023-05-23T15:27:13Z · 更新：2023-05-23T15:27:14Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：Babel Polyfill 原理、Babel Polyfill 作用、Babel Polyfill 使用、Babel Polyfill 按需加载</p><h3>Babel Polyfill 作用是啥</h3><p>Babel Polyfill 的作用是在旧版本浏览器中提供对新的JavaScript特性和API的支持。当使用Babel进行代码转换时，它只会转换语法，而不会转换新的API和全局对象（如Promise、Map、Set等）。</p><p>旧版本的浏览器可能不支持这些新的API和全局对象，因此在运行使用这些特性的代码时会抛出错误。为了解决这个问题，可以使用Babel Polyfill来填充缺失的功能，以确保代码在旧版本浏览器中正常运行。</p><p>Babel Polyfill通过修改全局对象和原型链，添加缺失的方法和属性，使得代码能够在不支持这些功能的浏览器中运行。它会检测当前环境的特性支持情况，并根据需要自动加载所需的Polyfill代码。</p><p>使用Babel Polyfill可以让开发人员在编写代码时不必过多考虑浏览器的兼容性，而专注于使用最新的JavaScript特性和API。它提供了一种简单方便的方式来填充浏览器的功能差异，确保代码在各种浏览器环境中具有一致的行为。</p><h3>如何使用</h3><p>要使用 Babel Polyfill，需要按照以下步骤进行设置：</p><ol><li>安装依赖：首先，确保你的项目已经安装了 Babel 相关的依赖包。这包括 <code>@babel/core</code>、<code>@babel/preset-env</code> 和 <code>@babel/polyfill</code>。你可以使用 npm 或者 yarn 进行安装：</li></ol><pre class="code-block"><code class="language-shell">npm install --save-dev @babel/core @babel/preset-env @babel/polyfill
+</code></pre><ol><li>配置 Babel：在项目根目录下创建一个 <code>.babelrc</code> 文件，并添加以下配置：</li></ol><pre class="code-block"><code class="language-json">{
+ &quot;presets&quot;: [&quot;@babel/preset-env&quot;]
+}
+</code></pre><p>这样的配置将告诉 Babel 使用 <code>@babel/preset-env</code> 预设来进行转换。</p><ol><li>导入 Polyfill：在你的入口文件（通常是项目的主 JavaScript 文件）中导入 Babel Polyfill。你可以使用 import 语句或者 require 来导入 Polyfill：</li></ol><p>使用 import（适用于 ES6 模块）：</p><pre class="code-block"><code class="language-javascript">import &#39;@babel/polyfill&#39;;
+</code></pre><p>使用 require（适用于 CommonJS 模块）：</p><pre class="code-block"><code class="language-javascript">require(&#39;@babel/polyfill&#39;);
+</code></pre><p>导入 Polyfill 的位置很重要，通常应该在你的应用程序代码之前导入，以确保 Polyfill 在应用程序代码之前被加载和执行。</p><ol><li>配置目标浏览器：为了让 Babel Polyfill 根据目标浏览器进行特性填充，你可以在 <code>.babelrc</code> 文件中的 <code>@babel/preset-env</code> 配置中指定目标浏览器的选项。例如，你可以在配置中添加 <code>targets</code> 属性：</li></ol><pre class="code-block"><code class="language-json">{
+ &quot;presets&quot;: [
+   [
+     &quot;@babel/preset-env&quot;,
+     {
+       &quot;targets&quot;: {
+         &quot;browsers&quot;: [&quot;last 2 versions&quot;, &quot;ie &gt;= 11&quot;]
+       }
+     }
+   ]
+ ]
+}
+</code></pre><p>这样，Polyfill 将根据所选的目标浏览器填充相应的功能。</p><p>完成以上步骤后，Babel Polyfill 将根据配置在目标浏览器中填充所需的功能，以确保你的代码在旧版本浏览器中正常运行。请注意，Polyfill 会增加你的应用程序的大小，因此请考虑仅填充所需的功能，以减小文件大小并优化性能。</p><h3>按需加载 Polyfill</h3><p>Babel Polyfill 默认会填充所有缺失的功能，但如果你只需要按需加载特定功能，可以使用 core-js 库的按需加载特性。下面是按需加载 Babel Polyfill 的步骤：</p><ol><li>安装依赖：确保你的项目已经安装了必要的依赖。除了之前提到的 Babel 相关依赖外，你还需要安装 <code>core-js</code>。</li></ol><pre class="code-block"><code class="language-shell">npm install --save-dev @babel/core @babel/preset-env core-js
+</code></pre><ol><li>配置 Babel：在 <code>.babelrc</code> 文件中，添加以下配置：</li></ol><pre class="code-block"><code class="language-json">{
+ &quot;presets&quot;: [
+   [
+     &quot;@babel/preset-env&quot;,
+     {
+       &quot;useBuiltIns&quot;: &quot;usage&quot;,
+       &quot;corejs&quot;: 3
+     }
+   ]
+ ]
+}
+</code></pre><p><code>useBuiltIns</code> 选项设置为 <code>&quot;usage&quot;</code> 表示按需加载特性，而 <code>&quot;corejs&quot;: 3</code> 指定了使用的 <code>core-js</code> 版本。</p><ol><li>导入 Polyfill：在需要使用特定功能的文件中，按需导入所需的 Polyfill。例如，如果你需要填充 <code>Promise</code> 和 <code>Array.prototype.includes</code>，你可以按如下方式导入：</li></ol><pre class="code-block"><code class="language-javascript">import &#39;core-js/features/promise&#39;;
+import &#39;core-js/features/array/includes&#39;;
+</code></pre><p>这样只会加载和填充所需的功能，而不会加载整个 Polyfill 库。你可以根据具体的功能需求进行按需导入。</p><p>请注意，使用按需加载的方式可以减小应用程序的文件大小，并且只填充需要的功能，但需要确保在使用相关功能之前已经导入了相应的 Polyfill。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

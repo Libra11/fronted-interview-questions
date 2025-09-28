@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>请求 Header 的 Content-Type 常见的有哪几种?【热度: 617】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：请求 header Content-Type、header Content-Type 参数类型&lt;/p&gt;&lt;p&gt;&lt;strong&gt;常见的请求Content-Type有以下几种&lt;/strong&gt;：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;applicatio" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="请求 Header 的 Content-Type 常见的有哪几种?【热度: 617】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：请求 header Content-Type、header Content-Type 参数类型&lt;/p&gt;&lt;p&gt;&lt;strong&gt;常见的请求Content-Type有以下几种&lt;/strong&gt;：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;application/x-www-form-urlencoded：用于URL编码的表单数据，数据以键值对的形式发送。&lt;/li&gt;&lt;/ol&gt;&lt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/660" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>请求 Header 的 Content-Type 常见的有哪几种?【热度: 617】</h1>
+      <div class="subtitle">TOP100互联网 · 网络 · TOP100互联网</div>
+      <div class="meta">创建：2024-01-01T15:04:04Z · 更新：2024-01-01T15:04:05Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：请求 header Content-Type、header Content-Type 参数类型</p><p><strong>常见的请求Content-Type有以下几种</strong>：</p><ol><li>application/x-www-form-urlencoded：用于URL编码的表单数据，数据以键值对的形式发送。</li></ol><ol><li>multipart/form-data：用于发送带有文件上传的表单数据，可以包含文本字段和文件字段。</li></ol><ol><li>application/json：用于发送JSON格式的数据。</li></ol><ol><li>text/plain：用于发送纯文本数据。</li></ol><ol><li>application/xml：用于发送XML格式的数据。</li></ol><ol><li>text/xml：用于发送XML格式的数据，与application/xml类似，但将数据视为纯文本。</li></ol><ol><li>application/octet-stream：用于发送任意的二进制数据。</li></ol><p>这些Content-Type用于指定请求中的主体数据的类型。根据你要发送的数据类型，选择合适的Content-Type。在Fetch API中，你可以通过设置请求头部中的<code>Content-Type</code>字段来指定Content-Type。</p><p><strong>追问：<code>application/xml</code> 和 <code>text/xml</code> 有啥区别？</strong></p><p>虽然<code>application/xml</code>和<code>text/xml</code>都用于发送XML格式的数据，但它们在处理数据时有一些细微的区别。</p><p><code>application/xml</code>是一种通用的媒体类型，用于表示XML数据。它指示接收方将数据视为XML，并根据XML的语法进行解析和处理。这意味着接收方应该期望接收到的是一个符合XML规范的文档，而不是纯文本。</p><p><code>text/xml</code>是将XML数据表示为纯文本的媒体类型。它指示接收方将数据视为普通文本，并将其视为XML文档进行解析和处理。这意味着接收方会将接收到的数据解析为XML，并进行相应的处理。</p><p>因此，主要区别在于接收方对待数据的方式。<code>application/xml</code>更加严格，要求数据符合XML规范，而<code>text/xml</code>则更灵活，将数据视为普通文本进行处理。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

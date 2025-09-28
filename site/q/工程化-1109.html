@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>该如何给自己的项目添加 jest 去测试 react ts 项目【热度: 122】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：前端测试 jest 配置&lt;/p&gt;&lt;p&gt;当使用 Babel 编译 React TypeScript 项目并配置 Jest 时，可按以下步骤进行：&lt;/p&gt;&lt;h3&gt;1. 安装必要的依赖&lt;/h3&gt;&lt;p&gt;在项目根目录下，通过以下命令安装所需的" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="该如何给自己的项目添加 jest 去测试 react ts 项目【热度: 122】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：前端测试 jest 配置&lt;/p&gt;&lt;p&gt;当使用 Babel 编译 React TypeScript 项目并配置 Jest 时，可按以下步骤进行：&lt;/p&gt;&lt;h3&gt;1. 安装必要的依赖&lt;/h3&gt;&lt;p&gt;在项目根目录下，通过以下命令安装所需的依赖：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;n" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1109" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>该如何给自己的项目添加 jest 去测试 react ts 项目【热度: 122】</h1>
+      <div class="subtitle">工程化 · 工程化</div>
+      <div class="meta">创建：2025-03-25T15:54:59Z · 更新：2025-03-25T15:54:59Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：前端测试 jest 配置</p><p>当使用 Babel 编译 React TypeScript 项目并配置 Jest 时，可按以下步骤进行：</p><h3>1. 安装必要的依赖</h3><p>在项目根目录下，通过以下命令安装所需的依赖：</p><pre class="code-block"><code class="language-bash">npm install --save-dev jest babel-jest @babel/core @babel/preset-env @babel/preset-react @babel/preset-typescript @types/jest @testing-library/react @testing-library/jest-dom @testing-library/user-event
+</code></pre><ul><li><code>jest</code>：测试框架。</li><li><code>babel-jest</code>：让 Jest 能使用 Babel 转换代码。</li><li><code>@babel/core</code>：Babel 的核心库。</li><li><code>@babel/preset-env</code>：根据目标环境转换代码。</li><li><code>@babel/preset-react</code>：处理 React 的 JSX 语法。</li><li><code>@babel/preset-typescript</code>：支持 TypeScript 代码的转换。</li><li><code>@types/jest</code>：为 Jest 提供 TypeScript 类型定义。</li><li><code>@testing-library/react</code>：用于测试 React 组件的工具库。</li><li><code>@testing-library/jest-dom</code>：提供额外的 DOM 断言方法。</li><li><code>@testing-library/user-event</code>：模拟用户交互的工具库。</li></ul><h3>2. 配置 Babel</h3><p>在项目根目录下创建或修改 <code>.babelrc</code> 文件（也可以使用 <code>babel.config.js</code>），添加以下配置：</p><pre class="code-block"><code class="language-json">{
+  &quot;presets&quot;: [&quot;@babel/preset-env&quot;, &quot;@babel/preset-react&quot;, &quot;@babel/preset-typescript&quot;]
+}
+</code></pre><ul><li><code>@babel/preset-env</code>：依据 <code>package.json</code> 里的 <code>browserslist</code> 配置转换代码。</li><li><code>@babel/preset-react</code>：处理 React 的 JSX 语法。</li><li><code>@babel/preset-typescript</code>：将 TypeScript 代码转换为 JavaScript 代码。</li></ul><h3>3. 配置 Jest</h3><p>在项目根目录下创建 <code>jest.config.js</code> 文件，并添加以下配置：</p><pre class="code-block"><code class="language-javascript">module.exports = {
+  // 使用 babel-jest 转换文件
+  transform: {
+    &quot;^.+\\.(js|jsx|ts|tsx)$&quot;: &quot;babel-jest&quot;,
+  },
+  // 配置测试环境
+  testEnvironment: &quot;jsdom&quot;,
+  // 配置模块名映射，处理样式和图片文件
+  moduleNameMapper: {
+    &quot;\\.(css|less|scss|sass)$&quot;: &quot;identity-obj-proxy&quot;,
+    &quot;\\.(jpg|jpeg|png|gif|svg)$&quot;: &quot;&lt;rootDir&gt;/__mocks__/fileMock.js&quot;,
+  },
+  // 在每个测试文件运行前执行的脚本
+  setupFilesAfterEnv: [&quot;&lt;rootDir&gt;/src/setupTests.ts&quot;],
+  // 识别的文件扩展名
+  moduleFileExtensions: [&quot;ts&quot;, &quot;tsx&quot;, &quot;js&quot;, &quot;jsx&quot;, &quot;json&quot;, &quot;node&quot;],
+};
+</code></pre><ul><li><code>transform</code>：指定使用 <code>babel-jest</code> 转换 <code>.js</code>、<code>.jsx</code>、<code>.ts</code> 和 <code>.tsx</code> 文件。</li><li><code>testEnvironment</code>：设置测试环境为 <code>jsdom</code>，模拟浏览器环境。</li><li><code>moduleNameMapper</code>：处理样式文件和图片文件的导入，避免在测试时实际加载这些资源。</li><li><code>setupFilesAfterEnv</code>：指定在每个测试文件运行前执行的脚本文件。</li><li><code>moduleFileExtensions</code>：指定 Jest 识别的文件扩展名。</li></ul><h3>4. 创建模拟文件</h3><p>在项目根目录下创建 <code>__mocks__</code> 文件夹，并在其中创建 <code>fileMock.js</code> 文件，内容如下：</p><pre class="code-block"><code class="language-javascript">module.exports = &quot;test-file-stub&quot;;
+</code></pre><p>该文件用于模拟图片等资源文件的导入。</p><h3>5. 创建测试设置文件</h3><p>在 <code>src</code> 目录下创建 <code>setupTests.ts</code> 文件，并添加以下内容：</p><pre class="code-block"><code class="language-typescript">import &quot;@testing-library/jest-dom&quot;;
+</code></pre><p>这会引入 <code>@testing-library/jest-dom</code> 提供的额外 DOM 断言方法。</p><h3>6. 配置 <code>package.json</code></h3><p>在 <code>package.json</code> 文件中添加测试脚本：</p><pre class="code-block"><code class="language-json">{
+  &quot;scripts&quot;: {
+    &quot;test&quot;: &quot;jest&quot;
+  }
+}
+</code></pre><h3>7. 编写并运行测试用例</h3><p>例如，有一个简单的 React TypeScript 组件 <code>App.tsx</code>：</p><pre class="code-block"><code class="language-tsx">import React from &quot;react&quot;;
+
+const App: React.FC = () =&gt; {
+  return &lt;h1&gt;Hello, Jest!&lt;/h1&gt;;
+};
+
+export default App;
+</code></pre><p>对应的测试文件 <code>App.test.tsx</code> 可以这样写：</p><pre class="code-block"><code class="language-typescript">import React from &quot;react&quot;;
+import { render, screen } from &quot;@testing-library/react&quot;;
+import App from &quot;./App&quot;;
+
+test(&quot;renders App component&quot;, () =&gt; {
+  render(&lt;App /&gt;);
+  const element = screen.getByText(&quot;Hello, Jest!&quot;);
+  expect(element).toBeInTheDocument();
+});
+</code></pre><p>在终端运行以下命令来执行测试：</p><pre class="code-block"><code class="language-bash">npm test
+</code></pre><p>通过以上步骤，你就可以在使用 Babel 编译的 React TypeScript 项目中配置好 Jest 进行测试了。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

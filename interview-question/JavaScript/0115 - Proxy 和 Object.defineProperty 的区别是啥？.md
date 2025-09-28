@@ -1,0 +1,68 @@
+# Proxy 和 Object.defineProperty 的区别是啥？
+
+- Issue: #115
+- State: open
+- Labels: JavaScript
+- Author: yanlele
+- URL: https://github.com/pro-collection/interview-question/issues/115
+- Created: 2023-03-15T15:15:55Z
+- Updated: 2023-08-20T07:42:35Z
+
+## Body
+
+`Proxy` 和 `Object.defineProperty` 是 JavaScript 中两个不同的特性，它们的作用也不完全相同。
+
+`Object.defineProperty` 允许你在一个对象上定义一个新属性或者修改一个已有属性。通过这个方法你可以精确地定义属性的特征，比如它是否可写、可枚举、可配置等。该方法的使用场景通常是需要在一个对象上创建一个属性，然后控制这个属性的行为。
+
+`Proxy` 也可以用来代理一个对象，但是相比于 `Object.defineProperty`，它提供了更加强大的功能。使用 `Proxy` 可以截获并重定义对象的基本操作，比如访问属性、赋值、函数调用等等。在这些操作被执行之前，可以通过拦截器函数对这些操作进行拦截和修改。因此，通过 `Proxy`，你可以完全重写一个对象的默认行为。该方法的使用场景通常是需要对一个对象的行为进行定制化，或者需要在对象上添加额外的功能。
+
+**对比**
+
+以下是 Proxy 和 Object.defineProperty 的一些区别对比：
+
+| 方面       | Proxy                                                  | Object.defineProperty                                |
+|----------|--------------------------------------------------------|-------------------------------------------------------|
+| 语法       | 使用 `new Proxy(target, handler)` 创建代理对象                       | 直接在对象上使用 `Object.defineProperty(obj, prop, descriptor)` |
+| 监听属性变化   | 支持监听整个对象的变化，通过 `get` 和 `set` 方法拦截           | 只能监听单个属性的变化，通过 `get` 和 `set` 方法拦截           |
+| 功能拦截     | 可以拦截并重写多种操作，如 `get`、`set`、`deleteProperty` 等  | 只能拦截属性的读取和赋值操作                                 |
+| 可迭代性     | 支持迭代器，可以使用 `for...of`、`Array.from()` 等进行迭代     | 不支持迭代器，无法直接进行迭代操作                              |
+| 兼容性      | 部分浏览器不支持，如 IE                                   | 相对较好的兼容性，支持大多数现代浏览器                          |
+| 性能       | 相对较低，因为每次操作都需要经过代理                       | 相对较高，因为直接在对象上进行操作                            |
+| 扩展性      | 可以通过添加自定义的 handler 方法进行扩展                      | 不支持扩展，只能使用内置的 `get` 和 `set` 方法拦截                  |
+
+需要注意的是，Proxy 和 Object.defineProperty 在功能和用法上存在一些差异，选择使用哪个取决于具体的需求和兼容性要求。
+
+
+总结来说，`Object.defineProperty` 是用来定义对象的属性，而 `Proxy` 则是用来代理对象并对其进行操作拦截和修改。两者的应用场景不同，但都可以用来对对象的行为进行定制化。
+
+
+**性能差异**
+
+在性能方面，Proxy和Object.defineProperty存在一些差异。
+
+Proxy的性能通常较Object.defineProperty要慢。这是因为Proxy代理了整个对象，每个对属性的访问都需要经过代理的拦截器。这会导致Proxy的操作相对较慢，特别是在频繁访问属性的情况下。
+
+相比之下，Object.defineProperty仅拦截单个属性的读取和赋值操作，不会对整个对象进行代理。因此，在性能方面，Object.defineProperty通常比Proxy更高效。
+
+然而，性能差异在实际应用中可能并不明显，并且会受到具体的应用场景和浏览器的影响。对于大多数情况，性能差异不是决定使用哪个的主要因素。相反，功能需求和兼容性更可能影响选择Proxy或Object.defineProperty。
+
+
+**以下是 `Proxy` 和 `Object.defineProperty` 的一些具体应用场景的不同**：
+
+1. `Object.defineProperty` 适用于需要精确地控制对象属性行为的场景，比如控制属性是否可写、可枚举、可配置等。它的应用场景包括但不限于：
+
+* 对象属性访问权限控制；
+* 对象属性计算；
+* 对象属性懒加载。
+
+2. `Proxy` 适用于需要代理对象并对其进行操作拦截和修改的场景。它的应用场景包括但不限于：
+
+* 对象属性访问控制；
+* 对象属性修改控制；
+* 对象属性缓存；
+* 对象属性计算；
+* 对象属性监听；
+* 对象属性校验；
+* 对象属性劫持等。
+
+总的来说，`Object.defineProperty` 主要用于单个对象属性的控制和修改，而 `Proxy` 则适用于对整个对象或对象的多个属性进行控制和修改。由于 `Proxy` 的功能更加强大，它在一些高级应用场景中比 `Object.defineProperty` 更加适用。但是在一些简单场景下，使用 `Object.defineProperty` 可能更加方便和实用。

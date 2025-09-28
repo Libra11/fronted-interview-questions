@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>for...of、for...in、for 循环， 三者有什么区别【热度: 1,652】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：for...in遍历、for...of遍历&lt;/p&gt;&lt;p&gt;以下是 &lt;code&gt;for...of&lt;/code&gt;、&lt;code&gt;for...in&lt;/code&gt; 和 &lt;code&gt;for&lt;/code&gt; 循环的区别对比表格：&lt;/p&gt;&lt;p&gt;| 特性" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="for...of、for...in、for 循环， 三者有什么区别【热度: 1,652】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：for...in遍历、for...of遍历&lt;/p&gt;&lt;p&gt;以下是 &lt;code&gt;for...of&lt;/code&gt;、&lt;code&gt;for...in&lt;/code&gt; 和 &lt;code&gt;for&lt;/code&gt; 循环的区别对比表格：&lt;/p&gt;&lt;p&gt;| 特性 | for...of 循环 | for...in 循环 | for 循环 |&lt;/p&gt;&lt;p&gt;|-------------" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/520" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>for...of、for...in、for 循环， 三者有什么区别【热度: 1,652】</h1>
+      <div class="subtitle">JavaScript · JavaScript · 腾讯</div>
+      <div class="meta">创建：2023-08-20T14:14:16Z · 更新：2023-08-20T14:14:29Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：for...in遍历、for...of遍历</p><p>以下是 <code>for...of</code>、<code>for...in</code> 和 <code>for</code> 循环的区别对比表格：</p><p>| 特性             | for...of 循环                                                    | for...in 循环                                             | for 循环                                                   |</p><p>|------------------|----------------------------------------------------------------|-----------------------------------------------------------|------------------------------------------------------------|</p><p>| 遍历对象类型     | 可以遍历可迭代对象（如数组、字符串、Set、Map、Generator 等）      | 可以遍历对象的可枚举属性                                    | 不适用于直接遍历对象，适用于遍历数组或固定个数的循环         |</p><p>| 遍历数组         | 遍历数组的元素                                                  | 遍历数组的索引                                             | 遍历数组的索引或值                                         |</p><p>| 遍历字符串       | 遍历字符串的字符                                                | 遍历字符串的索引                                           | 遍历字符串的索引或字符                                     |</p><p>| 遍历 Set         | 遍历 Set 的值                                                   | 不适用                                                     | 不适用                                                     |</p><p>| 遍历 Map         | 遍历 Map 的键值对                                               | 不适用                                                     | 不适用                                                     |</p><p>| 遍历对象         | 不适用                                                         | 遍历对象的可枚举属性及其对应的值                            | 不适用                                                     |</p><p>| 遍历 Generator   | 遍历 Generator 生成的值                                          | 不适用                                                     | 不适用                                                     |</p><p>| 遍历可迭代对象   | 遍历可迭代对象的元素                                            | 不适用                                                     | 不适用                                                     |</p><p>| 适用范围         | 适用于需要遍历可迭代对象的场景                                  | 适用于需要遍历对象的可枚举属性的场景                        | 适用于需要手动控制循环次数的场景                           |</p><p>| 遍历顺序         | 按照可迭代对象的顺序进行遍历                                    | 不保证顺序                                                 | 按照循环次数进行遍历                                       |</p><p>需要注意的是，<code>for...of</code> 循环只能用于可迭代对象，并且会遍历对象的迭代器方法（即 <code>Symbol.iterator</code>），而 <code>for...in</code> 循环会遍历对象的所有可枚举属性，包括原型链上的属性。</p><p>对于遍历数组的场景，可以使用 <code>for...of</code> 循环遍历数组的元素，也可以使用 <code>for</code> 循环遍历数组的索引或值。具体选择哪种方式取决于遍历的目的和需求。</p><p>以下是一个使用不同循环方式遍历数组的示例：</p><pre class="code-block"><code class="language-javascript">var arr = [1, 2, 3];
+
+console.log(&quot;for...of 循环:&quot;);
+for (var element of arr) {
+  console.log(element);
+}
+
+console.log(&quot;for...in 循环:&quot;);
+for (var index in arr) {
+  console.log(arr[index]);
+}
+
+console.log(&quot;for 循环:&quot;);
+for (var i = 0; i &lt; arr.length; i++) {
+  console.log(arr[i]);
+}
+</code></pre><p>输出结果为：</p><pre class="code-block"><code>for...of 循环:
+1
+2
+3
+for...in 循环:
+1
+2
+3
+for 循环:
+1
+2
+3
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

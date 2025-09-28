@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[代码实现] 不使用 setTimeout 来实现 setInterval【热度: 231】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：实现setInterval、requestAnimationFrame实现setInterval、setTimeout实现setInterval&lt;/p&gt;&lt;p&gt;如果不使用 &lt;code&gt;setTimeout&lt;/code&gt; 来实现 &lt;co" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[代码实现] 不使用 setTimeout 来实现 setInterval【热度: 231】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：实现setInterval、requestAnimationFrame实现setInterval、setTimeout实现setInterval&lt;/p&gt;&lt;p&gt;如果不使用 &lt;code&gt;setTimeout&lt;/code&gt; 来实现 &lt;code&gt;setInterval&lt;/code&gt;，可以使用 &lt;code&gt;requestAnimationFrame&lt;/code" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/599" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[代码实现] 不使用 setTimeout 来实现 setInterval【热度: 231】</h1>
+      <div class="subtitle">腾讯 · 腾讯 · 代码实现/算法</div>
+      <div class="meta">创建：2023-10-21T13:40:53Z · 更新：2023-10-21T14:06:25Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：实现setInterval、requestAnimationFrame实现setInterval、setTimeout实现setInterval</p><p>如果不使用 <code>setTimeout</code> 来实现 <code>setInterval</code>，可以使用 <code>requestAnimationFrame</code> 函数和时间戳来实现定时循环。下面是实现的代码示例：</p><p><strong>实现方式1</strong></p><pre class="code-block"><code class="language-javascript">function mySetInterval(callback, interval) {
+  let startTime = Date.now();
+  let elapsedTime = 0;
+
+  function loop() {
+    const currentTime = Date.now();
+    const deltaTime = currentTime - startTime;
+
+    if (deltaTime &gt;= interval) {
+      callback();
+      startTime = currentTime;
+    }
+
+    requestAnimationFrame(loop);
+  }
+
+  requestAnimationFrame(loop);
+
+  return {
+    clear: function() {
+      startTime = 0;
+      elapsedTime = 0;
+    }
+  };
+}
+</code></pre><p>这个实现中，我们通过 <code>requestAnimationFrame</code> 函数来循环执行 <code>loop</code> 函数。在 <code>loop</code> 函数中，我们获取当前时间戳 <code>currentTime</code>，并计算与上一次执行的时间间隔 <code>deltaTime</code></p><p>。如果 <code>deltaTime</code> 大于等于指定的间隔时间 <code>interval</code>，则执行回调函数 <code>callback</code>，并更新 <code>startTime</code> 为当前时间，以便下一次判断。</p><p>最后，返回一个具有 <code>clear</code> 方法的对象，用于清除定时器。调用 <code>clear</code> 方法时，将 <code>startTime</code> 和 <code>elapsedTime</code> 重置为初始值。</p><p><strong>实现方式2</strong></p><pre class="code-block"><code class="language-js">const obj = {
+  timer: null,
+  setInterval: function(callback, interval) {
+    const now = Date.now
+    let startTime = now()
+    let endTime = startTime
+    const self = this
+    const loop = function() {
+      self.timer = requestAnimationFrame(loop)
+      endTime = now()
+      if (endTime - startTime &gt;= interval) {
+        startTime = endTime = now()
+        callback &amp;&amp; callback()
+      }
+    }
+    this.timer = requestAnimationFrame(loop)
+    return this.timer
+  },
+  clearInterval: function() {
+    cancelAnimationFrame(this.timer)
+  }
+}
+
+let count = 0
+const timer = obj.setInterval(() =&gt; {
+  console.log(&#39;interval...&#39;)
+  count++
+  if (count &gt;= 3) {
+    obj.clearInterval()
+  }
+}, 500)
+</code></pre><p><strong>实现方式3</strong></p><p>使用 <code>setTimeout</code> 来实现</p><pre class="code-block"><code class="language-ts">/**
+ * setTimeout 版本
+ */
+function _setIntervalUseTimeout(
+  fn: () =&gt; void,
+  millisec: number,
+  count?: number
+) {
+  let timer: number;
+  function interval() {
+    if (typeof count === &#39;undefined&#39; || count-- &gt; 0) {
+      timer = setTimeout(interval, millisec);
+      try {
+        fn();
+      } catch (e: any) {
+        count = 0;
+        throw e.toString();
+      }
+    }
+  }
+  timer = setTimeout(interval, millisec);
+  return {
+    clear: () =&gt; clearTimeout(timer),
+  };
+}
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

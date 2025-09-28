@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>内联加载样式和外联加载样式有啥区别【热度: 383】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：样式加载&lt;/p&gt;&lt;p&gt;内联样式（Inline Style）和外联样式（External Style）是 CSS 应用在 HTML 文档中的两种不同方法，它们主要的区别在于如何将 CSS 规则与 HTML 元素关联起来。&lt;/p&gt;&lt;h3" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="内联加载样式和外联加载样式有啥区别【热度: 383】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：样式加载&lt;/p&gt;&lt;p&gt;内联样式（Inline Style）和外联样式（External Style）是 CSS 应用在 HTML 文档中的两种不同方法，它们主要的区别在于如何将 CSS 规则与 HTML 元素关联起来。&lt;/p&gt;&lt;h3&gt;内联样式&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;定义方式&lt;/strong&gt;：通过元素的&lt;code&gt;style&lt;/co" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/870" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>内联加载样式和外联加载样式有啥区别【热度: 383】</h1>
+      <div class="subtitle">Shopee · CSS · Shopee</div>
+      <div class="meta">创建：2024-08-31T03:15:27Z · 更新：2024-08-31T03:15:28Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：样式加载</p><p>内联样式（Inline Style）和外联样式（External Style）是 CSS 应用在 HTML 文档中的两种不同方法，它们主要的区别在于如何将 CSS 规则与 HTML 元素关联起来。</p><h3>内联样式</h3><ul><li><strong>定义方式</strong>：通过元素的<code>style</code>属性直接在 HTML 标签内定义 CSS 样式。</li><li><strong>优先级</strong>：内联样式的优先级高于外联样式和嵌入样式（在<code>&lt;head&gt;</code>标签内的<code>&lt;style&gt;</code>标签中定义的样式），因为它是直接应用到元素上的。</li><li><strong>应用场景</strong>：适合对单个元素进行样式定义，或者进行快速测试。但如果用于大量元素的样式定义，会使 HTML 文档变得非常臃肿，难以维护。</li><li><strong>示例</strong>：</li></ul><pre class="code-block"><code class="language-html">&lt;div style=&quot;color: blue; font-size: 14px;&quot;&gt;这是一段内联样式的文本。&lt;/div&gt;
+</code></pre><h3>外联样式</h3><ul><li><strong>定义方式</strong>：将 CSS 样式定义在一个外部的<code>.css</code>文件中，然后通过<code>&lt;link&gt;</code>标签在 HTML 的<code>&lt;head&gt;</code>中引用。</li><li><strong>优先级</strong>：一般情况下，外联样式的优先级低于内联样式。但在多个样式之间的优先级还取决于选择器的具体性、样式定义的顺序等因素。</li><li><strong>应用场景</strong>：适合网站或应用的全局样式定义，能够实现样式的复用和统一管理，便于维护和更新。</li><li><strong>示例</strong>：</li></ul><pre class="code-block"><code class="language-html">&lt;!-- HTML文件中引用 --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot; /&gt;
+
+/* style.css文件中定义样式 */ div { color: red; font-size: 16px; }
+</code></pre><h3>主要区别</h3><ol><li><strong>加载方式</strong>：内联样式直接写在 HTML 元素的<code>style</code>属性中，而外联样式则放在单独的 CSS 文件中，通过<code>&lt;link&gt;</code>标签引入。</li><li><strong>复用性</strong>：外联样式可以被多个 HTML 页面共享，提高了样式的复用性；内联样式只作用于具体的元素，无法复用。</li><li><strong>维护性</strong>：外联样式易于维护和更新，只需修改一个 CSS 文件即可影响引用该 CSS 文件的所有页面；内联样式则需要逐个元素修改，维护成本较高。</li><li><strong>优先级</strong>：内联样式的优先级高于外联样式和嵌入式样式，因为它更“接近”元素。</li><li><strong>性能影响</strong>：外联样式可利用浏览器缓存，有助于减少页面加载时间；而大量使用内联样式会增加 HTML 文档的大小，可能对性能产生不利影响。</li></ol><p>通常，推荐使用外联样式来实现样式的规范化管理和复用，特别是在大型项目和团队协作的场景中。内联样式则适用于对单个元素快速测试样式或进行特殊样式覆盖的情况。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

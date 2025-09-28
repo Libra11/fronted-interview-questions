@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>用 nodejs 实现一个命令行工具， 统计输入目录下面指定代码的行数【热度: 732】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：统计指定目录下代码行数&lt;/p&gt;&lt;p&gt;要实现一个命令行工具来统计输入目录下指定代码的行数，你可以使用Node.js的&lt;code&gt;fs&lt;/code&gt;模块来读取文件内容并进行行数统计。以下是一个简单的实现示例：&lt;/p&gt;&lt;pre class" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="用 nodejs 实现一个命令行工具， 统计输入目录下面指定代码的行数【热度: 732】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：统计指定目录下代码行数&lt;/p&gt;&lt;p&gt;要实现一个命令行工具来统计输入目录下指定代码的行数，你可以使用Node.js的&lt;code&gt;fs&lt;/code&gt;模块来读取文件内容并进行行数统计。以下是一个简单的实现示例：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;const fs = r" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/472" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>用 nodejs 实现一个命令行工具， 统计输入目录下面指定代码的行数【热度: 732】</h1>
+      <div class="subtitle">web应用场景 · web应用场景 · 网易</div>
+      <div class="meta">创建：2023-07-06T14:03:51Z · 更新：2023-07-06T14:04:04Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：统计指定目录下代码行数</p><p>要实现一个命令行工具来统计输入目录下指定代码的行数，你可以使用Node.js的<code>fs</code>模块来读取文件内容并进行行数统计。以下是一个简单的实现示例：</p><pre class="code-block"><code class="language-javascript">const fs = require(&#39;fs&#39;);
+const path = require(&#39;path&#39;);
+
+function countLinesInDirectory(dirPath, fileExtension) {
+  let totalLines = 0;
+
+  function countLinesInFile(filePath) {
+    const content = fs.readFileSync(filePath, &#39;utf-8&#39;);
+    const lines = content.split(&#39;\n&#39;);
+    totalLines += lines.length;
+  }
+
+  function processDirectory(directoryPath) {
+    const files = fs.readdirSync(directoryPath);
+
+    files.forEach((file) =&gt; {
+      const filePath = path.join(directoryPath, file);
+      const stats = fs.statSync(filePath);
+
+      if (stats.isFile() &amp;&amp; path.extname(file) === fileExtension) {
+        countLinesInFile(filePath);
+      } else if (stats.isDirectory()) {
+        processDirectory(filePath);
+      }
+    });
+  }
+
+  processDirectory(dirPath);
+
+  return totalLines;
+}
+
+// 命令行参数，第一个参数是目录路径，第二个参数是文件扩展名
+const [_, __, dirPath, fileExtension] = process.argv;
+
+const linesCount = countLinesInDirectory(dirPath, fileExtension);
+console.log(`Total lines of ${fileExtension} files in ${dirPath}: ${linesCount}`);
+</code></pre><p>你可以将上述代码保存为一个JavaScript文件，比如<code>line-counter.js</code>。然后，在终端中运行以下命令：</p><pre class="code-block"><code>node line-counter.js /path/to/directory .js
+</code></pre><p>其中<code>/path/to/directory</code>是你要统计的目录路径，<code>.js</code>是你要统计的文件扩展名。运行命令后，程序将会输出指定文件类型在指定目录中的总行数。</p><p>你可以根据需要自定义输出格式、文件过滤规则等。此示例只是一个基本的实现，你可以根据具体需求进行扩展和优化。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

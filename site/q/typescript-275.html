@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>枚举和常量枚举的区别 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;枚举和常量枚举（const枚举）：使用枚举可以清晰地表达意图或创建一组有区别的用例&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-typescript&quot;&gt;// 枚举 enum Color { Red, Green, Blu" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="枚举和常量枚举的区别" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;枚举和常量枚举（const枚举）：使用枚举可以清晰地表达意图或创建一组有区别的用例&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-typescript&quot;&gt;// 枚举 enum Color { Red, Green, Blue } // 常量枚举 const enum Color { Red, Green, Blue } &lt;/code&gt;&lt;/p" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/275" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>枚举和常量枚举的区别</h1>
+      <div class="subtitle">TypeScript · TypeScript · 腾讯</div>
+      <div class="meta">创建：2023-04-11T14:44:32Z · 更新：2023-04-11T14:44:33Z</div>
+    </div>
+    <article class="content markdown-body"><p>枚举和常量枚举（const枚举）：使用枚举可以清晰地表达意图或创建一组有区别的用例</p><pre class="code-block"><code class="language-typescript">// 枚举
+enum Color { Red, Green, Blue }
+
+// 常量枚举
+const enum Color { Red, Green, Blue }
+</code></pre><p>区别：</p><ol><li>枚举会被编译时会编译成一个对象，可以被当作对象使用</li></ol><pre class="code-block"><code class="language-typescript">// 枚举
+enum Color {
+  Red,
+  Green,
+  Blue
+}
+
+var sisterAn = Color.Red
+// 会被编译成 JavaScript 中的 var sisterAn = Color.Red
+// 即在运行执行时，它将会查找变量 Color 和 Color.Red
+</code></pre><ol><li>const 枚举会在 typescript 编译期间被删除，const 枚举成员在使用的地方会被内联进来，避免额外的性能开销</li></ol><pre class="code-block"><code class="language-typescript">// 常量枚举
+const enum Color {
+  Red,
+  Green,
+  Blue
+}
+
+var sisterAn = Color.Red
+// 会被编译成 JavaScript 中的 var sisterAn = 0
+// 在运行时已经没有 Color 变量
+</code></pre><p>由此可见，使用 常量枚举 会有更好的性能。</p><p>定义的枚举，在经过编译器编译后是一个对象，这个对象我们可以在程序运行时使用，前面有说到。但有时定义枚举可能只是为了让程序可读性更好，而不需要编译后的代码，即不需要编译成对象。typescript中考虑到这种情况，所以加入了 const enum (完全嵌入的枚举)。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

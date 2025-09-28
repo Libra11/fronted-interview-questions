@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[webpack] 在编译产物的时候， 要区分 source 代码和外部依赖代码， 该如何处理【热度: 125】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：webpack 产物&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;使用 Webpack 的&lt;code&gt;optimize-module-ids&lt;/code&gt;插件（用于区分模块来源）&lt;/strong&gt;&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;&lt;st" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[webpack] 在编译产物的时候， 要区分 source 代码和外部依赖代码， 该如何处理【热度: 125】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：webpack 产物&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;使用 Webpack 的&lt;code&gt;optimize-module-ids&lt;/code&gt;插件（用于区分模块来源）&lt;/strong&gt;&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;原理&lt;/strong&gt;：Webpack 在打包过程中会为每个模块分配一个唯一的&lt;code&gt;module.id&lt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1074" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[webpack] 在编译产物的时候， 要区分 source 代码和外部依赖代码， 该如何处理【热度: 125】</h1>
+      <div class="subtitle">工程化 · 工程化</div>
+      <div class="meta">创建：2024-11-23T03:31:59Z · 更新：2024-11-23T03:31:59Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：webpack 产物</p><ol><li><strong>使用 Webpack 的<code>optimize-module-ids</code>插件（用于区分模块来源）</strong></li></ol><ul><li><strong>原理</strong>：Webpack 在打包过程中会为每个模块分配一个唯一的<code>module.id</code>。<code>optimize-module-ids</code>插件可以帮助控制模块标识符的生成方式，使得能够根据模块是源文件还是外部依赖来区分它们。</li><li><strong>配置步骤</strong>：</li></ul><ul><li>首先，安装<code>optimize-module-ids</code>插件（可能需要自行开发类似功能插件或寻找已有合适插件）。</li><li>然后，在 Webpack 配置文件中添加插件配置。例如：</li></ul><p>```javascript</p><p>const CustomModuleIdsPlugin = require("optimize-module-ids");</p><p>module.exports = {</p><p>//...其他配置</p><p>plugins: [</p><p>new CustomModuleIdsPlugin((module) => {</p><p>if (module.resource && module.resource.includes("node_modules")) {</p><p>return "external";</p><p>} else {</p><p>return "source";</p><p>}</p><p>}),</p><p>],</p><p>};</p><p>```</p><p>这个插件会依据模块的资源路径（<code>module.resource</code>）来判别模块是源自<code>node_modules</code>（外部依赖）还是其他源文件路径。若为外部依赖，模块的<code>id</code>会被标记为<code>external</code>，否则标记为<code>source</code>。如此一来，在最终的打包产物或构建信息里，就能通过这个<code>id</code>区分不同来源的模块。</p><ol><li><strong>通过构建工具的输出信息区分（适用于简单区分）</strong></li></ol><ul><li><strong>查看构建日志</strong>：Webpack 在构建过程中会输出大量的日志信息。可在构建日志里查找模块的路径信息以区分源文件和外部依赖。比如，日志中来自<code>src</code>目录的模块通常是源文件，而来自<code>node_modules</code>目录的模块则是外部依赖。</li><li><strong>分析统计信息（<code>stats</code>）</strong>：Webpack 提供了<code>stats</code>选项，可生成详细的构建统计信息。通过将<code>stats</code>配置为<code>&#39;verbose&#39;</code>或其他详细级别，能获取每个模块的路径、大小、依赖关系等信息。在这些信息中，可轻易识别出源文件和外部依赖。例如，配置<code>stats</code>如下：</li></ul><p>```javascript</p><p>module.exports = {</p><p>//...其他配置</p><p>stats: "verbose",</p><p>};</p><p>```</p><p>之后便可通过分析生成的统计文件或在终端输出的详细统计信息来区分不同来源的模块。</p><ol><li><strong>自定义打包结构或命名规则（在输出阶段区分）</strong></li></ol><ul><li><strong>分离输出目录</strong>：在 Webpack 的输出配置（<code>output</code>）中，可以设置不同的输出路径来分离源文件和外部依赖的打包产物。例如：</li></ul><p>```javascript</p><p>module.exports = {</p><p>//...其他配置</p><p>output: {</p><p>path: path.resolve(__dirname, "dist"),</p><p>filename: (chunkData) => {</p><p>if (chunkData.chunk.name.includes("external")) {</p><p>return "external-bundles/[name].js";</p><p>} else {</p><p>return "source-bundles/[name].js";</p><p>}</p><p>},</p><p>},</p><p>};</p><p>```</p><p>这里依据模块所属的<code>chunk</code>名称（可在构建过程中通过某些方式将模块所属的<code>chunk</code>标记为<code>external</code>或<code>source</code>），把外部依赖和源文件分别打包到不同的目录（<code>external-bundles</code>和<code>source-bundles</code>）下，这样在最终的打包产物中就能很直观地进行区分。</p><ul><li><strong>命名规则</strong>：除了分离输出目录，还可通过命名规则来区分。例如，在输出文件名中添加前缀以表示模块来源，如<code>source-[name].js</code>和<code>external-[name].js</code>，如此在查看打包文件时就能快速识别模块来源。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

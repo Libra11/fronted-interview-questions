@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>使用迭代的方式实现 flatten 函数？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;可以使用迭代的方式实现 &lt;code&gt;flatten&lt;/code&gt; 函数，具体思路如下：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;创建一个新数组 &lt;code&gt;result&lt;/code&gt; 来存放结果。&lt;/li&gt;&lt;li&gt;创建一个栈 &lt;code&gt;stack&lt;/code&gt;，将原数组作为第一个元素压入栈" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="使用迭代的方式实现 flatten 函数？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;可以使用迭代的方式实现 &lt;code&gt;flatten&lt;/code&gt; 函数，具体思路如下：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;创建一个新数组 &lt;code&gt;result&lt;/code&gt; 来存放结果。&lt;/li&gt;&lt;li&gt;创建一个栈 &lt;code&gt;stack&lt;/code&gt;，将原数组作为第一个元素压入栈中。&lt;/li&gt;&lt;li&gt;当栈不为空时，取出栈顶元素，如果该元素是一个数组，则将其展开后的每个元素压入栈中。&lt;/li&gt;&lt;li" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/208" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>使用迭代的方式实现 flatten 函数？</h1>
+      <div class="subtitle">JavaScript · JavaScript · 百度</div>
+      <div class="meta">创建：2023-03-27T15:03:15Z · 更新：2023-03-27T15:03:48Z</div>
+    </div>
+    <article class="content markdown-body"><p>可以使用迭代的方式实现 <code>flatten</code> 函数，具体思路如下：</p><ol><li>创建一个新数组 <code>result</code> 来存放结果。</li><li>创建一个栈 <code>stack</code>，将原数组作为第一个元素压入栈中。</li><li>当栈不为空时，取出栈顶元素，如果该元素是一个数组，则将其展开后的每个元素压入栈中。</li><li>如果该元素不是一个数组，则将其加入到 <code>result</code> 中。</li><li>重复步骤 3 和 4，直到栈为空。</li></ol><p>下面是代码实现：</p><pre class="code-block"><code class="language-javascript">function flatten(array) {
+  const result = [];
+  const stack = [array];
+
+  while (stack.length &gt; 0) {
+    const item = stack.pop();
+
+    if (Array.isArray(item)) {
+      for (let i = item.length - 1; i &gt;= 0; i--) {
+        stack.push(item[i]);
+      }
+    } else {
+      result.push(item);
+    }
+  }
+
+  return result.reverse();
+}
+</code></pre><p>这里使用了一个技巧，就是在将数组元素压入栈中时，从数组的末尾开始遍历，这样就可以保证压入栈中的顺序和展开后的顺序是一致的，最后再将结果翻转一下即可。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

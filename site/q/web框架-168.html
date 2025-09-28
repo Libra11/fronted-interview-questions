@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[koa] 在没有async await 的时候, koa是怎么实现的洋葱模型？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;在没有 &lt;code&gt;async/await&lt;/code&gt; 的时候，Koa 通过使用 ES6 的生成器函数来实现洋葱模型。具体来说，Koa 中间件函数是一个带有 &lt;code&gt;next&lt;/code&gt; 参数的生成器函数，当中间件函数调用 &lt;code&gt;next&lt;/code&gt; 方法时" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[koa] 在没有async await 的时候, koa是怎么实现的洋葱模型？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;在没有 &lt;code&gt;async/await&lt;/code&gt; 的时候，Koa 通过使用 ES6 的生成器函数来实现洋葱模型。具体来说，Koa 中间件函数是一个带有 &lt;code&gt;next&lt;/code&gt; 参数的生成器函数，当中间件函数调用 &lt;code&gt;next&lt;/code&gt; 方法时，它会挂起当前的执行，转而执行下一个中间件函数，直到执行完最后一个中间件函数，然后将执行权返回到前一个中间件函数，继续执" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/168" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[koa] 在没有async await 的时候, koa是怎么实现的洋葱模型？</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2023-03-26T07:51:12Z · 更新：2023-03-26T07:51:12Z</div>
+    </div>
+    <article class="content markdown-body"><p>在没有 <code>async/await</code> 的时候，Koa 通过使用 ES6 的生成器函数来实现洋葱模型。具体来说，Koa 中间件函数是一个带有 <code>next</code> 参数的生成器函数，当中间件函数调用 <code>next</code> 方法时，它会挂起当前的执行，转而执行下一个中间件函数，直到执行完最后一个中间件函数，然后将执行权返回到前一个中间件函数，继续执行下面的代码。这个过程就像一层一层剥开洋葱一样，因此被称为洋葱模型。</p><p>下面是一个使用生成器函数实现的简单的 Koa 中间件函数：</p><pre class="code-block"><code class="language-javascript">function* myMiddleware(next) {
+  // 中间件函数的代码
+  console.log(&#39;Start&#39;);
+  yield next;
+  console.log(&#39;End&#39;);
+}
+</code></pre><p>在这个中间件函数中，<code>yield next</code> 表示挂起当前的执行，执行下一个中间件函数。假设我们有两个中间件函数 <code>middleware1</code> 和 <code>middleware2</code>，它们的代码如下：</p><pre class="code-block"><code class="language-javascript">function* middleware1(next) {
+  console.log(&#39;middleware1 Start&#39;);
+  yield next;
+  console.log(&#39;middleware1 End&#39;);
+}
+
+function* middleware2(next) {
+  console.log(&#39;middleware2 Start&#39;);
+  yield next;
+  console.log(&#39;middleware2 End&#39;);
+}
+</code></pre><p>我们可以使用 <code>compose</code> 函数将它们组合成一个洋葱模型：</p><pre class="code-block"><code class="language-scss">scssCopy codeconst compose = require(&#39;koa-compose&#39;);
+
+const app = compose([middleware1, middleware2]);
+
+app();
+</code></pre><p>在这个例子中，<code>compose</code> 函数将 <code>middleware1</code> 和 <code>middleware2</code> 组合成一个函数 <code>app</code>，然后调用这个函数即可执行整个中间件链。执行的结果如下：</p><pre class="code-block"><code class="language-sql">sqlCopy codemiddleware1 Start
+middleware2 Start
+middleware2 End
+middleware1 End
+</code></pre><p>可以看到，这个结果与洋葱模型的特点相符。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

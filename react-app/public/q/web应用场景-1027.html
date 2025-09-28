@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>html 里面哪些是块级元素， 哪些是行内元素【热度: 160】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：html 标签元素&lt;/p&gt;&lt;p&gt;在 HTML 中，元素可分为块级元素和行内元素。&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、块级元素&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;特点：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;独占一行，在页面中垂直布局" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="html 里面哪些是块级元素， 哪些是行内元素【热度: 160】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：html 标签元素&lt;/p&gt;&lt;p&gt;在 HTML 中，元素可分为块级元素和行内元素。&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、块级元素&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;特点：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;独占一行，在页面中垂直布局。&lt;/li&gt;&lt;li&gt;可以设置宽度、高度、外边距（margin）和内边距（padding）等属性。&lt;/li&gt;&lt;li&gt;即使不" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1027" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>html 里面哪些是块级元素， 哪些是行内元素【热度: 160】</h1>
+      <div class="subtitle">web应用场景 · web应用场景</div>
+      <div class="meta">创建：2024-10-26T07:21:23Z · 更新：2024-10-26T07:21:23Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：html 标签元素</p><p>在 HTML 中，元素可分为块级元素和行内元素。</p><p><strong>一、块级元素</strong></p><ol><li>特点：</li></ol><ul><li>独占一行，在页面中垂直布局。</li><li>可以设置宽度、高度、外边距（margin）和内边距（padding）等属性。</li><li>即使不设置宽度，也会自动占据整行的宽度。</li></ul><ol><li>常见的块级元素有：</li></ol><ul><li><code>&lt;div&gt;</code>：通用的块级容器元素，可用于划分页面的不同部分。</li><li><code>&lt;p&gt;</code>：段落元素，用于包含文本段落。</li><li><code>&lt;h1&gt;</code>到<code>&lt;h6&gt;</code>：标题元素，用于表示不同级别的标题。</li><li><code>&lt;ul&gt;</code>和<code>&lt;ol&gt;</code>：无序列表和有序列表元素。</li><li><code>&lt;li&gt;</code>：列表项元素，用于包含在<code>&lt;ul&gt;</code>或<code>&lt;ol&gt;</code>中。</li><li><code>&lt;blockquote&gt;</code>：引用块元素，用于引用大段文本。</li><li><code>&lt;form&gt;</code>：表单元素，用于包含表单控件。</li><li><code>&lt;table&gt;</code>：表格元素，用于创建表格结构。</li></ul><p><strong>二、行内元素</strong></p><ol><li>特点：</li></ol><ul><li>不会独占一行，多个行内元素可以在同一行内水平排列。</li><li>宽度和高度由内容决定，不能直接设置宽度和高度。</li><li>可以设置内边距和外边距，但上下边距的效果可能与块级元素不同。</li></ul><ol><li>常见的行内元素有：</li></ol><ul><li><code>&lt;span&gt;</code>：通用的行内容器元素，可用于包裹文本或其他行内元素。</li><li><code>&lt;a&gt;</code>：链接元素，用于创建超链接。</li><li><code>&lt;img&gt;</code>：图像元素，用于插入图片。</li><li><code>&lt;strong&gt;</code>和<code>&lt;em&gt;</code>：强调元素，分别用于表示强烈强调和强调的文本。</li><li><code>&lt;input&gt;</code>：输入框元素，用于表单中的用户输入。</li><li><code>&lt;button&gt;</code>：按钮元素，用于触发特定的操作。</li><li><code>&lt;label&gt;</code>：标签元素，通常与表单控件关联。</li></ul><p>此外，还有一些元素具有特殊的显示特性，既可以表现为块级元素，也可以表现为行内元素，例如<code>&lt;li&gt;</code>元素在某些情况下可以作为块级元素显示，也可以通过 CSS 设置为行内元素显示。通过 CSS 的<code>display</code>属性，可以改变元素的默认显示方式，将块级元素转换为行内元素，或将行内元素转换为块级元素。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

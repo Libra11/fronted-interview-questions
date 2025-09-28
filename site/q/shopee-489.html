@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Vue] 你做过哪些性能优化【热度: 969】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：vue 项目优化、vue 开发优化&lt;/p&gt;&lt;p&gt;1、&lt;code&gt;v-if&lt;/code&gt;和&lt;code&gt;v-show&lt;/code&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;频繁切换时使用&lt;code&gt;v-show&lt;/code&gt;，利用其缓存特性&lt;/li&gt;&lt;l" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Vue] 你做过哪些性能优化【热度: 969】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：vue 项目优化、vue 开发优化&lt;/p&gt;&lt;p&gt;1、&lt;code&gt;v-if&lt;/code&gt;和&lt;code&gt;v-show&lt;/code&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;频繁切换时使用&lt;code&gt;v-show&lt;/code&gt;，利用其缓存特性&lt;/li&gt;&lt;li&gt;首屏渲染时使用&lt;code&gt;v-if&lt;/code&gt;，如果为&lt;code&gt;false&lt;/code&gt;则不进行渲染&lt;/li&gt;&lt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/489" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Vue] 你做过哪些性能优化【热度: 969】</h1>
+      <div class="subtitle">Shopee · web框架 · Shopee</div>
+      <div class="meta">创建：2023-07-26T15:02:39Z · 更新：2023-07-26T15:03:18Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：vue 项目优化、vue 开发优化</p><p>1、<code>v-if</code>和<code>v-show</code></p><ul><li>频繁切换时使用<code>v-show</code>，利用其缓存特性</li><li>首屏渲染时使用<code>v-if</code>，如果为<code>false</code>则不进行渲染</li></ul><p>2、<code>v-for</code>的<code>key</code></p><ul><li>列表变化时，循环时使用唯一不变的<code>key</code>，借助其本地复用策略</li><li>列表只进行一次渲染时，<code>key</code>可以采用循环的<code>index</code></li></ul><p>3、侦听器和计算属性</p><ul><li>侦听器<code>watch</code>用于数据变化时引起其他行为</li><li>多使用<code>compouter</code>计算属性顾名思义就是新计算而来的属性，如果依赖的数据未发生变化，不会触发重新计算</li></ul><p>4、合理使用生命周期</p><ul><li>在<code>destroyed</code>阶段进行绑定事件或者定时器的销毁</li><li>使用动态组件的时候通过<code>keep-alive</code>包裹进行缓存处理，相关的操作可以在<code>actived</code>阶段激活</li></ul><p>5、数据响应式处理</p><ul><li>不需要响应式处理的数据可以通过<code>Object.freeze</code>处理，或者直接通过<code>this.xxx = xxx</code>的方式进行定义</li><li>需要响应式处理的属性可以通过<code>this.$set</code>的方式处理，而不是<code>JSON.parse(JSON.stringify(XXX))</code>的方式</li></ul><p>6、路由加载方式</p><ul><li>页面组件可以采用异步加载的方式</li></ul><p>7、插件引入</p><ul><li>第三方插件可以采用按需加载的方式，比如<code>element-ui</code>。</li></ul><p>8、减少代码量</p><ul><li>采用<code>mixin</code>的方式抽离公共方法</li><li>抽离公共组件</li><li>定义公共方法至公共<code>js</code>中</li><li>抽离公共<code>css</code></li></ul><p>9、编译方式</p><ul><li>如果线上需要<code>template</code>的编译，可以采用完成版<code>vue.esm.js</code></li><li>如果线上无需<code>template</code>的编译，可采用运行时版本<code>vue.runtime.esm.js</code>，相比完整版体积要小大约<code>30%</code></li></ul><p>10、渲染方式</p><ul><li>服务端渲染，如果是需要<code>SEO</code>的网站可以采用服务端渲染的方式</li><li>前端渲染，一些企业内部使用的后端管理系统可以采用前端渲染的方式</li></ul><p>11、字体图标的使用</p><ul><li>有些图片图标尽可能使用字体图标</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

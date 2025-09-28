@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何避免重绘或者重排？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h2&gt;如何触发重排和重绘&lt;/h2&gt;&lt;p&gt;任何改变用来构建渲染树的信息都会导致一次重排或重绘：&lt;/p&gt;&lt;ul&gt;&lt;li&gt;添加、删除、更新DOM节点&lt;/li&gt;&lt;li&gt;通过display: none隐藏一个DOM节点-触发重排和重绘&lt;/li&gt;&lt;li&gt;通过visibility: hidd" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何避免重绘或者重排？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h2&gt;如何触发重排和重绘&lt;/h2&gt;&lt;p&gt;任何改变用来构建渲染树的信息都会导致一次重排或重绘：&lt;/p&gt;&lt;ul&gt;&lt;li&gt;添加、删除、更新DOM节点&lt;/li&gt;&lt;li&gt;通过display: none隐藏一个DOM节点-触发重排和重绘&lt;/li&gt;&lt;li&gt;通过visibility: hidden隐藏一个DOM节点-只触发重绘，因为没有几何变化&lt;/li&gt;&lt;li&gt;移动或者给页面中的DOM节点添加动画&lt;/li&gt;&lt;l" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/68" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何避免重绘或者重排？</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-11T08:05:32Z · 更新：2023-03-11T08:15:20Z</div>
+    </div>
+    <article class="content markdown-body"><h2>如何触发重排和重绘</h2><p>任何改变用来构建渲染树的信息都会导致一次重排或重绘：</p><ul><li>添加、删除、更新DOM节点</li><li>通过display: none隐藏一个DOM节点-触发重排和重绘</li><li>通过visibility: hidden隐藏一个DOM节点-只触发重绘，因为没有几何变化</li><li>移动或者给页面中的DOM节点添加动画</li><li>添加一个样式表，调整样式属性</li><li>用户行为，例如调整窗口大小，改变字号，或者滚动。</li></ul><h2>如何避免重绘或者重排</h2><h3>集中改变样式</h3><p>我们往往通过改变class的方式来集中改变样式</p><pre class="code-block"><code class="language-js">// 判断是否是黑色系样式
+const theme = isDark ? &#39;dark&#39; : &#39;light&#39;;
+
+// 根据判断来设置不同的class
+ele.setAttribute(&#39;className&#39;, theme);
+</code></pre><h3>使用DocumentFragment</h3><p>我们可以通过createDocumentFragment创建一个游离于DOM树之外的节点，然后在此节点上批量操作，最后插入DOM树中，因此只触发一次重排</p><pre class="code-block"><code class="language-js">var fragment = document.createDocumentFragment();
+
+for (let i = 0;i&lt;10;i++){
+  let node = document.createElement(&quot;p&quot;);
+  node.innerHTML = i;
+  fragment.appendChild(node);
+}
+
+document.body.appendChild(fragment);
+</code></pre><h3>提升为合成层</h3><p>元素提升为合成层有以下优点：</p><ul><li>合成层的位图，会交由 GPU 合成，比 CPU 处理要快</li><li>当需要 repaint 时，只需要 repaint 本身，不会影响到其他的层</li><li>对于 transform 和 opacity 效果，不会触发 layout 和 paint</li></ul><p>提升合成层的最好方式是使用 CSS 的 will-change 属性：</p><pre class="code-block"><code class="language-css">#target {
+  will-change: transform;
+}
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

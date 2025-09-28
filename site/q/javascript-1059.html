@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>绑定事件的元素节点销毁又重新创建， 绑定的事件还会生效吗【热度: 337】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：事件委托应用场景&lt;/p&gt;&lt;blockquote&gt;比如我将事件绑定在 body 上面， 后来这个 body 人为移除掉了， 然后又重新创建了一个 body 标签， 那么之前绑定在 body 上面的事件还会生效吗？&lt;/blockquot" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="绑定事件的元素节点销毁又重新创建， 绑定的事件还会生效吗【热度: 337】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：事件委托应用场景&lt;/p&gt;&lt;blockquote&gt;比如我将事件绑定在 body 上面， 后来这个 body 人为移除掉了， 然后又重新创建了一个 body 标签， 那么之前绑定在 body 上面的事件还会生效吗？&lt;/blockquote&gt;&lt;p&gt;如果将事件绑定在 &lt;code&gt;body&lt;/code&gt; 上，然后移除了这个 &lt;code&gt;body&lt;/code&gt; " />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1059" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>绑定事件的元素节点销毁又重新创建， 绑定的事件还会生效吗【热度: 337】</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2024-11-06T16:19:59Z · 更新：2024-11-06T16:20:00Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：事件委托应用场景</p><blockquote>比如我将事件绑定在 body 上面， 后来这个 body 人为移除掉了， 然后又重新创建了一个 body 标签， 那么之前绑定在 body 上面的事件还会生效吗？</blockquote><p>如果将事件绑定在 <code>body</code> 上，然后移除了这个 <code>body</code> 标签并重新创建一个 <code>body</code> 标签，之前绑定在旧 <code>body</code> 上的事件不会生效在新的 <code>body</code> 上。</p><p>原因如下：</p><p>当你使用传统的事件绑定方式（如 <code>addEventListener</code>）将事件绑定到一个特定的 DOM 元素上时，这个绑定是针对特定的实例。一旦该元素被移除，与之相关的事件处理程序也会与该元素一起被销毁。当重新创建一个新的 <code>body</code> 标签时，它是一个全新的 DOM 元素，没有与之前被移除的 <code>body</code> 上的事件处理程序相关联。</p><p>例如：</p><pre class="code-block"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot; /&gt;
+  &lt;/head&gt;
+
+  &lt;body&gt;
+    &lt;script&gt;
+      document.body.addEventListener(&quot;click&quot;, function () {
+        console.log(&quot;body clicked&quot;);
+      });
+      // 假设这里有一些代码移除了 body 并重新创建一个新的 body
+      const oldBody = document.body;
+      oldBody.parentNode.removeChild(oldBody);
+      const newBody = document.createElement(&quot;body&quot;);
+      document.documentElement.appendChild(newBody);
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>在这个例子中，点击新创建的 <code>body</code> 不会触发之前绑定的点击事件处理程序。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

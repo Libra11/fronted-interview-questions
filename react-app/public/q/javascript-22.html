@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>js 对象可以使用 for...of 迭代吗？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;JavaScript &lt;strong&gt;对象本身并不能直接使用 for...of 迭代&lt;/strong&gt;，因为它并不是一个可迭代对象（iterable）。&lt;/p&gt;&lt;p&gt;但是，如果我们想要遍历对象的属性，可以使用 for...in 循环，例如：&lt;/p&gt;&lt;pre class=&quot;c" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="js 对象可以使用 for...of 迭代吗？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;JavaScript &lt;strong&gt;对象本身并不能直接使用 for...of 迭代&lt;/strong&gt;，因为它并不是一个可迭代对象（iterable）。&lt;/p&gt;&lt;p&gt;但是，如果我们想要遍历对象的属性，可以使用 for...in 循环，例如：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;const obj = { name: &amp;#3" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/22" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>js 对象可以使用 for...of 迭代吗？</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-06T15:20:20Z · 更新：2024-01-14T16:09:31Z</div>
+    </div>
+    <article class="content markdown-body"><p>JavaScript <strong>对象本身并不能直接使用 for...of 迭代</strong>，因为它并不是一个可迭代对象（iterable）。</p><p>但是，如果我们想要遍历对象的属性，可以使用 for...in 循环，例如：</p><pre class="code-block"><code class="language-js">const obj = {
+  name: &#39;John&#39;,
+  age: 30,
+  city: &#39;New York&#39;
+};
+
+for (let prop in obj) {
+  console.log(prop + &#39;: &#39; + obj[prop]);
+}
+
+// 这段代码可以输出：
+name: John
+age: 30
+city: New York
+</code></pre><p>需要注意的是，for...in 循环会遍历对象自身的所有可枚举属性，包括非数字键和继承的属性。如果只想遍历对象自身的属性，可以使用 hasOwnProperty() 方法进行判断，例如：</p><pre class="code-block"><code class="language-js">const obj = {
+  name: &#39;John&#39;,
+  age: 30,
+  city: &#39;New York&#39;
+};
+
+for (let prop in obj) {
+  if (obj.hasOwnProperty(prop)) {
+    console.log(prop + &#39;: &#39; + obj[prop]);
+  }
+}
+</code></pre><p>这段代码和上面的代码功能是一样的，但是多了一个 hasOwnProperty() 判断，可以确保只输出对象自身的属性。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

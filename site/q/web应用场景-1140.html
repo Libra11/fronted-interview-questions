@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nginx 如何通过 include 或 vhost 实现前端多环境隔离？同域名不同路径映射需解决哪些重写问题？【热度: 112】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：nginx 多环境隔离&lt;/p&gt;&lt;p&gt;Nginx 可以通过 &lt;code&gt;include&lt;/code&gt; 指令或虚拟主机（vhost）实现前端多环境（如开发、测试、生产）的隔离部署，同时针对同域名不同路径的映射场景，需要处理路径重写和资源" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Nginx 如何通过 include 或 vhost 实现前端多环境隔离？同域名不同路径映射需解决哪些重写问题？【热度: 112】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：nginx 多环境隔离&lt;/p&gt;&lt;p&gt;Nginx 可以通过 &lt;code&gt;include&lt;/code&gt; 指令或虚拟主机（vhost）实现前端多环境（如开发、测试、生产）的隔离部署，同时针对同域名不同路径的映射场景，需要处理路径重写和资源引用问题。以下是具体实现方案和注意事项：&lt;/p&gt;&lt;h3&gt;一、通过 include 或 vhost 实现多环境隔离&lt;/h3" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1140" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>Nginx 如何通过 include 或 vhost 实现前端多环境隔离？同域名不同路径映射需解决哪些重写问题？【热度: 112】</h1>
+      <div class="subtitle">web应用场景 · web应用场景</div>
+      <div class="meta">创建：2025-09-07T05:56:02Z · 更新：2025-09-07T05:56:02Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：nginx 多环境隔离</p><p>Nginx 可以通过 <code>include</code> 指令或虚拟主机（vhost）实现前端多环境（如开发、测试、生产）的隔离部署，同时针对同域名不同路径的映射场景，需要处理路径重写和资源引用问题。以下是具体实现方案和注意事项：</p><h3>一、通过 include 或 vhost 实现多环境隔离</h3><p>多环境隔离的核心是为不同环境（如 <code>dev</code>、<code>test</code>、<code>prod</code>）配置独立的 Nginx 规则，避免互相干扰。</p><h4>1. 基于 include 指令的多环境配置（推荐）</h4><p>适合单服务器部署多个环境，通过拆分配置文件实现隔离，便于维护。</p><p><strong>目录结构</strong>：</p><pre class="code-block"><code>nginx/
+├── conf.d/
+│   ├── common.conf          # 公共配置（如日志、超时时间）
+│   ├── frontend-dev.conf    # 开发环境配置
+│   ├── frontend-test.conf   # 测试环境配置
+│   └── frontend-prod.conf   # 生产环境配置
+└── nginx.conf               # 主配置文件（通过 include 引入子配置）
+</code></pre><p><strong>主配置（nginx.conf）</strong>：</p><pre class="code-block"><code class="language-nginx">http {
+    # 引入公共配置
+    include conf.d/common.conf;
+
+    # 引入各环境配置（按需启用，生产环境可注释 dev/test）
+    include conf.d/frontend-dev.conf;
+    include conf.d/frontend-test.conf;
+    include conf.d/frontend-prod.conf;
+}
+</code></pre><p><strong>环境配置示例（frontend-dev.conf）</strong>：</p><pre class="code-block"><code class="language-nginx"># 开发环境：监听 8080 端口
+server {
+    listen 8080;
+    server_name localhost;
+
+    # 开发环境前端文件目录
+    root /path/to/frontend/dev;
+    index index.html;
+
+    # 开发环境特有的路由配置（如 History 模式支持）
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    # 开发环境接口代理（指向开发后端）
+    location /api {
+        proxy_pass http://dev-backend:3000;
+    }
+}
+</code></pre><p><strong>优势</strong>：</p><ul><li>配置模块化，各环境规则独立，修改单个环境不影响其他环境。</li><li>可通过注释 <code>include</code> 语句快速切换生效的环境。</li></ul><h4>2. 基于虚拟主机（vhost）的多环境配置</h4><p>适合通过不同域名/端口区分环境（如 <code>dev.example.com</code>、<code>test.example.com</code>）。</p><p><strong>配置示例</strong>：</p><pre class="code-block"><code class="language-nginx">http {
+    # 开发环境（域名区分）
+    server {
+        listen 80;
+        server_name dev.example.com;  # 开发环境域名
+        root /path/to/frontend/dev;
+        # ... 其他配置（路由、代理等）
+    }
+
+    # 测试环境（端口区分）
+    server {
+        listen 8081;  # 测试环境端口
+        server_name localhost;
+        root /path/to/frontend/test;
+        # ... 其他配置
+    }
+
+    # 生产环境（HTTPS）
+    server {
+        listen 443 ssl;
+        server_name example.com;  # 生产环境域名
+        root /path/to/frontend/prod;
+        # ... SSL 配置和其他生产环境特有的规则
+    }
+}
+</code></pre><p><strong>优势</strong>：</p><ul><li>环境边界清晰，通过域名/端口直接访问对应环境，适合团队协作。</li><li>可针对生产环境单独配置 HTTPS、缓存等高级特性。</li></ul><h3>二、同域名不同路径映射的重写问题及解决方案</h3><p>当多个前端应用部署在同一域名的不同路径下（如 <code>example.com/app1</code>、<code>example.com/app2</code>），需要解决路径映射和资源引用的问题。</p><h4>场景示例</h4><ul><li>应用 A 部署在 <code>/app1</code> 路径，文件目录为 <code>/var/www/app1</code></li><li>应用 B 部署在 <code>/app2</code> 路径，文件目录为 <code>/var/www/app2</code></li></ul><h4>1. 基础路径映射配置</h4><pre class="code-block"><code class="language-nginx">server {
+    listen 80;
+    server_name example.com;
+    root /var/www;  # 父目录
+
+    # 应用 A：匹配 /app1 路径
+    location /app1 {
+        # 实际文件目录为 /var/www/app1
+        alias /var/www/app1;  # 注意：这里用 alias 而非 root（关键区别）
+        index index.html;
+
+        # 解决 History 路由刷新 404
+        try_files $uri $uri/ /app1/index.html;
+    }
+
+    # 应用 B：匹配 /app2 路径
+    location /app2 {
+        alias /var/www/app2;
+        index index.html;
+        try_files $uri $uri/ /app2/index.html;
+    }
+}
+</code></pre><p><strong>关键区别</strong>：<code>alias</code> vs <code>root</code></p><ul><li><code>root /var/www</code>：请求 <code>/app1/static/css.css</code> 会映射到 <code>/var/www/app1/static/css.css</code>（拼接完整路径）。</li><li><code>alias /var/www/app1</code>：请求 <code>/app1/static/css.css</code> 会直接映射到 <code>/var/www/app1/static/css.css</code>（替换 <code>/app1</code> 为实际目录），更适合子路径部署。</li></ul><h4>2. 需要解决的重写问题及方案</h4><h5>（1）前端资源引用路径错误</h5><p><strong>问题</strong>：应用内的静态资源（如 <code>js</code>、<code>css</code>、图片）若使用绝对路径（如 <code>/static/js/main.js</code>），会被解析为 <code>example.com/static/js/main.js</code>，而非 <code>example.com/app1/static/js/main.js</code>，导致 404。</p><p><strong>解决方案</strong>：</p><ul><li>前端打包时配置 <strong>公共路径（publicPath）</strong>：</li><li>Vue 项目：在 <code>vue.config.js</code> 中设置 <code>publicPath: &#39;/app1/&#39;</code></li><li>React 项目：在 <code>package.json</code> 中设置 <code>homepage: &#39;/app1&#39;</code></li><li>资源引用使用相对路径（如 <code>./static/js/main.js</code>），避免绝对路径。</li></ul><h5>（2）接口请求路径前缀问题</h5><p><strong>问题</strong>：应用内的接口请求（如 <code>/api/user</code>）会被发送到 <code>example.com/api/user</code>，若需要根据子路径区分接口（如 <code>example.com/app1/api/user</code>），需调整代理规则。</p><p><strong>解决方案</strong>：</p><ul><li>前端统一为接口添加路径前缀（如 <code>axios.defaults.baseURL = &#39;/app1/api&#39;</code>）。</li><li>Nginx 配置对应代理规则：</li></ul><p>```nginx</p><p>location /app1/api {</p><p># 移除 /app1 前缀后转发到后端</p><p>proxy_pass http://backend:3000/api;  # 或 http://backend:3000/（根据后端路径调整）</p><p>}</p><p>```</p><h5>（3）路由跳转路径错误</h5><p><strong>问题</strong>：SPA 路由跳转（如从 <code>/app1/home</code> 跳转到 <code>/app1/about</code>）若使用绝对路径，可能因框架路由配置未添加基础路径导致跳转错误。</p><p><strong>解决方案</strong>：</p><ul><li>前端路由配置基础路径：</li><li>Vue Router：<code>base: &#39;/app1/&#39;</code></li><li>React Router：<code>basename=&quot;/app1&quot;</code></li></ul><h3>三、总结</h3><ol><li><strong>多环境隔离</strong>：</li></ol><ul><li>推荐使用 <code>include</code> 指令拆分配置文件，实现模块化管理。</li><li>或通过虚拟主机（不同域名/端口）实现环境隔离，适合团队协作。</li></ul><ol><li><strong>同域名不同路径映射</strong>：</li></ol><ul><li>使用 <code>alias</code> 指令正确映射子路径到实际文件目录。</li><li>解决资源引用问题：前端配置 <code>publicPath</code>，使用相对路径。</li><li>解决接口和路由问题：统一添加路径前缀，配置对应 Nginx 代理和前端路由基础路径。</li></ul><p>通过以上配置，可以实现前端多环境的清晰隔离和同域名下多应用的无冲突部署。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

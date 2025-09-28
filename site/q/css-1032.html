@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CSS 如何实现固定长宽比的元素【热度: 546】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：固定长宽比&lt;/p&gt;&lt;p&gt;在 CSS 中，可以通过以下几种方式实现固定长宽比的元素：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、使用 padding 实现&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;原理：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;利用元" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="CSS 如何实现固定长宽比的元素【热度: 546】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：固定长宽比&lt;/p&gt;&lt;p&gt;在 CSS 中，可以通过以下几种方式实现固定长宽比的元素：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、使用 padding 实现&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;原理：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;利用元素的&lt;code&gt;padding&lt;/code&gt;属性以百分比形式设置时是相对于父元素宽度的特点，通过设置&lt;code&gt;padd" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1032" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>CSS 如何实现固定长宽比的元素【热度: 546】</h1>
+      <div class="subtitle">CSS · CSS</div>
+      <div class="meta">创建：2024-10-26T07:40:12Z · 更新：2025-02-16T14:22:33Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：固定长宽比</p><p>在 CSS 中，可以通过以下几种方式实现固定长宽比的元素：</p><p><strong>一、使用 padding 实现</strong></p><ol><li>原理：</li></ol><ul><li>利用元素的<code>padding</code>属性以百分比形式设置时是相对于父元素宽度的特点，通过设置<code>padding-top</code>或<code>padding-bottom</code>来实现固定的长宽比。</li></ul><ol><li>示例代码：</li></ol><p>```html</p><p><div class="aspect-ratio-box"></p><p><!-- 这里可以放置内容 --></p><p></div></p><p>```</p><p>```css</p><p>.aspect-ratio-box {</p><p>width: 100%;</p><p>position: relative;</p><p>padding-top: 56.25%; /<em> 16:9 的长宽比，9/16 = 0.5625，即 56.25% </em>/</p><p>}</p><p>.aspect-ratio-box > * {</p><p>position: absolute;</p><p>top: 0;</p><p>left: 0;</p><p>width: 100%;</p><p>height: 100%;</p><p>}</p><p>```</p><ul><li>在这个例子中，设置了一个容器元素，通过<code>padding-top</code>为<code>56.25%</code>实现了 16:9 的长宽比。容器内的子元素通过绝对定位填充整个容器。</li></ul><p><strong>二、使用伪元素和<code>vw</code>单位实现</strong></p><ol><li>原理：</li></ol><ul><li>利用伪元素<code>::before</code>或<code>::after</code>，并设置其<code>content</code>属性为空，通过设置其<code>height</code>或<code>width</code>为相对于视口宽度（<code>vw</code>单位）的百分比来实现固定长宽比。</li></ul><ol><li>示例代码：</li></ol><p>```html</p><p><div class="aspect-ratio-box-vw"></p><p><!-- 这里可以放置内容 --></p><p></div></p><p>```</p><p>```css</p><p>.aspect-ratio-box-vw {</p><p>width: 100%;</p><p>position: relative;</p><p>}</p><p>.aspect-ratio-box-vw::before {</p><p>content: "";</p><p>display: block;</p><p>padding-top: 56.25%; /<em> 16:9 的长宽比 </em>/</p><p>}</p><p>.aspect-ratio-box-vw > * {</p><p>position: absolute;</p><p>top: 0;</p><p>left: 0;</p><p>width: 100%;</p><p>height: 100%;</p><p>}</p><p>```</p><ul><li>这个方法与第一种类似，但是使用了伪元素和<code>padding-top</code>相对于视口宽度的特点来实现长宽比。</li></ul><p><strong>三、使用 CSS Grid 实现</strong></p><ol><li>原理：</li></ol><ul><li>通过 CSS Grid 布局，设置一个网格容器，并定义其中一个维度的大小，然后让另一个维度自动填充以实现固定长宽比。</li></ul><ol><li>示例代码：</li></ol><p>```html</p><p><div class="aspect-ratio-grid"></p><p><!-- 这里可以放置内容 --></p><p></div></p><p>```</p><p>```css</p><p>.aspect-ratio-grid {</p><p>width: 100%;</p><p>height: 0;</p><p>padding-bottom: 56.25%; /<em> 16:9 的长宽比 </em>/</p><p>display: grid;</p><p>}</p><p>.aspect-ratio-grid > * {</p><p>grid-row: 1;</p><p>grid-column: 1;</p><p>}</p><p>```</p><ul><li>在这个例子中，设置容器的<code>padding-bottom</code>为<code>56.25%</code>来实现 16:9 的长宽比，然后使用 CSS Grid 布局将子元素放置在网格的第一个单元格中。</li></ul><h2>Comments / Answers</h2><hr /><p><strong>edisonLzy</strong> at 2025-02-16T14:22:32Z</p><p>padding-top的百分比是根据 其包含块的 width计算的, 而不是自身的宽度. 这题答案有问题</p><p>"""css</p><p>.aspect-ratio-box {</p><p>width: 200px</p><p>}</p><p>.aspect-ratio-box > div {</p><p>position: relative;</p><p>background-color: blue;</p><p>padding-top: 50%; // 2:1</p><p>}</p><p>"""</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

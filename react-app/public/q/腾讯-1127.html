@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>less 是否支持条件判定【热度: 112】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：less 条件判定&lt;/p&gt;&lt;p&gt;是的，Less 完全支持条件判定，其核心通过 &lt;strong&gt;&lt;code&gt;when&lt;/code&gt; 关键字&lt;/strong&gt; 实现，同时可结合比较运算符、逻辑运算符构建复杂的条件逻辑，主要用于动态控制样" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="less 是否支持条件判定【热度: 112】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：less 条件判定&lt;/p&gt;&lt;p&gt;是的，Less 完全支持条件判定，其核心通过 &lt;strong&gt;&lt;code&gt;when&lt;/code&gt; 关键字&lt;/strong&gt; 实现，同时可结合比较运算符、逻辑运算符构建复杂的条件逻辑，主要用于动态控制样式规则的生效与否（如根据变量值切换样式、适配不同场景）。&lt;/p&gt;&lt;h3&gt;一、核心语法：&lt;code&gt;when&lt;/code&gt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1127" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>less 是否支持条件判定【热度: 112】</h1>
+      <div class="subtitle">腾讯 · web应用场景 · 腾讯</div>
+      <div class="meta">创建：2025-08-31T10:16:49Z · 更新：2025-08-31T10:16:49Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：less 条件判定</p><p>是的，Less 完全支持条件判定，其核心通过 <strong><code>when</code> 关键字</strong> 实现，同时可结合比较运算符、逻辑运算符构建复杂的条件逻辑，主要用于动态控制样式规则的生效与否（如根据变量值切换样式、适配不同场景）。</p><h3>一、核心语法：<code>when</code> 条件判断</h3><p>Less 的条件判定并非像 JavaScript 那样的 <code>if-else</code> 语句，而是以 <strong>“条件附加在选择器/混合（Mixin）后”</strong> 的形式存在，只有当条件满足时，对应的样式才会被编译。</p><h4>1. 基础语法结构</h4><pre class="code-block"><code class="language-less">// 格式：选择器 / 混合名 when (条件) { 样式 }
+选择器 when (条件) {
+  // 条件满足时生效的样式
+}
+
+// 示例：当 @width 大于 500px 时，设置容器宽度
+.container when (@width &gt; 500px) {
+  width: @width;
+  padding: 20px;
+}
+</code></pre><h3>二、支持的条件类型</h3><p>Less 允许在 <code>when</code> 中使用 <strong>比较运算符</strong>、<strong>逻辑运算符</strong> 和 <strong>类型检查函数</strong>，覆盖绝大多数场景需求。</p><h4>1. 比较运算符</h4><p>用于数值（如长度、数字、百分比）的比较，支持 6 种运算符：</p><ul><li><code>&gt;</code>：大于</li><li><code>&lt;</code>：小于</li><li><code>&gt;=</code>：大于等于</li><li><code>&lt;=</code>：小于等于</li><li><code>==</code>：等于（值和单位需完全匹配，如 <code>500px == 500</code> 不成立）</li><li><code>!=</code>：不等于</li></ul><p><strong>示例：根据屏幕宽度变量适配样式</strong></p><pre class="code-block"><code class="language-less">@screen-width: 1200px;
+
+// 大屏幕（&gt;1024px）
+.header when (@screen-width &gt; 1024px) {
+  font-size: 18px;
+  padding: 0 40px;
+}
+
+// 中屏幕（768px ~ 1024px）
+.header when (@screen-width &gt;= 768px) and (@screen-width &lt;= 1024px) {
+  font-size: 16px;
+  padding: 0 20px;
+}
+
+// 小屏幕（&lt;768px）
+.header when (@screen-width &lt; 768px) {
+  font-size: 14px;
+  padding: 0 10px;
+}
+</code></pre><p>编译后（因 <code>@screen-width=1200px</code>），仅大屏幕样式生效：</p><pre class="code-block"><code class="language-css">.header {
+  font-size: 18px;
+  padding: 0 40px;
+}
+</code></pre><h4>2. 逻辑运算符</h4><p>用于组合多个条件，支持 3 种逻辑关系：</p><ul><li><code>and</code>：逻辑“与”（所有条件均满足才生效）</li><li><code>,</code>（逗号）：逻辑“或”（任意一个条件满足即生效，注意不是 <code>or</code>）</li><li><code>not</code>：逻辑“非”（否定单个条件，需用括号包裹）</li></ul><p><strong>示例：逻辑组合的应用</strong></p><pre class="code-block"><code class="language-less">@theme: &quot;dark&quot;;
+@font-size: 16; // 无单位（后续需拼接）
+
+// 条件1：主题为 dark OR 字体大小 &gt;= 16
+.text-style when (@theme == &quot;dark&quot;), (@font-size &gt;= 16) {
+  color: #fff;
+  background: #333;
+}
+
+// 条件2：主题不是 light AND 字体大小 &lt; 20
+.text-style when not (@theme == &quot;light&quot;) and (@font-size &lt; 20) {
+  font-weight: 500;
+}
+</code></pre><p>编译后（<code>@theme=dark</code>、<code>@font-size=16</code> 满足所有条件）：</p><pre class="code-block"><code class="language-css">.text-style {
+  color: #fff;
+  background: #333;
+  font-weight: 500;
+}
+</code></pre><h4>3. 类型检查函数</h4><p>用于判断变量的 <strong>类型</strong> 或 <strong>是否为数值</strong>，常见函数如下：</p><p>| 函数 | 作用 | 示例 |</p><p>|--------------------|---------------------------------------|-------------------------------|</p><p>| <code>isnumber(@value)</code> | 判断是否为数字（无论是否有单位） | <code>isnumber(123)</code> → <code>true</code> |</p><p>| <code>isstring(@value)</code> | 判断是否为字符串 | <code>isstring(&quot;red&quot;)</code> → <code>true</code> |</p><p>| <code>iscolor(@value)</code> | 判断是否为颜色值（如 <code>#fff</code>、<code>red</code>） | <code>iscolor(#333)</code> → <code>true</code> |</p><p>| <code>isurl(@value)</code> | 判断是否为 URL（如 <code>url(xxx.png)</code>） | <code>isurl(url(img.jpg))</code> → <code>true</code>|</p><p>| <code>isunit(@value, 单位)</code> | 判断是否为指定单位的数值 | <code>isunit(50px, px)</code> → <code>true</code> |</p><p><strong>示例：类型检查控制样式</strong></p><pre class="code-block"><code class="language-less">@border-width: 2px;
+@border-color: &quot;#000&quot;; // 字符串类型的颜色
+
+// 条件：边框宽度是 px 单位，且边框颜色是字符串（需转换为颜色）
+.border when (isunit(@border-width, px)) and (isstring(@border-color)) {
+  border: @border-width solid @border-color; // Less 会自动将字符串颜色转为颜色值
+}
+</code></pre><p>编译后：</p><pre class="code-block"><code class="language-css">.border {
+  border: 2px solid #000;
+}
+</code></pre><h3>三、进阶用法：结合混合（Mixin）</h3><p>条件判定在 <strong>混合（Mixin）</strong> 中使用最广泛，可实现“动态复用样式”，甚至模拟“if-else 分支”。</p><h4>1. 带条件的混合</h4><p>定义仅在特定条件下生效的混合，调用时自动判断是否执行：</p><pre class="code-block"><code class="language-less">// 定义混合：仅当 @radius 是数字时，设置圆角
+.border-radius(@radius) when (isnumber(@radius)) {
+  border-radius: @radius * 1px; // 统一转为 px 单位
+}
+
+// 调用混合
+.card {
+  .border-radius(8); // 满足条件（8 是数字），编译为 border-radius: 8px
+}
+
+.button {
+  .border-radius(&quot;8&quot;); // 不满足条件（&quot;8&quot; 是字符串），无样式输出
+}
+</code></pre><h4>2. 模拟“if-else”分支</h4><p>通过多个 <code>when</code> 条件的“互斥性”，实现类似 <code>if-else</code> 的逻辑（即“满足 A 则执行 A，否则执行 B”）：</p><pre class="code-block"><code class="language-less">@is-disabled: true;
+
+// 条件1：如果禁用（if）
+.button-style when (@is-disabled = true) {
+  background: #ccc;
+  cursor: not-allowed;
+  color: #999;
+}
+
+// 条件2：如果未禁用（else）
+.button-style when (@is-disabled = false) {
+  background: #007bff;
+  cursor: pointer;
+  color: #fff;
+}
+
+// 调用
+.disabled-btn {
+  .button-style; // 因 @is-disabled=true，编译为禁用样式
+}
+</code></pre><h3>四、注意事项</h3><ol><li><strong>条件仅支持“编译时判定”</strong>：Less 是预编译语言，条件判断基于 <strong>编译时的变量值</strong>，无法动态响应运行时（如浏览器窗口大小变化），运行时适配需结合 CSS <code>@media</code> 查询。</li><li><strong>键名与变量的区别</strong>：条件中使用变量时，需确保变量已定义；若误写为未定义的键名（如 <code>when (screen-width &gt; 1000px)</code>），Less 会视为 <code>undefined</code>，条件判定为 <code>false</code>。</li></ol><ol><li><strong>与 CSS <code>@media</code> 的分工</strong>：</li></ol><ul><li>Less 条件：用于 <strong>编译时的静态变量控制</strong>（如主题切换、固定参数适配）；</li><li>CSS <code>@media</code>：用于 <strong>运行时的动态环境适配</strong>（如屏幕宽度、设备像素比）。</li></ul><p>两者可结合使用（如 Less 变量动态生成 <code>@media</code> 条件）：</p><p>```less</p><p>@breakpoint: 768px;</p><p>@media (max-width: @breakpoint) {</p><p>.container when (@columns = 2) {</p><p>// Less 条件 + CSS media</p><p>display: grid;</p><p>grid-template-columns: repeat(2, 1fr);</p><p>}</p><p>}</p><p>```</p><h3>总结</h3><p>Less 的条件判定通过 <code>when</code> 关键字实现，支持比较、逻辑、类型检查，核心价值是 <strong>在编译时动态控制样式的生成</strong>，尤其适合与混合结合实现可复用的条件样式。日常开发中，需根据“是否需要编译时变量控制”选择 Less 条件（静态）或 CSS <code>@media</code>（动态），两者配合可覆盖绝大多数适配场景。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

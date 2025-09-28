@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>http 中 CSP 是什么【热度: 323】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：http CSP&lt;/p&gt;&lt;p&gt;在 HTTP 协议中，CSP 指的是 &quot;Content Security Policy&quot;（内容安全策略）。CSP 是一种用于增强网站安全性的安全策略机制，通过指定浏览器只能加载指定来源的资源，以减少恶意" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="http 中 CSP 是什么【热度: 323】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：http CSP&lt;/p&gt;&lt;p&gt;在 HTTP 协议中，CSP 指的是 &quot;Content Security Policy&quot;（内容安全策略）。CSP 是一种用于增强网站安全性的安全策略机制，通过指定浏览器只能加载指定来源的资源，以减少恶意攻击的风险。&lt;/p&gt;&lt;p&gt;CSP 的主要目标是防止和减缓特定类型的攻击，例如跨站脚本攻击 (XSS) 和数据注入攻击。通" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/673" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>http 中 CSP 是什么【热度: 323】</h1>
+      <div class="subtitle">网络 · 网络 · 阿里巴巴</div>
+      <div class="meta">创建：2024-01-29T14:46:34Z · 更新：2024-01-29T14:46:35Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：http CSP</p><p>在 HTTP 协议中，CSP 指的是 "Content Security Policy"（内容安全策略）。CSP 是一种用于增强网站安全性的安全策略机制，通过指定浏览器只能加载指定来源的资源，以减少恶意攻击的风险。</p><p>CSP 的主要目标是防止和减缓特定类型的攻击，例如跨站脚本攻击 (XSS) 和数据注入攻击。通过配置 CSP，网站管理员可以告诉浏览器哪些资源是被信任的，从而减少恶意代码的执行。</p><p>CSP 的一些常见配置项包括：</p><ol><li><strong>default-src：</strong> 指定默认情况下可以从哪些来源加载资源。</li><li><strong>script-src：</strong> 指定允许加载脚本的来源。</li><li><strong>style-src：</strong> 指定允许加载样式表的来源。</li><li><strong>img-src：</strong> 指定允许加载图片的来源。</li><li><strong>font-src：</strong> 指定允许加载字体的来源。</li><li><strong>connect-src：</strong> 指定允许进行网络请求的来源（例如 Ajax 请求）。</li><li><strong>frame-src：</strong> 指定允许加载框架的来源。</li><li><strong>media-src：</strong> 指定允许加载媒体资源的来源。</li></ol><p>等等。</p><p>以下是一个简单的 CSP 示例：</p><pre class="code-block"><code class="language-http">Content-Security-Policy: default-src &#39;self&#39;; script-src &#39;self&#39; example.com; img-src &#39;self&#39; data:;
+</code></pre><p>上述 CSP 规则的含义是：</p><ul><li><code>default-src &#39;self&#39;</code>: 允许从同一站点加载默认来源的资源。</li><li><code>script-src &#39;self&#39; example.com</code>: 允许从同一站点和 example.com 加载脚本。</li><li><code>img-src &#39;self&#39; data:</code>: 允许从同一站点和 data: 协议加载图片。</li></ul><p>CSP 可以通过 HTTP 头部来设置，也可以通过 <code>&lt;meta&gt;</code> 标签嵌入在 HTML 页面中。使用 CSP 可以帮助网站减少受到恶意攻击的风险，提高网站的安全性。</p><p><strong>如何通过 meta 标签设置 CSP</strong></p><p>通过 <code>&lt;meta&gt;</code> 标签设置 Content Security Policy (CSP) 的方式如下：</p><pre class="code-block"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;directives&quot;&gt;
+    &lt;title&gt;Your Page Title&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;!-- Your content goes here --&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>在上面的代码中，<code>&lt;meta&gt;</code> 标签的 <code>http-equiv</code> 属性被设置为 "Content-Security-Policy"，而 <code>content</code> 属性中则包含了 CSP 指令（directives）。你需要将 "directives" 替换为你实际想要设置的 CSP 规则。</p><p>以下是一个具体的例子：</p><pre class="code-block"><code class="language-html">&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#39;self&#39;; script-src &#39;self&#39; example.com; img-src &#39;self&#39; data:;&quot;&gt;
+</code></pre><p>在这个例子中，CSP 规则指定了默认来源是同一站点，允许加载同一站点和 example.com 的脚本，允许加载同一站点和 data: 协议的图片。</p><p>注意：通过 <code>&lt;meta&gt;</code> 标签设置的 CSP 规则只对当前页面生效，而通过 HTTP 头部设置的 CSP 规则对整个站点生效。因此，如果你希望 CSP 规则对整个站点生效，最好在服务器端通过 HTTP 头部设置 CSP。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

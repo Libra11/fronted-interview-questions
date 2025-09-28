@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[webpack] loader 和 plugin 有啥区别 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;在Webpack中，Loader和Plugin是两个不同的概念，它们的作用和使用方式也有所不同。&lt;/p&gt;&lt;p&gt;Loader用于对源代码文件进行转换和处理，而Plugin用于对Webpack的编译过程进行扩展和增强。&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Loader&lt;/st" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[webpack] loader 和 plugin 有啥区别" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;在Webpack中，Loader和Plugin是两个不同的概念，它们的作用和使用方式也有所不同。&lt;/p&gt;&lt;p&gt;Loader用于对源代码文件进行转换和处理，而Plugin用于对Webpack的编译过程进行扩展和增强。&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Loader&lt;/strong&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Loader是Webpack中的一个核心概念，它用于处理源代码文件，将它们转换成We" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/246" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[webpack] loader 和 plugin 有啥区别</h1>
+      <div class="subtitle">工程化 · 工程化 · 阿里巴巴</div>
+      <div class="meta">创建：2023-04-03T00:55:06Z · 更新：2023-04-03T00:55:06Z</div>
+    </div>
+    <article class="content markdown-body"><p>在Webpack中，Loader和Plugin是两个不同的概念，它们的作用和使用方式也有所不同。</p><p>Loader用于对源代码文件进行转换和处理，而Plugin用于对Webpack的编译过程进行扩展和增强。</p><ul><li><strong>Loader</strong></li></ul><p>Loader是Webpack中的一个核心概念，它用于处理源代码文件，将它们转换成Webpack可处理的模块。Webpack在处理代码模块的过程中，会根据模块的类型来选择相应的Loader进行处理，例如，处理CSS文件需要使用css-loader，处理图片需要使用file-loader等。使用Loader可以实现代码转换、文件处理、代码压缩等功能。</p><p>Loader的使用方式是在Webpack的配置文件中定义module.rules属性，它是一个数组，每个元素是一个对象，用于描述如何处理特定类型的文件。一个Loader对象通常包括以下几个属性：</p><ul><li>test：用于匹配需要处理的文件类型，通常是一个正则表达式。</li><li>use：指定需要使用的Loader，可以是一个字符串或一个数组，数组中的每个元素都是一个Loader。</li><li>exclude/include：指定需要排除/包含的文件夹。</li></ul><p>例如，处理CSS文件需要使用css-loader和style-loader，可以在Webpack配置文件中添加如下配置：</p><pre class="code-block"><code class="language-javascript">module: {
+  rules: [
+    {
+      test: /\.css$/,
+      use: [&quot;style-loader&quot;, &quot;css-loader&quot;]
+    }
+  ]
+}
+</code></pre><ul><li><strong>Plugin</strong></li></ul><p>Plugin是Webpack中的另一个核心概念，它用于扩展Webpack的功能。Plugin可以用于执行任意类型的任务，例如，生成HTML文件、压缩代码、提取公共代码等。使用Plugin可以实现Webpack无法处理的复杂任务。</p><p>Plugin的使用方式是在Webpack的配置文件中定义plugins属性，它是一个数组，每个元素是一个Plugin实例。Plugin通常包括以下几个方法：</p><ul><li>apply：用于安装插件，接收一个compiler对象作为参数。</li><li>一些Webpack钩子函数的实现。</li></ul><p>例如，生成HTML文件需要使用HtmlWebpackPlugin，可以在Webpack配置文件中添加如下配置：</p><pre class="code-block"><code class="language-javascript">const HtmlWebpackPlugin = require(&#39;html-webpack-plugin&#39;);
+module.exports = {
+  // ...
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: &#39;My App&#39;,
+      template: &#39;./src/index.html&#39;
+    })
+  ]
+};
+</code></pre><p><strong>表格对比他们之间的差异和适用范围</strong></p><p>|区别|Loader|Plugin|</p><p>|---|---|---|</p><p>|输入/输出|输入文件，输出处理后的文件|可以在Webpack构建过程中处理输出结果或做额外处理|</p><p>|使用方式|在模块加载时直接调用|在Webpack配置中进行配置|</p><p>|功能|用于处理某些类型的文件|可以处理打包过程的各个环节|</p><p>|实现方式|导出一个函数|导出一个类|</p><p>|配置方式|在Webpack配置中使用|在Webpack配置中使用|</p><p>|作用|转换文件或模块|对整个构建过程进行自定义操作|</p><p>|适用场景|处理各种类型的文件，如css、图片等|执行比较复杂的操作，如代码压缩、代码分割等|</p><p>|使用方式|需要在Webpack中明确的指定|无法单独使用，必须在Webpack中明确的指定使用|</p><p>|作用对象|针对每一个文件进行处理|针对整个构建过程进行处理|</p><p>总体而言，Loader主要用于针对单个文件进行处理，可以根据不同文件类型来选择对应的Loader；Plugin则是针对整个构建过程进行自定义操作，比如代码压缩、分离CSS文件、创建HTML文件等。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

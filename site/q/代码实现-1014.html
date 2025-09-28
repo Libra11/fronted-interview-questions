@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何把一个数组随机打乱【热度: 550】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：数组随机打乱&lt;/p&gt;&lt;p&gt;在 JavaScript 中，可以使用以下几种方法来随机打乱一个数组：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、使用&lt;code&gt;sort&lt;/code&gt;方法结合随机函数&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;st" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何把一个数组随机打乱【热度: 550】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：数组随机打乱&lt;/p&gt;&lt;p&gt;在 JavaScript 中，可以使用以下几种方法来随机打乱一个数组：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、使用&lt;code&gt;sort&lt;/code&gt;方法结合随机函数&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;基本原理&lt;/strong&gt;：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;JavaScript 的数组&lt;code&gt;sor" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1014" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何把一个数组随机打乱【热度: 550】</h1>
+      <div class="subtitle">代码实现 · 代码实现/算法</div>
+      <div class="meta">创建：2024-10-18T15:14:02Z · 更新：2024-10-18T15:14:02Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：数组随机打乱</p><p>在 JavaScript 中，可以使用以下几种方法来随机打乱一个数组：</p><p><strong>一、使用<code>sort</code>方法结合随机函数</strong></p><ol><li><strong>基本原理</strong>：</li></ol><ul><li>JavaScript 的数组<code>sort</code>方法可以接受一个比较函数作为参数。通过提供一个随机的比较函数，可以实现对数组的随机排序，从而打乱数组的顺序。</li></ul><ol><li><strong>示例代码</strong>：</li></ol><pre class="code-block"><code class="language-javascript">const array = [1, 2, 3, 4, 5];
+
+array.sort(() =&gt; Math.random() - 0.5);
+
+console.log(array);
+</code></pre><p>在这个例子中，<code>sort</code>方法的比较函数每次都会返回一个随机的正负值，使得数组元素的排序顺序完全随机，从而实现数组的随机打乱。</p><p><strong>二、Fisher-Yates 洗牌算法</strong></p><ol><li><strong>基本原理</strong>：</li></ol><ul><li>Fisher-Yates 洗牌算法是一种经典的随机打乱数组的算法。它的基本思想是从数组的最后一个元素开始，随机选择一个位置与当前元素交换，然后逐步向前移动，重复这个过程，直到处理完第一个元素。</li></ul><ol><li><strong>示例代码</strong>：</li></ol><pre class="code-block"><code class="language-javascript">function shuffleArray(array) {
+  for (let i = array.length - 1; i &gt; 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+const array = [1, 2, 3, 4, 5];
+
+const shuffledArray = shuffleArray(array);
+
+console.log(shuffledArray);
+</code></pre><p>在这个例子中，定义了一个<code>shuffleArray</code>函数，该函数使用 Fisher-Yates 洗牌算法随机打乱输入的数组，并返回打乱后的数组。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

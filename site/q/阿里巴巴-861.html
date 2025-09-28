@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>长文本溢出，展开/收起如何实现【热度: 895】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：长文本溢出&lt;/p&gt;&lt;p&gt;长文本溢出展开/收起功能通常需要使用一些 JavaScript 来动态控制文本的显示状态，及 CSS 来处理文本的默认显示样式。以下是一个基本实现示例，展示了如何结合 HTML、CSS 和 JavaScrip" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="长文本溢出，展开/收起如何实现【热度: 895】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：长文本溢出&lt;/p&gt;&lt;p&gt;长文本溢出展开/收起功能通常需要使用一些 JavaScript 来动态控制文本的显示状态，及 CSS 来处理文本的默认显示样式。以下是一个基本实现示例，展示了如何结合 HTML、CSS 和 JavaScript 来实现这个功能。&lt;/p&gt;&lt;h3&gt;HTML 结构&lt;/h3&gt;&lt;p&gt;我们定义一个容器来显示文本，并添加一个用于触发展开/收" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/861" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>长文本溢出，展开/收起如何实现【热度: 895】</h1>
+      <div class="subtitle">阿里巴巴 · web应用场景 · 阿里巴巴</div>
+      <div class="meta">创建：2024-08-29T15:42:09Z · 更新：2024-08-29T15:42:10Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：长文本溢出</p><p>长文本溢出展开/收起功能通常需要使用一些 JavaScript 来动态控制文本的显示状态，及 CSS 来处理文本的默认显示样式。以下是一个基本实现示例，展示了如何结合 HTML、CSS 和 JavaScript 来实现这个功能。</p><h3>HTML 结构</h3><p>我们定义一个容器来显示文本，并添加一个用于触发展开/收起操作的按钮。</p><pre class="code-block"><code class="language-html">&lt;div id=&quot;textContainer&quot; class=&quot;text-overflow&quot;&gt;
+  这是一段可能很长的文本，我们希望在一开始时只显示部分，点击“展开”按钮后显示全部内容，再次点击则“收起”文本。
+&lt;/div&gt;
+&lt;button id=&quot;toggleButton&quot;&gt;展开&lt;/button&gt;
+</code></pre><h3>CSS 样式</h3><p>使用 CSS 设置文本的默认显示状态为隐藏超出部分，并且用省略号表示溢出。</p><pre class="code-block"><code class="language-css">.text-overflow {
+  /* 设置一个高度限制，模拟文本“收起”时的状态 */
+  max-height: 60px; /* 这个值根据需要调整 */
+  overflow: hidden;
+  position: relative;
+  line-height: 20px; /* 根据实际情况调整 */
+  padding-right: 20px;
+}
+</code></pre><h3>JavaScript 代码</h3><p>使用 JavaScript 来控制文本的“展开”和“收起”状态。我们监听按钮的点击事件来切换文本的显示状态。</p><pre class="code-block"><code class="language-javascript">document.getElementById(&quot;toggleButton&quot;).addEventListener(&quot;click&quot;, function () {
+  var textContainer = document.getElementById(&quot;textContainer&quot;);
+  var button = document.getElementById(&quot;toggleButton&quot;);
+
+  // 检查当前是展开还是收起状态
+  if (button.textContent === &quot;展开&quot;) {
+    // 修改文本容器的最大高度以显示全部文本
+    textContainer.style.maxHeight = &quot;none&quot;;
+    button.textContent = &quot;收起&quot;;
+  } else {
+    // 重新设置最大高度以隐藏文本
+    textContainer.style.maxHeight = &quot;60px&quot;; // 与CSS中定义的相同
+    button.textContent = &quot;展开&quot;;
+  }
+});
+</code></pre><p>这只是实现长文本溢出展开/收起的一种基本方法。根据具体需求，这个示例可以进一步扩展或修改，比如添加动画效果使展开/收起操作更平滑，或者根据文本长度动态决定是否显示“展开/收起”按钮等。</p><p>还有其他方法可以实现这一功能，包括使用纯 CSS 的技巧（虽然可能不那么灵活），或者利用现成的 JavaScript 库和框架来简化实现过程。</p><h3>更有多实现细节， 可以参考以下文档</h3><p>https://juejin.cn/post/7407259487193399333</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

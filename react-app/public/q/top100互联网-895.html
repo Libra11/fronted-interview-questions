@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>http 的 请求和 响 应报文分 别是什么样的 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;HTTP（HyperText Transfer Protocol，超文本传输协议）的请求和响应报文都遵循特定的格式。理解这些格式对于开发 Web 应用和 API 非常重要。以下是 HTTP 请求和响应报文的一般结构：&lt;/p&gt;&lt;h3&gt;HTTP 请求报文&lt;/h3&gt;&lt;p&gt;HTTP" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="http 的 请求和 响 应报文分 别是什么样的" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;HTTP（HyperText Transfer Protocol，超文本传输协议）的请求和响应报文都遵循特定的格式。理解这些格式对于开发 Web 应用和 API 非常重要。以下是 HTTP 请求和响应报文的一般结构：&lt;/p&gt;&lt;h3&gt;HTTP 请求报文&lt;/h3&gt;&lt;p&gt;HTTP 请求报文由三个主要部分组成：请求行、请求头部（Headers）、消息主体（Body）。&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;str" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/895" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>http 的 请求和 响 应报文分 别是什么样的</h1>
+      <div class="subtitle">TOP100互联网 · 网络 · TOP100互联网</div>
+      <div class="meta">创建：2024-09-17T03:04:32Z · 更新：2024-09-17T03:04:32Z</div>
+    </div>
+    <article class="content markdown-body"><p>HTTP（HyperText Transfer Protocol，超文本传输协议）的请求和响应报文都遵循特定的格式。理解这些格式对于开发 Web 应用和 API 非常重要。以下是 HTTP 请求和响应报文的一般结构：</p><h3>HTTP 请求报文</h3><p>HTTP 请求报文由三个主要部分组成：请求行、请求头部（Headers）、消息主体（Body）。</p><ol><li><strong>请求行</strong>：</li></ol><ul><li>包括方法（如 GET、POST）、请求的资源（如 URL）、HTTP 版本（如 HTTP/1.1）。</li><li>例：<code>GET /index.html HTTP/1.1</code></li></ul><ol><li><strong>请求头部</strong>：</li></ol><ul><li>包括关于客户端环境和请求主体的详细信息，如<code>Host</code>、<code>User-Agent</code>、<code>Accept</code>、<code>Content-Type</code>等。</li><li>例：</li></ul><p>```</p><p>Host: www.example.com</p><p>User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) ...</p><p>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,<em>/</em>;q=0.8</p><p>```</p><ol><li><strong>消息主体</strong>：</li></ol><ul><li>不是所有的请求都有消息主体，比如 GET 请求通常没有。对于 POST 或 PUT 请求，消息主体包含了发送给服务器的数据。</li><li>例（表单数据）：</li></ul><p>```</p><p>username=john&password=123456</p><p>```</p><h3>HTTP 响应报文</h3><p>HTTP 响应报文也由三个主要部分组成：状态行、响应头部（Headers）、消息主体（Body）。</p><ol><li><strong>状态行</strong>：</li></ol><ul><li>包括 HTTP 版本、状态码（如 200、404）、状态消息（如 OK、Not Found）。</li><li>例：<code>HTTP/1.1 200 OK</code></li></ul><ol><li><strong>响应头部</strong>：</li></ol><ul><li>包含了服务器的信息及进一步的操作指示，如<code>Content-Type</code>、<code>Content-Length</code>、<code>Set-Cookie</code>等。</li><li>例：</li></ul><p>```</p><p>Content-Type: text/html; charset=UTF-8</p><p>Content-Length: 438</p><p>```</p><ol><li><strong>消息主体</strong>：</li></ol><ul><li>包含了返回给客户端的数据，可能是网页的 HTML，或者是 API 调用的 JSON 数据。</li><li>例（HTML 内容）：</li></ul><p>```</p><p><html></p><p><head><title>Example</title></head></p><p><body></p><p><h1>Hello, world!</h1></p><p></body></p><p></html></p><p>```</p><h3>示例</h3><h4>请求示例</h4><pre class="code-block"><code>GET /hello.txt HTTP/1.1
+User-Agent: curl/7.58.0
+Accept: */*
+Host: www.example.com
+</code></pre><h4>响应示例</h4><pre class="code-block"><code>HTTP/1.1 200 OK
+Date: Wed, 21 Oct 2020 07:28:00 GMT
+Server: Apache/2.4.1 (Unix)
+Content-Type: text/plain
+Content-Length: 13
+
+Hello, world!
+</code></pre><p>HTTP 请求和响应报文的结构相对简单，遵循标准的格式，容易解析。了解这些基本的组成部分有助于进行 Web 开发和调试网络通信问题。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

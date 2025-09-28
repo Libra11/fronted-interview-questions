@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>http ETag 值改变了，是否意味着文件内容一定已经更改【热度: 138】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：ETag 值&lt;/p&gt;&lt;p&gt;如果 HTTP 响应头中的 ETag 值改变了，通常意味着资源（文件或其他内容）很可能发生了变化，但并不绝对意味着文件内容一定已经更改。&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、可能导致 ETag 变化但文件内容未" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="http ETag 值改变了，是否意味着文件内容一定已经更改【热度: 138】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：ETag 值&lt;/p&gt;&lt;p&gt;如果 HTTP 响应头中的 ETag 值改变了，通常意味着资源（文件或其他内容）很可能发生了变化，但并不绝对意味着文件内容一定已经更改。&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、可能导致 ETag 变化但文件内容未更改的情况&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;生成方式的变化：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;如果服务器更改了" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/962" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>http ETag 值改变了，是否意味着文件内容一定已经更改【热度: 138】</h1>
+      <div class="subtitle">网络 · 网络 · web应用场景 · 阿里巴巴</div>
+      <div class="meta">创建：2024-10-07T08:00:20Z · 更新：2024-10-07T08:00:21Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：ETag 值</p><p>如果 HTTP 响应头中的 ETag 值改变了，通常意味着资源（文件或其他内容）很可能发生了变化，但并不绝对意味着文件内容一定已经更改。</p><p><strong>一、可能导致 ETag 变化但文件内容未更改的情况</strong></p><ol><li>生成方式的变化：</li></ol><ul><li>如果服务器更改了生成 ETag 的方式，即使文件内容没有变化，ETag 也可能不同。例如，服务器原本使用文件的最后修改时间戳作为 ETag，后来改为使用文件内容的哈希值，那么即使文件内容未变，ETag 也会改变。</li></ul><ol><li>服务器配置或逻辑变化：</li></ol><ul><li>服务器的某些配置更改或业务逻辑变化可能导致 ETag 的生成与之前不同，而与文件内容本身的变化无关。</li><li>比如，服务器在不同的环境中可能有不同的 ETag 生成策略，从开发环境切换到生产环境时，ETag 可能会改变，即使文件内容相同。</li></ul><ol><li>动态资源的非内容相关变化：</li></ol><ul><li>对于动态生成的资源，如由服务器端脚本生成的网页，ETag 可能受到一些与内容无关的因素影响。例如，服务器的负载、请求的时间等因素可能导致动态资源的 ETag 变化，而实际生成的内容可能并没有改变。</li></ul><p><strong>二、ETag 的作用和可靠性</strong></p><ol><li>缓存验证：</li></ol><ul><li>ETag 主要用于缓存验证，客户端在后续请求中通过 <code>If-None-Match</code> 请求头将上次接收到的 ETag 发送给服务器，服务器比较 ETag 来判断资源是否发生了变化。如果 ETag 相同，服务器返回 <code>304 Not Modified</code>，客户端可以使用缓存中的资源，节省带宽和提高响应速度。</li></ul><ol><li>相对可靠性：</li></ol><ul><li>虽然 ETag 的变化不能绝对确定文件内容的更改，但在大多数情况下，它是一个比较可靠的指示。如果 ETag 发生了变化，客户端应该重新获取资源以确保得到最新的内容。</li></ul><p>综上所述，ETag 值的改变不能确凿地证明文件内容一定更改，但它是一个重要的线索，提示客户端可能需要重新获取资源以验证其是否发生了变化。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

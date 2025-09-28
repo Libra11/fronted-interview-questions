@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] 在 react 项目开发过程中， 是否可以不用 react-router， 使用浏览器原生 history 路由来组织页面路由？【热度: 632】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：react router 路由、浏览器原生路由能力&lt;/p&gt;&lt;blockquote&gt;作者备注 &lt;/blockquote&gt;&lt;blockquote&gt;此问题实际上是在问：原生 路由 history api 和 react-router 的差" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] 在 react 项目开发过程中， 是否可以不用 react-router， 使用浏览器原生 history 路由来组织页面路由？【热度: 632】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：react router 路由、浏览器原生路由能力&lt;/p&gt;&lt;blockquote&gt;作者备注 &lt;/blockquote&gt;&lt;blockquote&gt;此问题实际上是在问：原生 路由 history api 和 react-router 的差距是啥， 或者说 react-router 做了啥&lt;/blockquote&gt;&lt;p&gt;在 React 项目中，你完全可以不使" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/710" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] 在 react 项目开发过程中， 是否可以不用 react-router， 使用浏览器原生 history 路由来组织页面路由？【热度: 632】</h1>
+      <div class="subtitle">web框架 · web框架 · web应用场景 · TOP100互联网</div>
+      <div class="meta">创建：2024-04-20T02:33:10Z · 更新：2024-04-20T02:33:10Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：react router 路由、浏览器原生路由能力</p><blockquote>作者备注  </blockquote><blockquote>此问题实际上是在问：原生 路由 history api 和 react-router 的差距是啥， 或者说 react-router 做了啥</blockquote><p>在 React 项目中，你完全可以不使用 <code>react-router</code> 而是使用浏览器原生的 <code>history</code> API 来手动管理路由。这通常会涉及以下几个步骤：</p><ol><li>使用 <code>history.pushState()</code> 和 <code>history.replaceState()</code> 方法来添加和修改浏览器历史条目。</li><li>侦听 <code>popstate</code> 事件来响应浏览器历史的变化。</li><li>根据当前的 URL 状态，手动渲染对应的 React 组件。</li></ol><p>例如，下面是一个简单的例子，演示了如何在没有 <code>react-router</code> 的情况下使用原生 <code>history</code> API 来管理路由。</p><pre class="code-block"><code class="language-javascript">class App extends React.Component {
+  componentDidMount() {
+    // 当用户点击后退/前进按钮时触发路由变化
+    window.onpopstate = this.handlePopState;
+    // 初始页面加载时处理路由
+    this.route();
+  }
+
+  handlePopState = () =&gt; {
+    // 处理路由变化
+    this.route();
+  };
+
+  route() {
+    const path = window.location.pathname;
+    // 根据 path 渲染不同的组件
+    switch (path) {
+      case &quot;/page1&quot;:
+        // 渲染 Page1 组件
+        break;
+      case &quot;/page2&quot;:
+        // 渲染 Page2 组件
+        break;
+      // 其他路由分支...
+      default:
+        // 渲染默认组件或404页面
+        break;
+    }
+  }
+
+  navigate = (path) =&gt; {
+    // 更新历史记录并触发路由变化
+    window.history.pushState(null, &quot;&quot;, path);
+    this.route();
+  };
+
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;button onClick={() =&gt; this.navigate(&quot;/page1&quot;)}&gt;Go to Page 1&lt;/button&gt;
+        &lt;button onClick={() =&gt; this.navigate(&quot;/page2&quot;)}&gt;Go to Page 2&lt;/button&gt;
+        {/* 这里根据路由渲染对应的组件 */}
+      &lt;/div&gt;
+    );
+  }
+}
+
+// 实际的页面组件
+const Page1 = () =&gt; &lt;div&gt;Page 1&lt;/div&gt;;
+const Page2 = () =&gt; &lt;div&gt;Page 2&lt;/div&gt;;
+</code></pre><p>尽管手动管理路由是可能的，但使用 <code>react-router</code> 这类专门设计的库通常会大大简化路由管理的工作。它为路径匹配、路由嵌套、重定向等提供了便利的抽象，并且和 React 的声明式方式很好地集成在一起。如果不是为了特别的原因，通常推荐使用现成的路由库来管理 React 应用的路由，以避免重新发明轮子。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

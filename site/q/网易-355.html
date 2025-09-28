@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何防止 CSS 阻塞渲染【热度: 213】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：css 阻塞渲染、css 阻塞&lt;/p&gt;&lt;p&gt;当浏览器遇到一个 &lt;code&gt;&amp;lt;link&amp;gt;&lt;/code&gt; 标签时，它会停止解析 HTML 并发出一个单独的网络请求去加载外部样式表。&lt;/p&gt;&lt;p&gt;这意味着，如果样式表很大或者网" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何防止 CSS 阻塞渲染【热度: 213】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：css 阻塞渲染、css 阻塞&lt;/p&gt;&lt;p&gt;当浏览器遇到一个 &lt;code&gt;&amp;lt;link&amp;gt;&lt;/code&gt; 标签时，它会停止解析 HTML 并发出一个单独的网络请求去加载外部样式表。&lt;/p&gt;&lt;p&gt;这意味着，如果样式表很大或者网络速度很慢，它将阻止页面的渲染。阻止 CSS 渲染可能会导致页面看起来很糟糕，用户无法立即看到页面内容。&lt;/p&gt;&lt;p&gt;有" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/355" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何防止 CSS 阻塞渲染【热度: 213】</h1>
+      <div class="subtitle">网易 · CSS · 网易</div>
+      <div class="meta">创建：2023-05-15T16:23:35Z · 更新：2023-05-15T16:23:36Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：css 阻塞渲染、css 阻塞</p><p>当浏览器遇到一个 <code>&lt;link&gt;</code> 标签时，它会停止解析 HTML 并发出一个单独的网络请求去加载外部样式表。</p><p>这意味着，如果样式表很大或者网络速度很慢，它将阻止页面的渲染。阻止 CSS 渲染可能会导致页面看起来很糟糕，用户无法立即看到页面内容。</p><p>有一些方法可以防止或减轻 CSS 阻塞渲染：</p><ol><li>内联样式：使用内联样式而不是外部样式表，将样式放在页面的顶部，这样 HTML 就能很快地被渲染出来。</li></ol><ol><li>通过媒体查询加载符合指定媒体类型或条件的样式表。这样不会影响未满足条件的设备或屏幕渲染结果。</li></ol><ol><li>使用 <code>rel=&quot;preload&quot;</code> 或者 <code>rel=&quot;prefetch&quot;</code> 预加载样式表，这有助于在页面渲染过程中尽早加载样式表，提高页面加载速度。</li></ol><ol><li>通过使用 JavaScript 动态加载样式表，可以实现延迟加载和异步加载。这可以帮助查看者能够看到尽快的内容，然后在不影响查看体验的前提下加载样式表。</li></ol><ol><li>考虑压缩和优化您的 CSS 文件，以使代码更加紧凑、加载更快。</li></ol><ol><li>对已经被加载的字体和图片，使用 CSS Sprites 技术合并到一个文件或者减少 HTTP 请求数量。</li></ol></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

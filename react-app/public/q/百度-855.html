@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何判断页签是否为活跃状态【热度: 153】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：页签活跃状态&lt;/p&gt;&lt;p&gt;判断页面页签（Tab）是否为活跃状态，可以通过监听 &lt;code&gt;visibilitychange&lt;/code&gt; 事件来实现。这个事件是由 &lt;code&gt;document&lt;/code&gt; 对象触发的，可以用来判断" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何判断页签是否为活跃状态【热度: 153】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：页签活跃状态&lt;/p&gt;&lt;p&gt;判断页面页签（Tab）是否为活跃状态，可以通过监听 &lt;code&gt;visibilitychange&lt;/code&gt; 事件来实现。这个事件是由 &lt;code&gt;document&lt;/code&gt; 对象触发的，可以用来判断页面是否对用户可见。当用户切换到其他标签页、最小化浏览器窗口、或是锁屏时，页面就会变为不可见状态。如果页面对用户可见，那" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/855" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何判断页签是否为活跃状态【热度: 153】</h1>
+      <div class="subtitle">百度 · web应用场景 · 百度</div>
+      <div class="meta">创建：2024-08-25T07:07:59Z · 更新：2024-08-25T07:07:59Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：页签活跃状态</p><p>判断页面页签（Tab）是否为活跃状态，可以通过监听 <code>visibilitychange</code> 事件来实现。这个事件是由 <code>document</code> 对象触发的，可以用来判断页面是否对用户可见。当用户切换到其他标签页、最小化浏览器窗口、或是锁屏时，页面就会变为不可见状态。如果页面对用户可见，那么页面就处于活跃状态。</p><p>使用 <code>document.visibilityState</code> 属性可以检查页面的当前可视状态，这个属性有以下可能的值：</p><ul><li><strong>"visible"</strong>：页面至少部分可见。在桌面端，这通常意味着页面是当前激活的标签页。</li><li><strong>"hidden"</strong>：页面对用户不可见。</li><li><strong>"prerender"</strong> 和 <strong>"unloaded"</strong>：这两个值用于特殊情况，通常较少用到。</li></ul><h3>示例代码</h3><p>下面的代码演示了如何使用 <code>visibilitychange</code> 事件和 <code>document.visibilityState</code> 来判断页面是否为活跃状态：</p><pre class="code-block"><code class="language-javascript">document.addEventListener(&quot;visibilitychange&quot;, function () {
+  if (document.visibilityState === &quot;visible&quot;) {
+    console.log(&quot;页面现在是活跃状态。&quot;);
+  } else {
+    console.log(&quot;页面现在不是活跃状态。&quot;);
+  }
+});
+</code></pre><p>每当用户切换到该页签或从该页签切换走时，会触发 <code>visibilitychange</code> 事件。通过检查 <code>document.visibilityState</code> 的值，你可以判断页面是变为活跃状态还是变为非活跃状态。</p><p>这个功能可以用于多种场合，比如：</p><ul><li>停止或开始运行页面上的动画。</li><li>控制媒体播放（比如自动暂停视频播放）。</li><li>调整页面或应用的资源消耗（对于非活跃页签减少资源使用）。</li><li>发送用户行为统计数据，以记录用户实际查看页面的时间。</li></ul><p>这种方法的优点是兼容性好，现代浏览器都支持 <code>visibilitychange</code> 事件，可以用于构建响应用户行为的 web 应用。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

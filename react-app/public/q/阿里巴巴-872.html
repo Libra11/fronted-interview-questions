@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JS 项目逐步迁移到 TS 项目，该如何做【热度: 870】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：TS 项目迁移&lt;/p&gt;&lt;p&gt;在 JavaScript 项目迁移到 TypeScript 的过程中确实会出现大量 JS 和 TS 文件共存的情况。要配置项目以使它们兼容并顺利运行，你需要进行以下设置：&lt;/p&gt;&lt;h3&gt;1. 初始化 Ty" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="JS 项目逐步迁移到 TS 项目，该如何做【热度: 870】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：TS 项目迁移&lt;/p&gt;&lt;p&gt;在 JavaScript 项目迁移到 TypeScript 的过程中确实会出现大量 JS 和 TS 文件共存的情况。要配置项目以使它们兼容并顺利运行，你需要进行以下设置：&lt;/p&gt;&lt;h3&gt;1. 初始化 TypeScript 配置&lt;/h3&gt;&lt;p&gt;首先，创建&lt;code&gt;tsconfig.json&lt;/code&gt;文件来配置 Type" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/872" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>JS 项目逐步迁移到 TS 项目，该如何做【热度: 870】</h1>
+      <div class="subtitle">阿里巴巴 · TypeScript · 阿里巴巴</div>
+      <div class="meta">创建：2024-08-31T05:01:24Z · 更新：2024-09-03T03:46:03Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：TS 项目迁移</p><p>在 JavaScript 项目迁移到 TypeScript 的过程中确实会出现大量 JS 和 TS 文件共存的情况。要配置项目以使它们兼容并顺利运行，你需要进行以下设置：</p><h3>1. 初始化 TypeScript 配置</h3><p>首先，创建<code>tsconfig.json</code>文件来配置 TypeScript 编译选项。可以通过运行<code>npx tsc --init</code>来自动生成一个基础的配置文件。为了使 JavaScript 和 TypeScript 文件共存，你需要确保<code>tsconfig.json</code>中包含以下配置：</p><pre class="code-block"><code class="language-json">{
+  &quot;compilerOptions&quot;: {
+    &quot;allowJs&quot;: true, // 允许编译JavaScript文件
+    &quot;checkJs&quot;: false, // 禁用对JS文件的检查，使迁移更加平滑
+    &quot;outDir&quot;: &quot;./dist&quot;, // 指定输出目录
+    &quot;target&quot;: &quot;es5&quot;, // 目标编译版本
+    &quot;module&quot;: &quot;commonjs&quot;, // 模块化标准，根据项目情况调整
+    &quot;strict&quot;: false, // 可以开始时设置为false，逐步提高严格性
+    &quot;esModuleInterop&quot;: true
+  },
+  &quot;include&quot;: [
+    &quot;src/**/*&quot; // 指定项目源代码目录
+  ]
+}
+</code></pre><h3>2. 配置构建工具</h3><p>如果你的项目是基于 React 的，并且你希望在迁移过程中同时使用 TypeScript 和 Babel 来处理 JSX 和最新的 JavaScript 特性，以下是对上面 Webpack 示例的补充，以支持这些需求：</p><h4>2.1. 安装必要的包</h4><p>首先，你需要安装与 React、TypeScript、Babel 相关的 npm 包：</p><pre class="code-block"><code class="language-bash">npm install --save react react-dom
+npm install --save-dev typescript @types/react @types/react-dom
+npm install --save-dev webpack webpack-cli webpack-dev-server
+npm install --save-dev ts-loader @babel/core @babel/preset-env @babel/preset-react babel-loader
+</code></pre><h4>2.2. 配置 Babel</h4><p>创建或更新项目根目录下的<code>.babelrc</code>或<code>babel.config.json</code>文件，以包含 React 的预设和对最新 ECMAScript 特性的支持：</p><pre class="code-block"><code class="language-json">{
+  &quot;presets&quot;: [&quot;@babel/preset-env&quot;, &quot;@babel/preset-react&quot;]
+}
+</code></pre><p>如果你使用 TypeScript，你还可以在 Babel 配置中添加<code>@babel/preset-typescript</code>，这样 Babel 也可以直接处理<code>.ts</code>和<code>.tsx</code>文件：</p><pre class="code-block"><code class="language-json">{
+  &quot;presets&quot;: [&quot;@babel/preset-env&quot;, &quot;@babel/preset-react&quot;, &quot;@babel/preset-typescript&quot;]
+}
+</code></pre><h4>2.3. 配置 Webpack</h4><p>更新<code>webpack.config.js</code>配置以使用<code>babel-loader</code>，并确保它能够正确处理<code>.js</code>和<code>.jsx</code>以及<code>.ts</code>和<code>.tsx</code>文件：</p><pre class="code-block"><code class="language-javascript">const path = require(&quot;path&quot;);
+
+module.exports = {
+  entry: &quot;./src/index.tsx&quot;, // 假设你的入口文件是一个TypeScript文件
+  output: {
+    path: path.resolve(__dirname, &quot;dist&quot;),
+    filename: &quot;bundle.js&quot;,
+  },
+  resolve: {
+    // 添加.ts 和 .tsx 作为解析扩展名，确保导入时可以省略扩展名
+    extensions: [&quot;.tsx&quot;, &quot;.ts&quot;, &quot;.jsx&quot;, &quot;.js&quot;],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(ts|js)x?$/, // 同时匹配 TS(TSX) 和 JS(JSX) 文件
+        exclude: /node_modules/,
+        use: {
+          loader: &quot;babel-loader&quot;, // 使用Babel加载器处理
+          options: {
+            // 在此传递Babel预设也是可行的，但最好在Babel配置文件中统一配置
+            presets: [&quot;@babel/preset-env&quot;, &quot;@babel/preset-react&quot;, &quot;@babel/preset-typescript&quot;],
+          },
+        },
+      },
+    ],
+  },
+  // 如果你需要的话，加入source map支持
+  devtool: &quot;source-map&quot;,
+  // 配置 webpack-dev-server
+  devServer: {
+    contentBase: &quot;./dist&quot;,
+    hot: true,
+  },
+};
+</code></pre><p>通过上述配置，Webpack 将能够正确地处理你的 React 项目中的<code>.js</code>、<code>.jsx</code>、<code>.ts</code>和<code>.tsx</code>文件。Babel 会负责转译 JSX 和 TypeScript，而 Webpack 会负责打包它们。</p><h3>3. 逐步迁移</h3><p>开始逐步将<code>.js</code>文件重命名为<code>.ts</code>文件，并解决任何类型错误。这可以逐个文件进行，以避免项目变得不可管理。一般建议先从项目的底层（即不依赖其他文件或依赖较少的文件）开始迁移，逐步向上。</p><h3>4. Linting</h3><p>为了保证代码质量，在项目中配置 ESLint 是个好主意。如果还没有配置 ESLint，你可以如下安装:</p><pre class="code-block"><code class="language-bash">npm install eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin --save-dev
+</code></pre><p>然后，在<code>.eslintrc</code>文件中配置 ESLint 来支持 TS：</p><pre class="code-block"><code class="language-json">{
+  &quot;parser&quot;: &quot;@typescript-eslint/parser&quot;,
+  &quot;extends&quot;: [&quot;eslint:recommended&quot;, &quot;plugin:@typescript-eslint/recommended&quot;],
+  &quot;parserOptions&quot;: {
+    &quot;ecmaVersion&quot;: 2020,
+    &quot;sourceType&quot;: &quot;module&quot;
+  },
+  &quot;rules&quot;: {
+    // 自定义规则
+  }
+}
+</code></pre><h3>5. 运行和测试</h3><p>确保你的运行和测试脚本兼容 TS 文件。可能需要配置或更新一些依赖，比如使用<code>ts-node</code>而不是<code>node</code>来运行 TS 文件，或者更新 Jest 配置以支持 TS。</p><p>通过上述步骤，你的项目应该能够在迁移到 TypeScript 的同时继续正常运行和构建。记住，这是一个逐步的过程，不需要急于一时完成所有迁移。</p><h2>Comments / Answers</h2><hr /><p><strong>HQHC</strong> at 2024-09-03T03:46:02Z</p><p>ai的回答吧..</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

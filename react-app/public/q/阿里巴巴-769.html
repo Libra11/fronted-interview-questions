@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Webpack] ts 编写的库， 在使用 webpack 构建的时候， 如何对外提供 d.ts【热度: 224】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：对外提供 d.ts&lt;/p&gt;&lt;p&gt;在 TypeScript (TS) 中使用 Webpack 构建并为库提供 &lt;code&gt;.d.ts&lt;/code&gt; 类型声明文件，需要遵循以下步骤：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;配置 Type" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Webpack] ts 编写的库， 在使用 webpack 构建的时候， 如何对外提供 d.ts【热度: 224】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：对外提供 d.ts&lt;/p&gt;&lt;p&gt;在 TypeScript (TS) 中使用 Webpack 构建并为库提供 &lt;code&gt;.d.ts&lt;/code&gt; 类型声明文件，需要遵循以下步骤：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;配置 TypeScript 编译选项&lt;/strong&gt;：&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;在库项目的根目录下创建或编辑 &lt;code&gt;tscon" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/769" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Webpack] ts 编写的库， 在使用 webpack 构建的时候， 如何对外提供 d.ts【热度: 224】</h1>
+      <div class="subtitle">阿里巴巴 · 工程化 · 阿里巴巴</div>
+      <div class="meta">创建：2024-05-26T03:09:59Z · 更新：2024-05-26T03:09:59Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：对外提供 d.ts</p><p>在 TypeScript (TS) 中使用 Webpack 构建并为库提供 <code>.d.ts</code> 类型声明文件，需要遵循以下步骤：</p><ol><li><strong>配置 TypeScript 编译选项</strong>：</li></ol><p>在库项目的根目录下创建或编辑 <code>tsconfig.json</code> 文件，确保编译器配置选项如下：</p><p>```json</p><p>{</p><p>"compilerOptions": {</p><p>"declaration": true, // 生成对应的 '.d.ts' 文件</p><p>"declarationDir": "types", // 指定生成的声明文件存放目录</p><p>"outDir": "lib" // 指定编译后文件的输出目录</p><p>// 其他需要的编译选项</p><p>},</p><p>"include": ["src/*<em>/</em>"], // 包含源码的目录</p><p>"exclude": ["node_modules"] // 排除的目录</p><p>}</p><p>```</p><ul><li><code>declaration</code>: 这个选项会告诉 TypeScript 编译器为每个 <code>.ts</code> 文件生成相应的 <code>.d.ts</code> 声明文件。</li><li><code>declarationDir</code>: 这是指定声明文件的输出目录。</li></ul><ol><li><strong>配置 Webpack</strong>：</li></ol><p>在我们的 Webpack 配置中（通常是 <code>webpack.config.js</code>），我们需要设置 <code>output</code> 以指向我们的输出目录，同时可能需要使用一些加载器(loader)如 <code>ts-loader</code> 或 <code>babel-loader</code> 来处理 TypeScript 文件。</p><p>一个简单的 webpack 配置示例可能如下：</p><p>```javascript</p><p>const path = require("path");</p><p>module.exports = {</p><p>entry: "./src/index.ts", // 入口文件</p><p>module: {</p><p>rules: [</p><p>{</p><p>test: /\.tsx?$/,</p><p>use: "ts-loader",</p><p>exclude: /node_modules/,</p><p>},</p><p>],</p><p>},</p><p>resolve: {</p><p>extensions: [".tsx", ".ts", ".js"],</p><p>},</p><p>output: {</p><p>filename: "your-library.js", // 输出文件名</p><p>path: path.resolve(__dirname, "lib"), // 输出文件夹</p><p>libraryTarget: "umd", // 使库支持各种模块系统</p><p>globalObject: "this",</p><p>},</p><p>};</p><p>```</p><ol><li><strong>发布包</strong>：</li></ol><p>当你发布你的库时，你需要确保 <code>package.json</code> 文件中包含 <code>types</code> 或 <code>typings</code> 字段指向入口 <code>.d.ts</code> 文件。</p><p>例如：</p><p>```json</p><p>{</p><p>"name": "your-library",</p><p>"version": "1.0.0",</p><p>"main": "lib/your-library.js",</p><p>"typings": "types/index.d.ts"</p><p>// 其他配置项...</p><p>}</p><p>```</p><p>这告诉使用你库的 TypeScript 用户，在哪里可以找到类型声明文件。</p><ol><li><strong>保证类型声明文件的发布</strong>：</li></ol><p>如果你的 npm 发布流程排除了 <code>types</code> 目录，你需要更新 <code>.npmignore</code> 文件来确保 <code>.d.ts</code> 文件会被包含在发布的 npm 包中。</p><p>完成这些配置后，当你用 webpack 构建并发布你的库时，用户将能够获得与 JavaScript 文件关联的 TypeScript 类型声明，以便在他们的 TypeScript 项目中获得类型检查和智能提示。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

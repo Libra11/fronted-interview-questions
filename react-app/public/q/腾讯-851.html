@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何统计页面的 long task(长任务)【热度: 140】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：统计 long task&lt;/p&gt;&lt;p&gt;统计网页中的 &lt;code&gt;LongTask&lt;/code&gt; 是性能监控的一部分，特别是在测量和优化页面的响应能力方面非常有用。&lt;code&gt;LongTask&lt;/code&gt; API 提供了一种监测浏览" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何统计页面的 long task(长任务)【热度: 140】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：统计 long task&lt;/p&gt;&lt;p&gt;统计网页中的 &lt;code&gt;LongTask&lt;/code&gt; 是性能监控的一部分，特别是在测量和优化页面的响应能力方面非常有用。&lt;code&gt;LongTask&lt;/code&gt; API 提供了一种监测浏览器主线程被长时间任务阻塞的能力，这些任务通常会影响用户体验，如使滚动卡顿或延迟输入响应。下面是一些基本步骤，帮助你开始监" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/851" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何统计页面的 long task(长任务)【热度: 140】</h1>
+      <div class="subtitle">腾讯 · web应用场景 · 腾讯</div>
+      <div class="meta">创建：2024-08-25T06:40:46Z · 更新：2024-08-25T06:40:46Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：统计 long task</p><p>统计网页中的 <code>LongTask</code> 是性能监控的一部分，特别是在测量和优化页面的响应能力方面非常有用。<code>LongTask</code> API 提供了一种监测浏览器主线程被长时间任务阻塞的能力，这些任务通常会影响用户体验，如使滚动卡顿或延迟输入响应。下面是一些基本步骤，帮助你开始监控 <code>LongTask</code>：</p><ol><li><strong>使用 Performance Observer API</strong>: 这个 API 允许你注册一个观察者来获取性能相关的数据，包括 <code>LongTask</code>。</li></ol><ol><li><strong>注册 LongTask 观察者</strong>:</li></ol><ul><li>创建一个 <code>PerformanceObserver</code> 实例，并为其提供一个回调函数。这个回调函数会在观察到 <code>LongTask</code> 时被调用。</li><li>在回调函数中，你可以获取到每个 <code>LongTask</code> 的详细信息，如开始时间、持续时间等。</li><li>调用 <code>observe()</code> 方法开始观察性能条目，指定 <code>{entryTypes: [&#39;longtask&#39;]}</code> 来仅观察 <code>LongTask</code>。</li></ul><ol><li><strong>处理 LongTask 数据</strong>:</li></ol><ul><li>在上述回调中，你可以收集 <code>LongTask</code> 的数据并进行处理，例如计算平均持续时间，或将数据发送到服务器进行进一步分析。</li></ul><p>下面是一个简单的示例代码，演示如何注册 <code>LongTask</code> 观察者并打印任务的一些基本信息：</p><pre class="code-block"><code class="language-javascript">const observer = new PerformanceObserver((list) =&gt; {
+  list.getEntries().forEach((entry) =&gt; {
+    console.log(`LongTask Detected:`, entry);
+    console.log(`Start Time: ${entry.startTime}, Duration: ${entry.duration}`);
+    // TODO: 这里可以根据需要进一步处理这些数据，比如发送给服务器
+  });
+});
+
+// 开始观察长任务
+observer.observe({ entryTypes: [&quot;longtask&quot;] });
+</code></pre><ol><li><strong>优化相关代码</strong>:</li></ol><ul><li>一旦你开始收集到 <code>LongTask</code> 数据，可以识别出影响性能的代码区域，并进行相应的优化。</li></ul><ol><li><strong>监控页面性能</strong>:</li></ol><ul><li>持续监控并优化，根据收集到的数据调整策略。</li></ul><p>记住，只有支持 Performance Timeline Level 2 规范的浏览器才能使用 <code>LongTask</code> API。在实际部署之前，确保你有对应的浏览器兼容性检查和错误处理代码。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

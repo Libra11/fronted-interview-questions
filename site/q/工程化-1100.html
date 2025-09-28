@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>前端 单元测试， react 项目为例， 该如何做单测选型【热度: 405】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：前端测试&lt;/p&gt;&lt;p&gt;在 React 项目中进行单元测试选型时，你需要综合考量测试框架、断言库、模拟工具等多个方面，以下是详细的选型建议：&lt;/p&gt;&lt;h3&gt;测试框架&lt;/h3&gt;&lt;h4&gt;Jest&lt;/h4&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;优" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="前端 单元测试， react 项目为例， 该如何做单测选型【热度: 405】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：前端测试&lt;/p&gt;&lt;p&gt;在 React 项目中进行单元测试选型时，你需要综合考量测试框架、断言库、模拟工具等多个方面，以下是详细的选型建议：&lt;/p&gt;&lt;h3&gt;测试框架&lt;/h3&gt;&lt;h4&gt;Jest&lt;/h4&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;优点&lt;/strong&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;功能集成度高&lt;/strong&gt;：集测试运行器、断言库、模拟功能于一" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1100" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>前端 单元测试， react 项目为例， 该如何做单测选型【热度: 405】</h1>
+      <div class="subtitle">工程化 · 工程化</div>
+      <div class="meta">创建：2025-03-25T15:22:08Z · 更新：2025-03-25T15:22:08Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：前端测试</p><p>在 React 项目中进行单元测试选型时，你需要综合考量测试框架、断言库、模拟工具等多个方面，以下是详细的选型建议：</p><h3>测试框架</h3><h4>Jest</h4><ul><li><strong>优点</strong></li><li><strong>功能集成度高</strong>：集测试运行器、断言库、模拟功能于一体，无需额外安装大量依赖，配置简单，能快速上手。</li><li><strong>性能出色</strong>：支持并行测试，可显著缩短测试时间。同时，它具备快照测试功能，能方便地对组件的渲染结果进行比对。</li><li><strong>社区生态丰富</strong>：有大量的插件和工具可供使用，社区文档完善，遇到问题容易找到解决方案。</li><li><strong>适用场景</strong>：适合大多数 React 项目，尤其是初学者和追求高效测试流程的团队。</li><li><strong>示例代码</strong>：</li></ul><pre class="code-block"><code class="language-javascript">import React from &quot;react&quot;;
+import { render } from &quot;@testing-library/react&quot;;
+import MyComponent from &quot;./MyComponent&quot;;
+
+test(&quot;renders MyComponent correctly&quot;, () =&gt; {
+  const { getByText } = render(&lt;MyComponent /&gt;);
+  const element = getByText(/Hello, World!/i);
+  expect(element).toBeInTheDocument();
+});
+</code></pre><h4>Mocha</h4><ul><li><strong>优点</strong></li><li><strong>灵活性强</strong>：可以与各种断言库（如 Chai）和模拟库（如 Sinon）自由搭配，满足不同项目的个性化需求。</li><li><strong>跨环境支持</strong>：既能在浏览器环境中运行，也能在 Node.js 环境中运行，方便进行不同环境下的测试。</li><li><strong>适用场景</strong>：适用于对测试流程有特殊要求，或者需要与其他工具深度集成的 React 项目。</li><li><strong>示例代码</strong>：</li></ul><pre class="code-block"><code class="language-javascript">const assert = require(&quot;assert&quot;);
+const React = require(&quot;react&quot;);
+const { render } = require(&quot;@testing-library/react&quot;);
+const MyComponent = require(&quot;./MyComponent&quot;);
+
+describe(&quot;MyComponent&quot;, function () {
+  it(&quot;should render with correct text&quot;, function () {
+    const { getByText } = render(&lt;MyComponent /&gt;);
+    const element = getByText(/Hello, World!/i);
+    assert.ok(element);
+  });
+});
+</code></pre><h3>断言库</h3><h4>Jest 内置断言</h4><ul><li><strong>优点</strong>：与 Jest 框架无缝集成，语法简洁易懂，能满足大部分常见的断言需求。</li><li><strong>适用场景</strong>：在使用 Jest 作为测试框架时，优先使用其内置断言。</li><li><strong>示例代码</strong>：</li></ul><pre class="code-block"><code class="language-javascript">const result = 1 + 2;
+expect(result).toBe(3);
+</code></pre><h4>Chai</h4><ul><li><strong>优点</strong>：提供了多种断言风格（如 BDD、TDD），可根据团队的编程习惯选择合适的风格。它还支持与不同的测试框架集成。</li><li><strong>适用场景</strong>：当需要更丰富的断言方式，或者在使用 Mocha 等框架时，Chai 是一个不错的选择。</li><li><strong>示例代码</strong>：</li></ul><pre class="code-block"><code class="language-javascript">const chai = require(&quot;chai&quot;);
+const expect = chai.expect;
+const result = 1 + 2;
+expect(result).to.equal(3);
+</code></pre><h3>模拟工具</h3><h4>Jest Mock</h4><ul><li><strong>优点</strong>：Jest 内置的模拟功能强大，能轻松模拟函数、模块和组件。它可以自动跟踪函数的调用情况，方便进行断言。</li><li><strong>适用场景</strong>：在使用 Jest 进行测试时，使用其内置的模拟功能即可满足大部分需求。</li><li><strong>示例代码</strong>：</li></ul><pre class="code-block"><code class="language-javascript">const mockFunction = jest.fn();
+mockFunction();
+expect(mockFunction).toHaveBeenCalled();
+</code></pre><h4>Sinon</h4><ul><li><strong>优点</strong>：功能全面，支持创建间谍（spy）、存根（stub）和模拟（mock）对象。它可以独立于测试框架使用，与各种断言库兼容。</li><li><strong>适用场景</strong>：当需要更复杂的模拟功能，或者在使用 Mocha 等框架时，Sinon 是一个很好的选择。</li><li><strong>示例代码</strong>：</li></ul><pre class="code-block"><code class="language-javascript">const sinon = require(&quot;sinon&quot;);
+const myObject = {
+  myMethod: function () {},
+};
+const spy = sinon.spy(myObject, &quot;myMethod&quot;);
+myObject.myMethod();
+expect(spy.called).to.be.true;
+</code></pre><h3>测试工具库</h3><h4>React Testing Library</h4><ul><li><strong>优点</strong>：专注于从用户交互的角度测试组件，鼓励编写接近用户实际使用场景的测试用例。它不依赖于组件的内部实现细节，能提高测试的稳定性。</li><li><strong>适用场景</strong>：适用于各种 React 项目，尤其是注重用户体验和组件交互的项目。</li><li><strong>示例代码</strong>：</li></ul><pre class="code-block"><code class="language-javascript">import React from &quot;react&quot;;
+import { render, fireEvent } from &quot;@testing-library/react&quot;;
+import MyButton from &quot;./MyButton&quot;;
+
+test(&quot;button click event&quot;, () =&gt; {
+  const mockClick = jest.fn();
+  const { getByText } = render(&lt;MyButton onClick={mockClick} /&gt;);
+  const button = getByText(&quot;Click me&quot;);
+  fireEvent.click(button);
+  expect(mockClick).toHaveBeenCalled();
+});
+</code></pre><h4>Enzyme</h4><ul><li><strong>优点</strong>：提供了丰富的 API 来操作和断言 React 组件的输出。它支持浅渲染（shallow rendering），可以只渲染组件本身，而不渲染其子组件，方便进行单元测试。</li><li><strong>适用场景</strong>：适用于需要深入测试组件内部结构和状态的项目。不过，随着 React 官方推荐从实现细节转向用户交互的测试方式，Enzyme 的使用逐渐减少。</li><li><strong>示例代码</strong>：</li></ul><pre class="code-block"><code class="language-javascript">import React from &quot;react&quot;;
+import { shallow } from &quot;enzyme&quot;;
+import MyComponent from &quot;./MyComponent&quot;;
+
+test(&quot;MyComponent should render correctly&quot;, () =&gt; {
+  const wrapper = shallow(&lt;MyComponent /&gt;);
+  expect(wrapper.find(&quot;div&quot;).length).toBe(1);
+});
+</code></pre><p>在选型时，你需要根据项目的规模、复杂度、团队技术栈和个人偏好等因素进行综合考虑，选择最适合项目的测试方案。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

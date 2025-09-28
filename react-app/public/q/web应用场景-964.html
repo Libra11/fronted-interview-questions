@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>http 静态文件缓存 Last-Modified 是根据什么生成的【热度: 85】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：静态文件缓存&lt;/p&gt;&lt;blockquote&gt;作者备注&lt;/blockquote&gt;&lt;blockquote&gt;&lt;/blockquote&gt;&lt;blockquote&gt;冷门， 当做只是了解即可&lt;/blockquote&gt;&lt;p&gt;在 HTTP 服务中，静" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="http 静态文件缓存 Last-Modified 是根据什么生成的【热度: 85】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：静态文件缓存&lt;/p&gt;&lt;blockquote&gt;作者备注&lt;/blockquote&gt;&lt;blockquote&gt;&lt;/blockquote&gt;&lt;blockquote&gt;冷门， 当做只是了解即可&lt;/blockquote&gt;&lt;p&gt;在 HTTP 服务中，静态文件的&lt;code&gt;Last-Modified&lt;/code&gt;（最后修改时间）通常是根据以下几个因素生成的：&lt;/p&gt;&lt;p&gt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/964" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>http 静态文件缓存 Last-Modified 是根据什么生成的【热度: 85】</h1>
+      <div class="subtitle">web应用场景 · 网络 · web应用场景 · 阿里巴巴</div>
+      <div class="meta">创建：2024-10-07T08:04:01Z · 更新：2024-10-07T08:04:01Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：静态文件缓存</p><blockquote>作者备注</blockquote><blockquote></blockquote><blockquote>冷门， 当做只是了解即可</blockquote><p>在 HTTP 服务中，静态文件的<code>Last-Modified</code>（最后修改时间）通常是根据以下几个因素生成的：</p><p><strong>一、文件系统的修改时间</strong></p><ol><li><strong>来源</strong>：</li></ol><ul><li>服务器在提供静态文件时，通常会读取文件所在文件系统中的最后修改时间作为<code>Last-Modified</code>的值。</li><li>例如，在使用常见的 Web 服务器软件如 Nginx、Apache 等时，它们会在响应中自动包含文件的最后修改时间。</li></ul><ol><li><strong>准确性</strong>：</li></ol><ul><li>这个时间是由操作系统维护的，通常是准确的，反映了文件内容最后一次被修改的时间。</li><li>但是，如果文件是通过某些方式（如某些备份工具或文件同步工具）复制或移动的，文件系统的修改时间可能不会被正确地保留。</li></ul><p><strong>二、文件生成或更新的时间戳</strong></p><ol><li><strong>自定义生成</strong>：</li></ol><ul><li>在一些特定的应用场景中，开发者可能会根据文件的生成或更新的时间戳来设置<code>Last-Modified</code>。</li><li>例如，在一个动态生成静态文件的应用中，开发者可以在生成文件时记录当前时间，并将其作为<code>Last-Modified</code>的值添加到 HTTP 响应头中。</li></ul><ol><li><strong>数据库记录</strong>：</li></ol><ul><li>如果文件的生成或更新与数据库中的记录相关，开发者可以从数据库中获取相应的时间戳，并将其用于设置<code>Last-Modified</code>。</li><li>例如，一个内容管理系统可能会在数据库中记录每个文件的最后更新时间，当用户请求静态文件时，服务器可以从数据库中读取这个时间并设置为<code>Last-Modified</code>。</li></ul><p><strong>三、构建工具或部署流程中的时间标记</strong></p><ol><li><strong>构建工具生成</strong>：</li></ol><ul><li>在使用构建工具（如 Webpack、Gulp 等）进行项目构建时，构建工具可能会在生成静态文件时自动添加一些时间标记，这些标记可以用于设置<code>Last-Modified</code>。</li><li>例如，Webpack 可以通过插件在生成的文件中添加构建时间戳，服务器可以读取这个时间戳并将其作为<code>Last-Modified</code>的值。</li></ul><ol><li><strong>部署流程中的时间记录</strong>：</li></ol><ul><li>在部署应用时，部署工具或脚本可以记录每个文件的部署时间，并将其作为<code>Last-Modified</code>的值。</li><li>这样可以确保在每次部署后，用户能够获取到最新的文件修改时间信息。</li></ul><p>总之，<code>Last-Modified</code>的值可以根据文件系统的修改时间、自定义的时间戳或构建工具和部署流程中的时间标记来生成。其目的是为了让客户端能够通过这个时间信息来判断文件是否有更新，从而决定是否需要重新下载文件，以提高网络效率和用户体验。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

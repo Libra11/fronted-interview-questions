@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>in 运算符作用是什么【热度: 844】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：in 运算符、in 运算符作用、in 运算符应用&lt;/p&gt;&lt;p&gt;在 TypeScript 中，&lt;code&gt;in&lt;/code&gt; 是一个运算符，用于检查对象是否具有指定的属性或者类实例是否实现了指定的接口。&lt;/p&gt;&lt;p&gt;对于对象类型，&lt;c" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="in 运算符作用是什么【热度: 844】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：in 运算符、in 运算符作用、in 运算符应用&lt;/p&gt;&lt;p&gt;在 TypeScript 中，&lt;code&gt;in&lt;/code&gt; 是一个运算符，用于检查对象是否具有指定的属性或者类实例是否实现了指定的接口。&lt;/p&gt;&lt;p&gt;对于对象类型，&lt;code&gt;in&lt;/code&gt; 运算符可以用来检查对象是否具有某个属性。语法为 &lt;code&gt;property in obje" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/512" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>in 运算符作用是什么【热度: 844】</h1>
+      <div class="subtitle">TypeScript · TypeScript</div>
+      <div class="meta">创建：2023-08-03T16:33:41Z · 更新：2023-08-03T16:33:53Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：in 运算符、in 运算符作用、in 运算符应用</p><p>在 TypeScript 中，<code>in</code> 是一个运算符，用于检查对象是否具有指定的属性或者类实例是否实现了指定的接口。</p><p>对于对象类型，<code>in</code> 运算符可以用来检查对象是否具有某个属性。语法为 <code>property in object</code>，其中 <code>property</code> 是一个字符串，<code>object</code> 是一个对象。</p><p>示例：</p><pre class="code-block"><code class="language-typescript">interface Person {
+  name: string;
+  age: number;
+}
+
+function printPersonInfo(person: Person) {
+  if (&#39;name&#39; in person) {
+    console.log(&#39;Name:&#39;, person.name);
+  }
+  if (&#39;age&#39; in person) {
+    console.log(&#39;Age:&#39;, person.age);
+  }
+}
+
+let person = { name: &#39;Alice&#39;, age: 25 };
+printPersonInfo(person); // 输出: Name: Alice, Age: 25
+</code></pre><p>在上述示例中，我们定义了一个接口 <code>Person</code>，具有 <code>name</code> 和 <code>age</code> 两个属性。然后定义了一个函数 <code>printPersonInfo</code>，它接收一个参数 <code>person</code>，类型为 <code>Person</code>。在函数内部，我们使用 <code>in</code> 运算符检查 <code>person</code> 对象是否具有 <code>name</code> 和 <code>age</code> 属性，如果有则打印对应的值。</p><p>对于类类型，<code>in</code> 运算符可以用来检查类的实例是否实现了指定的接口。语法为 <code>interfaceName in object</code>，其中 <code>interfaceName</code> 是一个接口名字，<code>object</code> 是一个对象或类的实例。</p><p>示例：</p><pre class="code-block"><code class="language-typescript">interface Printable {
+  print(): void;
+}
+
+class MyClass implements Printable {
+  print() {
+    console.log(&#39;Printing...&#39;);
+  }
+}
+
+function printObjectInfo(obj: any) {
+  if (&#39;print&#39; in obj) {
+    obj.print();
+  }
+}
+
+let myObj = new MyClass();
+printObjectInfo(myObj); // 输出: Printing...
+</code></pre><p>在上述示例中，我们定义了一个接口 <code>Printable</code>，具有一个方法 <code>print</code>。然后定义了一个类 <code>MyClass</code>，它实现了 <code>Printable</code> 接口，并且实现了 <code>print</code> 方法。接着定义了一个函数 <code>printObjectInfo</code>，它接收一个参数 <code>obj</code>，类型为 <code>any</code>。在函数内部，我们使用 <code>in</code> 运算符检查 <code>obj</code> 对象是否实现了 <code>Printable</code> 接口，如果是则调用 <code>print</code> 方法。</p><p>总的来说，<code>in</code> 关键字在 TypeScript 中用于检查对象是否具有指定的属性或类实例是否实现了指定的接口。它可以帮助我们在运行时根据对象的属性或接口的实现情况来进行相应的处理。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

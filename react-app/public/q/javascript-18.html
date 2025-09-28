@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>手写创建一个 ajax 请求 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h2&gt;手动创建一个 ajax 请求&lt;/h2&gt;&lt;p&gt;一般来说，我们可以使用XMLHttpRequest对象来创建Ajax请求，其流程如下：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;创建XMLHttpRequest对象，通过调用其构造函数来实现。&lt;/li&gt;&lt;li&gt;使用open()方法指定请求的方法、" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="手写创建一个 ajax 请求" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h2&gt;手动创建一个 ajax 请求&lt;/h2&gt;&lt;p&gt;一般来说，我们可以使用XMLHttpRequest对象来创建Ajax请求，其流程如下：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;创建XMLHttpRequest对象，通过调用其构造函数来实现。&lt;/li&gt;&lt;li&gt;使用open()方法指定请求的方法、URL以及是否异步请求。&lt;/li&gt;&lt;li&gt;使用setRequestHeader()方法设置请求头，例如设置请求的Cont" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/18" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>手写创建一个 ajax 请求</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-06T15:20:06Z · 更新：2023-03-06T15:20:07Z</div>
+    </div>
+    <article class="content markdown-body"><h2>手动创建一个 ajax 请求</h2><p>一般来说，我们可以使用XMLHttpRequest对象来创建Ajax请求，其流程如下：</p><ol><li>创建XMLHttpRequest对象，通过调用其构造函数来实现。</li><li>使用open()方法指定请求的方法、URL以及是否异步请求。</li><li>使用setRequestHeader()方法设置请求头，例如设置请求的Content-Type。</li><li>设置响应的回调函数，一般有onreadystatechange和onload两种方式。</li><li>使用send()方法发送请求。</li></ol><p>实现如下：</p><pre class="code-block"><code class="language-javascript">var getJSON = function(url) {
+  var promise = new Promise(function(resolve, reject) {
+    function handler() {
+      if (this.readyState !== 4) {
+        return;
+      }
+      if (this.status === 200) {
+        resolve(this.response);
+      } else {
+        reject(new Error(this.statusText));
+      }
+    }
+
+    var client = new XMLHttpRequest();
+    //如果是IE的内核ActiveXObject(&#39;Microsoft.XMLHTTP&#39;);
+    client.open(&quot;GET&quot;, url);
+    client.onreadystatechange = handler;
+    client.responseType = &quot;json&quot;;
+    client.setRequestHeader(&quot;Accept&quot;, &quot;application/json&quot;);
+    //如果是post请求：client.setRequestHeader(&#39;Content-Type&#39;,&#39;application/X-WWW-form-urlencoded&#39;)
+    client.send();
+  });
+  return promise;
+};
+
+getJSON(&quot;/posts.json&quot;).then(function(json) {
+  console.log(&#39;Contents: &#39; + json);
+}, function(error) {
+  console.error(&#39; 出错了 &#39;, error);
+});
+</code></pre><ul><li><code>xhr.open()</code> 第一个参数是请求的方法，可以是GET、POST、PUT等；第二个参数是请求的URL；第三个参数表示是否异步请求。</li></ul><ul><li><code>setRequestHeader()</code>方法用于设置请求头，例如设置Content-Type，常见的值有application/json、application/x-www-form-urlencoded等</li></ul><ul><li><code>onreadystatechange回调函数</code>会在XMLHttpRequest对象的状态发生变化时触发</li></ul><ul><li>最后，调用send()方法发送请求。</li></ul><h2>回调函数一般有哪些？</h2><p>设置响应的回调函数，一般有 <code>onreadystatechange</code> 和 <code>onload</code> 两种方式；</p><p>在 XMLHttpRequest 对象中，onreadystatechange 和 onload 是两种不同的事件回调函数。</p><p><strong>onreadystatechange</strong> :事件会在 readyState 的值改变时被触发，它会在请求过程中的每个状态改变时都被触发，从而可以通过 readyState</p><p>的值来判断请求的过程。一般来说，onreadystatechange 回调函数需要根据 readyState 的不同值做出不同的处理，如：</p><ul><li>readyState 为 1 （UNSENT）：代理被创建，但尚未调用 open() 方法；</li><li>readyState 为 1 （已经调用 open() 方法）时，可以做一些请求初始化的工作；</li><li>readyState 为 2 （已经调用 send() 方法）时，可以获取响应头信息；</li><li>readyState 为 3 （正在接收数据）时，可以获取响应的部分数据；</li><li>readyState 为 4 （已经接收到全部响应数据）时，可以对响应的数据进行处理。</li></ul><p><strong>onload</strong>: 而 onload 事件则是在整个请求过程完成后被触发，表示整个请求已经完成。这个回调函数通常用来处理响应数据，如将响应数据渲染到页面中等。</p><p>因此，onreadystatechange 和 onload 这两种回调函数的作用是不同的，需要根据不同的场景进行选择和使用。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

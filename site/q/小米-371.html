@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Object.prototype.hasOwnProperty() 作用是啥【热度: 1,176】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：Object.prototype.hasOwnProperty&lt;/p&gt;&lt;h3&gt;&lt;code&gt;Object.prototype.hasOwnProperty()&lt;/code&gt;&lt;/h3&gt;&lt;p&gt;&lt;code&gt;Object.prototype." />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Object.prototype.hasOwnProperty() 作用是啥【热度: 1,176】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：Object.prototype.hasOwnProperty&lt;/p&gt;&lt;h3&gt;&lt;code&gt;Object.prototype.hasOwnProperty()&lt;/code&gt;&lt;/h3&gt;&lt;p&gt;&lt;code&gt;Object.prototype.hasOwnProperty()&lt;/code&gt;是JavaScript中&lt;code&gt;Object&lt;/code&gt;原型对象上的" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/371" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>Object.prototype.hasOwnProperty() 作用是啥【热度: 1,176】</h1>
+      <div class="subtitle">小米 · JavaScript · 小米</div>
+      <div class="meta">创建：2023-05-23T14:49:31Z · 更新：2023-05-23T14:49:32Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：Object.prototype.hasOwnProperty</p><h3><code>Object.prototype.hasOwnProperty()</code></h3><p><code>Object.prototype.hasOwnProperty()</code>是JavaScript中<code>Object</code>原型对象上的方法。它用于检查一个对象是否具有指定的属性（即对象自身拥有的属性），并返回一个布尔值表示结果。</p><p><code>hasOwnProperty()</code>方法的作用是检查对象是否包含特定的属性，而不会考虑该属性是否继承自原型链。它接受一个字符串参数，表示要检查的属性名。如果对象自身拥有该属性，则返回<code>true</code>；如果对象没有该属性或该属性是从原型链继承的，则返回<code>false</code>。</p><p>以下是<code>hasOwnProperty()</code>方法的使用示例：</p><pre class="code-block"><code class="language-javascript">const obj = {
+  prop1: &#39;value1&#39;,
+  prop2: &#39;value2&#39;,
+};
+
+console.log(obj.hasOwnProperty(&#39;prop1&#39;)); // true
+console.log(obj.hasOwnProperty(&#39;prop3&#39;)); // false
+</code></pre><p>在上述示例中，<code>obj</code>对象拥有<code>prop1</code>属性，因此<code>obj.hasOwnProperty(&#39;prop1&#39;)</code>返回<code>true</code>。然而，<code>obj</code>对象没有<code>prop3</code>属性，因此<code>obj.hasOwnProperty(&#39;prop3&#39;)</code>返回<code>false</code>。</p><p>使用<code>hasOwnProperty()</code>方法可以帮助我们确定属性是对象自身的属性还是继承自原型链。这在进行属性遍历或属性存在性检查时非常有用。请注意，<code>hasOwnProperty()</code>方法只能检查对象自身的属性，不能检查原型链上的属性。如果需要检查原型链上的属性，可以使用<code>in</code>运算符或<code>Object.prototype.hasOwnProperty.call()</code>方法。</p><h3><code>hasOwnProperty</code>和<code>instanceof</code> 区别</h3><p><code>hasOwnProperty</code>和<code>instanceof</code>是两个不同的操作符，用于在JavaScript中进行不同类型的检查。</p><ol><li><code>hasOwnProperty</code>：<code>hasOwnProperty</code>是<code>Object</code>原型对象上的方法，用于检查一个对象是否具有指定的属性（即对象自身拥有的属性），并返回一个布尔值表示结果。它是针对对象属性的检查。</li></ol><ol><li><code>instanceof</code>：<code>instanceof</code>是JavaScript的一个操作符，用于检查一个对象是否是某个构造函数的实例。它用于检查对象的类型。</li></ol><p>以下是两者之间的区别：</p><ul><li><code>hasOwnProperty</code>是用于检查对象是否具有特定的属性，它关注的是对象自身的属性，不涉及对象的类型。它只检查对象自身的属性，不会检查原型链上的属性。</li></ul><ul><li><code>instanceof</code>是用于检查对象是否是某个构造函数的实例，它关注的是对象的类型。它会检查对象的原型链上是否存在指定构造函数的原型对象。</li></ul><p>使用示例：</p><pre class="code-block"><code class="language-javascript">const obj = {
+  prop: &#39;value&#39;
+};
+
+console.log(obj.hasOwnProperty(&#39;prop&#39;)); // true
+
+console.log(obj instanceof Object); // true
+console.log(obj instanceof Array); // false
+</code></pre><p>在上述示例中，<code>obj</code>对象拥有<code>prop</code>属性，因此<code>obj.hasOwnProperty(&#39;prop&#39;)</code>返回<code>true</code>。同时，<code>obj</code>对象是<code>Object</code>构造函数的实例，因此<code>obj instanceof Object</code>返回<code>true</code>，但不是<code>Array</code>构造函数的实例，因此<code>obj instanceof Array</code>返回<code>false</code>。</p><p>总结而言，<code>hasOwnProperty</code>用于检查对象是否拥有特定的属性，而<code>instanceof</code>用于检查对象的类型。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

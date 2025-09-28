@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>webpack 的主要配置项有哪些【热度: 766】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：webpack 主要配置项&lt;/p&gt;&lt;p&gt;Webpack 是一个现代 JavaScript 应用程序的静态模块打包器。配置文件名通常为 &lt;code&gt;webpack.config.js&lt;/code&gt;，它提供了一种配置 Webpack 的" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="webpack 的主要配置项有哪些【热度: 766】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：webpack 主要配置项&lt;/p&gt;&lt;p&gt;Webpack 是一个现代 JavaScript 应用程序的静态模块打包器。配置文件名通常为 &lt;code&gt;webpack.config.js&lt;/code&gt;，它提供了一种配置 Webpack 的方式。下面是一些主要的 Webpack 配置选项：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;entry&lt;/strong&gt;:" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/752" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>webpack 的主要配置项有哪些【热度: 766】</h1>
+      <div class="subtitle">工程化 · 工程化 · TOP100互联网</div>
+      <div class="meta">创建：2024-05-10T16:23:24Z · 更新：2024-05-10T16:23:25Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：webpack 主要配置项</p><p>Webpack 是一个现代 JavaScript 应用程序的静态模块打包器。配置文件名通常为 <code>webpack.config.js</code>，它提供了一种配置 Webpack 的方式。下面是一些主要的 Webpack 配置选项：</p><ol><li><strong>entry</strong>: 入口起点(entry point)指示 webpack 应该使用哪个模块，来作为构建其内部依赖图的开始。可以指定一个或多个入口起点。</li></ol><ol><li><strong>output</strong>: output 属性告诉 webpack 在哪里输出它所创建的 bundles，以及如何命名这些文件，默认值为 <code>./dist</code>。</li></ol><ol><li><strong>module</strong>: module 属性用于决定如何处理项目中的不同类型的模块。</li></ol><ul><li><strong>rules</strong>: 配置模块的读取和解析规则，通常用来配置 loader。</li></ul><ol><li><strong>resolve</strong>: 配置模块如何解析。</li></ol><ul><li><strong>extensions</strong>: 自动解析确定的扩展，此选项能够使用户在引入模块时不带扩展。</li></ul><ol><li><strong>plugins</strong>: 插件是用来扩展 webpack 功能的。它们会在构建流程中的特定时机注入运行逻辑来改变构建结果或做你想要的事情。</li></ol><ol><li><strong>devServer</strong>: 通过来自 <code>webpack-dev-server</code> 的这些选项能够对开发服务器的行为进行控制。</li></ol><ol><li><strong>devtool</strong>: 此选项控制是否生成，以及如何生成 source map。</li></ol><ol><li><strong>mode</strong>: 通过设置 <code>development</code> 或 <code>production</code> 之中的一个，来为流程提供相应模式下的内置优化。</li></ol><ol><li><strong>optimization</strong>: 包含一组可用来调整构建输出的选项。</li></ol><ul><li><strong>splitChunks</strong>: 配置模块的拆分，可以将公共的依赖模块提取到已有的入口 chunk 中，或者提取到一个新生成的 chunk。</li><li><strong>runtimeChunk</strong>: 为每个 entry 创建一个运行时文件。</li></ul><ol><li><strong>performance</strong>: 允许 webpack 根据某些参数，控制资产和入口起点的最大大小。</li></ol><ol><li><strong>externals</strong>: 防止将某些 import 包(package)打包到 bundle 中，而是在运行时(runtime)再去从外部获取这些扩展依赖。</li></ol><p>每个项目的具体需求不同，Webpack 的配置也会有所不同。这些选项提供了强大的配置能力和灵活性，可以用来定制 Webpack 的打包、加载和转换行为。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

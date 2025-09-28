@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>webpack 如何配置按需加载的模块【热度: 693】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：webpack 配置按需加载、webpack 按需加载、react lazy 加载&lt;/p&gt;&lt;h3&gt;如何配置 webpack 按需加载&lt;/h3&gt;&lt;p&gt;要配置webpack项目模块按需加载，你可以使用webpack的代码分割（code " />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="webpack 如何配置按需加载的模块【热度: 693】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：webpack 配置按需加载、webpack 按需加载、react lazy 加载&lt;/p&gt;&lt;h3&gt;如何配置 webpack 按需加载&lt;/h3&gt;&lt;p&gt;要配置webpack项目模块按需加载，你可以使用webpack的代码分割（code splitting）功能和动态导入（dynamic import）语法。&lt;/p&gt;&lt;p&gt;以下是一些配置步骤：&lt;/p&gt;&lt;ol" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/471" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>webpack 如何配置按需加载的模块【热度: 693】</h1>
+      <div class="subtitle">web应用场景 · web应用场景 · Shopee</div>
+      <div class="meta">创建：2023-07-06T13:57:35Z · 更新：2023-07-06T14:25:42Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：webpack 配置按需加载、webpack 按需加载、react lazy 加载</p><h3>如何配置 webpack 按需加载</h3><p>要配置webpack项目模块按需加载，你可以使用webpack的代码分割（code splitting）功能和动态导入（dynamic import）语法。</p><p>以下是一些配置步骤：</p><ol><li>在webpack配置文件中，设置<code>output</code>选项中的<code>chunkFilename</code>属性，用于指定按需加载模块的输出文件名。例如：</li></ol><pre class="code-block"><code class="language-javascript">output: {
+  filename: &#39;bundle.js&#39;,
+  chunkFilename: &#39;[name].bundle.js&#39;,
+  path: path.resolve(__dirname, &#39;dist&#39;)
+}
+</code></pre><ol><li>在应用程序中使用动态导入语法加载需要按需加载的模块。例如：</li></ol><pre class="code-block"><code class="language-javascript">import(/* webpackChunkName: &quot;moduleName&quot; */ &#39;./module&#39;)
+  .then(module =&gt; {
+    // 使用加载的模块
+  })
+  .catch(error =&gt; {
+    // 处理加载错误
+  });
+</code></pre><p>注意：在动态导入语法中，<code>/&lt;em&gt; webpackChunkName: &quot;moduleName&quot; &lt;/em&gt;/</code>是可选的，用于指定生成的输出文件的名称。</p><ol><li>运行webpack构建，它将根据动态导入语法将模块拆分为单独的文件。</li></ol><ol><li>当需要按需加载模块时，webpack将自动异步加载并将模块添加到页面中。</li></ol><h3>webpack 配置按需加载 和 react lazy 有什么关系</h3><p>Webpack配置按需加载和React的<code>lazy</code>函数是实现按需加载的两个不同方面，它们可以一起使用来优化React应用的性能。</p><p>Webpack配置按需加载是通过代码分割（code splitting）的方式，将应用程序的代码分割成多个小块，并在需要时按需加载这些块。这样可以减小初始加载的文件大小，提高页面加载速度。Webpack提供了一些配置选项和动态导入语法来实现按需加载。</p><p>而React的<code>lazy</code>函数是React 16.6版本引入的新特性，用于实现组件的按需加载。通过使用<code>lazy</code>函数，你可以将组件的加载延迟到它们实际需要被渲染到页面上的时候。这样可以减小初始加载的组件数量，并且提高应用程序的性能。</p><p>结合Webpack配置按需加载和React的<code>lazy</code>函数，在React应用中你可以按需加载组件，并且Webpack会自动将这些组件拆分为单独的文件进行按需加载。这样可以实现在需要时动态加载组件，以及减小初始加载的文件大小，提高应用程序的性能。</p><p>下面是一个示例，展示了如何使用Webpack配置按需加载和React的<code>lazy</code>函数：</p><pre class="code-block"><code class="language-javascript">import React, { lazy, Suspense } from &#39;react&#39;;
+
+const LazyComponent = lazy(() =&gt; import(&#39;./LazyComponent&#39;));
+
+function App() {
+  return (
+    &lt;div&gt;
+      &lt;Suspense fallback={&lt;div&gt;Loading...&lt;/div&gt;}&gt;
+        &lt;LazyComponent /&gt;
+      &lt;/Suspense&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre><p>在上面的示例中，<code>lazy</code>函数用于按需加载<code>./LazyComponent</code>组件。<code>Suspense</code>组件用于在组件加载时提供一个加载中的提示（fallback）。当<code>LazyComponent</code>组件需要渲染时，Webpack将会按需加载<code>./LazyComponent</code>组件的代码。</p><p>使用Webpack配置按需加载和React的<code>lazy</code>函数可以有效地优化React应用的性能，提高应用程序的加载速度。</p><h3>要支持 React lazy， webpack 还需要配置什么吗？</h3><p>为了支持React的<code>lazy</code>函数，还需要在Webpack配置中添加一些额外的配置。</p><p>首先，你需要确保你的Webpack配置中启用了代码分割（code splitting）功能。这可以通过以下方式配置：</p><pre class="code-block"><code class="language-javascript">// webpack.config.js
+
+module.exports = {
+  // ...其他配置
+  optimization: {
+    splitChunks: {
+      chunks: &#39;all&#39;,
+    },
+  },
+};
+</code></pre><p>这个配置会告诉Webpack在生成代码块时将公共的依赖模块提取到单独的文件中，以实现代码的共享和按需加载。</p><p>然后，你需要使用<code>@babel/preset-react</code>预设配置Babel，以支持React的<code>lazy</code>函数。你可以在<code>.babelrc</code>文件中添加以下配置：</p><pre class="code-block"><code class="language-json">{
+  &quot;presets&quot;: [
+    &quot;@babel/preset-react&quot;
+  ]
+}
+</code></pre><p>最后，确保你的React代码使用了<code>lazy</code>函数进行组件的按需加载，如前面的示例所示：</p><pre class="code-block"><code class="language-javascript">import React, { lazy, Suspense } from &#39;react&#39;;
+
+const LazyComponent = lazy(() =&gt; import(&#39;./LazyComponent&#39;));
+
+function App() {
+  return (
+    &lt;div&gt;
+      &lt;Suspense fallback={&lt;div&gt;Loading...&lt;/div&gt;}&gt;
+        &lt;LazyComponent /&gt;
+      &lt;/Suspense&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre><p>通过以上步骤配置Webpack，你就可以使用React的<code>lazy</code>函数实现组件的按需加载了。Webpack会自动将按需加载的组件拆分为单独的文件，并在需要时进行加载。这样可以提高React应用的性能和加载速度。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

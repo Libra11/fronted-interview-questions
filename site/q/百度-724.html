@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>扁平数据通过 parent 关联, 实现扁平结构转嵌套 tree 结构【热度: 218】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：扁平结构转嵌套结构&lt;/p&gt;&lt;p&gt;&lt;strong&gt;题目&lt;/strong&gt;&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code&gt;数据输入： [ { &amp;quot;name&amp;quot;: &amp;quot;数据1&amp;quot;, &amp;q" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="扁平数据通过 parent 关联, 实现扁平结构转嵌套 tree 结构【热度: 218】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：扁平结构转嵌套结构&lt;/p&gt;&lt;p&gt;&lt;strong&gt;题目&lt;/strong&gt;&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code&gt;数据输入： [ { &amp;quot;name&amp;quot;: &amp;quot;数据1&amp;quot;, &amp;quot;parent&amp;quot;: null, &amp;quot;id&amp;quot;: 1 }, { &amp;quot;name&amp;qu" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/724" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>扁平数据通过 parent 关联, 实现扁平结构转嵌套 tree 结构【热度: 218】</h1>
+      <div class="subtitle">百度 · 百度 · 代码实现/算法</div>
+      <div class="meta">创建：2024-04-20T09:07:22Z · 更新：2024-04-20T09:07:23Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：扁平结构转嵌套结构</p><p><strong>题目</strong></p><pre class="code-block"><code>数据输入：
+[
+  { &quot;name&quot;: &quot;数据1&quot;, &quot;parent&quot;: null, &quot;id&quot;: 1 },
+  { &quot;name&quot;: &quot;数据2&quot;, &quot;id&quot;: 2, &quot;parent&quot;: 1 },
+  { &quot;name&quot;: &quot;数据3&quot;, &quot;parent&quot;: 2, &quot;id&quot;: 3 },
+  { &quot;name&quot;: &quot;数据4&quot;, &quot;parent&quot;: 3, &quot;id&quot;: 4 },
+  { &quot;name&quot;: &quot;数据5&quot;, &quot;parent&quot;: 4, &quot;id&quot;: 5 },
+  { &quot;name&quot;: &quot;数据6&quot;, &quot;parent&quot;: 2, &quot;id&quot;: 6 }
+]
+
+数据输出：
+[
+  {
+    &quot;name&quot;: &quot;数据1&quot;,
+    &quot;parent&quot;: null,
+    &quot;id&quot;: 1,
+    &quot;children&quot;: [
+      {
+        &quot;name&quot;: &quot;数据2&quot;,
+        &quot;id&quot;: 2,
+        &quot;parent&quot;: 1,
+        &quot;children&quot;: [
+          {
+            &quot;name&quot;: &quot;数据3&quot;,
+            &quot;parent&quot;: 2,
+            &quot;id&quot;: 3,
+            &quot;children&quot;: [
+              {
+                &quot;name&quot;: &quot;数据4&quot;,
+                &quot;parent&quot;: 3,
+                &quot;id&quot;: 4,
+                &quot;children&quot;: [
+                  {
+                    &quot;name&quot;: &quot;数据5&quot;,
+                    &quot;parent&quot;: 4,
+                    &quot;id&quot;: 5,
+                    &quot;children&quot;: []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            &quot;name&quot;: &quot;数据6&quot;,
+            &quot;parent&quot;: 2,
+            &quot;id&quot;: 6,
+            &quot;children&quot;: []
+          }
+        ]
+      }
+    ]
+  }
+]
+</code></pre><p><strong>解</strong></p><p>解法非常有意思， 自己好好体会</p><pre class="code-block"><code class="language-js">function listToTree(list) {
+  const map = {},
+    roots = [];
+
+  // 首先将每个节点按照 id 存入 map
+  for (const item of list) {
+    map[item.id] = { ...item, children: [] };
+  }
+
+  for (const item of list) {
+    if (item.parent === null) {
+      // 顶级节点
+      roots.push(map[item.id]);
+    } else if (map[item.parent]) {
+      // 非顶级节点，找到父节点并添加到其 children 数组中
+      map[item.parent].children.push(map[item.id]);
+    }
+  }
+
+  return roots;
+}
+
+const tree = listToTree(list);
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,77 @@
+# package.json 依赖申明的方式有哪些， 他们有何却别【热度: 193】
+
+- Issue: #1015
+- State: open
+- Labels: web应用场景
+- Author: yanlele
+- URL: https://github.com/pro-collection/interview-question/issues/1015
+- Created: 2024-10-18T15:18:06Z
+- Updated: 2024-10-18T15:18:07Z
+
+## Body
+
+**关键词**：前端依赖申明方式
+
+**一、`dependencies`（生产依赖）**
+
+1. **定义和用途**：
+
+   - `dependencies`用于声明项目在生产环境中运行所必需的依赖项。
+   - 这些依赖项是项目正常运行所不可或缺的，无论是在开发阶段还是在部署到生产环境后。
+
+2. **示例**：
+
+   - 比如，如果你的项目使用了 Express.js 框架来构建服务器，那么 Express.js 就应该被声明在`dependencies`中。
+   - `"express": "^4.17.1"`表示安装 Express 版本 4.17.1 或更高的兼容版本。
+
+3. **安装和使用**：
+   - 当你运行`npm install`或`yarn install`时，这些依赖项会被自动安装到项目的`node_modules`目录中。
+   - 在生产环境中部署项目时，这些依赖项也会被一同部署。
+
+**二、`devDependencies`（开发依赖）**
+
+1. **定义和用途**：
+
+   - `devDependencies`用于声明仅在开发过程中需要的依赖项。
+   - 这些依赖项通常包括开发工具、测试框架、代码格式化工具等，它们不是项目在生产环境中运行所必需的。
+
+2. **示例**：
+
+   - 例如，Jest 是一个流行的 JavaScript 测试框架，如果你的项目使用 Jest 进行测试，那么 Jest 应该被声明在`devDependencies`中。
+   - `"jest": "^26.6.3"`表示安装 Jest 版本 26.6.3 或更高的兼容版本。
+
+3. **安装和使用**：
+   - 同样，当你运行`npm install`或`yarn install`时，这些依赖项会被安装到项目的`node_modules`目录中。
+   - 但是，在生产环境中部署项目时，通常不会部署这些开发依赖项，以减小项目的体积和复杂性。
+
+**区别总结**：
+
+1. **使用场景不同**：
+   - `dependencies`中的依赖项是项目在生产环境中运行所必需的，而`devDependencies`中的依赖项仅在开发过程中使用。
+2. **部署方式不同**：
+   - 生产环境部署时，通常只部署`dependencies`中的依赖项，而不部署`devDependencies`中的依赖项。
+3. **影响项目体积和复杂性**：
+   - 将不必要的依赖项放在`devDependencies`中可以减小项目在生产环境中的体积和复杂性，提高性能和安全性。
+
+**三、`peerDependencies`（对等依赖）**
+
+1. **定义和用途**：
+
+   - `peerDependencies` 用于声明当前包所依赖的其他包，但这些依赖项不会被自动安装。
+   - 它通常用于插件或扩展的场景，表明当前包与特定版本的其他包兼容，并且期望宿主环境已经安装了这些对等依赖。
+
+2. **示例**：
+
+   - 假设你正在开发一个 React 插件，你的插件可能需要特定版本的 React 才能正常工作。在这种情况下，你可以在 `package.json` 的 `peerDependencies` 中声明对 React 的依赖。
+   - `"peerDependencies": { "react": "^17.0.2" }` 表示这个插件期望宿主环境安装了 React 17.0.2 或更高的兼容版本。
+
+3. **安装和使用**：
+   - 当用户安装你的包时，他们需要确保在自己的项目中手动安装了满足 `peerDependencies` 要求的包。如果没有安装或版本不匹配，可能会导致运行时错误。
+
+**区别总结**：
+
+- **与 `dependencies` 的区别**：
+  - `dependencies` 中的依赖项会在安装当前包时自动安装，而 `peerDependencies` 中的依赖项不会自动安装，需要用户在宿主项目中自行安装。
+- **与 `devDependencies` 的区别**：
+  - `devDependencies` 是仅在开发过程中使用的依赖项，而 `peerDependencies` 是与当前包在运行时的兼容性相关的依赖项，不一定只在开发过程中使用。
+

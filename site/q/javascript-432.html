@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>typeof null 的结果是什么，为什么？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;code&gt;typeof null&lt;/code&gt; 的结果是 &lt;code&gt;&amp;quot;object&amp;quot;&lt;/code&gt;。&lt;/p&gt;&lt;p&gt;这是 JavaScript 中的一个历史遗留问题。在 JavaScript 最初的实现中，将 JavaScript 的值分为了几种类型，" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="typeof null 的结果是什么，为什么？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;code&gt;typeof null&lt;/code&gt; 的结果是 &lt;code&gt;&amp;quot;object&amp;quot;&lt;/code&gt;。&lt;/p&gt;&lt;p&gt;这是 JavaScript 中的一个历史遗留问题。在 JavaScript 最初的实现中，将 JavaScript 的值分为了几种类型，其中 &lt;code&gt;null&lt;/code&gt; 被当作一个空对象指针。为了与其他对象类型区分开，&lt;code&gt;typeof nu" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/432" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>typeof null 的结果是什么，为什么？</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-06-08T14:59:38Z · 更新：2023-06-08T14:59:39Z</div>
+    </div>
+    <article class="content markdown-body"><p><code>typeof null</code> 的结果是 <code>&quot;object&quot;</code>。</p><p>这是 JavaScript 中的一个历史遗留问题。在 JavaScript 最初的实现中，将 JavaScript 的值分为了几种类型，其中 <code>null</code> 被当作一个空对象指针。为了与其他对象类型区分开，<code>typeof null</code> 返回了 <code>&quot;object&quot;</code>。</p><p>实际上，<code>null</code> 是一个表示空值的特殊值，它不是对象，也不是任何对象的实例。虽然 <code>typeof null</code> 返回了 <code>&quot;object&quot;</code>，但这并不表示 <code>null</code> 是对象的一种类型。</p><p>由于这个历史遗留问题，判断一个值是否为 <code>null</code> 通常需要使用 <code>value === null</code> 进行比较，而不是依赖 <code>typeof</code> 运算符的结果。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

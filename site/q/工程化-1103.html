@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>前端单测，如何通过单测模拟请求【热度: 265】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：前端单测模拟请求&lt;/p&gt;&lt;p&gt;在前端单元测试里，模拟请求是很重要的操作，它能让你在不依赖真实后端服务的情况下对前端代码进行测试。以下以 React 项目为例，结合不同的测试框架和模拟工具，为你介绍模拟请求的方法。&lt;/p&gt;&lt;h3&gt;使用" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="前端单测，如何通过单测模拟请求【热度: 265】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：前端单测模拟请求&lt;/p&gt;&lt;p&gt;在前端单元测试里，模拟请求是很重要的操作，它能让你在不依赖真实后端服务的情况下对前端代码进行测试。以下以 React 项目为例，结合不同的测试框架和模拟工具，为你介绍模拟请求的方法。&lt;/p&gt;&lt;h3&gt;使用 Jest 和 axios-mock-adapter 模拟 axios 请求&lt;/h3&gt;&lt;p&gt;&lt;code&gt;axios&lt;/c" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1103" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>前端单测，如何通过单测模拟请求【热度: 265】</h1>
+      <div class="subtitle">工程化 · 工程化</div>
+      <div class="meta">创建：2025-03-25T15:33:05Z · 更新：2025-03-25T15:33:05Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：前端单测模拟请求</p><p>在前端单元测试里，模拟请求是很重要的操作，它能让你在不依赖真实后端服务的情况下对前端代码进行测试。以下以 React 项目为例，结合不同的测试框架和模拟工具，为你介绍模拟请求的方法。</p><h3>使用 Jest 和 axios-mock-adapter 模拟 axios 请求</h3><p><code>axios</code> 是常用的 HTTP 请求库，<code>axios-mock-adapter</code> 能方便地模拟 <code>axios</code> 请求。</p><h4>安装依赖</h4><pre class="code-block"><code class="language-bash">npm install --save-dev axios-mock-adapter
+</code></pre><h4>示例代码</h4><p>假设你有一个使用 <code>axios</code> 发送请求的组件：</p><pre class="code-block"><code class="language-jsx">// UserList.jsx
+import React, { useEffect, useState } from &quot;react&quot;;
+import axios from &quot;axios&quot;;
+
+const UserList = () =&gt; {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() =&gt; {
+    const fetchUsers = async () =&gt; {
+      try {
+        const response = await axios.get(&quot;https://api.example.com/users&quot;);
+        setUsers(response.data);
+      } catch (error) {
+        console.error(&quot;Error fetching users:&quot;, error);
+      }
+    };
+    fetchUsers();
+  }, []);
+
+  return (
+    &lt;ul&gt;
+      {users.map((user) =&gt; (
+        &lt;li key={user.id}&gt;{user.name}&lt;/li&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+};
+
+export default UserList;
+</code></pre><p>对应的单元测试代码如下：</p><pre class="code-block"><code class="language-javascript">// UserList.test.js
+import React from &quot;react&quot;;
+import { render, waitFor } from &quot;@testing-library/react&quot;;
+import axios from &quot;axios&quot;;
+import MockAdapter from &quot;axios-mock-adapter&quot;;
+import UserList from &quot;./UserList&quot;;
+
+describe(&quot;UserList&quot;, () =&gt; {
+  let mock;
+
+  beforeEach(() =&gt; {
+    // 创建 axios 模拟适配器
+    mock = new MockAdapter(axios);
+  });
+
+  afterEach(() =&gt; {
+    // 重置模拟适配器
+    mock.restore();
+  });
+
+  test(&quot;should render user list after successful fetch&quot;, async () =&gt; {
+    const mockUsers = [
+      { id: 1, name: &quot;User 1&quot; },
+      { id: 2, name: &quot;User 2&quot; },
+    ];
+    // 模拟 GET 请求
+    mock.onGet(&quot;https://api.example.com/users&quot;).reply(200, mockUsers);
+
+    const { getByText } = render(&lt;UserList /&gt;);
+
+    // 等待请求完成
+    await waitFor(() =&gt; {
+      expect(getByText(&quot;User 1&quot;)).toBeInTheDocument();
+      expect(getByText(&quot;User 2&quot;)).toBeInTheDocument();
+    });
+  });
+});
+</code></pre><p>在这个示例中，<code>axios-mock-adapter</code> 被用于模拟 <code>axios</code> 的 <code>GET</code> 请求。<code>beforeEach</code> 函数在每个测试用例执行前创建模拟适配器，<code>afterEach</code> 函数在测试用例执行后重置适配器。<code>mock.onGet</code> 方法用于指定要模拟的请求 URL，并返回模拟的响应数据。</p><h3>使用 Jest 内置的 <code>jest.fn()</code> 模拟请求函数</h3><p>如果你没有使用 <code>axios</code> 这类请求库，而是自定义了请求函数，可使用 Jest 的 <code>jest.fn()</code> 来模拟。</p><h4>示例代码</h4><pre class="code-block"><code class="language-javascript">// api.js
+export const fetchData = async () =&gt; {
+  const response = await fetch(&quot;https://api.example.com/data&quot;);
+  return response.json();
+};
+</code></pre><pre class="code-block"><code class="language-javascript">// api.test.js
+import { fetchData } from &quot;./api&quot;;
+
+jest.mock(&quot;./api&quot;, () =&gt; ({
+  fetchData: jest.fn(),
+}));
+
+describe(&quot;fetchData&quot;, () =&gt; {
+  test(&quot;should return mock data&quot;, async () =&gt; {
+    const mockData = { message: &quot;Mock data&quot; };
+    fetchData.mockResolvedValue(mockData);
+
+    const result = await fetchData();
+    expect(result).toEqual(mockData);
+  });
+});
+</code></pre><p>这里使用 <code>jest.mock</code> 来模拟 <code>fetchData</code> 函数，<code>mockResolvedValue</code> 方法用于指定模拟函数的返回值。</p><p>通过上述方法，你可以在前端单元测试中有效地模拟请求，从而更全面地对前端代码进行测试。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

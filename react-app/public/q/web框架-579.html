@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Vue] 中为何不要把 v-if 和 v-for 同时用在同一个元素上， 原理是什么？【热度: 546】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：v-if和v-for性能&lt;/p&gt;&lt;p&gt;确实，将&lt;code&gt;v-if&lt;/code&gt;和&lt;code&gt;v-for&lt;/code&gt;同时用在同一个元素上可能会导致性能问题。&lt;strong&gt;原因在于&lt;code&gt;v-for&lt;/code&gt;具有比&lt;cod" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Vue] 中为何不要把 v-if 和 v-for 同时用在同一个元素上， 原理是什么？【热度: 546】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：v-if和v-for性能&lt;/p&gt;&lt;p&gt;确实，将&lt;code&gt;v-if&lt;/code&gt;和&lt;code&gt;v-for&lt;/code&gt;同时用在同一个元素上可能会导致性能问题。&lt;strong&gt;原因在于&lt;code&gt;v-for&lt;/code&gt;具有比&lt;code&gt;v-if&lt;/code&gt;更高的优先级，它会在每次渲染的时候都会运行&lt;/strong&gt;。这意味着，即使在某些情况下&lt;co" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/579" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Vue] 中为何不要把 v-if 和 v-for 同时用在同一个元素上， 原理是什么？【热度: 546】</h1>
+      <div class="subtitle">web框架 · web框架 · 网易</div>
+      <div class="meta">创建：2023-10-01T13:36:04Z · 更新：2023-10-01T13:36:05Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：v-if和v-for性能</p><p>确实，将<code>v-if</code>和<code>v-for</code>同时用在同一个元素上可能会导致性能问题。<strong>原因在于<code>v-for</code>具有比<code>v-if</code>更高的优先级，它会在每次渲染的时候都会运行</strong>。这意味着，即使在某些情况下<code>v-if</code>的条件为<code>false</code>，<code>v-for</code>仍然会对数据进行遍历和渲染。</p><p>这样会导致一些不必要的性能消耗，特别是当数据量较大时。Vue在渲染时会尽量复用已经存在的元素，而不是重新创建和销毁它们。但是当<code>v-for</code>遍历的数据项发生变化时，Vue会使用具有相同<code>key</code>的元素，此时<code>v-if</code>的条件可能会影响到之前的元素，导致一些不符合预期的行为。</p><p>让我们来看一个具体的例子来说明这个问题。</p><p>假设我们有以下的Vue模板代码：</p><pre class="code-block"><code class="language-html">&lt;ul&gt;
+  &lt;li v-for=&quot;item in items&quot; v-if=&quot;item.isActive&quot;&gt;{{ item.name }}&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre><p>这里我们使用<code>v-for</code>来循环渲染<code>items</code>数组，并且使用<code>v-if</code>来判断每个数组项是否是活动状态。现在，让我们看一下Vue的源码，特别是与渲染相关的部分。</p><p>在Vue的渲染过程中，它会将模板解析为AST（抽象语法树），然后将AST转换为渲染函数。对于上面的模板，渲染函数大致如下：</p><pre class="code-block"><code class="language-javascript">function render() {
+  return _c(
+    &#39;ul&#39;,
+    null,
+    _l(items, function(item) {
+      return item.isActive ? _c(&#39;li&#39;, null, _v(_s(item.name))) : _e();
+    })
+  );
+}
+</code></pre><p>上面的代码中，<code>_l</code>是由<code>v-for</code>指令生成的渲染函数。它接收一个数组和一个回调函数，并在每个数组项上调用回调函数。回调函数根据<code>v-if</code>条件来决定是否渲染<code>li</code>元素。</p><p>问题出在这里：由于<code>v-for</code>的优先级比<code>v-if</code>高，所以每次渲染时都会执行<code>v-for</code>循环，无论<code>v-if</code>的条件是否为<code>false</code>。这意味着即使<code>item.isActive</code>为<code>false</code>，Vue仍然会对它进行遍历和渲染。</p><p>此外，Vue在渲染时会尽量复用已经存在的元素，而不是重新创建和销毁它们。但是当<code>v-for</code>遍历的数据项发生变化时，Vue会使用具有相同<code>key</code>的元素。在上面的例子中，如果<code>item.isActive</code>从<code>true</code>变为<code>false</code>，Vue会尝试复用之前的<code>li</code>元素，并在其上应用<code>v-if</code>条件。这可能会导致一些不符合预期的行为。</p><p>为了避免这种性能问题，Vue官方推荐在同一个元素上不要同时使用<code>v-if</code>和<code>v-for</code>。如果需要根据条件来决定是否渲染循环的元素，可以考虑使用计算属性或者<code>v-for</code>的过滤器来处理数据。或者，将条件判断放在外层元素上，内层元素使用<code>v-for</code>进行循环渲染，以确保每次渲染时都能正确地应用<code>v-if</code>条件。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>js 超过 Number 最大值的数怎么处理？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h3&gt;js 超过 Number 最大值的数怎么处理&lt;/h3&gt;&lt;p&gt;在 JavaScript 中，超过 &lt;code&gt;Number.MAX_VALUE&lt;/code&gt; 的数值被认为是 &lt;code&gt;Infinity&lt;/code&gt;（正无穷大）。如果要处理超过 &lt;code&gt;Number.M" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="js 超过 Number 最大值的数怎么处理？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h3&gt;js 超过 Number 最大值的数怎么处理&lt;/h3&gt;&lt;p&gt;在 JavaScript 中，超过 &lt;code&gt;Number.MAX_VALUE&lt;/code&gt; 的数值被认为是 &lt;code&gt;Infinity&lt;/code&gt;（正无穷大）。如果要处理超过 &lt;code&gt;Number.MAX_VALUE&lt;/code&gt; 的数值，可以使用第三方的 JavaScript 库，如 &lt;code&gt;big.js&lt;/co" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/190" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>js 超过 Number 最大值的数怎么处理？</h1>
+      <div class="subtitle">web应用场景 · web应用场景</div>
+      <div class="meta">创建：2023-03-26T09:39:36Z · 更新：2023-03-26T09:39:37Z</div>
+    </div>
+    <article class="content markdown-body"><h3>js 超过 Number 最大值的数怎么处理</h3><p>在 JavaScript 中，超过 <code>Number.MAX_VALUE</code> 的数值被认为是 <code>Infinity</code>（正无穷大）。如果要处理超过 <code>Number.MAX_VALUE</code> 的数值，可以使用第三方的 JavaScript 库，如 <code>big.js</code> 或 <code>bignumber.js</code>，这些库可以处理任意精度的数值。</p><p>例如，使用 <code>big.js</code> 库可以将两个超过 <code>Number.MAX_VALUE</code> 的数相加：</p><pre class="code-block"><code class="language-javascript">const big = require(&#39;big.js&#39;);
+
+const x = new big(&#39;9007199254740993&#39;);
+const y = new big(&#39;100000000000000000&#39;);
+
+const result = x.plus(y);
+
+console.log(result.toString()); // 输出：100009007194925474093
+</code></pre><p>这里创建了两个 <code>big.js</code> 对象 <code>x</code> 和 <code>y</code>，分别存储超过 <code>Number.MAX_VALUE</code> 的数值。通过 <code>plus</code> 方法将它们相加，得到了正确的结果。最后，通过 <code>toString</code> 方法将结果转换为字符串。</p><h3>如果不依赖外部库，咋处理</h3><p>JavaScript 中，数值超过了 Number 最大值时，可以使用 BigInt 类型来处理，它可以表示任意精度的整数。</p><p>使用 BigInt 类型时，需要在数值后面添加一个 <code>n</code> 后缀来表示 BigInt 类型。例如：</p><pre class="code-block"><code class="language-javascript">const bigNum = 9007199254740993n; // 注意：数字后面添加了 &#39;n&#39; 后缀
+</code></pre><p>注意，BigInt 类型是 ECMAScript 2020 新增的特性，因此在某些浏览器中可能不被支持。如果需要在不支持 BigInt 的环境中使用 BigInt，可以使用 polyfill 或者第三方库来实现。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

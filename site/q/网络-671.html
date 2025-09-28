@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>grpc 和 protobuf 是什么关系？【热度: 320】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;code&gt;gRPC（gRPC Remote Procedure Call）&lt;/code&gt;和 &lt;code&gt;Protocol Buffers（protobuf）&lt;/code&gt;有密切的关系，可以理解为它们之间是一种上下游的关系：&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Proto" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="grpc 和 protobuf 是什么关系？【热度: 320】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;code&gt;gRPC（gRPC Remote Procedure Call）&lt;/code&gt;和 &lt;code&gt;Protocol Buffers（protobuf）&lt;/code&gt;有密切的关系，可以理解为它们之间是一种上下游的关系：&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Protocol Buffers（protobuf）：&lt;/strong&gt; 这是一种由 Google 设计的数据序列化格式，用于结构" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/671" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>grpc 和 protobuf 是什么关系？【热度: 320】</h1>
+      <div class="subtitle">网络 · 网络 · TOP100互联网</div>
+      <div class="meta">创建：2024-01-14T16:01:29Z · 更新：2024-01-14T16:01:30Z</div>
+    </div>
+    <article class="content markdown-body"><p><code>gRPC（gRPC Remote Procedure Call）</code>和 <code>Protocol Buffers（protobuf）</code>有密切的关系，可以理解为它们之间是一种上下游的关系：</p><ul><li><strong>Protocol Buffers（protobuf）：</strong> 这是一种由 Google 设计的数据序列化格式，用于结构化数据的序列化和反序列化。protobuf 使用 .proto 文件定义消息结构，然后通过编译器生成相应语言的代码，使得开发者可以在应用中使用这些结构化的消息。</li></ul><ul><li><strong>gRPC：</strong> 这是一个由 Google 开发的基于 HTTP/2 的远程过程调用（RPC）框架。gRPC 使用 Protocol Buffers 作为默认的序列化格式，以便在客户端和服务器之间传递结构化的消息。 gRPC 通过生成的代码支持多语言，使得开发者可以轻松地定义 RPC 服务、消息和调用远程方法。</li></ul><p>因此，关系可以总结为：</p><ul><li><strong>gRPC 使用 protobuf：</strong> gRPC 首选 Protocol Buffers 作为其默认的序列化格式，这意味着 gRPC 中的消息通信使用 protobuf 格式定义，而 gRPC 编译器将根据 protobuf 文件生成相应语言的代码，包括消息结构和 RPC 服务接口。</li></ul><ul><li><strong>protobuf 不依赖于 gRPC：</strong> 尽管 protobuf 最初是为 gRPC 设计的，但它本身并不限定于 gRPC。您可以使用 protobuf 来序列化和反序列化数据，而不仅限于在 gRPC 中使用。</li></ul><p>总的来说，gRPC 和 protobuf 是两个相关但独立的概念。gRPC 是一个使用 Protocol Buffers 的 RPC 框架，而 Protocol Buffers 是一个通用的数据序列化工具，可以在多种场景中使用。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

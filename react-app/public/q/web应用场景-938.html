@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>localStorage 是同步还是异步【热度: 210】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;在大多数现代浏览器中，&lt;code&gt;localStorage&lt;/code&gt;的操作是同步的。&lt;/p&gt;&lt;p&gt;当你使用&lt;code&gt;localStorage.setItem()&lt;/code&gt;来存储数据或者&lt;code&gt;localStorage.getItem()&lt;/code&gt;来获取数据" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="localStorage 是同步还是异步【热度: 210】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;在大多数现代浏览器中，&lt;code&gt;localStorage&lt;/code&gt;的操作是同步的。&lt;/p&gt;&lt;p&gt;当你使用&lt;code&gt;localStorage.setItem()&lt;/code&gt;来存储数据或者&lt;code&gt;localStorage.getItem()&lt;/code&gt;来获取数据时，这些操作会立即执行并且不会返回一个 Promise 或者使用回调函数来处理异步操作。&lt;/p&gt;&lt;p&gt;例如：&lt;/p&gt;&lt;p" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/938" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>localStorage 是同步还是异步【热度: 210】</h1>
+      <div class="subtitle">web应用场景 · web应用场景 · 百度</div>
+      <div class="meta">创建：2024-09-27T13:20:35Z · 更新：2024-09-27T13:20:36Z</div>
+    </div>
+    <article class="content markdown-body"><p>在大多数现代浏览器中，<code>localStorage</code>的操作是同步的。</p><p>当你使用<code>localStorage.setItem()</code>来存储数据或者<code>localStorage.getItem()</code>来获取数据时，这些操作会立即执行并且不会返回一个 Promise 或者使用回调函数来处理异步操作。</p><p>例如：</p><pre class="code-block"><code class="language-javascript">localStorage.setItem(&quot;key&quot;, &quot;value&quot;);
+console.log(localStorage.getItem(&quot;key&quot;));
+</code></pre><p>在上面的代码中，设置和获取<code>localStorage</code>中的数据的操作会按顺序立即执行，不会像异步操作那样需要等待一段时间后再执行后续代码。</p><p>然而，需要注意的是，虽然<code>localStorage</code>操作本身是同步的，但如果存储的数据量较大，可能会导致性能问题，因为这些操作会阻塞浏览器的主线程。在这种情况下，可能会感觉操作像是异步的，因为浏览器可能会出现卡顿或响应缓慢的情况。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

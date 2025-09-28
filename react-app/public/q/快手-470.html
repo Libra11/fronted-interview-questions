@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如果不使用脚手架， 如果用 webpack 构建一个自己的 react 应用【热度: 729】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：构建 react 应用&lt;/p&gt;&lt;h3&gt;利用 webpack 初始化基本应用构建&lt;/h3&gt;&lt;p&gt;要在Webpack配置中添加对Less和Ant Design组件库的支持，需要进行以下步骤：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;安装所需的依赖。&lt;/l" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如果不使用脚手架， 如果用 webpack 构建一个自己的 react 应用【热度: 729】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：构建 react 应用&lt;/p&gt;&lt;h3&gt;利用 webpack 初始化基本应用构建&lt;/h3&gt;&lt;p&gt;要在Webpack配置中添加对Less和Ant Design组件库的支持，需要进行以下步骤：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;安装所需的依赖。&lt;/li&gt;&lt;/ol&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;n" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/470" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如果不使用脚手架， 如果用 webpack 构建一个自己的 react 应用【热度: 729】</h1>
+      <div class="subtitle">快手 · web应用场景 · 快手</div>
+      <div class="meta">创建：2023-07-04T15:35:41Z · 更新：2023-07-04T15:35:42Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：构建 react 应用</p><h3>利用 webpack 初始化基本应用构建</h3><p>要在Webpack配置中添加对Less和Ant Design组件库的支持，需要进行以下步骤：</p><ol><li>安装所需的依赖。</li></ol><pre class="code-block"><code class="language-bash">npm install less less-loader antd
+</code></pre><ol><li>在Webpack配置文件中添加对Less的支持。</li></ol><pre class="code-block"><code class="language-javascript">module.exports = {
+  // ...其他配置
+
+  module: {
+    rules: [
+      // ...其他规则
+
+      {
+        test: /\.less$/, // 匹配Less文件
+        use: [
+          &#39;style-loader&#39;, // 将CSS插入到页面中
+          &#39;css-loader&#39;, // 解析CSS文件
+          &#39;less-loader&#39; // 将Less转换为CSS
+        ]
+      }
+    ]
+  },
+
+  // ...其他配置
+};
+</code></pre><ol><li>在入口文件中引入Ant Design的样式文件。</li></ol><pre class="code-block"><code class="language-javascript">// 入口文件 index.js
+
+import React from &#39;react&#39;;
+import ReactDOM from &#39;react-dom&#39;;
+import &#39;antd/dist/antd.css&#39;; // 引入Ant Design的样式文件
+import App from &#39;./App&#39;;
+
+ReactDOM.render(&lt;App /&gt;, document.getElementById(&#39;root&#39;));
+</code></pre><p>现在你可以在React组件中使用Ant Design的组件和样式了。例如，在<code>App.js</code>中使用Ant Design的Button组件：</p><pre class="code-block"><code class="language-javascript">// App.js
+
+import React from &#39;react&#39;;
+import { Button } from &#39;antd&#39;;
+
+function App() {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Hello, React!&lt;/h1&gt;
+      &lt;Button type=&quot;primary&quot;&gt;Click me&lt;/Button&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default App;
+</code></pre><p>重新运行Webpack开发服务器，你应该能够看到Ant Design的Button组件正常显示在页面上。</p><p>以上是一种简单的配置方法，你还可以根据需要进行更高级的配置，例如按需加载、自定义主题等。有关更多信息，请参阅Webpack和Ant Design的官方文档。</p><h3>使用 less 应该如何配置， 同时支持 css module 和 非 css module</h3><p>如果你想在Webpack配置中同时支持Less和CSS Module（局部作用域的CSS），可以使用以下配置。</p><ol><li>安装所需的依赖。</li></ol><pre class="code-block"><code class="language-bash">npm install less less-loader css-loader style-loader
+</code></pre><ol><li>在Webpack配置文件中添加对Less和CSS的支持。</li></ol><pre class="code-block"><code class="language-javascript">module.exports = {
+  // ...其他配置
+
+  module: {
+    rules: [
+      // ...其他规则
+
+      {
+        test: /\.less$/, // 匹配Less文件
+        exclude: /\.module\.less$/, // 排除CSS Module的Less文件
+        use: [
+          &#39;style-loader&#39;, // 将CSS插入到页面中
+          &#39;css-loader&#39;, // 解析CSS文件
+          &#39;less-loader&#39; // 将Less转换为CSS
+        ]
+      },
+      {
+        test: /\.module\.less$/, // 匹配CSS Module的Less文件
+        use: [
+          &#39;style-loader&#39;, // 将CSS插入到页面中
+          {
+            loader: &#39;css-loader&#39;, // 解析CSS文件
+            options: {
+              modules: true // 启用CSS Module
+            }
+          },
+          &#39;less-loader&#39; // 将Less转换为CSS
+        ]
+      }
+    ]
+  },
+
+  // ...其他配置
+};
+</code></pre><p>现在，你可以同时使用普通的Less文件和CSS Module的Less文件。例如，<code>styles.module.less</code>是一个CSS Module的Less文件，<code>styles.less</code>是一个普通的Less文件。</p><pre class="code-block"><code class="language-less">/* styles.module.less */
+
+.container {
+  background-color: red;
+}
+</code></pre><pre class="code-block"><code class="language-less">/* styles.less */
+
+.text {
+  color: blue;
+}
+</code></pre><p>在React组件中使用这些样式：</p><pre class="code-block"><code class="language-javascript">import React from &#39;react&#39;;
+import styles from &#39;./styles.module.less&#39;; // 导入CSS Module的样式
+import &#39;./styles.less&#39;; // 导入普通的Less样式
+
+function App() {
+  return (
+    &lt;div className={styles.container}&gt;
+      &lt;h1 className=&quot;text&quot;&gt;Hello, React!&lt;/h1&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default App;
+</code></pre><p>这样，<code>styles.container</code>将应用CSS Module的样式，<code>.text</code>将应用普通的Less样式。</p><p>重新运行Webpack开发服务器，你应该能够看到样式正常应用到组件中。</p><h3>如何引入 antd 组件并且支持按需加载</h3><p>要引入antd组件并支持按需加载，你需要进行以下配置。</p><ol><li>安装antd和babel插件。</li></ol><pre class="code-block"><code class="language-bash">npm install antd babel-plugin-import --save
+</code></pre><ol><li>在.babelrc文件中配置babel插件。</li></ol><pre class="code-block"><code class="language-json">{
+  &quot;plugins&quot;: [
+    [
+      &quot;import&quot;,
+      {
+        &quot;libraryName&quot;: &quot;antd&quot;,
+        &quot;style&quot;: &quot;css&quot;
+      }
+    ]
+  ]
+}
+</code></pre><ol><li>在Webpack配置文件中添加对Less和CSS的支持。</li></ol><pre class="code-block"><code class="language-javascript">module.exports = {
+  // ...其他配置
+
+  module: {
+    rules: [
+      // ...其他规则
+
+      {
+        test: /\.less$/, // 匹配Less文件
+        exclude: /node_modules/,
+        use: [
+          &#39;style-loader&#39;, // 将CSS插入到页面中
+          &#39;css-loader&#39;, // 解析CSS文件
+          &#39;less-loader&#39; // 将Less转换为CSS
+        ]
+      }
+    ]
+  },
+
+  // ...其他配置
+};
+</code></pre><ol><li>在你的组件中引入antd组件。</li></ol><pre class="code-block"><code class="language-javascript">import React from &#39;react&#39;;
+import { Button } from &#39;antd&#39;;
+
+function App() {
+  return &lt;Button type=&quot;primary&quot;&gt;Hello, Antd!&lt;/Button&gt;;
+}
+
+export default App;
+</code></pre><p>现在，你可以使用antd组件并且只加载你需要的组件样式。Webpack会根据需要自动按需加载antd组件的样式文件。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

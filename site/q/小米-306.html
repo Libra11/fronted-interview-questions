@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[React] 如何监听路由变化？【热度: 679】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;依赖&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;react-router-dom v6&lt;/li&gt;&lt;li&gt;react v18&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;实现&lt;/h3&gt;&lt;p&gt;监听的核心原理基于useEffect，和useLocation，通过useEffect监听" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[React] 如何监听路由变化？【热度: 679】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;依赖&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;react-router-dom v6&lt;/li&gt;&lt;li&gt;react v18&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;实现&lt;/h3&gt;&lt;p&gt;监听的核心原理基于useEffect，和useLocation，通过useEffect监听当前location的变化，这样就实现的最基本的监听结构：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;co" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/306" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[React] 如何监听路由变化？【热度: 679】</h1>
+      <div class="subtitle">小米 · web框架 · 小米</div>
+      <div class="meta">创建：2023-04-23T14:53:27Z · 更新：2023-04-23T14:53:28Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>依赖</strong></p><ul><li>react-router-dom v6</li><li>react v18</li></ul><h3>实现</h3><p>监听的核心原理基于useEffect，和useLocation，通过useEffect监听当前location的变化，这样就实现的最基本的监听结构：</p><pre class="code-block"><code class="language-jsx">const location = useLocation();
+useEffect(() =&gt; {
+  //记录路径
+}, [location]);
+</code></pre><p>然后，我们可以在useEffect中记录和更新from、to的值，可以根据自己的需要选择from、to的数据类型，这里我使用了React-router提供的Location类型。</p><p>更新逻辑为：将to的值赋给from，然后将新的location赋值给to</p><pre class="code-block"><code class="language-typescript jsx">import { Location, useLocation } from &quot;react-router-dom&quot;;
+
+type LocationTrans = {
+  from: Location;
+  to: Location;
+};
+
+const location = useLocation();
+const locationState = useRef&lt;LocationTrans&gt;({
+  from: null,
+  to: null,
+});
+
+useEffect(() =&gt; {
+  locationState.current.from = locationState.current.to;
+  locationState.current.to = location;
+}, [location]);
+</code></pre><p>最后，利用React的Context进行封装，将其封装成一个组件和一个hook，使用者可以通过这个组件来进行监听，通过hook快速访问数据。我将这些代码放在了同一个.tsx文件中，保证了逻辑的高内聚。</p><pre class="code-block"><code class="language-typescript jsx">import React, { createContext, useContext, useEffect, useRef } from &quot;react&quot;;
+import { Location, useLocation } from &quot;react-router-dom&quot;;
+
+
+type LocationTrans = {
+  from: Location;
+  to: Location;
+};
+
+export const LocationContext =
+  createContext&lt;React.MutableRefObject&lt;LocationTrans&gt;&gt;(null);
+
+export function WithLocationListener(props: { children: React.ReactNode }) {
+  const location = useLocation();
+
+  const locationState = useRef&lt;LocationTrans&gt;({
+    from: null,
+    to: null,
+  });
+
+  useEffect(() =&gt; {
+    locationState.current.from = locationState.current.to;
+    locationState.current.to = location;
+  }, [location]);
+
+  return (
+    &lt;LocationContext.Provider value={locationState}&gt;
+      {props.children}
+    &lt;/LocationContext.Provider&gt;
+  );
+}
+
+export function useLocationConsumer(): LocationTrans {
+  const ref = useContext(LocationContext);
+  return ref.current;
+}
+</code></pre><h3>使用</h3><p>这个组件只能在RouterProvider的子组件中使用，因为useLocation只能在这个范围内使用。</p><pre class="code-block"><code class="language-typescript jsx">//import ....
+
+function Layout() {
+  return (
+    &lt;WithLocationListener&gt;
+      {/* ..... */}
+    &lt;/WithLocationListener&gt;
+  );
+}
+</code></pre><p>在需要用到路由信息的页面：</p><pre class="code-block"><code class="language-typescript jsx">const { from, to } = useLocationConsumer();
+</code></pre><h3>参考文档</h3><ul><li>https://juejin.cn/post/7195910055497580600</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

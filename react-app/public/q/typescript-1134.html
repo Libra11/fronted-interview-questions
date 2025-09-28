@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>对比一下 ts 和 jsdoc【热度: 126】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：ts 对比 jsdoc&lt;/p&gt;&lt;p&gt;TypeScript（TS）和 JSDoc 都是用于增强 JavaScript 代码类型安全性的工具，但它们的实现方式和适用场景有显著差异。以下是两者的对比分析及优劣总结：&lt;/p&gt;&lt;h3&gt;Type" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="对比一下 ts 和 jsdoc【热度: 126】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：ts 对比 jsdoc&lt;/p&gt;&lt;p&gt;TypeScript（TS）和 JSDoc 都是用于增强 JavaScript 代码类型安全性的工具，但它们的实现方式和适用场景有显著差异。以下是两者的对比分析及优劣总结：&lt;/p&gt;&lt;h3&gt;TypeScript 与 JSDoc 对比表&lt;/h3&gt;&lt;p&gt;| &lt;strong&gt;维度&lt;/strong&gt; | &lt;strong&gt;Ty" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1134" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>对比一下 ts 和 jsdoc【热度: 126】</h1>
+      <div class="subtitle">TypeScript · TypeScript</div>
+      <div class="meta">创建：2025-08-31T10:31:40Z · 更新：2025-08-31T10:31:40Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：ts 对比 jsdoc</p><p>TypeScript（TS）和 JSDoc 都是用于增强 JavaScript 代码类型安全性的工具，但它们的实现方式和适用场景有显著差异。以下是两者的对比分析及优劣总结：</p><h3>TypeScript 与 JSDoc 对比表</h3><p>| <strong>维度</strong>         | <strong>TypeScript（TS）</strong>                                                       | <strong>JSDoc</strong>                                                                    |</p><p>| ---------------- | -------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |</p><p>| <strong>本质</strong>         | 是 JavaScript 的超集，需要编译为 JS 才能运行，自带完整的类型系统           | 是 JavaScript 的注释规范，通过注释标注类型，无需编译，浏览器/Node 可直接运行 |</p><p>| <strong>类型定义方式</strong> | 使用专门的类型语法（如 <code>: number</code>、<code>interface</code>、<code>type</code> 等）                | 使用注释标签（如 <code>@param</code>、<code>@returns</code>、<code>@type</code> 等）标注类型                  |</p><p>| <strong>类型检查时机</strong> | 编译时强制类型检查，错误会在开发阶段暴露                                   | 依赖 IDE/编辑器（如 VS Code）的 TypeScript 服务进行类型检查，非强制          |</p><p>| <strong>功能丰富度</strong>   | 类型系统强大（泛型、交叉/联合类型、条件类型、枚举等）                      | 支持基础类型标注，复杂类型（如泛型约束、条件类型）表达能力有限               |</p><p>| <strong>生态与工具</strong>   | 生态成熟，支持所有主流框架（React、Vue 等），有大量类型声明文件（<code>.d.ts</code>） | 依赖 TypeScript 语言服务，可复用 <code>.d.ts</code> 文件，但工具链集成较弱              |</p><p>| <strong>学习成本</strong>     | 较高，需学习专门的类型语法和概念                                           | 较低，基于注释，语法简单，熟悉 JS 即可快速上手                               |</p><p>| <strong>项目侵入性</strong>   | 高，需将文件改为 <code>.ts</code> 后缀，可能需要调整构建流程                          | 低，不改变 JS 代码结构，仅添加注释，原有 JS 项目可平滑接入                   |</p><p>| <strong>运行时影响</strong>   | 无（编译后为纯 JS），但类型信息会被完全擦除                                | 无（注释不影响运行），类型信息仅存在于代码中                                 |</p><p>| <strong>适用场景</strong>     | 大型项目、团队协作、对类型安全性要求高的场景                               | 小型项目、快速原型、希望保持纯 JS 但需要基础类型提示的场景                   |</p><h3>核心优劣总结</h3><h4>TypeScript 的优势：</h4><ol><li><strong>强类型检查</strong>：编译阶段强制校验，能提前发现更多类型错误，减少运行时问题。</li><li><strong>丰富的类型功能</strong>：支持泛型、条件类型、枚举等高级特性，能精确描述复杂数据结构。</li><li><strong>工具链完善</strong>：与主流 IDE、构建工具（Webpack、Vite）深度集成，开发体验好。</li><li><strong>团队协作友好</strong>：类型定义作为“活文档”，清晰传达接口设计，降低沟通成本。</li></ol><h4>TypeScript 的劣势：</h4><ol><li><strong>学习成本高</strong>：需要掌握额外的类型语法和概念（如 <code>infer</code>、<code>keyof</code> 等）。</li><li><strong>项目侵入性强</strong>：需要修改文件后缀、配置编译流程，对纯 JS 项目迁移有一定成本。</li><li><strong>编译开销</strong>：增加编译步骤，可能略微影响开发效率（尤其大型项目）。</li></ol><h4>JSDoc 的优势：</h4><ol><li><strong>零成本接入</strong>：无需修改代码结构，仅通过注释标注类型，原有 JS 项目可直接使用。</li><li><strong>无编译步骤</strong>：保留纯 JS 特性，浏览器/Node 可直接运行，适合快速迭代。</li><li><strong>学习成本低</strong>：语法简单，基于注释标签，熟悉 JS 的开发者可快速上手。</li></ol><h4>JSDoc 的劣势：</h4><ol><li><strong>类型能力有限</strong>：复杂类型（如泛型约束、条件类型）难以表达，类型检查较弱。</li><li><strong>非强制检查</strong>：依赖 IDE 提示，无法在构建阶段强制报错，可能遗漏类型问题。</li><li><strong>注释冗余</strong>：大量类型注释会增加代码体积，影响可读性（尤其复杂类型）。</li></ol><h3>总结建议</h3><ul><li>若项目规模大、团队协作频繁、对类型安全要求高，优先选 <strong>TypeScript</strong>。</li><li>若项目小、追求快速开发、希望保持纯 JS 生态，可选 <strong>JSDoc</strong> 作为轻量方案。</li><li>实际开发中，两者也可结合使用（如用 JSDoc 在 TS 项目中补充复杂类型注释）。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

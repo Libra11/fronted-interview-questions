@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>在浏览器内多个标签页之间实现通信有哪些方式【热度: 897】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：跨页面通信、Broadcast Channel API 通信、SharedWorker&lt;/p&gt;&lt;h3&gt;基本通信方式&lt;/h3&gt;&lt;p&gt;在浏览器内多个标签页之间实现通信可以通过以下几种方式：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;使用 Broadcast" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="在浏览器内多个标签页之间实现通信有哪些方式【热度: 897】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：跨页面通信、Broadcast Channel API 通信、SharedWorker&lt;/p&gt;&lt;h3&gt;基本通信方式&lt;/h3&gt;&lt;p&gt;在浏览器内多个标签页之间实现通信可以通过以下几种方式：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;使用 Broadcast Channel API：Broadcast Channel API 是 HTML5 提供的一种跨页面通信的机制。通过该" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/410" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>在浏览器内多个标签页之间实现通信有哪些方式【热度: 897】</h1>
+      <div class="subtitle">阿里巴巴 · 网络 · 阿里巴巴</div>
+      <div class="meta">创建：2023-06-04T14:18:40Z · 更新：2023-06-07T15:06:22Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：跨页面通信、Broadcast Channel API 通信、SharedWorker</p><h3>基本通信方式</h3><p>在浏览器内多个标签页之间实现通信可以通过以下几种方式：</p><ol><li>使用 Broadcast Channel API：Broadcast Channel API 是 HTML5 提供的一种跨页面通信的机制。通过该 API，可以在不同的标签页之间发送消息，实现实时的双向通信。</li></ol><ol><li>使用 LocalStorage 或 SessionStorage：LocalStorage 和 SessionStorage 是浏览器提供的本地存储机制。可以通过在一个标签页中修改 LocalStorage 或 SessionStorage 中的数据，然后在其他标签页中监听该数据的变化，实现跨标签页的通信。</li></ol><ol><li>使用 SharedWorker：SharedWorker 是一种特殊的 Web Worker，可以被多个浏览器标签页所共享。通过 SharedWorker，不同标签页可以通过消息传递进行通信。</li></ol><ol><li>使用 Cookies：通过设置同一个域名下的 Cookie，不同的标签页可以共享这些 Cookie 数据。可以在一个标签页中设置 Cookie，然后在其他标签页中读取该 Cookie 实现通信。</li></ol><ol><li>使用 Window.postMessage：Window.postMessage 方法可以在不同的浏览器窗口之间进行跨域通信。可以通过在一个窗口中使用 postMessage 方法向其他窗口发送消息，接收窗口通过监听 message 事件来接收并处理消息。</li></ol><h3>Broadcast Channel API</h3><p>Broadcast Channel API 是 HTML5 提供的一种跨页面通信的机制，它可以在同一个域名下的多个浏览器标签页之间进行实时的双向通信。</p><p>通过 Broadcast Channel API，你可以创建一个通道（channel），然后不同的标签页可以通过这个通道发送和接收消息。每个标签页都可以监听通道中的消息，并对接收到的消息做出相应的处理。</p><p>使用 Broadcast Channel API 实现多页签之间的通信的步骤如下：</p><ol><li>创建一个 BroadcastChannel 对象，并指定一个唯一的通道名称：</li></ol><pre class="code-block"><code class="language-javascript">const channel = new BroadcastChannel(&#39;channelName&#39;);
+</code></pre><ol><li>在一个标签页中发送消息：</li></ol><pre class="code-block"><code class="language-javascript">channel.postMessage(&#39;message&#39;);
+</code></pre><ol><li>在其他标签页中监听消息并做出响应：</li></ol><pre class="code-block"><code class="language-javascript">channel.addEventListener(&#39;message&#39;, event =&gt; {
+ const message = event.data;
+ // 处理接收到的消息
+});
+</code></pre><p>通过 Broadcast Channel API，不同的标签页可以实时地收发消息，从而实现多页签之间的通信。这对于需要在多个标签页之间共享状态、同步数据或实现协作等场景非常有用。请注意，Broadcast Channel API 只在同一域名下的标签页之间有效，不支持跨域通信。</p><h3>SharedWorker 实现多页签之间通信</h3><p>SharedWorker 是 HTML5 提供的一种多页签之间共享的 Web Worker。通过 SharedWorker，多个浏览器标签页可以共享一个后台线程，实现跨页面的通信和数据共享。</p><p>下面是一个使用 SharedWorker 实现多页签之间通信的示例：</p><p>在一个 JavaScript 文件（worker.js）中创建 SharedWorker：</p><pre class="code-block"><code class="language-javascript">// worker.js
+
+// 在共享 Worker 中监听消息
+self.onconnect = function(event) {
+  var port = event.ports[0];
+
+  // 接收消息
+  port.onmessage = function(event) {
+    var message = event.data;
+
+    // 处理消息
+    // ...
+
+    // 发送消息
+    port.postMessage(&#39;Response from SharedWorker&#39;);
+  };
+
+  // 断开连接时的处理
+  port.onclose = function() {
+    // ...
+  };
+};
+</code></pre><p>在多个页面中分别引入 SharedWorker，并进行通信：</p><pre class="code-block"><code class="language-javascript">// 页面1
+var sharedWorker = new SharedWorker(&#39;worker.js&#39;);
+
+// 获取共享 Worker 的端口
+var port = sharedWorker.port;
+
+// 发送消息
+port.postMessage(&#39;Message from Page 1&#39;);
+
+// 接收消息
+port.onmessage = function(event) {
+  var message = event.data;
+
+  // 处理接收到的消息
+  // ...
+};
+
+// 页面2
+var sharedWorker = new SharedWorker(&#39;worker.js&#39;);
+
+// 获取共享 Worker 的端口
+var port = sharedWorker.port;
+
+// 发送消息
+port.postMessage(&#39;Message from Page 2&#39;);
+
+// 接收消息
+port.onmessage = function(event) {
+  var message = event.data;
+
+  // 处理接收到的消息
+  // ...
+};
+</code></pre><p>以上示例中，<code>worker.js</code> 创建了一个 SharedWorker，它会监听来自多个页面的连接请求，并为每个连接创建一个端口（port）。每个页面通过创建 SharedWorker 实例，并通过获取端口对象进行消息的发送和接收。</p><p>通过 SharedWorker，页面1和页面2可以实现跨页签的通信。它们可以向共享 Worker 发送消息，并监听共享 Worker 返回的消息，从而实现跨页面的数据交互和共享。</p><p>需要注意的是，SharedWorker 需要在支持 SharedWorker 的浏览器中运行，而且需要在服务器环境下运行，即通过 HTTP 或 HTTPS 协议访问页面才能正常工作。</p><h3>Window.postMessage 使用示例</h3><p><code>Window.postMessage()</code> 是 HTML5 提供的一种在不同窗口之间进行跨域通信的方法。它可以安全地向其他窗口发送消息，并在接收方窗口触发消息事件。</p><p>下面是一个使用 <code>postMessage()</code> 进行跨窗口通信的示例：</p><p>在发送消息的窗口中：</p><pre class="code-block"><code class="language-javascript">// 发送消息到目标窗口
+window.postMessage(&#39;Hello, World!&#39;, &#39;https://example.com&#39;);
+</code></pre><p>在接收消息的窗口中：</p><pre class="code-block"><code class="language-javascript">// 监听消息事件
+window.addEventListener(&#39;message&#39;, function(event) {
+  // 确保消息来自指定域名
+  if (event.origin === &#39;https://example.com&#39;) {
+    var message = event.data;
+
+    // 处理接收到的消息
+    console.log(&#39;Received message:&#39;, message);
+  }
+});
+</code></pre><p>在发送消息的窗口中，使用 <code>window.postMessage()</code> 发送消息，第一个参数是要发送的消息内容，第二个参数是目标窗口的源（origin），可以是 URL、域名或通配符 '*'。</p><p>在接收消息的窗口中，通过监听 <code>message</code> 事件，可以捕获来自其他窗口的消息。在事件处理程序中，通过 <code>event.origin</code> 可以判断消息来自哪个域名。可以根据需要进行安全性检查，确保只接收来自指定域名的消息。</p><p>需要注意的是，<code>postMessage()</code> 通常用于跨窗口通信，可以在不同窗口或不同域名之间进行通信。在使用时需要确保目标窗口的源是可信任的，以防止安全漏洞。同时，接收消息的窗口需要显式地监听消息事件，并进行相应的处理。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

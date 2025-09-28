@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何封装一个请求，让其多次调用的时候，实际只发起一个请求的时候，返回同一份结果【热度: 636】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：defer函数、请求结果缓存在JS内存&lt;/p&gt;&lt;p&gt;最优解： &lt;strong&gt;使用deferred思想来实现请求的等待队列，可以借助Promise和async/await语法&lt;/strong&gt;。&lt;/p&gt;&lt;p&gt;下面是使用&lt;code&gt;d" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何封装一个请求，让其多次调用的时候，实际只发起一个请求的时候，返回同一份结果【热度: 636】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：defer函数、请求结果缓存在JS内存&lt;/p&gt;&lt;p&gt;最优解： &lt;strong&gt;使用deferred思想来实现请求的等待队列，可以借助Promise和async/await语法&lt;/strong&gt;。&lt;/p&gt;&lt;p&gt;下面是使用&lt;code&gt;deferred&lt;/code&gt;思想来实现的代码示例：&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code c" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/499" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何封装一个请求，让其多次调用的时候，实际只发起一个请求的时候，返回同一份结果【热度: 636】</h1>
+      <div class="subtitle">阿里巴巴 · 网络 · 阿里巴巴</div>
+      <div class="meta">创建：2023-07-26T16:15:45Z · 更新：2023-07-26T16:15:46Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：defer函数、请求结果缓存在JS内存</p><p>最优解： <strong>使用deferred思想来实现请求的等待队列，可以借助Promise和async/await语法</strong>。</p><p>下面是使用<code>deferred</code>思想来实现的代码示例：</p><pre class="code-block"><code class="language-javascript">class Deferred {
+  constructor() {
+    this.promise = new Promise((resolve, reject) =&gt; {
+      this.resolve = resolve;
+      this.reject = reject;
+    });
+  }
+}
+
+// 创建一个全局的锁标识
+let lock = false;
+
+// 创建一个缓存对象
+const cache = {};
+
+// 创建一个等待队列数组
+const waitingRequests = [];
+
+// 封装请求函数
+async function request(url, params) {
+  const cacheKey = `${url}-${JSON.stringify(params)}`;
+
+  // 判断锁的状态
+  if (lock) {
+    const deferred = new Deferred();
+    // 如果锁已经被占用，将请求添加到等待队列中
+    waitingRequests.push({
+      deferred,
+      cacheKey
+    });
+    await deferred.promise;
+    return cache[cacheKey];
+  }
+
+  // 设置锁的状态为true，表示当前请求正在执行
+  lock = true;
+
+  try {
+    // 发起实际的请求
+    const response = await fetch(url, params);
+    const data = await response.json();
+    // 将结果存入缓存对象
+    cache[cacheKey] = data;
+    return data;
+  } finally {
+    // 释放锁，将锁的状态设置为false
+    lock = false;
+
+    // 处理等待队列中的请求
+    if (waitingRequests.length &gt; 0) {
+      const request = waitingRequests.shift();
+      request.deferred.resolve(cache[request.cacheKey]);
+    }
+  }
+}
+
+// 调用请求函数
+request(&#39;https://api.example.com/data&#39;, { method: &#39;GET&#39; })
+  .then(data =&gt; {
+    // 处理请求结果
+    console.log(data);
+  });
+
+// 同时发起另一个请求
+request(&#39;https://api.example.com/data&#39;, { method: &#39;GET&#39; })
+  .then(data =&gt; {
+    // 直接从缓存中获取结果，而不发起实际的请求
+    console.log(data);
+  });
+</code></pre><p>在上述代码中，<code>Deferred</code>类用于创建一个延迟对象，其中<code>promise</code>属性是一个<code>Promise</code>对象，<code>resolve</code>和<code>reject</code>方法分别用于解决和拒绝该延迟对象的<code>promise</code>。通过<code>await</code>关键字等待延迟对象的<code>promise</code>完成，当锁被占用时，将请求添加到等待队列中，并使用<code>await</code>等待对应的延迟对象的<code>promise</code>完成后再返回结果。当请求完成后，解锁并处理等待队列中的请求。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

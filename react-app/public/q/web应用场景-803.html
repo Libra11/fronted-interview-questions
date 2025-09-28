@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何实现预览 PDF 文件【热度: 173】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：预览 PDF 文件&lt;/p&gt;&lt;p&gt;在前端实现 PDF 文件预览功能，主要有以下几种常用方法：&lt;/p&gt;&lt;h3&gt;1. 使用浏览器内置的 PDF 查看器&lt;/h3&gt;&lt;p&gt;浏览器像 Chrome 和 Firefox 等内置了 PDF 查看器，可" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何实现预览 PDF 文件【热度: 173】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：预览 PDF 文件&lt;/p&gt;&lt;p&gt;在前端实现 PDF 文件预览功能，主要有以下几种常用方法：&lt;/p&gt;&lt;h3&gt;1. 使用浏览器内置的 PDF 查看器&lt;/h3&gt;&lt;p&gt;浏览器像 Chrome 和 Firefox 等内置了 PDF 查看器，可以直接在浏览器中打开和预览 PDF 文件。实现方式非常简单，只需将 PDF 文件的 URL 设置为&lt;code&gt;&amp;lt;a" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/803" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何实现预览 PDF 文件【热度: 173】</h1>
+      <div class="subtitle">web应用场景 · web应用场景</div>
+      <div class="meta">创建：2024-07-14T03:35:01Z · 更新：2024-07-14T03:35:01Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：预览 PDF 文件</p><p>在前端实现 PDF 文件预览功能，主要有以下几种常用方法：</p><h3>1. 使用浏览器内置的 PDF 查看器</h3><p>浏览器像 Chrome 和 Firefox 等内置了 PDF 查看器，可以直接在浏览器中打开和预览 PDF 文件。实现方式非常简单，只需将 PDF 文件的 URL 设置为<code>&lt;a&gt;</code>标签的<code>href</code>属性，或者使用<code>window.open</code>方法在新标签页中打开 PDF 文件。</p><pre class="code-block"><code class="language-html">&lt;!-- 方法1: 使用超链接 --&gt;
+&lt;a href=&quot;/path/to/your/document.pdf&quot; target=&quot;_blank&quot;&gt;预览PDF&lt;/a&gt;
+
+&lt;!-- 方法2: 使用JavaScript --&gt;
+&lt;button onclick=&quot;window.open(&#39;/path/to/your/document.pdf&#39;, &#39;_blank&#39;)&quot;&gt;预览PDF&lt;/button&gt;
+</code></pre><h3>2. 使用 PDF.js</h3><p><a href="https://mozilla.github.io/pdf.js/" target="_blank" rel="noopener">PDF.js</a>是一个由 Mozilla 开发的开源库，它使用 HTML5 Canvas 来渲染 PDF 文件。PDF.js 提供了广泛的 API 来实现 PDF 的加载、渲染、缩放、打印等功能。</p><h4>如何使用：</h4><ol><li><strong>引入 PDF.js</strong></li></ol><p>首先，你需要在你的项目中包含 PDF.js。可以从其<a href="https://github.com/mozilla/pdf.js" target="_blank" rel="noopener">GitHub 仓库</a>中直接下载或使用 CDN。</p><pre class="code-block"><code class="language-html">&lt;!-- 引入pdf.js和pdf.worker.js --&gt;
+&lt;script src=&quot;/path/to/pdf.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;/path/to/pdf.worker.js&quot;&gt;&lt;/script&gt;
+</code></pre><ol><li><strong>渲染 PDF 文件</strong></li></ol><p>使用 PDF.js 提供的 API 来加载和渲染 PDF 文件。</p><pre class="code-block"><code class="language-html">&lt;!-- PDF容器 --&gt;
+&lt;div id=&quot;pdf-container&quot;&gt;&lt;/div&gt;
+
+&lt;script&gt;
+  // 初始化PDF.js
+  pdfjsLib.getDocument(&quot;/path/to/your/document.pdf&quot;).promise.then(function (pdfDoc) {
+    // 获取第一页
+    pdfDoc.getPage(1).then(function (page) {
+      // 设置视口和比例
+      var scale = 1.5;
+      var viewport = page.getViewport({ scale: scale });
+
+      // 准备用于渲染的Canvas
+      var canvas = document.createElement(&quot;canvas&quot;);
+      var ctx = canvas.getContext(&quot;2d&quot;);
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
+
+      // 将Canvas添加到DOM中
+      document.getElementById(&quot;pdf-container&quot;).appendChild(canvas);
+
+      // 通过Canvas渲染PDF页面
+      var renderContext = {
+        canvasContext: ctx,
+        viewport: viewport,
+      };
+      page.render(renderContext);
+    });
+  });
+&lt;/script&gt;
+</code></pre><h3>3. 使用第三方服务</h3><p>也可以使用第三方服务如 Google Docs Viewer 来预览 PDF。这种方法的优点是容易实现，但依赖于外部服务。</p><pre class="code-block"><code class="language-html">&lt;iframe
+  src=&quot;http://docs.google.com/gview?url=http://path.to/your/document.pdf&amp;embedded=true&quot;
+  style=&quot;width:600px; height:500px;&quot;
+  frameborder=&quot;0&quot;
+&gt;&lt;/iframe&gt;
+</code></pre><p>其中，将<code>http://path.to/your/document.pdf</code>替换为你的 PDF 文件的真实 URL。</p><h3>选择适合的方法</h3><ul><li><strong>简单预览</strong>：如果只需要一个简单的 PDF 文件预览，使用浏览器的内置功能是最快的方法。</li><li><strong>复杂的 PDF 交互</strong>：对于需要复杂交互（如注释、填写表单）的 PDF 文件，PDF.js 提供了更多控制和定制选项。</li><li><strong>简易集成但依赖第三方</strong>：使用第三方服务是最容易实现的，但您的数据可能会通过第三方服务器传递，需要考虑隐私和安全性。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

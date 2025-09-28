@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>package.json 配置了解多少？【热度: 747】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;code&gt;package.json&lt;/code&gt;常见配置分类：&lt;/p&gt;&lt;ul&gt;&lt;li&gt;描述配置&lt;/li&gt;&lt;/ul&gt;&lt;ul&gt;&lt;li&gt;文件配置&lt;/li&gt;&lt;/ul&gt;&lt;ul&gt;&lt;li&gt;脚本配置&lt;/li&gt;&lt;/ul&gt;&lt;ul&gt;&lt;li&gt;依赖配置&lt;/li&gt;&lt;/ul&gt;&lt;ul&gt;&lt;li&gt;发布配置&lt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="package.json 配置了解多少？【热度: 747】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;code&gt;package.json&lt;/code&gt;常见配置分类：&lt;/p&gt;&lt;ul&gt;&lt;li&gt;描述配置&lt;/li&gt;&lt;/ul&gt;&lt;ul&gt;&lt;li&gt;文件配置&lt;/li&gt;&lt;/ul&gt;&lt;ul&gt;&lt;li&gt;脚本配置&lt;/li&gt;&lt;/ul&gt;&lt;ul&gt;&lt;li&gt;依赖配置&lt;/li&gt;&lt;/ul&gt;&lt;ul&gt;&lt;li&gt;发布配置&lt;/li&gt;&lt;/ul&gt;&lt;ul&gt;&lt;li&gt;系统配置&lt;/li&gt;&lt;/ul&gt;&lt;ul&gt;&lt;li&gt;第三方配置&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;co" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/311" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>package.json 配置了解多少？【热度: 747】</h1>
+      <div class="subtitle">工程化 · 工程化</div>
+      <div class="meta">创建：2023-04-26T14:13:01Z · 更新：2023-04-26T14:13:02Z</div>
+    </div>
+    <article class="content markdown-body"><p><code>package.json</code>常见配置分类：</p><ul><li>描述配置</li></ul><ul><li>文件配置</li></ul><ul><li>脚本配置</li></ul><ul><li>依赖配置</li></ul><ul><li>发布配置</li></ul><ul><li>系统配置</li></ul><ul><li>第三方配置</li></ul><p><code>package.json</code> 作用：存储一切与项目相关的配置，例如项目基本信息、外界访问项目的方式、项目内置脚本、项目依赖等。</p><h3>描述配置</h3><p>主要是项目的基本信息，包括名称，版本，描述，仓库，作者等，部分会展示在 npm 官网上。</p><pre class="code-block"><code class="language-js">{
+  &quot;name&quot;: &quot;react&quot;, // 项目名称 or npm包名
+  &quot;version&quot;: &quot;18.2.0&quot;, // 版本号，开源项目的版本号通常遵循 semver 语义化规范
+  &quot;repository&quot;: {
+    &quot;type&quot;: &quot;git&quot;,
+    &quot;url&quot;: &quot;https://github.com/facebook/react.git&quot;,
+    &quot;directory&quot;: &quot;packages/react&quot;
+  }, // 项目的仓库地址及版本控制信息
+  &quot;description&quot;: &quot;React is a JavaScript library for building user interfaces.&quot;, // 项目描述 (展示于 npm 官网)
+  &quot;keywords&quot;: [
+    &quot;ant&quot;,
+    &quot;component&quot;,
+    &quot;components&quot;,
+    &quot;design&quot;,
+    &quot;framework&quot;,
+    &quot;frontend&quot;,
+    &quot;react&quot;,
+    &quot;react-component&quot;,
+    &quot;ui&quot;
+  ], // 项目技术关键词
+  &quot;homepage&quot;: &quot;https://reactjs.org/&quot;, // 项目的主页链接，通常是项目 github 链接，项目官网或文档首页
+  &quot;bugs&quot;: &quot;https://github.com/vuejs/core/issues&quot;, // 项目 bug 反馈地址，通常是 github issue 页面的链接
+  &quot;author&quot;: &quot;Li jiaxun&quot;, // 作者信息
+  &quot;private&quot;: true, // 私有项目, 若为 true 则无法发布到 npm 官网上
+}
+</code></pre><h3>文件配置</h3><p>包括项目所包含的文件，以及入口等信息。</p><pre class="code-block"><code class="language-js">{
+  // 🔥@files: 指定需要跟随一起发布的内容，控制 npm 包的大小。
+  // 发布时默认会包括 package.json，license，README 和main 字段里指定的文件。忽略 node_modules，lockfile 等文件。在此基础上，可以指定更多需要一起发布的内容。(单独的文件/整个文件夹/使用通配符匹配到的文件)
+  // 一般情况下，files 里会指定构建出来的产物以及类型文件，而 src，test 等目录下的文件不需要跟随发布。
+  &quot;files&quot;: [
+    &quot;filename.js&quot;,
+    &quot;directory/&quot;,
+    &quot;glob/*.{js,json}&quot;
+  ],
+  // 🔥@type: &#39;module&#39; =&gt; 用 ESM 解释 .js 文件(此时访问 CJS 模块文件需要 .cjs 后缀)；反之同理。
+  &quot;type&quot;: &quot;module&quot;,
+  // 🔥@main: 项目入口文件。
+  // if &quot;type: &#39;module&#39;&quot; =&gt; 指向 ESM 模块规范的项目入口文件 else =&gt; CommonJS 模块规范的项目入口文件。
+  &quot;main&quot;: &quot;./index.cjs&quot;,
+  // @browser: web端项目入口文件路径。该路径下文件不允许在 server 端使用。
+  &quot;browser&quot;: &quot;./browser/index.js&quot;,
+  // 🔥@module: ESM 规范模块的项目入口文件。
+  &quot;module&quot;: &quot;./index.js&quot;,
+  // 🔥@exports: 配置不同环境对应的模块入口文件(优先级最高 &gt; main)。
+  // 作用1: 以别名形式封装包的子路径。&quot;import packageA/dist/css/index.css&quot; =&gt; &quot;import packageA/style&quot;
+  // 作用2: 以 &#39;.&#39; 为别名时，表示模块主入口，可以看做是 &quot;mian&quot;/&quot;module&quot; 等字段功能的集合。
+  // 作用3: 设置模块访问权限。exports 限制使用者不可以访问未在&quot;exports&quot;中定义的任何其他路径。
+  // 作用4: 提供了项目(包)多入口访问的途径。例如下面的 &#39;./docs&#39; 和 &#39;./components&#39;
+  &quot;exports&quot;: {
+    &quot;.&quot;: {
+      &quot;require&quot;: &quot;./index.cjs&quot;,
+      &quot;import&quot;: &quot;./index.js&quot;
+    },
+    &quot;./docs&quot;: {
+      &quot;require&quot;: &quot;./docs/index.cjs&quot;,
+      &quot;import&quot;: &quot;./docs/index.js&quot;
+    },
+    &quot;./components&quot;: {
+      &quot;require&quot;: &quot;./components/index.cjs&quot;,
+      &quot;import&quot;: &quot;./components/index.js&quot;
+    },
+    &quot;./style&quot;: &quot;./dist/css/index.css&#39;
+  },
+  // 🔥@workspaces: 项目的工作区配置，用于在本地的根目录下管理多个子项目。
+  // 可以自动地在 npm install 时将 workspaces 下面的包，软链到根目录的 node_modules 中，不用手动执行 npm link 操作。
+  // 通常子项目都会平铺管理在 packages 目录下，&quot;packages/*&quot; 表示将该路径下所有子项目的 node_modules 软链到根目录。
+  &quot;workspaces&quot;: [
+    &quot;packages/*&quot;,
+  ],
+}
+</code></pre><blockquote>当一个项目同时定义了 main，browser 和 module，像 webpack，rollup 等构建工具会感知这些字段，并会根据环境以及不同的模块规范来进行不同的入口文件查找。</blockquote><h4><code>exports</code> 字段详解</h4><p>参考 <a href="https://es6.ruanyifeng.com/#docs/module-loader#package-json-%E7%9A%84-exports-%E5%AD%97%E6%AE%B5" target="_blank" rel="noopener">阮一峰</a></p><p><code>exports</code>字段的优先级高于<code>main</code>字段。它有多种用法。</p><ol><li>子目录别名</li></ol><p><code>package.json</code>文件的<code>exports</code>字段可以指定脚本或子目录的别名，此时它的前缀的参照拼接路径是包名。</p><pre class="code-block"><code class="language-js">// ./node_modules/es-module-package/package.json
+{
+ &quot;exports&quot;: {
+   &quot;./submodule&quot;: &quot;./src/submodule.js&quot;
+ }
+}
+</code></pre><p>上面的代码指定<code>src/submodule.js</code>别名为<code>submodule</code>，然后就可以从别名加载这个文件。</p><pre class="code-block"><code class="language-js">import submodule from &#39;es-module-package/submodule&#39;;
+// 加载 ./node_modules/es-module-package/src/submodule.js
+</code></pre><p>如果没有指定别名，就不能用“模块+脚本名”这种形式加载脚本。</p><pre class="code-block"><code class="language-js">// 报错
+import submodule from &#39;es-module-package/private-module.js&#39;;
+
+// 不报错
+import submodule from &#39;./node_modules/es-module-package/private-module.js&#39;;
+</code></pre><ol><li>main 的别名</li></ol><p><code>exports</code>字段的别名如果是<code>.</code>，就代表模块的主入口，优先级高于<code>main</code>字段，并且可以直接简写成<code>exports</code>字段的值。</p><pre class="code-block"><code class="language-js">{
+ &quot;exports&quot;: {
+   &quot;.&quot;: &quot;./main.js&quot;
+ }
+}
+
+// 等同于
+{
+ &quot;exports&quot;: &quot;./main.js&quot;
+}
+</code></pre><p>由于<code>exports</code>字段只有支持 ES6 的 Node.js 才认识，所以可以同时添加<code>main</code>字段来兼容旧版本的 Node.js。</p><pre class="code-block"><code>{
+ &quot;main&quot;: &quot;./main-legacy.cjs&quot;,
+ &quot;exports&quot;: {
+   &quot;.&quot;: &quot;./main-modern.cjs&quot;
+ }
+}
+</code></pre><blockquote>上面代码中，老版本的 Node.js （不支持 ES6 模块）的入口文件是<code>main-legacy.cjs</code>，新版本的 Node.js 的入口文件是<code>main-modern.cjs</code>。</blockquote><ol><li>条件加载</li></ol><p>利用<code>.</code>这个别名，可以为 ES6 模块和 CommonJS 指定不同的入口。</p><pre class="code-block"><code class="language-json">{
+ &quot;type&quot;: &quot;module&quot;,
+ &quot;exports&quot;: {
+   &quot;.&quot;: {
+     &quot;require&quot;: &quot;./main.cjs&quot;,
+     &quot;default&quot;: &quot;./main.js&quot;
+   }
+ }
+}
+</code></pre><blockquote>上面代码中，别名<code>.</code>的<code>require</code>条件指定<code>require()</code>命令的入口文件（即 CommonJS 的入口），<code>default</code>条件指定其他情况的入口，此处配置了 <code>type: &#39;module&#39;</code>，因此默认命中 ESM 模块规范。</blockquote><h3>脚本配置</h3><pre class="code-block"><code>{
+  // npm run {scripts} / yarn {scripts} 等命令行方式启动预设置的脚本
+  &quot;scripts&quot;: {
+    &quot;build&quot;: &quot;webpack&quot;
+  },
+  // 设置 scripts 里的脚本在运行时的参数
+  &quot;config&quot;: {
+    &quot;port&quot;: &quot;3001&quot;
+  },
+}
+</code></pre><h3>依赖配置</h3><p>项目依赖其他包引用的相关信息。</p><pre class="code-block"><code class="language-js">{
+  // 项目生产环境(运行时)下需要用到的依赖
+  // 使用 npm install xxx 或则 npm install xxx --save 时，会被自动插入到该字段中。
+  &quot;dependencies&quot;: {
+    &quot;react&quot;: &quot;^18.2.0&quot;,
+    &quot;react-dom&quot;: &quot;^18.2.0&quot;
+  },
+  // 项目开发环境需要用到而运行时不需要的依赖，用于辅助开发
+  // 使用 npm install xxx -D 或者 npm install xxx --save-dev 时，会被自动插入到该字段中。
+  &quot;devDependencies&quot;: {
+    &quot;webpack&quot;: &quot;^5.69.0&quot;
+  },
+  // 同伴依赖
+  // 一种特殊的依赖，不会被自动安装，通常用于表示与另一个包的依赖与兼容性关系来警示使用者。
+  // 比如我们安装 A，A 的正常使用依赖 B@2.x 版本，那么 B@2.x 就应该被列在 A 的 peerDependencies 下，表示“如果你使用我，那么你也需要安装 B，并且至少是 2.x 版本”。
+  // 比如 React 组件库 Ant Design，它的 package.json 里 peerDependencies 为
+  // 表示如果你使用 Ant Design，那么你的项目也应该安装 react 和 react-dom，并且版本需要大于等于 16.9.0。
+  &quot;peerDependencies&quot;: {
+    &quot;react&quot;: &quot;&gt;=16.9.0&quot;,
+    &quot;react-dom&quot;: &quot;&gt;=16.9.0&quot;
+  },
+  // optionalDependencies
+  // 可选依赖，顾名思义，表示依赖是可选的，它不会阻塞主功能的使用，安装或者引入失败也无妨。这类依赖如果安装失败，那么 npm 的整个安装过程也是成功的。
+  // 比如我们使用 colors 这个包来对 console.log 打印的信息进行着色来增强和区分提示，但它并不是必需的，所以可以将其加入到 optionalDependencies，并且在运行时处理引入失败的逻辑。
+  // 使用 npm install xxx -O 或者 npm install xxx --save-optional 时，依赖会被自动插入到该字段中。
+  &quot;optionalDependencies&quot;: {
+    &quot;colors&quot;: &quot;^1.4.0&quot;
+  },
+  // peerDependenciesMeta
+  // 同伴依赖也可以使用 peerDependenciesMeta 将其指定为可选的。
+  &quot;peerDependencies&quot;: {
+    &quot;colors&quot;: &quot;^1.4.0&quot;
+  },
+  &quot;peerDependenciesMeta&quot;: {
+    &quot;colors&quot;: {
+      &quot;optional&quot;: true
+    }
+  },
+  // bundleDependencies
+  // 打包依赖。它的值是一个数组，在发布包时，bundleDependencies 里面的依赖都会被一起打包。
+  // 比如指定 react 和 react-dom 为打包依赖：
+  // 在执行 npm pack 打包生成 tgz 压缩包中，将出现 node_modules 并包含 react 和 react-dom。
+  // 需要注意的是，这个字段数组中的值必须是在 dependencies，devDependencies 两个里面声明过的依赖才行。
+  // 普通依赖通常从 npm registry 安装，但当你想用一个不在 npm registry 里的包，或者一个被修改过的第三方包时，打包依赖会比普通依赖更好用。
+  &quot;bundleDependencies&quot;: [
+    &quot;react&quot;,
+    &quot;react-dom&quot;
+  ],
+  // overrides
+  // overrides 可以重写项目依赖的依赖，及其依赖树下某个依赖的版本号，进行包的替换。
+  // 比如某个依赖 A，由于一些原因它依赖的包 foo@1.0.0 需要替换，我们可以使用 overrides 修改 foo 的版本号：
+  &quot;overrides&quot;: {
+    &quot;foo&quot;: &quot;1.1.0-patch&quot;
+  }
+}
+</code></pre><h3>发布配置</h3><p>主要是和项目发布相关的配置。</p><p><strong>private</strong></p><p>如果是私有项目，不希望发布到公共 npm 仓库上，可以将 <code>private</code> 设为 true。</p><pre class="code-block"><code>&quot;private&quot;: true
+</code></pre><p><strong>publishConfig</strong></p><p>顾名思义，publishConfig 就是 npm 包发布时使用的配置。</p><p>比如在安装依赖时指定了 registry 为 taobao 镜像源，但发布时希望在公网发布，就可以指定 publishConfig.registry。</p><pre class="code-block"><code>&quot;publishConfig&quot;: {
+  &quot;registry&quot;: &quot;https://registry.npmjs.org/&quot;
+}
+</code></pre><h3>系统配置</h3><p>和项目关联的系统配置，比如 node 版本或操作系统兼容性之类。这些要求只会起到提示警告的作用，即使用户的环境不符合要求，也不影响安装依赖包。</p><p><strong>engines</strong></p><p>一些项目由于兼容性问题会对 node 或者包管理器有特定的版本号要求，比如：</p><pre class="code-block"><code>&quot;engines&quot;: {
+  &quot;node&quot;: &quot;&gt;=14 &lt;16&quot;,
+  &quot;pnpm&quot;: &quot;&gt;7&quot;
+}
+</code></pre><p>要求 node 版本大于等于 14 且小于 16，同时 pnpm 版本号需要大于 7。</p><p><strong>os</strong></p><p>在 linux 上能正常运行的项目可能在 windows 上会出现异常，使用 os 字段可以指定项目对操作系统的兼容性要求。</p><pre class="code-block"><code>&quot;os&quot;: [&quot;darwin&quot;, &quot;linux&quot;]
+</code></pre><p><strong>cpu</strong></p><p>指定项目只能在特定的 CPU 体系上运行。</p><pre class="code-block"><code>&quot;cpu&quot;: [&quot;x64&quot;, &quot;ia32&quot;]
+</code></pre><h3>第三方配置</h3><p>一些第三方库或应用在进行某些内部处理时会依赖这些字段，使用它们时需要安装对应的第三方库。</p><pre class="code-block"><code class="language-js">{
+  // 其他工具访问本项目 ts 类型定义时的入口文件
+  &quot;types&quot;: &quot;./index.d.ts&quot;,
+  // npm 上所有的文件都开启 CDN 服务
+  &quot;unpkg&quot;: &quot;dist/vue.global.js&quot;,
+  // 设置项目的浏览器兼容情况, babel 和 autoprefixer 等工具会使用该配置对代码进行转换
+  &quot;browserslist&quot;: [
+    &quot;&gt; 1%&quot;,
+    &quot;last 2 versions&quot;
+  ],
+  // 用于 webpack 的 tree-shaking 优化, 指定路径下的文件不参与 tree-shaking 并始终保留。
+  &quot;sideEffects&quot;: [
+    &quot;dist/*&quot;,
+    &quot;es/**/style/*&quot;,
+    &quot;lib/**/style/*&quot;,
+    &quot;*.less&quot;
+  ]
+}
+</code></pre><h3>参考文档</h3><ul><li>https://juejin.cn/post/7145001740696289317</li><li>https://juejin.cn/post/7161392772665540644</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

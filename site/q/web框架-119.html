@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>vue 的 keep-alive 的原理是啥？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;code&gt;&amp;lt;keep-alive&amp;gt;&lt;/code&gt; 是 Vue.js 提供的一个抽象组件，它可以使被包含的组件保留在内存中，而不是每次重新渲染的时候销毁并重建，从而提高了应用的性能。&lt;/p&gt;&lt;p&gt;具体来说，&lt;code&gt;&amp;lt;keep-alive&amp;gt;&lt;/co" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="vue 的 keep-alive 的原理是啥？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;code&gt;&amp;lt;keep-alive&amp;gt;&lt;/code&gt; 是 Vue.js 提供的一个抽象组件，它可以使被包含的组件保留在内存中，而不是每次重新渲染的时候销毁并重建，从而提高了应用的性能。&lt;/p&gt;&lt;p&gt;具体来说，&lt;code&gt;&amp;lt;keep-alive&amp;gt;&lt;/code&gt; 的实现原理如下：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;当一个组件被包裹在 &lt;code&gt;&amp;lt;keep-alive&amp;gt;&lt;/" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/119" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>vue 的 keep-alive 的原理是啥？</h1>
+      <div class="subtitle">web框架 · web框架</div>
+      <div class="meta">创建：2023-03-19T12:38:30Z · 更新：2023-10-01T13:50:21Z</div>
+    </div>
+    <article class="content markdown-body"><p><code>&lt;keep-alive&gt;</code> 是 Vue.js 提供的一个抽象组件，它可以使被包含的组件保留在内存中，而不是每次重新渲染的时候销毁并重建，从而提高了应用的性能。</p><p>具体来说，<code>&lt;keep-alive&gt;</code> 的实现原理如下：</p><ol><li>当一个组件被包裹在 <code>&lt;keep-alive&gt;</code> 组件内时，它会被缓存起来，而不是被销毁。</li><li>如果这个组件被包裹的父组件从它的视图中移除，那么这个组件不会被销毁，而是被缓存起来。</li><li>如果这个组件再次被包裹的父组件添加回视图中，那么它会被重新激活，而不是重新创建。</li></ol><p><code>&lt;keep-alive&gt;</code> 组件通过一个内部的缓存对象来缓存组件实例，这个缓存对象会在组件被包裹在 <code>&lt;keep-alive&gt;</code> 组件中时创建。当一个被缓存的组件需要被激活时，<code>&lt;keep-alive&gt;</code> 组件会从缓存中取出该组件的实例并将其挂载到视图上，从而实现了组件的复用。</p><p>需要注意的是，被缓存的组件并不是一直存在于内存中，它们会在一定条件下被销毁，比如缓存的组件数量超过了一定的阈值，或者系统内存占用过高等。</p><h2>Comments / Answers</h2><hr /><p><strong>yanlele</strong> at 2023-10-01T13:50:21Z</p><p>深入分析： https://github.com/linwu-hi/code-interview/issues/76</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

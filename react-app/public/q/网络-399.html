@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>304 是什么场景的状态码， 好处和坏处分别是什么【热度: 1,425】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：304 状态码、缓存响应&lt;/p&gt;&lt;p&gt;HTTP 状态码 304 Not Modified 是在一些特定场景下返回的状态码，用于表示客户端缓存的资源仍然有效，无需重新下载。&lt;/p&gt;&lt;p&gt;好处：&lt;/p&gt;&lt;ul&gt;&lt;li&gt;减少了对服务器的请" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="304 是什么场景的状态码， 好处和坏处分别是什么【热度: 1,425】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：304 状态码、缓存响应&lt;/p&gt;&lt;p&gt;HTTP 状态码 304 Not Modified 是在一些特定场景下返回的状态码，用于表示客户端缓存的资源仍然有效，无需重新下载。&lt;/p&gt;&lt;p&gt;好处：&lt;/p&gt;&lt;ul&gt;&lt;li&gt;减少了对服务器的请求，节省了带宽和服务器资源。&lt;/li&gt;&lt;li&gt;加快了客户端的加载速度，因为它可以使用缓存的响应而无需等待服务器的响应。&lt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/399" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>304 是什么场景的状态码， 好处和坏处分别是什么【热度: 1,425】</h1>
+      <div class="subtitle">网络 · 网络 · 腾讯</div>
+      <div class="meta">创建：2023-06-02T15:57:38Z · 更新：2023-06-02T15:58:41Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：304 状态码、缓存响应</p><p>HTTP 状态码 304 Not Modified 是在一些特定场景下返回的状态码，用于表示客户端缓存的资源仍然有效，无需重新下载。</p><p>好处：</p><ul><li>减少了对服务器的请求，节省了带宽和服务器资源。</li><li>加快了客户端的加载速度，因为它可以使用缓存的响应而无需等待服务器的响应。</li></ul><p>坏处：</p><ul><li>如果客户端缓存的资源不是最新的，而服务器未能传递最新的版本，那么客户端将继续使用过期的资源。</li><li>客户端和服务器之间的缓存验证会增加一些额外的开销，包括发送验证请求和进行验证的处理。</li></ul><p>适用场景：</p><ul><li>客户端发送带有条件的请求，通常是 GET 或 HEAD 请求。</li><li>请求头中包含适当的缓存验证字段，如 If-Modified-Since、If-None-Match 等。</li><li>服务器通过验证请求中的缓存验证字段，并确定客户端缓存的资源仍然有效。</li></ul><p>HTTP 状态码 304 对于网络请求来说可以被视为一种好的状态码，因为它可以提高性能和效率，减少不必要的数据传输和服务器负载。但需要注意在适当的场景下使用，确保客户端缓存的资源仍然有效且符合预期。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

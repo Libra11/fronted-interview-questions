@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>web 网页如何禁止别人移除水印【热度: 540】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：前端防止移除水印&lt;/p&gt;&lt;p&gt;关于加水印的问题， 可以看这篇文档： https://github.com/pro-collection/interview-question/issues/351&lt;/p&gt;&lt;p&gt;关于如何防止移除水印：&lt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="web 网页如何禁止别人移除水印【热度: 540】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：前端防止移除水印&lt;/p&gt;&lt;p&gt;关于加水印的问题， 可以看这篇文档： https://github.com/pro-collection/interview-question/issues/351&lt;/p&gt;&lt;p&gt;关于如何防止移除水印：&lt;/p&gt;&lt;p&gt;可以通过监听 DOM 的变化来检测是否有人删除水印，可以使用 &lt;code&gt;MutationObserver " />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/544" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>web 网页如何禁止别人移除水印【热度: 540】</h1>
+      <div class="subtitle">小米 · web应用场景 · 小米</div>
+      <div class="meta">创建：2023-09-02T09:42:16Z · 更新：2023-09-02T09:42:17Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：前端防止移除水印</p><p>关于加水印的问题， 可以看这篇文档： https://github.com/pro-collection/interview-question/issues/351</p><p>关于如何防止移除水印：</p><p>可以通过监听 DOM 的变化来检测是否有人删除水印，可以使用 <code>MutationObserver API</code>。</p><p><code>MutationObserver</code> 可以观察 DOM 树的变化，并在变化发生时触发回调函数。你可以在回调函数中检查是否有水印被删除，然后采取相应的措施。</p><p>以下是一个简单的示例代码，演示了如何使用 MutationObserver 监听 DOM 变化：</p><pre class="code-block"><code class="language-javascript">// 目标节点
+const targetNode = document.body;
+
+// 创建 MutationObserver 实例
+const observer = new MutationObserver((mutationsList) =&gt; {
+    for (let mutation of mutationsList) {
+        // 检查是否有子节点被删除
+        if (mutation.removedNodes.length &gt; 0) {
+            // 在此处判断是否有水印被删除
+            // 如果水印被删除，则重新插入水印的 DOM 元素到目标节点
+            // 例如： targetNode.appendChild(watermarkElement);
+        }
+    }
+});
+
+// 配置 MutationObserver
+const config = { childList: true, subtree: true };
+
+// 开始观察目标节点
+observer.observe(targetNode, config);
+</code></pre><p>在上述代码中，我们创建了一个 MutationObserver 实例，并通过 <code>observe</code> 方法将其绑定到目标节点上。在回调函数中，我们使用 <code>mutation.removedNodes</code> 来检查是否有子节点被删除，如果发现水印被删除，则可以采取相应的措施来重新插入水印的 DOM 元素。</p><p>需要注意的是，MutationObserver API 是现代浏览器提供的功能，在老旧的浏览器中可能不支持。因此，在实际使用时，你需要对浏览器的兼容性进行测试和处理。</p><p>另外，如果水印被删除后立即加回去，你可以在检测到水印被删除时，立即执行插入水印的代码，以确保水印能够迅速地重新出现在页面上。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

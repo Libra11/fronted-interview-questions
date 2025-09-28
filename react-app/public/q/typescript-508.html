@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>联合类型是什么？【热度: 1,180】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：联合类型、联合类型应用&lt;/p&gt;&lt;p&gt;在 TypeScript 中，联合类型是指将多个类型组合到一起形成的新类型。联合类型使用 &lt;code&gt;|&lt;/code&gt; 符号来表示，表示允许变量具有其中任意一个类型的值。&lt;/p&gt;&lt;p&gt;例如，可以声" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="联合类型是什么？【热度: 1,180】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：联合类型、联合类型应用&lt;/p&gt;&lt;p&gt;在 TypeScript 中，联合类型是指将多个类型组合到一起形成的新类型。联合类型使用 &lt;code&gt;|&lt;/code&gt; 符号来表示，表示允许变量具有其中任意一个类型的值。&lt;/p&gt;&lt;p&gt;例如，可以声明一个变量为 &lt;code&gt;string | number&lt;/code&gt; 类型，表示该变量可以是字符串类型或者数值类型。这" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/508" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>联合类型是什么？【热度: 1,180】</h1>
+      <div class="subtitle">TypeScript · TypeScript</div>
+      <div class="meta">创建：2023-08-03T15:24:49Z · 更新：2023-08-03T15:25:08Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：联合类型、联合类型应用</p><p>在 TypeScript 中，联合类型是指将多个类型组合到一起形成的新类型。联合类型使用 <code>|</code> 符号来表示，表示允许变量具有其中任意一个类型的值。</p><p>例如，可以声明一个变量为 <code>string | number</code> 类型，表示该变量可以是字符串类型或者数值类型。这样可以增加变量的灵活性，可以在不确定变量具体类型的情况下使用它。</p><p>以下是一个使用联合类型的示例：</p><pre class="code-block"><code class="language-typescript">function displayData(data: string | number) {
+  console.log(data);
+}
+
+displayData(&quot;Hello&quot;); // 输出: Hello
+displayData(123); // 输出: 123
+</code></pre><p>在上面的例子中，<code>displayData</code> 函数可以接受一个参数，该参数可以是字符串类型或者数值类型。函数内部使用 <code>console.log</code> 打印参数的值。</p><p>需要注意的是，在使用联合类型的情况下，只能访问所有类型共有的属性和方法，无法访问特定类型独有的属性和方法。如果需要针对不同类型执行不同的操作，可以使用类型断言或类型保护等技术来处理。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

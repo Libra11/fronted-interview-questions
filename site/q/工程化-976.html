@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>commonjs 模块化中 module.exports 与 exports 有什么区别， 该如何选择【热度: 194】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：模块化 导出&lt;/p&gt;&lt;p&gt;在 CommonJS 模块化规范中，&lt;code&gt;module.exports&lt;/code&gt;与&lt;code&gt;exports&lt;/code&gt;有以下区别：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、&lt;code&gt;module.e" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="commonjs 模块化中 module.exports 与 exports 有什么区别， 该如何选择【热度: 194】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：模块化 导出&lt;/p&gt;&lt;p&gt;在 CommonJS 模块化规范中，&lt;code&gt;module.exports&lt;/code&gt;与&lt;code&gt;exports&lt;/code&gt;有以下区别：&lt;/p&gt;&lt;p&gt;&lt;strong&gt;一、&lt;code&gt;module.exports&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;本质&lt;/strong&gt;：&lt;/li&gt;&lt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/976" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>commonjs 模块化中 module.exports 与 exports 有什么区别， 该如何选择【热度: 194】</h1>
+      <div class="subtitle">工程化 · 工程化 · web应用场景</div>
+      <div class="meta">创建：2024-10-07T08:51:26Z · 更新：2024-10-07T08:51:26Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：模块化 导出</p><p>在 CommonJS 模块化规范中，<code>module.exports</code>与<code>exports</code>有以下区别：</p><p><strong>一、<code>module.exports</code></strong></p><ol><li><strong>本质</strong>：</li></ol><ul><li><code>module.exports</code>是一个对象，它代表当前模块要导出的内容。可以将任意类型的值（如函数、对象、字符串等）赋值给<code>module.exports</code>来决定模块导出的内容。</li></ul><ol><li><strong>作用范围和灵活性</strong>：</li></ol><ul><li>可以完全覆盖模块的导出内容。例如，可以直接将一个全新的对象赋值给<code>module.exports</code>，从而完全替换模块原本可能通过<code>exports</code>添加的属性。</li><li>适合需要导出复杂数据结构或多个不同类型的值的情况。例如，可以导出一个包含多个函数和变量的对象。</li></ul><p><strong>二、<code>exports</code></strong></p><ol><li><strong>本质</strong>：</li></ol><ul><li><code>exports</code>最初是一个对<code>module.exports</code>的引用。这意味着通过<code>exports</code>添加的属性实际上是添加到了<code>module.exports</code>所代表的对象上。</li></ul><ol><li><strong>局限性</strong>：</li></ol><ul><li>如果直接将一个值赋值给<code>exports</code>，它将不再是对<code>module.exports</code>的引用，而是变成一个独立的变量。此时，模块的导出内容将变为这个新的值，而不是原本期望的通过添加属性到<code>exports</code>来构建的导出对象。</li><li>例如：</li></ul><p>```javascript</p><p>exports = function () {</p><p>console.log("This is a new function.");</p><p>};</p><p>```</p><ul><li>在这种情况下，模块将不再导出之前可能通过<code>exports.xxx = yyy</code>添加的属性，而是只导出这个新的函数。</li></ul><p>*<em>三、选择建议\</em>\***：</p><ol><li><strong>简单模块导出单个值</strong>：</li></ol><ul><li>如果模块只需要导出一个简单的值，如一个函数或一个字符串，可以使用<code>module.exports</code>直接赋值的方式。例如：</li></ul><p>```javascript</p><p>module.exports = function add(a, b) {</p><p>return a + b;</p><p>};</p><p>```</p><ol><li><strong>复杂模块构建导出对象</strong>：</li></ol><ul><li>当模块需要导出多个相关的值或功能时，可以先使用<code>exports</code>添加属性，最后确保<code>module.exports</code>指向一个包含所有需要导出内容的对象。例如：</li></ul><p>```javascript</p><p>exports.foo = function () {</p><p>console.log("foo function.");</p><p>};</p><p>exports.bar = "bar value";</p><p>module.exports = exports; // 确保 module.exports 和 exports 指向同一个对象</p><p>```</p><ol><li><strong>避免混淆和错误</strong>：</li></ol><ul><li>理解<code>module.exports</code>和<code>exports</code>的区别非常重要，以避免在导出模块内容时出现意外的结果。尽量明确使用<code>module.exports</code>或遵循使用<code>exports</code>的正确方式，避免直接赋值给<code>exports</code>而导致错误的导出行为。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JS 中的数组和函数在内存中是如何存储的？【热度: 815】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：数组和函数在内存中存储方式&lt;/p&gt;&lt;p&gt;在JavaScript中，数组和函数在内存中的存储方式有一些不同。&lt;/p&gt;&lt;ol&gt;&lt;li&gt;数组（Array）的存储：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;数组是一种线性数据结构，它可以存储多个值" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="JS 中的数组和函数在内存中是如何存储的？【热度: 815】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：数组和函数在内存中存储方式&lt;/p&gt;&lt;p&gt;在JavaScript中，数组和函数在内存中的存储方式有一些不同。&lt;/p&gt;&lt;ol&gt;&lt;li&gt;数组（Array）的存储：&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;数组是一种线性数据结构，它可以存储多个值，并且这些值可以是不同类型的。在内存中，数组的存储通常是连续的。当创建一个数组时，JavaScript引擎会为其分配一段" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/447" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>JS 中的数组和函数在内存中是如何存储的？【热度: 815】</h1>
+      <div class="subtitle">JavaScript · JavaScript · PDD</div>
+      <div class="meta">创建：2023-06-12T15:36:02Z · 更新：2023-06-12T15:36:03Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：数组和函数在内存中存储方式</p><p>在JavaScript中，数组和函数在内存中的存储方式有一些不同。</p><ol><li>数组（Array）的存储：</li></ol><ul><li>数组是一种线性数据结构，它可以存储多个值，并且这些值可以是不同类型的。在内存中，数组的存储通常是连续的。当创建一个数组时，JavaScript引擎会为其分配一段连续的内存空间来存储数组的元素。数组的每个元素都会被存储在这段内存空间中的相应位置。数组的长度可以动态改变，当向数组添加或删除元素时，JavaScript引擎会重新分配内存空间并移动元素的位置。</li></ul><ol><li>函数（Function）的存储：</li></ol><ul><li>函数在JavaScript中被视为一种特殊的对象。函数的定义实际上是创建一个函数对象，并将其存储在内存中。函数对象本身包含了函数的代码以及其他相关信息，例如函数的名称、参数和闭包等。函数对象的代码部分通常是一段可执行的JavaScript代码，它被存储在内存中的某个位置。当调用函数时，JavaScript引擎会查找该函数对象的存储位置，并执行其中的代码。</li></ul><p>需要注意的是，数组和函数的存储方式是由JavaScript引擎决定的，不同的引擎可能会有一些微小的差异。此外，JavaScript引擎还会使用一些优化技术，如垃圾回收和内存管理，来优化内存的使用和回收。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

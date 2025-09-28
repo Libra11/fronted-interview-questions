@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何优化 DOM 树解析过程【热度: 414】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：DOM 树解析过程、DOM 树解析、优化 DOM 树解析&lt;/p&gt;&lt;p&gt;以下是一些优化DOM树解析的方法：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;减少DOM元素数量：尽可能减少页面上的DOM元素数量，可以通过合并或删除不必要的元素、使用CSS样式代替" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何优化 DOM 树解析过程【热度: 414】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：DOM 树解析过程、DOM 树解析、优化 DOM 树解析&lt;/p&gt;&lt;p&gt;以下是一些优化DOM树解析的方法：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;减少DOM元素数量：尽可能减少页面上的DOM元素数量，可以通过合并或删除不必要的元素、使用CSS样式代替多个元素等方式来实现。&lt;/li&gt;&lt;/ol&gt;&lt;ol&gt;&lt;li&gt;使用语义化的HTML结构：使用合适的HTML标签和语义化的结构" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/491" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何优化 DOM 树解析过程【热度: 414】</h1>
+      <div class="subtitle">浏览器 · 浏览器</div>
+      <div class="meta">创建：2023-07-26T15:18:29Z · 更新：2023-07-26T15:18:29Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：DOM 树解析过程、DOM 树解析、优化 DOM 树解析</p><p>以下是一些优化DOM树解析的方法：</p><ol><li>减少DOM元素数量：尽可能减少页面上的DOM元素数量，可以通过合并或删除不必要的元素、使用CSS样式代替多个元素等方式来实现。</li></ol><ol><li>使用语义化的HTML结构：使用合适的HTML标签和语义化的结构，可以提高解析的效率，减少解析错误的可能性。</li></ol><ol><li>避免深层嵌套的DOM结构：避免过深的DOM嵌套，因为深层嵌套会增加DOM节点的数量，解析和渲染的时间也会增加。</li></ol><ol><li>使用外部脚本和样式表：将JavaScript代码和CSS样式表尽可能地外部引入，可以避免在解析过程中阻塞DOM树的构建。</li></ol><ol><li>使用异步加载脚本：将需要的脚本使用async或defer属性进行异步加载，可以让DOM树的解析和脚本加载并行进行，提高解析的效率。</li></ol><ol><li>优化CSS选择器：避免使用复杂的CSS选择器，因为复杂的选择器需要进行更多的计算和匹配，会影响解析的速度。</li></ol><ol><li>批量修改DOM：避免对DOM进行频繁的修改，尽量使用批量操作的方式来修改DOM，可以减少浏览器的重排和重绘。</li></ol><ol><li>使用文档片段（DocumentFragment）：将需要频繁操作的DOM元素先添加到文档片段中，然后再一次性地将文档片段添加到文档中，可以减少重排和重绘的次数。</li></ol><ol><li>使用虚拟DOM：在一些前端框架中，使用虚拟DOM可以减少对真实DOM的直接操作，通过比较虚拟DOM树的差异来进行最小化的DOM操作，从而提高效率。</li></ol></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

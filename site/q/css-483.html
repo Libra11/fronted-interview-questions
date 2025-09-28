@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>如何实现页面顶部， 自定义滚动进度条样式【热度: 1,220】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：自定义滚动条、自定义顶部滚动条&lt;/p&gt;&lt;p&gt;要实现页面顶部的自定义滚动进度条样式，可以按照以下步骤进行：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;在HTML中添加滚动进度条的容器元素，通常可以使用一个&lt;div&gt;元素作为容器，放在页面顶部的合适位置。&lt;" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="如何实现页面顶部， 自定义滚动进度条样式【热度: 1,220】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：自定义滚动条、自定义顶部滚动条&lt;/p&gt;&lt;p&gt;要实现页面顶部的自定义滚动进度条样式，可以按照以下步骤进行：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;在HTML中添加滚动进度条的容器元素，通常可以使用一个&lt;div&gt;元素作为容器，放在页面顶部的合适位置。&lt;/li&gt;&lt;/ol&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-html&quot;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/483" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>如何实现页面顶部， 自定义滚动进度条样式【热度: 1,220】</h1>
+      <div class="subtitle">CSS · CSS · 快手</div>
+      <div class="meta">创建：2023-07-23T04:32:24Z · 更新：2023-07-23T04:32:24Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：自定义滚动条、自定义顶部滚动条</p><p>要实现页面顶部的自定义滚动进度条样式，可以按照以下步骤进行：</p><ol><li>在HTML中添加滚动进度条的容器元素，通常可以使用一个<div>元素作为容器，放在页面顶部的合适位置。</li></ol><pre class="code-block"><code class="language-html">&lt;div id=&quot;scroll-progress&quot;&gt;&lt;/div&gt;
+</code></pre><ol><li>在CSS中定义滚动进度条的样式。可以使用背景颜色、高度、透明度等属性来自定义样式。</li></ol><pre class="code-block"><code class="language-css">#scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background-color: #f00; /* 自定义进度条颜色 */
+  opacity: 0.7; /* 自定义进度条透明度 */
+  z-index: 9999; /* 确保进度条显示在最顶层 */
+}
+</code></pre><ol><li>使用JavaScript来监听页面滚动事件，并更新滚动进度条的宽度。</li></ol><pre class="code-block"><code class="language-javascript"> var scrollProgress = document.getElementById(&#39;scroll-progress&#39;);
+var requestId;
+
+function updateScrollProgress() {
+  var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+  var scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+  var progress = (scrollTop / (scrollHeight - window.innerHeight)) * 100;
+  scrollProgress.style.width = progress + &#39;%&#39;;
+  requestId = null;
+}
+
+function scrollHandler() {
+  if (!requestId) {
+    requestId = requestAnimationFrame(updateScrollProgress);
+  }
+}
+
+window.addEventListener(&#39;scroll&#39;, scrollHandler);
+</code></pre><p>以上就是一个简单的实现页面顶部自定义滚动进度条样式的方法。根据自己的需求，可以调整CSS样式和JavaScript的逻辑来实现不同的效果。</p><p>完整代码：</p><pre class="code-block"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;自定义滚动进度条样式&lt;/title&gt;
+  &lt;style&gt;
+      #scroll-progress {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 5px;
+          background-color: #f00; /* 自定义进度条颜色 */
+          opacity: 0.7; /* 自定义进度条透明度 */
+          z-index: 9999; /* 确保进度条显示在最顶层 */
+      }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div id=&quot;scroll-progress&quot;&gt;&lt;/div&gt;
+
+&lt;!-- 假设有很长的内容 --&gt;
+&lt;div style=&quot;height: 2000px;&quot;&gt;&lt;/div&gt;
+
+&lt;script&gt;
+  var scrollProgress = document.getElementById(&#39;scroll-progress&#39;);
+  var requestId;
+
+  function updateScrollProgress() {
+    var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    var scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+    var progress = (scrollTop / (scrollHeight - window.innerHeight)) * 100;
+    scrollProgress.style.width = progress + &#39;%&#39;;
+    requestId = null;
+  }
+
+  function scrollHandler() {
+    if (!requestId) {
+      requestId = requestAnimationFrame(updateScrollProgress);
+    }
+  }
+
+  window.addEventListener(&#39;scroll&#39;, scrollHandler);
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

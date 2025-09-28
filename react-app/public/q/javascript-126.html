@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>es5 和 es6 使用 new 关键字实例化对象的流程是一样的吗？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;ES5 和 ES6 使用 &lt;code&gt;new&lt;/code&gt; 关键字实例化对象的流程基本上是一样的，只是在细节上存在一些差异。&lt;/p&gt;&lt;p&gt;在 ES5 中，当使用 &lt;code&gt;new&lt;/code&gt; 关键字调用一个函数时，会创建一个新的对象，并将这个新对象的 &lt;code&gt;[[P" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="es5 和 es6 使用 new 关键字实例化对象的流程是一样的吗？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;ES5 和 ES6 使用 &lt;code&gt;new&lt;/code&gt; 关键字实例化对象的流程基本上是一样的，只是在细节上存在一些差异。&lt;/p&gt;&lt;p&gt;在 ES5 中，当使用 &lt;code&gt;new&lt;/code&gt; 关键字调用一个函数时，会创建一个新的对象，并将这个新对象的 &lt;code&gt;[[Prototype]]&lt;/code&gt; 属性指向构造函数的 &lt;code&gt;prototype&lt;/code&gt; 属性。此外，&lt;co" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/126" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>es5 和 es6 使用 new 关键字实例化对象的流程是一样的吗？</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-03-19T13:34:48Z · 更新：2023-03-19T13:34:49Z</div>
+    </div>
+    <article class="content markdown-body"><p>ES5 和 ES6 使用 <code>new</code> 关键字实例化对象的流程基本上是一样的，只是在细节上存在一些差异。</p><p>在 ES5 中，当使用 <code>new</code> 关键字调用一个函数时，会创建一个新的对象，并将这个新对象的 <code>[[Prototype]]</code> 属性指向构造函数的 <code>prototype</code> 属性。此外，<code>new</code> 关键字还会将构造函数内部的 <code>this</code> 关键字绑定到新创建的对象上，从而允许我们在构造函数内部添加属性和方法。</p><p>在 ES6 中，这些基本的流程也是相同的。但是，ES6 引入了类（class）的概念，从而为面向对象编程提供了更加便利的语法。使用类定义一个对象时，需要使用 <code>constructor</code> 方法作为构造函数，而不是普通的函数。类定义的语法糖实际上是对函数的封装，使用 <code>new</code> 关键字创建类的实例时，实际上也是在调用类的 <code>constructor</code> 方法。</p><p>在 ES6 中，可以使用类的继承来创建更复杂的对象。当使用 <code>new</code> 关键字创建一个继承自另一个类的类的实例时，会先调用父类的 <code>constructor</code> 方法，再调用子类的 <code>constructor</code> 方法，从而完成对象实例的创建过程。</p><p>需要注意的是，虽然 ES6 的类看起来像是其他面向对象语言中的类，但在 JavaScript 中，类仍然是基于原型继承的。在创建一个类的实例时，实际上是在创建一个新对象，并将这个新对象的原型指向类的原型。因此，实例化对象的流程与使用普通函数或类定义的对象的流程基本上是相同的。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

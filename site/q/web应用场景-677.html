@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JS 放在 head 里和放在 body 里有什么区别？【热度: 420】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;将 JavaScript 代码放在 &lt;code&gt;&amp;lt;head&amp;gt;&lt;/code&gt; 标签内部和放在 &lt;code&gt;&amp;lt;body&amp;gt;&lt;/code&gt; 标签内部有一些区别：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;加载顺序&lt;/strong&gt;：放在 &lt;code&gt;&amp;lt;he" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="JS 放在 head 里和放在 body 里有什么区别？【热度: 420】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;将 JavaScript 代码放在 &lt;code&gt;&amp;lt;head&amp;gt;&lt;/code&gt; 标签内部和放在 &lt;code&gt;&amp;lt;body&amp;gt;&lt;/code&gt; 标签内部有一些区别：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;加载顺序&lt;/strong&gt;：放在 &lt;code&gt;&amp;lt;head&amp;gt;&lt;/code&gt; 里会在页面加载之前执行 JavaScript 代码，而放在 &lt;code&gt;&amp;lt;body&amp;g" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/677" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>JS 放在 head 里和放在 body 里有什么区别？【热度: 420】</h1>
+      <div class="subtitle">web应用场景 · web应用场景 · 阿里巴巴</div>
+      <div class="meta">创建：2024-04-06T08:14:36Z · 更新：2024-04-06T08:15:38Z</div>
+    </div>
+    <article class="content markdown-body"><p>将 JavaScript 代码放在 <code>&lt;head&gt;</code> 标签内部和放在 <code>&lt;body&gt;</code> 标签内部有一些区别：</p><ol><li><strong>加载顺序</strong>：放在 <code>&lt;head&gt;</code> 里会在页面加载之前执行 JavaScript 代码，而放在 <code>&lt;body&gt;</code> 里会在页面加载后执行。</li><li><strong>页面渲染</strong>：如果 JavaScript 代码影响了页面的布局或样式，放在 <code>&lt;head&gt;</code> 里可能会导致页面渲染延迟，而放在 <code>&lt;body&gt;</code> 里可以减少这种影响。</li><li><strong>代码依赖</strong>：如果 JavaScript 代码依赖其他元素，放在 <code>&lt;body&gt;</code> 里可以确保这些元素已经加载。</li><li><strong>全局变量和函数</strong>：放在 <code>&lt;head&gt;</code> 里的 JavaScript 代码中的全局变量和函数在整个页面生命周期内都可用。</li></ol><p>以下是一个简单的示例代码，展示了如何在 <code>&lt;head&gt;</code> 和 <code>&lt;body&gt;</code> 中放置 JavaScript 代码：</p><pre class="code-block"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+
+&lt;head&gt;
+  &lt;script&gt;
+    console.log(&quot;这是在 head 中执行的 JavaScript 代码。&quot;);
+  &lt;/script&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;script&gt;
+    console.log(&quot;这是在 body 中执行的 JavaScript 代码。&quot;);
+  &lt;/script&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;
+</code></pre><p>在这个示例中，分别在 <code>&lt;head&gt;</code> 和 <code>&lt;body&gt;</code> 中放置了简单的 JavaScript 代码，用于在控制台输出信息，以便观察执行顺序。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

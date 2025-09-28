@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>滚动跟随导航（电梯导航）该如何实现【热度: 498】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：电梯导航、混动导航&lt;/p&gt;&lt;blockquote&gt;作者备注， 这个问题实际上是介于中等难度和 高难度之间的问题， 主要看怎么回答&lt;/blockquote&gt;&lt;blockquote&gt;文本回答涉及到了 IntersectionObserv" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="滚动跟随导航（电梯导航）该如何实现【热度: 498】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：电梯导航、混动导航&lt;/p&gt;&lt;blockquote&gt;作者备注， 这个问题实际上是介于中等难度和 高难度之间的问题， 主要看怎么回答&lt;/blockquote&gt;&lt;blockquote&gt;文本回答涉及到了 IntersectionObserver + scrollIntoView 实现， 可以归为 「高」里面&lt;/blockquote&gt;&lt;p&gt;具体 api 本文不" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/846" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>滚动跟随导航（电梯导航）该如何实现【热度: 498】</h1>
+      <div class="subtitle">web应用场景 · web应用场景</div>
+      <div class="meta">创建：2024-08-25T03:44:30Z · 更新：2024-09-15T06:48:31Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：电梯导航、混动导航</p><blockquote>作者备注， 这个问题实际上是介于中等难度和 高难度之间的问题， 主要看怎么回答</blockquote><blockquote>文本回答涉及到了 IntersectionObserver + scrollIntoView 实现， 可以归为 「高」里面</blockquote><p>具体 api 本文不再介绍， 可以直接翻看 MDN 即可</p><p>思路很简单， 利用 scrollIntoView 进行导航滚动、利用 IntersectionObserver 进行可视区判断；</p><p>具体实现：</p><ul><li>第一步：点击右边的导航菜单，利用 scrollIntoView 方法使内容区域对应的元素出现在可视区域中。</li></ul><pre class="code-block"><code class="language-javascript">let rightBox = document.querySelector(&quot;.rightBox&quot;);
+rightBox.addEventListener(
+  &quot;click&quot;,
+  function (e) {
+    let target = e.target || e.srcElement;
+    if (target &amp;&amp; !target.classList.contains(&quot;rightBox&quot;)) {
+      document.querySelector(&quot;.&quot; + target.className.replace(&quot;Li&quot;, &quot;&quot;)).scrollIntoView({
+        behavior: &quot;smooth&quot;,
+        block: &quot;center&quot;,
+      });
+    }
+  },
+  false
+);
+</code></pre><ul><li>第二步：页面容器滚动时，当目标元素出现在检测区域内则联动改变对应导航的样式。</li></ul><pre class="code-block"><code class="language-javascript">let observer = new IntersectionObserver(
+  function (entries) {
+    entries.forEach((entry) =&gt; {
+      let target = document.querySelector(&quot;.&quot; + entry.target.className + &quot;Li&quot;);
+
+      if (entry.isIntersecting &amp;&amp; entry.intersectionRatio &gt; 0.65) {
+        document.querySelectorAll(&quot;li&quot;).forEach((el) =&gt; {
+          if (el.classList.contains(&quot;active&quot;)) {
+            el.classList.remove(&quot;active&quot;);
+          }
+        });
+
+        if (!target.classList.contains(&quot;active&quot;)) {
+          target.classList.add(&quot;active&quot;);
+        }
+      }
+    });
+  },
+  {
+    threshold: [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8],
+  }
+);
+</code></pre><p>完整效果请看下面链接： https://codepen.io/xingba-coder/pen/ZEdKRKJ</p><p><strong>参考文档</strong>：https://juejin.cn/post/7399982698846404649</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

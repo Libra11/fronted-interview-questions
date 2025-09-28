@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>单线程的 nodejs 是如何充分利用计算机 CPU 资源的呢？ - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;虽然 Node.js 是单线程的，但是它能够充分利用计算机的 CPU 资源的原因在于其采用了事件驱动和异步 I/O 的方式来处理请求，而不是采用阻塞式 I/O 的方式。这使得 Node.js 能够在处理一个请求时不会因为等待 I/O 操作而阻塞，从而可以处理更多的请求。&lt;/" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="单线程的 nodejs 是如何充分利用计算机 CPU 资源的呢？" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;虽然 Node.js 是单线程的，但是它能够充分利用计算机的 CPU 资源的原因在于其采用了事件驱动和异步 I/O 的方式来处理请求，而不是采用阻塞式 I/O 的方式。这使得 Node.js 能够在处理一个请求时不会因为等待 I/O 操作而阻塞，从而可以处理更多的请求。&lt;/p&gt;&lt;p&gt;具体来说，当 Node.js 启动一个程序时，会创建一个事件循环，不断地从事件队列中取出一个事件，然后调用相应" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/228" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>单线程的 nodejs 是如何充分利用计算机 CPU 资源的呢？</h1>
+      <div class="subtitle">Nodejs · Nodejs</div>
+      <div class="meta">创建：2023-03-29T15:06:05Z · 更新：2023-03-29T15:06:06Z</div>
+    </div>
+    <article class="content markdown-body"><p>虽然 Node.js 是单线程的，但是它能够充分利用计算机的 CPU 资源的原因在于其采用了事件驱动和异步 I/O 的方式来处理请求，而不是采用阻塞式 I/O 的方式。这使得 Node.js 能够在处理一个请求时不会因为等待 I/O 操作而阻塞，从而可以处理更多的请求。</p><p>具体来说，当 Node.js 启动一个程序时，会创建一个事件循环，不断地从事件队列中取出一个事件，然后调用相应的回调函数来处理该事件。当有新的请求到来时，Node.js 会将其添加到事件队列中，等待事件循环处理。同时，Node.js 还采用了非阻塞式 I/O 的方式，即在等待 I/O 操作时不会阻塞其他代码的执行，从而能够更好地利用 CPU 资源。</p><p>此外，Node.js 还采用了基于事件的回调机制来处理异步请求，这种机制可以避免线程切换和上下文切换带来的开销，提高 CPU 利用率。因此，虽然 Node.js 是单线程的，但是它能够充分利用计算机 CPU 资源，处理更多的请求。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

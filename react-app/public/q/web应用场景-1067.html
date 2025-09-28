@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>项目部署更新之后，如何提醒用户去刷新更新页面资源【热度: 340】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;ol&gt;&lt;li&gt;&lt;strong&gt;使用版本号查询参数&lt;/strong&gt;&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;原理&lt;/strong&gt;：在 HTML 文件中，对于引用的静态资源（如 JavaScript 文件、CSS 文件），可以在 URL 后面添加一个版本号查询参数。每" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="项目部署更新之后，如何提醒用户去刷新更新页面资源【热度: 340】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;ol&gt;&lt;li&gt;&lt;strong&gt;使用版本号查询参数&lt;/strong&gt;&lt;/li&gt;&lt;/ol&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;原理&lt;/strong&gt;：在 HTML 文件中，对于引用的静态资源（如 JavaScript 文件、CSS 文件），可以在 URL 后面添加一个版本号查询参数。每次更新项目后，更新这个版本号。这样，浏览器会将带有新的版本号的资源视为一个新的请求，从而强制刷新资源。&lt;/li&gt;&lt;li&gt;" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1067" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>项目部署更新之后，如何提醒用户去刷新更新页面资源【热度: 340】</h1>
+      <div class="subtitle">web应用场景 · web应用场景 · 百度</div>
+      <div class="meta">创建：2024-11-22T14:17:48Z · 更新：2025-04-17T10:07:53Z</div>
+    </div>
+    <article class="content markdown-body"><ol><li><strong>使用版本号查询参数</strong></li></ol><ul><li><strong>原理</strong>：在 HTML 文件中，对于引用的静态资源（如 JavaScript 文件、CSS 文件），可以在 URL 后面添加一个版本号查询参数。每次更新项目后，更新这个版本号。这样，浏览器会将带有新的版本号的资源视为一个新的请求，从而强制刷新资源。</li><li><strong>示例</strong>：</li><li>原始的 JavaScript 文件引用可能是<code>&lt;script src=&quot;main.js&quot;&gt;&lt;/script&gt;</code>。更新后，可以将其改为<code>&lt;script src=&quot;main.js?v=2&quot;&gt;&lt;/script&gt;</code>，其中<code>v=2</code>是版本号。每次更新项目时，递增这个版本号。</li><li>在构建或部署工具中，可以通过配置自动更新这个版本号。例如，在使用 Webpack 构建时，可以使用<code>html - webpack - plugin</code>插件结合版本控制工具来自动更新版本号。假设你有一个简单的 Webpack 配置文件，如下：</li></ul><p>```javascript</p><p>const HtmlWebpackPlugin = require("html - webpack - plugin");</p><p>const webpack = require("webpack");</p><p>const path = require("path");</p><p>module.exports = {</p><p>entry: "./src/index.js",</p><p>output: {</p><p>filename: "main.js",</p><p>path: path.resolve(__dirname, "dist"),</p><p>},</p><p>plugins: [</p><p>new HtmlWebpackPlugin({</p><p>template: "index.html",</p><p>// 自定义版本号，这里可以通过读取文件系统中的版本文件或者其他方式来获取真实的版本号</p><p>version: "2",</p><p>}),</p><p>new webpack.BannerPlugin("版权所有，翻版必究"),</p><p>],</p><p>};</p><p>```</p><ul><li>这个配置文件中的<code>HtmlWebpackPlugin</code>插件可以将版本号插入到 HTML 文件中引用的静态资源 URL 中。</li></ul><ol><li><strong>利用浏览器缓存清除技术（Service Workers）</strong></li></ol><ul><li><strong>原理</strong>：Service Workers 是一种在浏览器后台运行的脚本，它可以拦截和处理网络请求。通过 Service Workers，可以控制浏览器缓存的清除和更新。当项目更新后，Service Workers 可以检测到新的资源版本，并通知浏览器清除旧的缓存，从而强制刷新页面资源。</li><li><strong>示例步骤</strong>：</li><li>首先，在网页中注册 Service Workers：</li></ul><p>```javascript</p><p>if ("serviceWorker" in navigator) {</p><p>navigator.serviceWorker</p><p>.register("service - worker.js")</p><p>.then(function (registration) {</p><p>console.log("Service Worker注册成功");</p><p>})</p><p>.catch(function (error) {</p><p>console.log("Service Worker注册失败: ", error);</p><p>});</p><p>}</p><p>```</p><ul><li>然后，在<code>service - worker.js</code>文件中编写缓存管理逻辑。例如，以下是一个简单的缓存更新逻辑：</li></ul><p>```javascript</p><p>self.addEventListener("fetch", function (event) {</p><p>event.respondWith(</p><p>caches.match(event.request).then(function (response) {</p><p>if (response) {</p><p>return response;</p><p>}</p><p>return fetch(event.request);</p><p>})</p><p>);</p><p>});</p><p>self.addEventListener("activate", function (event) {</p><p>var cacheWhitelist = ["v2 - cache"];</p><p>event.waitUntil(</p><p>caches.keys().then(function (cacheNames) {</p><p>return Promise.all(</p><p>cacheNames.map(function (cacheName) {</p><p>if (cacheWhitelist.indexOf(cacheName) === -1) {</p><p>return caches.delete(cacheName);</p><p>}</p><p>})</p><p>);</p><p>})</p><p>);</p><p>});</p><p>```</p><ul><li>这里的<code>activate</code>事件处理函数用于在 Service Workers 激活时，清除旧的缓存（不在<code>cacheWhitelist</code>中的缓存）。<code>fetch</code>事件处理函数用于拦截网络请求，首先尝试从缓存中获取资源，如果缓存中没有，则从网络中获取。</li></ul><ol><li><strong>通过 WebSockets 或长轮询进行实时通知（较复杂）</strong></li></ol><ul><li><strong>原理</strong>：建立一个服务器到客户端的实时通信通道，如 WebSockets 或长轮询。当项目更新时，服务器通过这个通道发送一个通知到客户端，客户端收到通知后，刷新页面或者重新加载相关资源。</li><li><strong>示例（以 WebSockets 为例）</strong>：</li><li>首先，在服务器端（假设使用 Node.js 和<code>ws</code>库）建立 WebSockets 服务：</li></ul><p>```javascript</p><p>const WebSocket = require("ws");</p><p>const wss = new WebSocket.Server({ port: 8080 });</p><p>wss.on("connection", function connection(ws) {</p><p>console.log("客户端已连接");</p><p>// 当项目更新时，发送更新通知</p><p>ws.send("update");</p><p>});</p><p>```</p><ul><li>然后，在客户端建立 WebSockets 连接并监听更新通知：</li></ul><p>```javascript</p><p>const socket = new WebSocket("ws://localhost:8080");</p><p>socket.addEventListener("message", function (event) {</p><p>if (event.data === "update") {</p><p>location.reload();</p><p>}</p><p>});</p><p>```</p><ul><li>这种方法比较复杂，需要在服务器端和客户端都进行额外的配置，但可以实现非常及时的更新通知。</li></ul><h2>Comments / Answers</h2><hr /><p><strong>BruceYuj</strong> at 2025-02-21T08:48:28Z</p><p>这里应该牵扯不到 service worker。service worker 相当于在 client 端多了一层 http 代理。其本身并没有主动消息推送的功能，用 web socket 或者 server send event 主动通知最好。具体怎么通知，通知后客户端该怎么操作是更值得讲的东西。</p><hr /><p><strong>swellee</strong> at 2025-03-14T07:01:00Z</p><p>我理解的题目意思是：用户正在使用旧网页，此时网站资源已经发布新版本，需要一定的机制让用户收到更新通知。</p><p>这种情况下，我觉得service worker才是最主要的解法。</p><p>还有一种非主流的方式，前端在每个ajax的header之类的地方，借鉴token机制，比如header里带上当前的版本号，收发数据的时候，后端返回最新版本号，二者不一致即表示需要更新，这样只要有ajax产生，就能判断是否需要更新。</p><hr /><p><strong>iisfish123</strong> at 2025-04-17T10:07:51Z</p><p>我认为所有的前端业务上的操作都是伴随着要调用接口的。每当调用接口的时候，就把hash值带到header，然后在网关层返回结果。</p><p>但这也仅仅只有一个bundle，没有分chunk，如果分chunk的话情况似乎更复杂。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

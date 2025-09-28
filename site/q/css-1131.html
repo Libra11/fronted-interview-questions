@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>用 css 实现一个 loading 动画， 该如何做（转圈）【热度: 180】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：css 动画&lt;/p&gt;&lt;blockquote&gt;作者备注&lt;/blockquote&gt;&lt;blockquote&gt;&lt;/blockquote&gt;&lt;blockquote&gt;这个问题主要是对 css 动画的考察， 比直接问 animation 和 tra" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="用 css 实现一个 loading 动画， 该如何做（转圈）【热度: 180】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：css 动画&lt;/p&gt;&lt;blockquote&gt;作者备注&lt;/blockquote&gt;&lt;blockquote&gt;&lt;/blockquote&gt;&lt;blockquote&gt;这个问题主要是对 css 动画的考察， 比直接问 animation 和 transform 属性有意义。&lt;/blockquote&gt;&lt;p&gt;可以利用 CSS 的 &lt;code&gt;animation 和 tr" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1131" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>用 css 实现一个 loading 动画， 该如何做（转圈）【热度: 180】</h1>
+      <div class="subtitle">CSS · CSS</div>
+      <div class="meta">创建：2025-08-31T10:23:49Z · 更新：2025-08-31T10:23:49Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：css 动画</p><blockquote>作者备注</blockquote><blockquote></blockquote><blockquote>这个问题主要是对 css 动画的考察， 比直接问 animation 和 transform 属性有意义。</blockquote><p>可以利用 CSS 的 <code>animation 和 transform</code> 属性，通过旋转一个带有渐变边框的元素来实现。</p><p>这个转圈 <code>loading</code> 动画的核心实现思路如下：</p><ol><li><strong>创建圆形元素</strong>：</li></ol><ul><li>使用 <code>width</code> 和 <code>height</code> 设置相同的尺寸</li><li>通过 <code>border-radius: 50%</code> 将方形元素变成圆形</li></ul><ol><li><strong>设计边框样式</strong>：</li></ol><ul><li>设置一个较粗的边框（<code>border</code>）</li><li>让大部分边框保持半透明（<code>rgba(255, 255, 255, 0.3)</code>）</li><li>只让顶部边框使用实色（<code>border-top-color</code>），形成旋转时的流动效果</li></ul><ol><li><strong>添加旋转动画</strong>：</li></ol><ul><li>定义 <code>spin</code> 动画，通过 <code>transform: rotate(360deg)</code> 实现 360 度旋转</li><li>使用 <code>animation</code> 属性应用动画，设置 <code>1s</code> 为一个周期，<code>ease-in-out</code> 缓动效果，<code>infinite</code> 无限循环</li></ul><p><strong>直接上代码</strong>：</p><pre class="code-block"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot; /&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
+    &lt;title&gt;CSS Loading Spinner&lt;/title&gt;
+    &lt;style&gt;
+      /* 基础样式设置 */
+      body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f0f2f5;
+      }
+
+      /* 加载动画容器 */
+      .loading-spinner {
+        /* 动画大小 */
+        width: 50px;
+        height: 50px;
+
+        /* 创建圆形边框 */
+        border: 5px solid rgba(255, 255, 255, 0.3); /* 浅色边框 */
+        border-top-color: #1677ff; /* 高亮边框（旋转时形成流动效果） */
+        border-radius: 50%; /* 圆形 */
+
+        /* 旋转动画 */
+        animation: spin 1s ease-in-out infinite;
+      }
+
+      /* 旋转动画定义 */
+      @keyframes spin {
+        to {
+          /* 360度旋转 */
+          transform: rotate(360deg);
+        }
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;!-- 加载动画元素 --&gt;
+    &lt;div class=&quot;loading-spinner&quot;&gt;&lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

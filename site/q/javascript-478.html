@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>下面代码的执行结果是多少（意义不大） - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;执行结果是多少， 为什么？&lt;/strong&gt;&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;var foo = function () { console.log(&amp;quot;foo1&amp;quot;)" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="下面代码的执行结果是多少（意义不大）" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;执行结果是多少， 为什么？&lt;/strong&gt;&lt;/p&gt;&lt;pre class=&quot;code-block&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;var foo = function () { console.log(&amp;quot;foo1&amp;quot;) } foo() var foo = function () { console.log(&amp;quot;foo2&amp;quot" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/478" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>下面代码的执行结果是多少（意义不大）</h1>
+      <div class="subtitle">JavaScript · JavaScript</div>
+      <div class="meta">创建：2023-07-18T14:36:08Z · 更新：2023-07-18T14:38:16Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>执行结果是多少， 为什么？</strong></p><pre class="code-block"><code class="language-js">var foo = function () {
+console.log(&quot;foo1&quot;)
+}
+foo()
+
+var foo = function () {
+console.log(&quot;foo2&quot;)
+}
+foo()
+
+
+function foo() {
+console.log(&quot;foo1&quot;)
+}
+foo()
+
+function foo() {
+console.log(&quot;foo2&quot;)
+}
+foo()
+</code></pre><p><strong>执行结果是：</strong></p><pre class="code-block"><code>foo1
+foo2
+foo2
+foo2
+</code></pre><p><strong>原因:</strong></p><p>首先，变量<code>foo</code>被赋值为一个函数表达式<code>function () { console.log(&quot;foo1&quot;) }</code>，然后立即调用<code>foo()</code>，输出结果为<code>foo1</code>。</p><p>接下来，变量<code>foo</code>再次被赋值为另一个函数表达式<code>function () { console.log(&quot;foo2&quot;) }</code>，然后再次调用<code>foo()</code>，输出结果为<code>foo2</code>。</p><p>然后，函数声明<code>function foo() { console.log(&quot;foo1&quot;) }</code>被解析并提升到作用域的顶部，但由于变量<code>foo</code>已经被重新赋值为函数表达式，因此这个函数声明不会对变量<code>foo</code>产生影响。</p><p>最后，另一个函数声明<code>function foo() { console.log(&quot;foo2&quot;) }</code>也被解析并提升到作用域的顶部。然后再次调用<code>foo()</code>，由于变量<code>foo</code>指向最后一个函数声明，输出结果为<code>foo2</code>。这也说明了后面的函数声明覆盖了前面的函数声明。</p><h2>Comments / Answers</h2><hr /><p><strong>yanlele</strong> at 2023-07-18T14:38:15Z</p><p>这个问题， 个人感觉没有任何价值， 但是还是有很多人表示遇到过，所以勉为其难收录一下吧；</p><p>具体文档可以参考：https://juejin.cn/post/7237051958993469496</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

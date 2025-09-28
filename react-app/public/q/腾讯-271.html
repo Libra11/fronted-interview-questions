@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Vue] Vue3 的响应式原理? - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;h3&gt;该话题涉及的相关内容&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;原理：Proxy、track、trigger&lt;/li&gt;&lt;li&gt;新增属性&lt;/li&gt;&lt;li&gt;遍历后新增&lt;/li&gt;&lt;li&gt;遍历后删除或者清空&lt;/li&gt;&lt;li&gt;获取 keys&lt;/li&gt;&lt;li&gt;删除对象属性&lt;/li&gt;&lt;li&gt;判断属性是否" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Vue] Vue3 的响应式原理?" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;h3&gt;该话题涉及的相关内容&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;原理：Proxy、track、trigger&lt;/li&gt;&lt;li&gt;新增属性&lt;/li&gt;&lt;li&gt;遍历后新增&lt;/li&gt;&lt;li&gt;遍历后删除或者清空&lt;/li&gt;&lt;li&gt;获取 keys&lt;/li&gt;&lt;li&gt;删除对象属性&lt;/li&gt;&lt;li&gt;判断属性是否存在&lt;/li&gt;&lt;li&gt;性能&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;推荐阅读文档： https://juejin.cn/post/684" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/271" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>[Vue] Vue3 的响应式原理?</h1>
+      <div class="subtitle">腾讯 · web框架 · 腾讯</div>
+      <div class="meta">创建：2023-04-09T07:02:57Z · 更新：2023-04-09T07:02:58Z</div>
+    </div>
+    <article class="content markdown-body"><h3>该话题涉及的相关内容</h3><ul><li>原理：Proxy、track、trigger</li><li>新增属性</li><li>遍历后新增</li><li>遍历后删除或者清空</li><li>获取 keys</li><li>删除对象属性</li><li>判断属性是否存在</li><li>性能</li></ul><p>推荐阅读文档： https://juejin.cn/post/6844904122479542285</p><h3>响应式仓库</h3><p>Vue3 不同于 Vue2 也体现在源码结构上，Vue3 把耦合性比较低的包分散在 <code>packages</code> 目录下单独发布成 <code>npm</code> 包。 这也是目前很流行的一种大型项目管理方式 <code>Monorepo</code>。</p><p>其中负责响应式部分的仓库就是 <code>@vue/reactivity</code>，它不涉及 Vue 的其他的任何部分，是非常非常 「正交」 的一种实现方式。</p><p>甚至可以<code>轻松的集成进 React</code> https://juejin.cn/post/6844904095594381325</p><h3>区别</h3><p>Proxy 和 Object.defineProperty 的使用方法看似很相似，其实 Proxy 是在 「更高维度」 上去拦截属性的修改的，怎么理解呢？</p><p>Vue2 中，对于给定的 data，如 <code>{ count: 1 }</code>，是需要根据具体的 key 也就是 <code>count</code>，去对「修改 data.count 」 和 「读取 data.count」进行拦截，也就是</p><pre class="code-block"><code class="language-javascript">Object.defineProperty(data, &#39;count&#39;, {
+  get() {},
+  set() {},
+})
+</code></pre><p>必须预先知道要拦截的 key 是什么，这也就是为什么 Vue2 里对于对象上的新增属性无能为力。</p><p>而 Vue3 所使用的 Proxy，则是这样拦截的：</p><pre class="code-block"><code class="language-javascript">new Proxy(data, {
+  get(key) { },
+  set(key, value) { },
+})
+
+</code></pre><p>可以看到，根本不需要关心具体的 key，它去拦截的是 「修改 data 上的任意 key」 和 「读取 data 上的任意 key」。</p><p>所以，不管是已有的 key 还是新增的 key，都逃不过它的魔爪。</p><p>但是 Proxy 更加强大的地方还在于 Proxy 除了 get 和 set，还可以拦截更多的操作符。</p><h3>简单的例子🌰</h3><p>先写一个 Vue3 响应式的最小案例，本文的相关案例都只会用 <code>reactive</code> 和 <code>effect</code> 这两个 api。如果你了解过 React 中的 <code>useEffect</code>，相信你会对这个概念秒懂，Vue3 的 <code>effect</code> 不过就是去掉了手动声明依赖的「进化版」的 <code>useEffect</code>。</p><p>React 中手动声明 <code>[data.count]</code> 这个依赖的步骤被 Vue3 内部直接做掉了，在 <code>effect</code> 函数内部读取到 <code>data.count</code> 的时候，它就已经被收集作为依赖了。</p><p>Vue3：</p><pre class="code-block"><code class="language-kotlin">// 响应式数据
+const data = reactive({
+  count: 1
+})
+
+// 观测变化
+effect(() =&gt; console.log(&#39;count changed&#39;, data.count))
+
+// 触发 console.log(&#39;count changed&#39;, data.count) 重新执行
+data.count = 2
+
+</code></pre><p>React：</p><pre class="code-block"><code class="language-scss">// 数据
+const [data, setData] = useState({
+  count: 1
+})
+
+// 观测变化 需要手动声明依赖
+useEffect(() =&gt; {
+  console.log(&#39;count changed&#39;, data.count)
+}, [data.count])
+
+// 触发 console.log(&#39;count changed&#39;, data.count) 重新执行
+setData({
+  count: 2
+})
+
+</code></pre><p>也可以把 <code>effect</code> 中的回调函数联想到视图的重新渲染、 watch 的回调函数等等…… 它们是同样基于这套响应式机制的。</p><p>而本文的核心目的，就是探究这个基于 Proxy 的 reactive api，到底能强大到什么程度，能监听到用户对于什么程度的修改。</p><h3>讲讲原理</h3><p>先最小化的讲解一下响应式的原理，其实就是在 Proxy 第二个参数 <code>handler</code> 也就是陷阱操作符中，拦截各种取值、赋值操作，依托 <code>track</code> 和 <code>trigger</code> 两个函数进行依赖收集和派发更新。</p><p><code>track</code> 用来在读取时收集依赖。</p><p><code>trigger</code> 用来在更新时触发依赖。</p><h3>track</h3><pre class="code-block"><code class="language-vbnet">function track(target: object, type: TrackOpTypes, key: unknown) {
+  const depsMap = targetMap.get(target);
+  // 收集依赖时 通过 key 建立一个 set
+  let dep = new Set()
+  targetMap.set(ITERATE_KEY, dep)
+  // 这个 effect 可以先理解为更新函数 存放在 dep 里
+  dep.add(effect)
+}
+
+</code></pre><p><code>target</code> 是原对象。</p><p><code>type</code> 是本次收集的类型，也就是收集依赖的时候用来标识是什么类型的操作，比如上文依赖中的类型就是 <code>get</code>，这个后续会详细讲解。</p><p><code>key</code> 是指本次访问的是数据中的哪个 key，比如上文例子中收集依赖的 key 就是 <code>count</code></p><p>首先全局会存在一个 <code>targetMap</code>，它用来建立 <code>数据 -&gt; 依赖</code> 的映射，它是一个 WeakMap 数据结构。</p><p>而 <code>targetMap</code> 通过数据 <code>target</code>，可以获取到 <code>depsMap</code>，它用来存放这个数据对应的所有响应式依赖。</p><p><code>depsMap</code> 的每一项则是一个 Set 数据结构，而这个 Set 就存放着对应 key 的更新函数。</p><p>是不是有点绕？我们用一个具体的例子来举例吧。</p><pre class="code-block"><code class="language-ini">const target = { count: 1}
+const data = reactive(target)
+
+const effection = effect(() =&gt; {
+  console.log(data.count)
+})
+
+</code></pre><p>对于这个例子的依赖关系，</p><ol><li>全局的 <code>targetMap</code> 是：</li></ol><pre class="code-block"><code class="language-js">targetMap: {
+  { count: 1 }: dep
+}
+
+</code></pre><ol><li>dep 则是</li></ol><pre class="code-block"><code class="language-js">dep: {
+  count: Set { effection }
+}
+
+</code></pre><p>这样一层层的下去，就可以通过 <code>target</code> 找到 <code>count</code> 对应的更新函数 <code>effection</code> 了。</p><h3>trigger</h3><p>这里是最小化的实现，仅仅为了便于理解原理，实际上要复杂很多，</p><p>其实 <code>type</code> 的作用很关键，先记住，后面会详细讲。</p><pre class="code-block"><code class="language-typescript">export function trigger(
+  target: object,
+  type: TriggerOpTypes,
+  key?: unknown,
+) {
+  // 简化来说 就是通过 key 找到所有更新函数 依次执行
+  const dep = targetMap.get(target)
+  dep.get(key).forEach(effect =&gt; effect())
+}
+</code></pre></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>将已经 push 到远端的两个 commit 合并成一个 commit 应该怎么做【热度: 103】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：git rebase 合并 commit&lt;/p&gt;&lt;p&gt;当你已经将两个 &lt;code&gt;commit&lt;/code&gt; 推送到远端仓库，现在想要将它们合并成一个 &lt;code&gt;commit&lt;/code&gt;，可以按照以下步骤操作：&lt;/p&gt;&lt;h3&gt;1" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="将已经 push 到远端的两个 commit 合并成一个 commit 应该怎么做【热度: 103】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：git rebase 合并 commit&lt;/p&gt;&lt;p&gt;当你已经将两个 &lt;code&gt;commit&lt;/code&gt; 推送到远端仓库，现在想要将它们合并成一个 &lt;code&gt;commit&lt;/code&gt;，可以按照以下步骤操作：&lt;/p&gt;&lt;h3&gt;1. 克隆仓库到本地&lt;/h3&gt;&lt;p&gt;如果你还没有在本地克隆该仓库，需要先将远程仓库克隆到本地：&lt;/p&gt;&lt;pre class" />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/1096" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>将已经 push 到远端的两个 commit 合并成一个 commit 应该怎么做【热度: 103】</h1>
+      <div class="subtitle">web应用场景 · web应用场景</div>
+      <div class="meta">创建：2025-02-10T16:32:39Z · 更新：2025-02-10T16:32:39Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：git rebase 合并 commit</p><p>当你已经将两个 <code>commit</code> 推送到远端仓库，现在想要将它们合并成一个 <code>commit</code>，可以按照以下步骤操作：</p><h3>1. 克隆仓库到本地</h3><p>如果你还没有在本地克隆该仓库，需要先将远程仓库克隆到本地：</p><pre class="code-block"><code class="language-bash">git clone &lt;远程仓库地址&gt;
+cd &lt;仓库目录&gt;
+</code></pre><h3>2. 查看提交历史</h3><p>使用 <code>git log</code> 命令查看提交历史，确认要合并的两个 <code>commit</code> 的哈希值（<code>commit hash</code>）。一般来说，新的 <code>commit</code> 在前面，旧的 <code>commit</code> 在后面。</p><pre class="code-block"><code class="language-bash">git log --oneline
+</code></pre><p>例如，输出可能如下：</p><pre class="code-block"><code>abcdefg 第三个提交
+1234567 第二个提交
+890abcd 第一个提交
+</code></pre><p>假设你要合并的是 <code>1234567</code> 和 <code>abcdefg</code> 这两个 <code>commit</code>。</p><h3>3. 进行交互式变基</h3><p>使用 <code>git rebase -i</code> 命令进行交互式变基，指定要合并的 <code>commit</code> 的前一个 <code>commit</code> 的哈希值。在这个例子中，就是 <code>890abcd</code>。</p><pre class="code-block"><code class="language-bash">git rebase -i 890abcd
+</code></pre><p>执行上述命令后，会打开一个文本编辑器，显示如下内容：</p><pre class="code-block"><code class="language-plaintext">pick abcdefg 第三个提交
+pick 1234567 第二个提交
+
+# Rebase 890abcd..abcdefg onto 890abcd (2 commands)
+#
+# Commands:
+# p, pick &lt;commit&gt; = use commit
+# r, reword &lt;commit&gt; = use commit, but edit the commit message
+# e, edit &lt;commit&gt; = use commit, but stop for amending
+# s, squash &lt;commit&gt; = use commit, but meld into previous commit
+# f, fixup &lt;commit&gt; = like &quot;squash&quot;, but discard this commit&#39;s log message
+# x, exec &lt;command&gt; = run command (the rest of the line) using shell
+# b, break = stop here (continue rebase later with &#39;git rebase --continue&#39;)
+# d, drop &lt;commit&gt; = remove commit
+# l, label &lt;label&gt; = label current HEAD with a name
+# t, reset &lt;label&gt; = reset HEAD to a label
+# m, merge [-C &lt;commit&gt; | -c &lt;commit&gt;] &lt;label&gt; [# &lt;oneline&gt;]
+# .       create a merge commit using the original merge commit&#39;s
+# .       message (or the oneline, if no original merge commit was
+# .       specified). Use -c &lt;commit&gt; to reword the commit message.
+#
+# These lines can be re-ordered; they are executed from top to bottom.
+#
+# If you remove a line here THAT COMMIT WILL BE LOST.
+#
+# However, if you remove everything, the rebase will be aborted.
+#
+# Note that empty commits are commented out
+</code></pre><h3>4. 修改提交操作</h3><p>将第二个 <code>commit</code> 前面的 <code>pick</code> 改为 <code>squash</code> 或 <code>s</code>，表示将这个 <code>commit</code> 合并到前一个 <code>commit</code> 中。修改后的内容如下：</p><pre class="code-block"><code class="language-plaintext">pick abcdefg 第三个提交
+s 1234567 第二个提交
+</code></pre><p>保存并关闭文本编辑器。</p><h3>5. 修改合并后的提交信息</h3><p>保存退出后，会再次打开一个文本编辑器，让你修改合并后的 <code>commit</code> 信息。你可以保留原有的 <code>commit</code> 信息，也可以根据需要进行修改。修改完成后，保存并关闭文本编辑器。</p><h3>6. 强制推送修改到远程仓库</h3><p>由于你已经修改了提交历史，本地的提交历史和远程仓库的提交历史不再一致，需要使用 <code>git push -f</code> 命令强制推送修改到远程仓库：</p><pre class="code-block"><code class="language-bash">git push -f origin &lt;分支名&gt;
+</code></pre><p>注意：强制推送会覆盖远程仓库的提交历史，可能会影响其他团队成员的工作，建议在操作前与团队成员沟通。</p><h3>7. 通知团队成员更新本地仓库</h3><p>强制推送后，通知团队成员拉取最新的提交历史：</p><pre class="code-block"><code class="language-bash">git pull --rebase origin &lt;分支名&gt;
+</code></pre><p>通过以上步骤，你就可以将已经推送到远端的两个 <code>commit</code> 合并成一个 <code>commit</code>。</p></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>

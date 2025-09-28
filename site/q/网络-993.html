@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>304 是什么状态码， 跟哪些 header 有关【热度: 546】 - 面试题刷题</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <meta name="description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：http 状态码&lt;/p&gt;&lt;p&gt;304 是 HTTP 状态码中的“Not Modified”（未修改）状态码。&lt;/p&gt;&lt;p&gt;当客户端（通常是浏览器）向服务器请求资源时，如果服务器判断该资源自上次客户端获取后没有被修改，就会返回 304" />
+  <link rel="icon" href="../assets/favicon.svg" />
+  <style>.content a{color:var(--brand);} .content img{max-width:100%;}</style>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="304 是什么状态码， 跟哪些 header 有关【热度: 546】" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="&lt;p&gt;&lt;strong&gt;关键词&lt;/strong&gt;：http 状态码&lt;/p&gt;&lt;p&gt;304 是 HTTP 状态码中的“Not Modified”（未修改）状态码。&lt;/p&gt;&lt;p&gt;当客户端（通常是浏览器）向服务器请求资源时，如果服务器判断该资源自上次客户端获取后没有被修改，就会返回 304 状态码，告诉客户端可以使用其本地缓存的版本，而无需再次传输整个资源。&lt;/p&gt;&lt;p&gt;304 状态码主要与以下 HTTP " />
+  <meta property="og:locale" content="zh_CN" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html">面试题刷题</a>
+      <nav class="nav">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#categories">分类</a>
+        <a href="https://github.com/pro-collection/interview-question/issues/993" target="_blank" rel="noopener">原始链接</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container article">
+    <div class="article-head">
+      <a class="back" href="../index.html">← 返回列表</a>
+      <h1>304 是什么状态码， 跟哪些 header 有关【热度: 546】</h1>
+      <div class="subtitle">网络 · 网络 · 美团</div>
+      <div class="meta">创建：2024-10-13T02:29:40Z · 更新：2024-10-13T02:29:40Z</div>
+    </div>
+    <article class="content markdown-body"><p><strong>关键词</strong>：http 状态码</p><p>304 是 HTTP 状态码中的“Not Modified”（未修改）状态码。</p><p>当客户端（通常是浏览器）向服务器请求资源时，如果服务器判断该资源自上次客户端获取后没有被修改，就会返回 304 状态码，告诉客户端可以使用其本地缓存的版本，而无需再次传输整个资源。</p><p>304 状态码主要与以下 HTTP 响应头有关：</p><p><strong>一、<code>Last-Modified</code> 和 <code>If-Modified-Since</code></strong></p><ol><li><code>Last-Modified</code>：</li></ol><ul><li>服务器在首次响应资源时，在响应头中添加这个字段，表明资源的最后修改时间。</li><li>例如：<code>Last-Modified: Thu, 12 Oct 2023 10:30:00 GMT</code>。</li></ul><ol><li><code>If-Modified-Since</code>：</li></ol><ul><li>当客户端再次请求该资源时，会在请求头中添加这个字段，其值为上次服务器返回的<code>Last-Modified</code>的值。</li><li>服务器收到请求后，会比较资源的最后修改时间与<code>If-Modified-Since</code>的值。如果资源自该时间后没有被修改，就返回 304 状态码。</li></ul><p><strong>二、<code>ETag</code> 和 <code>If-None-Match</code></strong></p><ol><li><code>ETag</code>：</li></ol><ul><li>服务器为资源生成的一个唯一标识符，通常基于资源的内容计算得出。</li><li>例如：<code>ETag: &quot;abcdef123456&quot;</code>。</li></ul><ol><li><code>If-None-Match</code>：</li></ol><ul><li>当客户端再次请求资源时，会在请求头中添加这个字段，其值为上次服务器返回的<code>ETag</code>的值。</li><li>服务器收到请求后，会比较资源当前的<code>ETag</code>与<code>If-None-Match</code>的值。如果一致，说明资源未被修改，返回 304 状态码。</li></ul></article>
+  </main>
+  <footer class="site-footer">© 面试题刷题 · 由本地静态页面生成</footer>
+</body>
+</html>
