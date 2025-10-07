@@ -251,19 +251,24 @@ export default function Detail({ slug }: { slug: string }) {
       ) : (
         <>
           {toc.length > 0 && (
-            <div className="toc-panel">
-              <div className="toc-title">目录</div>
+            <details className="toc-panel" open>
+              <summary className="toc-title">目录</summary>
               <div className="toc-items">
                 {toc.map(({ depth, text, id }) => (
                   <div key={id} className={`toc-item depth-${depth}`}>
-                    <button className="toc-link" onClick={() => {
-                      const el = document.getElementById(id)
-                      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-                    }}>{text}</button>
+                    <button
+                      className="toc-link"
+                      onClick={() => {
+                        const el = document.getElementById(id)
+                        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                      }}
+                    >
+                      {text}
+                    </button>
                   </div>
                 ))}
               </div>
-            </div>
+            </details>
           )}
           <article className="content markdown-body">
             <ReactMarkdown
