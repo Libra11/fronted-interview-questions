@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import type { QuestionItem } from '../types'
 import { fetchIndex } from '../api'
+import { getQuestionState } from '../storage'
 
 type State = {
   q: string
@@ -117,9 +118,17 @@ export default function Home() {
               <div id="cards" className="cards">
                 {pageItems.map((it) => {
                   const slug = it.page.replace(/^q\//, '').replace(/\.html$/, '')
+                  const qState = getQuestionState(slug)
                   return (
                     <div key={it.page} className="card">
-                      <h3 className="title" dangerouslySetInnerHTML={{ __html: highlight(it.title, state.q) }} />
+                      <div className="card-header">
+                        <h3 className="title" dangerouslySetInnerHTML={{ __html: highlight(it.title, state.q) }} />
+                        <div className="card-indicators">
+                          {qState.favorited && <span className="indicator favorited" title="已收藏">★</span>}
+                          {qState.status === 'completed' && <span className="indicator completed" title="已完成">✓</span>}
+                          {qState.status === 'reviewing' && <span className="indicator reviewing" title="需要复习">⟳</span>}
+                        </div>
+                      </div>
                       <div className="meta-row">
                         <span className="badge">{it.category || '未分类'}</span>
                         {(it.labels || []).slice(0, 3).map(l => <span key={l} className="label">{l}</span>)}

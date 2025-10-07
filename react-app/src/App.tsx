@@ -1,14 +1,16 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import Home from './pages/Home'
 import Detail from './pages/Detail'
+import Progress from './pages/Progress'
 
-type Route = { name: 'home' } | { name: 'detail', slug: string }
+type Route = { name: 'home' } | { name: 'detail', slug: string } | { name: 'progress' }
 
 function parseRoute(hash: string): Route {
   const h = hash.replace(/^#/, '')
   if (!h || h === '/' || h.startsWith('?')) return { name: 'home' }
   const parts = h.split('?')[0].split('/').filter(Boolean)
   if (parts[0] === 'q' && parts[1]) return { name: 'detail', slug: decodeURIComponent(parts[1]) }
+  if (parts[0] === 'progress') return { name: 'progress' }
   return { name: 'home' }
 }
 
@@ -22,6 +24,7 @@ export default function App() {
 
   const content = useMemo(() => {
     if (route.name === 'detail') return <Detail slug={route.slug} />
+    if (route.name === 'progress') return <Progress />
     return <Home />
   }, [route])
 
@@ -32,7 +35,7 @@ export default function App() {
           <a className="logo" href="#/">面试题刷题</a>
           <nav className="nav">
             <a href="#/">首页</a>
-            <a href="#/">分类</a>
+            <a href="#/progress">学习进度</a>
             <a href="https://github.com/pro-collection/interview-question" target="_blank" rel="noreferrer">源仓库</a>
           </nav>
         </div>

@@ -5,6 +5,7 @@ import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
 import hljs from 'highlight.js'
 import type { QuestionItem } from '../types'
+import { getQuestionState, toggleFavorite, setQuestionStatus, type QuestionStatus } from '../storage'
 
 export default function Detail({ slug }: { slug: string }) {
   const [title, setTitle] = useState('题目详情')
@@ -16,9 +17,16 @@ export default function Detail({ slug }: { slug: string }) {
   const [copiedMd, setCopiedMd] = useState(false)
   const [prevQuestion, setPrevQuestion] = useState<QuestionItem | null>(null)
   const [nextQuestion, setNextQuestion] = useState<QuestionItem | null>(null)
+  const [favorited, setFavorited] = useState(false)
+  const [status, setStatus] = useState<QuestionStatus>(null)
 
   useEffect(() => {
     let mounted = true
+    // 加载收藏和学习状态
+    const state = getQuestionState(slug)
+    setFavorited(state.favorited)
+    setStatus(state.status)
+
     // 获取元数据
     fetchIndex().then(items => {
       if (!mounted) return
@@ -54,6 +62,16 @@ export default function Detail({ slug }: { slug: string }) {
       .catch(e => setErr(String(e)))
     return () => { mounted = false }
   }, [slug])
+
+  function handleToggleFavorite() {
+    const newFavorited = toggleFavorite(slug)
+    setFavorited(newFavorited)
+  }
+
+  function handleSetStatus(newStatus: QuestionStatus) {
+    setQuestionStatus(slug, newStatus)
+    setStatus(newStatus)
+  }
 
   const subtitle = useMemo(() => [category, ...(labels||[])].filter(Boolean).join(' · '), [category, labels])
   const mdRender = useMemo(() => md.replace(/^\s*#\s+.+\n+/, ''), [md])
@@ -183,6 +201,27 @@ export default function Detail({ slug }: { slug: string }) {
         <div className="article-subline">
           <div className="subtitle">{subtitle}</div>
           <div className="article-tools">
+            <button
+              className={`btn icon-btn ${favorited ? 'favorited' : ''}`}
+              onClick={handleToggleFavorite}
+              title={favorited ? '取消收藏' : '收藏'}
+            >
+              {favorited ? '★' : '☆'}
+            </button>
+            <div className="status-buttons">
+              <button
+                className={`btn status-btn ${status === 'completed' ? 'active' : ''}`}
+                onClick={() => handleSetStatus(status === 'completed' ? null : 'completed')}
+              >
+                {status === 'completed' ? '✓ 已完成' : '标记完成'}
+              </button>
+              <button
+                className={`btn status-btn ${status === 'reviewing' ? 'active' : ''}`}
+                onClick={() => handleSetStatus(status === 'reviewing' ? null : 'reviewing')}
+              >
+                {status === 'reviewing' ? '⟳ 复习中' : '需要复习'}
+              </button>
+            </div>
             <button className="btn ghost" disabled={!md} onClick={copyMarkdown}>
               {copiedMd ? '已复制 Markdown' : '复制 Markdown'}
             </button>
