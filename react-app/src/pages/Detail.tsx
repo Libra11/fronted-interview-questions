@@ -4,6 +4,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
 import hljs from 'highlight.js'
+import type { QuestionItem } from '../types'
 
 export default function Detail({ slug }: { slug: string }) {
   const [title, setTitle] = useState('题目详情')
@@ -13,6 +14,8 @@ export default function Detail({ slug }: { slug: string }) {
   const [err, setErr] = useState<string | null>(null)
   const usedIdsRef = useRef<Record<string, number>>({})
   const [copiedMd, setCopiedMd] = useState(false)
+  const [prevQuestion, setPrevQuestion] = useState<QuestionItem | null>(null)
+  const [nextQuestion, setNextQuestion] = useState<QuestionItem | null>(null)
 
   useEffect(() => {
     let mounted = true
@@ -20,11 +23,29 @@ export default function Detail({ slug }: { slug: string }) {
     fetchIndex().then(items => {
       if (!mounted) return
       const page = `q/${slug}.html`
-      const it = items.find(x => x.page === page)
-      if (it) {
-        setTitle(it.title)
-        setCategory(it.category)
-        setLabels(it.labels || [])
+      const currentIndex = items.findIndex(x => x.page === page)
+      if (currentIndex === -1) return
+
+      const current = items[currentIndex]
+      setTitle(current.title)
+      setCategory(current.category)
+      setLabels(current.labels || [])
+
+      // 找到同分类的所有题目
+      const sameCategoryItems = items.filter(x => x.category === current.category)
+      const currentIndexInCategory = sameCategoryItems.findIndex(x => x.page === page)
+
+      // 设置上一题和下一题
+      if (currentIndexInCategory > 0) {
+        setPrevQuestion(sameCategoryItems[currentIndexInCategory - 1])
+      } else {
+        setPrevQuestion(null)
+      }
+
+      if (currentIndexInCategory < sameCategoryItems.length - 1) {
+        setNextQuestion(sameCategoryItems[currentIndexInCategory + 1])
+      } else {
+        setNextQuestion(null)
       }
     })
     // 获取 Markdown 正文
@@ -150,6 +171,10 @@ export default function Detail({ slug }: { slug: string }) {
     } catch {}
   }
 
+  function getQuestionSlug(item: QuestionItem): string {
+    return item.page.replace(/^q\//, '').replace(/\.html$/, '')
+  }
+
   return (
     <main className="container article">
       <div className="article-head">
@@ -164,6 +189,24 @@ export default function Detail({ slug }: { slug: string }) {
           </div>
         </div>
       </div>
+      {(prevQuestion || nextQuestion) && (
+        <div className="question-nav">
+          {prevQuestion ? (
+            <a className="btn nav-btn prev" href={`#/q/${getQuestionSlug(prevQuestion)}`}>
+              ← 上一题: {prevQuestion.title}
+            </a>
+          ) : (
+            <div></div>
+          )}
+          {nextQuestion ? (
+            <a className="btn nav-btn next" href={`#/q/${getQuestionSlug(nextQuestion)}`}>
+              下一题: {nextQuestion.title} →
+            </a>
+          ) : (
+            <div></div>
+          )}
+        </div>
+      )}
       {err ? (
         <div className="stats">加载失败：{err}</div>
       ) : (
