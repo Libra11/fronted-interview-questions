@@ -118,7 +118,7 @@ export default function Detail({ slug }: { slug: string }) {
     const code = String(children ?? '')
     const lang = (className || '').replace(/^language-/, '')
     const hasLang = !!lang
-    const highlighted = hasLang
+    const highlighted = hasLang && hljs.getLanguage(lang)
       ? hljs.highlight(code, { language: lang }).value
       : hljs.highlightAuto(code).value
     const lines = code.replace(/\n$/, '').split('\n')
